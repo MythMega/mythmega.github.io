@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+    <title>Pokefeet — Dex</title>
+    <meta name="description" content="Pokefeet Dex — Explorez le Pokédex interactif de Pokefeet avec tous les Pokémon et leurs pieds." />
+    <meta name="keywords" content="Pokefeet, Dex, Pokédex, Pokémon, pieds" />
+    <meta name="author" content="MythMega" />
+    <link rel="canonical" href="https://web.jmdev.fr/projets/pokefeet/dex.html" />
+    <link rel="alternate" href="https://web.jmdev.fr/projets/pokefeet/dex.html" hreflang="fr" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://web.jmdev.fr/projets/pokefeet/dex.html" />
+    <meta property="og:title" content="Pokefeet — Dex" />
+    <meta property="og:description" content="Explorez le Pokédex interactif de Pokefeet." />
+    <meta property="og:site_name" content="MythMega — jmdev" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Pokefeet — Dex" />
+    <meta name="twitter:description" content="Pokédex interactif de Pokefeet." />
+    <link rel="icon" type="image/x-icon" href="./icon.png">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/cosmetics.css">
+  <link rel="stylesheet" href="styles/text-shadow.css" />
+</head>
+<body>
+    <div class="container">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
+        <h1 data-i18n="dex.title">Pokefeet Dex</h1>
+        
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-label"><span data-i18n="dex.progress">Progression</span> : <span id="progressText">0 / 0</span></span>
+            <button id="forceUpdateBtn" data-tag="customizables-button" data-i18n="dex.forceUpdate">Force Update</button>
+            <a href="index.html"><button class="secondary" style="padding:6px 12px;font-size:14px;" data-i18n="common.backHome">Retour à l'accueil</button></a>
+        </div>
+
+        <div class="filter-section">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input"
+                data-i18n-attr="placeholder:dex.search|aria-label:dex.search"
+                placeholder="Rechercher par nom (FR/EN) ou index..."
+            />
+            <div class="filter-checkboxes">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="showFoundCheckbox" />
+                    <span data-i18n="dex.showFound">Afficher que obtenu</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="showNotFoundCheckbox" />
+                    <span data-i18n="dex.showNotFound">Afficher que non obtenu</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="sort-section">
+            <label for="sortSelect" data-i18n="dex.sortBy">Trier par :</label>
+            <select id="sortSelect">
+                <option value="index" selected data-i18n="dex.sortIndex">Numéro Dex</option>
+                <option value="name" data-i18n="dex.sortName">Nom</option>
+                <option value="count" data-i18n="dex.sortCount">Fois rencontré</option>
+                <option value="type" data-i18n="dex.sortType">Type</option>
+                <option value="eggGroup" data-i18n="dex.sortEggGroup">Groupe d'œuf</option>
+                <option value="firstFound" data-i18n="dex.sortFirstFound">Première trouvaille</option>
+            </select>
+            <button id="sortDirectionBtn" class="sort-direction-btn" data-direction="asc" data-i18n="dex.sortAsc">↑ Asc</button>
+        </div>
+        
+        <nav id="dexPaginationTop" class="dex-pagination hidden" aria-label="Pagination du Pokédex"></nav>
+
+        <div id="dexGrid" class="dex-grid">
+            <!-- Pokemon entries will be inserted here -->
+        </div>
+
+        <nav id="dexPaginationBottom" class="dex-pagination hidden" aria-label="Pagination du Pokédex"></nav>
+    </div>
+
+    <!-- Popup for details -->
+    <div id="dexPopup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <button id="closePopup" class="close-btn">&times;</button>
+            <div id="popupDetails">
+                <!-- Details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+  <script src="js/core/preferences.js"></script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/pokemon-files.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/config.js"></script>
+  <script src="js/data/data-files.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/features/dex/dex-ui.js"></script>
+  <script src="js/data/daily-to-dex-import.js"></script>
+    <script>
+      // Init Dex
+      document.addEventListener('DOMContentLoaded', async () => {
+        console.log('[Init] Starting Dex init');
+        if (typeof AppConfig !== 'undefined') await AppConfig.load();
+        await Dex.init();
+        const dexData = await Dex.getAllDexEntries();
+        const progress = await Dex.getProgress();
+        DexUI.updateProgress(progress.found, progress.total);
+        DexUI.renderDexGrid(Dex.getAllPokemons(), dexData);
+        DexUI.bindEvents();
+        console.log('[Init] Dex init complete');
+        window.scrollTo(0, 0);
+      });
+    </script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

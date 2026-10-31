@@ -145,6 +145,16 @@ const OldDaily = (function () {
     container.appendChild(next);
   }
 
+  // La fenêtre des défis proposés vient de js/core/challenge-window.js : la liste
+  // affichée ici et la liste acceptée par daily.js / weekly.js ne peuvent pas
+  // diverger. Repli local si le module n'est pas chargé.
+  function firstPlayableDate(dailyDates, weeklyDates) {
+    if (typeof ChallengeWindow !== 'undefined') {
+      return ChallengeWindow.firstDateOf(dailyDates, weeklyDates);
+    }
+    return [...dailyDates, ...weeklyDates].sort()[0] || null;
+  }
+
   // ── DAILY tab ──────────────────────────────────────────────
   async function renderDailyTab() {
     const allDailies  = await getAllFromStore('daily_results');
@@ -153,19 +163,20 @@ const OldDaily = (function () {
     // Start date = min(oldest daily, oldest weekly)
     const dailyDates  = Object.keys(allDailies).sort();
     const weeklyDates = Object.keys(allWeeklies).sort();
-    const allOldest   = [...dailyDates, ...weeklyDates].sort();
+    // Première date proposée : règle partagée avec daily.js et weekly.js, qui
+    // refusent la même limite dans l'URL (?date= / ?week=).
+    const oldestStr   = firstPlayableDate(dailyDates, weeklyDates);
 
     dailyContainer.innerHTML = '';
     if (dailyPagination) dailyPagination.innerHTML = '';
     noDailiesMsg.classList.add('hidden');
 
-    if (allOldest.length === 0) {
+    if (!oldestStr) {
       noDailiesMsg.classList.remove('hidden');
       if (dailyPagination) dailyPagination.classList.add('hidden');
       return;
     }
 
-    const oldestStr = allOldest[0];
     const [eY, eM, eD] = oldestStr.split('-').map(Number);
     const startDate = new Date(eY, eM - 1, eD);
     startDate.setHours(0, 0, 0, 0);
@@ -214,19 +225,20 @@ const OldDaily = (function () {
 
     const dailyDates  = Object.keys(allDailies).sort();
     const weeklyDates = Object.keys(allWeeklies).sort();
-    const allOldest   = [...dailyDates, ...weeklyDates].sort();
+    // Première date proposée : règle partagée avec daily.js et weekly.js, qui
+    // refusent la même limite dans l'URL (?date= / ?week=).
+    const oldestStr   = firstPlayableDate(dailyDates, weeklyDates);
 
     weeklyContainer.innerHTML = '';
     if (weeklyPagination) weeklyPagination.innerHTML = '';
     noDailiesMsg.classList.add('hidden');
 
-    if (allOldest.length === 0) {
+    if (!oldestStr) {
       noDailiesMsg.classList.remove('hidden');
       if (weeklyPagination) weeklyPagination.classList.add('hidden');
       return;
     }
 
-    const oldestStr = allOldest[0];
     const [eY, eM, eD] = oldestStr.split('-').map(Number);
     // Align to Monday
     const startMonday = getMondayOfWeek(new Date(eY, eM - 1, eD));

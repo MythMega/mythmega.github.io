@@ -1,0 +1,248 @@
+[
+    {
+        "ID": 50,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 350
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 50
+            }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "1G-OU best Pokémons",
+        "Name_Fr": "1G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) on first generation (ReBlYe)? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6) en première génération (RoBlJa) ?",
+        "FeetList": [
+            "128",
+            "143",
+            "103",
+            "113",
+            "121",
+            "124",
+            "65",
+            "145",
+            "112",
+            "94"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 50
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 51,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 400
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 60
+            }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "2G-OU best Pokémons",
+        "Name_Fr": "2G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 2nd Pokémon games generation (GoSiCr) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 2ème génération (OrArCr) ?",
+        "FeetList": [
+            "143",
+            "91",
+            "145",
+            "243",
+            "248",
+            "121",
+            "103",
+            "205",
+            "94",
+            "227"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 51
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 52,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 450
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 70
+            }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "3G-OU best Pokémons",
+        "Name_Fr": "3G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 3th Pokémon games generation (RySaEm/FrLg) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 3ème génération (RySaEm/RfVf) ?",
+        "FeetList": [
+            "248",
+            "260",
+            "373",
+            "242",
+            "227",
+            "385",
+            "376",
+            "205",
+            "94",
+            "245"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 52
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 54,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 500
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 80
+            }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "4G-OU best Pokémons",
+        "Name_Fr": "4G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 4th Pokémon games generation (DP/HgSs) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 1G (Solo 6vs6), en 4ème génération (DP/AaCo) ?",
+        "FeetList": [
+            "380",
+            "248",
+            "385",
+            "485",
+            "330",
+            "212",
+            "130",
+            "121",
+            "260",
+            "376"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 53
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 55,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 550
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 90
+            }
+        ],
+        "Tab": "Strategy",
+        "Name_En": "5G-OU best Pokémons",
+        "Name_Fr": "5G-OU meilleurs Pokémons",
+        "Desc_En": "Would you guess every pokémons that are really good in Overused Smogon Tier (Solo 6vs6) in 5th Pokémon games generation (BW/BW2) ? What good, I mean, the best ?",
+        "Desc_Fr": "Vas-tu deviner chaque pokémon stratégiquement viable dans le tier Smogon Overused 5G (Solo 6vs6), en 4ème génération (NB/NB2) ?",
+        "FeetList": [
+            "381",
+            "645",
+            "647",
+            "385",
+            "598",
+            "248",
+            "186",
+            "121",
+            "642",
+            "530"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 54
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+    "ID": 56,
+    "Difficulty": "Medium",
+    "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 600
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 100
+            }],
+    "Tab": "Strategy",
+    "Name_En": "6G best Mega",
+    "Name_Fr": "6G meilleure méga",
+    "Desc_En": "The most powerfull 5 mega-evolution !",
+    "Desc_Fr": "Les 5 méga-évolutions les plus puissantes !",
+    "FeetList": [
+        "150-M-Y",
+        "150-M-X",
+        "384-M",
+        "383-P",
+        "382-P"
+    ],
+    "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 55
+            }],
+    "MustHideIfUnavailable": true,
+    "Availabilities": []
+}
+]

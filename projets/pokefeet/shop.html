@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <title>Pokefeet — Poké-Boutique</title>
+  <meta name="description" content="Pokefeet Poké-Boutique — Dépensez vos Pokédollars (P) gagnés en XP pour débloquer des thèmes de fond et de boutons exclusifs." />
+  <meta name="keywords" content="Pokefeet, boutique Pokémon, Pokédollars, thèmes, fond d'écran, personnalisation" />
+  <meta name="author" content="MythMega" />
+  <link rel="canonical" href="https://web.jmdev.fr/projets/pokefeet/shop.html" />
+  <link rel="alternate" href="https://web.jmdev.fr/projets/pokefeet/shop.html" hreflang="fr" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://web.jmdev.fr/projets/pokefeet/shop.html" />
+  <meta property="og:title" content="Pokefeet — Poké-Boutique" />
+  <meta property="og:description" content="Dépensez vos Pokédollars pour débloquer des thèmes exclusifs." />
+  <meta property="og:site_name" content="MythMega — jmdev" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Pokefeet — Poké-Boutique" />
+  <meta name="twitter:description" content="Dépensez vos Pokédollars pour débloquer des thèmes exclusifs." />
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="js/core/preferences.js"></script>
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
+  <link rel="stylesheet" href="styles/shop.css" />
+</head>
+<body>
+  <main id="app">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
+    <header>
+      <h1 data-i18n="shop.title">Poké-Boutique</h1>
+      <i data-i18n="shop.subtitle">Dépensez vos Pokédollars pour débloquer des thèmes</i>
+    </header>
+
+    <section class="game-area">
+      <div class="center-card shop-card">
+        <!-- Portefeuille -->
+        <div class="shop-wallet">
+          <div class="shop-balance">
+            <span class="shop-balance-label" data-i18n="shop.balance">Solde</span>
+            <strong class="shop-balance-value" id="shopBalance">0 P</strong>
+          </div>
+          <div class="shop-wallet-details">
+            <span><span data-i18n="shop.totalXP">XP totale</span> : <strong id="shopTotalXP">0</strong></span>
+            <span><span data-i18n="shop.bonus">Bonus de niveau</span> : <strong id="shopBonus">0</strong></span>
+            <span><span data-i18n="shop.spent">Déjà dépensé</span> : <strong id="shopSpent">0</strong></span>
+          </div>
+        </div>
+        <p class="shop-rate" data-i18n="shop.rate">1 XP totale = 1 P. Le prix des cosmétiques déjà achetés est déduit en permanence de votre XP totale.</p>
+
+        <!-- Aperçu -->
+        <div class="shop-preview" id="shopPreview">
+          <div class="shop-preview-head">
+            <span class="shop-preview-label" data-i18n="shop.preview">Aperçu</span>
+            <strong id="shopPreviewName">—</strong>
+            <button id="shopPreviewStop" class="hidden" data-i18n="shop.stopPreview">Arrêter l'aperçu</button>
+          </div>
+          <p class="shop-preview-msg" id="shopPreviewMsg" data-i18n="shop.previewHint">Cliquez sur un cosmétique pour le prévisualiser avant de l'acheter.</p>
+          <div class="shop-preview-stage" id="shopPreviewStage">
+            <button class="shop-demo big-btn" data-tag="customizables-button" data-demo="1" data-i18n="shop.demoPrimary">Daily Challenge</button>
+            <button class="shop-demo small-btn" data-tag="customizables-button" data-demo="2" data-i18n="shop.demoSecondary">Historique</button>
+            <button class="shop-demo" data-tag="customizables-button" data-demo="3" data-i18n="shop.demoSubmit">Valider</button>
+          </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="shop-filters" id="shopFilters">
+          <button class="shop-filter active" data-filter="Background" data-i18n="shop.filterBackground">Fonds d'écran</button>
+          <button class="shop-filter" data-filter="Background-Buttons" data-i18n="shop.filterButtons">Boutons</button>
+        </div>
+
+        <!-- Articles -->
+        <div class="shop-grid" id="shopGrid"></div>
+        <div class="shop-empty hidden" id="shopEmpty" data-i18n="shop.empty">Aucun cosmétique en vente pour le moment.</div>
+
+        <div class="shop-actions">
+          <a class="big-btn secondary" href="settings.html" style="margin:0;width:auto;padding:10px 16px;font-size:14px;" data-i18n="shop.customize">Personnalisations</a>
+          <a class="big-btn secondary" href="index.html" style="margin:0;width:auto;padding:10px 16px;font-size:14px;" data-i18n="common.backHome">Retour à l'accueil</a>
+        </div>
+      </div>
+    </section>
+
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script src="js/ui/loader.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/pokemon-files.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/data/data-files.js"></script>
+  <script src="js/core/xp.js"></script>
+  <script src="js/core/wallet.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/features/shop/shop.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

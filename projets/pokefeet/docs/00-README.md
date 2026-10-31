@@ -52,4 +52,4 @@ Les résultats sont persistés dans **IndexedDB**, et un système d'**XP / nivea
 - **Stockage** : IndexedDB (résultats), Cookies (préférences), localStorage (session marathon)
 - **UI** : HTML/CSS vanilla, responsive, design sombre
 - **i18n** : Système maison avec fichiers JSON (`translations/fr.json`, `translations/en.json`)
-- **Données** : Fichiers JSON statiques (`data/pokemons.json`, `data/trophies.json`, etc.)
+- **Données** : Fichiers JSON statiques (`data/pokemons.json`, `data/trophies/`, etc.)

@@ -1,0 +1,137 @@
+[
+    {
+        "Id": 41,
+        "Name_en": "Kanto-Dex (1G)",
+        "Name_fr": "Kanto-Dex (1G)",
+        "Desc_en": "Register all Kanto Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Kanto dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 1
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/1.png",
+        "Enabled": true
+    },
+    {
+        "Id": 42,
+        "Name_en": "Johto-Dex (2G)",
+        "Name_fr": "Johto-Dex (2G)",
+        "Desc_en": "Register all Johto Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Johto dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 2
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/2.png",
+        "Enabled": true
+    },
+    {
+        "Id": 43,
+        "Name_en": "Hoenn-Dex (3G)",
+        "Name_fr": "Hoenn-Dex (3G)",
+        "Desc_en": "Register all Hoenn Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Hoenn dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 3
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/3.png",
+        "Enabled": true
+    },
+    {
+        "Id": 44,
+        "Name_en": "Sinnoh-Dex (4G)",
+        "Name_fr": "Sinnoh-Dex (4G)",
+        "Desc_en": "Register all Sinnoh Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région de Sinnoh dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 4
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/4.png",
+        "Enabled": true
+    },
+    {
+        "Id": 45,
+        "Name_en": "Unova-Dex (5G)",
+        "Name_fr": "Unys-Dex (5G)",
+        "Desc_en": "Register all Unova Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons de la région d'Unys dans les dailies ou les weeklies.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 5
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/5.png",
+        "Enabled": true
+    },
+    {
+        "Id": 46,
+        "Name_en": "Kalos-Dex (6G) - Mega",
+        "Name_fr": "Kalos-Dex (6G) - Mega",
+        "Desc_en": "Register all Mega-Evolved Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les Pokémons Méga-évolués dans les dailies ou les weeklies.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 6
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/6.png",
+        "Enabled": true
+    },
+    {
+        "Id": 47,
+        "Name_en": "Alola-Dex (7G) - Regional Forms",
+        "Name_fr": "Alola-Dex (7G) - Formes Régionales",
+        "Desc_en": "Register all Alolan regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région d'Alola dans les dailies ou les weeklies.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 7
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/7.png",
+        "Enabled": true
+    },
+    {
+        "Id": 48,
+        "Name_en": "Galar-Dex (8G) - Regional Forms",
+        "Name_fr": "Galar-Dex (8G) - Formes Régionales",
+        "Desc_en": "Register all Galarian regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer toutes les formes régionales de Pokémons de la région de Galar dans les dailies ou les weeklies.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 8
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/8.png",
+        "Enabled": true
+    },
+    {
+        "Id": 49,
+        "Name_en": "Paldea-Dex (9G) - Regional Forms",
+        "Name_fr": "Paldea-Dex (9G) - Formes Régionales",
+        "Desc_en": "Register all Paldean regional forms Pokémons in dailies or weeklies.",
+        "Desc_fr": "Enregistrer tous les forme régionales de Pokémons de la région de Paldea dans les dailies ou les weeklies.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Full_Generation_Register",
+            "Value": 9
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/regiondex/9.png",
+        "Enabled": true
+    }
+]

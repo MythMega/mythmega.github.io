@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#060c18" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Pokefeet" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pokefeet" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <title>Pokefeet — Paramètres</title>
+  <meta name="description" content="Pokefeet Paramètres — Gérez votre profil, vos données et vos préférences." />
+  <meta name="keywords" content="Pokefeet, paramètres, profil, données, préférences" />
+  <meta name="author" content="MythMega" />
+  <link rel="canonical" href="https://web.jmdev.fr/projets/pokefeet/settings.html" />
+  <link rel="alternate" href="https://web.jmdev.fr/projets/pokefeet/settings.html" hreflang="fr" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://web.jmdev.fr/projets/pokefeet/settings.html" />
+  <meta property="og:title" content="Pokefeet — Paramètres" />
+  <meta property="og:description" content="Gérez votre profil et vos données Pokefeet." />
+  <meta property="og:site_name" content="MythMega — jmdev" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Pokefeet — Paramètres" />
+  <meta name="twitter:description" content="Gérez votre profil et vos données." />
+  <link rel="icon" type="image/x-icon" href="./icon.png">
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/cosmetics.css" />
+  <link rel="stylesheet" href="styles/text-shadow.css" />
+  <script src="js/core/preferences.js"></script>
+  <style>
+    /* Cosmetics grid */
+    .cosmetics-section { margin-bottom: 24px; }
+    .cosmetics-section-title {
+      font-size:13px; font-weight:700; color:var(--accent-bright);
+      text-transform:uppercase; letter-spacing:0.06em;
+      margin:0 0 12px; padding-bottom:6px;
+      border-bottom:1px solid var(--glass-border);
+    }
+    .cosmetics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 10px;
+    }
+    .cosmetic-btn {
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      padding:10px 6px; border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      border:2px solid transparent;
+      cursor:pointer; transition:all .15s;
+      font-size:11px; color:var(--muted);
+      position:relative;
+    }
+    .cosmetic-btn:hover { background:rgba(255,255,255,0.07); }
+    .cosmetic-btn.active { border-color:var(--accent); background:rgba(52,211,153,0.1); }
+    .cosmetic-btn.locked { opacity:0.4; cursor:not-allowed; }
+    .cosmetic-btn.locked:hover { background:rgba(255,255,255,0.03); }
+    .cosmetic-btn img { width:36px; height:36px; object-fit:contain; border-radius:6px; }
+    .cosmetic-btn .cosmetic-name { font-size:10px; font-weight:600; text-align:center; line-height:1.2; color:#fff; }
+    .cosmetic-btn .cosmetic-lock { position:absolute; top:4px; right:4px; font-size:10px; color:#ef4444; }
+    .cosmetic-btn .cosmetic-check { position:absolute; top:4px; right:4px; font-size:10px; color:#4ade80; }
+    /* Sub-tabs for cosmetics categories */
+    .cosmetic-subtabs {
+      display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+      margin:0 0 16px;
+    }
+    .cosmetic-subtab-btn {
+      padding:6px 14px; border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px; background:rgba(255,255,255,0.03);
+      color:var(--muted); cursor:pointer; font-weight:600;
+      font-size:.8rem; transition:background .15s,color .15s;
+    }
+    .cosmetic-subtab-btn.active { background:rgba(52,211,153,0.2); color:var(--accent-bright); border-color:var(--accent); }
+    .cosmetic-subtab-btn:hover { background:rgba(255,255,255,0.07); }
+    /* Cosmetics scrollable area */
+    .cosmetics-scroll {
+      max-height:420px; overflow-y:auto; padding-right:6px;
+    }
+    .cosmetics-scroll::-webkit-scrollbar { width:4px; }
+    .cosmetics-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.15); border-radius:2px; }
+    .cosmetics-scroll .cosmetics-section:last-child { margin-bottom:0; }
+    .cosmetic-type-toggle {
+      display:flex; gap:10px; align-items:center; justify-content:center;
+      margin-bottom:16px; flex-wrap:wrap;
+    }
+    .cosmetic-type-toggle button {
+      padding:7px 18px; border:1px solid rgba(255,255,255,0.12);
+      border-radius:8px; background:rgba(255,255,255,0.03);
+      color:var(--muted); cursor:pointer; font-weight:600;
+      font-size:.85rem; transition:all .15s;
+    }
+    .cosmetic-type-toggle button.active { background:rgba(52,211,153,0.15); color:var(--accent-bright); border-color:var(--accent); }
+    .cosmetic-type-toggle button:hover { background:rgba(255,255,255,0.07); }
+    .cosmetic-type-content { display:none; }
+    .cosmetic-type-content.active { display:block; }
+
+    /* Cosmétiques en vente : verrouillés visuellement mais cliquables */
+    .cosmetic-btn.locked-shop { cursor:pointer; }
+    .cosmetic-btn.locked-shop:hover { background:rgba(251,191,36,0.10); }
+    .cosmetic-btn.locked-shop .cosmetic-lock { color:#fbbf24; }
+
+    /* Barre Pokédollars de l'onglet Personnalisations */
+    .dm-wallet {
+      display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px;
+      padding:8px 12px; margin:0 0 14px; border-radius:8px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(202,138,4,0.14), rgba(22,163,74,0.08));
+      font-size:12px; color:var(--muted);
+    }
+    .dm-wallet strong { color:#fbbf24; font-weight:800; font-size:15px; }
+    .dm-wallet a { margin-left:auto; font-size:12px; font-weight:700; }
+
+    /* Popup d'achat d'un cosmétique verrouillé */
+    .shop-unlock-popup {
+      position:fixed; inset:0; z-index:120; padding:16px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(2,6,16,0.78);
+      -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    }
+    .shop-unlock-content {
+      width:min(100%, 400px); max-height:90vh; overflow:auto;
+      background:var(--card-solid); border:1px solid var(--line);
+      border-radius:var(--radius-lg); box-shadow:var(--shadow);
+      padding:20px; text-align:center;
+    }
+    .shop-unlock-img { width:76px; height:76px; object-fit:contain; border-radius:10px; background:rgba(255,255,255,0.04); padding:6px; }
+    .shop-unlock-title { margin:12px 0 4px; font-size:18px; font-weight:800; color:#fff; }
+    .shop-unlock-text { margin:0 0 12px; font-size:13px; color:var(--muted); line-height:1.5; }
+    .shop-unlock-info { margin:0 0 16px; font-size:13px; color:var(--muted-light); }
+    .shop-unlock-info strong { color:#fbbf24; }
+    .shop-unlock-info .missing { color:#f87171; font-weight:700; }
+    .shop-unlock-actions { display:flex; flex-direction:column; gap:8px; }
+    .shop-unlock-actions button { width:100%; }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
+    <header>
+      <h1 data-i18n="home.saveLoad">Paramètres</h1>
+    </header>
+
+    <!-- Tabs -->
+    <div class="dm-tabs">
+      <button class="dm-tab-btn active" data-tab="params" data-i18n="dataManagement.tabParams">Paramètres</button>
+      <button class="dm-tab-btn" data-tab="customize" data-i18n="dataManagement.tabCustomize">Personalisations</button>
+      <button class="dm-tab-btn" data-tab="profile" data-i18n="dataManagement.tabProfile">Profil</button>
+      <button class="dm-tab-btn" data-tab="data" data-i18n="dataManagement.tabData">Données</button>
+    </div>
+
+    <section class="game-area d-flex flex-column align-items-center gap-3">
+
+      <!-- Onglet 1 : Paramètres -->
+      <div id="dmPanelParams" class="dm-panel center-card active" style="max-width:760px;">
+        <h3 class="dm-panel-title" data-i18n="dataManagement.settings">Paramètres</h3>
+
+        <!-- Fast Mode -->
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="fastModeToggle">
+              ⚡ <span data-i18n="dataManagement.fastMode">Mode rapide (Marathon)</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.fastModeDesc">
+              En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.
+            </div>
+            <div id="fastModeStatus" class="dm-status"></div>
+          </div>
+          <label class="toggle-switch">
+            <input id="fastModeToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="animationsToggle">
+              🎬 <span data-i18n="dataManagement.animations">Animations</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.animationsDesc">
+              Transitions des Pokémon, bannières et effets visuels.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="animationsToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="rotate3dToggle">
+              🧊 <span data-i18n="dataManagement.rotate3d">Rotation 3D</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.rotate3dDesc">
+              Faire glisser l'image pour la faire pivoter légèrement en 3D.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="rotate3dToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="soundToggle">
+              🔊 <span data-i18n="dataManagement.sound">Son</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.soundDesc">
+              Sons des notifications et des nouveaux Pokémon.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="soundToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Volumes par type de son (masqués quand le son est coupé) -->
+        <div id="soundVolumes" class="dm-volumes" aria-label="Volume des sons">
+          <div class="dm-volume-row">
+            <label class="dm-volume-label" for="volumeNewPokemon" data-i18n="dataManagement.volumeNewPokemon">New Pokémon Alert</label>
+            <input id="volumeNewPokemon" type="range" min="0" max="100" step="5" value="100" />
+            <output id="volumeNewPokemonValue" class="dm-volume-value" for="volumeNewPokemon">100%</output>
+          </div>
+          <div class="dm-volume-row">
+            <label class="dm-volume-label" for="volumeNotification" data-i18n="dataManagement.volumeNotification">Notification (erreur / succès)</label>
+            <input id="volumeNotification" type="range" min="0" max="100" step="5" value="100" />
+            <output id="volumeNotificationValue" class="dm-volume-value" for="volumeNotification">100%</output>
+          </div>
+          <div class="dm-volume-row">
+            <label class="dm-volume-label" for="volumeUi" data-i18n="dataManagement.volumeUi">UI</label>
+            <input id="volumeUi" type="range" min="0" max="100" step="5" value="80" />
+            <output id="volumeUiValue" class="dm-volume-value" for="volumeUi">80%</output>
+          </div>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="newPokemonAlertsToggle">
+              ✨ <span data-i18n="dataManagement.newPokemonAlerts">Alertes nouveau Pokémon</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.newPokemonAlertsDesc">
+              Bannières et résumés des Pokémon découverts pour la première fois.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="newPokemonAlertsToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="dm-row">
+          <div class="dm-row-text">
+            <label class="dm-label" for="notificationsToggle">
+              🔔 <span data-i18n="dataManagement.notifications">Notifications</span>
+            </label>
+            <div class="dm-help" data-i18n="dataManagement.notificationsDesc">
+              Messages flottants de succès, d'erreur et d'indice.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input id="notificationsToggle" type="checkbox" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div id="preferencesStatus" class="dm-status" aria-live="polite"></div>
+      </div>
+
+      <!-- Onglet 2 : Personalisations -->
+      <div id="dmPanelCustomize" class="dm-panel center-card" style="max-width:760px;">
+        <h3 class="dm-panel-title" data-i18n="dataManagement.customize">Personalisations</h3>
+
+        <div class="dm-wallet" id="dmWalletBar">
+          <span><span data-i18n="shop.balance">Solde</span> : <strong id="dmWalletBalance">0 P</strong></span>
+          <span><span data-i18n="shop.spent">Déjà dépensé</span> : <span id="dmWalletSpent">0</span></span>
+          <a href="shop.html" class="shop-link" data-i18n="shop.openShop">Ouvrir la Poké-Boutique</a>
+        </div>
+
+        <!-- Type toggle: Background / Buttons -->
+        <div class="cosmetic-type-toggle" id="cosmeticTypeToggle">
+          <button class="active" data-type="Background">🎨 Fond d'écran</button>
+          <button data-type="Background-Buttons">🔘 Style des boutons</button>
+        </div>
+
+        <!-- Background content -->
+        <div class="cosmetic-type-content active" data-type="Background">
+          <!-- Category sub-tabs will be injected by JS -->
+          <div class="cosmetic-subtabs" id="cosmeticBgSubtabs"></div>
+          <div class="cosmetics-scroll" id="cosmeticBgScroll">
+            <div class="cosmetics-section">
+              <div class="cosmetics-grid" id="cosmeticsBgGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons content -->
+        <div class="cosmetic-type-content" data-type="Background-Buttons">
+          <div class="cosmetic-subtabs" id="cosmeticBtnSubtabs"></div>
+          <div class="cosmetics-scroll" id="cosmeticBtnScroll">
+            <div class="cosmetics-section">
+              <div class="cosmetics-grid" id="cosmeticsBtnGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Onglet 3 : Profil -->
+      <div id="dmPanelProfile" class="dm-panel center-card" style="max-width:760px;">
+        <h3 class="dm-panel-title" data-i18n="profile.title">Profil</h3>
+
+        <div class="profile-field" style="margin-bottom:12px;">
+          <label for="pseudoInput" data-i18n="profile.pseudo">Pseudo</label>
+          <input id="pseudoInput" type="text" autocomplete="off" maxlength="30" data-i18n-attr="placeholder:profile.placeholder" placeholder="Entrez votre pseudo..." />
+        </div>
+        <div class="dm-actions" style="justify-content:center;">
+          <button id="savePseudoBtn" data-tag="customizables-button" data-i18n="profile.save">Sauvegarder</button>
+          <button id="clearPseudoBtn" class="danger" data-i18n="profile.clear">Effacer</button>
+        </div>
+        <div id="profileStatus" class="dm-result" style="color:var(--accent);min-height:1.3em;"></div>
+        <div class="dm-help" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line);" data-i18n="profile.info">Le pseudo est stocké dans un cookie et apparaîtra sur les partages.</div>
+      </div>
+
+      <!-- Onglet 3 : Données -->
+      <div id="dmPanelData" class="dm-panel center-card" style="max-width:760px;">
+        <h3 class="dm-panel-title" data-i18n="dataManagement.saveRestore">Sauvegarder ou restaurer vos données</h3>
+
+        <p class="info-below" data-i18n="dataManagement.exportDesc">Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.</p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="exportBtn" class="btn-export" data-tag="customizables-button" data-i18n="dataManagement.exportBtn">Exporter les données</button>
+          <label for="importFile" class="btn secondary" style="cursor:pointer;" data-i18n="dataManagement.importFile">Importer un fichier</label>
+          <input id="importFile" type="file" accept=".txt" class="hidden file-input" />
+          <button id="previewBtn" class="secondary" title="Voir le contenu du cookie actuel" data-i18n="dataManagement.preview">Aperçu cookie actuel</button>
+        </div>
+
+        <div id="importSummary" class="dm-result" style="margin-top:12px;"></div>
+
+        <hr class="dm-divider" />
+
+        <div class="dm-section">
+          <h4 style="margin:6px 0 8px 0;" data-i18n="dataManagement.importDaily">Importer un Daily</h4>
+          <p class="info-below" style="margin-bottom:8px;" data-i18n="dataManagement.importDailyDesc">Collez le bloc texte d'un Daily (format emoji ou :green_square:). Exemple: Pokefeet Daily — 2025-11-24 — score 38 suivi de 5 lignes d'emoji.</p>
+          <textarea id="dailyImportArea" class="dm-import-area" data-i18n-attr="placeholder:dataManagement.importDaily" placeholder="Collez ici le texte du Daily..."></textarea>
+          <div class="dm-actions" style="margin-top:8px;">
+            <button id="importDailyBtn" class="btn-export" data-tag="customizables-button" data-i18n="dataManagement.importDailyBtn">Importer un jour</button>
+            <button id="clearDailyArea" class="secondary" data-i18n="dataManagement.clear">Effacer</button>
+          </div>
+          <div id="dailyImportResult" class="dm-result"></div>
+        </div>
+
+        <hr class="dm-divider" />
+
+        <div class="dm-section">
+          <h4 style="margin:6px 0 8px 0;">Importer un Weekly</h4>
+          <p class="info-below" style="margin-bottom:8px;">Collez le bloc texte d'un Weekly (format emoji). Exemple: Pokefeet Weekly — 2025-11-24 — score 84 suivi de 10 lignes d'emoji.</p>
+          <textarea id="weeklyImportArea" class="dm-import-area" placeholder="Collez ici le texte du Weekly..."></textarea>
+          <div class="dm-actions" style="margin-top:8px;">
+            <button id="importWeeklyBtn" class="btn-export" data-tag="customizables-button">Importer une semaine</button>
+            <button id="clearWeeklyArea" class="secondary">Effacer</button>
+          </div>
+          <div id="weeklyImportResult" class="dm-result"></div>
+        </div>
+
+        <hr class="dm-divider" />
+
+        <div id="dataPreview"></div>
+
+        <hr class="dm-divider" />
+
+        <div class="dm-section dm-danger" style="margin-top:20px;">
+          <h4 data-i18n="dataManagement.deleteZone">Zone de suppression</h4>
+          <p class="dm-help" data-i18n="dataManagement.irreversible">⚠️ Actions irréversibles</p>
+          <div class="dm-actions">
+            <button id="deleteBestBtn" data-i18n="dataManagement.deleteBest">Delete Best Score</button>
+            <button id="deleteDailyBtn" data-i18n="dataManagement.deleteDaily">Delete All Daily Data</button>
+          </div>
+          <div id="deleteResult" class="dm-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <button id="retourBtn" class="secondary" style="padding:10px 12px;margin-top:20px;display:block;margin-left:auto;margin-right:auto;" data-i18n="common.backHome">Retour à l'accueil</button>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.getElementById('retourBtn');
+        if (btn) btn.addEventListener('click', function() { window.location.href = './index.html'; });
+      });
+    </script>
+
+    <div id="shopUnlockPopup" class="shop-unlock-popup hidden" role="dialog" aria-modal="true" aria-labelledby="shopUnlockTitle">
+      <div class="shop-unlock-content">
+        <img id="shopUnlockImg" class="shop-unlock-img" src="./icon.png" alt="" />
+        <h2 class="shop-unlock-title" id="shopUnlockTitle">—</h2>
+        <p class="shop-unlock-text" data-i18n="cosmetics.shopPopupText">Ce cosmétique n'est pas encore débloqué : il est en vente à la Poké-Boutique.</p>
+        <p class="shop-unlock-info" id="shopUnlockInfo"></p>
+        <div class="shop-unlock-actions">
+          <button id="shopUnlockBuy" data-tag="customizables-button">Acheter directement</button>
+          <button id="shopUnlockOpen" class="secondary" data-i18n="cosmetics.openShop">Ouvrir Boutique</button>
+          <button id="shopUnlockClose" class="secondary" data-i18n="common.close">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="notifications" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.dm-tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.dm-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.dm-panel').forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+        var target = 'dmPanel' + this.dataset.tab.charAt(0).toUpperCase() + this.dataset.tab.slice(1);
+        var panel = document.getElementById(target);
+        if (panel) panel.classList.add('active');
+        var label = document.getElementById('dmCountLabel');
+        if (label) label.textContent = this.textContent || this.dataset.tab;
+      });
+    });
+
+    // Fast Mode toggle
+    (function() {
+      function setCookie(name, value, days) {
+        var d = new Date();
+        d.setTime(d.getTime() + (days || 365) * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/';
+      }
+      function getCookie(name) {
+        var v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return v ? decodeURIComponent(v.pop()) : null;
+      }
+
+      var toggle = document.getElementById('fastModeToggle');
+      var status = document.getElementById('fastModeStatus');
+      if (toggle && status) {
+        var saved = getCookie('pk_fast_mode');
+        toggle.checked = saved === 'true';
+        status.textContent = toggle.checked ? 'Mode rapide activé' : 'Mode rapide désactivé';
+        toggle.addEventListener('change', function() {
+          var val = this.checked ? 'true' : 'false';
+          setCookie('pk_fast_mode', val, 365);
+          status.textContent = this.checked ? 'Mode rapide activé' : 'Mode rapide désactivé';
+        });
+      }
+    })();
+
+    // Preferences (animations, son, alertes nouveau Pokémon, notifications)
+    (function () {
+      if (typeof PokefeetPrefs === 'undefined') return;
+      var status = document.getElementById('preferencesStatus');
+      var statusTimer = null;
+      function announce(label, enabled) {
+        if (!status) return;
+        status.textContent = label + ' : ' + (enabled ? 'activé' : 'désactivé');
+        if (statusTimer) clearTimeout(statusTimer);
+        statusTimer = setTimeout(function () { status.textContent = ''; }, 2200);
+      }
+      var volumesBox = document.getElementById('soundVolumes');
+      function syncVolumesVisibility() {
+        if (volumesBox) volumesBox.hidden = !PokefeetPrefs.soundEnabled();
+      }
+
+      [
+        ['animationsToggle', 'animations', 'Animations'],
+        ['rotate3dToggle', 'rotate3d', 'Rotation 3D'],
+        ['soundToggle', 'sound', 'Son'],
+        ['newPokemonAlertsToggle', 'newPokemonAlerts', 'Alertes nouveau Pokémon'],
+        ['notificationsToggle', 'notifications', 'Notifications']
+      ].forEach(function (item) {
+        var el = document.getElementById(item[0]);
+        if (!el) return;
+        el.checked = PokefeetPrefs.get(item[1]);
+        el.addEventListener('change', function () {
+          PokefeetPrefs.set(item[1], el.checked);
+          announce(item[2], el.checked);
+          if (item[1] === 'sound') syncVolumesVisibility();
+          if (item[1] === 'sound' && el.checked && typeof PokefeetFX !== 'undefined') {
+            PokefeetFX.playSound('positive');
+          }
+        });
+      });
+
+      // Volumes par type de son
+      [
+        ['volumeNewPokemon', 'newPokemon'],
+        ['volumeNotification', 'notifications'],
+        ['volumeUi', 'ui']
+      ].forEach(function (item) {
+        var input = document.getElementById(item[0]);
+        var output = document.getElementById(item[0] + 'Value');
+        if (!input) return;
+        var value = PokefeetPrefs.getVolume(item[1]);
+        input.value = value;
+        if (output) output.textContent = value + '%';
+        input.addEventListener('input', function () {
+          if (output) output.textContent = input.value + '%';
+        });
+        input.addEventListener('change', function () {
+          PokefeetPrefs.setVolume(item[1], input.value);
+        });
+      });
+
+      syncVolumesVisibility();
+    })();
+
+    // Pseudo management
+    (function() {
+      var input = document.getElementById('pseudoInput');
+      var saveBtn = document.getElementById('savePseudoBtn');
+      var clearBtn = document.getElementById('clearPseudoBtn');
+      var statusEl = document.getElementById('profileStatus');
+
+      function getCookie(n) {
+        var v = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+        return v ? decodeURIComponent(v.pop()) : null;
+      }
+      function setCookie(n, v, d) {
+        var e = new Date();
+        e.setTime(e.getTime() + (d || 365) * 24 * 60 * 60 * 1000);
+        document.cookie = n + '=' + encodeURIComponent(v) + ';expires=' + e.toUTCString() + ';path=/';
+      }
+      function eraseCookie(n) {
+        document.cookie = n + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
+      }
+
+      if (input) {
+        var saved = getCookie('pk_pseudo');
+        if (saved) input.value = saved;
+      }
+
+      if (saveBtn) saveBtn.addEventListener('click', function() {
+        var val = input.value.trim();
+        if (!val) { statusEl.textContent = 'Veuillez entrer un pseudo'; statusEl.style.color = 'var(--accent)'; return; }
+        if (val.length > 30) { statusEl.textContent = 'Le pseudo ne doit pas dépasser 30 caractères'; statusEl.style.color = '#f59e0b'; return; }
+        setCookie('pk_pseudo', val);
+        statusEl.textContent = 'Pseudo sauvegardé !';
+        statusEl.style.color = 'var(--accent)';
+      });
+
+      if (clearBtn) clearBtn.addEventListener('click', function() {
+        eraseCookie('pk_pseudo');
+        input.value = '';
+        statusEl.textContent = 'Pseudo effacé';
+        statusEl.style.color = 'var(--muted)';
+      });
+
+      if (input) input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && saveBtn) saveBtn.click();
+      });
+    })();
+
+  </script>
+  <script src="js/ui/loader.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/i18n/translate.js"></script>
+  <script src="js/i18n/language-switcher.js"></script>
+  <script src="js/ui/footer.js"></script>
+  <script src="js/i18n/setup.js"></script>
+  <script src="js/data/migration.js"></script>
+  <script src="js/data/challenge-storage.js"></script>
+  <script src="js/data/data-files.js"></script>
+  <script src="js/core/xp.js"></script>
+  <script src="js/core/wallet.js"></script>
+  <script src="js/features/settings/cosmetics.js"></script>
+  <script src="js/core/pokemon.js"></script>
+  <script src="js/data/pokemon-files.js"></script>
+  <script src="js/core/pokemon-versions.js"></script>
+  <script src="js/data/dex.js"></script>
+  <script src="js/data/daily-to-dex-import.js"></script>
+  <script src="js/data/data-manager.js"></script>
+  <script>
+    // Initialize data management bindings
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof DataManager !== 'undefined' && DataManager.init) {
+        DataManager.init();
+      }
+    });
+  </script>
+  <script>
+    // ---- Personnalisations : thèmes, solde Pokédollars et popup d'achat ----
+    (function () {
+      var t = function (key, fallback) {
+        return (typeof Translator !== 'undefined') ? Translator.get(key, fallback) : fallback;
+      };
+      var money = function (amount) {
+        return (typeof PokefeetWallet !== 'undefined') ? PokefeetWallet.formatP(amount) : amount + ' P';
+      };
+
+      // Onglets Fond d'écran / Style des boutons
+      (function () {
+        var toggle = document.getElementById('cosmeticTypeToggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', function (e) {
+          var btn = e.target.closest('button');
+          if (!btn) return;
+          toggle.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          document.querySelectorAll('.cosmetic-type-content').forEach(function (c) { c.classList.remove('active'); });
+          var content = document.querySelector('.cosmetic-type-content[data-type="' + btn.dataset.type + '"]');
+          if (content) content.classList.add('active');
+        });
+      })();
+
+      // Popup d'achat d'un cosmétique en vente à la Poké-Boutique
+      var popup = document.getElementById('shopUnlockPopup');
+      var popupItem = null;
+
+      function closePopup() {
+        popup.classList.add('hidden');
+        popupItem = null;
+      }
+
+      function notify(message, fail) {
+        if (typeof PokefeetFX !== 'undefined' && !PokefeetFX.notificationsEnabled()) return;
+        var n = document.createElement('div');
+        n.className = 'notification';
+        n.textContent = message;
+        if (fail) n.style.background = '#491111';
+        document.getElementById('notifications').appendChild(n);
+        setTimeout(function () {
+          n.style.opacity = 0;
+          setTimeout(function () { n.remove(); }, 400);
+        }, 2200);
+        if (typeof PokefeetFX !== 'undefined') PokefeetFX.notificationSound(fail ? 'fail' : 'success');
+      }
+
+      function refreshWallet() {
+        if (typeof PokefeetWallet === 'undefined') return;
+        PokefeetWallet.getState().then(function (state) {
+          document.getElementById('dmWalletBalance').textContent = PokefeetWallet.formatP(state.balance);
+          document.getElementById('dmWalletSpent').textContent = PokefeetWallet.format(state.spent);
+        });
+      }
+
+      function openBuyPopup(cosmetic) {
+        popupItem = cosmetic;
+        var price = Number(cosmetic.Price) || 0;
+
+        var img = document.getElementById('shopUnlockImg');
+        img.src = 'img/cosmetics/' + (cosmetic.File || 'default.png');
+        img.alt = cosmetic.Name;
+        img.onerror = function () { this.src = './icon.png'; };
+        document.getElementById('shopUnlockTitle').textContent = cosmetic.Name;
+
+        var info = document.getElementById('shopUnlockInfo');
+        var buyBtn = document.getElementById('shopUnlockBuy');
+        buyBtn.textContent = t('cosmetics.buyDirect', 'Acheter directement') + ' (' + money(price) + ')';
+        buyBtn.disabled = true;
+        info.textContent = t('common.loading', 'Chargement...');
+        popup.classList.remove('hidden');
+
+        if (typeof PokefeetWallet === 'undefined') return;
+        PokefeetWallet.getState().then(function (state) {
+          var missing = price - state.balance;
+          buyBtn.disabled = missing > 0;
+          info.textContent = t('shop.price', 'Prix') + ' : ' + money(price) +
+            ' — ' + t('shop.yourBalance', 'Votre solde') + ' : ' + money(state.balance);
+          if (missing > 0) {
+            var warn = document.createElement('div');
+            warn.className = 'missing';
+            warn.textContent = t('shop.insufficient', 'Solde insuffisant : il manque {missing} P')
+              .replace('{missing}', PokefeetWallet.format(missing));
+            info.appendChild(warn);
+          }
+        });
+      }
+
+      if (popup) {
+        popup.addEventListener('click', function (e) { if (e.target === popup) closePopup(); });
+        document.getElementById('shopUnlockClose').addEventListener('click', closePopup);
+        document.getElementById('shopUnlockOpen').addEventListener('click', function () { location.href = 'shop.html'; });
+
+        var buyBtn = document.getElementById('shopUnlockBuy');
+        buyBtn.addEventListener('click', function () {
+          if (!popupItem) return;
+          var item = popupItem;
+          buyBtn.disabled = true;
+          PokefeetWallet.buy(item.ID).then(function (result) {
+            if (!result.ok) {
+              var message = result.error === 'insufficient'
+                ? t('shop.insufficient', 'Solde insuffisant : il manque {missing} P')
+                    .replace('{missing}', PokefeetWallet.format(Number(item.Price) - result.state.balance))
+                : t('shop.buyFailed', 'Achat impossible.');
+              notify(message, true);
+              buyBtn.disabled = false;
+              return;
+            }
+            closePopup();
+            notify(t('shop.bought', '{name} débloqué pour {price} !')
+              .replace('{name}', item.Name).replace('{price}', money(result.price)));
+            if (typeof PokefeetFX !== 'undefined') PokefeetFX.playSound('positive');
+            refreshWallet();
+            window.renderCosmetics();
+          });
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !popup.classList.contains('hidden')) closePopup();
+        });
+      }
+
+      // ---- Grille d'un type, découpée par catégorie ----
+      function createCosmeticBtn(cosmetic, isSelected) {
+        var unlocked = Cosmetics.isUnlocked(cosmetic);
+        // En vente et pas encore acheté : verrouillé visuellement, mais le clic
+        // ouvre la popup qui renvoie vers la Poké-Boutique.
+        var forSale = !unlocked && Cosmetics.isBuyable(cosmetic);
+
+        var div = document.createElement('div');
+        div.className = 'cosmetic-btn';
+        if (isSelected) div.classList.add('active');
+        if (!unlocked) div.classList.add('locked');
+        if (forSale) div.classList.add('locked-shop');
+
+        var img = document.createElement('img');
+        img.src = 'img/cosmetics/' + (cosmetic.File || 'default.png');
+        img.alt = cosmetic.Name;
+        img.onerror = function () { this.src = './icon.png'; };
+        div.appendChild(img);
+
+        var name = document.createElement('span');
+        name.className = 'cosmetic-name';
+        name.textContent = cosmetic.Name;
+        div.appendChild(name);
+
+        var marker = document.createElement('span');
+        if (!unlocked) {
+          marker.className = 'cosmetic-lock';
+          marker.textContent = forSale ? '🛒' : '🔒';
+          div.appendChild(marker);
+        } else if (isSelected) {
+          marker.className = 'cosmetic-check';
+          marker.textContent = '✓';
+          div.appendChild(marker);
+        }
+
+        if (forSale) {
+          div.title = t('cosmetics.shopLockedHint', '🛒 {name} — En vente à la Poké-Boutique').replace('{name}', cosmetic.Name);
+          div.addEventListener('click', function () { openBuyPopup(cosmetic); });
+        } else if (unlocked) {
+          div.title = cosmetic.Name;
+          div.addEventListener('click', function () {
+            Cosmetics.select(cosmetic.Type, isSelected ? 'default' : cosmetic.Value);
+            window.renderCosmetics();
+          });
+        } else {
+          div.title = '🔒 ' + cosmetic.Name + ' — À débloquer via un challenge';
+        }
+
+        return div;
+      }
+
+      function buildGrid(type, gridEl, subtabsEl, selectedValue) {
+        var items = Cosmetics.getAll().filter(function (c) { return c.Type === type; });
+        var cats = ['General'];
+        items.forEach(function (c) {
+          var cat = c.Cat || 'General';
+          if (cats.indexOf(cat) === -1) cats.push(cat);
+        });
+
+        var storageKey = 'cosmetic_' + type + '_cat';
+        var activeCat = sessionStorage.getItem(storageKey);
+        if (cats.indexOf(activeCat) === -1) activeCat = 'General';
+
+        subtabsEl.innerHTML = '';
+        cats.forEach(function (cat) {
+          var btn = document.createElement('button');
+          btn.className = 'cosmetic-subtab-btn' + (cat === activeCat ? ' active' : '');
+          btn.textContent = cat;
+          btn.dataset.cat = cat;
+          btn.addEventListener('click', function () {
+            sessionStorage.setItem(storageKey, cat);
+            buildGrid(type, gridEl, subtabsEl, selectedValue);
+          });
+          subtabsEl.appendChild(btn);
+        });
+
+        gridEl.innerHTML = '';
+
+        var defaultBtn = document.createElement('div');
+        defaultBtn.className = 'cosmetic-btn' + (selectedValue ? '' : ' active');
+        defaultBtn.title = t('cosmetics.default', 'Par défaut');
+        var defaultImg = document.createElement('img');
+        defaultImg.src = './icon.png';
+        defaultImg.alt = t('cosmetics.defaultShort', 'Défaut');
+        defaultBtn.appendChild(defaultImg);
+        var defaultName = document.createElement('span');
+        defaultName.className = 'cosmetic-name';
+        defaultName.textContent = t('cosmetics.defaultShort', 'Défaut');
+        defaultBtn.appendChild(defaultName);
+        if (!selectedValue) {
+          var check = document.createElement('span');
+          check.className = 'cosmetic-check';
+          check.textContent = '✓';
+          defaultBtn.appendChild(check);
+        }
+        defaultBtn.addEventListener('click', function () {
+          Cosmetics.select(type, 'default');
+          window.renderCosmetics();
+        });
+        gridEl.appendChild(defaultBtn);
+
+        items.forEach(function (c) {
+          if ((c.Cat || 'General') !== activeCat) return;
+          if (c.MustHideIfUnobtained && !Cosmetics.isUnlocked(c)) return;
+          gridEl.appendChild(createCosmeticBtn(c, selectedValue === c.Value));
+        });
+      }
+
+      window.renderCosmetics = function () {
+        buildGrid('Background',
+          document.getElementById('cosmeticsBgGrid'),
+          document.getElementById('cosmeticBgSubtabs'),
+          Cosmetics.getSelectedBg());
+        buildGrid('Background-Buttons',
+          document.getElementById('cosmeticsBtnGrid'),
+          document.getElementById('cosmeticBtnSubtabs'),
+          Cosmetics.getSelectedBtn());
+      };
+
+      function initCosmeticsUI() {
+        refreshWallet();
+        Cosmetics.load().then(function () {
+          window.renderCosmetics();
+        }).catch(function (err) {
+          console.error('[Cosmetics] Failed to load:', err);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCosmeticsUI);
+      } else {
+        initCosmeticsUI();
+      }
+    })();
+  </script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

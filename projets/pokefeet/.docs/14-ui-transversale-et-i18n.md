@@ -9,7 +9,7 @@
 | `js/i18n/translate.js` | moteur de traduction + cookie | toutes les pages traduites |
 | `js/i18n/setup.js` | application des `data-i18n` | idem |
 | `js/i18n/language-switcher.js` | bouton FR/EN flottant | idem |
-| `js/features/marathon/ui.js` | rendu du Marathon | `pokefeet.html` uniquement |
+| `js/features/marathon/ui.js` | rendu du Marathon | `marathon.html` uniquement |
 | `js/features/settings/cosmetics.js` | application des cosmétiques | toutes les pages de jeu |
 
 ---
@@ -144,7 +144,7 @@ Marathon, Daily et Weekly affichent une jauge verticale :
 - Fond sombre, accents verts.
 - Orbes aurora animées en `html::before/after`.
 - `body` en flex column, `main#app` centré.
-- `bootstrap.min.css` est chargé via CDN sur `stats.html` et `history.html` (grille `row`/`col`), alors que le reste est artisanal : dépendance externe non versionnée localement.
+- `bootstrap.min.css` est chargé via CDN sur `profile.html` et `history.html` (grille `row`/`col`), alors que le reste est artisanal : dépendance externe non versionnée localement.
 
 ### 8.3 Composants
 
@@ -162,7 +162,7 @@ Marathon, Daily et Weekly affichent une jauge verticale :
 
 - Media queries dans `styles/main.css`, `styles/challenges.css`, `custom-challenges.css`.
 - `body` padding 5 px, `main` max-width variable.
-- `stats.html` et `history.html` utilisent Bootstrap pour les grilles.
+- `profile.html` et `history.html` utilisent Bootstrap pour les grilles.
 
 ### 8.5 Accessibilité
 
@@ -235,7 +235,7 @@ Namespaces principaux : `common`, `home`, `practice`, `daily`, `weekly`, `challe
 
 Problèmes :
 
-- Textes français codés en dur dans `data_management.html`, `js/features/stats/stats.js` (`Niveau`), `data.html`.
+- Textes français codés en dur dans `settings.html`, `js/features/stats/stats.js` (`Niveau`), `data.html`.
 - Pas de pluralisation ni d'interpolation native : les modules font `.replace('{n}', ...)`.
 - Les clés manquantes retombent silencieusement sur le français.
 - `applyTranslations` écrase le `textContent` : impossible d'avoir du HTML enrichi dans un `data-i18n`.
@@ -273,7 +273,7 @@ Problèmes :
 10. Attributs traduits (`placeholder`, `aria-label`).
 11. Responsive mobile : carte, grille, boutons.
 12. Accessibilité clavier de base.
-13. `stats.html`/`history.html` : Bootstrap chargé, grilles correctes.
+13. `profile.html`/`history.html` : Bootstrap chargé, grilles correctes.
 14. Préférences (`js/core/preferences.js`) : les 5 switches Animations / Rotation 3D / Son / Alertes nouveau Pokémon / Notifications sont persistés en cookie (`pk_animations`, `pk_rotate3d`, `pk_sound`, `pk_new_pokemon_alerts`, `pk_notifications`) et s'appliquent immédiatement, y compris après rechargement.
 15. Animations d'image (`js/ui/transitions.js`) : fondu sortie → changement de sprite → fondu entrée sur Daily, Weekly, Marathon, Challenge et challenges custom ; plus aucune transition quand les animations sont coupées.
 15 bis. Rotation 3D (`js/ui/rotate3d.js`) : glisser sur l'image l'incline jusqu'à `max3DRotate` degrés (`settings/config.json`, 15 par défaut) ; au tactile, seul l'axe horizontal tourne pour laisser le défilement vertical à la page. Coupée par le switch Rotation 3D (`pk_rotate3d`).

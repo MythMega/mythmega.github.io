@@ -91,8 +91,7 @@ class Challenge {
                 // Charger le nom du trophée
                 let trophyName = '#' + trophyId;
                 try {
-                    const res = await fetch('data/trophies.json');
-                    const trophies = await res.json();
+                    const trophies = await DataFiles.load('trophies');
                     const trophy = trophies.find(t => t.Id === trophyId);
                     if (trophy) {
                         const lang = (typeof Translator !== 'undefined') ? Translator.getLanguage() : 'fr';
@@ -122,8 +121,7 @@ async function checkTrophyEarned(trophyId) {
     // Pour l'instant, on fait une vérification basique
     try {
         // Charger les données des trophées
-        const res = await fetch('data/trophies.json');
-        const trophies = await res.json();
+        const trophies = await DataFiles.load('trophies');
         const trophy = trophies.find(t => t.Id === trophyId);
         
         if (!trophy) return false;

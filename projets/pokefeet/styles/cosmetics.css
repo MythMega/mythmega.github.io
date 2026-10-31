@@ -1072,6 +1072,49 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
   background-color: #d2d1c8; /* Couleur de secours aux tons thématiques */
 }
 
+/* --- Thèmes de fond Beedrill --- */
+
+.mega-beedrill {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/megabeedrill.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #c79b3a; /* Couleur de secours aux tons thématiques */
+}
+/* --- Thèmes de fond Bidoof God --- */
+
+.mega-icon {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/mega.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #d2d1c8; /* Couleur de secours aux tons thématiques */
+}
+
+/* --- Thèmes de fond Bidoof God --- */
+
+.game-x {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/x.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #6b7ebf;
+}
+
+/* --- Thèmes de fond Bidoof God --- */
+
+.game-y {
+  background-image: url("https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/pokefeet/background/pokemons_games/y.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #e84027;
+}
+
 
 /* --- Thèmes de fond Spidey Web --- */
 
@@ -1154,4 +1197,2082 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 
 .haloween2026:active {
   transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   THÈMES CRÉATIFS — IDs 2000+ (fonds) et 2100+ (boutons)
+   Tous libres (RequiresUnlock: false), catégorie « Créatif ».
+   15 paires fond + bouton, 11 fonds animés et 12 boutons animés.
+   Le décor animé s'appuie sur les .deco / .deco-secondary présents
+   sur chaque page (couche fixe plein écran, z-index 0,
+   pointer-events none — voir styles/base.css). Les animations
+   suivent le switch Animations du jeu (html.no-animations,
+   styles/animations.css), donc rien à ajouter ici.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────
+   1. AURORE BORÉALE — 2000 / 2100
+   ─────────────────────────────────────────────────────────────── */
+body.creative-aurora {
+  background:
+    radial-gradient(1100px 620px at 18% -8%, rgba(52,211,153,0.16), transparent 70%),
+    radial-gradient(900px 520px at 88% 2%, rgba(139,92,246,0.16), transparent 72%),
+    linear-gradient(180deg, #01060f 0%, #04101c 58%, #01070d 100%);
+}
+
+/* Rubans verts/bleus/violets qui ondulent en haut de l'écran */
+body.creative-aurora .deco::before {
+  content: "";
+  position: absolute;
+  top: -32%;
+  width: 58vw;
+  height: 150vh;
+  background: linear-gradient(100deg,
+    transparent 0%,
+    rgba(52,211,153,0.42) 18%,
+    rgba(56,189,248,0.30) 40%,
+    rgba(167,139,250,0.36) 62%,
+    transparent 88%);
+  filter: blur(46px);
+  transform-origin: 50% 0;
+  animation: auroraSway 17s ease-in-out infinite alternate;
+}
+body.creative-aurora .deco.n1::before { left: -16%; }
+body.creative-aurora .deco.n2::before { left: 14%; opacity: 0.72; animation-duration: 22s; animation-delay: -5s; }
+body.creative-aurora .deco.n3::before { left: 47%; opacity: 0.58; animation-duration: 19s; animation-delay: -9s; }
+body.creative-aurora .deco.n4::before { left: 76%; opacity: 0.42; animation-duration: 25s; animation-delay: -13s; }
+
+@keyframes auroraSway {
+  0%   { transform: translateX(-6vw) skewX(-9deg) scaleY(1); }
+  50%  { transform: translateX(4vw) skewX(6deg) scaleY(1.08); }
+  100% { transform: translateX(-3vw) skewX(-4deg) scaleY(0.96); }
+}
+
+/* Étoiles qui scintillent discrètement */
+body.creative-aurora .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1.5px 1.5px at 38% 12%, rgba(215,240,255,0.8), transparent),
+    radial-gradient(1px 1px at 64% 30%, rgba(255,255,255,0.85), transparent),
+    radial-gradient(1.5px 1.5px at 82% 14%, rgba(220,255,240,0.8), transparent),
+    radial-gradient(1px 1px at 26% 48%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 72% 56%, rgba(230,240,255,0.75), transparent);
+  animation: auroraTwinkle 6s ease-in-out infinite;
+}
+
+@keyframes auroraTwinkle {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.9; }
+}
+
+/* Bouton : fine lame de lumière qui balaie le bouton */
+[data-tag="customizables-button"].creative-aurora-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(125,211,252,0.45);
+  background: linear-gradient(118deg, #06281f 0%, #0b2f42 48%, #241047 100%);
+  box-shadow: 0 0 14px rgba(56,189,248,0.25), inset 0 0 18px rgba(52,211,153,0.18);
+}
+[data-tag="customizables-button"].creative-aurora-btn::before {
+  content: "";
+  position: absolute;
+  inset: -80% -140%;
+  background: linear-gradient(74deg,
+    transparent 42%,
+    rgba(167,243,208,0.30) 50%,
+    transparent 58%);
+  animation: auroraBtnSweep 5.5s ease-in-out infinite;
+}
+
+@keyframes auroraBtnSweep {
+  0%   { transform: translateX(-55%); }
+  100% { transform: translateX(55%); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   2. GRILLE SYNTHWAVE — 2001 / 2101
+   ─────────────────────────────────────────────────────────────── */
+body.creative-synthgrid {
+  background:
+    radial-gradient(900px 420px at 50% 92%, rgba(236,72,153,0.55), transparent 68%),
+    radial-gradient(600px 300px at 50% 88%, rgba(251,146,60,0.45), transparent 64%),
+    linear-gradient(180deg, #0a0418 0%, #1b0a33 45%, #3d0f3a 74%, #12061a 100%);
+}
+
+/* Grille en perspective qui défile vers le bas */
+body.creative-synthgrid .deco::before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: -6vh;
+  height: 58vh;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(244,114,182,0.65) 0 2px, transparent 2px 84px),
+    repeating-linear-gradient(0deg, rgba(56,189,248,0.65) 0 2px, transparent 2px 64px);
+  transform: perspective(300px) rotateX(68deg);
+  transform-origin: bottom center;
+  animation: synthRoll 3.4s linear infinite;
+  -webkit-mask-image: linear-gradient(to top, #000 12%, rgba(0,0,0,0.35) 62%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 12%, rgba(0,0,0,0.35) 62%, transparent 100%);
+}
+
+@keyframes synthRoll {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, 0 64px; }
+}
+
+/* Soleil rayé au-dessus de l'horizon */
+body.creative-synthgrid .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 26vh;
+  width: 260px;
+  height: 260px;
+  margin-left: -130px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fde047 0%, #fb7185 52%, #c026d3 100%);
+  -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 12px, transparent 12px 20px);
+  mask-image: repeating-linear-gradient(180deg, #000 0 12px, transparent 12px 20px);
+  opacity: 0.85;
+  animation: synthSunPulse 6s ease-in-out infinite;
+}
+
+@keyframes synthSunPulse {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(251,113,133,0.6)); }
+  50%      { filter: drop-shadow(0 0 34px rgba(251,113,133,0.9)); }
+}
+
+/* Bouton : cadre néon + ligne chromée qui descend */
+[data-tag="customizables-button"].creative-synthgrid-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid #f472b6;
+  background: linear-gradient(180deg, #1b0a33, #2b0d3f);
+  box-shadow: 0 0 12px rgba(244,114,182,0.45), inset 0 0 12px rgba(56,189,248,0.25);
+}
+[data-tag="customizables-button"].creative-synthgrid-btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -40%;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(56,189,248,0.35));
+  animation: synthScan 2.8s linear infinite;
+}
+
+@keyframes synthScan {
+  0%   { top: -40%; }
+  100% { top: 100%; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   3. ESPACE LOINTAIN — 2002 / 2102
+   ─────────────────────────────────────────────────────────────── */
+body.creative-deepspace {
+  background:
+    radial-gradient(720px 520px at 72% 18%, rgba(129,54,255,0.22), transparent 70%),
+    radial-gradient(620px 440px at 18% 76%, rgba(0,180,255,0.16), transparent 72%),
+    #04030b;
+}
+
+/* Nébuleuse : cône flou qui tourne très lentement */
+body.creative-deepspace .deco::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 190vmax;
+  height: 190vmax;
+  margin: -95vmax 0 0 -95vmax;
+  background: conic-gradient(from 0deg,
+    transparent 0deg 40deg,
+    rgba(124,58,237,0.18) 62deg,
+    transparent 92deg 220deg,
+    rgba(6,182,212,0.16) 252deg,
+    transparent 282deg);
+  filter: blur(22px);
+  animation: nebulaSpin 120s linear infinite;
+}
+
+@keyframes nebulaSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Champ d'étoiles qui file vers l'observateur */
+body.creative-deepspace .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background-image:
+    radial-gradient(1.6px 1.6px at 20% 30%, #fff, transparent),
+    radial-gradient(1.4px 1.4px at 62% 18%, #dbeafe, transparent),
+    radial-gradient(2px 2px at 78% 64%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 35% 72%, #a5b4fc, transparent),
+    radial-gradient(1.5px 1.5px at 88% 40%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 8% 58%, #c7d2fe, transparent);
+  animation: warpDrift 7s linear infinite;
+}
+
+@keyframes warpDrift {
+  0%   { transform: scale(1);    opacity: 0.45; }
+  60%  { opacity: 0.95; }
+  100% { transform: scale(1.4);  opacity: 0; }
+}
+
+/* Bouton : disque galactique tournant dans un cadre sombre */
+[data-tag="customizables-button"].creative-deepspace-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(165,180,252,0.45);
+  background: #07061a;
+  box-shadow: inset 0 0 22px rgba(76,29,149,0.55);
+}
+[data-tag="customizables-button"].creative-deepspace-btn::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(from 90deg,
+    transparent 0deg,
+    rgba(129,140,248,0.30) 40deg,
+    transparent 80deg,
+    rgba(34,211,238,0.24) 180deg,
+    transparent 240deg);
+  animation: deepBtnSpin 9s linear infinite;
+}
+
+@keyframes deepBtnSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   4. PLUIE SUR LA VILLE — 2003 / 2103
+   ─────────────────────────────────────────────────────────────── */
+body.creative-rain {
+  background:
+    radial-gradient(900px 520px at 78% 88%, rgba(250,204,21,0.14), transparent 70%),
+    radial-gradient(1000px 600px at 20% -10%, rgba(30,64,175,0.35), transparent 72%),
+    linear-gradient(180deg, #050b16 0%, #071120 55%, #03070e 100%);
+}
+
+/* Traits de pluie : gouttes verticales effilées, en deux nappes.
+   Chaque nappe est un motif de gouttes répété ; l'animation décale
+   background-position d'exactement une hauteur de motif, d'où une
+   boucle invisible (voir les deltas : 46 / 30 / 62 px). */
+body.creative-rain .deco.n1::before,
+body.creative-rain .deco.n2::before {
+  content: "";
+  position: absolute;
+  /* Très large : la nappe est pivotée, un bord visible créait une bande. */
+  inset: -45%;
+  background-image:
+    radial-gradient(ellipse 1.2px 15px at 50% 50%, rgba(197,225,255,0.50) 0%, rgba(197,225,255,0.14) 62%, transparent 100%),
+    radial-gradient(ellipse 1px 9px at 50% 50%, rgba(220,238,255,0.36) 0%, transparent 100%),
+    radial-gradient(ellipse 1.6px 23px at 50% 50%, rgba(170,208,255,0.24) 0%, transparent 100%);
+  background-size: 46px 74px, 36px 52px, 68px 104px;
+  background-position: 0 0, 12px 20px, 30px 40px;
+  transform: rotate(9deg);
+  animation: rainStreakFast 0.62s linear infinite;
+}
+body.creative-rain .deco.n3::before,
+body.creative-rain .deco.n4::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background-image:
+    radial-gradient(ellipse 1.4px 20px at 50% 50%, rgba(190,220,255,0.22) 0%, transparent 100%),
+    radial-gradient(ellipse 1px 11px at 50% 50%, rgba(215,235,255,0.16) 0%, transparent 100%);
+  background-size: 74px 116px, 54px 88px;
+  background-position: 0 30px, 18px 14px;
+  transform: rotate(7deg);
+  animation: rainStreakSlow 1.25s linear infinite;
+}
+
+@keyframes rainStreakFast {
+  from { background-position: 0 -74px, 12px -32px, 30px -64px; }
+  to   { background-position: 0 0,     12px 20px,  30px 40px; }
+}
+@keyframes rainStreakSlow {
+  from { background-position: 0 -86px, 18px -74px; }
+  to   { background-position: 0 30px,  18px 14px; }
+}
+
+/* Gouttes accrochées à la vitre qui finissent par glisser */
+body.creative-rain .deco-secondary::before,
+body.creative-rain .deco-secondary::after {
+  content: "";
+  position: absolute;
+  top: -12%;
+  width: 9px;
+  height: 13px;
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  background: radial-gradient(circle at 32% 26%,
+    #ffffff 0 14%,
+    rgba(214,236,255,0.55) 42%,
+    rgba(150,195,255,0.12) 74%,
+    transparent 100%);
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow: inset 0 -1px 2px rgba(120,170,235,0.45), 0 0 5px rgba(190,225,255,0.22);
+  animation: glassDrop 13s ease-in infinite;
+}
+body.creative-rain .deco-secondary.n11::before { left: 24%; }
+body.creative-rain .deco-secondary.n11::after {
+  left: 71%;
+  width: 6px;
+  height: 9px;
+  animation-duration: 17s;
+  animation-delay: -6s;
+}
+body.creative-rain .deco-secondary.n12::before {
+  left: 47%;
+  width: 12px;
+  height: 17px;
+  animation-duration: 21s;
+  animation-delay: -11s;
+}
+body.creative-rain .deco-secondary.n12::after {
+  left: 88%;
+  animation-duration: 15s;
+  animation-delay: -3s;
+}
+
+@keyframes glassDrop {
+  0%   { transform: translateY(0) scale(0.9); opacity: 0; }
+  8%   { opacity: 1; }
+  62%  { transform: translateY(58vh) scale(1.06); opacity: 0.95; }
+  100% { transform: translateY(108vh) scale(0.85); opacity: 0; }
+}
+
+/* Bouton : gouttes qui glissent le long de la vitre */
+[data-tag="customizables-button"].creative-rain-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(148,197,255,0.45);
+  background: linear-gradient(180deg, #0b1b2e, #071120);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
+}
+[data-tag="customizables-button"].creative-rain-btn::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 30%;
+  width: 2px;
+  height: 34%;
+  border-radius: 2px;
+  background: linear-gradient(180deg, transparent, rgba(190,220,255,0.55));
+  animation: dropSlide 3.2s linear infinite;
+}
+[data-tag="customizables-button"].creative-rain-btn::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 68%;
+  width: 2px;
+  height: 26%;
+  border-radius: 2px;
+  background: linear-gradient(180deg, transparent, rgba(190,220,255,0.4));
+  animation: dropSlide 4.4s linear infinite;
+  animation-delay: -1.8s;
+}
+
+@keyframes dropSlide {
+  0%   { top: -40%; opacity: 0; }
+  12%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   5. CERISIERS EN FLEURS — 2004 / 2104
+   ─────────────────────────────────────────────────────────────── */
+body.creative-sakura {
+  background:
+    radial-gradient(900px 520px at 82% -12%, rgba(244,114,182,0.20), transparent 70%),
+    radial-gradient(700px 480px at 8% 90%, rgba(129,54,255,0.14), transparent 72%),
+    linear-gradient(180deg, #1a0d18 0%, #120a14 55%, #0b060e 100%);
+}
+
+/* Pétales qui tombent en tournoyant */
+body.creative-sakura .deco::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  width: 13px;
+  height: 10px;
+  background: linear-gradient(140deg, #f9a8d4, #fbcfe8);
+  border-radius: 100% 0 100% 0;
+  opacity: 0.85;
+  animation: petalFall 13s linear infinite;
+}
+body.creative-sakura .deco::after {
+  content: "";
+  position: absolute;
+  top: -10%;
+  width: 9px;
+  height: 7px;
+  background: linear-gradient(140deg, #fbcfe8, #f472b6);
+  border-radius: 100% 0 100% 0;
+  opacity: 0.7;
+  animation: petalFall 17s linear infinite;
+}
+body.creative-sakura .deco.n1::before { left: 12%; animation-delay: -1s; }
+body.creative-sakura .deco.n2::before { left: 34%; animation-delay: -5s; animation-duration: 15s; }
+body.creative-sakura .deco.n3::before { left: 58%; animation-delay: -8s; animation-duration: 11s; }
+body.creative-sakura .deco.n4::before { left: 82%; animation-delay: -3s; animation-duration: 16s; }
+body.creative-sakura .deco.n1::after  { left: 24%; animation-delay: -9s; }
+body.creative-sakura .deco.n2::after  { left: 46%; animation-delay: -2s; animation-duration: 20s; }
+body.creative-sakura .deco.n3::after  { left: 70%; animation-delay: -12s; animation-duration: 19s; }
+body.creative-sakura .deco.n4::after  { left: 92%; animation-delay: -6s; animation-duration: 21s; }
+
+@keyframes petalFall {
+  0%   { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+  8%   { opacity: 0.9; }
+  50%  { transform: translate3d(6vw, 50vh, 0) rotate(180deg); }
+  100% { transform: translate3d(-5vw, 112vh, 0) rotate(360deg); opacity: 0; }
+}
+
+/* Brume rose au sol */
+body.creative-sakura .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -8vh;
+  height: 34vh;
+  background: radial-gradient(ellipse at center, rgba(251,207,232,0.16), transparent 70%);
+  filter: blur(34px);
+  animation: sakuraMist 24s ease-in-out infinite alternate;
+}
+
+@keyframes sakuraMist {
+  from { transform: translateX(-4vw); }
+  to   { transform: translateX(6vw); }
+}
+
+/* Bouton : pétale lumineux qui dérive */
+[data-tag="customizables-button"].creative-sakura-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px 4px 14px 4px;
+  border: 1px solid rgba(249,168,212,0.5);
+  background: linear-gradient(135deg, #3a1229, #1c0a16);
+  box-shadow: 0 0 12px rgba(244,114,182,0.25);
+}
+[data-tag="customizables-button"].creative-sakura-btn::before {
+  content: "";
+  position: absolute;
+  top: -70%;
+  left: -30%;
+  width: 14px;
+  height: 11px;
+  background: rgba(251,207,232,0.55);
+  border-radius: 100% 0 100% 0;
+  animation: sakuraBtnPetal 6s linear infinite;
+}
+
+@keyframes sakuraBtnPetal {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translate(190%, 320%) rotate(300deg); opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   6. MARÉE DE LAVE — 2005 / 2105
+   ─────────────────────────────────────────────────────────────── */
+body.creative-lava {
+  background:
+    radial-gradient(900px 420px at 50% 118%, rgba(249,115,22,0.55), transparent 70%),
+    radial-gradient(620px 320px at 14% 6%, rgba(127,29,29,0.55), transparent 70%),
+    linear-gradient(180deg, #170806 0%, #0d0503 55%, #1a0a04 100%);
+}
+
+/* Bulles de magma qui remontent */
+body.creative-lava .deco::before {
+  content: "";
+  position: absolute;
+  bottom: -14vh;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 34%, #fde68a, #f97316 44%, rgba(185,28,28,0) 72%);
+  filter: blur(7px);
+  animation: lavaRise 15s ease-in infinite;
+}
+body.creative-lava .deco.n1::before { left: 8%;  animation-delay: -1s; }
+body.creative-lava .deco.n2::before { left: 32%; width: 70px; height: 70px; animation-delay: -6s; animation-duration: 12s; }
+body.creative-lava .deco.n3::before { left: 58%; width: 150px; height: 150px; animation-delay: -9s; animation-duration: 18s; }
+body.creative-lava .deco.n4::before { left: 80%; width: 90px; height: 90px; animation-delay: -3s; animation-duration: 14s; }
+
+@keyframes lavaRise {
+  0%   { transform: translateY(0) scale(0.55); opacity: 0; }
+  16%  { opacity: 0.9; }
+  100% { transform: translateY(-98vh) scale(1.15); opacity: 0; }
+}
+
+/* Lueur pulsée sur toute la scène */
+body.creative-lava .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 70% at 50% 110%, rgba(249,115,22,0.22), transparent 72%);
+  animation: lavaGlow 7s ease-in-out infinite;
+}
+
+@keyframes lavaGlow {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* Bouton : croûte noire fendue par un flux incandescent */
+[data-tag="customizables-button"].creative-lava-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(249,115,22,0.55);
+  background: linear-gradient(180deg, #1c0a05, #0a0403);
+  box-shadow: 0 0 14px rgba(249,115,22,0.35), inset 0 -8px 14px rgba(185,28,28,0.45);
+}
+[data-tag="customizables-button"].creative-lava-btn::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -14px;
+  height: 26px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(253,224,71,0.55), rgba(249,115,22,0.25) 55%, transparent 75%);
+  filter: blur(4px);
+  animation: lavaBtnPulse 3.4s ease-in-out infinite;
+}
+
+@keyframes lavaBtnPulse {
+  0%, 100% { transform: translateY(2px) scaleX(0.94); opacity: 0.7; }
+  50%      { transform: translateY(-2px) scaleX(1.06); opacity: 1; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   7. PLUIE NUMÉRIQUE — 2006 / 2106
+   ─────────────────────────────────────────────────────────────── */
+body.creative-matrix {
+  background:
+    radial-gradient(900px 620px at 50% -10%, rgba(22,101,52,0.20), transparent 72%),
+    #000502;
+}
+
+/* Code qui défile : gouttes vertes effilées, très espacées et peu opaques.
+   La version précédente (colonnes de tirets sur toute la largeur) saturait
+   l'écran ; ici chaque tuile fait 120 × 210 px minimum, et le masque
+   vertical adoucit le haut et le bas. */
+body.creative-matrix .deco::before {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  background-image:
+    radial-gradient(ellipse 1.4px 26px at 50% 50%, rgba(74,222,128,0.26) 0%, rgba(74,222,128,0.05) 70%, transparent 100%),
+    radial-gradient(ellipse 1px 14px at 50% 50%, rgba(134,239,172,0.16) 0%, transparent 100%),
+    radial-gradient(ellipse 1.8px 38px at 50% 50%, rgba(34,197,94,0.12) 0%, transparent 100%);
+  background-size: 120px 210px, 88px 150px, 190px 320px;
+  background-position: 0 0, 40px 60px, 90px 120px;
+  animation: matrixFall 5.2s linear infinite;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+body.creative-matrix .deco.n2::before { animation-delay: -1.3s; }
+body.creative-matrix .deco.n3::before { animation-delay: -2.6s; }
+body.creative-matrix .deco.n4::before { animation-delay: -3.9s; }
+
+@keyframes matrixFall {
+  from { background-position: 0 -210px, 40px -90px, 90px -200px; }
+  to   { background-position: 0 0,      40px 60px,  90px 120px; }
+}
+
+/* Voile vert en bas de l'écran */
+body.creative-matrix .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30vh;
+  background: linear-gradient(180deg, transparent, rgba(34,197,94,0.08));
+}
+
+/* Bouton : terminal avec ligne de balayage */
+[data-tag="customizables-button"].creative-matrix-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(34,197,94,0.6);
+  background: #01100a;
+  box-shadow: 0 0 12px rgba(34,197,94,0.3), inset 0 0 20px rgba(34,197,94,0.12);
+}
+[data-tag="customizables-button"].creative-matrix-btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26%;
+  background: linear-gradient(180deg, transparent, rgba(74,222,128,0.14), transparent);
+  animation: matrixScan 2.2s linear infinite;
+}
+
+@keyframes matrixScan {
+  0%   { top: -30%; }
+  100% { top: 100%; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   8. BRUME DES HAUTS PLATEAUX — 2007 / 2107
+   ─────────────────────────────────────────────────────────────── */
+body.creative-mist {
+  background:
+    radial-gradient(900px 480px at 50% 108%, rgba(148,163,184,0.22), transparent 72%),
+    linear-gradient(180deg, #07131a 0%, #0d2029 46%, #060e13 100%);
+}
+
+/* Bancs de brume qui dérivent horizontalement */
+body.creative-mist .deco::before {
+  content: "";
+  position: absolute;
+  width: 165vw;
+  height: 48vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(226,245,255,0.16), transparent 70%);
+  filter: blur(32px);
+  animation: mistDrift 34s ease-in-out infinite alternate;
+}
+body.creative-mist .deco.n1::before { top: 6%;  left: -42%; }
+body.creative-mist .deco.n2::before { top: 26%; left: -18%; animation-duration: 46s; animation-delay: -8s; }
+body.creative-mist .deco.n3::before { top: 46%; left: -52%; animation-duration: 29s; animation-delay: -14s; }
+body.creative-mist .deco.n4::before { top: 66%; left: -26%; animation-duration: 38s; animation-delay: -4s; }
+body.creative-mist .deco-secondary.n11::before { top: 82%; left: -34%; height: 36vh; animation-duration: 52s; animation-delay: -20s; }
+body.creative-mist .deco-secondary.n12::after {
+  content: "";
+  position: absolute;
+  top: 14%;
+  left: -30%;
+  width: 150vw;
+  height: 40vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(191,219,254,0.10), transparent 70%);
+  filter: blur(28px);
+  animation: mistDrift 40s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes mistDrift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(26vw); }
+}
+
+/* Bouton : voile de brume qui glisse */
+[data-tag="customizables-button"].creative-mist-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(203,213,225,0.30);
+  background: linear-gradient(120deg, #0e1f28, #16323c 55%, #0b1a21);
+  box-shadow: inset 0 0 18px rgba(226,245,255,0.10);
+}
+[data-tag="customizables-button"].creative-mist-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgba(226,245,255,0.22) 50%, transparent 80%);
+  background-size: 220% 100%;
+  animation: mistBtnDrift 7s ease-in-out infinite;
+}
+
+@keyframes mistBtnDrift {
+  0%   { background-position: 130% 0; }
+  100% { background-position: -30% 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   9. LUCIOLES — 2008 / 2108
+   ─────────────────────────────────────────────────────────────── */
+body.creative-fireflies {
+  background:
+    radial-gradient(820px 520px at 18% 112%, rgba(16,185,129,0.18), transparent 70%),
+    radial-gradient(700px 460px at 88% 90%, rgba(101,163,13,0.14), transparent 72%),
+    linear-gradient(180deg, #05130f 0%, #061a14 50%, #020a08 100%);
+}
+
+/* Points lumineux qui flottent et clignotent */
+body.creative-fireflies .deco::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fde68a;
+  box-shadow:
+    0 0 10px 3px rgba(253,230,138,0.75),
+    0 0 26px 8px rgba(250,204,21,0.25);
+  animation: fireflyFloat 13s ease-in-out infinite, fireflyBlink 3.4s ease-in-out infinite;
+}
+body.creative-fireflies .deco::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #d9f99d;
+  box-shadow: 0 0 8px 2px rgba(190,242,100,0.7);
+  animation: fireflyFloat 17s ease-in-out infinite, fireflyBlink 4.6s ease-in-out infinite;
+}
+body.creative-fireflies .deco.n1::before { top: 62%; left: 12%; }
+body.creative-fireflies .deco.n2::before { top: 38%; left: 28%; animation-delay: -3s; }
+body.creative-fireflies .deco.n3::before { top: 72%; left: 54%; animation-delay: -7s; }
+body.creative-fireflies .deco.n4::before { top: 46%; left: 78%; animation-delay: -10s; }
+body.creative-fireflies .deco.n1::after  { top: 54%; left: 22%; animation-delay: -2s; }
+body.creative-fireflies .deco.n2::after  { top: 70%; left: 40%; animation-delay: -6s; }
+body.creative-fireflies .deco.n3::after  { top: 34%; left: 66%; animation-delay: -11s; }
+body.creative-fireflies .deco.n4::after  { top: 58%; left: 90%; animation-delay: -4s; }
+
+@keyframes fireflyFloat {
+  0%   { transform: translate3d(0, 0, 0); }
+  25%  { transform: translate3d(18px, -30px, 0); }
+  50%  { transform: translate3d(-12px, -58px, 0); }
+  75%  { transform: translate3d(24px, -24px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+@keyframes fireflyBlink {
+  0%, 100% { opacity: 0.15; }
+  45%      { opacity: 1; }
+  70%      { opacity: 0.35; }
+}
+
+/* Halo chaud diffus dans les fougères */
+body.creative-fireflies .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -10vh;
+  height: 40vh;
+  background: radial-gradient(ellipse at center, rgba(250,204,21,0.10), transparent 72%);
+  filter: blur(30px);
+}
+
+/* Bouton : braise chaude qui respire */
+[data-tag="customizables-button"].creative-fireflies-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(250,204,21,0.45);
+  background: linear-gradient(180deg, #12210f, #07130c);
+  box-shadow: 0 0 12px rgba(250,204,21,0.22), inset 0 0 16px rgba(16,185,129,0.18);
+}
+[data-tag="customizables-button"].creative-fireflies-btn::before,
+[data-tag="customizables-button"].creative-fireflies-btn::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fef08a;
+  box-shadow: 0 0 8px 2px rgba(253,224,71,0.8);
+  animation: fireflyBtnBlink 3s ease-in-out infinite;
+}
+[data-tag="customizables-button"].creative-fireflies-btn::before { top: 22%; left: 16%; }
+[data-tag="customizables-button"].creative-fireflies-btn::after  { top: 68%; left: 78%; animation-delay: -1.5s; }
+
+@keyframes fireflyBtnBlink {
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50%      { opacity: 1;    transform: scale(1.25); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   10. BULLES DE SAVON — 2009 / 2109
+   ─────────────────────────────────────────────────────────────── */
+body.creative-bubbles {
+  background:
+    radial-gradient(720px 460px at 14% 14%, rgba(56,189,248,0.16), transparent 70%),
+    radial-gradient(700px 440px at 86% 80%, rgba(244,114,182,0.14), transparent 70%),
+    linear-gradient(180deg, #071521 0%, #040c14 100%);
+}
+
+/* Bulles iridescentes qui remontent */
+body.creative-bubbles .deco::before {
+  content: "";
+  position: absolute;
+  bottom: -16vh;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.35);
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255,255,255,0.85), rgba(255,255,255,0.06) 44%, transparent 62%),
+    conic-gradient(from 210deg, rgba(56,189,248,0.35), rgba(244,114,182,0.35), rgba(250,204,21,0.30), rgba(56,189,248,0.35));
+  animation: bubbleRise 19s linear infinite;
+}
+body.creative-bubbles .deco.n1::before { left: 6%;  animation-delay: -2s; }
+body.creative-bubbles .deco.n2::before { left: 30%; width: 34px; height: 34px; animation-delay: -9s; animation-duration: 15s; }
+body.creative-bubbles .deco.n3::before { left: 56%; width: 84px; height: 84px; animation-delay: -6s; animation-duration: 24s; }
+body.creative-bubbles .deco.n4::before { left: 82%; width: 46px; height: 46px; animation-delay: -13s; animation-duration: 21s; }
+
+@keyframes bubbleRise {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  12%  { opacity: 0.9; }
+  50%  { transform: translateY(-60vh) translateX(3vw) scale(1); }
+  100% { transform: translateY(-124vh) translateX(-2vw) scale(1.08); opacity: 0; }
+}
+
+/* Reflet doux au sol */
+body.creative-bubbles .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(90% 60% at 50% 105%, rgba(125,211,252,0.14), transparent 70%);
+}
+
+/* Bouton : anneaux de savon qui éclosent */
+[data-tag="customizables-button"].creative-bubbles-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(191,219,254,0.45);
+  background: linear-gradient(135deg, #0d2a3f, #131a3c);
+  box-shadow: inset 0 0 20px rgba(125,211,252,0.18);
+}
+[data-tag="customizables-button"].creative-bubbles-btn::before,
+[data-tag="customizables-button"].creative-bubbles-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(224,242,254,0.6);
+  animation: bubbleRing 4.5s ease-out infinite;
+}
+[data-tag="customizables-button"].creative-bubbles-btn::after { animation-delay: -2.2s; }
+
+@keyframes bubbleRing {
+  0%   { transform: scale(0.4); opacity: 0.9; }
+  100% { transform: scale(14);  opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   11. ORAGE — 2010 / 2110
+   ─────────────────────────────────────────────────────────────── */
+body.creative-storm {
+  background:
+    radial-gradient(940px 520px at 50% -12%, rgba(100,116,139,0.35), transparent 70%),
+    linear-gradient(180deg, #0a1018 0%, #060b12 58%, #04070c 100%);
+}
+
+/* Nappes de nuages qui roulent. Seulement deux couches : quatre copies
+   superposées grisaient tout l'écran et écrasaient le contraste. */
+body.creative-storm .deco.n1::before,
+body.creative-storm .deco.n2::before {
+  content: "";
+  position: absolute;
+  left: -24%;
+  right: -24%;
+  top: -18%;
+  height: 62vh;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(148,163,184,0.14), transparent 65%),
+    radial-gradient(ellipse at 72% 26%, rgba(100,116,139,0.18), transparent 68%);
+  filter: blur(28px);
+  animation: stormRoll 38s ease-in-out infinite alternate;
+}
+body.creative-storm .deco.n2::before { animation-duration: 52s; animation-delay: -12s; opacity: 0.7; }
+
+@keyframes stormRoll {
+  from { transform: translateX(-4vw); }
+  to   { transform: translateX(5vw); }
+}
+
+/* Pluie : même motif de gouttes que « Pluie sur la ville » (tuiles
+   d'ellipses effilées), pour éviter les rayures qui traversaient l'écran. */
+body.creative-storm .deco-secondary::after {
+  content: "";
+  position: absolute;
+  /* Très large : la couche est pivotée, un bord trop proche de l'écran
+     laissait voir une bande grise en bas de page. */
+  inset: -45%;
+  background-image:
+    radial-gradient(ellipse 1.2px 15px at 50% 50%, rgba(214,228,245,0.42) 0%, rgba(214,228,245,0.12) 62%, transparent 100%),
+    radial-gradient(ellipse 1px 9px at 50% 50%, rgba(232,240,252,0.30) 0%, transparent 100%),
+    radial-gradient(ellipse 1.6px 23px at 50% 50%, rgba(190,208,232,0.20) 0%, transparent 100%);
+  background-size: 46px 74px, 36px 52px, 68px 104px;
+  background-position: 0 0, 12px 20px, 30px 40px;
+  transform: rotate(8deg);
+  animation: rainStreakFast 0.68s linear infinite;
+}
+
+/* Éclairs : double flash très bref, toutes les ~9 s */
+body.creative-storm .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(560px 320px at 62% 20%, rgba(226,240,255,0.85), transparent 68%);
+  animation: lightning 9s ease-out infinite;
+}
+
+@keyframes lightning {
+  0%, 90%, 100% { opacity: 0; }
+  91%           { opacity: 0.85; }
+  92.5%         { opacity: 0.08; }
+  94%           { opacity: 0.6; }
+  96%           { opacity: 0; }
+}
+
+/* Bouton : arc électrique qui parcourt le cadre */
+[data-tag="customizables-button"].creative-storm-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(148,163,184,0.5);
+  background: linear-gradient(180deg, #141b26, #080d14);
+  box-shadow: inset 0 0 18px rgba(148,163,184,0.18);
+}
+[data-tag="customizables-button"].creative-storm-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70px 40px at 80% 20%, rgba(226,240,255,0.55), transparent 70%);
+  animation: stormBtnFlash 6s steps(1, end) infinite;
+}
+
+@keyframes stormBtnFlash {
+  0%, 88%, 100% { opacity: 0; }
+  89%           { opacity: 1; }
+  92%           { opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   12. VIEUX PAPIER (statique) — 2011 / 2111
+   ─────────────────────────────────────────────────────────────── */
+body.creative-paper {
+  background:
+    radial-gradient(1200px 700px at 12% 0%, rgba(120,90,60,0.32), transparent 70%),
+    radial-gradient(900px 600px at 92% 100%, rgba(90,70,50,0.30), transparent 72%),
+    repeating-linear-gradient(92deg, rgba(255,255,255,0.020) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(2deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 6px),
+    linear-gradient(180deg, #191410 0%, #120e0b 100%);
+}
+
+/* Bouton : sceau d'encre aux bords irréguliers */
+[data-tag="customizables-button"].creative-paper-btn {
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid rgba(180,140,90,0.55);
+  background:
+    radial-gradient(120% 120% at 20% 10%, rgba(120,85,50,0.55), transparent 60%),
+    linear-gradient(180deg, #241b12, #16100b);
+  box-shadow: inset 0 0 0 1px rgba(255,220,170,0.08), 0 2px 0 rgba(0,0,0,0.5);
+  letter-spacing: 0.05em;
+}
+[data-tag="customizables-button"].creative-paper-btn:hover {
+  box-shadow: inset 0 0 0 1px rgba(255,220,170,0.16), 0 3px 0 rgba(0,0,0,0.55);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   13. OBSIDIENNE (statique) — 2012 / 2112
+   ─────────────────────────────────────────────────────────────── */
+body.creative-obsidian {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 118px),
+    linear-gradient(45deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 88px),
+    radial-gradient(1000px 620px at 76% 8%, rgba(148,163,184,0.18), transparent 72%),
+    radial-gradient(820px 520px at 8% 96%, rgba(51,65,85,0.55), transparent 70%),
+    #05070a;
+}
+
+/* Bouton : éclat de verre volcanique */
+[data-tag="customizables-button"].creative-obsidian-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid rgba(148,163,184,0.35);
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.10) 0 14%, transparent 14% 48%, rgba(255,255,255,0.06) 48% 56%, transparent 56%),
+    linear-gradient(180deg, #0c1118, #05070a);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 14px rgba(0,0,0,0.6);
+}
+[data-tag="customizables-button"].creative-obsidian-btn:hover {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 6px 20px rgba(0,0,0,0.7);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   14. DUNES AU CRÉPUSCULE (statique) — 2013 / 2113
+   ─────────────────────────────────────────────────────────────── */
+body.creative-dunes {
+  background:
+    radial-gradient(120% 62% at 62% 118%, #b45309 0%, rgba(180,83,9,0) 62%),
+    radial-gradient(92% 52% at 18% 112%, #78350f 0%, rgba(120,53,15,0) 60%),
+    radial-gradient(64% 46% at 100% 2%, rgba(251,191,36,0.22), transparent 72%),
+    linear-gradient(180deg, #140f1d 0%, #241426 38%, #3b1e14 74%, #1b0f09 100%);
+}
+
+/* Bouton : strate de sable chaud */
+[data-tag="customizables-button"].creative-dunes-btn {
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid rgba(251,191,36,0.35);
+  background: linear-gradient(180deg, #7c3f12 0%, #a35a1a 55%, #5a2c0c 100%);
+  box-shadow: inset 0 1px 0 rgba(255,226,160,0.30), inset 0 -6px 12px rgba(60,25,5,0.55);
+}
+[data-tag="customizables-button"].creative-dunes-btn:hover {
+  box-shadow: inset 0 1px 0 rgba(255,226,160,0.45), inset 0 -6px 12px rgba(60,25,5,0.5), 0 4px 16px rgba(163,90,26,0.35);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   15. FEUILLE HOLOGRAPHIQUE — 2014 / 2114
+   ─────────────────────────────────────────────────────────────── */
+body.creative-holo {
+  background:
+    conic-gradient(from 200deg at 72% 18%,
+      rgba(56,189,248,0.16),
+      rgba(244,114,182,0.16),
+      rgba(250,204,21,0.14),
+      rgba(52,211,153,0.16),
+      rgba(56,189,248,0.16)),
+    repeating-linear-gradient(115deg, rgba(255,255,255,0.040) 0 2px, transparent 2px 9px),
+    #080a14;
+}
+
+/* Bouton : reflet holographique qui glisse */
+[data-tag="customizables-button"].creative-holo-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(226,232,240,0.45);
+  background: linear-gradient(120deg, #0b1020, #141a2e);
+  box-shadow: 0 0 14px rgba(167,139,250,0.25);
+}
+[data-tag="customizables-button"].creative-holo-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+    transparent 18%,
+    rgba(56,189,248,0.30) 34%,
+    rgba(244,114,182,0.30) 48%,
+    rgba(250,204,21,0.26) 60%,
+    transparent 78%);
+  background-size: 240% 100%;
+  animation: holoShift 6s linear infinite;
+}
+
+@keyframes holoShift {
+  0%   { background-position: 140% 0; }
+  100% { background-position: -40% 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   16. URANIUM (variante verte de la Marée de lave) — 2015 / 2115
+   ─────────────────────────────────────────────────────────────── */
+body.creative-uranium {
+  background:
+    radial-gradient(900px 420px at 50% 118%, rgba(132,204,22,0.50), transparent 70%),
+    radial-gradient(620px 320px at 14% 6%, rgba(22,101,52,0.55), transparent 70%),
+    linear-gradient(180deg, #06120a 0%, #030a06 55%, #07140a 100%);
+}
+
+/* Bulles de métal en fusion verdâtre qui remontent */
+body.creative-uranium .deco::before {
+  content: "";
+  position: absolute;
+  bottom: -14vh;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 34%, #ecfccb, #a3e635 44%, rgba(22,101,52,0) 72%);
+  filter: blur(7px);
+  animation: uraniumRise 15s ease-in infinite;
+}
+body.creative-uranium .deco.n1::before { left: 8%;  animation-delay: -1s; }
+body.creative-uranium .deco.n2::before { left: 32%; width: 70px; height: 70px; animation-delay: -6s; animation-duration: 12s; }
+body.creative-uranium .deco.n3::before { left: 58%; width: 150px; height: 150px; animation-delay: -9s; animation-duration: 18s; }
+body.creative-uranium .deco.n4::before { left: 80%; width: 90px; height: 90px; animation-delay: -3s; animation-duration: 14s; }
+
+@keyframes uraniumRise {
+  0%   { transform: translateY(0) scale(0.55); opacity: 0; }
+  16%  { opacity: 0.9; }
+  100% { transform: translateY(-98vh) scale(1.15); opacity: 0; }
+}
+
+/* Lueur radioactive pulsée */
+body.creative-uranium .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 70% at 50% 110%, rgba(132,204,22,0.22), transparent 72%);
+  animation: uraniumGlow 6s ease-in-out infinite;
+}
+
+@keyframes uraniumGlow {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* Bouton : croûte noire + flux acide + anneau de radiation */
+[data-tag="customizables-button"].creative-uranium-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(163,230,53,0.55);
+  background: linear-gradient(180deg, #0a1a08, #040c04);
+  box-shadow: 0 0 14px rgba(132,204,22,0.35), inset 0 -8px 14px rgba(22,101,52,0.50);
+}
+[data-tag="customizables-button"].creative-uranium-btn::before {
+  content: "";
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -14px;
+  height: 26px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(236,252,203,0.55), rgba(163,230,53,0.25) 55%, transparent 75%);
+  filter: blur(4px);
+  animation: uraniumBtnPulse 3.4s ease-in-out infinite;
+}
+[data-tag="customizables-button"].creative-uranium-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  border: 1px solid rgba(190,242,100,0.55);
+  animation: uraniumRing 4.5s ease-out infinite;
+}
+
+@keyframes uraniumBtnPulse {
+  0%, 100% { transform: translateY(2px) scaleX(0.94); opacity: 0.7; }
+  50%      { transform: translateY(-2px) scaleX(1.06); opacity: 1; }
+}
+@keyframes uraniumRing {
+  0%   { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(9);   opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   17. RAYONS DE FORÊT — 2016 / 2116
+   ─────────────────────────────────────────────────────────────── */
+body.creative-forest {
+  background:
+    radial-gradient(1000px 700px at 50% -20%, rgba(74,222,128,0.22), transparent 70%),
+    linear-gradient(180deg, #06180f 0%, #04100b 55%, #020806 100%);
+}
+
+/* Faisceaux de lumière qui traversent la canopée */
+body.creative-forest .deco::before {
+  content: "";
+  position: absolute;
+  top: -45%;
+  width: 14vw;
+  height: 165vh;
+  background: linear-gradient(180deg,
+    rgba(190,255,214,0.34),
+    rgba(190,255,214,0.06) 68%,
+    transparent 100%);
+  filter: blur(13px);
+  transform-origin: top center;
+  animation: forestRay 10s ease-in-out infinite alternate;
+}
+body.creative-forest .deco.n1::before { left: 4%;  width: 13vw; }
+body.creative-forest .deco.n2::before { left: 28%; width: 8vw;  animation-delay: -3s; animation-duration: 13s; }
+body.creative-forest .deco.n3::before { left: 55%; width: 18vw; animation-delay: -6s; animation-duration: 16s; opacity: 0.8; }
+body.creative-forest .deco.n4::before { left: 79%; width: 10vw; animation-delay: -1.5s; animation-duration: 11s; opacity: 0.65; }
+
+@keyframes forestRay {
+  0%   { opacity: 0.22; transform: rotate(16deg) scaleY(0.96); }
+  50%  { opacity: 0.85; }
+  100% { opacity: 0.38; transform: rotate(11deg) scaleY(1.04); }
+}
+
+/* Pollen en suspension */
+body.creative-forest .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 14% 32%, rgba(190,255,214,0.85), transparent),
+    radial-gradient(1.5px 1.5px at 33% 58%, rgba(190,255,214,0.65), transparent),
+    radial-gradient(2px 2px at 48% 24%, rgba(220,255,235,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 66% 66%, rgba(190,255,214,0.7), transparent),
+    radial-gradient(2px 2px at 82% 40%, rgba(220,255,235,0.75), transparent),
+    radial-gradient(1.5px 1.5px at 91% 74%, rgba(190,255,214,0.6), transparent);
+  animation: forestSpores 13s ease-in-out infinite alternate;
+}
+
+@keyframes forestSpores {
+  from { transform: translateY(0);     opacity: 0.45; }
+  to   { transform: translateY(-30px); opacity: 0.95; }
+}
+
+/* Bouton : faisceau qui balaie un sous-bois */
+[data-tag="customizables-button"].creative-forest-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(74,222,128,0.45);
+  background: linear-gradient(180deg, #07200f, #04120a);
+  box-shadow: inset 0 0 18px rgba(74,222,128,0.18);
+}
+[data-tag="customizables-button"].creative-forest-btn::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -30%;
+  width: 26%;
+  height: 220%;
+  background: linear-gradient(180deg, rgba(190,255,214,0.34), transparent);
+  filter: blur(6px);
+  transform: rotate(16deg);
+  animation: forestBtnRay 7s ease-in-out infinite alternate;
+}
+[data-tag="customizables-button"].creative-forest-btn::after {
+  content: "";
+  position: absolute;
+  top: 28%;
+  right: 22%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(190,255,214,0.85);
+  box-shadow: 0 0 8px 2px rgba(74,222,128,0.5),
+              -34px 18px 0 0 rgba(190,255,214,0.5),
+              20px 34px 0 0 rgba(220,255,235,0.45);
+  animation: forestBtnPollen 5s ease-in-out infinite alternate;
+}
+
+@keyframes forestBtnRay {
+  from { transform: rotate(16deg) translateX(-6px); opacity: 0.35; }
+  to   { transform: rotate(11deg) translateX(14px); opacity: 0.85; }
+}
+@keyframes forestBtnPollen {
+  from { opacity: 0.35; transform: translateY(4px); }
+  to   { opacity: 1;    transform: translateY(-6px); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   18. VAGUES DÉFERLANTES — 2017 / 2117
+   ─────────────────────────────────────────────────────────────── */
+body.creative-waves {
+  background:
+    radial-gradient(900px 520px at 50% -10%, rgba(56,189,248,0.20), transparent 70%),
+    linear-gradient(180deg, #031a2e 0%, #04243d 46%, #010912 100%);
+}
+
+/* Nappes de houle superposées ; l'arrondi très large de chaque nappe
+   dessine une crête qui ondule quand la nappe se balance. */
+/* Les nappes restent translucides et cantonnées au bas de l'écran : les
+   couches décoratives se peignent au-dessus du contenu, une vague opaque
+   rendrait les boutons illisibles. */
+body.creative-waves .deco::before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  width: 200vw;
+  height: 44vh;
+  border-radius: 44% 56% 38% 62% / 62% 44% 56% 38%;
+  background: linear-gradient(180deg, rgba(56,189,248,0.10), transparent 38%);
+  border-top: 2px solid rgba(170,225,255,0.45);
+  box-shadow: 0 -10px 26px -6px rgba(56,189,248,0.32);
+  animation: waveSwell 13s ease-in-out infinite alternate;
+}
+body.creative-waves .deco.n4::before { top: 30vh; height: 34vh; opacity: 0.30; animation-duration: 15s; animation-delay: -2s; }
+body.creative-waves .deco.n1::before { top: 48vh; height: 38vh; }
+body.creative-waves .deco.n2::before { top: 66vh; height: 40vh; opacity: 0.85; animation-duration: 17s; animation-delay: -4s; }
+body.creative-waves .deco.n3::before { top: 84vh; height: 42vh; opacity: 0.95; animation-duration: 21s; animation-delay: -9s; }
+
+@keyframes waveSwell {
+  0%   { transform: translateX(-4vw) translateY(0) rotate(-1.2deg); }
+  100% { transform: translateX(4vw) translateY(-2.5vh) rotate(1.4deg); }
+}
+
+/* Écume : fines particules qui montent depuis les crêtes */
+body.creative-waves .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 22% 76%, rgba(224,242,254,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 46% 84%, rgba(224,242,254,0.55), transparent),
+    radial-gradient(2px 2px at 71% 80%, rgba(224,242,254,0.6), transparent);
+  animation: waveFoam 9s ease-in-out infinite alternate;
+}
+
+@keyframes waveFoam {
+  from { transform: translateY(6px);  opacity: 0.3; }
+  to   { transform: translateY(-14px); opacity: 0.9; }
+}
+
+/* Bouton : surface qui respire, avec liseré d'écume */
+[data-tag="customizables-button"].creative-waves-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(125,211,252,0.45);
+  background: linear-gradient(180deg, #0a3d5c 0%, #062a41 52%, #04182a 100%);
+  box-shadow: inset 0 12px 22px -14px rgba(190,235,255,0.55);
+}
+[data-tag="customizables-button"].creative-waves-btn::before {
+  content: "";
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: -30%;
+  height: 70%;
+  border-radius: 48% 52% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(180deg, rgba(56,189,248,0.35), rgba(4,24,42,0));
+  animation: wavesBtnRoll 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes wavesBtnRoll {
+  from { transform: translateY(6px) scaleX(0.95); }
+  to   { transform: translateY(-6px) scaleX(1.05); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   19. NEIGE — 2018 / 2118
+   ─────────────────────────────────────────────────────────────── */
+body.creative-snow {
+  background:
+    radial-gradient(900px 600px at 50% -10%, rgba(148,197,255,0.22), transparent 70%),
+    linear-gradient(180deg, #071426 0%, #0a1c31 50%, #04101c 100%);
+}
+
+/* Flocons : trois tailles, deux vitesses */
+body.creative-snow .deco.n1::before,
+body.creative-snow .deco.n2::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    radial-gradient(2.4px 2.4px at 50% 50%, #ffffff 0%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 50% 50%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(3.2px 3.2px at 50% 50%, rgba(224,242,254,0.70) 0%, transparent 100%);
+  background-size: 96px 124px, 68px 90px, 148px 190px;
+  background-position: 0 0, 22px 36px, 57px 15px;
+  animation: snowFallNear 4.4s linear infinite;
+}
+body.creative-snow .deco.n3::before,
+body.creative-snow .deco.n4::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    radial-gradient(1.4px 1.4px at 50% 50%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 50% 50%, rgba(203,230,255,0.45) 0%, transparent 100%);
+  background-size: 118px 168px, 172px 238px;
+  background-position: 0 60px, 44px 28px;
+  animation: snowFallFar 9s linear infinite;
+}
+
+@keyframes snowFallNear {
+  from { background-position: 0 -124px, 22px -54px, 57px -175px; }
+  to   { background-position: 0 0,      22px 36px,  57px 15px; }
+}
+@keyframes snowFallFar {
+  from { background-position: 0 -108px, 44px -210px; }
+  to   { background-position: 0 60px,   44px 28px; }
+}
+
+/* Léger balancement latéral des deux nappes proches */
+body.creative-snow .deco.n1 { animation: snowSway 11s ease-in-out infinite alternate; }
+body.creative-snow .deco.n2 { animation: snowSway 15s ease-in-out infinite alternate-reverse; }
+
+@keyframes snowSway {
+  from { transform: translateX(-14px); }
+  to   { transform: translateX(18px); }
+}
+
+/* Halo froid au sol */
+body.creative-snow .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22vh;
+  background: linear-gradient(180deg, transparent, rgba(190,225,255,0.10));
+  animation: snowHalo 6s ease-in-out infinite;
+}
+
+@keyframes snowHalo {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+/* Bouton : flocons qui tombent dans un cadre givré */
+[data-tag="customizables-button"].creative-snow-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(203,230,255,0.5);
+  background: linear-gradient(180deg, #12314d, #071a2b);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 12px rgba(148,197,255,0.20);
+}
+[data-tag="customizables-button"].creative-snow-btn::before,
+[data-tag="customizables-button"].creative-snow-btn::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 6px 1px rgba(203,230,255,0.6);
+  animation: snowBtnFlake 4.5s linear infinite;
+}
+[data-tag="customizables-button"].creative-snow-btn::before { left: 28%; }
+[data-tag="customizables-button"].creative-snow-btn::after  { left: 68%; animation-duration: 6s; animation-delay: -2.5s; }
+
+@keyframes snowBtnFlake {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translate(-8px, 60px); opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   20. FEUILLES D'AUTOMNE — 2019 / 2119
+   ─────────────────────────────────────────────────────────────── */
+body.creative-autumn {
+  background:
+    radial-gradient(900px 520px at 82% -10%, rgba(249,115,22,0.22), transparent 70%),
+    radial-gradient(700px 460px at 10% 96%, rgba(120,53,15,0.50), transparent 72%),
+    linear-gradient(180deg, #1a0f08 0%, #2a160a 42%, #120a05 100%);
+}
+
+/* Feuilles qui tombent en tournoyant */
+body.creative-autumn .deco::before {
+  content: "";
+  position: absolute;
+  top: -12%;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(140deg, #f59e0b, #b45309);
+  border-radius: 0 100% 0 100%;
+  opacity: 0.85;
+  animation: autumnLeaf 14s linear infinite;
+}
+body.creative-autumn .deco::after {
+  content: "";
+  position: absolute;
+  top: -12%;
+  width: 11px;
+  height: 11px;
+  background: linear-gradient(140deg, #fbbf24, #78350f);
+  border-radius: 100% 0 100% 0;
+  opacity: 0.7;
+  animation: autumnLeaf 19s linear infinite;
+}
+body.creative-autumn .deco.n1::before { left: 9%;  animation-delay: -2s; }
+body.creative-autumn .deco.n2::before { left: 35%; animation-delay: -7s; animation-duration: 16s; }
+body.creative-autumn .deco.n3::before { left: 61%; animation-delay: -11s; animation-duration: 12s; }
+body.creative-autumn .deco.n4::before { left: 86%; animation-delay: -4s; animation-duration: 17s; }
+body.creative-autumn .deco.n1::after  { left: 22%; animation-delay: -9s; }
+body.creative-autumn .deco.n2::after  { left: 48%; animation-delay: -3s; animation-duration: 22s; }
+body.creative-autumn .deco.n3::after  { left: 73%; animation-delay: -15s; animation-duration: 20s; }
+body.creative-autumn .deco.n4::after  { left: 94%; animation-delay: -6s; animation-duration: 24s; }
+
+@keyframes autumnLeaf {
+  0%   { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translate3d(7vw, 52vh, 0) rotate(200deg); }
+  100% { transform: translate3d(-4vw, 114vh, 0) rotate(380deg); opacity: 0; }
+}
+
+/* Soleil bas et chaud */
+body.creative-autumn .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -18vh;
+  width: 120vw;
+  height: 46vh;
+  margin-left: -60vw;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(251,191,36,0.22), transparent 70%);
+  filter: blur(26px);
+  animation: autumnSun 12s ease-in-out infinite alternate;
+}
+
+@keyframes autumnSun {
+  from { transform: translateY(10px) scale(0.97); opacity: 0.7; }
+  to   { transform: translateY(-8px) scale(1.03); opacity: 1; }
+}
+
+/* Bouton : feuille qui traverse */
+[data-tag="customizables-button"].creative-autumn-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px 4px 12px 4px;
+  border: 1px solid rgba(245,158,11,0.45);
+  background: linear-gradient(135deg, #3a2008, #1a0f05);
+  box-shadow: inset 0 0 16px rgba(245,158,11,0.16);
+}
+[data-tag="customizables-button"].creative-autumn-btn::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  width: 13px;
+  height: 13px;
+  background: rgba(251,191,36,0.6);
+  border-radius: 0 100% 0 100%;
+  animation: autumnBtnLeaf 7s linear infinite;
+}
+
+@keyframes autumnBtnLeaf {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  14%  { opacity: 1; }
+  100% { transform: translate(200%, 300%) rotate(320deg); opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   21. TEMPÊTE DE SABLE — 2020 / 2120
+   ─────────────────────────────────────────────────────────────── */
+body.creative-sandstorm {
+  background:
+    radial-gradient(800px 400px at 70% 112%, rgba(251,191,36,0.20), transparent 70%),
+    radial-gradient(700px 420px at 10% -10%, rgba(120,53,15,0.55), transparent 72%),
+    linear-gradient(180deg, #1c1207 0%, #291a0a 42%, #100a04 100%);
+}
+
+/* Nappes de poussière : grandes ellipses très floues qui balaient l'écran
+   horizontalement. Des rayures régulières se lisaient comme du papier peint
+   au lieu d'une rafale de sable. */
+body.creative-sandstorm .deco::before {
+  content: "";
+  position: absolute;
+  left: -45%;
+  width: 125vw;
+  height: 14vh;
+  border-radius: 50%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(251,191,36,0.06) 32%,
+    rgba(253,230,138,0.07) 55%,
+    transparent);
+  filter: blur(26px);
+  animation: sandDrift 12s ease-in-out infinite alternate;
+}
+body.creative-sandstorm .deco.n1::before { top: 6vh; }
+body.creative-sandstorm .deco.n2::before { top: 36vh; opacity: 0.85; animation-duration: 16s; animation-delay: -4s; }
+body.creative-sandstorm .deco.n3::before { top: 62vh; animation-duration: 10s; animation-delay: -7s; }
+body.creative-sandstorm .deco.n4::before { top: 86vh; opacity: 0.70; animation-duration: 18s; animation-delay: -2s; }
+
+@keyframes sandDrift {
+  from { transform: translateX(-18vw) scaleX(0.92); }
+  to   { transform: translateX(18vw)  scaleX(1.08); }
+}
+
+/* Voile de poussière + grain */
+body.creative-sandstorm .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(180,120,40,0.10), transparent 40%, rgba(180,120,40,0.12)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.020) 0 1px, transparent 1px 3px);
+  animation: sandHaze 8s ease-in-out infinite alternate;
+}
+
+@keyframes sandHaze {
+  from { opacity: 0.5; transform: translateX(-10px); }
+  to   { opacity: 1;   transform: translateX(10px); }
+}
+
+/* Bouton : bandes de sable en mouvement */
+[data-tag="customizables-button"].creative-sandstorm-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(251,191,36,0.40);
+  background: linear-gradient(180deg, #6b3c11, #3a2008);
+  box-shadow: inset 0 1px 0 rgba(255,226,160,0.28);
+}
+[data-tag="customizables-button"].creative-sandstorm-btn::before {
+  content: "";
+  position: absolute;
+  inset: -20% -40%;
+  background-image: repeating-linear-gradient(96deg,
+    rgba(253,230,138,0.22) 0 10px,
+    transparent 10px 26px);
+  filter: blur(2px);
+  animation: sandBtnBlow 2.4s linear infinite;
+}
+
+@keyframes sandBtnBlow {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-26px); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   22. MARAIS LUMINEUX — 2021 / 2121
+   ─────────────────────────────────────────────────────────────── */
+body.creative-swamp {
+  background:
+    radial-gradient(900px 500px at 30% 105%, rgba(34,197,94,0.18), transparent 70%),
+    linear-gradient(180deg, #04140f 0%, #061d16 48%, #020a08 100%);
+}
+
+/* Bancs de brume verte */
+body.creative-swamp .deco::before {
+  content: "";
+  position: absolute;
+  width: 150vw;
+  height: 34vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(74,222,128,0.14), transparent 70%);
+  filter: blur(30px);
+  animation: swampFog 38s ease-in-out infinite alternate;
+}
+body.creative-swamp .deco.n1::before { top: 10%; left: -40%; }
+body.creative-swamp .deco.n2::before { top: 38%; left: -20%; animation-duration: 46s; animation-delay: -9s; }
+body.creative-swamp .deco.n3::before { top: 62%; left: -45%; animation-duration: 31s; animation-delay: -15s; }
+body.creative-swamp .deco.n4::before { top: 80%; left: -25%; animation-duration: 42s; animation-delay: -5s; }
+
+@keyframes swampFog {
+  from { transform: translateX(0); }
+  to   { transform: translateX(24vw); }
+}
+
+/* Spores qui montent lentement */
+body.creative-swamp .deco-secondary::before,
+body.creative-swamp .deco-secondary::after {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #a7f3d0;
+  box-shadow: 0 0 10px 3px rgba(52,211,153,0.55);
+  animation: swampSpore 17s ease-in infinite;
+}
+body.creative-swamp .deco-secondary.n11::before { left: 22%; }
+body.creative-swamp .deco-secondary.n11::after  { left: 62%; width: 3px; height: 3px; animation-duration: 23s; animation-delay: -7s; }
+body.creative-swamp .deco-secondary.n12::before { left: 41%; width: 4px; height: 4px; animation-duration: 20s; animation-delay: -12s; }
+body.creative-swamp .deco-secondary.n12::after  { left: 84%; animation-duration: 15s; animation-delay: -3s; }
+
+@keyframes swampSpore {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  12%  { opacity: 1; }
+  60%  { transform: translateY(-52vh) translateX(16px); opacity: 0.9; }
+  100% { transform: translateY(-108vh) translateX(-10px); opacity: 0; }
+}
+
+/* Bouton : bulles de vase qui remontent */
+[data-tag="customizables-button"].creative-swamp-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(52,211,153,0.40);
+  background: linear-gradient(180deg, #0c2a1e, #05130e);
+  box-shadow: inset 0 0 18px rgba(52,211,153,0.16);
+}
+[data-tag="customizables-button"].creative-swamp-btn::before,
+[data-tag="customizables-button"].creative-swamp-btn::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(167,243,208,0.55);
+  animation: swampBtnBubble 5s ease-in infinite;
+}
+[data-tag="customizables-button"].creative-swamp-btn::before { left: 30%; }
+[data-tag="customizables-button"].creative-swamp-btn::after  { left: 66%; width: 4px; height: 4px; animation-duration: 7s; animation-delay: -3s; }
+
+@keyframes swampBtnBubble {
+  0%   { transform: translateY(0) scale(0.7); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateY(-46px) scale(1.1); opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   23. FEUX D'ARTIFICE — 2022 / 2122
+   ─────────────────────────────────────────────────────────────── */
+body.creative-fireworks {
+  background:
+    radial-gradient(900px 620px at 50% 110%, rgba(30,58,138,0.35), transparent 72%),
+    radial-gradient(700px 460px at 20% -10%, rgba(88,28,135,0.30), transparent 72%),
+    #04060f;
+}
+
+/* Explosions périodiques : long silence puis jaillissement + retombée */
+body.creative-fireworks .deco::before {
+  content: "";
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,255,255,0.95) 0 3%,
+    rgba(244,114,182,0.72) 18%,
+    rgba(244,114,182,0.20) 44%,
+    transparent 64%);
+  filter: blur(3px);
+  opacity: 0;
+  animation: fireworkBurst 7s ease-out infinite;
+}
+body.creative-fireworks .deco.n1::before { top: 8vh;  left: 14%; }
+body.creative-fireworks .deco.n2::before {
+  top: 16vh; left: 62%;
+  background: radial-gradient(circle, rgba(255,255,255,0.85) 0 3%, rgba(56,189,248,0.55) 18%, rgba(56,189,248,0.14) 44%, transparent 64%);
+  animation-delay: -2.4s;
+  animation-duration: 8s;
+}
+body.creative-fireworks .deco.n3::before {
+  top: 4vh; left: 38%;
+  background: radial-gradient(circle, rgba(255,255,255,0.85) 0 3%, rgba(250,204,21,0.55) 18%, rgba(250,204,21,0.14) 44%, transparent 64%);
+  animation-delay: -4.8s;
+  animation-duration: 9s;
+}
+body.creative-fireworks .deco.n4::before {
+  top: 22vh; left: 80%;
+  background: radial-gradient(circle, rgba(255,255,255,0.85) 0 3%, rgba(167,139,250,0.55) 18%, rgba(167,139,250,0.14) 44%, transparent 64%);
+  animation-delay: -6.2s;
+  animation-duration: 7.5s;
+}
+
+@keyframes fireworkBurst {
+  0%, 86% { transform: scale(0.15); opacity: 0; }
+  89%     { transform: scale(0.55); opacity: 1; }
+  100%    { transform: scale(1.55); opacity: 0; }
+}
+
+/* Braises qui retombent */
+body.creative-fireworks .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 30% 20%, rgba(255,214,170,0.8), transparent),
+    radial-gradient(1.6px 1.6px at 68% 16%, rgba(255,214,170,0.7), transparent),
+    radial-gradient(1.4px 1.4px at 47% 28%, rgba(255,236,200,0.75), transparent);
+  animation: fireworkSparks 10s linear infinite;
+}
+
+@keyframes fireworkSparks {
+  0%   { transform: translateY(-20px); opacity: 0; }
+  20%  { opacity: 0.9; }
+  100% { transform: translateY(40px); opacity: 0; }
+}
+
+/* Bouton : petite explosion dans le bouton */
+[data-tag="customizables-button"].creative-fireworks-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(244,114,182,0.45);
+  background: linear-gradient(180deg, #14102a, #07050f);
+  box-shadow: inset 0 0 18px rgba(244,114,182,0.18);
+}
+[data-tag="customizables-button"].creative-fireworks-btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  height: 120px;
+  margin: -60px 0 0 -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,255,255,0.7) 0 4%,
+    rgba(244,114,182,0.45) 20%,
+    transparent 62%);
+  opacity: 0;
+  animation: fireworkBtnBurst 6s ease-out infinite;
+}
+
+@keyframes fireworkBtnBurst {
+  0%, 80% { transform: scale(0.15); opacity: 0; }
+  84%     { transform: scale(0.5);  opacity: 1; }
+  100%    { transform: scale(1.4);  opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   24. BOULE À FACETTES — 2023 / 2123
+   ─────────────────────────────────────────────────────────────── */
+body.creative-disco {
+  background:
+    radial-gradient(820px 600px at 50% 0%, rgba(167,139,250,0.22), transparent 70%),
+    #06050c;
+}
+
+/* Faisceaux colorés qui tournent */
+body.creative-disco .deco::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 190vmax;
+  height: 190vmax;
+  margin: -95vmax 0 0 -95vmax;
+  background: repeating-conic-gradient(from 0deg,
+    rgba(244,114,182,0.09) 0deg 9deg,
+    transparent 9deg 30deg,
+    rgba(56,189,248,0.09) 30deg 39deg,
+    transparent 39deg 60deg,
+    rgba(250,204,21,0.08) 60deg 69deg,
+    transparent 69deg 90deg);
+  filter: blur(20px);
+  animation: discoSpin 34s linear infinite;
+}
+
+@keyframes discoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+/* Paillettes */
+body.creative-disco .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 12% 26%, rgba(255,255,255,0.85), transparent),
+    radial-gradient(1.6px 1.6px at 31% 64%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2.2px 2.2px at 52% 34%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1.6px 1.6px at 68% 74%, rgba(255,255,255,0.65), transparent),
+    radial-gradient(2px 2px at 86% 42%, rgba(255,255,255,0.75), transparent);
+  animation: discoSparkle 2.6s steps(2, end) infinite;
+}
+
+@keyframes discoSparkle {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 1; }
+}
+
+/* Bouton : reflet de boule à facettes */
+[data-tag="customizables-button"].creative-disco-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(226,232,240,0.45);
+  background: linear-gradient(135deg, #1a1030, #0a0715);
+  box-shadow: 0 0 14px rgba(167,139,250,0.25);
+}
+[data-tag="customizables-button"].creative-disco-btn::before {
+  content: "";
+  position: absolute;
+  /* inset négatif : le disque couvre toute la largeur du bouton, même
+     quand il est large (les big-btn font presque toute la page). */
+  inset: -60%;
+  background: repeating-conic-gradient(from 0deg,
+    rgba(244,114,182,0.35) 0deg 10deg,
+    transparent 10deg 24deg,
+    rgba(56,189,248,0.35) 24deg 34deg,
+    transparent 34deg 48deg,
+    rgba(250,204,21,0.28) 48deg 58deg,
+    transparent 58deg 72deg);
+  filter: blur(3px);
+  animation: discoBtnSpin 20s linear infinite;
+}
+
+@keyframes discoBtnSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   25. LUMIÈRES DE VILLE — 2024 / 2124
+   ─────────────────────────────────────────────────────────────── */
+body.creative-citybokeh {
+  background:
+    radial-gradient(900px 520px at 50% 112%, rgba(251,146,60,0.22), transparent 70%),
+    radial-gradient(700px 420px at 18% -6%, rgba(56,189,248,0.16), transparent 70%),
+    linear-gradient(180deg, #0a0a16 0%, #0d0b18 50%, #05050c 100%);
+}
+
+/* Taches lumineuses floues qui dérivent vers le haut */
+body.creative-citybokeh .deco::before {
+  content: "";
+  position: absolute;
+  bottom: -16vh;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(253,186,116,0.55),
+    rgba(251,146,60,0.12) 58%,
+    transparent 72%);
+  filter: blur(9px);
+  animation: bokehFloat 22s linear infinite;
+}
+body.creative-citybokeh .deco.n1::before { left: 6%;  animation-delay: -2s; }
+body.creative-citybokeh .deco.n2::before {
+  left: 32%;
+  width: 64px;
+  height: 64px;
+  background: radial-gradient(circle, rgba(147,197,253,0.55), rgba(56,189,248,0.12) 58%, transparent 72%);
+  animation-delay: -9s;
+  animation-duration: 27s;
+}
+body.creative-citybokeh .deco.n3::before {
+  left: 58%;
+  width: 130px;
+  height: 130px;
+  animation-delay: -14s;
+  animation-duration: 31s;
+}
+body.creative-citybokeh .deco.n4::before {
+  left: 84%;
+  width: 74px;
+  height: 74px;
+  background: radial-gradient(circle, rgba(253,224,71,0.45), rgba(250,204,21,0.10) 58%, transparent 72%);
+  animation-delay: -5s;
+  animation-duration: 24s;
+}
+
+@keyframes bokehFloat {
+  0%   { transform: translateY(0) translateX(0) scale(0.85); opacity: 0; }
+  12%  { opacity: 0.9; }
+  60%  { transform: translateY(-55vh) translateX(18px) scale(1); }
+  100% { transform: translateY(-112vh) translateX(-14px) scale(1.1); opacity: 0; }
+}
+
+/* Halo urbain diffus */
+body.creative-citybokeh .deco-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 50% at 50% 104%, rgba(251,146,60,0.16), transparent 72%);
+  animation: cityGlow 9s ease-in-out infinite;
+}
+
+@keyframes cityGlow {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+/* Bouton : lucioles de ville qui dérivent */
+[data-tag="customizables-button"].creative-citybokeh-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(251,146,60,0.40);
+  background: linear-gradient(135deg, #14121f, #08070f);
+  box-shadow: inset 0 0 18px rgba(251,146,60,0.14);
+}
+[data-tag="customizables-button"].creative-citybokeh-btn::before,
+[data-tag="customizables-button"].creative-citybokeh-btn::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253,186,116,0.75), transparent 70%);
+  filter: blur(2px);
+  animation: bokehBtnDrift 8s ease-in infinite;
+}
+[data-tag="customizables-button"].creative-citybokeh-btn::before { left: 26%; }
+[data-tag="customizables-button"].creative-citybokeh-btn::after {
+  left: 68%;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, rgba(147,197,253,0.7), transparent 70%);
+  animation-duration: 11s;
+  animation-delay: -4s;
+}
+
+@keyframes bokehBtnDrift {
+  0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+  20%  { opacity: 0.9; }
+  100% { transform: translateY(-50px) scale(1.1); opacity: 0; }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   26. KALÉIDOSCOPE — 2025 / 2125
+   ─────────────────────────────────────────────────────────────── */
+body.creative-kaleido {
+  background:
+    conic-gradient(from 40deg at 50% 50%,
+      rgba(79,70,229,0.20),
+      rgba(16,185,129,0.16),
+      rgba(236,72,153,0.18),
+      rgba(250,204,21,0.14),
+      rgba(79,70,229,0.20)),
+    #050510;
+}
+
+/* Deux roues de rayons qui tournent en sens inverse : moiré kaléidoscopique */
+body.creative-kaleido .deco::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 170vmax;
+  height: 170vmax;
+  margin: -85vmax 0 0 -85vmax;
+  background: repeating-conic-gradient(from 0deg,
+    rgba(99,102,241,0.12) 0deg 12deg,
+    transparent 12deg 30deg,
+    rgba(236,72,153,0.10) 30deg 42deg,
+    transparent 42deg 60deg);
+  filter: blur(13px);
+  animation: kaleidoSpin 56s linear infinite;
+}
+body.creative-kaleido .deco-secondary::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  margin: -75vmax 0 0 -75vmax;
+  background: repeating-conic-gradient(from 15deg,
+    rgba(16,185,129,0.09) 0deg 14deg,
+    transparent 14deg 34deg,
+    rgba(250,204,21,0.08) 34deg 48deg,
+    transparent 48deg 68deg);
+  filter: blur(17px);
+  animation: kaleidoSpin 74s linear infinite reverse;
+}
+
+@keyframes kaleidoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Bouton : prisme multicolore qui tourne */
+[data-tag="customizables-button"].creative-kaleido-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(199,210,254,0.45);
+  background: #0a0918;
+  box-shadow: inset 0 0 18px rgba(99,102,241,0.30);
+}
+[data-tag="customizables-button"].creative-kaleido-btn::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: repeating-conic-gradient(from 0deg,
+    rgba(99,102,241,0.34) 0deg 14deg,
+    transparent 14deg 34deg,
+    rgba(236,72,153,0.32) 34deg 48deg,
+    transparent 48deg 68deg);
+  filter: blur(3px);
+  animation: kaleidoBtnSpin 32s linear infinite;
+}
+
+@keyframes kaleidoBtnSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }

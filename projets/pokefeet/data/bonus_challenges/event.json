@@ -1,0 +1,253 @@
+[
+    {
+        "ID": 1,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "level",
+                "Value": 3
+            }
+        ],
+        "Tab": "Event",
+        "Name_En": "Pridemons",
+        "Name_Fr": "Poké Fiertés",
+        "Desc_En": "A joyful celebration of creatures who embrace their identity with dazzling confidence, parading through the colorful streets of Kanto and the vibrant coasts of Hoenn. This festive gathering radiates positivity, unity, and the spirit of adventure, echoing the lively atmosphere of bustling cities like Celadon and Slateport. Expect bright energy, bold personalities, and a whole lot of pride.",
+        "Desc_Fr": "Une célébration joyeuse de créatures qui assument leur identité avec une confiance éclatante, défilant à travers les rues colorées de Kanto et les côtes vibrantes de Hoenn. Ce rassemblement festif rayonne de positivité, d’unité et d’esprit d’aventure, rappelant l’ambiance animée de villes comme Céladopole ou Poivressel. Attendez-vous à une énergie lumineuse, des personnalités audacieuses et une bonne dose de fierté.",
+        "Additional_Info_Fr": "Pokémon les plus cités dans les reddits LGBT, de certaines commu spécifiques et globales, la liste a été validée auprés d'un groupe de personnes concernées pour qu'elle soit dénuée de stéreotype offensant ou problématiques",
+        "Additional_Info_En": "Pokémon most frequently mentioned in LGBT subreddits, from certain specific communities as well as broader ones. The list was validated by a group of people concerned to ensure it was free of offensive or problematic stereotypes",
+        "FeetList": [
+            "67",
+            "217",
+            "250",
+            "314",
+            "282",
+            "428",
+            "431",
+            "235",
+            "39",
+            "35",
+            "124",
+            "468",
+            "380",
+            "381",
+            "197"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 100
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 1
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 2
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": [
+            {
+                "Start": "2026-06-01",
+                "End": "2026-07-31"
+            },
+            {
+                "Start": "2027-06-01",
+                "End": "2027-06-31"
+            },
+            {
+                "Start": "2028-06-01",
+                "End": "2028-06-31"
+            },
+            {
+                "Start": "2029-06-01",
+                "End": "2029-06-31"
+            },
+            {
+                "Start": "2030-06-01",
+                "End": "2030-06-31"
+            }
+        ]
+    },
+    {
+        "ID": 101,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 25
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 8
+            }
+        ],
+        "Tab": "Event",
+        "Name_En": "JMDEV's Selection",
+        "Name_Fr": "Selection JMDEV",
+        "Desc_En": "Just a huge selection of pokemons that I like, because why not ?",
+        "Desc_Fr": "Juste une selection de pokémon que j'aime bien, parce que pourquoi pas ?",
+        "FeetList": [
+            "607",
+            "609",
+            "143",
+            "184",
+            "192",
+            "200",
+            "212",
+            "215",
+            "225",
+            "272",
+            "277",
+            "281",
+            "286",
+            "303",
+            "332",
+            "363",
+            "376",
+            "384",
+            "386",
+            "395",
+            "398",
+            "423",
+            "426",
+            "429",
+            "436",
+            "472",
+            "478",
+            "490",
+            "491",
+            "497",
+            "530",
+            "549-B",
+            "578",
+            "591",
+            "598",
+            "623",
+            "625",
+            "628",
+            "637",
+            "646",
+            "648",
+            "117",
+            "130",
+            "141",
+            "145",
+            "148",
+            "169",
+            "195",
+            "196",
+            "197"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 500
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 101
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 102
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 103
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 111
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 112
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 113
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 102,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "level",
+                "Value": 1
+            }
+        ],
+        "Tab": "Event",
+        "Name_En": "Halloween 2026",
+        "Name_Fr": "Halloween 2026",
+        "Desc_En": "Celebrate Halloween with this challenge !",
+        "Desc_Fr": "Célébrez Halloween avec ce challenge !",
+        "FeetList": [
+            "93",
+            "302",
+            "332",
+            "337",
+            "355",
+            "353",
+            "425",
+            "429",
+            "430",
+            "477",
+            "487",
+            "491",
+            "442",
+            "563",
+            "608",
+            "623",
+            "562-B",
+            "571-B",
+            "362",
+            "157-B"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 250
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 30
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 31
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 32
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": [
+            {
+                "Start": "2026-10-15",
+                "End": "2026-11-01"
+            },
+            {
+                "Start": "2027-10-15",
+                "End": "2027-11-01"
+            },
+            {
+                "Start": "2028-10-15",
+                "End": "2028-11-01"
+            },
+            {
+                "Start": "2029-10-15",
+                "End": "2029-11-01"
+            },
+            {
+                "Start": "2030-10-15",
+                "End": "2030-11-01"
+            }
+        ]
+    }
+]

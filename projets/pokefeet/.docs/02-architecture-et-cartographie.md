@@ -133,23 +133,22 @@ Les scripts sont listés dans l'ordre de chargement réel. Cet ordre est **ident
 | Page | Scripts |
 |---|---|
 | `index.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics` + inline |
-| `pokefeet.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/marathon/game`, `js/features/marathon/ui` |
-| `daily.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/dex`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/daily/daily` |
-| `weekly.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/dex`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/weekly/weekly` |
-| `old_daily.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/data/challenge-storage`, `js/data/config`, `js/features/settings/cosmetics`, `js/features/history/old-daily` |
+| `marathon.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/marathon/game`, `js/features/marathon/ui` |
+| `daily.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/dex`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/core/challenge-window`, `js/features/settings/cosmetics`, `js/features/daily/daily` |
+| `weekly.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/dex`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/core/challenge-window`, `js/features/settings/cosmetics`, `js/features/weekly/weekly` |
+| `old_challenges.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/data/challenge-storage`, `js/core/challenge-window`, `js/data/config`, `js/features/settings/cosmetics`, `js/features/history/old-daily` |
 | `history.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/config`, `js/features/settings/cosmetics`, `js/features/history/history`, `js/features/history/history-curve` |
-| `stats.html` | `js/ui/loader`, `js/core/reward-button`, `js/core/reward-item`, `js/core/reward`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/features/settings/profile`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/stats/stats` |
-| `pied-dex.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/features/settings/cosmetics`, `js/data/dex`, `js/features/dex/dex-ui`, `js/data/daily-to-dex-import` + inline init |
+| `profile.html` | `js/ui/loader`, `js/core/reward-button`, `js/core/reward-item`, `js/core/reward`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/features/settings/profile`, `js/core/pokemon-versions`, `js/data/challenge-storage`, `js/core/xp`, `js/features/settings/cosmetics`, `js/features/stats/stats` |
+| `dex.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/features/settings/cosmetics`, `js/data/dex`, `js/features/dex/dex-ui`, `js/data/daily-to-dex-import` + inline init |
 | `list_challenges.html` | `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/core/challenge`, `js/data/challenge-storage`, `js/features/challenges/challenge-manager`, `js/features/challenges/challenge-list-ui`, `js/ui/loader`, `js/features/settings/cosmetics`, `js/data/migration`, `js/i18n/setup`, `js/i18n/language-switcher`, `js/i18n/translate` |
 | `challenge.html` | `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/core/challenge`, `js/data/challenge-storage`, `js/features/challenges/challenge-manager`, `js/features/challenges/challenge-game-ui`, `js/ui/loader`, `js/features/settings/cosmetics`, `js/data/migration`, `js/i18n/setup`, `js/i18n/language-switcher`, `js/i18n/translate` + inline |
 | `custom.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics` |
 | `custom_create.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/custom-challenges/codec`, `js/features/custom-challenges/create-ui` |
 | `custom_play.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/core/pokemon`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/custom-challenges/codec`, `js/features/custom-challenges/game`, `js/features/custom-challenges/play-ui` |
-| `data_management.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/data/daily-to-dex-import`, `js/data/data-manager` + inline |
+| `settings.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/core/pokemon`, `js/core/pokemon-versions`, `js/data/dex`, `js/data/daily-to-dex-import`, `js/data/data-manager` + inline |
 | `data.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup` + inline |
 | `changelog.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/data/challenge-storage`, `js/features/settings/cosmetics` |
 | `credits.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/credits/credits` |
-| `profile.html` | aucun (redirection meta vers `data_management.html`) |
 | `prediction.html` | aucun script externe + inline |
 | `integration-pokefeet.html` | aucun |
 | `test-i18n.html` | `js/i18n/translate`, `js/i18n/language-switcher`, `js/i18n/setup` |
@@ -188,7 +187,7 @@ js/features/custom-challenges/game.js ──► Pokemon
 js/core/reward*.js ──► Translator (optionnel)
 └── js/features/stats/stats.js
 
-js/features/settings/cosmetics.js ──► ChallengeStorage, data/cosmetics.json
+js/features/settings/cosmetics.js ──► ChallengeStorage, data/cosmetics/
 js/i18n/translate.js
 └── js/i18n/setup.js ──► js/i18n/language-switcher.js
 js/ui/loader.js ──► Cosmetics.load() (optionnel)
@@ -200,8 +199,8 @@ js/ui/loader.js ──► Cosmetics.load() (optionnel)
 - `js/core/challenge.js` appelle `ChallengeManager.getPlayerLevel()` et `Dex` : l'entité dépend de la couche métier.
 - `js/features/challenges/challenge-manager.js` contient une copie du calcul d'XP de `js/features/stats/stats.js`.
 - `js/features/dex/dex-ui.js` appelle `DailyToDexImport.forceUpdate()` : l'UI déclenche un import.
-- `data_management.html` réimplémente en inline le profil et le rendu des cosmétiques.
-- `js/features/settings/profile.js` reste chargé par `stats.html` mais n'est jamais initialisé.
+- `settings.html` réimplémente en inline le profil et le rendu des cosmétiques.
+- `js/features/settings/profile.js` reste chargé par `profile.html` mais n'est jamais initialisé.
 
 ---
 
@@ -216,7 +215,7 @@ js/ui/loader.js ──► Cosmetics.load() (optionnel)
 ### Risques de course (inchangés)
 
 - `Cosmetics.load()` peut ouvrir `PokefeetChallengeDB` avant `Migration.ready`.
-- `data_management.html` initialise `DataManager` sans attendre `Migration.ready`.
+- `settings.html` initialise `DataManager` sans attendre `Migration.ready`.
 - Plusieurs onglets peuvent provoquer `onblocked` lors d'une montée de version IndexedDB.
 
 ---

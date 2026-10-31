@@ -1,6 +1,6 @@
 # 13 — Profil, cosmétiques et sauvegarde
 
-## 1. Page Paramètres (`data_management.html`)
+## 1. Page Paramètres (`settings.html`)
 
 La page regroupe quatre onglets :
 
@@ -23,7 +23,7 @@ Cookie `pk_pseudo`, 365 jours. Aucun compte, aucune synchronisation.
 
 ### 2.2 Saisie
 
-Dans `data_management.html`, un script inline (et non `js/features/settings/profile.js`) gère :
+Dans `settings.html`, un script inline (et non `js/features/settings/profile.js`) gère :
 
 - préremplissage depuis le cookie ;
 - validation : non vide, ≤ 30 caractères ;
@@ -43,13 +43,13 @@ Dans `data_management.html`, un script inline (et non `js/features/settings/prof
 
 ### 2.4 `js/features/settings/profile.js` est mort
 
-`stats.html` charge `js/features/settings/profile.js`, mais :
+`profile.html` charge `js/features/settings/profile.js`, mais :
 
 - `ProfileInit()` n'est jamais appelé ;
-- aucun élément `#pseudoInput`, `#savePseudoBtn`, `#clearPseudoBtn`, `#profileStatus` n'existe sur `stats.html` ;
+- aucun élément `#pseudoInput`, `#savePseudoBtn`, `#clearPseudoBtn`, `#profileStatus` n'existe sur `profile.html` ;
 - `COOKIE_NAME` n'est lu nulle part.
 
-`profile.html` est une simple redirection meta vers `data_management.html`. Voir doc 16.
+`profile.html` est la page de profil (niveau, XP, trophées, badges) ; elle charge `profile.js` pour rien — le pseudo y est seulement **affiché**, il se modifie dans `settings.html`.
 
 ---
 
@@ -68,7 +68,7 @@ Cookie `pk_fast_mode` (`true`/`false`), réglé par `#fastModeToggle`.
 
 ### 4.1 Catalogue
 
-`data/cosmetics.json` : 39 entrées.
+`data/cosmetics/` : 39 entrées.
 
 | Type | Nombre | Usage |
 |---|---:|---|
@@ -117,7 +117,7 @@ Cookies :
 
 Deux implémentations :
 
-- `data_management.html` (inline) : onglets de catégories, sous-onglets par `Cat`, option « Défaut », cadenas, `sessionStorage` pour la catégorie active ;
+- `settings.html` (inline) : onglets de catégories, sous-onglets par `Cat`, option « Défaut », cadenas, `sessionStorage` pour la catégorie active ;
 - `js/features/settings/cosmetics.js` : `renderCosmeticsUI()` — **jamais exposée ni appelée** (voir doc 16).
 
 ### 4.6 Limites
@@ -173,8 +173,8 @@ Aucun bouton pour :
 
 | Problème | Détail |
 |---|---|
-| Duplication profil | inline dans `data_management.html` + `js/features/settings/profile.js` mort |
-| Duplication cosmétiques | inline dans `data_management.html` + `Cosmetics.renderCosmeticsUI()` mort |
+| Duplication profil | inline dans `settings.html` + `js/features/settings/profile.js` mort |
+| Duplication cosmétiques | inline dans `settings.html` + `Cosmetics.renderCosmeticsUI()` mort |
 | Textes non traduits | mode rapide, profil inline, `Niveau` |
 | Export incomplet | pseudo, cosmétiques, langue, mode rapide, Dex |
 | Hash non cryptographique | FNV-1a |

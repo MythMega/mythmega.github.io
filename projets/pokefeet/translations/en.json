@@ -18,11 +18,13 @@
     "oldDaily": "Past Dailies",
     "saveLoad": "Settings",
     "practice": "Marathon",
+    "profile": "Profile",
     "pokedex": "Pokédex",
     "modeDesc": "Daily: one challenge per day — Weekly: 10 Pokémon per week",
     "byLine": "/ Code by JMDEV",
     "bonusChallenges": "Bonus Challenges",
-    "customChallenges": "Custom Challenges"
+    "customChallenges": "Custom Challenges",
+    "shop": "Poké-Mart"
   },
   "daily": {
     "title": "PokéFeet Daily",
@@ -65,6 +67,7 @@
     "failRevealed": "Failed — Pokémon revealed",
     "skipRevealed": "Skipped — Pokémon revealed",
     "finishedShare": "Daily complete — share your result",
+    "earned": "This daily's earnings",
     "pointsEarned": "+{n} points",
     "confirmSkip": "Are you sure you want to skip this Pokémon?",
     "newlyDiscovered": "🌟 New Pokémon discovered: {names}!",
@@ -77,7 +80,8 @@
     "invalidDateMsg": "This weekly is not valid: the date must be a Monday. You will be redirected to the previous Monday.",
     "goToMonday": "Go to Monday",
     "futureWeekly": "Cannot play a future weekly",
-    "finishedShare": "Weekly complete — share your result"
+    "finishedShare": "Weekly complete — share your result",
+    "earned": "This weekly's earnings"
   },
   "practice": {
     "title": "PokéFeet",
@@ -321,12 +325,13 @@
     "tooLong": "Username must be 30 characters or less"
   },
   "stats": {
-    "title": "Statistics — Pokefeet",
+    "title": "Profile — Pokefeet",
     "marathon": "Marathon",
     "marathonBest": "Best Marathon scores",
     "marathonInfo": "These scores correspond to your best performances in Marathon mode (all Pokémon).",
     "pseudoLabel": "Player",
     "trophies": "Trophies",
+    "noTrophies": "No trophy to display right now.",
     "trophiesTitle": "Trophies",
     "bestStreakLabel": "Best streak",
     "viewDaily": "View this daily",
@@ -346,11 +351,15 @@
     "challenges": "Bonus Challenges",
     "challengesDesc": "Each completed bonus challenge grants the XP shown in its reward.",
     "achievements": "Achievements",
-    "dailyDesc": "XP earned each day based on the number of perfects (based on the formula '3 + (perfect-round), +2 if perfect day'):",
-    "weeklyDesc": "XP earned each week based on the number of perfects (based on the formula '6 + (perfect-round x 2), +4 if perfect week'):",
+    "dailyDesc": "XP for the day, with all 5 rounds found: +3 XP when the day is finished, +1 XP per round found, +1 XP extra per round found on the first try, +2 XP for a perfect day — 15 XP maximum.",
+    "weeklyDesc": "XP for the week, with all 10 rounds found: +6 XP when the week is finished, +1 XP per round found, +2 XP extra per round found on the first try, +4 XP for a perfect week — 40 XP maximum.",
     "marathonDesc": "XP calculated from your best Marathon performances:",
     "marathonFormula": "Best score ÷ 5 + Best streak × 2",
     "achievementsDesc": "Each unlocked achievement gives the XP shown on its card.",
+    "levels": "Levels",
+    "levelsDesc": "Each level costs {step} XP more than the previous one: level 1 → 2 asks for 100 XP, while level 100 (Master) asks for the game's entire content, i.e. {total} XP.",
+    "levelsFrom": "Level {level} → {next}",
+    "levelsTotal": "Level 100 — Master",
     "perfects": "perfects",
     "perfects_0": "0 perfect",
     "xpPerPerfects": "perfect = {xp} XP",
@@ -371,6 +380,16 @@
     "view": "View",
     "comingSoon": "Coming soon"
   },
+  "challengeWindow": {
+    "unavailableTitle": "This challenge is not available to you",
+    "unavailableDaily": "You can only replay a Daily from your very first recorded challenge onward.",
+    "unavailableWeekly": "You can only replay a Weekly from your very first recorded challenge onward.",
+    "attemptedDate": "Requested date",
+    "earliestDate": "Earliest available date",
+    "playToday": "Play today",
+    "playCurrentWeek": "Play the current week",
+    "pastChallenges": "Past challenges"
+  },
   "oldDaily": {
     "tabDaily": "Daily",
     "tabWeekly": "Weekly",
@@ -385,7 +404,9 @@
   },
   "challenges": {
     "title": "Challenges",
-    "back": "Back"
+    "back": "Back",
+    "pokedollars": "Pokédollars",
+    "none": "No challenge available right now."
   },
   "challenge": {
     "play": "Play",
@@ -424,7 +445,48 @@
   "cosmetics": {
     "default": "Default",
     "defaultShort": "Default",
-    "lockedHint": "🔒 {name} — Unlock via a challenge"
+    "lockedHint": "🔒 {name} — Unlock via a challenge",
+    "shopLockedHint": "🛒 {name} — On sale at the Poké-Mart",
+    "shopPopupText": "This cosmetic is not unlocked yet: it is on sale at the Poké-Mart.",
+    "buyDirect": "Buy now",
+    "openShop": "Open shop"
+  },
+  "shop": {
+    "title": "Poké-Mart",
+    "subtitle": "Spend your Pokédollars to unlock themes",
+    "balance": "Balance",
+    "totalXP": "Total XP",
+    "bonus": "Level bonus",
+    "spent": "Already spent",
+    "rate": "1 total XP = 1 P. The price of cosmetics you already own is permanently deducted from your total XP.",
+    "preview": "Preview",
+    "stopPreview": "Stop preview",
+    "previewHint": "Click a cosmetic to preview it before buying.",
+    "previewBg": "Background applied to the whole page for this preview.",
+    "previewBtn": "Button style applied to the sample buttons above.",
+    "demoPrimary": "Daily Challenge",
+    "demoSecondary": "Records",
+    "demoSubmit": "Submit",
+    "filterBackground": "Backgrounds",
+    "filterButtons": "Buttons",
+    "typeBackground": "Background",
+    "typeButtons": "Buttons",
+    "empty": "No cosmetic on sale right now.",
+    "buy": "Buy",
+    "buyTitle": "Buy this cosmetic",
+    "confirm": "Confirm?",
+    "owned": "Owned",
+    "ownedShort": "Owned",
+    "tooExpensive": "Not enough money",
+    "missing": "{amount} missing",
+    "insufficient": "Not enough money: {missing} P missing",
+    "buyFailed": "Purchase failed.",
+    "bought": "{name} unlocked for {price}!",
+    "price": "Price",
+    "yourBalance": "Your balance",
+    "unavailable": "Shop unavailable",
+    "openShop": "Open the Poké-Mart",
+    "customize": "Customization"
   },
   "data": {
     "writeError": "Cannot write to IndexedDB",

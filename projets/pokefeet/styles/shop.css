@@ -1,0 +1,263 @@
+/* --- Poké-Boutique --- */
+.shop-card {
+  width: min(100%, 960px);
+  text-align: left;
+}
+
+/* Portefeuille */
+.shop-wallet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(202,138,4,0.16), rgba(22,163,74,0.10));
+}
+
+.shop-balance {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.shop-balance-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.shop-balance-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 18px rgba(251,191,36,0.35);
+}
+
+.shop-wallet-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.shop-wallet-details strong { color: #fff; font-weight: 700; }
+
+.shop-rate {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Aperçu */
+.shop-preview {
+  margin: 16px 0 18px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.22);
+}
+
+.shop-preview-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.shop-preview-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+}
+
+.shop-preview-head strong { color: #fff; font-size: 15px; }
+
+.shop-preview-head button {
+  margin-left: auto;
+  min-height: 30px;
+  padding: 4px 12px;
+  font-size: 12px;
+  background: rgba(255,255,255,0.06);
+  color: var(--muted-light);
+  border: 1px solid var(--line);
+}
+
+.shop-preview-msg {
+  margin: 6px 0 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.shop-preview-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(2,6,16,0.55);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.shop-preview-stage .shop-demo {
+  flex: 0 1 auto;
+  width: auto;
+  min-height: 42px;
+  margin: 0;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.shop-preview-stage .shop-demo.small-btn { font-size: 13px; padding: 8px 14px; }
+
+/* Filtres */
+.shop-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.shop-filter {
+  min-height: 34px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.05);
+  color: var(--muted-light);
+  border: 1px solid var(--line);
+}
+
+.shop-filter.active {
+  background: rgba(52,211,153,0.16);
+  color: var(--accent-bright);
+  border-color: var(--accent);
+}
+
+/* Grille */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease, transform 120ms ease;
+}
+
+.shop-item:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.22); }
+.shop-item.previewing { border-color: var(--accent); background: rgba(52,211,153,0.10); }
+.shop-item.owned { border-color: rgba(52,211,153,0.45); }
+.shop-item.poor { opacity: 0.72; }
+
+.shop-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 92px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(2,6,16,0.6);
+}
+
+/* Icône du cosmétique (champ File du catalogue), image par défaut sinon */
+.shop-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.shop-thumb-tag {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(52,211,153,0.9);
+  color: #042014;
+}
+
+.shop-item-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+}
+
+.shop-item-type {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.shop-item-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.shop-item-price {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fbbf24;
+}
+
+.shop-buy-btn {
+  margin-left: auto;
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.shop-buy-btn.confirm { background: #ca8a04; color: #1a1103; }
+
+.shop-item-state {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-bright);
+}
+
+.shop-item-state.poor { color: #f87171; }
+
+.shop-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.shop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 560px) {
+  .shop-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .shop-wallet-details { margin-left: 0; }
+  .shop-balance-value { font-size: 22px; }
+}

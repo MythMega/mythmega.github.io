@@ -1,0 +1,94 @@
+[
+    {
+        "Level": 1,
+        "ImageUrl": "./img/badges/newcomer.png",
+        "Reward": [
+            {
+                "Type": "Badge",
+                "Data": "./img/badges/newcomer.png"
+            },
+            {
+                "Type": "Title",
+                "Data": "Trainer"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Un bon depart !",
+        "Description_FR": "Vous avez vu des pieds.",
+        "Title_EN": "Nice start !",
+        "Description_EN": "You saw feet.",
+        "Button": null
+    },
+    {
+        "Level": 5,
+        "ImageUrl": "./img/badges/gift_05.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "!PokeClaim PF05LVLN3WKD0RXS"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Cadeau de bienvenue !",
+        "Description_FR": "Recuperez les 3 starters de Kanto Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Welcome Gift !",
+        "Description_EN": "Get all 3 Kanto starters Shiny on MythMega's when he's streaming and paste this code into his chat.",
+        "Button": {
+            "TxtButton_FR": "Rejoindre le stream",
+            "TxtButton_EN": "Join the stream",
+            "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 10,
+        "ImageUrl": "./img/badges/elite.png",
+        "Reward": [
+            {
+                "Type": "Badge",
+                "Data": "./img/badges/elite.png"
+            },
+            {
+                "Type": "Title",
+                "Data": "Elite"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Dresseur d'Élite !",
+        "Description_FR": "Vous maitrisez les pieds.",
+        "Title_EN": "Elite  Trainer!",
+        "Description_EN": "You know feet.",
+        "Button": null
+    },
+    {
+        "Level": 15,
+        "ImageUrl": "./img/badges/pokegg_15.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "BR4V03UF"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Tarsal",
+        "Description_FR": "Récuperez les 4 membres de la famille de tarsal + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Ralts",
+        "Description_EN": "Get all 4 members of Ralts family + 3 epic eggs on pokegg.",
+        "Button": {
+            "TxtButton_FR": "Réclamer la récompense",
+            "TxtButton_EN": "Claim the reward",
+            "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    }
+]

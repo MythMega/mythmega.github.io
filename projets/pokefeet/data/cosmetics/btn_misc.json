@@ -1,0 +1,20 @@
+[
+    {
+        "ID": -2,
+        "Type": "Background-Buttons",
+        "Cat": null,
+        "Name": "Orange",
+        "Value": "cosmetics-orange-btn",
+        "File": "orange.png",
+        "RequiresUnlock": false
+    },
+    {
+        "ID": -1,
+        "Type": "Background-Buttons",
+        "Cat": null,
+        "Name": "Purple",
+        "Value": "cosmetics-purple-btn",
+        "File": "purple.png",
+        "RequiresUnlock": false
+    }
+]

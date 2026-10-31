@@ -1,0 +1,252 @@
+[
+    {
+        "ID": 2000,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Aurore boréale",
+        "Value": "creative-aurora",
+        "RequiresUnlock": true,
+        "Price": 1500,
+        "File": "aurora.png"
+    },
+    {
+        "ID": 2001,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Grille Synthwave",
+        "Value": "creative-synthgrid",
+        "RequiresUnlock": true,
+        "Price": 1500,
+        "File": "synthgrid.png"
+    },
+    {
+        "ID": 2002,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Espace lointain",
+        "Value": "creative-deepspace",
+        "RequiresUnlock": true,
+        "Price": 1250,
+        "File": "deepspace.png"
+    },
+    {
+        "ID": 2003,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Pluie sur la ville",
+        "Value": "creative-rain",
+        "RequiresUnlock": true,
+        "Price": 1500,
+        "File": "rain.png"
+    },
+    {
+        "ID": 2004,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Cerisiers en fleurs",
+        "Value": "creative-sakura",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "sakura.png"
+    },
+    {
+        "ID": 2005,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Marée de lave",
+        "Value": "creative-lava",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "lava.png"
+    },
+    {
+        "ID": 2006,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Pluie numérique",
+        "Value": "creative-matrix",
+        "RequiresUnlock": true,
+        "Price": 1250,
+        "File": "matrix.png"
+    },
+    {
+        "ID": 2007,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Brume des hauts plateaux",
+        "Value": "creative-mist",
+        "RequiresUnlock": true,
+        "Price": 1000,
+        "File": "mist.png"
+    },
+    {
+        "ID": 2008,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Lucioles",
+        "Value": "creative-fireflies",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "fireflies.png"
+    },
+    {
+        "ID": 2009,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Bulles de savon",
+        "Value": "creative-bubbles",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "bubbles.png"
+    },
+    {
+        "ID": 2010,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Orage",
+        "Value": "creative-storm",
+        "RequiresUnlock": true,
+        "Price": 1250,
+        "File": "storm.png"
+    },
+    {
+        "ID": 2011,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Vieux papier",
+        "Value": "creative-paper",
+        "RequiresUnlock": true,
+        "Price": 1000,
+        "File": "paper.png"
+    },
+    {
+        "ID": 2012,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Obsidienne",
+        "Value": "creative-obsidian",
+        "RequiresUnlock": true,
+        "Price": 1000,
+        "File": "obsidian.png"
+    },
+    {
+        "ID": 2013,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Dunes au crépuscule",
+        "Value": "creative-dunes",
+        "RequiresUnlock": true,
+        "Price": 1000,
+        "File": "dunes.png"
+    },
+    {
+        "ID": 2014,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Feuille holographique",
+        "Value": "creative-holo",
+        "RequiresUnlock": true,
+        "Price": 1000,
+        "File": "holo.png"
+    },
+    {
+        "ID": 2015,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Uranium",
+        "Value": "creative-uranium",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "nuclear.png"
+    },
+    {
+        "ID": 2016,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Rayons de forêt",
+        "Value": "creative-forest",
+        "RequiresUnlock": true,
+        "Price": 1500,
+        "File": "forest.png"
+    },
+    {
+        "ID": 2017,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Vagues déferlantes",
+        "Value": "creative-waves",
+        "RequiresUnlock": true,
+        "Price": 1250,
+        "File": "waves.png"
+    },
+    {
+        "ID": 2018,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Neige",
+        "Value": "creative-snow",
+        "RequiresUnlock": true,
+        "Price": 1500,
+        "File": "snow.png"
+    },
+    {
+        "ID": 2019,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Feuilles d'automne",
+        "Value": "creative-autumn",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "autumn.png"
+    },
+    {
+        "ID": 2020,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Tempête de sable",
+        "Value": "creative-sandstorm",
+        "RequiresUnlock": true,
+        "Price": 1000,
+        "File": "sandstorm.png"
+    },
+    {
+        "ID": 2021,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Marais lumineux",
+        "Value": "creative-swamp",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "swamp.png"
+    },
+    {
+        "ID": 2022,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Feux d'artifice",
+        "Value": "creative-fireworks",
+        "RequiresUnlock": true,
+        "Price": 1250,
+        "File": "fireworks.png"
+    },
+    {
+        "ID": 2023,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Boule à facettes",
+        "Value": "creative-disco",
+        "RequiresUnlock": true,
+        "Price": 1500,
+        "File": "disco.png"
+    },
+    {
+        "ID": 2024,
+        "Type": "Background",
+        "Cat": "Shop",
+        "Name": "Lumières de ville",
+        "Value": "creative-citybokeh",
+        "RequiresUnlock": true,
+        "Price": 2000,
+        "File": "citybokeh.png"
+    }
+]

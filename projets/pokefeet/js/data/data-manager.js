@@ -4,7 +4,6 @@ const DataManager = (function () {
   const COOKIE_DAILY = 'pk_daily_result_v2';
   const COOKIE_BEST = 'pk_best';
   const COOKIE_BEST_STREAK = 'pk_best_streak';
-  const BONUS_CHALLENGES_URL = 'data/bonus_challenges.json';
   const EXPORT_VERSION = 'v2';
   const DB_NAME = 'PokefeetDB';
   const DB_VERSION = 4;
@@ -265,9 +264,7 @@ const DataManager = (function () {
   async function markChallengesInDex(challengeIds) {
     if (!challengeIds.length || typeof Dex === 'undefined') return;
     try {
-      const res = await fetch(BONUS_CHALLENGES_URL);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const all = await res.json();
+      const all = await DataFiles.load('challenges');
       for (const id of challengeIds) {
         const ch = all.find(c => String(c.ID) === String(id));
         if (!ch || !Array.isArray(ch.FeetList)) continue;
@@ -313,8 +310,13 @@ const DataManager = (function () {
     // Challenges bonus complétés
     const challenges = await getAllChallengesForExport();
 
+    // Thèmes achetés à la Poké-Boutique (Pokédollars)
+    const purchases = (typeof PokefeetWallet !== 'undefined' && PokefeetWallet.getPurchasedIds)
+      ? PokefeetWallet.getPurchasedIds()
+      : [];
+
     // "best" est conservé à la racine pour la compatibilité avec les anciens fichiers/versions
-    return { daily, weekly, best, marathon: { bestScore: best, bestStreak }, challenges };
+    return { daily, weekly, best, marathon: { bestScore: best, bestStreak }, challenges, purchases };
   }
 
   // --- create export file content (async) ---
@@ -508,6 +510,24 @@ const DataManager = (function () {
     } catch (e) {
       console.error('Error merging challenges', e);
       notify(T('data.challengeImportError', "Erreur lors de l'import des challenges"), 'fail');
+    }
+
+    // Thèmes achetés à la Poké-Boutique : fusion par union,
+    // on ne retire jamais un achat existant lors d'un import.
+    if (typeof PokefeetWallet !== 'undefined' && PokefeetWallet.setPurchasedIds) {
+      try {
+        const existingPurchases = PokefeetWallet.getPurchasedIds();
+        const merged = existingPurchases.slice();
+        if (Array.isArray(payload.purchases)) {
+          payload.purchases.forEach(raw => {
+            const id = parseInt(raw, 10);
+            if (!Number.isNaN(id) && merged.indexOf(id) === -1) merged.push(id);
+          });
+        }
+        if (merged.length !== existingPurchases.length) PokefeetWallet.setPurchasedIds(merged);
+      } catch (e) {
+        console.error('Error merging shop purchases', e);
+      }
     }
 
     return true;

@@ -2,7 +2,7 @@
 
 ## Vue d'ensemble
 
-La page `stats.html` affiche des statistiques détaillées pour les 3 modes de jeu, le niveau/XP, les trophées et les récompenses.
+La page `profile.html` affiche des statistiques détaillées pour les 3 modes de jeu, le niveau/XP, les trophées et les récompenses.
 
 ## Structure de la page
 
@@ -73,13 +73,13 @@ Le module `history_curve.js` (non détaillé ici) génère des graphiques de pro
 
 ### Classe `Reward` (entity/reward/)
 
-Les récompenses sont chargées depuis `data/reward.json` et instanciées via une classe `Reward` (dans `entity/reward/`).
+Les récompenses sont chargées depuis `data/rewards/` et instanciées via une classe `Reward` (dans `entity/reward/`).
 
 ### Affichage
 
 ```js
 async function renderRewardsTab() {
-    // Charge data/reward.json
+    // Charge data/rewards/*.json
     // Crée des instances de Reward
     // Trie par niveau croissant
     // Affiche chaque récompense sous forme de carte

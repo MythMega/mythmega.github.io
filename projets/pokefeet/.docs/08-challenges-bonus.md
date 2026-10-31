@@ -9,7 +9,7 @@
 | Métier | `js/features/challenges/challenge-manager.js` |
 | Stockage | `js/data/challenge-storage.js` |
 | UI | `js/features/challenges/challenge-list-ui.js`, `js/features/challenges/challenge-game-ui.js` |
-| Données | `data/bonus_challenges.json` (32), `data/pokemons.json` |
+| Données | `data/bonus_challenges/` (32), `data/pokemons.json` |
 | Persistance | `PokefeetChallengeDB/challenge_completions`, Dex |
 
 Les challenges bonus sont des séries thématiques (jeux principaux, stratégie, régional, collection, communauté, événement) avec prérequis, dates de disponibilité et récompenses.
@@ -66,7 +66,7 @@ Les challenges bonus sont des séries thématiques (jeux principaux, stratégie,
 ```
 
 - `Experience` : XP ajouté au total (pas de monnaie, pas d'item).
-- `Cosmetic` : débloque l'ID correspondant dans `data/cosmetics.json`.
+- `Cosmetic` : débloque l'ID correspondant dans `data/cosmetics/`.
 
 ---
 
@@ -184,7 +184,7 @@ Contrairement au Daily/Weekly, il n'y a **pas de limite d'échecs** : le joueur 
 3. pour chaque challenge complété, parcourt `Rewards` ;
 4. ajoute à `unlockedIds` chaque `Cosmetic.Value` numérique.
 
-Un cosmétique `RequiresUnlock: true` n'est sélectionnable que si son ID est dans cet ensemble. L'UI de `data_management.html` masque en plus ceux marqués `MustHideIfUnobtained`.
+Un cosmétique `RequiresUnlock: true` n'est sélectionnable que si son ID est dans cet ensemble. L'UI de `settings.html` masque en plus ceux marqués `MustHideIfUnobtained`.
 
 ---
 

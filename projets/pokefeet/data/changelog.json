@@ -1,0 +1,422 @@
+[
+    {
+        "Version": { "Major": 6, "Minor": 0, "Patch": 0, "Stage": "Release" },
+        "Title": "Mega Evolution",
+        "Date": "24/10/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 3, "Translation_FR": "72 nouvelles Méga-Évolutions rejoignent le Pokédex", "Translation_EN": "72 new Mega Evolutions join the Pokédex" },
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis bonus autour des Méga-Évolutions", "Translation_EN": "New bonus challenges built around Mega Evolutions" }
+        ]
+    },
+    {
+        "Version": { "Major": 5, "Minor": 1, "Patch": 1, "Stage": "Release" },
+        "Title": "Theme & animation fixes",
+        "Date": "23/10/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Correction de plusieurs thèmes de boutons et d'arrière-plans", "Translation_EN": "Fixed several button and background themes" },
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Les images sont préchargées avant leur affichage", "Translation_EN": "Images are preloaded before being displayed" },
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Animations corrigées et fluidifiées", "Translation_EN": "Fixed and smoothed out the animations" }
+        ]
+    },
+    {
+        "Version": { "Major": 5, "Minor": 1, "Patch": 0, "Stage": "Release" },
+        "Title": "Challenge update & save fixes",
+        "Date": "22/10/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Mise à jour des défis bonus", "Translation_EN": "Bonus challenge update" },
+            { "Type": "Fix", "Severity": 3, "Translation_FR": "Correction de plusieurs bugs de sauvegarde", "Translation_EN": "Fixed several save bugs" }
+        ]
+    },
+    {
+        "Version": { "Major": 5, "Minor": 0, "Patch": 3, "Stage": "Release" },
+        "Title": "Weekly date fix",
+        "Date": "04/09/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 3, "Translation_FR": "Correction d'un bug critique qui permettait de rejouer un weekly à une date qui n'était pas un lundi", "Translation_EN": "Fixed a critical bug that let players replay a weekly on a date that was not a Monday" }
+        ]
+    },
+    {
+        "Version": { "Major": 5, "Minor": 0, "Patch": 2, "Stage": "Release" },
+        "Title": "Changelog fix",
+        "Date": "04/09/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Le changelog s'affiche de nouveau correctement", "Translation_EN": "The changelog displays correctly again" }
+        ]
+    },
+    {
+        "Version": { "Major": 5, "Minor": 0, "Patch": 1, "Stage": "Release" },
+        "Title": "Image loading fix",
+        "Date": "03/09/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Les images ne disparaissent plus aléatoirement", "Translation_EN": "Images no longer disappear randomly" }
+        ]
+    },
+    {
+        "Version": { "Major": 5, "Minor": 0, "Patch": 0, "Stage": "Release" },
+        "Title": "Challenge Creator",
+        "Date": "02/09/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Créez vos propres défis et partagez-les par code", "Translation_EN": "Create your own challenges and share them with a code" },
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Mode de jeu personnalisé avec ses propres indices", "Translation_EN": "Custom game mode with its own hints" }
+        ]
+    },
+    {
+        "Version": { "Major": 4, "Minor": 1, "Patch": 0, "Stage": "Release" },
+        "Title": "5G Strategy challenges & JMDEV's themes",
+        "Date": "31/08/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis Stratégie sur la 5G", "Translation_EN": "New 5G Strategy challenges" },
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Thèmes créatifs signés JMDEV", "Translation_EN": "Creative themes by JMDEV" }
+        ]
+    },
+    {
+        "Version": { "Major": 4, "Minor": 0, "Patch": 0, "Stage": "Release" },
+        "Title": "5G added",
+        "Date": "31/08/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 3, "Translation_FR": "La 5G (Unova) rejoint le Pokédex et le marathon", "Translation_EN": "Generation 5 (Unova) joins the Pokédex and the marathon" },
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis bonus et trophées de génération", "Translation_EN": "New bonus challenges and generation trophies" }
+        ]
+    },
+    {
+        "Version": { "Major": 3, "Minor": 2, "Patch": 0, "Stage": "Release" },
+        "Title": "Strategy challenges & visual fixes",
+        "Date": "20/07/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis de stratégie", "Translation_EN": "New strategy challenges" },
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Corrections visuelles diverses", "Translation_EN": "Various visual fixes" }
+        ]
+    },
+    {
+        "Version": { "Major": 3, "Minor": 1, "Patch": 0, "Stage": "Release" },
+        "Title": "Main Games challenges & fixes",
+        "Date": "18/07/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis basés sur les jeux principaux", "Translation_EN": "New challenges based on the main games" },
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Divers correctifs", "Translation_EN": "Various fixes" }
+        ]
+    },
+    {
+        "Version": { "Major": 3, "Minor": 0, "Patch": 0, "Stage": "Release" },
+        "Title": "Challenges, Paldean Wooper & customization",
+        "Date": "18/07/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Système de défis bonus revu de fond en comble", "Translation_EN": "Reworked bonus challenge system" },
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Axoloto de Paldea corrigé dans le Pokédex", "Translation_EN": "Paldean Wooper fixed in the Pokédex" },
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Personnalisation : thèmes de boutons et d'arrière-plans", "Translation_EN": "Customization: button and background themes" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 5, "Patch": 3, "Stage": "Release" },
+        "Title": "New Pokémon popup fix",
+        "Date": "13/06/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Correction de l'affichage du popup des nouveaux Pokémon", "Translation_EN": "Fixed the new Pokémon popup display" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 5, "Patch": 2, "Stage": "Release" },
+        "Title": "Fast Marathon & XP information",
+        "Date": "12/06/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Mode Marathon rapide", "Translation_EN": "Fast Marathon mode" },
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Informations d'XP détaillées dans le profil", "Translation_EN": "Detailed XP information on the profile" },
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Corrections de popups", "Translation_EN": "Popup fixes" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 5, "Patch": 1, "Stage": "Release" },
+        "Title": "Pokefeet x Pokegg crossover",
+        "Date": "11/06/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Récompense croisée avec Pokegg", "Translation_EN": "Crossover reward with Pokegg" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 5, "Patch": 0, "Stage": "Release" },
+        "Title": "Reward update",
+        "Date": "11/06/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Refonte du système de récompenses de niveau", "Translation_EN": "Reworked level reward system" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 4, "Patch": 0, "Stage": "Release" },
+        "Title": "Trophy update: types",
+        "Date": "09/06/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux trophées par type de Pokémon", "Translation_EN": "New trophies per Pokémon type" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 3, "Patch": 2, "Stage": "Release" },
+        "Title": "History chart design",
+        "Date": "09/06/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Nouveau design pour le graphique d'historique", "Translation_EN": "New design for the history chart" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 3, "Patch": 1, "Stage": "Release" },
+        "Title": "Marathon quality of life",
+        "Date": "08/06/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Confort de jeu amélioré en mode Marathon", "Translation_EN": "Improved comfort in Marathon mode" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 3, "Patch": 0, "Stage": "Release" },
+        "Title": "Achievements",
+        "Date": "01/06/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Nouveaux succès à débloquer", "Translation_EN": "New achievements to unlock" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 2, "Patch": 0, "Stage": "Release" },
+        "Title": "Minified daily/weekly copy",
+        "Date": "01/06/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Copie des résultats daily et weekly en version compacte", "Translation_EN": "Compact copy for daily and weekly results" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 1, "Patch": 1, "Stage": "Release" },
+        "Title": "Minified daily/weekly copy",
+        "Date": "30/05/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Copie des résultats daily et weekly en version compacte", "Translation_EN": "Compact copy for daily and weekly results" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 1, "Patch": 0, "Stage": "Release" },
+        "Title": "Marathon mode & weekly mode",
+        "Date": "26/05/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Nouveau mode Marathon", "Translation_EN": "New Marathon mode" },
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Nouveau mode Weekly", "Translation_EN": "New Weekly mode" },
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Améliorations générales de l'interface", "Translation_EN": "General interface improvements" }
+        ]
+    },
+    {
+        "Version": { "Major": 2, "Minor": 0, "Patch": 0, "Stage": "Release" },
+        "Title": "4G, better UI & public database",
+        "Date": "26/05/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 3, "Translation_FR": "Ajout de la 4G (Sinnoh)", "Translation_EN": "Generation 4 (Sinnoh) added" },
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Base de données publique des défis", "Translation_EN": "Public challenge database" },
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Support de plusieurs versions de jeu", "Translation_EN": "Support for multiple game versions" },
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Interface repensée", "Translation_EN": "Reworked interface" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 13, "Patch": 0, "Stage": "Release" },
+        "Title": "Local sprites",
+        "Date": "26/05/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Sprites servis localement, pour un chargement plus rapide", "Translation_EN": "Sprites served locally for faster loading" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 12, "Patch": 0, "Stage": "Release" },
+        "Title": "Practice mode & fixes",
+        "Date": "25/05/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Confirmation et recherche dans le mode entraînement", "Translation_EN": "Confirmation and search in practice mode" },
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Arme corrigée (merci ERGussr) et projectiles fantômes supprimés", "Translation_EN": "Fixed weapon (thanks ERGussr) and removed fake projectiles" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 11, "Patch": 0, "Stage": "Release" },
+        "Title": "Daily rollover fix",
+        "Date": "15/05/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Correction d'une erreur lorsqu'un daily se terminait un autre jour", "Translation_EN": "Fixed an error when a daily ended on another day" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 10, "Patch": 0, "Stage": "Release" },
+        "Title": "Progress & Poképied fixes",
+        "Date": "11/05/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Correction de la progression des défis", "Translation_EN": "Fixed challenge progress" },
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Traduction française de Poképied retirée", "Translation_EN": "Removed the French Poképied translation" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 9, "Patch": 0, "Stage": "Release" },
+        "Title": "Quality of life update",
+        "Date": "05/05/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Petites améliorations de confort de jeu", "Translation_EN": "Small gameplay comfort improvements" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 8, "Patch": 0, "Stage": "Release" },
+        "Title": "Types clues overhaul",
+        "Date": "03/05/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Refonte complète des indices de types", "Translation_EN": "Complete overhaul of type clues" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 7, "Patch": 0, "Stage": "Release" },
+        "Title": "Daily tries names",
+        "Date": "30/04/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Les essais du daily affichent les noms proposés", "Translation_EN": "Daily tries display the guessed names" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 6, "Patch": 0, "Stage": "Release" },
+        "Title": "Anti-cheat fix",
+        "Date": "27/04/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 3, "Translation_FR": "Correction d'une faille qui permettait de tricher", "Translation_EN": "Fixed an exploit that allowed cheating" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 5, "Patch": 0, "Stage": "Release" },
+        "Title": "Daily link",
+        "Date": "27/04/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 1, "Translation_FR": "Lien direct vers le daily en cours", "Translation_EN": "Direct link to the current daily" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 4, "Patch": 0, "Stage": "Release" },
+        "Title": "Sorting",
+        "Date": "24/04/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Tri des listes", "Translation_EN": "List sorting" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 3, "Patch": 0, "Stage": "Release" },
+        "Title": "Global theme update",
+        "Date": "23/04/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Refonte globale des thèmes visuels", "Translation_EN": "Global visual theme overhaul" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 2, "Patch": 0, "Stage": "Release" },
+        "Title": "History upgrade",
+        "Date": "23/04/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Historique des parties revu", "Translation_EN": "Reworked game history" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 1, "Patch": 0, "Stage": "Release" },
+        "Title": "Minor UI improvements",
+        "Date": "21/04/2026",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Petites améliorations de l'interface", "Translation_EN": "Small interface improvements" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 0, "Patch": 0, "Stage": "Release" },
+        "Title": "Pokefeet 1.0",
+        "Date": "10/03/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Première version stable de Pokefeet", "Translation_EN": "First stable release of Pokefeet" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 5, "Patch": 0, "Stage": "Beta" },
+        "Title": "1.5 patch 1",
+        "Date": "06/03/2026",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Correctifs de la bêta 1.5", "Translation_EN": "Fixes for beta 1.5" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 0, "Patch": 0, "Stage": "Beta" },
+        "Title": "Replay update",
+        "Date": "28/01/2026",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Rejouer ses parties passées", "Translation_EN": "Replay your past games" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 9, "Patch": 0, "Stage": "Alpha" },
+        "Title": "UI upgrade",
+        "Date": "01/12/2025",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Interface retravaillée", "Translation_EN": "Reworked interface" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 8, "Patch": 0, "Stage": "Alpha" },
+        "Title": "3G added",
+        "Date": "16/11/2025",
+        "Changelog": [
+            { "Type": "Content", "Severity": 3, "Translation_FR": "Ajout de la 3G (Hoenn)", "Translation_EN": "Generation 3 (Hoenn) added" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 7, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Little fixes",
+        "Date": "15/11/2025",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Petits correctifs", "Translation_EN": "Small fixes" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 6, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Daily workflow update",
+        "Date": "15/11/2025",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Déroulé du daily revu", "Translation_EN": "Reworked daily flow" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 5, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Daily copy",
+        "Date": "15/11/2025",
+        "Changelog": [
+            { "Type": "Quality Of Life", "Severity": 1, "Translation_FR": "Copie du daily", "Translation_EN": "Daily copy" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 4, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Daily mode",
+        "Date": "15/11/2025",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Ajout du mode Daily", "Translation_EN": "Daily mode added" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 3, "Patch": 0, "Stage": "Alpha" },
+        "Title": "2G added",
+        "Date": "15/11/2025",
+        "Changelog": [
+            { "Type": "Content", "Severity": 3, "Translation_FR": "Ajout de la 2G (Johto)", "Translation_EN": "Generation 2 (Johto) added" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 2, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Little fixes",
+        "Date": "14/11/2025",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Petits correctifs", "Translation_EN": "Small fixes" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 1, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Little fixes",
+        "Date": "14/11/2025",
+        "Changelog": [
+            { "Type": "Fix", "Severity": 1, "Translation_FR": "Petits correctifs", "Translation_EN": "Small fixes" }
+        ]
+    },
+    {
+        "Version": { "Major": 1, "Minor": 0, "Patch": 0, "Stage": "Alpha" },
+        "Title": "Test training",
+        "Date": "14/11/2025",
+        "Changelog": [
+            { "Type": "Feature", "Severity": 1, "Translation_FR": "Premier entraînement de test", "Translation_EN": "First test training" }
+        ]
+    }
+]

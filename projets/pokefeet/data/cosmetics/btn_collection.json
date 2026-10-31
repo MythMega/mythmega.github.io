@@ -1,0 +1,29 @@
+[
+    {
+        "ID": 7,
+        "Type": "Background-Buttons",
+        "Cat": "Collection",
+        "Name": "Venimous boss",
+        "Value": "cosmetics-venimous",
+        "File": "venimous.webp",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 11,
+        "Type": "Background-Buttons",
+        "Cat": "Collection",
+        "Name": "Ocean Depth",
+        "Value": "ocean-depth-buttons",
+        "File": "wave.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 116,
+        "Type": "Background-Buttons",
+        "Cat": "Collection",
+        "Name": "Kaléidoscope",
+        "Value": "creative-kaleido-btn",
+        "File": "kaleidoscope.png",
+        "RequiresUnlock": true
+    }
+]

@@ -1,0 +1,71 @@
+[
+    {
+        "Level": 80,
+        "ImageUrl": "./img/badges/gift_80.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "!PokeClaim B1GF0OTCR0WDTHUNDRA"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Cadeau Géant du Futur !",
+        "Description_FR": "Recuperez les trois Golems 8G Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Giant Gift Futuristic !",
+        "Description_EN": "Get Shiny Golems Family 8G on MythMega's when he's streaming and paste this code into his chat.",
+        "Button": {
+            "TxtButton_FR": "Rejoindre le stream",
+            "TxtButton_EN": "Join the stream",
+            "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 90,
+        "ImageUrl": "./img/badges/pokegg_90.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "M4ST03UF"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Meloetta",
+        "Description_FR": "Récuperez Meloetta + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Meloetta",
+        "Description_EN": "Get Meloetta + 3 epic eggs on pokegg.",
+        "Button": {
+            "TxtButton_FR": "Réclamer la récompense",
+            "TxtButton_EN": "Claim the reward",
+            "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    },
+    {
+        "Level": 100,
+        "ImageUrl": "./img/badges/master.png",
+        "Reward": [
+            {
+                "Type": "Badge",
+                "Data": "./img/badges/master.png"
+            },
+            {
+                "Type": "Title",
+                "Data": "Master"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Dresseur Maître !",
+        "Description_FR": "Vous êtes le pied.",
+        "Title_EN": "Master Trainer!",
+        "Description_EN": "You are feet.",
+        "Button": null
+    }
+]

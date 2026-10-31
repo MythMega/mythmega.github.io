@@ -24,7 +24,6 @@
 
 | Page | Liens entrants | Statut | Recommandation |
 |---|---:|---|---|
-| `profile.html` | 0 | redirection meta vers `data_management.html` | supprimer, le lien « Paramètres » existe déjà |
 | `prediction.html` | 0 | outil admin protégé côté client | déplacer dans `tools/` ou supprimer du déploiement |
 | `integration-pokefeet.html` | 0 | page statique isolée | supprimer ou documenter l'intention |
 | `test-i18n.html` | 0 | page de test manuel | déplacer dans `tests/manual/` |
@@ -32,7 +31,7 @@
 **Cas particuliers** :
 
 - `data.html` n'a pas de `href` littéral, mais est lié par `js/ui/footer.js` (`makeLink('data.html', ...)`) : **pas orphelin**.
-- `old_daily.html` est lié depuis `index.html`.
+- `old_challenges.html` est lié depuis `index.html`.
 - `custom.html` est lié depuis `index.html`.
 - `changelog.html` et `credits.html` sont liés par le footer.
 
@@ -44,14 +43,14 @@
 
 Preuves :
 
-- chargé uniquement par `stats.html` (`<script src="js/features/settings/profile.js">`) ;
-- `ProfileInit()` est enregistré sur `DOMContentLoaded` mais retourne immédiatement car `#pseudoInput` et `#savePseudoBtn` n'existent pas sur `stats.html` ;
+- chargé uniquement par `profile.html` (`<script src="js/features/settings/profile.js">`) ;
+- `ProfileInit()` est enregistré sur `DOMContentLoaded` mais retourne immédiatement car `#pseudoInput` et `#savePseudoBtn` n'existent pas sur `profile.html` ;
 - `COOKIE_NAME` n'est lu par aucun autre fichier ;
 - les fonctions globales `setCookie`, `getCookie`, `eraseCookie` ne sont utilisées que dans ce fichier ;
-- le profil est géré en inline dans `data_management.html` ;
+- le profil est géré en inline dans `settings.html` ;
 - `js/features/stats/stats.js` lit directement `pk_pseudo`.
 
-**Recommandation** : supprimer le fichier et la balise `<script>` de `stats.html`. Le pseudo reste géré par la page Paramètres.
+**Recommandation** : supprimer le fichier et la balise `<script>` de `profile.html`. Le pseudo reste géré par la page Paramètres.
 
 ---
 
@@ -62,7 +61,7 @@ Preuves :
 | Symbole | Fichier | Preuve | Recommandation |
 |---|---|---|---|
 | `TypeIcons.getUrl` | `js/core/pokemon.js` | 0 appel ; seul `TypeIcons.load()` est utilisé | supprimer, ou utiliser réellement pour afficher les icônes |
-| `Cosmetics.renderCosmeticsUI` | `js/features/settings/cosmetics.js` | fonction définie mais **absente de l'objet retourné** ; aucun appel | supprimer (l'UI inline de `data_management.html` la remplace) |
+| `Cosmetics.renderCosmeticsUI` | `js/features/settings/cosmetics.js` | fonction définie mais **absente de l'objet retourné** ; aucun appel | supprimer (l'UI inline de `settings.html` la remplace) |
 | `Cosmetics.getByType` | `js/features/settings/cosmetics.js` | 0 appel externe | supprimer |
 | `Cosmetics.getUnlockedIds` | `js/features/settings/cosmetics.js` | 0 appel externe | supprimer |
 | `ChallengeStorage.getChallengeCompletion` | `js/data/challenge-storage.js` | 0 appel | supprimer |
@@ -141,7 +140,7 @@ js/features/settings/cosmetics.js
 js/features/credits/credits.js
 js/features/daily/daily.js
 js/data/data-manager.js
-data_management.html
+settings.html
 js/features/marathon/game.js
 js/data/migration.js
 js/features/settings/profile.js
@@ -222,8 +221,8 @@ js/features/weekly/weekly.js
 
 ### 5.9 UI dupliquée
 
-- Profil : `js/features/settings/profile.js` (mort) + inline `data_management.html`.
-- Cosmétiques : `Cosmetics.renderCosmeticsUI` (mort) + inline `data_management.html`.
+- Profil : `js/features/settings/profile.js` (mort) + inline `settings.html`.
+- Cosmétiques : `Cosmetics.renderCosmeticsUI` (mort) + inline `settings.html`.
 - Autocomplete : `js/features/marathon/game.js` + `js/features/daily/daily.js` + `js/features/weekly/weekly.js`.
 - Jauges : `js/features/marathon/ui.js` + `js/features/daily/daily.js` + `js/features/weekly/weekly.js`.
 
@@ -271,7 +270,7 @@ Le JSON ne référence que les variantes `-a.png` pour les formes de base. Les v
 | `data/backup.json` | non lu | archiver/supprimer |
 | `data/new_backup.json` | non lu | archiver/supprimer |
 | `data/result_analyse_challenge.log` | non lu | supprimer |
-| `data/pokefeet_commits.csv` | non lu | déplacer dans `tools/` |
+| `data/poke_data.py` | non exécuté au runtime | module partagé des scripts de `data/` |
 | `data/analyse_challenges.py` | non exécuté au runtime | déplacer dans `tools/data-pipeline/` |
 | `data/egggroup-category.py` | idem | idem |
 | `data/newpic.py` | idem | idem |

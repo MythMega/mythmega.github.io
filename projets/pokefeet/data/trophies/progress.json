@@ -1,0 +1,182 @@
+[
+    {
+        "Id": 11,
+        "Name_en": "Daily-scover (3)",
+        "Name_fr": "Daily-couverte (3)",
+        "Desc_en": "You completed 3 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 3 Challenge Daily.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 3
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/daily/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 12,
+        "Name_en": "Daily-man (30)",
+        "Name_fr": "MR Daily (30)",
+        "Desc_en": "You completed 30 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 30 Challenge Daily.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 30
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/daily/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 13,
+        "Name_en": "Daily Expert (180)",
+        "Name_fr": "Expert Daily (180)",
+        "Desc_en": "You completed 180 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 180 Challenge Daily.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 180
+        },
+        "Rarity": 3,
+        "Picture": "./img/trophy/daily/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 14,
+        "Name_en": "Daily Master (365)",
+        "Name_fr": "Maître Daily (365)",
+        "Desc_en": "You completed 365 Dailies Challenges.",
+        "Desc_fr": "Tu as complété 365 Challenge Daily.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Daily_Count",
+            "Value": 365
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/daily/platinum.png",
+        "Enabled": true
+    },
+    {
+        "Id": 21,
+        "Name_en": "Quadr-Weekly (4)",
+        "Name_fr": "Quadrimadaire (4)",
+        "Desc_en": "You completed 4 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 4 Challenge Weekly.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 4
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/weekly/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 22,
+        "Name_en": "Alexandrine (12)",
+        "Name_fr": "Alexandrin (12)",
+        "Desc_en": "You completed 12 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 12 Challenge Weekly.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 12
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/weekly/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 23,
+        "Name_en": "Expert of the week (24)",
+        "Name_fr": "Expert de la semaine (24)",
+        "Desc_en": "You completed 24 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 24 Challenge Weekly.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 24
+        },
+        "Rarity": 3,
+        "Picture": "./img/trophy/weekly/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 24,
+        "Name_en": "Legend of the week (52)",
+        "Name_fr": "Légende de la semaine (52)",
+        "Desc_en": "You completed 52 Weeklies Challenges.",
+        "Desc_fr": "Tu as complété 52 Challenge Weekly.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Weekly_Count",
+            "Value": 52
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/weekly/platinum.png",
+        "Enabled": true
+    },
+    {
+        "Id": 31,
+        "Name_en": "Hiker (25)",
+        "Name_fr": "Randonneur (25)",
+        "Desc_en": "Reach 25 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 25 dans le mode marathon.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 25
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/marathon/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 32,
+        "Name_en": "Jogger (100)",
+        "Name_fr": "Joggeur (100)",
+        "Desc_en": "Reach 100 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 100 dans le mode marathon.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 100
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/marathon/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 33,
+        "Name_en": "Runner (250)",
+        "Name_fr": "Coureur (250)",
+        "Desc_en": "Reach 250 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 250 dans le mode marathon.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 250
+        },
+        "Rarity": 3,
+        "Picture": "./img/trophy/marathon/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 34,
+        "Name_en": "Marathoner (735)",
+        "Name_fr": "Marathonien (735)",
+        "Desc_en": "Reach 735 streak in Marathon Mode.",
+        "Desc_fr": "Atteindre une série de 735 dans le mode marathon.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Marathon_Streak",
+            "Value": 735
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/marathon/platinum.png",
+        "Enabled": true
+    }
+]

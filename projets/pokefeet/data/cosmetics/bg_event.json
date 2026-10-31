@@ -1,0 +1,57 @@
+[
+    {
+        "ID": 1,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "Pride",
+        "Value": "cosmetics-rainbow-bg",
+        "File": "background-pride.png",
+        "MustHideIfUnobtained": true,
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 30,
+        "Type": "Background",
+        "Name": "Halloween 2026 - Pumpkin",
+        "Cat": "Event",
+        "Value": "halloween2026pumpkin",
+        "File": "pumpkaboo_haloween2026.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 31,
+        "Type": "Background",
+        "Name": "Halloween 2026 - Ghost",
+        "Cat": "Event",
+        "Value": "halloween2026ghost",
+        "File": "mimikyu_haloween2026.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 101,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "JMDEV's Stars",
+        "Value": "event-jmdev-stars",
+        "File": "jmdev-stars.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 102,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "JMDEV's Neon",
+        "Value": "event-jmdev-neon",
+        "File": "jmdev-neon.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 103,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "JMDEV's Ocean",
+        "Value": "event-jmdev-ocean",
+        "File": "jmdev-ocean.png",
+        "RequiresUnlock": true
+    }
+]

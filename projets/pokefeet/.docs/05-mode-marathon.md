@@ -4,7 +4,7 @@
 
 | Élément | Valeur |
 |---|---|
-| Page | `pokefeet.html` |
+| Page | `marathon.html` |
 | Scripts | `js/core/pokemon.js`, `js/core/pokemon-versions.js`, `js/features/marathon/game.js`, `js/features/marathon/ui.js`, `js/ui/loader.js`, `js/features/settings/cosmetics.js`, `js/data/migration.js`, i18n |
 | Nom UI | « Marathon » |
 | Nom code | `Game`, « practice », « Entraînement » |
@@ -164,7 +164,7 @@ La barre de progression `#practiceProgressFill` affiche `foundCount / pokemonTot
 
 ## 7. Mode rapide
 
-Cookie `pk_fast_mode === 'true'` (réglé dans `data_management.html`).
+Cookie `pk_fast_mode === 'true'` (réglé dans `settings.html`).
 
 En mode rapide, après une bonne réponse :
 

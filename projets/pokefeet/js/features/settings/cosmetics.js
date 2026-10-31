@@ -2,8 +2,6 @@
 const Cosmetics = (function () {
     const COOKIE_BG = 'pk_cosmetic_bg';
     const COOKIE_BTN = 'pk_cosmetic_btn';
-    const COSMETICS_URL = 'data/cosmetics.json';
-    const CHALLENGES_URL = 'data/bonus_challenges.json';
 
     let cosmeticsData = [];
     let unlockedIds = new Set();
@@ -23,10 +21,7 @@ const Cosmetics = (function () {
   // --- Load cosmetics data ---
   async function loadCosmeticsData() {
     try {
-      console.log('[Cosmetics] Loading from:', COSMETICS_URL);
-      var res = await fetch(COSMETICS_URL);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      cosmeticsData = await res.json();
+      cosmeticsData = await DataFiles.load('cosmetics');
       console.log('[Cosmetics] Loaded', cosmeticsData.length, 'cosmetics');
     } catch (e) {
       console.error('[Cosmetics] Error loading cosmetics:', e);
@@ -42,8 +37,7 @@ const Cosmetics = (function () {
                 return;
             }
             var completions = await ChallengeStorage.getAllCompletions();
-            var res = await fetch(CHALLENGES_URL);
-            var allChallenges = await res.json();
+            var allChallenges = await DataFiles.load('challenges');
 
             for (var challengeId in completions) {
                 var challenge = allChallenges.find(function (c) { return c.ID == challengeId; });
@@ -63,8 +57,16 @@ const Cosmetics = (function () {
 
     // --- Check if a cosmetic is unlocked ---
     function isUnlocked(cosmetic) {
+        // Acheté à la Poké-Boutique : débloqué même si le catalogue le marque verrouillé
+        if (typeof PokefeetWallet !== 'undefined' && PokefeetWallet.isPurchased(cosmetic.ID)) return true;
         if (!cosmetic.RequiresUnlock) return true;
         return unlockedIds.has(cosmetic.ID);
+    }
+
+    // --- Achetable à la Poké-Boutique et pas encore possédé ---
+    function isBuyable(cosmetic) {
+        if (typeof PokefeetWallet === 'undefined' || !PokefeetWallet.isPurchasable) return false;
+        return PokefeetWallet.isPurchasable(cosmetic) && !isUnlocked(cosmetic);
     }
 
     // --- Get selected cosmetics ---
@@ -331,6 +333,7 @@ const Cosmetics = (function () {
         getByType: getByType,
         getAll: getAll,
         isUnlocked: isUnlocked,
+        isBuyable: isBuyable,
         getSelectedBg: getSelectedBg,
         getSelectedBtn: getSelectedBtn,
         getUnlockedIds: getUnlockedIds

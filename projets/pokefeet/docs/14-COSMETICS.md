@@ -12,10 +12,10 @@ Le système de cosmétiques permet aux utilisateurs de personnaliser l'apparence
 |---------|------|
 | `cosmetics.js` | Logique métier : chargement, application, sélection |
 | `cosmetics.css` | Styles CSS des cosmétiques (classes appliquées) |
-| `data/cosmetics.json` | Catalogue des cosmétiques disponibles |
+| `data/cosmetics/` | Catalogue des cosmétiques disponibles |
 | `img/cosmetics/` | Icônes des cosmétiques (images 36x36px recommandé) |
 
-### Structure JSON (`data/cosmetics.json`)
+### Structure JSON (`data/cosmetics/`)
 
 ```json
 [
@@ -75,7 +75,7 @@ Cosmetics.getSelectedBtn(); // null ou classe CSS
 
 ## Déblocage via Challenges
 
-Les cosmétiques sont débloqués automatiquement lorsqu'un challenge bonus est complété. Dans `data/bonus_challenges.json`, ajoutez une récompense de type `Cosmetic` :
+Les cosmétiques sont débloqués automatiquement lorsqu'un challenge bonus est complété. Dans `data/bonus_challenges/`, ajoutez une récompense de type `Cosmetic` :
 
 ```json
 "Rewards": [
@@ -84,7 +84,7 @@ Les cosmétiques sont débloqués automatiquement lorsqu'un challenge bonus est 
 ]
 ```
 
-La `Value` correspond à l'`ID` du cosmétique dans `data/cosmetics.json`.
+La `Value` correspond à l'`ID` du cosmétique dans `data/cosmetics/`.
 
 ## Intégration dans les pages
 
@@ -114,7 +114,7 @@ Les boutons avec `data-tag="customizables-button"` recevront automatiquement la 
 ## Ajouter un nouveau cosmétique
 
 1. **CSS** : Ajouter la classe dans `cosmetics.css`
-2. **JSON** : Ajouter l'entrée dans `data/cosmetics.json`
+2. **JSON** : Ajouter l'entrée dans `data/cosmetics/`
 3. **Icône** : Ajouter l'image dans `img/cosmetics/`
 4. **Challenge** (optionnel) : Ajouter une récompense `Cosmetic` dans un challenge
 
@@ -128,7 +128,7 @@ Les boutons avec `data-tag="customizables-button"` recevront automatiquement la 
 ```
 
 ```json
-// data/cosmetics.json
+// data/cosmetics/
 {
     "ID": 5,
     "Type": "Background",
@@ -141,7 +141,7 @@ Les boutons avec `data-tag="customizables-button"` recevront automatiquement la 
 
 ## Interface Utilisateur
 
-Les cosmétiques sont configurables dans **Paramètres → onglet Paramètres** (`data_management.html`).
+Les cosmétiques sont configurables dans **Paramètres → onglet Paramètres** (`settings.html`).
 
 - **Fond d'écran** : Sélection par grille d'icônes
 - **Style des boutons** : Sélection par grille d'icônes

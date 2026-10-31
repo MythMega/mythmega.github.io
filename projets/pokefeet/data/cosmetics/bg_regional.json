@@ -1,0 +1,38 @@
+[
+    {
+        "ID": 3,
+        "Type": "Background",
+        "Cat": "Regional",
+        "Name": "Kanto Master",
+        "Value": "cosmetics-kanto",
+        "File": "kanto.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 4,
+        "Type": "Background",
+        "Cat": "Regional",
+        "Name": "Johto Master",
+        "Value": "cosmetics-johto",
+        "File": "johto.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 5,
+        "Type": "Background",
+        "Cat": "Regional",
+        "Name": "Hoenn Master",
+        "Value": "cosmetics-hoenn",
+        "File": "hoenn.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 6,
+        "Type": "Background",
+        "Cat": "Regional",
+        "Name": "Sinnoh Master",
+        "Value": "cosmetics-sinnoh",
+        "File": "sinnoh.png",
+        "RequiresUnlock": true
+    }
+]

@@ -162,7 +162,7 @@ Ces fonctions mélangent calcul, construction de HTML et liaison d'événements.
 - **`apply-translations.js` : fichier vide (0 octet)**, toujours référencé par
   [challenge.html](../challenge.html#L101) et par la documentation.
   Le travail réel est fait par `i18n-setup.js` (`applyTranslations()`).
-- `old_daily.html` / `old_daily.js` : ancien mode Daily, encore atteignable depuis
+- `old_challenges.html` / `old_daily.js` : ancien mode Daily, encore atteignable depuis
   [index.html](../index.html). À confirmer : legacy assumé ou oubli ?
 - `apply-translations.js` vide + `translate.js` chargé avant `i18n-setup.js` sur **toutes**
   les pages : l'ordre de chargement des scripts est répété à la main dans 21 fichiers HTML,

@@ -1,0 +1,142 @@
+[
+    {
+        "ID": 9001,
+        "Difficulty": "Medium",
+        "Requirements": [],
+        "Tab": "Community",
+        "Name_En": "Bird House",
+        "Name_Fr": "La volière",
+        "Desc_En": "Birds escaped ! get 'em all !",
+        "Desc_Fr": "Les oiseaux se sont échappé ! Rattrapez les !",
+        "Additional_Info_Fr": "Challenge custom proposé par Myth'",
+        "Additional_Info_En": "Custom Challenge by Myth'",
+        "FeetList": [
+            "198",
+            "279",
+            "85",
+            "17",
+            "144-B",
+            "277",
+            "630",
+            "142",
+            "520",
+            "519",
+            "398",
+            "83",
+            "187",
+            "146",
+            "628-B"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 150
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 9002,
+        "Difficulty": "Easy",
+        "Requirements": [],
+        "Tab": "Community",
+        "Name_En": "\"intertet\" 's Favorites",
+        "Name_Fr": "Les favoris d'intertet",
+        "Desc_En": "a challenge... mmh yeah..",
+        "Desc_Fr": "un challenge... ouais..",
+        "Additional_Info_Fr": "Challenge custom proposé par Sawan",
+        "Additional_Info_En": "Custom Challenge by Sawan",
+        "FeetList": [
+            "428",
+            "134",
+            "282",
+            "549",
+            "303"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 9003,
+        "Difficulty": "Easy",
+        "Requirements": [],
+        "Tab": "Community",
+        "Name_En": "Just cool pokémons ^^",
+        "Name_Fr": "Juste des pokémons cool ^^",
+        "Desc_En": "Custom Weird Challenge.",
+        "Desc_Fr": "Challenge Custom étrange..",
+        "Additional_Info_Fr": "Challenge custom proposé par lineaucent",
+        "Additional_Info_En": "Custom Challenge by lineaucent",
+        "FeetList": [
+            "134",
+            "428",
+            "282",
+            "70",
+            "91",
+            "108",
+            "124",
+            "281",
+            "303",
+            "308",
+            "471",
+            "478",
+            "547",
+            "549",
+            "542",
+            "549-B",
+            "648"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 50
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 9004,
+        "Difficulty": "Medium",
+        "Requirements": [],
+        "Tab": "Community",
+        "Name_En": "My own",
+        "Name_Fr": "Mes oignons (Je m'emmêle)",
+        "Desc_En": "Custom Challenge.",
+        "Desc_Fr": "Challenge Custom.",
+        "Additional_Info_Fr": "Challenge custom proposé par Ethanuaire",
+        "Additional_Info_En": "Custom Challenge by Ethanuaire",
+        "FeetList": [
+            "570-B",
+            "1",
+            "595",
+            "393",
+            "26",
+            "557",
+            "222",
+            "387",
+            "32",
+            "429",
+            "609",
+            "152",
+            "231",
+            "285",
+            "334"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 150
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    }
+]

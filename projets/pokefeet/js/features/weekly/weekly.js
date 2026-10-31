@@ -657,6 +657,19 @@ const Weekly = (function () {
     updateProgressUI();
   }
 
+  // --- Gains de la partie : l'XP de la semaine, et autant de Pokédollars (1 XP = 1 P) ---
+  function renderEarnedRewards(payload) {
+    const container = document.getElementById('weeklyRewards');
+    if (!container) return;
+    const xp = PokefeetXP.weeklyXP({ score: payload.score, results: payload.results || [] });
+
+    container.innerHTML =
+      '<span class="earned-label">' + Translator.get('weekly.earned', 'Gains de ce weekly') + ' :</span>' +
+      '<span class="earned-chip xp">+' + xp + ' XP</span>' +
+      '<span class="earned-chip money">+' + xp + ' P</span>';
+    container.classList.remove('hidden');
+  }
+
   async function finishWeekly() {
     const payload = { date: sessionWeek || getWeekSeedStr(), results, score, wrongGuesses: wrongGuessesPerSlot };
     try {
@@ -673,6 +686,7 @@ const Weekly = (function () {
       }
     }
     displayNewPokemonsAlert(newPokemons);
+    renderEarnedRewards(payload);
     const share = buildShareText(results, payload.date, score);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
@@ -875,6 +889,7 @@ const Weekly = (function () {
 
   function renderFinishedFromCookie(payload, weekDateStr) {
     const saved = payload || { score: 0, results: [] };
+    renderEarnedRewards(saved);
     const share = buildShareText(saved.results || [], weekDateStr, saved.score || 0);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
@@ -923,6 +938,15 @@ const Weekly = (function () {
       // Date non-lundi demandée dans l'URL : popup + redirection vers le lundi précédent
       showInvalidDatePopup(invalidWeekParam);
       return;
+    }
+    // Un weekly passé n'est rejouable que s'il fait partie de la fenêtre proposée
+    // par « Défis passés » (semaine du premier défi enregistré → semaine en cours).
+    if (overrideWeek && typeof ChallengeWindow !== 'undefined') {
+      const range = await ChallengeWindow.checkWeekly(overrideWeek);
+      if (!range.ok) {
+        ChallengeWindow.showUnavailablePopup('weekly', range.attempted, range.min);
+        return;
+      }
     }
     try {
       const [, , list] = await Promise.all([

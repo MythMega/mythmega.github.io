@@ -39,7 +39,7 @@ Le Pokédex interne (Dex) enregistre les Pokémon que le joueur a trouvés dans 
 
 ## `Dex-ui.js` — Interface utilisateur
 
-Page associée : `pied-dex.html`
+Page associée : `dex.html`
 
 ### Fonctionnalités
 

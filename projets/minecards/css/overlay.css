@@ -115,6 +115,8 @@ body {
   width: min(34vmin, 260px);
   border-radius: var(--ov-card-radius);
   filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.5));
+  /* Upside-down artwork: see `css/components/booster-3d.css`. `rotate` composes with the float. */
+  rotate: 180deg;
   animation: booster-float var(--ov-booster-float-ms) ease-in-out infinite;
 }
 

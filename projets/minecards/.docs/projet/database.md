@@ -142,6 +142,7 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
   "glowTrophies": 2,
   "notificationDuration": 3,
   "notificationTypes": { "collection": true, "experience": true, "title": true },
+  "mineSpeed": "normal",
   "devMode": false,
   "boosterRenderMode": "blister"
 }
@@ -153,6 +154,10 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
   `devMode` ne s'active que par un `true` explicite.
 - Les défauts viennent de `settings/config.json` (`defaultLang`, `defaultTheme`, `foil`,
   `notifications`, `glow`, `boosterRender`).
+- `mineSpeed` : vitesse du **minage automatique** (`Maj+Espace` maintenu, ou doigt maintenu sur le
+  bloc sur mobile) : `normal` (défaut, cadence de `mining.keyHoldIntervalMs`, 250 ms), `fast`
+  (divisée par 1,5) ou `veryFast` (divisée par 2, donc deux fois plus rapide que `normal`). Une
+  valeur inconnue retombe sur `normal` ; le plancher de 100 ms reste appliqué.
 - **Miroir** : `lang` et `theme` sont recopiés dans `localStorage` (`mc_lang`, `mc_theme`) pour le
   rendu avant premier paint. La valeur IndexedDB reste la seule autoritaire.
 
@@ -396,13 +401,20 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 ### 3.16 `profileCard`
 
 ```json
-{ "layout": "classic", "rarity": 3, "titleColor": "auto", "background": "SERIE-A1 _ M018_fullart" }
+{ "layout": "classic", "rarity": 3, "titleColor": "auto", "background": "SERIE-A1 _ M018_fullart",
+  "borderColor": "auto", "iconSize": "normal", "iconAlign": "center" }
 ```
 
 - `layout` : `classic` ou `fullart` (le Full Art n'est honoré que si la fonctionnalité est achetée).
 - `rarity` : rareté **choisie** parmi celles débloquées (`null` = la plus haute atteinte).
 - `titleColor` : `auto` (couleur de la rareté, gratuit) ou l'id d'une couleur **achetée** ; une
   couleur non possédée retombe sur `auto`, même dans une sauvegarde retouchée.
+- `borderColor` : même règle pour le **contour** de la carte (`auto` = celui de la rareté), acheté
+  sous `cardBorderColor.<id>`.
+- `iconSize` : `small` (0.85), `normal` (1) ou `large` (1.15) ; `iconAlign` : `left`, `center` ou
+  `right`. Les deux valeurs gratuites (`normal`, `center`) sont les défauts, les autres exigent leur
+  fonctionnalité (`profileIconSmall`, `profileIconLarge`, `profileIconAlignLeft`,
+  `profileIconAlignRight`) : une option non possédée retombe sur le défaut.
 - `background` : clé de collection d'une **carte favorite** dont le `Background` sert d'illustration
   (`null` ou absent = la première favorite). Une clé qui n'est plus favorite retombe sur la première.
 - Aucun rendu n'est stocké : la carte est une projection recalculée.

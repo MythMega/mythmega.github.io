@@ -1178,3 +1178,102 @@
   color: var(--color-text-muted);
   text-align: center;
 }
+
+/* =============================================================================
+   Profile card: colour choosers, avatar options and the shared colour picker.
+   The palette used to be printed under the card; it now lives in a dialog, so
+   each line only shows the colour it wears plus a button to change it.
+   ============================================================================= */
+.profile-card-panel__chooser {
+  --swatch-color: var(--color-title);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-card-panel__chooser:hover {
+  border-color: var(--swatch-color);
+}
+
+.profile-card-panel__chooser:focus-visible {
+  outline: 2px solid var(--swatch-color);
+  outline-offset: 2px;
+}
+
+.profile-card-panel__chooser .profile-card-panel__color-dot {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* The avatar size and anchor: two rows of chips, the worn one ringed like a picker option. */
+.profile-card-panel__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.profile-card-panel__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-card-panel__chip[data-selected="true"] {
+  border-color: var(--color-accent, var(--color-title));
+  box-shadow: 0 0 0 1px var(--color-accent, var(--color-title));
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.profile-card-panel__chip[data-owned="false"] {
+  border-style: dashed;
+}
+
+/* The colour picker dialog: two strips of swatches, the bought ones first. */
+.profile-color {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.profile-color__section {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.profile-color__empty {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* The pseudo of the profile and the title of the card may be painted with a gradient: the paint
+   becomes a background clipped to the glyphs (the component sets the same pair of properties on
+   the card element itself, which is why both sides read a custom property). */
+[data-profile-display-name] {
+  background-image: var(--profile-name-gradient, none);
+  -webkit-background-clip: text;
+  background-clip: text;
+}

@@ -9,3 +9,5 @@ __pycache__/
 .clinerules/
 steps/
 .freebuff/
+# Conversation attachments written by the assistant client: reference material, not project content.
+.cloud-attachments/

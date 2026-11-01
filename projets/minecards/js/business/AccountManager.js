@@ -329,6 +329,10 @@ export class AccountManager {
       overrides.notificationDuration,
       notificationSettings.duration
     );
+
+    // The automatic mining (Shift+Space held, or a finger kept on the block) has its own speed: the
+    // historical beat of `mining.keyHoldIntervalMs` is "normal", a new account starts there.
+    const mineSpeed = AccountManager.sanitizeMineSpeed(overrides.mineSpeed);
     const notificationTypes = AccountManager.normalizeNotificationTypes(
       overrides.notificationTypes,
       notificationSettings.types
@@ -362,10 +366,24 @@ export class AccountManager {
       glowTrophies,
       notificationDuration,
       notificationTypes,
+      mineSpeed,
       devMode: overrides.devMode === true,
       boosterRenderMode,
       nativeScrollbars: overrides.nativeScrollbars === true,
     };
+  }
+
+  /**
+   * Brings a mining speed back into the three modes the settings slider offers.
+   *
+   * The value is an id, not a number, so an unknown one is replaced instead of clamped: a beat has
+   * no "closest" mode that would make sense to guess.
+   *
+   * @param {unknown} value - Requested speed (`normal`, `fast` or `veryFast`).
+   * @returns {string} A declared speed, `normal` when the value is missing or unknown.
+   */
+  static sanitizeMineSpeed(value) {
+    return MINE_SPEEDS.includes(value) ? value : DEFAULT_MINE_SPEED;
   }
 
   /**
@@ -502,6 +520,9 @@ export class AccountManager {
         stored.notificationTypes,
         notificationSettings.types
       ),
+      // A speed that disappeared from the game (or a hand-edited save) falls back to the historical
+      // pace instead of leaving the mine without a beat.
+      mineSpeed: AccountManager.sanitizeMineSpeed(stored.mineSpeed ?? defaults.mineSpeed),
       // Same rule as the sounds: only an explicit `true` turns it on, so a missing key, an old save
       // or a corrupted value reads as "off" instead of surprising the player with developer tools.
       devMode: typeof stored.devMode === 'boolean' ? stored.devMode : defaults.devMode,
@@ -718,6 +739,22 @@ export class AccountManager {
       });
     }
 
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'mineSpeed')) {
+      const { mineSpeed } = partialSettings;
+      if (typeof mineSpeed !== 'string' || mineSpeed.trim() === '') {
+        throw new TypeError(
+          `settings.mineSpeed must be a non-empty string (received: ${JSON.stringify(mineSpeed)}).`
+        );
+      }
+      const normalized = mineSpeed.trim();
+      if (!MINE_SPEEDS.includes(normalized)) {
+        throw new RangeError(
+          `Unknown mining speed "${mineSpeed}". Available: [${MINE_SPEEDS.join(', ')}].`
+        );
+      }
+      merged.mineSpeed = normalized;
+    }
+
     await storageRepository.setUserState(USER_STATE_KEYS.SETTINGS, merged);
     return merged;
   }
@@ -737,6 +774,18 @@ export class AccountManager {
     eventBus.emit(EVENTS.ACCOUNT_REMOVED, null);
   }
 }
+
+/**
+ * Speeds of the automatic mining (`settings.mineSpeed`), slowest first.
+ *
+ * The order is the one of the settings slider, so the two cannot drift apart: `fast` divides the
+ * beat of `mining.keyHoldIntervalMs` by 1.5 and `veryFast` by 2 (see `mineHoldInterval` in
+ * `MineBlockView`).
+ */
+export const MINE_SPEEDS = Object.freeze(['normal', 'fast', 'veryFast']);
+
+/** Speed a new account starts at: the historical pace of `mining.keyHoldIntervalMs`. */
+export const DEFAULT_MINE_SPEED = 'normal';
 
 /** Shared instance used by the onboarding view, the settings view (step 6) and `app.js`. */
 export const accountManager = new AccountManager();

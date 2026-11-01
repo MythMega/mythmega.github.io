@@ -36,6 +36,14 @@ import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 export const FEATURES = Object.freeze({
   /** The Full Art layout of the profile card (`ProfileCard`). */
   CARD_LAYOUT_FULL_ART: 'cardLayoutFullArt',
+  /** A larger avatar on the profile card (1.15x). */
+  PROFILE_ICON_LARGE: 'profileIconLarge',
+  /** A smaller avatar on the profile card (0.85x). */
+  PROFILE_ICON_SMALL: 'profileIconSmall',
+  /** The avatar anchored to the left of its band, with a small margin. */
+  PROFILE_ICON_ALIGN_LEFT: 'profileIconAlignLeft',
+  /** The avatar anchored to the right of its band, with a small margin. */
+  PROFILE_ICON_ALIGN_RIGHT: 'profileIconAlignRight',
 });
 
 /**
@@ -55,6 +63,14 @@ export const TITLE_COLOR_FEATURE_PREFIX = 'cardTitleColor.';
  * purchase: buying one never unlocks the other, which is why the map keeps two distinct prefixes.
  */
 export const USERNAME_COLOR_FEATURE_PREFIX = 'usernameColor.';
+
+/**
+ * Prefix of the purchase id of the card FRAME colour.
+ *
+ * The frame shares `settings/colors.json` with the two text lines but not the purchase: the three
+ * uses are bought separately, which is why each one has its own prefix in the same map.
+ */
+export const BORDER_COLOR_FEATURE_PREFIX = 'cardBorderColor.';
 
 /** The two lists of the profile whose extra slots are bought with Sparks. */
 export const PROFILE_SLOT_KINDS = Object.freeze({
@@ -384,6 +400,16 @@ export class FeatureManager {
    * @param {string} file - Icon path as declared in `settings/default_profile_icons.json`.
    * @returns {string} The id written in `user_state["purchases"]`.
    */
+  static borderColorFeatureId(colorId) {
+    return `${BORDER_COLOR_FEATURE_PREFIX}${colorId}`;
+  }
+
+  /**
+   * Builds the purchase id of one paid avatar.
+   *
+   * @param {string} file - Icon path as declared in `settings/default_profile_icons.json`.
+   * @returns {string} The id written in `user_state["purchases"]`.
+   */
   static profileIconFeatureId(file) {
     return `${PROFILE_ICON_FEATURE_PREFIX}${normalizeIconPath(file)}`;
   }
@@ -539,6 +565,96 @@ export class FeatureManager {
    * prefixed id, so colours and features share one map without ever colliding.
    *
    * @param {string} colorId - Colour id (`gold`, `emerald`…).
+   * @returns {Promise<{id: string, colorId: string, priceSparks: number, balance: number,
+   *   alreadyOwned: boolean}>} The purchase result: what was paid and the resulting balance.
+   * @throws {TypeError} When `colorId` is not a non-empty string.
+   * @throws {FeatureError} With `UNKNOWN` when the palette does not declare the colour, or with
+   *   `INSUFFICIENT_SPARKS` when the balance does not cover the price.
+   * @throws {Error} When the write fails.
+   */
+  /**
+   * Reads the catalogue of purchasable frame colours.
+   *
+   * @returns {Promise<{items: Record<string, number>}>} One price per colour, in Sparks.
+   * @throws {Error} When `settings/colors.json` cannot be read.
+   */
+  async getBorderColors() {
+    const colors = await colorManager.listColors();
+    return { items: Object.fromEntries(colors.map((entry) => [entry.id, entry.borderPrice])) };
+  }
+
+  /**
+   * Price of one frame colour.
+   *
+   * @param {string} colorId - Colour id.
+   * @returns {Promise<number>} Its price in Sparks.
+   * @throws {FeatureError} With `UNKNOWN` when the palette does not declare it.
+   * @throws {Error} When the catalogue cannot be read.
+   */
+  async getBorderColorPrice(colorId) {
+    const catalog = await this.getBorderColors();
+    const price = catalog.items[colorId];
+    if (!Number.isInteger(price) || price < 0) {
+      throw new FeatureError(
+        FEATURE_ERROR_CODES.UNKNOWN,
+        `"${colorId}" is not a border colour (known: ${Object.keys(catalog.items).join(', ')}).`
+      );
+    }
+    return price;
+  }
+
+  /**
+   * Tells whether the account owns one frame colour.
+   *
+   * @param {string} colorId - Colour id.
+   * @returns {Promise<boolean>} True when it was bought.
+   * @throws {Error} When the read fails.
+   */
+  async hasBorderColor(colorId) {
+    return this.has(FeatureManager.borderColorFeatureId(colorId));
+  }
+
+  /**
+   * Buys one frame colour of the profile card.
+   *
+   * Same contract as `purchaseTitleColor()`, under the `cardBorderColor.` prefix and with the
+   * `borderPrice` of the catalogue.
+   *
+   * @param {string} colorId - Colour id (`gold`, `dawn`...).
+   * @returns {Promise<{id: string, colorId: string, priceSparks: number, balance: number,
+   *   alreadyOwned: boolean}>} The purchase result.
+   * @throws {TypeError} When `colorId` is not a non-empty string.
+   * @throws {FeatureError} With `UNKNOWN` when the palette does not declare the colour, or with
+   *   `INSUFFICIENT_SPARKS` when the balance does not cover the price.
+   * @throws {Error} When the write fails.
+   */
+  async purchaseBorderColor(colorId) {
+    if (typeof colorId !== 'string' || colorId.trim() === '') {
+      throw new TypeError('FeatureManager.purchaseBorderColor requires a colour identifier.');
+    }
+    const priceSparks = await this.getBorderColorPrice(colorId);
+    const id = FeatureManager.borderColorFeatureId(colorId);
+    const result = await this.charge(id, priceSparks);
+    if (result.alreadyOwned) {
+      this.log(`Border colour "${colorId}" is already owned: nothing was charged.`);
+      return { id, colorId, ...result };
+    }
+
+    this.log(
+      `Bought border colour "${colorId}" for ${result.priceSparks} Sparks (balance: ${result.balance}).`
+    );
+    this.publish(result.balance, { id, colorId, priceSparks: result.priceSparks });
+    return { id, colorId, ...result };
+  }
+
+  /**
+   * Buys one title colour of the profile card.
+   *
+   * Same contract as `purchase()`, with two differences: the price comes from the colour catalogue
+   * (`settings/colors.json`, `titlePrice`) and the purchase is recorded under the
+   * prefixed id, so colours and features share one map without ever colliding.
+   *
+   * @param {string} colorId - Colour id (`gold`, `emerald`...).
    * @returns {Promise<{id: string, colorId: string, priceSparks: number, balance: number,
    *   alreadyOwned: boolean}>} The purchase result: what was paid and the resulting balance.
    * @throws {TypeError} When `colorId` is not a non-empty string.

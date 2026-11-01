@@ -25,7 +25,9 @@ export const PROJECT_ROOT = path.resolve(
 /**
  * Directories never inspected.
  *
- *   - `.git`, `.freebuff`, `.clinerules`: not project content;
+ *   - `.git`, `.freebuff`, `.clinerules`, `.cloud-attachments`: not project content (the last one
+ *     holds the conversation exported by the assistant client, which is neither authored nor read
+ *     by the game);
  *   - `node_modules`: installed packages, never authored here;
  *   - `external`: third-party code (the card maker editor, the C# link tools) that follows its own
  *     conventions and is not maintained from this repository;
@@ -38,6 +40,7 @@ export const IGNORED_DIRECTORIES = new Set([
   '.git',
   '.freebuff',
   '.clinerules',
+  '.cloud-attachments',
   'node_modules',
   'external',
   'cards'

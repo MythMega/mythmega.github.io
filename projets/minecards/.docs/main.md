@@ -25,14 +25,14 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
-- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, devMode: boolean, boosterRenderMode: string }`.
+- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, mineSpeed: "normal"|"fast"|"veryFast", devMode: boolean, boosterRenderMode: string }`.
   `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies) ; `notificationDuration` est la durée d'une notification **en secondes** (1-8, 3 par défaut) et `notificationTypes` les trois interrupteurs de la page Paramètres (voir 3.G ter). `boosterRenderMode` choisit la recette de rendu 3D (`boosterRender.modes` de `settings/config.json`, `blister` par défaut) ; le sélecteur n'apparaît dans les Paramètres qu'avec `devMode`.
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number }, purchasedBoosters }` (ex. `{ "set1": 2 }`). `purchasedBoosters` compte les boosters **achetés en Sparks** : globaux (comme les quotidiens), ils ne sont jamais effacés par le reset.
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
 - `"stats"` : `{ boostersOpened, godpacksOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count }, soldByRarity: {1..5}, sparksEarned, sparksSpent, sparksEarnedBySource: { [origine]: count }, sparksSpentBySource: { [origine]: count } }`. `soldByRarity` compte les exemplaires **vendus** au magasin (`SparksManager`), pas les exemplaires obtenus : c'est le miroir de `drawsByRarity`, et les deux ne se mélangent jamais. Les quatre champs `sparks*` forment le **grand livre de la monnaie** : chaque crédit et chaque débit y entre avec son origine (`boosters`, `sale`, `daily`, `mining`, `redeem`, `gift`, `card`, `feature`, `minepick`, `trader`, `other`), écrits par `SparksManager.applyDelta()` — le point de passage unique du solde.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
 - `"sparks"` : `number` — solde de Sparks du joueur (`SparksManager`), la monnaie du jeu.
-- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null, titleColor: string, background: string|null }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie, la rareté portée (`null` = la plus haute atteinte), la couleur du titre et la **carte favorite** dont le `Background` sert d'illustration (`null` = la première favorite).
+- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null, titleColor: string, background: string|null, borderColor: string, iconSize: "small"|"normal"|"large", iconAlign: "left"|"center"|"right" }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie, la rareté portée (`null` = la plus haute atteinte), la couleur du titre, la couleur du **contour** (`auto` = celui de la rareté), la taille et l'alignement de l'**icône de profil**, et la **carte favorite** dont le `Background` sert d'illustration (`null` = la première favorite).
 - `"purchases"` : `{ [featureId]: { boughtAt } }` — les **fonctionnalités achetées en Sparks** (`FeatureManager`), indexées par identifiant. Seul ce qui a été payé est écrit : le prix reste dans `settings/config.json`, donc le changer ne recharge jamais un propriétaire.
 - `"profile"` : `{ name, icon, photo, title, usernameColor, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, icône du catalogue (`icon`), URL de la photo d'une sauvegarde ancienne (`photo`, lue et affichée, plus jamais écrite), **titre** affiché sous le pseudo (`title`, `""` = aucun — voir 3.I), **couleur du pseudo** (`usernameColor`, `auto` ou un `id` de `settings/colors.json` acheté sous `usernameColor.<id>`), les cartes favorites et les trophées mis en avant. Chaque liste démarre avec `profile.defaultFavorites` (3) et `profile.defaultFeaturedTrophies` (1) emplacements ; les suivants s'achètent en Sparks jusqu'à `maxFavorites` / `maxFeaturedTrophies` (5), la possession étant lue dans `purchases` (`ProfileManager.getLimits()`).
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
@@ -98,6 +98,7 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 
 ### E. Rendu 3D & Animation d'Ouverture
 - Three.js + `GLTFLoader`, modèle `.glb`, texture définie dans le JSON de l'extension.
+- **Textures stockées à l'envers :** la carte UV du modèle lit le PNG avec l'axe V retourné, donc le visuel du pack ne se tient droit que sur le 3D. Partout où la même image est affichée à plat — repli 2D de l'ouverture, overlay de stream, plateau de la Mine Pick, popup de nouvelle série — le CSS la remet d'aplomb avec `rotate: 180deg` (`css/components/booster-3d.css`). On ne redessine pas les fichiers : le modèle les afficherait alors à l'envers.
 - Workflow : interaction avec le booster 3D → 5 cartes face cachée → clic pour retourner une à une → glow CSS pour les raretés 4 et 5.
 - Les animations de base sont **cinématographiques** : le retournement dépasse légèrement avant de se poser (`card-flip`, avec un zoom au passage), la carte du projecteur arrive de plus haut et de biais, la vignette de résumé rebondit, les raretés 4 et 5 s'entourent d'un halo et les Full Art dérivent doucement (`css/components/card-reveal.css`, `css/views/opening.css`).
 - Trois **modes d'animation** (voir section F) habillent ce workflow. **Normal** ne change rien au mouvement, seulement ses durées. **Épique** le met en scène : rayons de lumière et **poussières sur toute la vue d'ouverture** (`css/animations/epic.css` : le `::before` est posé sur la **scène** et non sur la boîte de la carte — elle existe pendant tout le rituel et n'est `hidden` que sur l'écran de choix. Il est en `position: fixed; inset: 0` et porte un `z-index` **négatif**, ce qui le laisse au-dessus du fond de la page et **derrière les textes et les cartes** : un pseudo-élément dans le flux passerait par-dessus les phrases), traînée de décollage, onde de choc à l'ouverture de la carte, halo renforcé sur les raretés hautes, balayage lumineux sur le résumé. **Explosif** — mode **parodique assumé** (`parodic: true` dans `config.json`) — en rajoute : le booster tremble, tourne et explose derrière un « BOUM ! » entouré d'autocollants comiques, la scène **et** le panneau tremblent, un anneau de BD part du choc, des **confettis** sont tirés à chaque ouverture (`OpeningView.spawnConfetti()`), la carte fait deux tours et demi et les vignettes du résumé tombent du plafond en police comique. Le côté parodique est annoncé par la pastille « BLAGUE » de son bouton dans les Paramètres, et par la note sous le « BOUM ! ». Aucun paragraphe d'explication : la pastille suffit.
@@ -341,9 +342,13 @@ n'est **jamais** écrit : la craquelure sous le doigt dit déjà où en est le b
 transformait le rituel en rapport de progression.
 
 **Au clavier** : `Espace` porte un coup, **maintenir `Maj+Espace`** en porte un toutes les
-`mining.keyHoldIntervalMs` (250 ms par défaut, plancher à 100 ms) et `S` ouvre le **Wandering Trader**.
-Un dialogue ouvert, un champ de saisie ou un autre bouton ayant le focus reprennent la main : le mineur
-ne vole jamais `Espace` à un contrôle qui l'utilise déjà.
+`mining.keyHoldIntervalMs` divisé par la vitesse choisie (250 ms en **Normal** par défaut, plancher à
+100 ms) et `S` ouvre le **Wandering Trader**. **Sur mobile**, garder le doigt sur le bloc fait la même
+chose : après un court maintien (320 ms), les coups s'enchaînent à la même cadence, et le clic de fin
+de pression n'en ajoute pas un. La vitesse se règle dans les Paramètres (`settings.mineSpeed`) :
+**Normal** (la cadence historique), **Rapide** (1,5 fois plus vite) et **Très rapide** (exactement
+deux fois plus vite que Normal). Un dialogue ouvert, un champ de saisie ou un autre bouton ayant le
+focus reprennent la main : le mineur ne vole jamais `Espace` à un contrôle qui l'utilise déjà.
 
 **Cinq sortes de blocs**, décrites dans `settings/mining.json` : `Weight` (le poids du tirage : la pierre
 est commune, l'obsidienne rare) et `Hardness` (le nombre de coups à porter pour casser le bloc, de 3 à
@@ -575,16 +580,29 @@ Rien n'est stocké : la carte est une **projection** du profil, recalculée à c
   l'achat, la disposition **ne bouge pas** : c'est le clic suivant du joueur qui l'active. L'achat
   est définitif (pas de remboursement) et la fonctionnalité reste acquise dans la sauvegarde.
 - **Couleurs configurables :** la palette vient entièrement de `settings/colors.json` (`id`, `name`
-  `{ fr, en }`, `hex`, `titlePrice`, `usernamePrice`) et sert **deux usages achetés séparément** : la
-  ligne `<titre> #<numéro>` et le pseudo. « Auto » (défaut, gratuit) garde la couleur de la rareté
-  pour le titre et celle du thème pour le pseudo. Tant qu'une couleur n'est pas achetée pour
-  l'usage courant, sa pastille est en pointillés avec son prix et un clic ouvre la **confirmation**
-  (même modale que le Full Art, même transaction, même refus si le solde ne couvre pas) ; elle ne se
-  sélectionne qu'une fois possédée, et l'achat ne change PAS la couleur portée. Le titre est stocké
-  dans `user_state["profileCard"].titleColor`, le pseudo dans `user_state["profile"].usernameColor` ;
-  une couleur non possédée (sauvegarde retouchée) retombe sur « Auto ». Les deux couleurs sont
-  appliquées en style **inline** (`--card-title-color`, `--card-name-color`), donc elles survivent à
-  l'export du PNG.
+  `{ fr, en }`, couleur, `titlePrice`, `usernamePrice`, `borderPrice`) et sert **trois usages
+  achetés séparément** : la ligne `<titre> #<numéro>`, le pseudo et le **contour de la carte**. Une
+  couleur est soit un `hex` unique, soit une **liste** de `hex` peignant un dégradé, dont l'angle
+  est `direction` (degrés, 90 par défaut) ; le dégradé est une `linear-gradient(...)` prête à
+  l'emploi (`ColorManager`). « Auto » (défaut, gratuit) garde la couleur de la rareté pour le titre
+  et pour le contour, et celle du thème pour le pseudo. Les trois couleurs se choisissent dans une
+  **popup** commune (`ProfileView.openColorPicker`) qui sépare les couleurs **débloquées** de celles
+  encore à acheter, avec leur prix ; le comportement ne change pas : une couleur possédée
+  s'applique immédiatement, une couleur verrouillée ouvre la **confirmation** (même modale que le
+  Full Art, même transaction, même refus si le solde ne couvre pas) et l'achat ne change PAS la
+  couleur portée. Le titre est stocké dans `user_state["profileCard"].titleColor`, le pseudo dans
+  `user_state["profile"].usernameColor`, le contour dans `user_state["profileCard"].borderColor` ;
+  une couleur non possédée (sauvegarde retouchée) retombe sur « Auto ». Les couleurs sont
+  appliquées en style **inline** (`--card-title-color`, `--card-name-color`, `--card-border`), donc
+  elles survivent à l'export du PNG ; un dégradé passe par `background-clip: text` pour le texte et
+  par le `background` du cadre pour le contour.
+- **Icône de profil réglable :** la taille (`small` 0.85, `normal` 1, `large` 1.15) et l'alignement
+  horizontal (`left`, `center`, `right`, avec une marge de chaque côté) sont deux préférences de la
+  carte (`user_state["profileCard"].iconSize` / `.iconAlign`) appliquées en variables inline
+  (`--card-icon-scale`, `--card-icon-position-x`) : la taille multiplie la hauteur de la bande de
+  l'avatar dans chaque disposition, sans toucher à la géométrie. Le centrage et la taille normale
+  sont gratuits ; les quatre autres options sont des fonctionnalités achetées (`profileIconLarge`,
+  `profileIconSmall`, `profileIconAlignLeft`, `profileIconAlignRight` dans `features.items`).
 - **Cartes manipulables :** chaque détail de carte (collection, favoris, offre du marchand, résumé
   d'ouverture, statistiques et carte de profil agrandie) peut être **incliné en le maintenant** à la
   souris ou au doigt. `CardTilt` lit `cardDetail` dans `settings/config.json` :
@@ -752,7 +770,7 @@ pastille « À venir » et un compte à rebours suivi par `CLOCK_TICK`, sans min
 ### I. PWA (installation & jeu hors-ligne)
 - **Fichiers :** `manifest.json` (nom, icônes, scope) et `sw.js` (service worker), tous deux à la racine ; `index.html` les déclare (`<link rel="manifest">`, meta iOS, enregistrement du worker après `load`).
 - **Chemins absolus :** `id`, `start_url`, `scope` et les icônes portent le sous-dossier servi, `/projets/minecards/`. Conséquence : le jeu doit être servi depuis ce sous-dossier pour être installable et contrôlé par le worker — lancé à la racine du domaine (`start_server.cmd`), le worker s'enregistre sans jamais contrôler la page et l'installation est refusée.
-- **Stratégies :** precache du *shell* à l'installation (HTML, CSS, modules, réglages, catalogue, dos de carte, sons, modèle 3D, Three.js épinglé) ; navigation *network-first* avec repli sur `index.html` ; assets same-origin en *stale-while-revalidate* ; CDN (unpkg) en *cache-first*. La revalidation lit **les deux** caches, le runtime d'abord (copie la plus fraîche) puis le shell : sans ce repli, une installation fraîche suivie d'un passage hors-ligne sans rechargement ne trouverait rien, puisque le cache d'exécution est encore vide.
+- **Stratégies :** precache du *shell* à l'installation (HTML, CSS, modules, réglages, catalogue, dos de carte, sons, modèle 3D, Three.js épinglé) ; navigation *network-first* avec repli sur `index.html` ; **images en *cache-first*** (illustrations et visuels de boosters, les seuls fichiers servis depuis un cache en ligne) ; **tout le reste same-origin en *network-first*** (CSS, modules, sons, JSON) : le réseau fait foi tant qu'il répond, le cache ne sert que hors-ligne, donc un fichier modifié n'est jamais masqué par une copie périmée ; CDN (unpkg) en *cache-first*. Le repli hors-ligne lit **les deux** caches, le runtime d'abord (copie la plus fraîche) puis le shell avec `ignoreSearch` (le shell stocke le chemin nu, la page demande `?v=<hash>`) : sans ce repli, une installation fraîche suivie d'un passage hors-ligne sans rechargement ne trouverait rien, puisque le cache d'exécution est encore vide.
 - **Jamais mis en cache :** les requêtes `no-store`/`reload`/`no-cache` (rafraîchissement des paramètres, des cadeaux et des codes), les requêtes `Range`, le cross-origin hors CDN (API de temps, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `useritem_codes.csv`, `.docs/`).
 - **Couverture :** tout le jeu démarre hors-ligne dès la première installation, sans rechargement intermédiaire (vérifié serveur coupé, cache d'exécution vide). En revanche les illustrations (`cards/`, 374 Mo) et les visuels de boosters ne sont mis en cache **qu'à l'usage** : une carte jamais affichée n'a pas d'image hors-ligne.
 - **Mise à jour :** incrémenter `VERSION` dans `sw.js` à chaque changement du shell ; seuls les caches préfixés `minecards-` sont purgés, ceux des autres projets de l'hôte sont laissés intacts.

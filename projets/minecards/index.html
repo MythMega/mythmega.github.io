@@ -231,43 +231,43 @@
 
   <!-- Fonts first: the two `@font-face` of the pixel face a player title is written in are
        declared before anything that uses them (see `css/fonts.css`). -->
-  <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/themes.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/views/onboarding.css">
-  <link rel="stylesheet" href="css/views/opening.css">
-  <link rel="stylesheet" href="css/views/collection.css">
-  <link rel="stylesheet" href="css/views/binders.css">
-  <link rel="stylesheet" href="css/views/stats.css">
-  <link rel="stylesheet" href="css/views/minepick.css">
-  <link rel="stylesheet" href="css/views/mineblock.css">
-  <link rel="stylesheet" href="css/views/profile.css">
-  <link rel="stylesheet" href="css/views/titles.css">
-  <link rel="stylesheet" href="css/components/trophy.css">
-  <link rel="stylesheet" href="css/views/settings.css">
-  <link rel="stylesheet" href="css/views/redeem.css">
-  <link rel="stylesheet" href="css/views/gifts.css">
-  <link rel="stylesheet" href="css/views/info.css">
-  <link rel="stylesheet" href="css/components/booster-3d.css">
-  <link rel="stylesheet" href="css/components/card-reveal.css">
-  <link rel="stylesheet" href="css/components/card-shine.css">
-  <link rel="stylesheet" href="css/components/modal.css">
-  <link rel="stylesheet" href="css/components/toast.css">
-  <link rel="stylesheet" href="css/components/auto-claim.css">
-  <link rel="stylesheet" href="css/components/daily-reward.css">
-  <link rel="stylesheet" href="css/components/notifications.css">
-  <link rel="stylesheet" href="css/components/install-prompt.css">
-  <link rel="stylesheet" href="css/components/info-hint.css">
+  <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
+  <link rel="stylesheet" href="css/themes.css?v=b675d6fa31">
+  <link rel="stylesheet" href="css/base.css?v=9cfadc94bb">
+  <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
+  <link rel="stylesheet" href="css/views/opening.css?v=c1f55c71a3">
+  <link rel="stylesheet" href="css/views/collection.css?v=df8d2e3a7f">
+  <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
+  <link rel="stylesheet" href="css/views/stats.css?v=d629d29877">
+  <link rel="stylesheet" href="css/views/minepick.css?v=e3d3cbe888">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=eb0bd14812">
+  <link rel="stylesheet" href="css/views/profile.css?v=7cec1ff38c">
+  <link rel="stylesheet" href="css/views/titles.css?v=9bfcf36ae7">
+  <link rel="stylesheet" href="css/components/trophy.css?v=1be7c92faa">
+  <link rel="stylesheet" href="css/views/settings.css?v=c280ee758a">
+  <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
+  <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
+  <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
+  <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
+  <link rel="stylesheet" href="css/components/card-reveal.css?v=12a4c405a1">
+  <link rel="stylesheet" href="css/components/card-shine.css?v=b524891613">
+  <link rel="stylesheet" href="css/components/modal.css?v=b2eb71c0a5">
+  <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
+  <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
+  <link rel="stylesheet" href="css/components/daily-reward.css?v=a006ff2e0f">
+  <link rel="stylesheet" href="css/components/notifications.css?v=e179758c8e">
+  <link rel="stylesheet" href="css/components/install-prompt.css?v=11cabfc4d6">
+  <link rel="stylesheet" href="css/components/info-hint.css?v=848c08b3f4">
   <!-- Animation modes: loaded LAST on purpose, they only override the animation of an opening
        (tear, card flip, summary) according to `data-animation` on <html>/<body>. One file per
        concern, and `accessibility.css` closes the group so `prefers-reduced-motion` wins over
        every mode. The contract is documented in `css/animations/defaults.css`. -->
-  <link rel="stylesheet" href="css/animations/defaults.css">
-  <link rel="stylesheet" href="css/animations/opening.css">
-  <link rel="stylesheet" href="css/animations/epic.css">
-  <link rel="stylesheet" href="css/animations/explosive.css">
-  <link rel="stylesheet" href="css/animations/minepick.css">
-  <link rel="stylesheet" href="css/animations/accessibility.css">
+  <link rel="stylesheet" href="css/animations/defaults.css?v=1a9311d1ab">
+  <link rel="stylesheet" href="css/animations/opening.css?v=7ae1c8b1b1">
+  <link rel="stylesheet" href="css/animations/epic.css?v=5f12c0675e">
+  <link rel="stylesheet" href="css/animations/explosive.css?v=190a0acf1f">
+  <link rel="stylesheet" href="css/animations/minepick.css?v=86c8cd3c16">
+  <link rel="stylesheet" href="css/animations/accessibility.css?v=15a548d08a">
 
   <!-- Three.js is pinned so the 3D scene stays reproducible. It is imported dynamically by
        `js/UI/components/Booster3DRenderer.js`: if the CDN is unreachable (offline use, blocked
@@ -887,21 +887,43 @@
             <!-- Rarity of the card: one option per rarity, the unlocked ones only. `ProfileView`
                  builds the five buttons (symbol, name, and the medal + "N / X" for the locked ones). -->
             <div class="profile-card-panel__rarities" role="radiogroup" data-profile-card-rarities data-i18n-aria-label="profile.card.rarity.pick" aria-label="Rareté de la carte"></div>
-            <!-- Title colour: "Auto" (the rarity colour) plus the colours bought with Sparks. A
-                 locked colour shows its price and opens the purchase confirmation instead of
-                 selecting itself, exactly like the Full Art switch. -->
+            <!-- Colours. Each line is a BUTTON showing the colour currently worn: clicking it
+                 opens the picker, which lists the bought colours and the ones still to buy. The
+                 grid is deliberately not printed under the card any more: the palette grew, and a
+                 dozen swatches under a card would push everything else off screen. -->
             <div class="profile-card-panel__colors-block">
               <p class="profile-card-panel__colors-title" data-i18n="profile.card.titleColor.title">Couleur du titre</p>
-              <div class="profile-card-panel__colors" role="group" data-profile-card-title-colors data-i18n-aria-label="profile.card.titleColor.title" aria-label="Couleur du titre"></div>
-              <p class="profile-card-panel__colors-help" data-info-hint="profile-title-color" data-profile-card-title-colors-price></p>
+              <button type="button" class="profile-card-panel__chooser" data-profile-title-color-open>
+                <span class="profile-card-panel__color-dot" data-profile-title-color-swatch aria-hidden="true"></span>
+                <span data-profile-title-color-value></span>
+              </button>
+              <p class="profile-card-panel__colors-help" data-info-hint="profile-title-color" data-profile-title-color-help></p>
             </div>
-            <!-- Pseudo colour: the palette of `settings/colors.json`, bought with Sparks separately
-                 from the title colours above. It sits right under the title purchase so both are
-                 chosen in the same place; `auto` keeps the theme colour. -->
             <div class="profile-card-panel__colors-block">
               <p class="profile-card-panel__colors-title" data-i18n="profile.usernameColor.title">Couleur du pseudo</p>
-              <div class="profile-card-panel__colors" role="group" data-profile-username-colors data-i18n-aria-label="profile.usernameColor.title" aria-label="Couleur du pseudo"></div>
-              <p class="profile-card-panel__colors-help" data-info-hint="profile-username-color" data-profile-username-colors-help data-i18n="profile.usernameColor.help">« Auto » garde la couleur du thème. Les autres couleurs s'achètent séparément de celles du titre.</p>
+              <button type="button" class="profile-card-panel__chooser" data-profile-username-color-open>
+                <span class="profile-card-panel__color-dot" data-profile-username-color-swatch aria-hidden="true"></span>
+                <span data-profile-username-color-value></span>
+              </button>
+              <p class="profile-card-panel__colors-help" data-info-hint="profile-username-color" data-profile-username-color-help></p>
+            </div>
+            <!-- The frame of the card: `Auto` keeps the rarity frame. Same picker as the two
+                 colours above, with its own purchase (`borderPrice` of `settings/colors.json`). -->
+            <div class="profile-card-panel__colors-block">
+              <p class="profile-card-panel__colors-title" data-i18n="profile.card.borderColor.title">Contour de la carte</p>
+              <button type="button" class="profile-card-panel__chooser" data-profile-border-color-open>
+                <span class="profile-card-panel__color-dot" data-profile-border-color-swatch aria-hidden="true"></span>
+                <span data-profile-border-color-value></span>
+              </button>
+              <p class="profile-card-panel__colors-help" data-profile-border-color-help></p>
+            </div>
+            <!-- Avatar: the size (Normal, smaller or larger) and the anchor (left, centre, right)
+                 are bought separately, like the colours. The centre and the normal size are free. -->
+            <div class="profile-card-panel__colors-block">
+              <p class="profile-card-panel__colors-title" data-i18n="profile.card.icon.title">Icône de profil</p>
+              <div class="profile-card-panel__chips" role="group" data-profile-icon-sizes data-i18n-aria-label="profile.card.icon.size" aria-label="Taille de l'icône"></div>
+              <div class="profile-card-panel__chips" role="group" data-profile-icon-aligns data-i18n-aria-label="profile.card.icon.align" aria-label="Alignement de l'icône"></div>
+              <p class="profile-card-panel__colors-help" data-info-hint="profile-card-icon" data-profile-icon-help></p>
             </div>
             <div class="profile-card-panel__actions">
               <div class="profile-card-panel__layouts" role="group" data-profile-card-layouts data-i18n-aria-label="profile.card.layout" aria-label="Disposition de la carte">
@@ -943,6 +965,25 @@
           <div class="modal__actions">
             <button type="button" class="btn btn--primary" data-profile-card-buy-confirm data-i18n="profile.card.buy.confirm">Acheter</button>
             <button type="button" class="btn btn--ghost" data-profile-card-buy-close data-i18n="profile.card.buy.cancel">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colour picker: one dialog for the title, the pseudo and the frame. It lists the colours
+           the account OWNS first, then the ones still to buy with their price, which is the same
+           behaviour as the old grid (an owned swatch is worn at once, a locked one opens the
+           purchase). The buy modal opens on top of it, so the player comes back to the list.
+           `ProfileView` fills the two strips on every open. -->
+      <div class="modal" data-profile-color-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-color-title">
+          <button type="button" class="modal__close" data-profile-color-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-color-title" data-profile-color-title></h2>
+          <div class="modal__body profile-color">
+            <p class="profile-color__section" data-i18n="profile.color.owned">Couleurs débloquées</p>
+            <div class="profile-card-panel__colors" role="group" data-profile-color-owned data-i18n-aria-label="profile.color.owned" aria-label="Couleurs débloquées"></div>
+            <p class="profile-color__section" data-i18n="profile.color.shop">Couleurs à acheter</p>
+            <div class="profile-card-panel__colors" role="group" data-profile-color-shop data-i18n-aria-label="profile.color.shop" aria-label="Couleurs à acheter"></div>
+            <p class="profile-color__empty" data-profile-color-empty hidden data-i18n="profile.color.empty">Toutes les couleurs sont débloquées.</p>
           </div>
         </div>
       </div>
@@ -1424,6 +1465,22 @@
             <input type="range" class="foil-slider__input" id="settings-glow-trophies" data-settings-glow min="0" max="5" step="1" value="2" aria-describedby="settings-glow-help">
           </div>
           <p class="settings__help" id="settings-glow-help" data-info-hint="settings-glow" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
+        </section>
+
+        <!-- Automatic mining: the pace of the taps landed while Shift+Space is held (or while a
+             finger stays on the block on a phone). Three stops, "normal" being the historical beat
+             of `mining.keyHoldIntervalMs`; the speed is a preference of the account
+             (`settings.mineSpeed`), read by MineBlockView when the mine opens. -->
+        <section class="panel settings__panel">
+          <h3 class="settings__title" data-i18n="settings.mine.title">Minage automatique</h3>
+          <div class="foil-slider">
+            <div class="foil-slider__head">
+              <label class="foil-slider__label" for="settings-mine-speed" data-i18n="settings.mine.speed">Vitesse du minage automatique</label>
+              <output class="foil-slider__value" data-settings-mine-speed-value for="settings-mine-speed">Normal</output>
+            </div>
+            <input type="range" class="foil-slider__input" id="settings-mine-speed" data-settings-mine-speed min="0" max="2" step="1" value="0" aria-describedby="settings-mine-speed-help">
+          </div>
+          <p class="settings__help" id="settings-mine-speed-help" data-i18n="settings.mine.help">Cadence des coups portés quand vous maintenez Maj+Espace, ou quand vous gardez le doigt sur le bloc sur mobile. « Très rapide » va deux fois plus vite que « Normal ».</p>
         </section>
 
         <!-- Notifications: how long one game notification stays on screen, and which kinds are
@@ -2041,7 +2098,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=7393ff2645"></script>
 
 </body>
 </html>

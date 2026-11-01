@@ -294,7 +294,7 @@ export class RedeemManager {
   async fetchCodes(force) {
     let response;
     try {
-      response = await fetch(this.path, { cache: force ? 'no-store' : 'default' });
+      response = await fetch(this.path, { cache: 'no-store' });
     } catch (error) {
       throw new RedeemError(
         REDEEM_ERROR_CODES.INVALID_CONFIG,

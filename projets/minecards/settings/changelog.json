@@ -49,5 +49,75 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 3,
+        "Version": "1.0.2",
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Curseur de vitesse du minage automatique : Normal, Rapide ou Très rapide.",
+                    "En": "Automatic mining speed slider: Normal, Fast or Very Fast."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Un appui maintenu sur le bloc de minage lance le minage automatique sur mobile.",
+                    "En": "Holding a finger on the mining block starts automatic mining on mobile."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Couleurs de contour pour la carte de profil, achetables en Sparks.",
+                    "En": "Frame colours for the profile card, bought with Sparks."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Couleurs en dégradé pour le titre, le pseudo et le contour.",
+                    "En": "Gradient colours for the title, the pseudo and the frame."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Taille et alignement de l'icône de profil réglables, les options étant achetables.",
+                    "En": "Profile icon size and alignment can be set, the options are bought with Sparks."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Les couleurs se choisissent dans un sélecteur, plus dans une grille sous la carte.",
+                    "En": "Colours are chosen in a picker instead of a grid under the card."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Seules les images restent en cache, le jeu charge toujours la dernière version.",
+                    "En": "Only images stay cached, the game always loads the latest version."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Les visuels de booster ne s'affichent plus à l'envers, sauf le booster 3D.",
+                    "En": "Booster artwork is no longer shown upside down, except the 3D booster."
+                }
+            }
+        ]
     }
 ]

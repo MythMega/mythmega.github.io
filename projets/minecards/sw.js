@@ -19,9 +19,15 @@
  *   navigate            network first, then the cached copy of that exact page, then `index.html`.
  *                       The HTML is never served stale on purpose: a player who reloads must get
  *                       the current version as soon as they are online.
- *   same-origin asset   stale-while-revalidate: the cached copy answers immediately and the fresh
- *                       one replaces it in the background. The files are not fingerprinted, so this
- *                       is what makes an update land without a hard reload, one visit late.
+ *   image               cache first: the illustrations (`cards/`, 374 MB) and the booster artworks
+ *                       are heavy and never change under the same path, so the stored copy answers
+ *                       at once and the fresh one replaces it in the background. Pictures are the
+ *                       ONLY family served from a cache while the player is online, which is also
+ *                       what keeps the caches small: everything else costs one request.
+ *   same-origin asset   network first: a stylesheet, a module, a sound or a JSON catalogue is
+ *                       always fetched, and the cache answers only when the network cannot. The
+ *                       files are not fingerprinted, so anything served from a cache can be one
+ *                       version late - which is exactly what must never happen to the code.
  *   CDN (unpkg)         cache first: Three.js is pinned to an exact version, so its URL can never
  *                       serve anything else. Caching it offline is what keeps the 3D booster working
  *                       with no network - without it the opening falls back to the 2D image.
@@ -38,12 +44,12 @@
  *
  * UPDATING
  * Bump `VERSION` whenever the shell changes: `install` stores the new files under new cache names and
- * `activate` drops every previous one. Without a bump the stale copies would survive, because
- * stale-while-revalidate only replaces a file the visit actually requested.
+ * `activate` drops every previous one. Without a bump the previous copies would survive, because no
+ * request refreshes the cache for a file the visit never asked for.
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v66';
+const VERSION = 'v69';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -431,10 +437,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* Anything else same-origin: a stylesheet, a module, a JSON catalogue, an illustration, a sound.
-     They are immutable in practice (the game ships them, the player never writes one), so serving
-     the stored copy while the fresh one downloads behind it is both instant and self-updating. */
-  event.respondWith(staleWhileRevalidate(request));
+  /* A picture: the only family answered from a cache first. Re-downloading a 200 KB illustration on
+     every visit would be a waste, and an artwork never changes under the same path. */
+  if (isImage(request, url)) {
+    event.respondWith(staleWhileRevalidate(request));
+    return;
+  }
+
+  /* Anything else same-origin - a stylesheet, a module, a sound, a JSON catalogue - is fetched, and
+     the cache only takes over when the network fails. See `networkFirst`. */
+  event.respondWith(networkFirst(request));
 });
 
 /**
@@ -445,6 +457,75 @@ self.addEventListener('fetch', (event) => {
  */
 function isPrivate(pathname) {
   return BYPASS_PATTERNS.some((pattern) => pattern.test(pathname));
+}
+
+/**
+ * True when a same-origin request carries a picture, and may therefore be answered from the cache.
+ *
+ * `destination` is the reliable signal for an `<img>` or a CSS background; the extension catches the
+ * images the game fetches itself, where `destination` is empty.
+ *
+ * @param {Request} request - The request.
+ * @param {URL} url - Its parsed URL.
+ * @returns {boolean} Whether the cache may answer first.
+ */
+function isImage(request, url) {
+  if (request.destination === 'image') return true;
+  return /\.(?:png|jpe?g|webp|avif|gif|svg|ico)$/i.test(url.pathname);
+}
+
+/**
+ * Answers from the network, and falls back to a stored copy only when the network fails.
+ *
+ * This is what keeps an updated file from being shadowed by a stale one: the shell is still
+ * precached at install (an offline start has to work), but while the player is online the server
+ * always wins. Stylesheets, modules, sounds and the JSON catalogues therefore show up exactly as a
+ * hard reload would show them, with no version query needed.
+ *
+ * A downloaded file that the shell cache does NOT hold - one shipped after the last `VERSION` bump
+ * and forgotten in `PRECACHE_URLS` - is stored in the runtime cache, so that omission costs the
+ * offline capability of that one file instead of the whole screen. Nothing else is written there:
+ * the runtime cache keeps the pictures, and duplicates of the shell never pile up.
+ *
+ * @param {Request} request - The same-origin request.
+ * @returns {Promise<Response>} The live answer, the stored one, or the offline notice.
+ */
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok && response.type === 'basic') {
+      await remember(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    const runtime = await caches.open(RUNTIME_CACHE);
+    const shell = await caches.open(SHELL_CACHE);
+    /* `ignoreSearch` matters: the shell stores the bare path and the page asks for `?v=<hash>`. */
+    const cached =
+      (await runtime.match(request)) ?? (await shell.match(request, { ignoreSearch: true }));
+    if (cached) return cached;
+    console.warn('[SW] Offline and not cached:', request.url);
+    return offlineNotice();
+  }
+}
+
+/**
+ * Stores a downloaded file in the runtime cache, but only when the shell has no copy of it.
+ *
+ * @param {Request} request - The request that was just served.
+ * @param {Response} response - Its cloned answer.
+ * @returns {Promise<void>} Resolves once the copy is stored; a storage failure is swallowed so a
+ *   working request never turns into an error.
+ */
+async function remember(request, response) {
+  try {
+    const shell = await caches.open(SHELL_CACHE);
+    if (await shell.match(request, { ignoreSearch: true })) return;
+    const runtime = await caches.open(RUNTIME_CACHE);
+    await runtime.put(request, response);
+  } catch (error) {
+    /* Nothing to do: the answer already reached the page. */
+  }
 }
 
 /**
@@ -471,6 +552,9 @@ async function navigationRequest(request) {
 
 /**
  * Serves a stored copy immediately and refreshes it in the background.
+ *
+ * Reserved for the pictures (see `isImage`): they are heavy, and an artwork that changes gets a new
+ * path instead of new bytes.
  *
  * The refresh is deliberately not awaited: the player gets the animation now and the next visit gets
  * the new file. A failed refresh is not an error - the stored copy is already the answer - so it is

@@ -60,7 +60,7 @@ import soundManager, {
   SOUND_VOLUME_LEVELS,
   UI_SOUNDS,
 } from '../../utils/SoundManager.js';
-import accountManager from '../../business/AccountManager.js';
+import accountManager, { DEFAULT_MINE_SPEED, MINE_SPEEDS } from '../../business/AccountManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import { saveFile, getSaveErrorMessageKey, SAVE_EXTENSION } from '../../classes/SaveFile.js';
 import giftManager, {
@@ -119,6 +119,8 @@ export class SettingsView {
     this.glowValueElement = query('[data-settings-glow-value]');
     this.notificationDurationSlider = query('[data-settings-notification-duration]');
     this.notificationDurationValue = query('[data-settings-notification-duration-value]');
+    this.mineSpeedSlider = query('[data-settings-mine-speed]');
+    this.mineSpeedValue = query('[data-settings-mine-speed-value]');
     this.notificationToggles = {
       collection: query('[data-settings-notification-collection]'),
       experience: query('[data-settings-notification-experience]'),
@@ -173,6 +175,8 @@ export class SettingsView {
     this.notificationDuration = 3;
     /** @type {Record<string, boolean>} Allowed notification kinds. */
     this.notificationTypes = { collection: true, experience: true, title: true };
+    /** @type {string} Speed of the automatic mining (`normal`, `fast` or `veryFast`). */
+    this.mineSpeed = DEFAULT_MINE_SPEED;
     /** @type {string|null} UUID of the current account (read-only display). */
     this.uuid = null;
     /** @type {{key: string, tone: string, params: object|null}|null} Last feedback message. */
@@ -231,6 +235,8 @@ export class SettingsView {
       ['[data-settings-glow-value]', this.glowValueElement],
       ['[data-settings-notification-duration]', this.notificationDurationSlider],
       ['[data-settings-notification-duration-value]', this.notificationDurationValue],
+      ['[data-settings-mine-speed]', this.mineSpeedSlider],
+      ['[data-settings-mine-speed-value]', this.mineSpeedValue],
       ['[data-settings-notification-collection]', this.notificationToggles.collection],
       ['[data-settings-notification-experience]', this.notificationToggles.experience],
       ['[data-settings-notification-title]', this.notificationToggles.title],
@@ -290,6 +296,7 @@ export class SettingsView {
     this.renderGlareSlider();
     this.renderGlowSlider();
     await this.renderNotificationSettings();
+    await this.renderMineSpeed();
     this.syncSoundToggle();
     this.renderSoundCategories();
     await this.syncDevToggle();
@@ -1429,6 +1436,88 @@ export class SettingsView {
   }
 
   /**
+   * Fills the mining-speed slider from the stored preference.
+   *
+   * The three stops are the speeds `AccountManager` accepts, in the order they are read: `normal`
+   * (the historical beat of `mining.keyHoldIntervalMs`), `fast`, and `veryFast`, which runs exactly
+   * twice as fast as `normal`. Nothing is applied live: the mine reads the preference when it opens,
+   * so storing it is enough.
+   *
+   * @returns {Promise<void>} Resolves once the slider is painted.
+   */
+  async renderMineSpeed() {
+    if (!this.mineSpeedSlider) return;
+    try {
+      const settings = await accountManager.getSettings();
+      this.mineSpeed = settings.mineSpeed ?? DEFAULT_MINE_SPEED;
+    } catch (error) {
+      console.warn('[SettingsView] The mining speed could not be read.', error);
+      this.mineSpeed = DEFAULT_MINE_SPEED;
+    }
+    this.applyMineSpeed();
+  }
+
+  /**
+   * Writes the speed on the slider and on its output.
+   *
+   * @returns {void}
+   */
+  applyMineSpeed() {
+    if (this.mineSpeedSlider) {
+      this.mineSpeedSlider.max = String(MINE_SPEEDS.length - 1);
+      const index = MINE_SPEEDS.indexOf(this.mineSpeed);
+      this.mineSpeedSlider.value = String(index === -1 ? 0 : index);
+    }
+    this.renderMineSpeedValue();
+  }
+
+  /**
+   * Writes the name of the speed next to the slider.
+   *
+   * @param {string} [speed] - Speed to display (the current one by default).
+   * @returns {void}
+   */
+  renderMineSpeedValue(speed = this.mineSpeed) {
+    if (!this.mineSpeedValue) return;
+    const labelKeys = {
+      normal: 'settings.mine.normal',
+      fast: 'settings.mine.fast',
+      veryFast: 'settings.mine.veryFast',
+    };
+    this.mineSpeedValue.textContent = i18n.t(labelKeys[speed] ?? 'settings.mine.normal');
+  }
+
+  /**
+   * Applies the speed while the thumb moves (the release is what saves).
+   *
+   * @returns {void}
+   */
+  handleMineSpeedInput() {
+    const position = Number(this.mineSpeedSlider?.value);
+    this.mineSpeed =
+      MINE_SPEEDS[Number.isInteger(position) ? position : 0] ?? DEFAULT_MINE_SPEED;
+    this.setFeedback(null);
+    this.renderMineSpeedValue();
+  }
+
+  /**
+   * Persists the mining speed once the player lets go of the thumb.
+   *
+   * Like the other sliders, a failed write keeps the value for this session and reports it.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleMineSpeedChange() {
+    try {
+      await accountManager.updateSettings({ mineSpeed: this.mineSpeed });
+      this.log(`Mining speed set to "${this.mineSpeed}" and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The mining speed could not be saved.', error);
+      this.setFeedback('settings.error.mineSpeed', 'error');
+    }
+  }
+
+  /**
    * Flips one notification kind and persists it.
    *
    * The switch applies live first, exactly like the sound preference: a kind switched off stops
@@ -1522,6 +1611,8 @@ export class SettingsView {
     this.listen(this.notificationDurationSlider, 'change', () =>
       this.handleNotificationDurationChange()
     );
+    this.listen(this.mineSpeedSlider, 'input', () => this.handleMineSpeedInput());
+    this.listen(this.mineSpeedSlider, 'change', () => void this.handleMineSpeedChange());
     Object.entries(this.notificationToggles).forEach(([type, toggle]) => {
       this.listen(toggle, 'click', () => void this.handleNotificationToggle(type));
     });

@@ -116,6 +116,8 @@
   width: min(45%, 9rem);
   height: auto;
   margin-top: var(--space-2);
+  /* Upside-down artwork: see the note in `css/components/booster-3d.css`. */
+  rotate: 180deg;
 }
 
 .set-announcement__booster[hidden] {

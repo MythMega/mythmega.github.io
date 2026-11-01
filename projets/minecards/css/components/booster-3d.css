@@ -49,6 +49,18 @@
   /* Tapping the 2D image replaces the 3D open gesture. */
   cursor: pointer;
   filter: drop-shadow(var(--shadow-md));
+  /* THE BOOSTER ARTWORKS ARE STORED UPSIDE DOWN.
+
+     The UV map of `assets/boostermodel.glb` reads `assets/boosters/<setId>.png` with its V axis
+     flipped, so the pack only stands right side up on the 3D model. Every place that shows that
+     same PNG flat turns it back here: this fallback, the streaming overlay
+     (`css/overlay.css`), the Mine Pick board (`css/views/minepick.css`) and the new-set popup
+     (`css/components/modal.css`). Redrawing the source files is what would be wrong: the model
+     would then show them mirrored.
+
+     `rotate` instead of `transform`: the opening animations animate `transform`, and the two
+     properties compose, so the pack stays upright through the whole tear. */
+  rotate: 180deg;
 }
 
 .booster-3d__loading,

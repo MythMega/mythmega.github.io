@@ -14,6 +14,7 @@
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import miningManager, { getMiningErrorMessageKey } from '../../business/MiningManager.js';
+import accountManager from '../../business/AccountManager.js';
 import traderManager, { getTraderErrorMessageKey } from '../../business/TraderManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
@@ -39,6 +40,36 @@ export const DEFAULT_NEXT_BLOCK_DELAY_MS = 100;
  * Only a fallback: the real value is `mining.keyHoldIntervalMs` of `settings/config.json`.
  */
 export const DEFAULT_KEY_HOLD_INTERVAL_MS = 250;
+
+/** Slowest accepted beat, in milliseconds: an edited configuration can never make a tap loop. */
+const MIN_HOLD_INTERVAL_MS = 100;
+
+/**
+ * Speed factors of the automatic mining, keyed like `settings.mineSpeed` (`AccountManager`).
+ *
+ * `veryFast` is exactly twice the pace of `normal`, which is what the settings slider promises;
+ * `fast` sits between the two.
+ */
+export const MINE_SPEED_FACTORS = Object.freeze({ normal: 1, fast: 1.5, veryFast: 2 });
+
+/** Delay a finger must stay on the block before the press becomes an automatic tap. */
+const TOUCH_HOLD_DELAY_MS = 320;
+
+/** Window during which the click ending a held touch is swallowed, in milliseconds. */
+const TOUCH_TAP_SUPPRESS_MS = 600;
+
+/**
+ * Beat of the automatic mining for one speed.
+ *
+ * @param {number} baseIntervalMs - `mining.keyHoldIntervalMs` of `settings/config.json`.
+ * @param {string} speed - `normal`, `fast` or `veryFast`.
+ * @returns {number} Milliseconds between two taps, never under `MIN_HOLD_INTERVAL_MS`.
+ */
+export function mineHoldInterval(baseIntervalMs, speed) {
+  const factor = MINE_SPEED_FACTORS[speed] ?? MINE_SPEED_FACTORS.normal;
+  const base = Number.isFinite(baseIntervalMs) ? baseIntervalMs : DEFAULT_KEY_HOLD_INTERVAL_MS;
+  return Math.max(MIN_HOLD_INTERVAL_MS, Math.round(base / factor));
+}
 
 /** Animated webp of the chest, kept as the fallback when the sprite cannot be decoded. */
 export const CHEST_TEXTURE = 'assets/img/chest.webp';
@@ -153,8 +184,20 @@ export class MineBlockView {
     this.nextBlockDelayMs = DEFAULT_NEXT_BLOCK_DELAY_MS;
     /** @type {number} Beat of the automatic mining while Shift+Space is held, in milliseconds. */
     this.keyHoldIntervalMs = DEFAULT_KEY_HOLD_INTERVAL_MS;
+    /** @type {number} `mining.keyHoldIntervalMs` as configured, before the speed factor. */
+    this.baseHoldIntervalMs = DEFAULT_KEY_HOLD_INTERVAL_MS;
+    /** @type {string} Speed of the automatic mining (`settings.mineSpeed`). */
+    this.mineSpeed = 'normal';
     /** @type {number|null} Interval applying a tap while Shift+Space is held. */
     this.mineHoldTimer = null;
+    /** @type {number|null} Timeout turning a held finger into an automatic tap. */
+    this.touchHoldTimer = null;
+    /** @type {boolean} True while a finger holds the block and the taps are automatic. */
+    this.touchHoldActive = false;
+    /** @type {boolean} True for the click that ends a held touch (it must not land one more tap). */
+    this.suppressTapClick = false;
+    /** @type {number|null} Timeout clearing `suppressTapClick`. */
+    this.suppressTapTimer = null;
     /** @type {HTMLImageElement|null} Decoded sprite of the chest (`null` until it is ready). */
     this.chestSprite = null;
     /** @type {number} Frame currently drawn on the chest canvas. */
@@ -292,11 +335,12 @@ export class MineBlockView {
       if (Number.isFinite(miningManager.settings?.nextBlockDelayMs)) {
         this.nextBlockDelayMs = miningManager.settings.nextBlockDelayMs;
       }
-      // The beat of the held Shift+Space (`mining.keyHoldIntervalMs`): no faster than 100 ms, so an
-      // edited configuration can never turn the mine into an infinite tap loop.
+      // The base beat of the held Shift+Space (`mining.keyHoldIntervalMs`), then the speed chosen in
+      // the settings divides it (`settings.mineSpeed`).
       if (Number.isFinite(miningManager.settings?.keyHoldIntervalMs)) {
-        this.keyHoldIntervalMs = Math.max(100, miningManager.settings.keyHoldIntervalMs);
+        this.baseHoldIntervalMs = miningManager.settings.keyHoldIntervalMs;
       }
+      await this.refreshMineSpeed();
     } catch (error) {
       console.error('[MineBlockView] The resources of the mine could not be listed.', error);
       this.resources = [];
@@ -325,7 +369,17 @@ export class MineBlockView {
    * @returns {void}
    */
   bindEvents() {
-    this.listen(this.rockElement, 'click', () => void this.handleMine());
+    this.listen(this.rockElement, 'click', (event) => this.handleRockClick(event));
+    // On a phone there is no keyboard to hold: a finger kept on the block mines on the very same
+    // beat as Shift+Space. A mouse is left out - it already has the shortcut.
+    this.listen(this.rockElement, 'pointerdown', (event) => this.handleRockPointerDown(event));
+    this.listen(this.rockElement, 'pointerup', () => this.stopTouchHold());
+    this.listen(this.rockElement, 'pointercancel', () => this.stopTouchHold());
+    this.listen(this.rockElement, 'pointerleave', () => this.stopTouchHold());
+    // A long press would otherwise open the context menu of the browser (or start a selection).
+    this.listen(this.rockElement, 'contextmenu', (event) => {
+      if (this.touchHoldActive) event.preventDefault();
+    });
 
     // The chest plays its opening frames from `openModal`, where the dialog really is displayed:
     // one click, one gesture, and the same path for a dialog opened by any other caller.
@@ -380,8 +434,12 @@ export class MineBlockView {
 
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.listen(document, 'keyup', (event) => this.handleDocumentKeyUp(event));
-    // A window that loses the focus never sends the keyup of a held Space.
-    this.listen(window, 'blur', () => this.stopMineHold());
+    // A window that loses the focus never sends the keyup of a held Space, nor the pointerup of a
+    // held finger.
+    this.listen(window, 'blur', () => {
+      this.stopTouchHold();
+      this.stopMineHold();
+    });
     this.log('DOM listeners bound.');
   }
 
@@ -398,6 +456,7 @@ export class MineBlockView {
   handleDocumentKeyDown(event) {
     if (!event || typeof event.key !== 'string') return;
     if (event.key === 'Escape') {
+      this.stopTouchHold();
       this.stopMineHold();
       // The detail is the topmost dialog: Escape closes it before the shop behind it.
       if (this.offerDialog) this.closeOfferDetail();
@@ -466,6 +525,89 @@ export class MineBlockView {
       void this.handleMine();
     }, this.keyHoldIntervalMs);
     this.log(`Shift+Space held: a tap every ${this.keyHoldIntervalMs} ms.`);
+  }
+
+  /**
+   * Handles a click on the block.
+   *
+   * A click that ends a held touch is swallowed: the automatic mining already landed its taps, and
+   * one more would break the block faster than the speed the player chose.
+   *
+   * @param {MouseEvent} [event] - Click event of the block.
+   * @returns {void}
+   */
+  handleRockClick(event) {
+    if (this.suppressTapClick) {
+      this.suppressTapClick = false;
+      if (event && typeof event.preventDefault === 'function') event.preventDefault();
+      return;
+    }
+    void this.handleMine();
+  }
+
+  /**
+   * Starts the automatic mining when a finger (or a pen) stays on the block.
+   *
+   * The first tap only lands once the finger has been kept down for `TOUCH_HOLD_DELAY_MS`: a quick
+   * tap stays a single tap, exactly like before.
+   *
+   * @param {PointerEvent} event - Pointer event of the block.
+   * @returns {void}
+   */
+  handleRockPointerDown(event) {
+    if (!event || event.pointerType === 'mouse') return;
+    if (!this.isActive || !this.state?.block || this.openDialog || this.offerDialog) return;
+    this.stopTouchHold();
+    this.touchHoldTimer = window.setTimeout(() => {
+      this.touchHoldTimer = null;
+      if (!this.isActive || !this.state?.block || this.openDialog || this.offerDialog) return;
+      // The finger is still down: the pointerup that ends the press will send a click, which must
+      // not land one more tap on the block.
+      this.touchHoldActive = true;
+      this.suppressTapClick = true;
+      this.startMineHold();
+    }, TOUCH_HOLD_DELAY_MS);
+  }
+
+  /**
+   * Ends a held touch: the pending delay is dropped, an automatic loop that started is stopped.
+   *
+   * @returns {void}
+   */
+  stopTouchHold() {
+    if (this.touchHoldTimer !== null) {
+      window.clearTimeout(this.touchHoldTimer);
+      this.touchHoldTimer = null;
+    }
+    if (!this.touchHoldActive) return;
+    this.touchHoldActive = false;
+    this.stopMineHold();
+    // The click ending the press arrives right after this; the flag is cleared a moment later so a
+    // cancelled gesture (which sends no click at all) cannot swallow the next tap.
+    if (this.suppressTapTimer !== null) window.clearTimeout(this.suppressTapTimer);
+    this.suppressTapTimer = window.setTimeout(() => {
+      this.suppressTapTimer = null;
+      this.suppressTapClick = false;
+    }, TOUCH_TAP_SUPPRESS_MS);
+  }
+
+  /**
+   * Reads the speed of the automatic mining and recomputes its beat.
+   *
+   * The mine reads it when it opens (and every time the screen comes back): the settings screen is
+   * another view, so there is no live update to forward while the block is on screen.
+   *
+   * @returns {Promise<void>} Resolves once the beat is up to date.
+   */
+  async refreshMineSpeed() {
+    try {
+      const settings = await accountManager.getSettings();
+      this.mineSpeed = settings?.mineSpeed ?? 'normal';
+    } catch (error) {
+      console.warn('[MineBlockView] The mining speed could not be read.', error);
+      this.mineSpeed = 'normal';
+    }
+    this.keyHoldIntervalMs = mineHoldInterval(this.baseHoldIntervalMs, this.mineSpeed);
   }
 
   /**
@@ -2037,6 +2179,10 @@ export class MineBlockView {
   handleViewActivated() {
     this.isActive = true;
     this.log('View activated.');
+    // The speed may have been changed in the settings while another view was open.
+    void this.refreshMineSpeed().catch((error) => {
+      console.warn('[MineBlockView] The mining speed could not be refreshed.', error);
+    });
     void this.reload().catch((error) => {
       console.error('[MineBlockView] The mine could not be reloaded.', error);
       this.setFeedback('mineblock.error.load', 'error');
@@ -2050,6 +2196,7 @@ export class MineBlockView {
    */
   handleViewDeactivated() {
     this.isActive = false;
+    this.stopTouchHold();
     this.stopMineHold();
     this.log('View deactivated.');
     this.clearTimers();

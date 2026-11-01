@@ -169,7 +169,7 @@ function parseCode(code) {
 async function loadPack(setId, positions) {
   let data;
   try {
-    const response = await fetch(`${BOOSTER_DIRECTORY}/${setId}.json`);
+    const response = await fetch(`${BOOSTER_DIRECTORY}/${setId}.json`, { cache: 'no-store' });
     if (!response.ok) return null;
     data = await response.json();
   } catch (error) {

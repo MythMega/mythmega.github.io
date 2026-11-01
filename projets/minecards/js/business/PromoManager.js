@@ -231,7 +231,7 @@ export class PromoManager {
     const normalized = String(path).replace(/^\.\//, '');
     let response;
     try {
-      response = await fetch(normalized);
+      response = await fetch(normalized, { cache: 'no-store' });
     } catch (error) {
       console.warn(`[PromoManager] "${normalized}" could not be fetched: ${error.message}`);
       return null;

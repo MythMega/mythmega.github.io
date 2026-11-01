@@ -107,7 +107,7 @@ export class ProfileIconManager {
     const normalized = String(path).replace(/^\.\//, '');
     let response;
     try {
-      response = await fetch(normalized);
+      response = await fetch(normalized, { cache: 'no-store' });
     } catch (error) {
       throw new Error(`Unable to fetch "${normalized}".`, { cause: error });
     }

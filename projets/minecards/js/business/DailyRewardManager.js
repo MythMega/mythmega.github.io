@@ -230,7 +230,7 @@ export class DailyRewardManager {
   async fetchChapters() {
     let response;
     try {
-      response = await fetch(DAILY_REWARDS_PATH);
+      response = await fetch(DAILY_REWARDS_PATH, { cache: 'no-store' });
     } catch (error) {
       throw new Error(`Unable to fetch "${DAILY_REWARDS_PATH}".`, { cause: error });
     }

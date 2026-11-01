@@ -458,7 +458,7 @@ export class ConfigLoader {
   async fetchConfig(force) {
     let response;
     try {
-      response = await fetch(this.path, { cache: force ? 'no-store' : 'default' });
+      response = await fetch(this.path, { cache: 'no-store' });
     } catch (error) {
       throw new Error(`Unable to fetch "${this.path}" (network error).`, { cause: error });
     }
@@ -823,7 +823,7 @@ export class ConfigLoader {
   async fetchCardSets() {
     let response;
     try {
-      response = await fetch(CARDSETS_PATH);
+      response = await fetch(CARDSETS_PATH, { cache: 'no-store' });
     } catch (error) {
       throw new Error(`Unable to fetch "${CARDSETS_PATH}".`, { cause: error });
     }
@@ -913,7 +913,7 @@ export class ConfigLoader {
   async fetchChangelog() {
     let response;
     try {
-      response = await fetch(CHANGELOG_PATH);
+      response = await fetch(CHANGELOG_PATH, { cache: 'no-store' });
     } catch (error) {
       throw new Error(`Unable to fetch "${CHANGELOG_PATH}".`, { cause: error });
     }

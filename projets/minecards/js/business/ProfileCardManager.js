@@ -35,7 +35,7 @@ import { configLoader } from '../utils/ConfigLoader.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import { AUTO_COLOR_ID, colorManager, findColor, isColorId } from './ColorManager.js';
-import featureManager, { FeatureManager } from './FeatureManager.js';
+import featureManager, { FEATURES, FeatureManager } from './FeatureManager.js';
 import minePickManager from './MinePickManager.js';
 import miningManager from './MiningManager.js';
 import sparksManager from './SparksManager.js';
@@ -52,6 +52,41 @@ export const PROFILE_CARD_DEFAULT_LAYOUT = 'classic';
 
 /** Title colour stored when the account has never chosen one (the rarity colour). */
 export const PROFILE_CARD_DEFAULT_TITLE_COLOR = AUTO_COLOR_ID;
+
+/** Frame colour stored when the account has never bought one (the rarity frame). */
+export const PROFILE_CARD_DEFAULT_BORDER_COLOR = AUTO_COLOR_ID;
+
+/** Avatar size stored when the account has bought none. */
+export const PROFILE_CARD_DEFAULT_ICON_SIZE = 'normal';
+
+/** Avatar anchor stored when the account has bought none. */
+export const PROFILE_CARD_DEFAULT_ICON_ALIGN = 'center';
+
+/**
+ * The avatar sizes of the card and the feature that unlocks each one.
+ *
+ * `scale` is a multiplier of the band the avatar occupies (80 % of the height in the Normal
+ * layout, 32 % in Full Art), so 1.15 is a fifth more without touching the layout itself. The
+ * free size is the middle one: a player who bought nothing gets exactly the card that shipped.
+ */
+export const PROFILE_CARD_ICON_SIZES = Object.freeze({
+  small: Object.freeze({ scale: 0.85, featureId: FEATURES.PROFILE_ICON_SMALL }),
+  normal: Object.freeze({ scale: 1, featureId: null }),
+  large: Object.freeze({ scale: 1.15, featureId: FEATURES.PROFILE_ICON_LARGE }),
+});
+
+/**
+ * The horizontal anchors of the avatar and the feature that unlocks each one.
+ *
+ * `positionX` is a CSS `background-position` percentage: 12 % and 88 % keep a visible margin on
+ * each side, which is what "aligned left" means on a card that must not push the avatar against
+ * the frame.
+ */
+export const PROFILE_CARD_ICON_ALIGNS = Object.freeze({
+  left: Object.freeze({ featureId: FEATURES.PROFILE_ICON_ALIGN_LEFT, positionX: '12%' }),
+  center: Object.freeze({ featureId: null, positionX: '50%' }),
+  right: Object.freeze({ featureId: FEATURES.PROFILE_ICON_ALIGN_RIGHT, positionX: '88%' }),
+});
 
 export class ProfileCardManager {
   /**
@@ -166,7 +201,8 @@ export class ProfileCardManager {
    * Normalizes the stored `user_state["profileCard"]` preferences.
    *
    * @param {unknown} raw - Stored value.
-   * @returns {{layout: string, rarity: number|null, titleColor: string, background: string|null}}
+   * @returns {{layout: string, rarity: number|null, titleColor: string, background: string|null,
+   *   borderColor: string, iconSize: string, iconAlign: string}}
    *   The validated preferences (shipped defaults for anything malformed).
    */
   static normalizePreferences(raw) {
@@ -190,7 +226,21 @@ export class ProfileCardManager {
     const background = typeof source.background === 'string' && source.background.trim() !== ''
       ? source.background.trim()
       : null;
-    return { layout, rarity, titleColor, background };
+    // The frame colour follows the same rule as the title: a valid id is stored as-is and the
+    // catalogue is checked when the card is BUILT, so a removed colour falls back to `auto`.
+    const borderColor = isColorId(source.borderColor)
+      ? source.borderColor
+      : PROFILE_CARD_DEFAULT_BORDER_COLOR;
+    // Size and anchor are stored as NAMES, not as numbers: a save written by another version, or
+    // a value tuned later in `PROFILE_CARD_ICON_SIZES`, always resolves to a known option instead
+    // of an arbitrary scale the card was never designed for.
+    const iconSize = Object.prototype.hasOwnProperty.call(PROFILE_CARD_ICON_SIZES, source.iconSize)
+      ? source.iconSize
+      : PROFILE_CARD_DEFAULT_ICON_SIZE;
+    const iconAlign = Object.prototype.hasOwnProperty.call(PROFILE_CARD_ICON_ALIGNS, source.iconAlign)
+      ? source.iconAlign
+      : PROFILE_CARD_DEFAULT_ICON_ALIGN;
+    return { layout, rarity, titleColor, background, borderColor, iconSize, iconAlign };
   }
 
   /**
@@ -221,8 +271,12 @@ export class ProfileCardManager {
    * @param {unknown} [payload.titleColor] - `'auto'` or the id of a palette colour.
    * @param {unknown} [payload.background] - Collection key of a favourite card, or null for "the
    *   first favourite".
+   * @param {unknown} [payload.borderColor] - `'auto'` or the id of a palette colour.
+   * @param {unknown} [payload.iconSize] - `'small'`, `'normal'` or `'large'`.
+   * @param {unknown} [payload.iconAlign] - `'left'`, `'center'` or `'right'`.
    * @returns {Promise<{layout: string, rarity: number|null, titleColor: string,
-   *   background: string|null}>} The resulting preferences.
+   *   background: string|null, borderColor: string, iconSize: string, iconAlign: string}>} The
+   *   resulting preferences.
    * @throws {Error} When the write fails.
    */
   async savePreferences(payload = {}) {
@@ -248,6 +302,21 @@ export class ProfileCardManager {
         next.background = ProfileCardManager.normalizePreferences({
           background: payload.background,
         }).background;
+      }
+      if (Object.prototype.hasOwnProperty.call(payload, 'borderColor')) {
+        next.borderColor = ProfileCardManager.normalizePreferences({
+          borderColor: payload.borderColor,
+        }).borderColor;
+      }
+      if (Object.prototype.hasOwnProperty.call(payload, 'iconSize')) {
+        next.iconSize = ProfileCardManager.normalizePreferences({
+          iconSize: payload.iconSize,
+        }).iconSize;
+      }
+      if (Object.prototype.hasOwnProperty.call(payload, 'iconAlign')) {
+        next.iconAlign = ProfileCardManager.normalizePreferences({
+          iconAlign: payload.iconAlign,
+        }).iconAlign;
       }
     }
     await storageRepository.setUserState(USER_STATE_KEYS.PROFILE_CARD, next);
@@ -462,7 +531,55 @@ export class ProfileCardManager {
    * @param {unknown} preference - Stored preference (`auto` or a colour id).
    * @param {Record<string, {boughtAt: string}>} purchases - Value of `FeatureManager.getPurchases()`.
    * @param {Array<{id: string}>} catalog - Palette returned by `ColorManager.listColors()`.
-   * @param {'title'|'username'} kind - Which purchase unlocks the colour.
+   * @param {'title'|'username'|'border'} kind - Which purchase unlocks the colour.
+   * @returns {string} `auto` or the id of an owned colour.
+   */
+  /**
+   * Resolves the avatar size the card may actually wear.
+   *
+   * The free size is always allowed; any other one is applied only when its feature was bought, so
+   * a hand-edited save cannot enlarge an avatar the player never paid for.
+   *
+   * @param {unknown} preference - Stored size (`small`, `normal` or `large`).
+   * @param {Record<string, {boughtAt: string}>} purchases - Value of `FeatureManager.getPurchases()`.
+   * @returns {string} A key of `PROFILE_CARD_ICON_SIZES`.
+   */
+  static resolveIconSize(preference, purchases) {
+    const option = PROFILE_CARD_ICON_SIZES[preference];
+    if (!option) return PROFILE_CARD_DEFAULT_ICON_SIZE;
+    if (option.featureId === null) return preference;
+    const owned = Boolean(purchases)
+      && Object.prototype.hasOwnProperty.call(purchases, option.featureId);
+    return owned ? preference : PROFILE_CARD_DEFAULT_ICON_SIZE;
+  }
+
+  /**
+   * Resolves the avatar anchor the card may actually wear (see `resolveIconSize`).
+   *
+   * @param {unknown} preference - Stored anchor (`left`, `center` or `right`).
+   * @param {Record<string, {boughtAt: string}>} purchases - Value of `FeatureManager.getPurchases()`.
+   * @returns {string} A key of `PROFILE_CARD_ICON_ALIGNS`.
+   */
+  static resolveIconAlign(preference, purchases) {
+    const option = PROFILE_CARD_ICON_ALIGNS[preference];
+    if (!option) return PROFILE_CARD_DEFAULT_ICON_ALIGN;
+    if (option.featureId === null) return preference;
+    const owned = Boolean(purchases)
+      && Object.prototype.hasOwnProperty.call(purchases, option.featureId);
+    return owned ? preference : PROFILE_CARD_DEFAULT_ICON_ALIGN;
+  }
+
+  /**
+   * Resolves the colour a line of the card may actually wear.
+   *
+   * `auto` is always allowed and costs nothing. A palette colour is only applied when it exists in
+   * `settings/colors.json` AND was bought for that use: the preference alone is not enough, so a
+   * hand-edited save can never dress the card in a colour the player did not pay for.
+   *
+   * @param {unknown} preference - Stored preference (`auto` or a colour id).
+   * @param {Record<string, {boughtAt: string}>} purchases - Value of `FeatureManager.getPurchases()`.
+   * @param {Array<{id: string}>} catalog - Palette returned by `ColorManager.listColors()`.
+   * @param {'title'|'username'|'border'} kind - Which purchase unlocks the colour.
    * @returns {string} `auto` or the id of an owned colour.
    */
   static resolveColor(preference, purchases, catalog, kind) {
@@ -471,7 +588,9 @@ export class ProfileCardManager {
     if (!entry) return AUTO_COLOR_ID;
     const featureId = kind === 'username'
       ? FeatureManager.usernameColorFeatureId(entry.id)
-      : FeatureManager.titleColorFeatureId(entry.id);
+      : kind === 'border'
+        ? FeatureManager.borderColorFeatureId(entry.id)
+        : FeatureManager.titleColorFeatureId(entry.id);
     const owned = Boolean(purchases) && Object.prototype.hasOwnProperty.call(purchases, featureId);
     return owned ? entry.id : AUTO_COLOR_ID;
   }
@@ -542,6 +661,15 @@ export class ProfileCardManager {
       'username'
     );
     const nameColorEntry = findColor(colorCatalog, nameColor);
+    const borderColor = ProfileCardManager.resolveColor(
+      stored.borderColor,
+      purchases,
+      colorCatalog,
+      'border'
+    );
+    const borderColorEntry = findColor(colorCatalog, borderColor);
+    const iconSize = ProfileCardManager.resolveIconSize(stored.iconSize, purchases);
+    const iconAlign = ProfileCardManager.resolveIconAlign(stored.iconAlign, purchases);
 
     const model = {
       name: typeof profile?.name === 'string' ? profile.name.trim() : '',
@@ -553,9 +681,22 @@ export class ProfileCardManager {
       // The title line wears `auto` (the rarity colour, resolved by the stylesheet) unless an OWNED
       // colour is selected; `titleColorValue` is the CSS value the component applies inline.
       titleColor,
-      titleColorValue: titleColorEntry ? titleColorEntry.hex : null,
+      titleColorValue: titleColorEntry ? titleColorEntry.css : null,
+      titleColorGradient: titleColorEntry?.gradient === true,
       nameColor,
-      nameColorValue: nameColorEntry ? nameColorEntry.hex : null,
+      nameColorValue: nameColorEntry ? nameColorEntry.css : null,
+      nameColorGradient: nameColorEntry?.gradient === true,
+      // The frame: `borderColorValue` may be a gradient, `borderColorLine` is the solid colour of
+      // the thin rules of the card (a CSS `border` cannot take a gradient).
+      borderColor,
+      borderColorValue: borderColorEntry ? borderColorEntry.css : null,
+      borderColorLine: borderColorEntry ? borderColorEntry.colors[0] : null,
+      // The avatar: a multiplier of its band and a `background-position` percentage, both applied
+      // inline by the component (the export inherits no page variable).
+      iconSize,
+      iconScale: PROFILE_CARD_ICON_SIZES[iconSize].scale,
+      iconAlign,
+      iconPositionX: PROFILE_CARD_ICON_ALIGNS[iconAlign].positionX,
       trophyCount,
       thresholds: settings.rarityThresholds,
       rarities: ProfileCardManager.listRarities(settings.rarityThresholds, trophyCount, chosenRarity),

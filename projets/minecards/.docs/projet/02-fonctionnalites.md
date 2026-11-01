@@ -260,8 +260,10 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 - **Gains** : `boosterReward` (5) à chaque booster ouvert, vente de cartes (`sellPrice` : 1/3/10/25/
   100 pour les raretés 1 à 5), codes et cadeaux.
 - **Dépenses** : achat de cartes (`buyPrice` : 10/25/100/500/2500), booster supplémentaire (1500),
-  pioche supplémentaire (1000), layout Full Art (1000), couleurs de titre de carte (125 par
-  défaut).
+  pioche supplémentaire (1000), layout Full Art (1000), couleurs de titre de carte et de pseudo
+  (125 par défaut, 300 pour un dégradé), couleurs de contour de carte (500 pour une couleur unie,
+  800 pour un dégradé), icône de profil plus grande ou plus petite (75) et son alignement à gauche
+  ou à droite (75).
 - Toute opération mixte (collection + Sparks) passe par une **transaction unique** : impossible de
   débiter sans donner la carte, ou l'inverse.
 - `SPARKS_UPDATED` met à jour le compteur d'en-tête et les écrans ouverts.
@@ -414,8 +416,14 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
     plus ancienne carte, Sparks, blocs minés, pioches) ;
   - deux dispositions : **Normale** et **Full Art** (achetable pour
     `features.items.cardLayoutFullArt.priceSparks`, 1000 Sparks) ;
-  - couleurs du pseudo et de la ligne de titre : « Auto » (gratuit) ou une entrée de
-    `settings/colors.json`, achetée séparément pour chaque ligne (`titlePrice` / `usernamePrice`) ;
+  - couleurs du pseudo, de la ligne de titre et du **contour** : « Auto » (gratuit) ou une entrée
+    de `settings/colors.json`, achetée séparément pour chacun (`titlePrice` / `usernamePrice` /
+    `borderPrice`) ; une entrée peut être un dégradé (`hex` sous forme de liste + `direction`). Les
+    trois se choisissent dans une **popup** qui sépare les couleurs débloquées des couleurs à
+    acheter ;
+  - **taille et alignement de l'icône de profil** sur la carte : normale et centrée par défaut, les
+    quatre autres options s'achètent (`features.items.profileIconLarge`, `profileIconSmall`,
+    `profileIconAlignLeft`, `profileIconAlignRight`) et se règlent dans le panneau de la carte ;
   - carte agrandie manipulable : maintien à la souris ou au doigt pour l'incliner
     (`cardDetail.maxRotationDeg`) avec une légère épaisseur (`cardDetail.thicknessPx`) ;
   - « Agrandir la carte » et « Télécharger la carte » (PNG 720 × 1000, police et images incorporées
@@ -550,8 +558,10 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
 
 - Précache du shell à l'installation (HTML, CSS, modules, réglages, catalogue, dos de carte, sons,
   modèle 3D, Three.js épinglé).
-- Navigation *network-first* avec repli `index.html` ; assets same-origin en
-  *stale-while-revalidate* ; CDN en *cache-first*.
+- Navigation *network-first* avec repli `index.html` ; **images en *cache-first*** (seuls fichiers
+  servis depuis un cache en ligne) ; **le reste same-origin en *network-first*** (CSS, modules, sons,
+  JSON) : le cache ne répond que hors-ligne, donc un fichier modifié n'est jamais masqué par une
+  copie périmée ; CDN en *cache-first*.
 - Jamais mis en cache : requêtes `no-store`/`reload`/`no-cache`, requêtes `Range`, cross-origin hors
   CDN (API d'heure, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `.docs/`).
 - Les illustrations (`cards/`, 374 Mo) et les visuels de boosters sont mis en cache **à l'usage**.

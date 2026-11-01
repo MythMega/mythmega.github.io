@@ -45,10 +45,14 @@ import ProfileCard, {
 } from '../components/ProfileCard.js';
 import profileCardManager, {
   ProfileCardManager,
+  PROFILE_CARD_DEFAULT_BORDER_COLOR,
   PROFILE_CARD_DEFAULT_TITLE_COLOR,
+  PROFILE_CARD_ICON_ALIGNS,
+  PROFILE_CARD_ICON_SIZES,
 } from '../../business/ProfileCardManager.js';
-import colorManager, { AUTO_COLOR_ID, colorName } from '../../business/ColorManager.js';
+import colorManager, { AUTO_COLOR_ID, colorCss, colorName } from '../../business/ColorManager.js';
 import featureManager, {
+  BORDER_COLOR_FEATURE_PREFIX,
   FEATURES,
   FEATURE_ERROR_CODES,
   PROFILE_SLOT_KINDS,
@@ -68,7 +72,14 @@ import { writeToClipboard } from '../../utils/Clipboard.js';
  */
 const FEATURE_LABEL_KEYS = Object.freeze({
   [FEATURES.CARD_LAYOUT_FULL_ART]: 'profile.card.feature.cardLayoutFullArt',
+  [FEATURES.PROFILE_ICON_LARGE]: 'profile.card.feature.profileIconLarge',
+  [FEATURES.PROFILE_ICON_SMALL]: 'profile.card.feature.profileIconSmall',
+  [FEATURES.PROFILE_ICON_ALIGN_LEFT]: 'profile.card.feature.profileIconAlignLeft',
+  [FEATURES.PROFILE_ICON_ALIGN_RIGHT]: 'profile.card.feature.profileIconAlignRight',
 });
+
+/** The three colour pickers of the card, and the palette usage each one buys. */
+export const PROFILE_COLOR_KINDS = Object.freeze(['title', 'username', 'border']);
 import { STATS_VIEW_NAME } from './StatsView.js';
 import { TITLES_VIEW_NAME } from './TitlesView.js';
 import { TROPHIES_VIEW_NAME } from './TrophiesView.js';
@@ -124,10 +135,31 @@ export class ProfileView {
     this.cardPriceElement = this.root.querySelector('[data-profile-card-layout-price]');
     this.cardPriceValueElement = this.root.querySelector('[data-profile-card-layout-price-value]');
     this.cardRaritiesElement = this.root.querySelector('[data-profile-card-rarities]');
-    this.cardTitleColorsElement = this.root.querySelector('[data-profile-card-title-colors]');
-    this.cardTitleColorsPriceElement = this.root.querySelector('[data-profile-card-title-colors-price]');
-    this.usernameColorsElement = this.root.querySelector('[data-profile-username-colors]');
-    this.usernameColorsHelpElement = this.root.querySelector('[data-profile-username-colors-help]');
+    // The three colour choosers: one button each, showing the colour currently worn. The palette
+    // itself lives in the picker dialog below, not under the card any more.
+    this.titleColorButton = this.root.querySelector('[data-profile-title-color-open]');
+    this.titleColorSwatch = this.root.querySelector('[data-profile-title-color-swatch]');
+    this.titleColorValue = this.root.querySelector('[data-profile-title-color-value]');
+    this.titleColorHelp = this.root.querySelector('[data-profile-title-color-help]');
+    this.usernameColorButton = this.root.querySelector('[data-profile-username-color-open]');
+    this.usernameColorSwatch = this.root.querySelector('[data-profile-username-color-swatch]');
+    this.usernameColorValue = this.root.querySelector('[data-profile-username-color-value]');
+    this.usernameColorHelp = this.root.querySelector('[data-profile-username-color-help]');
+    this.borderColorButton = this.root.querySelector('[data-profile-border-color-open]');
+    this.borderColorSwatch = this.root.querySelector('[data-profile-border-color-swatch]');
+    this.borderColorValue = this.root.querySelector('[data-profile-border-color-value]');
+    this.borderColorHelp = this.root.querySelector('[data-profile-border-color-help]');
+    // Avatar size and anchor of the card. Both are bought, the middle option of each is free.
+    this.iconSizesElement = this.root.querySelector('[data-profile-icon-sizes]');
+    this.iconAlignsElement = this.root.querySelector('[data-profile-icon-aligns]');
+    this.iconHelpElement = this.root.querySelector('[data-profile-icon-help]');
+    // Colour picker dialog, shared by the three choosers.
+    this.colorModal = this.root.querySelector('[data-profile-color-modal]');
+    this.colorModalTitle = this.root.querySelector('[data-profile-color-title]');
+    this.colorModalOwned = this.root.querySelector('[data-profile-color-owned]');
+    this.colorModalShop = this.root.querySelector('[data-profile-color-shop]');
+    this.colorModalEmpty = this.root.querySelector('[data-profile-color-empty]');
+    this.colorModalCloseButtons = this.root.querySelectorAll('[data-profile-color-close]');
     this.cardBuyModal = this.root.querySelector('[data-profile-card-buy-modal]');
     this.cardBuyFeatureElement = this.root.querySelector('[data-profile-card-buy-feature]');
     this.cardBuyPriceElement = this.root.querySelector('[data-profile-card-buy-price]');
@@ -176,6 +208,9 @@ export class ProfileView {
       rarity: null,
       titleColor: PROFILE_CARD_DEFAULT_TITLE_COLOR,
       background: null,
+      borderColor: PROFILE_CARD_DEFAULT_BORDER_COLOR,
+      iconSize: 'normal',
+      iconAlign: 'center',
     };
     /** @type {object|null} Last card model built by `ProfileCardManager` (drives the rarity picker). */
     this.lastCardModel = null;
@@ -195,6 +230,16 @@ export class ProfileView {
     this.usernameColorPrices = {};
     /** @type {Set<string>} Ids of the pseudo colours the account bought. */
     this.ownedUsernameColors = new Set();
+    /** @type {Record<string, number>} Price of each frame colour, in Sparks. */
+    this.borderColorPrices = {};
+    /** @type {Set<string>} Ids of the frame colours the account bought. */
+    this.ownedBorderColors = new Set();
+    /** @type {Record<string, {priceSparks: number}>} Purchasable features (icon size and anchor). */
+    this.featureCatalog = {};
+    /** @type {Record<string, {boughtAt: string}>} Purchases of the account, read on every reload. */
+    this.purchases = {};
+    /** @type {string|null} Which colour picker is open (`title`, `username` or `border`). */
+    this.pendingColorKind = null;
     /** @type {string} Pseudo colour selected in the form (saved with the identity). */
     this.selectedUsernameColor = AUTO_COLOR_ID;
     /** @type {string} Identifier the buy modal is about (a feature or a colour). */
@@ -271,9 +316,14 @@ export class ProfileView {
       ['[data-profile-card-layout-lock]', this.cardLockElement],
       ['[data-profile-card-layout-price]', this.cardPriceElement],
       ['[data-profile-card-rarities]', this.cardRaritiesElement],
-      ['[data-profile-card-title-colors]', this.cardTitleColorsElement],
-      ['[data-profile-card-title-colors-price]', this.cardTitleColorsPriceElement],
-      ['[data-profile-username-colors]', this.usernameColorsElement],
+      ['[data-profile-title-color-open]', this.titleColorButton],
+      ['[data-profile-username-color-open]', this.usernameColorButton],
+      ['[data-profile-border-color-open]', this.borderColorButton],
+      ['[data-profile-icon-sizes]', this.iconSizesElement],
+      ['[data-profile-icon-aligns]', this.iconAlignsElement],
+      ['[data-profile-color-modal]', this.colorModal],
+      ['[data-profile-color-owned]', this.colorModalOwned],
+      ['[data-profile-color-shop]', this.colorModalShop],
       ['[data-profile-card-buy-modal]', this.cardBuyModal],
       ['[data-profile-card-buy-feature]', this.cardBuyFeatureElement],
       ['[data-profile-card-buy-confirm]', this.cardBuyConfirmButton],
@@ -414,6 +464,10 @@ export class ProfileView {
         this.closeCardModal();
         return;
       }
+      if (this.colorModal && !this.colorModal.hidden) {
+        this.closeColorPicker();
+        return;
+      }
       if (this.modal && !this.modal.hidden) this.closeDetail();
     });
 
@@ -430,17 +484,37 @@ export class ProfileView {
         : null;
       if (button && !button.disabled) this.setCardRarity(Number(button.dataset.profileCardRarityOption));
     });
-    this.listen(this.cardTitleColorsElement, 'click', (event) => {
+    // The three colour choosers open the shared picker; the palette itself is rebuilt on every
+    // open, so a colour bought meanwhile is already in the right strip.
+    this.listen(this.titleColorButton, 'click', () => this.openColorPicker('title'));
+    this.listen(this.usernameColorButton, 'click', () => this.openColorPicker('username'));
+    this.listen(this.borderColorButton, 'click', () => this.openColorPicker('border'));
+    this.listen(this.colorModal, 'click', (event) => {
+      if (event?.target === this.colorModal) {
+        this.closeColorPicker();
+        return;
+      }
       const button = event.target instanceof Element
-        ? event.target.closest('[data-profile-card-title-color]')
+        ? event.target.closest('[data-profile-color-pick]')
         : null;
-      if (button) this.handleCardTitleColorClick(button.dataset.profileCardTitleColor);
+      if (button) {
+        this.handleColorPickerClick(button.dataset.profileColorPick, button.dataset.profileColorKind);
+      }
     });
-    this.listen(this.usernameColorsElement, 'click', (event) => {
+    this.colorModalCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeColorPicker());
+    });
+    this.listen(this.iconSizesElement, 'click', (event) => {
       const button = event.target instanceof Element
-        ? event.target.closest('[data-profile-username-color]')
+        ? event.target.closest('[data-profile-card-icon-size]')
         : null;
-      if (button) this.handleUsernameColorClick(button.dataset.profileUsernameColor);
+      if (button) this.handleIconOptionClick('iconSize', button.dataset.profileCardIconSize);
+    });
+    this.listen(this.iconAlignsElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-card-icon-align]')
+        : null;
+      if (button) this.handleIconOptionClick('iconAlign', button.dataset.profileCardIconAlign);
     });
     this.listen(this.cardBackgroundsElement, 'click', (event) => {
       const button = event.target instanceof Element
@@ -539,7 +613,7 @@ export class ProfileView {
       // openings (`TrophyManager` subscribes to `BOOSTER_OPENED`) and the automatic boot evaluation
       // own the announcements, so a save that unlocks a dozen trophies shows one toast, not twelve.
       const [profile, trophyState, collection, preferences, catalog, purchases, titleColors,
-        usernameColors, colorCatalog] = await Promise.all([
+        usernameColors, borderColors, colorCatalog] = await Promise.all([
         profileManager.getProfile(),
         trophyManager.evaluate({ notify: false }),
         collectionManager.getCollectionView(),
@@ -548,12 +622,15 @@ export class ProfileView {
         featureManager.getPurchases(),
         featureManager.getTitleColors(),
         featureManager.getUsernameColors(),
+        featureManager.getBorderColors(),
         colorManager.listColors(),
       ]);
       this.profile = profile;
       this.trophyState = trophyState;
       this.collection = collection;
       this.cardPreferences = preferences;
+      this.featureCatalog = catalog ?? {};
+      this.purchases = purchases ?? {};
       this.fullArtPrice = catalog[FEATURES.CARD_LAYOUT_FULL_ART]?.priceSparks ?? 0;
       this.fullArtOwned = Object.prototype.hasOwnProperty.call(
         purchases,
@@ -568,10 +645,16 @@ export class ProfileView {
           .map((id) => id.slice(TITLE_COLOR_FEATURE_PREFIX.length))
       );
       this.usernameColorPrices = { ...(usernameColors.items ?? {}) };
+      this.borderColorPrices = { ...(borderColors.items ?? {}) };
       this.ownedUsernameColors = new Set(
         Object.keys(purchases)
           .filter((id) => id.startsWith(USERNAME_COLOR_FEATURE_PREFIX))
           .map((id) => id.slice(USERNAME_COLOR_FEATURE_PREFIX.length))
+      );
+      this.ownedBorderColors = new Set(
+        Object.keys(purchases)
+          .filter((id) => id.startsWith(BORDER_COLOR_FEATURE_PREFIX))
+          .map((id) => id.slice(BORDER_COLOR_FEATURE_PREFIX.length))
       );
       this.selectedUsernameColor = typeof profile.usernameColor === 'string'
         ? profile.usernameColor
@@ -586,7 +669,6 @@ export class ProfileView {
 
       this.selectedIcon = profile.icon;
       this.renderIdentity(profile);
-      this.renderUsernameColors();
       await this.renderTitleLine(profile);
       this.renderIconPicker();
       this.renderLevel(trophyState.level);
@@ -695,15 +777,56 @@ export class ProfileView {
     );
     if (this.displayNameElement) {
       this.displayNameElement.textContent = display;
-      this.displayNameElement.style.removeProperty('--profile-name-color');
       const colorId = ProfileView.resolveOwnedColor(
         profile.usernameColor,
         this.ownedUsernameColors,
         this.colorCatalog
       );
-      const entry = this.colorCatalog.find((candidate) => candidate.id === colorId);
-      if (entry) this.displayNameElement.style.setProperty('--profile-name-color', entry.hex);
+      const entry = colorId === AUTO_COLOR_ID
+        ? null
+        : this.colorCatalog.find((candidate) => candidate.id === colorId) ?? null;
+      ProfileView.applyTextColour(this.displayNameElement, entry);
     }
+  }
+
+  /**
+   * Resolves a stored colour against what the account can actually wear.
+   *
+   * `auto` is always allowed; any other id must be both declared by `settings/colors.json` and
+   * bought (`FeatureManager`). A hand-edited save therefore cannot paint the pseudo with a colour
+   * that was never paid for.
+   *
+   * @param {unknown} preference - Stored colour id.
+   * @param {Set<string>} owned - Ids the account bought.
+   * @param {Array<{id: string}>} catalog - Palette read from `settings/colors.json`.
+   * @returns {string} `auto` or the id of an owned colour.
+   */
+  /**
+   * Paints one element with a colour of the catalogue, gradient included.
+   *
+   * The pseudo of the profile lives outside the card, so it cannot read the card's custom
+   * properties: it gets its own pair, consumed by a rule of `css/views/profile.css`.
+   *
+   * @param {HTMLElement|null} element - Element showing the pseudo.
+   * @param {object|null} entry - Catalogue entry, or null for the default colour.
+   * @returns {void}
+   */
+  static applyTextColour(element, entry) {
+    if (!element) return;
+    if (!entry) {
+      element.style.removeProperty('--profile-name-color');
+      element.style.removeProperty('--profile-name-gradient');
+      return;
+    }
+    if (entry.gradient) {
+      // A gradient is painted by a background clipped to the glyphs, so the solid colour has to
+      // step aside (`transparent`) or it would cover the gradient.
+      element.style.setProperty('--profile-name-color', 'transparent');
+      element.style.setProperty('--profile-name-gradient', colorCss(entry));
+      return;
+    }
+    element.style.setProperty('--profile-name-color', colorCss(entry));
+    element.style.removeProperty('--profile-name-gradient');
   }
 
   /**
@@ -734,67 +857,280 @@ export class ProfileView {
    *
    * @returns {void}
    */
-  renderUsernameColors() {
-    if (!this.usernameColorsElement) return;
-    const entries = [
-      { id: AUTO_COLOR_ID, hex: 'var(--color-text)', name: i18n.t('profile.usernameColor.auto') },
-      ...this.colorCatalog.map((entry) => ({
-        id: entry.id,
-        hex: entry.hex,
-        name: colorName(entry, i18n.getLang()),
-      })),
-    ];
+  /**
+   * Renders the three colour choosers of the card: title line, pseudo and frame.
+   *
+   * Each chooser is a single button showing the colour the card actually wears, which is what keeps
+   * the panel short: the palette itself is printed by `openColorPicker` in a dialog, where the
+   * bought colours and the ones still to buy are listed apart.
+   *
+   * @param {object} model - Card model built by `ProfileCardManager` (may be stale by one render).
+   * @returns {void}
+   */
+  renderColorChoosers(model) {
+    const titleId = typeof model?.titleColor === 'string'
+      ? model.titleColor
+      : this.cardPreferences.titleColor;
+    const usernameId = ProfileView.resolveOwnedColor(
+      this.profile?.usernameColor,
+      this.ownedUsernameColors,
+      this.colorCatalog
+    );
+    const borderId = typeof model?.borderColor === 'string'
+      ? model.borderColor
+      : this.cardPreferences.borderColor;
 
-    this.usernameColorsElement.textContent = '';
-    entries.forEach((entry) => {
-      const owned = entry.id === AUTO_COLOR_ID || this.ownedUsernameColors.has(entry.id);
-      const selected = entry.id === this.selectedUsernameColor;
+    this.renderChooser(this.titleColorButton, this.titleColorSwatch, this.titleColorValue, titleId, {
+      autoKey: 'profile.card.titleColor.auto',
+      helpKey: 'profile.card.titleColor.help',
+      helpElement: this.titleColorHelp,
+    });
+    this.renderChooser(
+      this.usernameColorButton,
+      this.usernameColorSwatch,
+      this.usernameColorValue,
+      usernameId,
+      {
+        autoKey: 'profile.usernameColor.auto',
+        helpKey: 'profile.usernameColor.help',
+        helpElement: this.usernameColorHelp,
+      }
+    );
+    this.renderChooser(
+      this.borderColorButton,
+      this.borderColorSwatch,
+      this.borderColorValue,
+      borderId,
+      {
+        autoKey: 'profile.card.borderColor.auto',
+        helpKey: 'profile.card.borderColor.help',
+        helpElement: this.borderColorHelp,
+      }
+    );
+  }
+
+  /**
+   * Paints one chooser button with the colour it wears.
+   *
+   * @param {HTMLElement|null} button - Button of the chooser.
+   * @param {HTMLElement|null} swatch - Element showing the colour.
+   * @param {HTMLElement|null} label - Element receiving the name.
+   * @param {string} id - Colour id worn (`auto` for the default).
+   * @param {{autoKey: string, helpKey: string, helpElement: HTMLElement|null}} options - Labels.
+   * @returns {void}
+   */
+  renderChooser(button, swatch, label, id, { autoKey, helpKey, helpElement }) {
+    if (!button || !swatch || !label) return;
+    const entry = id === AUTO_COLOR_ID ? null : this.colorCatalog.find((color) => color.id === id) ?? null;
+    const auto = entry === null;
+    swatch.style.setProperty('--swatch-color', auto ? 'var(--color-title)' : colorCss(entry));
+    label.textContent = auto ? i18n.t(autoKey) : colorName(entry, i18n.getLang());
+    button.setAttribute('aria-label', i18n.t('profile.color.open', { color: label.textContent }));
+    if (helpElement) helpElement.textContent = i18n.t(helpKey);
+  }
+
+  /**
+   * Opens the colour picker of one line of the card.
+   *
+   * @param {'title'|'username'|'border'} kind - Which purchase the picker is about.
+   * @returns {void}
+   */
+  openColorPicker(kind) {
+    if (!this.colorModal) return;
+    this.pendingColorKind = PROFILE_COLOR_KINDS.includes(kind) ? kind : 'title';
+    if (this.colorModalTitle) {
+      this.colorModalTitle.textContent = i18n.t(ProfileView.colorTitleKey(this.pendingColorKind));
+    }
+    this.renderColorPicker();
+    this.colorModal.hidden = false;
+    this.colorModal.classList.remove('is-opening');
+    void this.colorModal.offsetWidth;
+    this.colorModal.classList.add('is-opening');
+    this.log(`Colour picker opened (${this.pendingColorKind}).`);
+  }
+
+  /**
+   * Fills the two strips of the colour picker: the owned colours, then the ones still to buy.
+   *
+   * @returns {void}
+   */
+  renderColorPicker() {
+    if (!this.colorModalOwned || !this.colorModalShop) return;
+    const kind = this.pendingColorKind ?? 'title';
+    const owned = kind === 'title'
+      ? this.ownedTitleColors
+      : kind === 'username'
+        ? this.ownedUsernameColors
+        : this.ownedBorderColors;
+    const prices = kind === 'title'
+      ? this.titleColorPrices
+      : kind === 'username'
+        ? this.usernameColorPrices
+        : this.borderColorPrices;
+    const selected = kind === 'title'
+      ? (this.lastCardModel?.titleColor ?? this.cardPreferences.titleColor)
+      : kind === 'username'
+        ? ProfileView.resolveOwnedColor(this.profile?.usernameColor, owned, this.colorCatalog)
+        : (this.lastCardModel?.borderColor ?? this.cardPreferences.borderColor);
+    const lockedKey = kind === 'title'
+      ? 'profile.card.titleColor.locked'
+      : kind === 'username'
+        ? 'profile.usernameColor.locked'
+        : 'profile.card.borderColor.locked';
+
+    this.colorModalOwned.textContent = '';
+    this.colorModalShop.textContent = '';
+
+    const auto = document.createElement('button');
+    auto.type = 'button';
+    auto.className = 'profile-card-panel__color';
+    auto.dataset.profileColorPick = AUTO_COLOR_ID;
+    auto.dataset.profileColorKind = kind;
+    auto.dataset.owned = 'true';
+    auto.dataset.selected = String(selected === AUTO_COLOR_ID);
+    auto.setAttribute('aria-pressed', String(selected === AUTO_COLOR_ID));
+    auto.style.setProperty('--swatch-color', 'var(--color-title)');
+    auto.title = i18n.t(ProfileView.colorAutoKey(kind));
+    auto.setAttribute('aria-label', auto.title);
+    auto.appendChild(ProfileView.buildSwatchDot());
+    auto.appendChild(ProfileView.buildColorLabel(i18n.t(ProfileView.colorAutoKey(kind))));
+    this.colorModalOwned.appendChild(auto);
+
+    this.colorCatalog.forEach((entry) => {
+      const isOwned = owned.has(entry.id);
+      const isSelected = entry.id === selected;
+      const price = prices[entry.id] ?? 0;
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'profile__color profile-card-panel__color';
-      button.dataset.profileUsernameColor = entry.id;
-      button.dataset.owned = String(owned);
-      button.dataset.selected = String(selected);
-      button.setAttribute('aria-pressed', String(selected));
-      button.style.setProperty('--swatch-color', entry.hex);
-
-      const price = this.usernameColorPrices[entry.id] ?? 0;
-      const label = owned
-        ? entry.name
-        : i18n.t('profile.usernameColor.locked', { color: entry.name, price });
+      button.className = 'profile-card-panel__color';
+      button.dataset.profileColorPick = entry.id;
+      button.dataset.profileColorKind = kind;
+      button.dataset.owned = String(isOwned);
+      button.dataset.selected = String(isSelected);
+      button.setAttribute('aria-pressed', String(isSelected));
+      button.style.setProperty('--swatch-color', colorCss(entry));
+      const name = colorName(entry, i18n.getLang());
+      const label = isOwned ? name : i18n.t(lockedKey, { color: name, price });
       button.title = label;
       button.setAttribute('aria-label', label);
-
-      const dot = document.createElement('span');
-      dot.className = 'profile-card-panel__color-dot';
-      dot.setAttribute('aria-hidden', 'true');
-      button.appendChild(dot);
-
-      const name = document.createElement('span');
-      name.className = 'profile-card-panel__color-name';
-      name.textContent = entry.name;
-      button.appendChild(name);
-
-      if (!owned) {
-        const priceElement = document.createElement('span');
-        priceElement.className = 'profile-card-panel__color-price';
-        const coin = document.createElement('img');
-        coin.className = 'profile-card-panel__price-icon';
-        coin.src = 'assets/img/sparks.png';
-        coin.alt = '';
-        coin.setAttribute('aria-hidden', 'true');
-        const value = document.createElement('span');
-        value.textContent = String(price);
-        priceElement.append(coin, value);
-        button.appendChild(priceElement);
-      }
-
-      this.usernameColorsElement.appendChild(button);
+      button.appendChild(ProfileView.buildSwatchDot());
+      button.appendChild(ProfileView.buildColorLabel(name));
+      if (!isOwned) button.appendChild(ProfileView.buildPriceTag(price));
+      (isOwned ? this.colorModalOwned : this.colorModalShop).appendChild(button);
     });
 
-    if (this.usernameColorsHelpElement) {
-      this.usernameColorsHelpElement.textContent = i18n.t('profile.usernameColor.help');
+    if (this.colorModalEmpty) this.colorModalEmpty.hidden = this.colorModalShop.children.length > 0;
+  }
+
+  /**
+   * Builds the dot showing one colour.
+   *
+   * @returns {HTMLSpanElement} The dot.
+   */
+  static buildSwatchDot() {
+    const dot = document.createElement('span');
+    dot.className = 'profile-card-panel__color-dot';
+    dot.setAttribute('aria-hidden', 'true');
+    return dot;
+  }
+
+  /**
+   * Builds the name of one colour in a picker entry.
+   *
+   * @param {string} text - Translated name.
+   * @returns {HTMLSpanElement} The label.
+   */
+  static buildColorLabel(text) {
+    const label = document.createElement('span');
+    label.className = 'profile-card-panel__color-name';
+    label.textContent = text;
+    return label;
+  }
+
+  /**
+   * Builds the price tag of a colour or an option that is not owned yet.
+   *
+   * @param {number} price - Price in Sparks.
+   * @returns {HTMLSpanElement} The tag.
+   */
+  static buildPriceTag(price) {
+    const element = document.createElement('span');
+    element.className = 'profile-card-panel__color-price';
+    const coin = document.createElement('img');
+    coin.className = 'profile-card-panel__price-icon';
+    coin.src = 'assets/img/sparks.png';
+    coin.alt = '';
+    coin.setAttribute('aria-hidden', 'true');
+    const value = document.createElement('span');
+    value.textContent = String(price);
+    element.append(coin, value);
+    return element;
+  }
+
+  /**
+   * i18n key of the title of one colour picker.
+   *
+   * @param {string} kind - `title`, `username` or `border`.
+   * @returns {string} The key.
+   */
+  static colorTitleKey(kind) {
+    if (kind === 'username') return 'profile.usernameColor.title';
+    if (kind === 'border') return 'profile.card.borderColor.title';
+    return 'profile.card.titleColor.title';
+  }
+
+  /**
+   * i18n key of the `auto` entry of one colour picker.
+   *
+   * @param {string} kind - `title`, `username` or `border`.
+   * @returns {string} The key.
+   */
+  static colorAutoKey(kind) {
+    if (kind === 'username') return 'profile.usernameColor.auto';
+    if (kind === 'border') return 'profile.card.borderColor.auto';
+    return 'profile.card.titleColor.auto';
+  }
+
+  /**
+   * Runs the click of one entry of the colour picker.
+   *
+   * The behaviour is the one the old grid had: an owned colour is worn at once, a locked one opens
+   * the purchase confirmation, and the picker stays behind it.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @param {string} kind - `title`, `username` or `border`.
+   * @returns {void}
+   */
+  handleColorPickerClick(id, kind) {
+    if (typeof id !== 'string' || id === '') return;
+    const owned = kind === 'title'
+      ? this.ownedTitleColors
+      : kind === 'username'
+        ? this.ownedUsernameColors
+        : this.ownedBorderColors;
+    const isOwned = id === AUTO_COLOR_ID || owned.has(id);
+    if (kind === 'username') {
+      this.handleUsernameColorClick(id);
+    } else if (kind === 'border') {
+      this.handleBorderColorClick(id);
+    } else {
+      this.handleCardTitleColorClick(id);
     }
+    // A worn colour settles the choice. A locked one leaves the picker open behind the purchase
+    // confirmation, so the player comes back to the list instead of to the panel.
+    if (isOwned) this.closeColorPicker();
+  }
+
+  /**
+   * Closes the colour picker.
+   *
+   * @returns {void}
+   */
+  closeColorPicker() {
+    if (!this.colorModal || this.colorModal.hidden) return;
+    this.colorModal.hidden = true;
+    this.colorModal.classList.remove('is-opening');
+    this.pendingColorKind = null;
   }
 
   /**
@@ -818,7 +1154,7 @@ export class ProfileView {
         usernameColor: id,
       };
       this.renderIdentity(preview);
-      this.renderUsernameColors();
+      this.renderColorChoosers(this.lastCardModel);
       // The picker lives with the card controls now, away from the identity form's Save button:
       // wearing an owned colour is saved immediately, exactly like the title colour above it.
       void this.persistUsernameColor(id);
@@ -1604,7 +1940,8 @@ export class ProfileView {
       await this.profileCard.render(model);
       this.renderCardRarity(model);
       this.renderCardRarities(model);
-      this.renderCardTitleColors(model);
+      this.renderColorChoosers(model);
+      this.renderIconOptions(model);
       this.renderCardBackgrounds(model);
       this.renderCardLayoutPrice();
     } catch (error) {
@@ -1832,77 +2169,156 @@ export class ProfileView {
    * @param {object} model - Card model built by `ProfileCardManager`.
    * @returns {void}
    */
-  renderCardTitleColors(model) {
-    if (!this.cardTitleColorsElement) return;
-    const chosen = typeof model?.titleColor === 'string'
-      ? model.titleColor
-      : this.cardPreferences.titleColor;
+  /**
+   * Renders the avatar size and anchor of the card.
+   *
+   * Both rows are ladders of their own: the middle option is free, the two others are bought with
+   * Sparks. A locked chip keeps its name and shows its price, and clicking it opens the purchase
+   * confirmation instead of selecting itself, exactly like the Full Art switch.
+   *
+   * @param {object} model - Card model built by `ProfileCardManager`.
+   * @returns {void}
+   */
+  renderIconOptions(model) {
+    const size = typeof model?.iconSize === 'string' ? model.iconSize : this.cardPreferences.iconSize;
+    const align = typeof model?.iconAlign === 'string' ? model.iconAlign : this.cardPreferences.iconAlign;
 
-    const entries = [
-      {
-        id: PROFILE_CARD_DEFAULT_TITLE_COLOR,
-        color: 'var(--color-title)',
-        label: i18n.t('profile.card.titleColor.auto'),
-        owned: true,
-        price: 0,
-      },
-      ...this.colorCatalog.map((entry) => ({
-        id: entry.id,
-        color: entry.hex,
-        label: colorName(entry, i18n.getLang()),
-        owned: this.ownedTitleColors.has(entry.id),
-        price: this.titleColorPrices[entry.id] ?? this.titleColorDefaultPrice,
-      })),
-    ];
+    this.renderIconRow(
+      this.iconSizesElement,
+      [
+        { id: 'small', labelKey: 'profile.card.icon.size.small', featureId: FEATURES.PROFILE_ICON_SMALL },
+        { id: 'normal', labelKey: 'profile.card.icon.size.normal', featureId: null },
+        { id: 'large', labelKey: 'profile.card.icon.size.large', featureId: FEATURES.PROFILE_ICON_LARGE },
+      ],
+      size,
+      'profileCardIconSize'
+    );
 
-    this.cardTitleColorsElement.textContent = '';
-    entries.forEach((entry) => {
-      const selected = entry.id === chosen;
+    this.renderIconRow(
+      this.iconAlignsElement,
+      [
+        { id: 'left', labelKey: 'profile.card.icon.align.left', featureId: FEATURES.PROFILE_ICON_ALIGN_LEFT },
+        { id: 'center', labelKey: 'profile.card.icon.align.center', featureId: null },
+        { id: 'right', labelKey: 'profile.card.icon.align.right', featureId: FEATURES.PROFILE_ICON_ALIGN_RIGHT },
+      ],
+      align,
+      'profileCardIconAlign'
+    );
+
+    if (this.iconHelpElement) this.iconHelpElement.textContent = i18n.t('profile.card.icon.help');
+  }
+
+  /**
+   * Builds one row of avatar options.
+   *
+   * @param {HTMLElement|null} target - Container of the chips.
+   * @param {Array<{id: string, labelKey: string, featureId: string|null}>} options - The options.
+   * @param {string} selected - Option currently worn.
+   * @param {string} datasetKey - Name of the data attribute carrying the option id.
+   * @returns {void}
+   */
+  renderIconRow(target, options, selected, datasetKey) {
+    if (!target) return;
+    target.textContent = '';
+    options.forEach((option) => {
+      const owned = option.featureId === null
+        || Object.prototype.hasOwnProperty.call(this.purchases, option.featureId);
+      const price = option.featureId === null ? 0 : this.featurePrice(option.featureId);
+      const label = i18n.t(option.labelKey);
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'profile-card-panel__color';
-      button.dataset.profileCardTitleColor = entry.id;
-      button.dataset.owned = String(entry.owned);
-      button.dataset.selected = String(selected);
-      button.setAttribute('aria-pressed', String(selected));
-      button.style.setProperty('--swatch-color', entry.color);
-
-      const label = entry.owned
-        ? entry.label
-        : i18n.t('profile.card.titleColor.locked', { color: entry.label, price: entry.price });
-      button.title = label;
-      button.setAttribute('aria-label', label);
-
-      const dot = document.createElement('span');
-      dot.className = 'profile-card-panel__color-dot';
-      dot.setAttribute('aria-hidden', 'true');
-      button.appendChild(dot);
-
-      const name = document.createElement('span');
-      name.className = 'profile-card-panel__color-name';
-      name.textContent = entry.label;
-      button.appendChild(name);
-
-      if (!entry.owned) {
-        const price = document.createElement('span');
-        price.className = 'profile-card-panel__color-price';
-        const coin = document.createElement('img');
-        coin.className = 'profile-card-panel__price-icon';
-        coin.src = 'assets/img/sparks.png';
-        coin.alt = '';
-        coin.setAttribute('aria-hidden', 'true');
-        const value = document.createElement('span');
-        value.textContent = String(entry.price);
-        price.append(coin, value);
-        button.appendChild(price);
-      }
-
-      this.cardTitleColorsElement.appendChild(button);
+      button.className = 'profile-card-panel__chip';
+      button.dataset[datasetKey] = option.id;
+      button.dataset.owned = String(owned);
+      button.dataset.selected = String(option.id === selected);
+      button.setAttribute('aria-pressed', String(option.id === selected));
+      button.title = owned ? label : i18n.t('profile.card.icon.locked', { option: label, price });
+      button.setAttribute('aria-label', button.title);
+      const text = document.createElement('span');
+      text.textContent = label;
+      button.appendChild(text);
+      if (!owned) button.appendChild(ProfileView.buildPriceTag(price));
+      target.appendChild(button);
     });
+  }
 
-    if (this.cardTitleColorsPriceElement) {
-      this.cardTitleColorsPriceElement.textContent = i18n.t('profile.card.titleColor.help');
+  /**
+   * Reads the price of one purchasable feature from the catalogue loaded with the page.
+   *
+   * @param {string} id - Feature identifier.
+   * @returns {number} The price in Sparks (0 when the catalogue does not declare it).
+   */
+  featurePrice(id) {
+    const price = this.featureCatalog?.[id]?.priceSparks;
+    return Number.isInteger(price) && price >= 0 ? price : 0;
+  }
+
+  /**
+   * Wears one avatar size or anchor, or offers to buy it.
+   *
+   * @param {'iconSize'|'iconAlign'} field - Preference to write.
+   * @param {string} value - Option id (`small`, `left`...).
+   * @returns {void}
+   */
+  handleIconOptionClick(field, value) {
+    const table = field === 'iconSize' ? PROFILE_CARD_ICON_SIZES : PROFILE_CARD_ICON_ALIGNS;
+    const option = table[value];
+    if (!option) return;
+    const owned = option.featureId === null
+      || Object.prototype.hasOwnProperty.call(this.purchases, option.featureId);
+    if (!owned) {
+      const labelKey = FEATURE_LABEL_KEYS[option.featureId];
+      void this.openBuyModal(option.featureId, {
+        type: 'feature',
+        label: labelKey ? i18n.t(labelKey) : option.featureId,
+        price: this.featurePrice(option.featureId),
+      });
+      return;
     }
+    this.cardPreferences = { ...this.cardPreferences, [field]: value };
+    void profileCardManager.savePreferences({ [field]: value }).catch((error) => {
+      console.error('[ProfileView] The card option could not be saved.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    });
+    void this.renderProfileCard();
+  }
+
+  /**
+   * Handles a click on the frame colour picker of the card.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @returns {void}
+   */
+  handleBorderColorClick(id) {
+    if (typeof id !== 'string' || id === '') return;
+    if (id === PROFILE_CARD_DEFAULT_BORDER_COLOR || this.ownedBorderColors.has(id)) {
+      this.setCardBorderColor(id);
+      return;
+    }
+    const entry = this.colorCatalog.find((candidate) => candidate.id === id);
+    if (!entry) return;
+    void this.openBuyModal(id, {
+      type: 'borderColor',
+      label: colorName(entry, i18n.getLang()),
+      price: this.borderColorPrices[id] ?? 0,
+    });
+  }
+
+  /**
+   * Wears one frame colour and remembers it.
+   *
+   * @param {string} id - Colour id, or `auto`.
+   * @returns {void}
+   */
+  setCardBorderColor(id) {
+    const accepted = id === PROFILE_CARD_DEFAULT_BORDER_COLOR || this.ownedBorderColors.has(id);
+    if (!accepted) return;
+    this.cardPreferences = { ...this.cardPreferences, borderColor: id };
+    void profileCardManager.savePreferences({ borderColor: id }).catch((error) => {
+      console.error('[ProfileView] The frame colour could not be saved.', error);
+      this.setCardFeedback('profile.card.error.load', 'error');
+    });
+    void this.renderProfileCard();
   }
 
   /**
@@ -2070,7 +2486,8 @@ export class ProfileView {
   async openBuyModal(id, { type = 'feature', label = null, price = null } = {}) {
     if (!this.cardBuyModal) return;
     this.pendingFeatureId = id;
-    this.pendingPurchaseType = type === 'titleColor' || type === 'usernameColor' || type === 'icon'
+    this.pendingPurchaseType = type === 'titleColor' || type === 'usernameColor'
+      || type === 'borderColor' || type === 'icon'
       ? type
       : 'feature';
     const featureLabel = label ?? ProfileView.featureLabel(id);
@@ -2136,6 +2553,7 @@ export class ProfileView {
     const purchaseType = this.pendingPurchaseType;
     const isTitleColor = purchaseType === 'titleColor';
     const isUsernameColor = purchaseType === 'usernameColor';
+    const isBorderColor = purchaseType === 'borderColor';
     const isIcon = purchaseType === 'icon';
     this.cardBuyConfirmButton.disabled = true;
     try {
@@ -2143,9 +2561,11 @@ export class ProfileView {
         ? await featureManager.purchaseTitleColor(id)
         : isUsernameColor
           ? await featureManager.purchaseUsernameColor(id)
-          : isIcon
-            ? await featureManager.purchaseProfileIcon(id)
-            : await featureManager.purchase(id);
+          : isBorderColor
+            ? await featureManager.purchaseBorderColor(id)
+            : isIcon
+              ? await featureManager.purchaseProfileIcon(id)
+              : await featureManager.purchase(id);
       let label;
       const entry = this.colorCatalog.find((candidate) => candidate.id === id);
       if (isTitleColor) {
@@ -2153,6 +2573,9 @@ export class ProfileView {
         label = entry ? colorName(entry, i18n.getLang()) : id;
       } else if (isUsernameColor) {
         this.ownedUsernameColors.add(id);
+        label = entry ? colorName(entry, i18n.getLang()) : id;
+      } else if (isBorderColor) {
+        this.ownedBorderColors.add(id);
         label = entry ? colorName(entry, i18n.getLang()) : id;
       } else if (isIcon) {
         label = this.icons?.default?.find((candidate) => candidate.file === id)?.name ?? id;
@@ -2165,8 +2588,9 @@ export class ProfileView {
       this.closeBuyModal();
       // The lock and the price go away; the switch (and the worn colour) stay where they are.
       this.renderCardLayoutPrice();
-      this.renderCardTitleColors(this.lastCardModel);
-      this.renderUsernameColors();
+      this.renderColorChoosers(this.lastCardModel);
+      this.renderIconOptions(this.lastCardModel);
+      if (!this.colorModal?.hidden) this.renderColorPicker();
       if (isIcon) await this.refreshIcons();
     } catch (error) {
       console.error('[ProfileView] The feature could not be bought.', error);
@@ -2175,9 +2599,11 @@ export class ProfileView {
           ? featureManager.getTitleColorPrice(id)
           : isUsernameColor
             ? featureManager.getUsernameColorPrice(id)
-            : isIcon
-              ? featureManager.getProfileIconPrice(id)
-              : featureManager.getPrice(id)
+            : isBorderColor
+              ? featureManager.getBorderColorPrice(id)
+              : isIcon
+                ? featureManager.getProfileIconPrice(id)
+                : featureManager.getPrice(id)
         ).catch(() => 0);
         const balance = await sparksManager.getBalance().catch(() => 0);
         this.cardBuyMessageElement.textContent = i18n.t('profile.card.buy.insufficient', {

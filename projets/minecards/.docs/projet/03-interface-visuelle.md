@@ -219,7 +219,8 @@ Trois modes, déclarés dans `animations.list` de `config.json` et portés par `
 | Collection (fiche ouverte) | `P` / `F` | met / retire des favoris |
 | Trophées (fiche ouverte) | `P` / `F` | épingle / désépingle le trophée (s'il est débloqué) |
 | Mine | `Espace` | porte un coup |
-| Mine | maintenir `Maj+Espace` | un coup toutes les `mining.keyHoldIntervalMs` (250 ms, plancher 100 ms) |
+| Mine | maintenir `Maj+Espace` | un coup toutes les `mining.keyHoldIntervalMs` divisé par la vitesse choisie (250 ms en Normal, 167 ms en Rapide, 125 ms en Très rapide ; plancher 100 ms) |
+| Mine (mobile) | maintenir le doigt sur le bloc | même minage automatique que `Maj+Espace`, à la vitesse choisie (départ après 320 ms) |
 | Mine | `S` | ouvre le Wandering Trader |
 | Notifications | `Entrée` / `Espace` | ferme la notification affichée |
 | Partout | `Échap` | ferme la popup / modale empilée au premier niveau |
@@ -292,3 +293,9 @@ empilée, qu'un champ de saisie a le focus ou qu'une action est en cours.
 - Blocs de la mine : `assets/img/blocks/<bloc>.webp`, fissures `assets/img/blocks/break/<n>.png`,
   poussières `assets/img/dusts/<slug>.png`.
 - Booster 3D : `assets/boostermodel.glb` ; textures par extension `assets/boosters/<setId>.png`.
+  - **Ces textures sont stockées à l'envers.** La carte UV du modèle lit le PNG avec l'axe V
+    retourné : le pack ne se tient droit que sur le modèle 3D. Partout où la même image est affichée
+    à plat — repli 2D de l'ouverture, overlay de stream, plateau de la Mine Pick, popup de nouvelle
+    série — le CSS la remet d'aplomb avec `rotate: 180deg` (commentaire de `.booster-3d__fallback`
+    dans `css/components/booster-3d.css`). On ne redessine pas les fichiers : le modèle les montrerait
+    alors à l'envers. `rotate` et non `transform`, pour ne pas écraser les animations d'ouverture.

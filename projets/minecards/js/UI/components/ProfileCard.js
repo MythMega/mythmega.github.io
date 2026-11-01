@@ -384,6 +384,8 @@ export class ProfileCard {
 
     this.renderTitleColor(model);
     this.renderNameColor(model);
+    this.renderIconLayout(model);
+    this.renderBorderColor(model);
     await this.renderLayers(model);
     this.renderText(model);
 
@@ -410,9 +412,10 @@ export class ProfileCard {
     const value = typeof model.titleColorValue === 'string' ? model.titleColorValue : '';
     if (value === '') {
       this.cardElement.style.removeProperty('--card-title-color');
+      this.cardElement.style.removeProperty('--card-title-gradient');
       return;
     }
-    this.cardElement.style.setProperty('--card-title-color', value);
+    ProfileCard.applyTextColour(this.cardElement, '--card-title-color', '--card-title-gradient', value, model.titleColorGradient === true);
   }
 
   /**
@@ -429,9 +432,80 @@ export class ProfileCard {
     const value = typeof model.nameColorValue === 'string' ? model.nameColorValue : '';
     if (value === '') {
       this.cardElement.style.removeProperty('--card-name-color');
+      this.cardElement.style.removeProperty('--card-name-gradient');
       return;
     }
-    this.cardElement.style.setProperty('--card-name-color', value);
+    ProfileCard.applyTextColour(this.cardElement, '--card-name-color', '--card-name-gradient', value, model.nameColorGradient === true);
+  }
+
+  /**
+   * Applies one bought colour to a text line, gradient included.
+   *
+   * A gradient cannot be painted by `color`: it needs the paint to be a background clipped to the
+   * text, and the text itself made transparent. Both properties are set INLINE, because the export
+   * builds a standalone document that inherits no page variable and no stylesheet rule outside the
+   * card's own stylesheet.
+   *
+   * @param {HTMLElement} target - Element carrying the custom properties (the card).
+   * @param {string} colorProperty - Custom property read by the solid `color` rule.
+   * @param {string} gradientProperty - Custom property read by the `background-image` rule.
+   * @param {string} value - CSS value: a hex colour or a `linear-gradient(...)`.
+   * @param {boolean} gradient - True when the value is a gradient.
+   * @returns {void}
+   */
+  static applyTextColour(target, colorProperty, gradientProperty, value, gradient) {
+    if (!gradient) {
+      target.style.setProperty(colorProperty, value);
+      target.style.removeProperty(gradientProperty);
+      return;
+    }
+    // `transparent` lets the background show through the glyphs; without it the solid colour would
+    // be painted over the gradient and the line would look unchanged.
+    target.style.setProperty(colorProperty, 'transparent');
+    target.style.setProperty(gradientProperty, value);
+  }
+
+  /**
+   * Places the avatar at the size and anchor the player bought.
+   *
+   * The two values travel as custom properties, so the stylesheet keeps owning the geometry of both
+   * layouts: it multiplies its own band height by the scale and reads the position percentage.
+   *
+   * @param {object} model - The card facts.
+   * @returns {void}
+   */
+  renderIconLayout(model) {
+    const scale = Number.isFinite(model.iconScale) && model.iconScale > 0 ? model.iconScale : 1;
+    this.cardElement.style.setProperty('--card-icon-scale', String(scale));
+    const positionX = typeof model.iconPositionX === 'string' && model.iconPositionX !== ''
+      ? model.iconPositionX
+      : '50%';
+    this.cardElement.style.setProperty('--card-icon-position-x', positionX);
+  }
+
+  /**
+   * Paints the frame of the card in the colour the player bought.
+   *
+   * `auto` (and any colour the account does not own, already filtered by `ProfileCardManager`)
+   * leaves the rarity frame of the stylesheet in place. A gradient frame is a `background`, which is
+   * exactly what the frame already is; the thin rules of the name band and the description cannot
+   * take a gradient, so they receive its first colour (`--card-border-line`).
+   *
+   * @param {object} model - The card facts.
+   * @returns {void}
+   */
+  renderBorderColor(model) {
+    const value = typeof model.borderColorValue === 'string' ? model.borderColorValue : '';
+    if (value === '') {
+      this.cardElement.style.removeProperty('--card-border');
+      this.cardElement.style.removeProperty('--card-border-line');
+      return;
+    }
+    const line = typeof model.borderColorLine === 'string' && model.borderColorLine !== ''
+      ? model.borderColorLine
+      : value;
+    this.cardElement.style.setProperty('--card-border', value);
+    this.cardElement.style.setProperty('--card-border-line', line);
   }
 
   /**

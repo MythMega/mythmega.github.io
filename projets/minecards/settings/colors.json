@@ -1,54 +1,88 @@
 {
-  "_comment": "Colour catalogue of the player identity. Every entry has a stable 'id' (stored in a save), a translated 'name' ({ fr, en }), a 'hex' CSS colour, and two independent prices in Sparks: 'titlePrice' for the title line of the profile card and 'usernamePrice' for the player pseudo. The order of the list is the order of the pickers. A malformed entry is ignored rather than sold with guessed values; the shipped catalogue is used when the whole file is unreadable.",
+  "_comment": "Colour catalogue of the player identity. Every entry has a stable 'id' (stored in a save), a translated 'name' ({ fr, en }), a colour and three independent prices in Sparks: 'titlePrice' for the title line of the profile card, 'usernamePrice' for the player pseudo and 'borderPrice' for the frame of the card. A colour is either a single 'hex' string or a LIST of hex strings, which paints a gradient; 'direction' is then the angle of that gradient in degrees (null or absent means 90, left to right). A gradient entry with no valid list falls back to its first colour. The order of the list is the order of the pickers. A malformed entry is ignored rather than sold with guessed values; the shipped catalogue is used when the whole file is unreadable.",
   "colors": [
     {
       "id": "gold",
       "name": { "fr": "Or", "en": "Gold" },
       "hex": "#ffd54a",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
     },
     {
       "id": "silver",
       "name": { "fr": "Argent", "en": "Silver" },
       "hex": "#d9dee8",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
     },
     {
       "id": "crimson",
       "name": { "fr": "Cramoisi", "en": "Crimson" },
       "hex": "#ff6b6b",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
     },
     {
       "id": "emerald",
       "name": { "fr": "Émeraude", "en": "Emerald" },
       "hex": "#35e08a",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
     },
     {
       "id": "azure",
       "name": { "fr": "Azur", "en": "Azure" },
       "hex": "#5bc8ff",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
     },
     {
       "id": "violet",
       "name": { "fr": "Violet", "en": "Violet" },
       "hex": "#b98cff",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
     },
     {
       "id": "rose",
       "name": { "fr": "Rose", "en": "Rose" },
       "hex": "#ff8fc7",
       "titlePrice": 125,
-      "usernamePrice": 125
+      "usernamePrice": 125,
+      "borderPrice": 500
+    },
+    {
+      "id": "dawn",
+      "name": { "fr": "Aube", "en": "Dawn" },
+      "hex": ["#ff9a8b", "#ff6a88", "#ffc3a0"],
+      "direction": 90,
+      "titlePrice": 300,
+      "usernamePrice": 300,
+      "borderPrice": 800
+    },
+    {
+      "id": "night",
+      "name": { "fr": "Nuit", "en": "Night" },
+      "hex": ["#1a1a4e", "#3b2a70", "#6a3fa0"],
+      "direction": 135,
+      "titlePrice": 300,
+      "usernamePrice": 300,
+      "borderPrice": 800
+    },
+    {
+      "id": "dusk",
+      "name": { "fr": "Crépuscule", "en": "Dusk" },
+      "hex": ["#f6d365", "#fda085", "#a06cd5"],
+      "direction": 200,
+      "titlePrice": 300,
+      "usernamePrice": 300,
+      "borderPrice": 800
     }
   ]
 }

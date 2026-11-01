@@ -246,14 +246,18 @@ avertissement, une médaille retombe sur `default.png`, etc.).
 
 | Cache | Contenu | Stratégie |
 |---|---|---|
-| `shell-<VERSION>` | HTML, CSS, tous les modules ES, `settings/`, catalogues, dos de carte, sons, modèle 3D, polices | précache à l'installation ; assets same-origin en *stale-while-revalidate* |
+| `shell-<VERSION>` | HTML, CSS, tous les modules ES, `settings/`, catalogues, dos de carte, sons, modèle 3D, polices | précache à l'installation, lu en **repli hors-ligne** seulement (`ignoreSearch`, car la page demande `?v=<hash>`) |
 | `cdn-<VERSION>` | Three.js, `GLTFLoader`, `RoomEnvironment`, `BufferGeometryUtils` (épinglés r160) | *cache-first* |
-| `runtime-<VERSION>` | illustrations `cards/` et visuels de boosters | *stale-while-revalidate*, rempli à l'usage |
+| `runtime-<VERSION>` | illustrations `cards/` et visuels de boosters, plus les fichiers absents du shell | *stale-while-revalidate* pour les images, rempli à l'usage |
 
 - `VERSION` doit être incrémenté à **chaque changement du shell** ; `activate` ne purge que les
   caches préfixés `minecards-` (les autres projets de l'hôte sont laissés intacts).
 - La navigation est *network-first* avec repli `index.html` : jamais de HTML périmé servi
   silencieusement.
+- **Les images sont la seule famille servie depuis un cache en ligne** (*cache-first*). CSS, modules,
+  sons et JSON sont *network-first* : le réseau fait foi, le cache ne répond que s'il échoue. C'est
+  ce qui empêche une copie périmée de survivre à une mise à jour, même sans `VERSION` bumpée, et ce
+  qui garde les caches petits (seules les illustrations s'y ajoutent).
 - Sont exclus du cache : requêtes `no-store`/`reload`/`no-cache`, requêtes `Range`, cross-origin hors
   CDN (API d'heure, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `.docs/`).
 - `.well-known/assetlinks.json` est également exclu : c'est le fichier Digital Asset Links de l'app

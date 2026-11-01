@@ -163,7 +163,7 @@ export class I18n {
     const url = `${I18N_DIRECTORY}/${lang}.json`;
     let response;
     try {
-      response = await fetch(url);
+      response = await fetch(url, { cache: 'no-store' });
     } catch (error) {
       throw new Error(`Unable to fetch the translation file "${url}".`, { cause: error });
     }

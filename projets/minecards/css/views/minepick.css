@@ -160,6 +160,8 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  /* Upside-down artwork: see the note in `css/components/booster-3d.css`. */
+  rotate: 180deg;
 }
 
 .minepick__row-head {

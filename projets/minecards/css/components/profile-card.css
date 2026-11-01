@@ -205,10 +205,12 @@
   width: var(--card-width);
   height: var(--card-height);
   position: relative;
-  background: var(--rarity-border);
+  /* The frame. `--card-border` is set inline by the component when the player bought a colour
+     (possibly a gradient); the rarity frame shows through otherwise. */
+  background: var(--card-border, var(--rarity-border));
   clip-path: var(--corner-clip);
   padding: var(--border-thickness);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px var(--rarity-glow);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px var(--card-border-glow, var(--rarity-glow));
   transition: background 0.3s ease, box-shadow 0.3s ease;
   font-family: var(--card-font);
 }
@@ -253,7 +255,9 @@
   inset: 0;
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
+  /* `--card-icon-position-x` is the anchor bought for the avatar (50 % by default); the size of
+     each layout multiplies its own band height by `--card-icon-scale`. */
+  background-position: var(--card-icon-position-x, 50%) center;
   z-index: 3;
   pointer-events: none;
   /* The avatar illustrations are pixel art: never smooth them. */
@@ -268,8 +272,8 @@
    height of a character, in the middle of the art area. The normal layout needs no override: its
    underlay is already confined to the band between the name and the description. */
 .profile-card-root .card-preview.card-layout-fullart .card-underlay {
-  background-size: auto 32%;
-  background-position: center 42%;
+  background-size: auto calc(32% * var(--card-icon-scale, 1));
+  background-position: var(--card-icon-position-x, 50%) 42%;
 }
 
 .profile-card-root .card-foil-underlay {
@@ -306,7 +310,7 @@
     6px 100%,
     0 calc(100% - 6px)
   );
-  border: 1px solid var(--rarity-border);
+  border: 1px solid var(--card-border-line, var(--rarity-border));
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
@@ -327,6 +331,11 @@
   letter-spacing: 0.5px;
   /* The pseudo wears the colour bought for it; without one the rarity text colour shows through. */
   color: var(--card-name-color, var(--rarity-text-color));
+  /* A bought GRADIENT cannot be painted by `color`: the component sets `--card-name-gradient` and
+     makes the text transparent, and the paint becomes a background clipped to the glyphs. */
+  background-image: var(--card-name-gradient, none);
+  -webkit-background-clip: text;
+  background-clip: text;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   /* A long pseudo truncates rather than wrapping under the series line. */
   white-space: nowrap;
@@ -345,6 +354,10 @@
        - the yellow of a title (`--color-title`), for a stylesheet loaded outside a rarity.
      The inline property is also what travels into the exported PNG, where no page variable exists. */
   color: var(--card-title-color, var(--rarity-title-color, var(--color-title, #ffd54a)));
+  /* Same gradient rule as the pseudo just above (`--card-title-gradient`). */
+  background-image: var(--card-title-gradient, none);
+  -webkit-background-clip: text;
+  background-clip: text;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   white-space: nowrap;
@@ -377,7 +390,7 @@
     6px 100%,
     0 calc(100% - 6px)
   );
-  border: 1px solid var(--rarity-border);
+  border: 1px solid var(--card-border-line, var(--rarity-border));
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
 }
@@ -495,7 +508,7 @@
   padding: 0 12px;
   clip-path: none;
   border: none;
-  border-bottom: 2px solid var(--rarity-border);
+  border-bottom: 2px solid var(--card-border-line, var(--rarity-border));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55);
   overflow: hidden;
 }
@@ -509,7 +522,7 @@
   padding: 16px;
   clip-path: none;
   border: none;
-  border-top: 2px solid var(--rarity-border);
+  border-top: 2px solid var(--card-border-line, var(--rarity-border));
   box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.55);
   background-color: rgba(9, 9, 13, 0.93);
   /* No `overflow: hidden` here. It used to clip the oversized wash this panel painted itself;
@@ -521,7 +534,7 @@
 /* The avatar covers 80 % of the height of the band it is confined to: it sits ON the artwork
    instead of hiding it (the card maker would draw a full-band sprite here). */
 .profile-card-root .card-preview.card-layout-classic .card-underlay {
-  background-size: auto 80%;
+  background-size: auto calc(80% * var(--card-icon-scale, 1));
 }
 
 /* A blurred wash of the illustration keeps the description readable without hiding it. */

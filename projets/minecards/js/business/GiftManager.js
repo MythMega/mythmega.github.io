@@ -68,6 +68,7 @@ import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import promoManager from './PromoManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -589,6 +590,9 @@ export class GiftManager {
           ? dateSyncManager.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA))
           : null;
         let sparks = 0;
+        // Sparks credited by THIS run, recorded in `stats` next to the balance (a line already
+        // received is skipped above, so re-running never counts a gift twice).
+        let giftedSparks = 0;
 
         for (const item of plan) {
           // Anti-duplicate: the line number is the identity of a gift.
@@ -613,6 +617,7 @@ export class GiftManager {
               sparks = Number.isInteger(stored) && stored >= 0 ? stored : 0;
             }
             sparks += item.quantity;
+            giftedSparks += item.quantity;
           } else {
             const existingEntry = await context.get(STORES.COLLECTION, item.card.uniqueKey);
             const quantity = (existingEntry?.quantity ?? 0) + item.quantity;
@@ -653,6 +658,10 @@ export class GiftManager {
         }
         if (hasSparksGift) {
           await context.put(STORES.USER_STATE, sparks, USER_STATE_KEYS.SPARKS);
+          await sparksManager.recordFlow(context, {
+            earned: giftedSparks,
+            source: SPARKS_SOURCES.GIFT,
+          });
         }
 
         const nextCursor = Math.max(sync.lastCheckedLine, lastLineRead);

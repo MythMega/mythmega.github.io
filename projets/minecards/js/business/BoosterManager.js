@@ -34,7 +34,7 @@ import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager, { BOOSTER_SOURCES } from './DateSyncManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import GachaEngine from './GachaEngine.js';
 import { configLoader, DEFAULT_CARDSET_SETTINGS } from '../utils/ConfigLoader.js';
 import { buildBoosterCode } from '../utils/BoosterCode.js';
@@ -594,7 +594,11 @@ export class BoosterManager {
       STORES.USER_STATE,
       'readwrite',
       async (context) => {
-        const balance = await sparksManager.applyDelta(context, -extraBoosterPriceSparks);
+        const balance = await sparksManager.applyDelta(
+          context,
+          -extraBoosterPriceSparks,
+          SPARKS_SOURCES.BOOSTER
+        );
         await dateSyncManager.addPurchasedBoosters(1, context);
         return { balance };
       }
@@ -800,6 +804,9 @@ export class BoosterManager {
 
         const stats = this.normalizeStats(await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS));
         stats.boostersOpened += 1;
+        if (historyEntry?.godpack === true) {
+          stats.godpacksOpened += 1;
+        }
         if (typeof setId === 'string' && setId !== '') {
           stats.boostersOpenedBySet[setId] = (stats.boostersOpenedBySet[setId] ?? 0) + 1;
         }
@@ -827,15 +834,13 @@ export class BoosterManager {
         }
 
         // Sparks reward: same transaction as the pack, so a failed card/stats write never
-        // credits the currency (the booster is refunded instead).
-        const currentSparks = BoosterManager.normalizeSparks(
-          await context.get(STORES.USER_STATE, USER_STATE_KEYS.SPARKS)
-        );
+        // credits the currency (the booster is refunded instead). `addSparks` also feeds the
+        // ledger, which keeps the reward of an opening in one place instead of two writes.
         const reward = Number.isInteger(sparksReward) && sparksReward > 0 ? sparksReward : 0;
-        const sparks = currentSparks + reward;
-        if (reward > 0) {
-          await context.put(STORES.USER_STATE, sparks, USER_STATE_KEYS.SPARKS);
-        }
+        const sparks =
+          reward > 0
+            ? await sparksManager.addSparks(reward, context, SPARKS_SOURCES.BOOSTER)
+            : BoosterManager.normalizeSparks(await context.get(STORES.USER_STATE, USER_STATE_KEYS.SPARKS));
 
         return { newKeys, quantity, sparks };
       }
@@ -1000,9 +1005,21 @@ export class BoosterManager {
     const stats = {
       boostersOpened:
         Number.isInteger(source.boostersOpened) && source.boostersOpened >= 0 ? source.boostersOpened : 0,
+      godpacksOpened:
+        Number.isInteger(source.godpacksOpened) && source.godpacksOpened >= 0 ? source.godpacksOpened : 0,
       boostersOpenedBySet: {},
       drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
       drawsByCard: {},
+      // Written by `SparksManager` when a copy is sold, and its ledger of every balance
+      // movement. Carried here because this normalizer rebuilds the record from scratch:
+      // dropping them would erase the sales and the ledger on the next pack.
+      soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      sparksEarned:
+        Number.isInteger(source.sparksEarned) && source.sparksEarned >= 0 ? source.sparksEarned : 0,
+      sparksSpent:
+        Number.isInteger(source.sparksSpent) && source.sparksSpent >= 0 ? source.sparksSpent : 0,
+      sparksEarnedBySource: {},
+      sparksSpentBySource: {},
     };
 
     if (source.boostersOpenedBySet && typeof source.boostersOpenedBySet === 'object') {
@@ -1027,6 +1044,25 @@ export class BoosterManager {
         }
       });
     }
+    if (source.soldByRarity && typeof source.soldByRarity === 'object') {
+      Object.entries(source.soldByRarity).forEach(([rarity, count]) => {
+        if (Number.isInteger(count) && count >= 0) {
+          stats.soldByRarity[rarity] = count;
+        }
+      });
+    }
+    [
+      ['sparksEarnedBySource', stats.sparksEarnedBySource],
+      ['sparksSpentBySource', stats.sparksSpentBySource],
+    ].forEach(([field, target]) => {
+      const raw = source[field];
+      if (!raw || typeof raw !== 'object') return;
+      Object.entries(raw).forEach(([origin, count]) => {
+        if (Number.isInteger(count) && count >= 0) {
+          target[origin] = count;
+        }
+      });
+    });
     return stats;
   }
 

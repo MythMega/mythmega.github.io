@@ -160,18 +160,24 @@
   text-align: center;
 }
 
+/* "NEW": a corner ribbon in the top right of the card, flush with the frame and on the artwork
+   itself. It is deliberately small - the card is the thing being looked at, the badge only has to
+   be caught in passing - and it keeps no margin, so the same rule works on the full-size card of
+   the reveal and on the thumbnails of the summary. The face clips it (`overflow: hidden`), so the
+   ribbon follows the rounded corner of the card instead of poking out of it. */
 .card-reveal__badge {
   position: absolute;
-  top: var(--space-2);
-  left: var(--space-2);
+  top: 0;
+  right: 0;
   z-index: 2;
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-pill);
+  padding: 1px 0.3rem 2px 0.35rem;
+  border-radius: 0 0 0 var(--radius-sm);
   background-color: var(--color-accent);
   color: var(--color-accent-contrast);
-  font-size: var(--font-size-xs);
+  font-size: 0.625rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
 }
 
 /* --- Rarity rendering ---------------------------------------------------- */

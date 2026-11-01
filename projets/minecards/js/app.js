@@ -65,6 +65,7 @@ import dailyRewardPopup from './UI/components/DailyRewardPopup.js';
 import setAnnouncementPopup from './UI/components/SetAnnouncementPopup.js';
 import autoClaimManager from './business/AutoClaimManager.js';
 import dailyRewardManager from './business/DailyRewardManager.js';
+import changelogManager from './business/ChangelogManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
@@ -99,6 +100,28 @@ export const DAILY_REWARDS_SELECTORS = Object.freeze({
   BUTTON: '[data-header-daily-rewards]',
   DOT: '[data-header-daily-rewards-dot]',
 });
+
+/**
+ * Selectors of the identity of the header: the avatar of the player, the level on its corner and the
+ * ring that carries the progress of that level.
+ */
+export const HEADER_IDENTITY_SELECTORS = Object.freeze({
+  ROOT: '[data-header-identity]',
+  AVATAR: '[data-header-avatar]',
+  IMAGE: '[data-header-avatar-image]',
+  INITIAL: '[data-header-avatar-initial]',
+  LEVEL: '[data-header-avatar-level]',
+  LABEL: '[data-header-identity-label]',
+});
+
+/**
+ * Selector of the settings destination of the bottom bar, and of the dot that announces an unread
+ * release note on it.
+ */
+export const SETTINGS_NAV_SELECTOR = '[data-nav-target="settings"]';
+
+/** Selector of the "new version" dot inside the settings button. */
+export const SETTINGS_BADGE_SELECTOR = '[data-settings-badge]';
 
 /** Wait between the end of a reveal and the daily reward offer, in milliseconds. */
 const DAILY_REWARD_OFFER_DELAY_MS = 900;
@@ -223,6 +246,14 @@ export class App {
     this.dailyRewardOfferTimer = null;
     /** @type {string|null} UTC day the daily reward badge was last refreshed for. */
     this.dailyRewardDay = null;
+    /** @type {boolean} True once the identity of the header follows the level and the profile. */
+    this.headerIdentityBound = false;
+    /** @type {object|null} Level returned by the last trophy pass (`{level, progress, …}`). */
+    this.levelSnapshot = null;
+    /** @type {number} Level shown by the identity of the header (the number under the avatar). */
+    this.headerLevel = 1;
+    /** @type {boolean} True once the "new version" dot of the settings button is watched. */
+    this.changelogBadgeBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
     this.unsubscribeViewChanged = null;
     /** @type {(() => (Date|string|number))|null} Trusted UTC provider injected by step 2. */
@@ -394,6 +425,8 @@ export class App {
     // The header listens before the time synchronization so the very first QUOTA_UPDATED and
     // CLOCK_TICK emissions are already displayed.
     this.bindHeader();
+    this.bindHeaderIdentity();
+    this.bindChangelogBadge();
     this.bindBonusInventory();
     this.bindBindersCounter();
     this.bindDailyRewards();
@@ -425,6 +458,11 @@ export class App {
     // notifications are therefore armed only AFTER that first evaluation — from then on, every key
     // moment (an opening, a trophy, a title, a purchase, a custom name, a level) announces itself.
     await this.startTrophies();
+    // The identity of the header is drawn once the level is known: the avatar and the ring are the
+    // first thing the player looks at, and a ring filled from a guess would be a lie for the whole
+    // session. The boot overlay is still on screen, so this paints nothing visible late.
+    await this.refreshHeaderIdentity();
+    await this.refreshChangelogBadge();
     // The titles are derived from that very evaluation (a level, an unlocked trophy) and have to be
     // seeded BEFORE the notifications are armed, for the same reason.
     await this.startTitles();
@@ -534,6 +572,7 @@ export class App {
     try {
       const state = await trophyManager.init({ notify: false });
       this.currentLevel = Number.isInteger(state?.level?.level) ? state.level.level : null;
+      this.levelSnapshot = state?.level ?? null;
       console.info(
         `[App] Trophies ready: ${state.counters.unlocked}/${state.counters.total} unlocked (level ${state.level.level}).`
       );
@@ -1092,6 +1131,115 @@ export class App {
   }
 
   /**
+   * Keeps the identity of the header in sync with the level and the profile.
+   *
+   * Two events carry it: `EXPERIENCE_UPDATED` (a trophy, an opening, a level-up) for the number and
+   * the ring, `PROFILE_UPDATED` (a new pseudo or avatar) for the picture. Nothing polls: the header
+   * changes when the player's progress does, and only then.
+   *
+   * @returns {void}
+   */
+  bindHeaderIdentity() {
+    if (this.headerIdentityBound) return;
+    this.headerIdentityBound = true;
+    eventBus.on(EVENTS.EXPERIENCE_UPDATED, (payload) => this.renderHeaderLevel(payload?.level));
+    eventBus.on(EVENTS.PROFILE_UPDATED, (payload) => this.renderHeaderAvatar(payload?.profile));
+    // The label of the button is a sentence built here, so a language switch has to rebuild it.
+    eventBus.on(EVENTS.LANG_CHANGED, () => this.renderHeaderIdentityLabel());
+  }
+
+  /**
+   * Draws the identity of the header from the saved profile and the level of the boot pass.
+   *
+   * @returns {Promise<void>} Resolves once both halves are drawn (a failure only logs).
+   */
+  async refreshHeaderIdentity() {
+    let profile = null;
+    try {
+      profile = await profileManager.getProfile();
+    } catch (error) {
+      console.warn('[App] The profile of the header could not be read.', error);
+    }
+    this.renderHeaderAvatar(profile);
+    this.renderHeaderLevel(this.levelSnapshot);
+  }
+
+  /**
+   * Draws the avatar (or the initial of the pseudo) of the header.
+   *
+   * The picture is the same one the profile page shows: the chosen icon, or the `photo` URL of a
+   * profile written by an older version. Without either, the first letter of the pseudo takes over -
+   * the empty circle of a player who never picked an icon must not look like a broken image.
+   *
+   * @param {object|null} profile - Stored profile (`{name, icon, photo}`), or null after a reset.
+   * @returns {void}
+   */
+  renderHeaderAvatar(profile) {
+    const root = document.querySelector(HEADER_IDENTITY_SELECTORS.ROOT);
+    if (!root) return;
+    const image = root.querySelector(HEADER_IDENTITY_SELECTORS.IMAGE);
+    const initial = root.querySelector(HEADER_IDENTITY_SELECTORS.INITIAL);
+    if (!image || !initial) return;
+
+    const icon = typeof profile?.icon === 'string' ? profile.icon.trim() : '';
+    const photo = typeof profile?.photo === 'string' ? profile.photo.trim() : '';
+    const path = icon !== '' ? icon : photo;
+    const name = typeof profile?.name === 'string' ? profile.name : '';
+
+    if (path !== '') {
+      if (image.getAttribute('src') !== path) image.src = path;
+      image.hidden = false;
+      initial.hidden = true;
+      image.alt = '';
+    } else {
+      image.hidden = true;
+      initial.hidden = false;
+      // Same rule as the profile page: the pseudo, or the anonymous name it falls back to.
+      const display = name.trim() !== '' ? name.trim() : i18n.t('profile.anonymous');
+      initial.textContent = display.slice(0, 1).toUpperCase();
+    }
+  }
+
+  /**
+   * Draws the level and the progress of that level around the avatar of the header.
+   *
+   * @param {{level?: number, progress?: number}|null} level - Value of `TrophyManager.resolveLevel()`.
+   * @returns {void}
+   */
+  renderHeaderLevel(level) {
+    const root = document.querySelector(HEADER_IDENTITY_SELECTORS.ROOT);
+    if (!root) return;
+    const number = root.querySelector(HEADER_IDENTITY_SELECTORS.LEVEL);
+    const avatar = root.querySelector(HEADER_IDENTITY_SELECTORS.AVATAR);
+
+    const current = Number.isInteger(level?.level) && level.level > 0 ? level.level : 1;
+    this.headerLevel = current;
+    if (number) number.textContent = String(current);
+
+    // The ring is a share of a circle: it is clamped here rather than trusted, so an out-of-range
+    // progress can never paint a full ring over an empty level (or wrap around the wrong way).
+    const raw = Number.isFinite(level?.progress) ? level.progress : 0;
+    const percent = Math.min(100, Math.max(0, raw * 100));
+    if (avatar) avatar.style.setProperty('--level-progress', String(Number(percent.toFixed(2))));
+
+    this.renderHeaderIdentityLabel();
+  }
+
+  /**
+   * Writes the spoken name of the identity button ("Profil - niveau 7").
+   *
+   * The level is written twice in the markup (the number and this label) because the number is
+   * `aria-hidden`: a screen reader would otherwise announce a lone "7" next to nothing.
+   *
+   * @returns {void}
+   */
+  renderHeaderIdentityLabel() {
+    const label = document.querySelector(HEADER_IDENTITY_SELECTORS.LABEL);
+    if (!label) return;
+    label.textContent = i18n.t('header.identity.label', { level: this.headerLevel });
+  }
+
+  /**
    * Writes one trusted clock tick into the header.
    *
    * The first external tick releases the fallback interval started by `startUtcClock()`:
@@ -1240,6 +1388,11 @@ export class App {
     // screen, so it can come back once the new account reaches the main screen.
     installPrompt.hide();
     this.currentLevel = null;
+    // The identity belongs to the account that is leaving: the next one paints its own on top of a
+    // clean circle instead of inheriting the avatar and the level of a save that is not its own.
+    this.levelSnapshot = null;
+    this.renderHeaderAvatar(null);
+    this.renderHeaderLevel(null);
     this.stopUtcClock();
     this.utcTimeProvider = null;
     this.lastTick = null;
@@ -1405,6 +1558,73 @@ export class App {
     } catch (error) {
       console.warn('[App] The daily reward could not be checked.', error);
       dot.hidden = true;
+    }
+  }
+
+  /**
+   * Wires the "new version" dot of the settings button.
+   *
+   * The dot lives on the bottom bar rather than in the settings screen: the point of the feature is
+   * to be seen by someone who is NOT on that screen. It is cleared as soon as the screen is opened,
+   * which is what "read" means here - the notes are on that page, in full, in one scroll.
+   *
+   * @returns {void}
+   */
+  bindChangelogBadge() {
+    if (this.changelogBadgeBound) return;
+    const button = document.querySelector(SETTINGS_NAV_SELECTOR);
+    if (!button) {
+      console.warn('[App] The settings destination is missing from index.html.');
+      return;
+    }
+    this.changelogBadgeBound = true;
+    eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
+      if (payload?.view === SETTINGS_VIEW_NAME) void this.markChangelogRead();
+    });
+    // The accessible name of the button is a sentence, and the tooltip of the dot is translated:
+    // both follow the language like the rest of the bar.
+    eventBus.on(EVENTS.LANG_CHANGED, () => void this.refreshChangelogBadge());
+  }
+
+  /**
+   * Remembers the newest release note as read and clears the dot.
+   *
+   * @returns {Promise<void>} Resolves once the badge is refreshed.
+   */
+  async markChangelogRead() {
+    try {
+      const { latest } = await changelogManager.getUnreadState();
+      if (latest) await changelogManager.markSeen(latest.id);
+    } catch (error) {
+      console.warn('[App] The read version of the release notes could not be saved.', error);
+    }
+    await this.refreshChangelogBadge();
+  }
+
+  /**
+   * Lights (or clears) the dot that announces an unread release note.
+   *
+   * @returns {Promise<void>} Resolves once the button is refreshed.
+   */
+  async refreshChangelogBadge() {
+    const button = document.querySelector(SETTINGS_NAV_SELECTOR);
+    const badge = button?.querySelector(SETTINGS_BADGE_SELECTOR);
+    if (!button || !badge) return;
+
+    let unread = false;
+    try {
+      unread = (await changelogManager.getUnreadState()).unread;
+    } catch (error) {
+      console.warn('[App] The release notes could not be checked.', error);
+    }
+
+    badge.hidden = !unread;
+    // The visible label of the button stays "Réglages" (seven destinations share one row): the
+    // "new version" part only exists as a dot, so it is spelled out in the accessible name.
+    if (unread) {
+      button.setAttribute('aria-label', i18n.t('nav.settings.newVersion'));
+    } else {
+      button.removeAttribute('aria-label');
     }
   }
 

@@ -78,7 +78,7 @@ import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -1082,7 +1082,7 @@ export class RedeemManager {
           if (reward.type === 'booster') {
             await dateSyncManager.addBonusBoosters(reward.key, reward.quantity, context);
           } else if (reward.type === 'sparks') {
-            await sparksManager.addSparks(reward.quantity, context);
+            await sparksManager.addSparks(reward.quantity, context, SPARKS_SOURCES.REDEEM);
           } else {
             const granted = await boosterManager.addCardToCollection(
               reward.card,

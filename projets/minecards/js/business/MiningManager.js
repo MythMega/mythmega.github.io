@@ -42,7 +42,7 @@ import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import dateSyncManager from './DateSyncManager.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 // The seeded generator of the Mine Pick is reused as is: both features draw a DETERMINISTIC daily
 // sequence from the same material (salt + UTC day + account UUID), and sharing the two tiny pure
 // functions is what keeps them from drifting apart.
@@ -719,7 +719,7 @@ export class MiningManager {
     await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
       await context.put(STORES.USER_STATE, nextState, USER_STATE_KEYS.MINING);
       if (sparks > 0) {
-        balance = await sparksManager.addSparks(sparks, context);
+        balance = await sparksManager.addSparks(sparks, context, SPARKS_SOURCES.MINING);
       }
     });
 

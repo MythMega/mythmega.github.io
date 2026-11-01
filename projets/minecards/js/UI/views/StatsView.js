@@ -27,6 +27,10 @@ import boosterManager from '../../business/BoosterManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import minePickManager from '../../business/MinePickManager.js';
+import {
+  SPARKS_EARNED_SOURCES,
+  SPARKS_SPENT_SOURCES,
+} from '../../business/SparksManager.js';
 import miningManager from '../../business/MiningManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
@@ -61,9 +65,15 @@ export class StatsView {
     this.backButton = this.root.querySelector('[data-stats-back]');
     this.feedbackElement = this.root.querySelector('[data-stats-feedback]');
     this.boostersElement = this.root.querySelector('[data-stats-boosters]');
+    this.godpacksElement = this.root.querySelector('[data-stats-godpacks]');
     this.completionGlobalElement = this.root.querySelector('[data-stats-completion-global]');
     this.completionSetsElement = this.root.querySelector('[data-stats-completion-sets]');
     this.rarityElement = this.root.querySelector('[data-stats-rarity]');
+    this.soldElement = this.root.querySelector('[data-stats-sold]');
+    this.soldTotalElement = this.root.querySelector('[data-stats-sold-total]');
+    this.sparksSummaryElement = this.root.querySelector('[data-stats-sparks-summary]');
+    this.sparksEarnedElement = this.root.querySelector('[data-stats-sparks-earned]');
+    this.sparksSpentElement = this.root.querySelector('[data-stats-sparks-spent]');
     this.topElement = this.root.querySelector('[data-stats-top]');
     this.historyElement = this.root.querySelector('[data-stats-history]');
     this.historyEmptyElement = this.root.querySelector('[data-stats-history-empty]');
@@ -117,9 +127,15 @@ export class StatsView {
     const missing = [
       ['[data-stats-back]', this.backButton],
       ['[data-stats-boosters]', this.boostersElement],
+      ['[data-stats-godpacks]', this.godpacksElement],
       ['[data-stats-completion-global]', this.completionGlobalElement],
       ['[data-stats-completion-sets]', this.completionSetsElement],
       ['[data-stats-rarity]', this.rarityElement],
+      ['[data-stats-sold]', this.soldElement],
+      ['[data-stats-sold-total]', this.soldTotalElement],
+      ['[data-stats-sparks-summary]', this.sparksSummaryElement],
+      ['[data-stats-sparks-earned]', this.sparksEarnedElement],
+      ['[data-stats-sparks-spent]', this.sparksSpentElement],
       ['[data-stats-top]', this.topElement],
       ['[data-stats-history]', this.historyElement],
       ['[data-stats-modal]', this.cardModal],
@@ -206,6 +222,13 @@ export class StatsView {
         if (this.isActive) this.handleBoosterOpened();
       })
     );
+    // The Sparks ledger moves with every sale and purchase, wherever it happens: the panel
+    // follows while the page is on screen, like the counters above.
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.SPARKS_UPDATED, () => {
+        if (this.isActive) this.handleBoosterOpened();
+      })
+    );
     // A mine pick writes a card and its own counters: the dedicated panel follows it, but only
     // while the panels are displayed (the activation of the view reloads them anyway).
     this.unsubscribers.push(
@@ -244,6 +267,8 @@ export class StatsView {
       this.renderBoosters(stats);
       this.renderCompletion(view);
       this.renderRarity(stats);
+      this.renderSold(stats);
+      this.renderSparks(stats);
       this.renderTop(stats, view);
       this.renderMinePick(minepick, view);
       this.renderMining(mining, miningBlocks, miningResources);
@@ -265,6 +290,8 @@ export class StatsView {
   renderBoosters(stats) {
     const count = Number.isFinite(stats?.boostersOpened) ? stats.boostersOpened : 0;
     this.boostersElement.textContent = String(Math.max(0, count));
+    const godpacks = Number.isFinite(stats?.godpacksOpened) ? stats.godpacksOpened : 0;
+    this.godpacksElement.textContent = i18n.t('stats.godpacks', { count: Math.max(0, godpacks) });
   }
 
   /**
@@ -317,6 +344,92 @@ export class StatsView {
       const count = Number(draws[String(rarity)]) || 0;
       const label = getRarityLabel(rarity, (key) => i18n.t(key));
       this.rarityElement.appendChild(this.buildBar(label, count, total));
+    });
+  }
+
+  /**
+   * Renders one native bar per rarity from `stats.soldByRarity`.
+   *
+   * Same shape as the draws panel on purpose: the two read against each other, and a missing
+   * counter (a save from before sales were recorded) simply shows the empty line.
+   *
+   * @param {object} stats - Raw `user_state["stats"]` value.
+   * @returns {void}
+   */
+  renderSold(stats) {
+    const sold = stats?.soldByRarity ?? {};
+    const rarities = Array.from({ length: CARD_RARITY.MAX }, (_, index) => CARD_RARITY.MIN + index);
+    const total = rarities.reduce((sum, rarity) => sum + (Number(sold[String(rarity)]) || 0), 0);
+    this.soldTotalElement.textContent = i18n.t('stats.sold.total', { count: total });
+    this.soldTotalElement.hidden = total === 0;
+    this.soldElement.textContent = '';
+    if (total === 0) {
+      this.soldElement.textContent = i18n.t('stats.sold.empty');
+      return;
+    }
+    rarities.forEach((rarity) => {
+      const count = Number(sold[String(rarity)]) || 0;
+      const label = getRarityLabel(rarity, (key) => i18n.t(key));
+      this.soldElement.appendChild(this.buildBar(label, count, total));
+    });
+  }
+
+  /**
+   * Renders the Sparks ledger: the totals, the net balance and both per-origin breakdowns.
+   *
+   * The signed net is written here rather than in the dictionaries: the sign is the same in
+   * every language, only the surrounding sentence is translated.
+   *
+   * @param {object} stats - Raw `user_state["stats"]` value.
+   * @returns {void}
+   */
+  renderSparks(stats) {
+    const earned = Math.max(0, Number(stats?.sparksEarned) || 0);
+    const spent = Math.max(0, Number(stats?.sparksSpent) || 0);
+    const net = earned - spent;
+    this.sparksSummaryElement.textContent = i18n.t('stats.sparks.summary', {
+      earned,
+      spent,
+      net: net === 0 ? '0' : `${net > 0 ? '+' : '−'}${Math.abs(net)}`,
+    });
+    this.renderSources(
+      this.sparksEarnedElement,
+      stats?.sparksEarnedBySource,
+      SPARKS_EARNED_SOURCES,
+      'stats.sparks.empty.earned'
+    );
+    this.renderSources(
+      this.sparksSpentElement,
+      stats?.sparksSpentBySource,
+      SPARKS_SPENT_SOURCES,
+      'stats.sparks.empty.spent'
+    );
+  }
+
+  /**
+   * Renders one bar per origin that actually moved Sparks.
+   *
+   * Origins at zero are left out: a player who never used the Wandering Trader does not need a
+   * row telling them so, and the breakdown reads as "where my Sparks come from".
+   *
+   * @param {HTMLElement} target - Bars container.
+   * @param {unknown} raw - Stored per-origin map.
+   * @param {readonly string[]} sources - Known origins, in display order.
+   * @param {string} emptyKey - i18n key shown when nothing was recorded.
+   * @returns {void}
+   */
+  renderSources(target, raw, sources, emptyKey) {
+    const map = raw && typeof raw === 'object' ? raw : {};
+    const total = sources.reduce((sum, id) => sum + (Number(map[id]) || 0), 0);
+    target.textContent = '';
+    if (total === 0) {
+      target.textContent = i18n.t(emptyKey);
+      return;
+    }
+    sources.forEach((id) => {
+      const count = Number(map[id]) || 0;
+      if (count <= 0) return;
+      target.appendChild(this.buildBar(i18n.t(`stats.sparks.source.${id}`), count, total));
     });
   }
 

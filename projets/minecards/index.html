@@ -414,8 +414,9 @@
         <span class="app-header__stat-value" id="header-bonus-boosters">0</span>
         <span class="sr-only" data-i18n="header.boosters.bonus">Bonus</span>
       </button>
-      <!-- Mine Pick: the free picks left today. -->
-      <span class="app-header__stat" data-i18n-title="header.minepick.title" title="Pioches Mine Pick restantes">
+      <!-- Mine Pick: the free picks left today. Hidden on a phone, where the row has to hold the
+           avatar as well (`app-header__stat--desktop-only`). -->
+      <span class="app-header__stat app-header__stat--desktop-only" data-i18n-title="header.minepick.title" title="Pioches Mine Pick restantes">
         <!-- Same four-pointed sparkle as the "Pick" button of the bottom bar, drawn inline so both
              icons can never drift apart: the counter is about the picks of the Mine Pick. -->
         <svg class="app-header__stat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.5 14 9.5 20 12 14 14.5 12 20.5 10 14.5 4 12 10 9.5Z"/><path d="M18.5 4.5v3M17 6h3"/></svg>
@@ -426,7 +427,7 @@
       <!-- Binders: the personal pages of the player. Same shape as the bonus counter (an icon, the
            count, and a click that does something): the button shows how many binders exist and
            opens their list, which is where they are created, edited and shared. -->
-      <button type="button" class="app-header__stat app-header__stat--action" data-header-binders aria-haspopup="dialog" data-i18n-title="header.binders.title" data-i18n-aria-label="header.binders.title" title="Binders">
+      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--desktop-only" data-header-binders aria-haspopup="dialog" data-i18n-title="header.binders.title" data-i18n-aria-label="header.binders.title" title="Binders">
         <img class="app-header__stat-icon" data-icon="binders" alt="" aria-hidden="true">
         <span class="app-header__stat-label" aria-hidden="true" data-i18n="header.binders.short">Binders</span>
         <span class="app-header__stat-value" id="header-binders">0</span>
@@ -449,6 +450,24 @@
         <span data-i18n="header.clock.utc">UTC</span>
         <time id="header-utc-clock">--:--:--</time>
       </span>
+      <!-- Identity: the avatar of the player, the level written on its corner, and the progress of
+           that very level as a ring around it. It opens the bar, at its left edge, on the same line
+           as the counters: its height is aligned on their top edge, so the extra length hangs BELOW
+           the bar, over the first lines of the page. The ring is painted behind the picture (the `::before` of the wrapper) and is
+           a fraction of a circle, so the end of the run is visible at any value - a plain border
+           could only be full or empty. It is a navigation button: the same tap as the "Profil"
+           destination at the bottom. `App.refreshHeaderIdentity()` writes the picture, the number
+           and `--level-progress`; the label below is set with them, so the level is never read out
+           as a stray digit. -->
+      <button type="button" class="app-header__identity" data-header-identity data-nav-target="profile"
+        data-i18n-title="header.identity.title" title="Votre profil">
+        <span class="app-header__avatar" data-header-avatar>
+          <img class="app-header__avatar-image" data-header-avatar-image alt="" hidden>
+          <span class="app-header__avatar-initial" data-header-avatar-initial aria-hidden="true"></span>
+          <span class="app-header__avatar-level" data-header-avatar-level aria-hidden="true">1</span>
+        </span>
+        <span class="sr-only" data-header-identity-label></span>
+      </button>
     </div>
 
     <!-- Bonus inventory: the total lives in the header, the per-extension split is shown here. -->
@@ -493,7 +512,6 @@
     <section class="view" id="view-opening" data-view="opening" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.opening.title">Ouverture</h2>
-        <p class="view__subtitle" data-i18n="view.opening.subtitle">Choisissez une extension et ouvrez un booster.</p>
       </div>
 
       <!-- Stage 1: choice of the extension and quota -->
@@ -737,7 +755,6 @@
     <section class="view" id="view-profile" data-view="profile" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.profile.title">Profil</h2>
-        <p class="view__subtitle" data-i18n="view.profile.subtitle">Votre nom, votre icône, vos trophées mis en avant et vos cartes favorites.</p>
         <!-- The statistics are a page of their own (`#view-stats`), reached from here: a small
              action under the title, never a tab next to the profile itself. -->
         <div class="view__header-actions">
@@ -789,10 +806,20 @@
               </div>
             </div>
 
-            <button type="button" class="profile__edit" data-profile-edit aria-expanded="false" data-i18n-aria-label="profile.edit" aria-label="Modifier le profil">
-              <img class="profile__edit-icon" src="assets/img/edit.png" alt="" loading="lazy" decoding="async">
-              <span data-i18n="profile.edit">Modifier</span>
-            </button>
+            <div class="profile__identity-actions">
+              <button type="button" class="profile__edit" data-profile-edit aria-expanded="false" data-i18n-aria-label="profile.edit" aria-label="Modifier le profil">
+                <img class="profile__edit-icon" src="assets/img/edit.png" alt="" loading="lazy" decoding="async">
+                <span data-i18n="profile.edit">Modifier</span>
+              </button>
+
+              <!-- The player code is the UUID of the account: the value the settings page prints,
+                   and the one gifts and support ask for. Read-only, so a copy is all this button
+                   can do - `ProfileView.handleCopyCode()` writes it to the clipboard. -->
+              <button type="button" class="profile__copy" data-profile-copy data-i18n-aria-label="profile.copy.aria" aria-label="Copier mon code joueur" data-i18n-title="profile.copy.aria" title="Copier mon code joueur">
+                <svg class="profile__copy-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 5.5h-9a2 2 0 0 0-2 2v9"/></svg>
+                <span data-i18n="profile.copy">Mon code</span>
+              </button>
+            </div>
           </div>
 
           <!-- Revealed by the edit button: the identity can never be changed by accident. -->
@@ -953,7 +980,7 @@
     <section class="view" id="view-stats" data-view="stats" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.stats.title">Statistiques</h2>
-        <p class="view__subtitle" data-i18n="view.stats.subtitle">Boosters ouverts, complétion de la collection, tirages par rareté, Mine Pick et dernières ouvertures.</p>
+        <p class="view__subtitle" data-i18n="view.stats.subtitle">Boosters ouverts, complétion de la collection, tirages et ventes par rareté, Mine Pick et dernières ouvertures.</p>
         <div class="view__header-actions">
           <button type="button" class="btn btn--ghost btn--small" data-stats-back>
             <span data-i18n="stats.back">Retour au profil</span>
@@ -967,6 +994,7 @@
         <div class="panel stats__panel">
           <h3 class="stats__title" data-i18n="stats.boosters.title">Boosters ouverts</h3>
           <p class="stats__big" data-stats-boosters>0</p>
+          <p class="stats__line" data-stats-godpacks></p>
         </div>
 
         <div class="panel stats__panel">
@@ -978,6 +1006,25 @@
         <div class="panel stats__panel">
           <h3 class="stats__title" data-i18n="stats.rarity.title">Tirages par rareté</h3>
           <div class="stats__bars" data-stats-rarity></div>
+        </div>
+
+        <!-- The mirror of the panel above: what was sold back to the shop, per rarity. Written by
+             `SparksManager` inside the sale transaction. -->
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.sold.title">Cartes vendues</h3>
+          <p class="stats__line" data-stats-sold-total></p>
+          <div class="stats__bars" data-stats-sold></div>
+        </div>
+
+        <!-- The ledger of the currency: every credit and debit, and where it came from. Written
+             by `SparksManager` on each movement of the balance. -->
+        <div class="panel stats__panel">
+          <h3 class="stats__title" data-i18n="stats.sparks.title">Sparks</h3>
+          <p class="stats__line" data-stats-sparks-summary></p>
+          <p class="stats__title stats__title--sub" data-i18n="stats.sparks.earned">Gagnés</p>
+          <div class="stats__bars" data-stats-sparks-earned></div>
+          <p class="stats__title stats__title--sub" data-i18n="stats.sparks.spent">Dépensés</p>
+          <div class="stats__bars" data-stats-sparks-spent></div>
         </div>
 
         <div class="panel stats__panel">
@@ -1159,7 +1206,6 @@
     <section class="view" id="view-mineblock" data-view="mineblock" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.mineblock.title">Mine</h2>
-        <p class="view__subtitle" data-i18n="view.mineblock.subtitle">Minez les blocs du jour et récoltez leurs ressources.</p>
         <!-- The one action of the page, pushed to the top right of the screen. A screen of its own,
              opened here and closed with its close button (the trade itself comes later): the markup
              is the modal below. -->
@@ -1519,6 +1565,15 @@
           </div>
           <p class="settings__help" data-info-hint="settings-distributions" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
         </section>
+
+        <!-- Release notes: the whole page is drawn by SettingsView from `settings/changelog.json`
+             (newest version open, the older ones folded), so publishing a version never needs a
+             code change here. -->
+        <section class="panel settings__panel settings__panel--wide">
+          <h3 class="settings__title" data-i18n="settings.changelog.title">Notes de mise à jour</h3>
+          <p class="settings__help" data-i18n="settings.changelog.help">L'historique des versions publiées, de la plus récente à la plus ancienne.</p>
+          <div class="changelog" data-settings-changelog></div>
+        </section>
       </div>
 
       <!-- Promo codes (step 7). They used to be a bottom-bar destination: they now live here, next
@@ -1604,7 +1659,6 @@
     <section class="view" id="view-info" data-view="info" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.info.title">Informations</h2>
-        <p class="view__subtitle" data-i18n="view.info.subtitle">Comment fonctionne l'application, les taux de drop et les crédits.</p>
       </div>
 
       <p class="feedback" data-info-feedback role="status" hidden></p>
@@ -1977,6 +2031,10 @@
     </button>
     <button type="button" class="app-nav__item" data-nav-target="settings">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+      <!-- A version of the release notes was published since the last visit: the dot is the same
+           mark as the daily reward one, and the label of the button says it in words for a screen
+           reader (`App.refreshChangelogBadge()`). -->
+      <span class="app-nav__badge" data-settings-badge hidden data-i18n-title="settings.changelog.badge" aria-hidden="true"></span>
       <span data-i18n="nav.settings">Réglages</span>
     </button>
   </nav>

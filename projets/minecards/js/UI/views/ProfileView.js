@@ -57,6 +57,8 @@ import featureManager, {
 } from '../../business/FeatureManager.js';
 import sparksManager from '../../business/SparksManager.js';
 import slotPurchaseModal from '../components/SlotPurchaseModal.js';
+import accountManager from '../../business/AccountManager.js';
+import { writeToClipboard } from '../../utils/Clipboard.js';
 
 /**
  * i18n keys naming the purchasable features (`FeatureManager.FEATURES`).
@@ -100,6 +102,7 @@ export class ProfileView {
     this.submitButton = this.root.querySelector('[data-profile-submit]');
     this.cancelButton = this.root.querySelector('[data-profile-cancel]');
     this.editButton = this.root.querySelector('[data-profile-edit]');
+    this.copyButton = this.root.querySelector('[data-profile-copy]');
     this.levelElement = this.root.querySelector('[data-profile-level]');
     this.xpFill = this.root.querySelector('[data-profile-xp-fill]');
     this.xpTextElement = this.root.querySelector('[data-profile-xp-text]');
@@ -251,6 +254,7 @@ export class ProfileView {
       ['[data-profile-name]', this.nameInput],
       ['[data-profile-icons]', this.iconsList],
       ['[data-profile-edit]', this.editButton],
+      ['[data-profile-copy]', this.copyButton],
       ['[data-profile-level]', this.levelElement],
       ['[data-profile-xp-fill]', this.xpFill],
       ['[data-profile-featured]', this.featuredElement],
@@ -332,6 +336,7 @@ export class ProfileView {
     this.listen(this.trophiesButton, 'click', () => this.onNavigate?.(TROPHIES_VIEW_NAME));
     this.listen(this.titlesButton, 'click', () => this.onNavigate?.(TITLES_VIEW_NAME));
     this.listen(this.editButton, 'click', () => this.setEditing(!this.isEditing));
+    this.listen(this.copyButton, 'click', () => void this.handleCopyCode());
     this.listen(this.cancelButton, 'click', () => {
       this.renderIdentity(this.profile);
       this.setEditing(false);
@@ -614,6 +619,37 @@ export class ProfileView {
       this.nameInput.focus();
     }
     this.log(this.isEditing ? 'Edit mode opened.' : 'Edit mode closed.');
+  }
+
+  /**
+   * Copies the player code (the UUID of the account) to the clipboard.
+   *
+   * The same value the settings page prints: it is what a gift or a support request asks for, and
+   * the player should not have to leave the profile to read it. The identifier is never displayed
+   * here - copying it is enough.
+   *
+   * @returns {Promise<void>} Resolves once the copy attempt finished.
+   */
+  async handleCopyCode() {
+    let code = null;
+    try {
+      code = await accountManager.getUuid();
+    } catch (error) {
+      console.error('[ProfileView] The player code could not be read.', error);
+    }
+
+    if (!code) {
+      Toast.error('profile.copy.error');
+      return;
+    }
+
+    try {
+      await writeToClipboard(code);
+      Toast.success('profile.copy.copied');
+    } catch (error) {
+      console.error('[ProfileView] The player code could not be copied.', error);
+      Toast.error('profile.copy.error');
+    }
   }
 
   /**

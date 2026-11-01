@@ -39,7 +39,7 @@ import dateSyncManager from './DateSyncManager.js';
 import boosterManager from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import miningManager, { RESOURCE_TEXTURE_DIRECTORY, SPARKS_TEXTURE } from './MiningManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 
 /** Path of the chapter file, relative to the application root. */
 export const DAILY_REWARDS_PATH = 'settings/daily_connect_rewards.json';
@@ -801,7 +801,7 @@ export class DailyRewardManager {
         let balance = null;
 
         if (plan.kind === DAILY_REWARD_KINDS.SPARKS) {
-          balance = await sparksManager.addSparks(plan.quantity, context);
+          balance = await sparksManager.addSparks(plan.quantity, context, SPARKS_SOURCES.DAILY);
         } else if (plan.kind === DAILY_REWARD_KINDS.RESOURCE) {
           await miningManager.grantResources({ [plan.reward.slug]: plan.quantity }, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {

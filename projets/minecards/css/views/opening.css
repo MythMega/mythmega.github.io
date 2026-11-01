@@ -255,6 +255,14 @@
   pointer-events: none;
 }
 
+/* The ribbon of a thumbnail: the same corner mark as the spotlight, one notch smaller. At the
+   size of the spotlight it would eat a sixth of a card that is a third as wide. */
+.card-reveal__summary-item .card-reveal__badge {
+  padding: 1px 2px 0 3px;
+  font-size: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
 .card-reveal__summary-item:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;

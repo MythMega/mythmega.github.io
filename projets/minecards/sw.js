@@ -43,7 +43,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v58';
+const VERSION = 'v66';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -171,6 +171,7 @@ const PRECACHE_URLS = [
   './js/business/AutoClaimManager.js',
   './js/business/BinderManager.js',
   './js/business/BoosterManager.js',
+  './js/business/ChangelogManager.js',
   './js/business/CollectionManager.js',
   './js/business/ColorManager.js',
   './js/business/DailyRewardManager.js',
@@ -217,6 +218,7 @@ const PRECACHE_URLS = [
      them the game boots but has nothing to open. */
   './settings/config.json',
   './settings/cardsets.json',
+  './settings/changelog.json',
   './settings/colors.json',
   './settings/i18n/fr.json',
   './settings/i18n/en.json',

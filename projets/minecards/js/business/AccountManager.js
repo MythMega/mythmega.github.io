@@ -14,7 +14,9 @@
  *                   glowTrophies, notificationDuration, notificationTypes, boosterRenderMode,
  *                   nativeScrollbars }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
- *   - `stats`     : { boostersOpened, drawsByRarity, drawsByCard }
+ *   - `stats`     : { boostersOpened, godpacksOpened, boostersOpenedBySet, drawsByRarity,
+ *                   drawsByCard, soldByRarity, sparksEarned, sparksSpent,
+ *                   sparksEarnedBySource, sparksSpentBySource }
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
  *   - `sparks`    : number (starting balance of the Sparks currency)
  *   - `profile`   : { name, photo, favorites, featured } (created at the first boot, see
@@ -72,6 +74,9 @@ export const USER_STATE_KEYS = Object.freeze({
   // number of rewards already claimed in it, the day of the last claim and the `UniqueID`s already
   // handed out.
   DAILY_REWARDS: 'dailyRewards',
+  // Highest `Id` of `settings/changelog.json` the player has opened (see `ChangelogManager`): what
+  // the "new version" badge of the settings button is measured against.
+  CHANGELOG_SEEN: 'changelogSeen',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -137,16 +142,26 @@ export function buildDefaultQuota(dailyFreeBoosters = 3) {
 }
 
 /**
- * Builds the initial statistics state.
+ * `soldByRarity` counts the copies sold to the shop (see `SparksManager.sellCard`), not the
+ * copies obtained: the two counters answer different questions and must not be merged.
  *
- * @returns {{boostersOpened: number, drawsByRarity: Record<string, number>, drawsByCard: Record<string, number>}}
+ * @returns {{boostersOpened: number, godpacksOpened: number, drawsByRarity: Record<string, number>,
+ *   drawsByCard: Record<string, number>, soldByRarity: Record<string, number>, sparksEarned: number,
+ *   sparksSpent: number, sparksEarnedBySource: Record<string, number>,
+ *   sparksSpentBySource: Record<string, number>}}
  *   A fresh statistics state with every rarity initialized to zero.
  */
 export function buildDefaultStats() {
   return {
     boostersOpened: 0,
+    godpacksOpened: 0,
     drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
     drawsByCard: {},
+    soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+    sparksEarned: 0,
+    sparksSpent: 0,
+    sparksEarnedBySource: {},
+    sparksSpentBySource: {},
   };
 }
 

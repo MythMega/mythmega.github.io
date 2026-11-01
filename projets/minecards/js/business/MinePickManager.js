@@ -51,7 +51,7 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import GachaEngine from './GachaEngine.js';
 import { CARD_RARITY } from '../classes/Card.js';
 
@@ -340,7 +340,11 @@ export class MinePickManager {
       STORES.USER_STATE,
       'readwrite',
       async (context) => {
-        const balance = await sparksManager.applyDelta(context, -extraPickPriceSparks);
+        const balance = await sparksManager.applyDelta(
+          context,
+          -extraPickPriceSparks,
+          SPARKS_SOURCES.MINE_PICK
+        );
         const stored = this.normalizeState(
           await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINE_PICK),
           picksPerDay

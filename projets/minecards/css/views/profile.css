@@ -120,7 +120,17 @@
 }
 
 /* The pencil: the ONLY way to change the name or the avatar, so a stray tap can never edit them. */
-.profile__edit {
+/* The two actions of the identity (rename, copy the player code) share one row under the pseudo on
+   a phone, and form the last column of the identity band on a wide screen. */
+.profile__identity-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-self: flex-start;
+}
+
+.profile__edit,
+.profile__copy {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -141,7 +151,8 @@
     background-color var(--duration-fast) var(--easing-standard);
 }
 
-.profile__edit:hover {
+.profile__edit:hover,
+.profile__copy:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
   transform: translateY(-2px);
@@ -158,6 +169,19 @@
   height: 1.125rem;
   object-fit: contain;
   filter: var(--icon-filter);
+}
+
+/* Drawn inline rather than shipped as a PNG: the copy glyph has to follow the ink of the theme on
+   the two dark palettes and on the three light ones, which a bitmap cannot do. */
+.profile__copy-icon {
+  flex: 0 0 auto;
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .profile__form {
@@ -620,9 +644,11 @@
   position: relative;
   flex: 0 0 auto;
   /* The shadow content is authored at 360 px: `fit-content` makes the tilt surface the card's own
-     footprint instead of the full width of the panel. */
+     footprint instead of the full width of the panel. It is NOT capped at the width of the panel:
+     the card is scaled as a whole and keeps its own box, so capping it would leave the scaled
+     picture hanging on the right of a narrower surface (and the stage would clip it there). The
+     stage centres it instead, and `ProfileCard.applyStage()` leaves a small inset on each side. */
   width: fit-content;
-  max-width: 100%;
 }
 
 .profile-card-panel__actions {

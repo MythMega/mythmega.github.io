@@ -28,7 +28,10 @@
  *                 replaced) and full reset (confirmation modal, UUID included);
  *   - distributions : "check the distributions" (reads the public Google Sheet through
  *                 `GiftManager.checkGifts()`, reports the outcome in an information modal and
- *                 links to the gift history).
+ *                 links to the gift history);
+ *   - changelog : the release notes, drawn from `settings/changelog.json` (newest version first,
+ *                 one note per line with its kind). The file is the only source: publishing a
+ *                 version never touches this view.
  *
  * The modal is shared by the confirmations (import, reset) and by the distribution report: a
  * confirmation shows Cancel + Confirm, an information message only shows a Close button.
@@ -73,6 +76,12 @@ import { applyShine } from '../components/CardComponent.js';
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
 
+/**
+ * Note kinds the game has a label for. Anything else keeps the word of the changelog file: a new
+ * kind of note must never need a release of the game to be readable.
+ */
+const CHANGELOG_TYPES = ['feature', 'fix', 'qol'];
+
 export class SettingsView {
   /**
    * @param {HTMLElement} rootElement - The settings `<section>`.
@@ -101,6 +110,7 @@ export class SettingsView {
     this.renderPanel = query('[data-settings-render-panel]');
     this.renderContainer = query('[data-settings-render]');
     this.renderDetailElement = query('[data-settings-render-detail]');
+    this.changelogElement = query('[data-settings-changelog]');
     this.foilSlider = query('[data-settings-foil]');
     this.foilValueElement = query('[data-settings-foil-value]');
     this.glareSlider = query('[data-settings-glare]');
@@ -286,6 +296,7 @@ export class SettingsView {
     await this.syncNativeScrollbarsToggle();
     await this.renderAccount();
     this.renderClock();
+    await this.renderChangelog();
     this.bindEvents();
     this.subscribeToEvents();
     this.log(
@@ -612,6 +623,121 @@ export class SettingsView {
     if (this.clockDayElement) {
       this.clockDayElement.textContent = day ? i18n.t('stats.history.date', { date: day }) : '';
     }
+  }
+
+  /**
+   * Draws the release notes from `settings/changelog.json`.
+   *
+   * The newest version comes unfolded; the older ones stay folded, so a changelog of two years
+   * still reads as one panel. A file that cannot be read leaves a sentence rather than an empty
+   * box: this page is documentation, and nothing on it is something the player can act on.
+   *
+   * @returns {Promise<void>} Resolves once the panel is drawn.
+   */
+  async renderChangelog() {
+    if (!this.changelogElement) return;
+
+    let versions = [];
+    try {
+      versions = await configLoader.getChangelog();
+    } catch (error) {
+      console.error('[SettingsView] The release notes could not be read.', error);
+      this.changelogElement.replaceChildren(this.buildChangelogNotice('settings.changelog.error'));
+      return;
+    }
+
+    if (versions.length === 0) {
+      this.changelogElement.replaceChildren(this.buildChangelogNotice('settings.changelog.empty'));
+      return;
+    }
+
+    const lang = i18n.getLang();
+    this.changelogElement.replaceChildren(
+      ...versions.map((version, position) => this.buildChangelogVersion(version, position === 0, lang))
+    );
+    this.log(`Release notes displayed (${versions.length} version(s)).`);
+  }
+
+  /**
+   * Builds the sentence the changelog shows instead of a list.
+   *
+   * @param {string} key - Translation key.
+   * @returns {HTMLElement} The paragraph.
+   */
+  buildChangelogNotice(key) {
+    const notice = document.createElement('p');
+    notice.className = 'settings__help changelog__notice';
+    notice.textContent = i18n.t(key);
+    return notice;
+  }
+
+  /**
+   * Builds one folded version of the changelog, with its notes.
+   *
+   * @param {{version: string, notes: Array<object>}} version - Version to draw.
+   * @param {boolean} open - Whether the block starts unfolded (the newest one does).
+   * @param {string} lang - Active language.
+   * @returns {HTMLElement} The `<details>` block.
+   */
+  buildChangelogVersion(version, open, lang) {
+    const block = document.createElement('details');
+    block.className = 'changelog__version';
+    block.open = open;
+
+    const summary = document.createElement('summary');
+    summary.className = 'changelog__summary';
+    summary.textContent = i18n.t('settings.changelog.version', { version: version.version });
+    block.append(summary);
+
+    if (version.notes.length === 0) {
+      block.append(this.buildChangelogNotice('settings.changelog.noNotes'));
+      return block;
+    }
+
+    const list = document.createElement('ul');
+    list.className = 'changelog__notes';
+    version.notes.forEach((note) => list.append(this.buildChangelogNote(note, lang)));
+    block.append(list);
+    return block;
+  }
+
+  /**
+   * Builds one note: its kind, its text in the active language, and the mark of an important one.
+   *
+   * The file holds its text per language, so the note falls back to the default language and then
+   * to whatever translation exists: a note written in one language only stays readable everywhere.
+   *
+   * @param {{type: string, label: string, important: boolean, text: Record<string, string>}} note -
+   *   Note to draw.
+   * @param {string} lang - Active language.
+   * @returns {HTMLElement} The list item.
+   */
+  buildChangelogNote(note, lang) {
+    const item = document.createElement('li');
+    item.className = 'changelog__note';
+    item.dataset.type = note.type;
+
+    const badge = document.createElement('span');
+    badge.className = 'changelog__badge';
+    badge.textContent = CHANGELOG_TYPES.includes(note.type)
+      ? i18n.t(`settings.changelog.type.${note.type}`)
+      : note.label;
+    if (note.important) {
+      item.classList.add('is-important');
+      const star = document.createElement('span');
+      star.className = 'changelog__star';
+      star.setAttribute('role', 'img');
+      star.setAttribute('aria-label', i18n.t('settings.changelog.important'));
+      star.textContent = '★';
+      badge.append(star);
+    }
+
+    const text = document.createElement('p');
+    text.className = 'changelog__text';
+    text.textContent = note.text[lang] ?? note.text[i18n.defaultLang] ?? Object.values(note.text)[0] ?? '';
+
+    item.append(badge, text);
+    return item;
   }
 
   /**
@@ -2156,6 +2282,7 @@ export class SettingsView {
     this.renderFoilValue();
     this.renderNotificationDurationValue();
     this.renderClock();
+    void this.renderChangelog();
     this.renderFeedback();
     if (this.pendingModal) {
       void this.renderModal().catch((error) => {

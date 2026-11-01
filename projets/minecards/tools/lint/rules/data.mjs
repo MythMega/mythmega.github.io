@@ -19,6 +19,7 @@ const CARDSETS_FILE = 'settings/cardsets.json';
 const CODES_FILE = 'settings/codes.json';
 const MINING_FILE = 'settings/mining.json';
 const DAILY_REWARDS_FILE = 'settings/daily_connect_rewards.json';
+const CHANGELOG_FILE = 'settings/changelog.json';
 const RARITY_FILE = 'settings/defaultRarity.json';
 const PINNED_OFFERS_FILE = 'data/shop/pinned_offers.json';
 
@@ -1486,6 +1487,116 @@ export default [
           );
         }
       }
+    },
+  },
+  {
+    id: 'data/changelog',
+    summary: 'The release notes are ordered, translated and readable by the settings page.',
+    severity: 'error',
+    files: (relativePath) => relativePath === CHANGELOG_FILE,
+    /**
+     * The settings page draws whatever the loader manages to normalize, so a broken entry does not
+     * fail loudly: it simply disappears from the page. The rule checks what the page cannot - a
+     * version declared twice, a missing number, a note with no kind, a text absent from a language
+     * of the game - so a release note is never lost between the file and the screen.
+     */
+    run(context) {
+      const versions = readOrNull(context, CHANGELOG_FILE);
+      if (versions === null) return;
+      const text = context.readText(CHANGELOG_FILE);
+
+      if (!Array.isArray(versions)) {
+        context.report({
+          file: CHANGELOG_FILE,
+          line: 1,
+          column: 1,
+          message: 'the file must hold an array of versions',
+        });
+        return;
+      }
+
+      const config = readOrNull(context, CONFIG_FILE);
+      const languages = (Array.isArray(config?.languages) ? config.languages : [])
+        .map((entry) => (entry && typeof entry.code === 'string' ? entry.code.trim().toLowerCase() : ''))
+        .filter((code) => code !== '');
+
+      const seenIds = new Map();
+      const seenVersions = new Map();
+
+      versions.forEach((version, position) => {
+        if (!isRecord(version)) {
+          context.report({
+            file: CHANGELOG_FILE,
+            line: 1,
+            column: 1,
+            message: `version #${position + 1} is not an object`,
+          });
+          return;
+        }
+
+        const id = version.Id;
+        const label = isFilled(version.Version) ? version.Version.trim() : '';
+        const versionLine = label !== '' ? lineAt(text, `"Version": ${JSON.stringify(version.Version)}`) : 1;
+        const fail = (message, severity) =>
+          context.report({ file: CHANGELOG_FILE, line: versionLine, column: 1, message, severity });
+
+        // `Id` is what orders the page: without it, or with two entries sharing one, the versions
+        // are sorted against each other and a release can jump above the next one.
+        if (!Number.isInteger(id) || id <= 0) {
+          fail(`version "${label || position + 1}" has an Id of ${JSON.stringify(id)}, expected a positive integer`);
+        } else if (seenIds.has(id)) {
+          fail(`Id ${id} is already used on line ${seenIds.get(id)}`);
+        } else {
+          seenIds.set(id, versionLine);
+        }
+
+        if (label === '') {
+          fail(`version #${position + 1} has no Version`);
+        } else if (!/^\d/.test(label)) {
+          fail(`version "${label}" does not start with a number`);
+        } else if (seenVersions.has(label)) {
+          fail(`version "${label}" is declared twice (first on line ${seenVersions.get(label)})`);
+        } else {
+          seenVersions.set(label, versionLine);
+        }
+
+        if (version.Notes !== undefined && !Array.isArray(version.Notes)) {
+          fail(`version "${label}" has Notes that are not an array`);
+          return;
+        }
+
+        (Array.isArray(version.Notes) ? version.Notes : []).forEach((note, index) => {
+          const where = `version "${label}" note #${index + 1}`;
+          if (!isRecord(note)) {
+            fail(`${where}: the note is not an object`);
+            return;
+          }
+          if (!isFilled(note.Type)) {
+            fail(`${where}: the note has no Type`);
+          }
+          if (note.IsImportant !== undefined && typeof note.IsImportant !== 'boolean') {
+            fail(`${where}: IsImportant must be a boolean`);
+          }
+
+          // The text is per language: a note the game cannot read in the current language would be
+          // displayed as an empty line, which is worse than not being there at all.
+          const translations = isRecord(note.Text) ? note.Text : null;
+          if (translations === null) {
+            fail(`${where}: the note has no Text object`);
+            return;
+          }
+          const written = Object.entries(translations)
+            .filter(([, value]) => isFilled(value))
+            .map(([lang]) => lang.trim().toLowerCase());
+          if (written.length === 0) {
+            fail(`${where}: the note has no readable text`);
+            return;
+          }
+          languages
+            .filter((code) => !written.includes(code))
+            .forEach((code) => fail(`${where}: the note is not translated in "${code}"`, 'warning'));
+        });
+      });
     },
   },
 ];

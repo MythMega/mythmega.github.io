@@ -392,7 +392,9 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
 `ProfileCardManager` + `js/UI/components/ProfileCard.js`.
 
-- **Identité en lecture seule** : pseudo, avatar, titre ; un bouton crayon révèle le formulaire.
+- **Identité en lecture seule** : pseudo, avatar, titre ; un bouton crayon révèle le formulaire, et
+  un bouton « Mon code » copie l'UUID du compte (la même valeur que la page Paramètres) dans le
+  presse-papiers, avec un toast de confirmation.
 - **Niveau et barre d'XP** sous l'identité.
 - **Trophées mis en avant** (1 au départ, 5 max) et **cartes favorites** (3 au départ, 5 max) sur
   une ligne défilante, chaque vignette ouvrant une modale de détail. La tuile « + » de chaque liste
@@ -417,8 +419,25 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
   - carte agrandie manipulable : maintien à la souris ou au doigt pour l'incliner
     (`cardDetail.maxRotationDeg`) avec une légère épaisseur (`cardDetail.thicknessPx`) ;
   - « Agrandir la carte » et « Télécharger la carte » (PNG 720 × 1000, police et images incorporées
-    en data URLs).
-- La carte est recalculée à chaque rendu : elle ne peut pas contredire la page.
+    en data URLs) ;
+  - l'aperçu est mis à l'échelle de la largeur du panneau (`ProfileCard.applyStage()`), avec une
+    petite marge de chaque côté : le cadre et son halo ne sont jamais rognés par la scène.
+- **Identité dans l'en-tête** : l'avatar du joueur, son niveau écrit sur le coin inférieur droit et
+  la progression de ce niveau en anneau autour de l'image (`App.renderHeaderAvatar()` /
+  `renderHeaderLevel()`). Il ouvre la barre, à son bord gauche, sur la même ligne que les compteurs
+  et **dépassant de quelques pixels sous la barre** : il est ancré au bord bas de l'en-tête et la
+  barre lui réserve sa place (`padding-left` de `.app-header`). L'anneau est un `conic-gradient`
+  masqué en bande, peint **derrière** la photo et posé juste à l'extérieur : son extrémité reste
+  visible à toute valeur, ce qu'une bordure ne saurait pas faire. Les couleurs viennent du thème
+  (`--color-accent`, `--color-border`), donc l'anneau et la pastille du niveau suivent la palette
+  choisie. Le bloc est un bouton de navigation : il ouvre le profil. Il est mis à jour par
+  `EXPERIENCE_UPDATED` (niveau et anneau) et `PROFILE_UPDATED` (pseudo et avatar) : rien n'est
+  interrogé périodiquement.
+- **Sur téléphone**, les compteurs « Binders » et « Pioches » quittent l'en-tête
+  (`app-header__stat--desktop-only`) pour laisser la largeur à l'avatar : les binders sont à un tap
+  dans la collection et les pioches sur la page Mine, aucune information n'est perdue. Le titre
+  « MineCards » disparaît aussi (`app-header__brand`) : le nom du jeu est dans l'onglet et dans
+  l'app installée, et la barre est plus utile aux compteurs.
 
 ## 17. Notifications de jeu et toasts
 
@@ -442,10 +461,12 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
 
 Vue : `js/UI/views/StatsView.js`.
 
-- Panneaux : boosters ouverts (total et par extension), tirages par rareté, cartes les plus
-  tirées, complétion par extension, historique des ouvertures (`boosters.historySize`, 10),
-  panneau **Mine Pick** et panneau **Mine** (allowance du jour, une barre par sorte de bloc, y
-  compris à 0, ressources récoltées).
+- Panneaux : boosters ouverts (total, dont godpacks) et par extension, tirages par rareté, cartes
+  les plus tirées, complétion par extension, cartes **vendues** par rareté, **grand livre des
+  Sparks** (gagnés, dépensés, solde net et une barre par origine : ouvertures, ventes, connexion,
+  Mine, codes, cadeaux, achats de cartes, fonctionnalités, Mine Pick, marchand), historique des
+  ouvertures (`boosters.historySize`, 10), panneau **Mine Pick** et panneau **Mine** (allowance du
+  jour, une barre par sorte de bloc, y compris à 0, ressources récoltées).
 - Les données viennent de `stats`, `minePick`, `mining` et du catalogue ; rien n'est recalculé à
   partir des illustrations.
 - Une ressource que la configuration ne déclare plus mais que la sauvegarde contient est ajoutée en
@@ -497,6 +518,19 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
 - **Sauvegarde** : export `.save`, import, reset complet.
 - **Vérifier les distributions** et lien vers l'historique des cadeaux.
 - **Codes** : panneau de saisie des codes.
+- **Notes de mise à jour** : la page est entièrement construite à partir de `settings/changelog.json`
+  (`ConfigLoader.getChangelog()`), de la version la plus récente à la plus ancienne. Chaque version
+  est un bloc repliable, la plus récente ouverte ; chaque note porte sa nature (`Feature`, `Fix`,
+  `QoL`, ou le mot du fichier si le jeu ne la connaît pas) et les notes marquées `IsImportant` sont
+  bordées et étoilées. Le texte suit la langue active, avec repli sur la langue par défaut ; un
+  fichier illisible affiche une phrase au lieu d'un bloc vide. Schema et règles :
+  [04-donnees-et-configuration.md](04-donnees-et-configuration.md) §4.2 ter.
+- **Pastille « nouvelle version »** : `js/business/ChangelogManager.js` compare le plus grand `Id` de
+  `settings/changelog.json` avec `user_state["changelogSeen"]` et allume le point du bouton
+  « Réglages » de la barre du bas tant qu'une version n'a pas été ouverte. Le point s'efface à
+  l'ouverture de la page et le nom accessible du bouton le dit en toutes lettres
+  (`nav.settings.newVersion`). Une entrée absente équivaut à « rien n'a jamais été lu » ; l'`Id`
+  mémorisé ne redescend jamais.
 
 ## 21. Overlay de stream
 

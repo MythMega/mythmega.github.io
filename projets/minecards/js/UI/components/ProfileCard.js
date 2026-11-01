@@ -61,6 +61,15 @@ export const PROFILE_CARD_FONT_STYLESHEET = 'css/fonts.css';
 const MIN_SCALE = 0.35;
 
 /**
+ * Margin left on each side of the stage, in pixels, once the card is fitted to it.
+ *
+ * The stage clips (`overflow: hidden`), and the card is framed by a border and a glow: a card fitted
+ * to the exact width of the stage would lose a hair of that frame on both sides. Three pixels each
+ * side keeps the whole card visible without making it visibly smaller.
+ */
+const STAGE_INSET = 3;
+
+/**
  * Media type of the assets embedded in the exported image, by file extension.
  *
  * A `Blob` served without a type (Python's `http.server` answers `application/octet-stream`) would
@@ -293,8 +302,10 @@ export class ProfileCard {
   applyStage() {
     const parent = this.host.parentElement;
     const available = parent ? parent.clientWidth : 0;
+    // The card is authored 360 px wide and only ever scaled DOWN: the stage hands it the width of
+    // the panel minus its inset, and a wide screen simply shows the card at its real size.
     const scale = available > 0
-      ? Math.min(1, Math.max(MIN_SCALE, available / PROFILE_CARD_WIDTH))
+      ? Math.min(1, Math.max(MIN_SCALE, (available - STAGE_INSET * 2) / PROFILE_CARD_WIDTH))
       : 1;
     this.host.style.setProperty('--profile-card-scale', String(scale));
     // A transformed element keeps its layout height: the stage takes the SCALED one instead, so the

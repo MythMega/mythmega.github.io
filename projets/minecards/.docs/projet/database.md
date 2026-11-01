@@ -93,7 +93,7 @@ Règles :
 
 ## 3. ObjectStore `user_state`
 
-Dix-huit clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager.js`).
+Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountManager.js`).
 
 | Clé | Type | Fiche |
 |---|---|---|
@@ -115,6 +115,7 @@ Dix-huit clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 | `profileCard` | objet | préférences de la carte de profil |
 | `setAnnouncements` | tableau | extensions à venir déjà annoncées |
 | `dailyRewards` | objet | série de récompenses de connexion en cours |
+| `changelogSeen` | nombre | plus grand `Id` de `settings/changelog.json` déjà lu (pastille « nouvelle version ») |
 
 ### 3.1 `account`
 
@@ -192,9 +193,15 @@ Dix-huit clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 ```json
 {
   "boostersOpened": 13,
+  "godpacksOpened": 1,
   "boostersOpenedBySet": { "A1": 13 },
   "drawsByRarity": { "1": 40, "2": 15, "3": 6, "4": 3, "5": 1 },
-  "drawsByCard": { "SERIE-A1 _ W001_classic": 4 }
+  "drawsByCard": { "SERIE-A1 _ W001_classic": 4 },
+  "soldByRarity": { "1": 12, "2": 3, "3": 0, "4": 0, "5": 0 },
+  "sparksEarned": 320,
+  "sparksSpent": 1500,
+  "sparksEarnedBySource": { "booster": 65, "sale": 12, "daily": 243, "mining": 0, "redeem": 0, "gift": 0, "other": 0 },
+  "sparksSpentBySource": { "card": 0, "booster": 1500, "feature": 0, "minepick": 0, "trader": 0, "other": 0 }
 }
 ```
 
@@ -202,6 +209,15 @@ Dix-huit clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
   laisse pas de statistique fantôme.
 - Ne compte que les **boosters ouverts** : la Mine Pick, la Mine, le Marchand et les cadeaux ont
   leurs propres compteurs et n'incrémentent jamais `stats`.
+- `soldByRarity` (rareté → nombre d'exemplaires **vendus**) est écrit par `SparksManager` dans la
+  transaction de la vente. Un compteur absent (sauvegarde antérieure) est lu comme zéro, jamais
+  réparé de force.
+- `sparksEarned` / `sparksSpent` et leurs cartes par origine forment le **grand livre** de la
+  monnaie. Il est tenu par `SparksManager.applyDelta()`, le point de passage unique de tout
+  mouvement de solde : un flux qui oublie de nommer son origine est quand même compté (`other`),
+  au lieu de disparaître. Les deux écrivains qui ne passent pas par `applyDelta` (la récompense
+  d'un booster et un cadeau repliés dans une transaction plus large) appellent `recordFlow()` à
+  côté de leur écriture, dans la même transaction.
 
 ### 3.6 `boosterHistory`
 

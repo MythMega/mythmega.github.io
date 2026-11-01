@@ -52,7 +52,7 @@ import { USER_STATE_KEYS } from './AccountManager.js';
 import boosterManager, { BoosterManager } from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import miningManager, { resourceSlug } from './MiningManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import { createSeededRandom, hashSeed } from './MinePickManager.js';
 
 /** Source carried by the `CARDS_OBTAINED` event of a bought card. */
@@ -1303,7 +1303,7 @@ export class TraderManager {
             `The Sparks offer of ${day} was already bought.`
           );
         }
-        const balance = await sparksManager.applyDelta(context, -offer.priceSparks);
+        const balance = await sparksManager.applyDelta(context, -offer.priceSparks, SPARKS_SOURCES.TRADER);
         const resources = await miningManager.grantResources(
           { [offer.item.slug]: offer.quantity },
           context

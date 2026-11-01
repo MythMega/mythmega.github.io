@@ -358,3 +358,91 @@ body[data-connection="offline"] .settings__clock-value {
     flex: 0 1 auto;
   }
 }
+
+/* --- Release notes (`settings/changelog.json`) ---------------------------- */
+
+/* The panel takes the whole width of the grid: a note is a sentence, and half a screen would break
+   it in three. Below 768px the grid is a single column anyway. */
+.settings__panel--wide {
+  grid-column: 1 / -1;
+}
+
+.changelog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.changelog__notice {
+  margin: 0;
+}
+
+/* One version: the browser's own `<details>` marker already says the line opens, so the block only
+   adds a frame. The newest version is unfolded by the view. */
+.changelog__version {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.changelog__summary {
+  padding: var(--space-2) var(--space-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.changelog__notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3);
+  list-style: none;
+}
+
+/* One note: its kind on the left, its sentence on the right. The transparent border is the room
+   the important ones paint over, so nothing shifts when a note is flagged. */
+.changelog__note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding-left: var(--space-2);
+  border-left: 2px solid transparent;
+}
+
+.changelog__badge {
+  flex: 0 0 auto;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* A kind the game knows gets a colour; any other keeps the muted pill and the word of the file. */
+.changelog__note[data-type="feature"] .changelog__badge {
+  color: var(--color-success);
+}
+
+.changelog__note[data-type="fix"] .changelog__badge {
+  color: var(--color-accent);
+}
+
+.changelog__note.is-important {
+  border-left-color: var(--color-warning);
+}
+
+.changelog__star {
+  margin-left: var(--space-1);
+  color: var(--color-warning);
+}
+
+.changelog__text {
+  flex: 1 1 12rem;
+  margin: 0;
+  font-size: var(--font-size-sm);
+}

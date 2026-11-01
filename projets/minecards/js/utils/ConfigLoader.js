@@ -23,6 +23,15 @@ export const CONFIG_PATH = 'settings/config.json';
 export const CARDSETS_PATH = 'settings/cardsets.json';
 
 /**
+ * Release notes of the game, relative to the application root.
+ *
+ * One entry per published version, written in release order, each carrying notes translated per
+ * language. `SettingsView` draws the page from it, so documenting a release never needs a code
+ * change.
+ */
+export const CHANGELOG_PATH = 'settings/changelog.json';
+
+/**
  * Default settings of the set catalogue.
  *
  * `previewDays` is how many days before its release a set may be shown (booster picker and 3D model
@@ -410,6 +419,10 @@ export class ConfigLoader {
     this.cachedCardSets = null;
     /** @type {Promise<Array<object>>|null} In-flight request of the set catalogue. */
     this.pendingCardSets = null;
+    /** @type {Array<{id: number, version: string, notes: Array<object>}>|null} Release notes. */
+    this.cachedChangelog = null;
+    /** @type {Promise<Array<object>>|null} In-flight request of the release notes. */
+    this.pendingChangelog = null;
   }
 
   /**
@@ -862,6 +875,127 @@ export class ConfigLoader {
     const time = Date.parse(`${trimmed}T00:00:00.000Z`);
     if (!Number.isFinite(time)) return null;
     return new Date(time).toISOString().slice(0, 10) === trimmed ? trimmed : null;
+  }
+
+  /**
+   * Release notes (`settings/changelog.json`).
+   *
+   * The file is written in release order, newest last; the versions come back NEWEST FIRST and
+   * already cleaned, so the settings screen only has to draw them. A malformed entry is dropped
+   * instead of throwing: the page is documentation and must never be the reason the game fails to
+   * start.
+   *
+   * @param {object} [options] - Load options.
+   * @param {boolean} [options.force=false] - Re-fetch the file even when a cached copy exists.
+   * @returns {Promise<Array<{id: number, version: string, notes: Array<{type: string, label: string,
+   *   important: boolean, text: Record<string, string>}>}>>} The versions, newest first.
+   * @throws {Error} When the file cannot be fetched or is not valid JSON.
+   */
+  async getChangelog({ force = false } = {}) {
+    if (this.cachedChangelog && !force) return this.cachedChangelog;
+    if (this.pendingChangelog && !force) return this.pendingChangelog;
+
+    this.pendingChangelog = this.fetchChangelog();
+    try {
+      return await this.pendingChangelog;
+    } catch (error) {
+      this.pendingChangelog = null;
+      throw error;
+    }
+  }
+
+  /**
+   * Fetches, validates and caches `settings/changelog.json`.
+   *
+   * @returns {Promise<Array<object>>} The versions, newest first.
+   * @throws {Error} When the request fails, the status is not 2xx or the payload is not valid JSON.
+   */
+  async fetchChangelog() {
+    let response;
+    try {
+      response = await fetch(CHANGELOG_PATH);
+    } catch (error) {
+      throw new Error(`Unable to fetch "${CHANGELOG_PATH}".`, { cause: error });
+    }
+    if (!response.ok) {
+      throw new Error(`Unable to fetch "${CHANGELOG_PATH}" (HTTP ${response.status}).`);
+    }
+
+    let payload;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      throw new Error(`"${CHANGELOG_PATH}" is not valid JSON.`, { cause: error });
+    }
+
+    this.cachedChangelog = ConfigLoader.normalizeChangelog(payload);
+    this.pendingChangelog = null;
+    return this.cachedChangelog;
+  }
+
+  /**
+   * Cleans a raw release-note payload and orders it from the newest version to the oldest.
+   *
+   * @param {unknown} payload - Parsed content of `settings/changelog.json`.
+   * @returns {Array<{id: number, version: string, notes: Array<object>}>} The versions.
+   */
+  static normalizeChangelog(payload) {
+    const entries = Array.isArray(payload) ? payload : [];
+    const versions = [];
+
+    entries.forEach((entry, position) => {
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return;
+      const version = typeof entry.Version === 'string' ? entry.Version.trim() : '';
+      if (version === '') {
+        console.warn('[ConfigLoader] Changelog: entry ignored (no Version).', entry);
+        return;
+      }
+
+      const rawNotes = Array.isArray(entry.Notes) ? entry.Notes : [];
+      versions.push({
+        // `Id` orders the versions; a file that forgets one still keeps its declaration order.
+        id: Number.isInteger(entry.Id) ? entry.Id : position + 1,
+        version,
+        notes: rawNotes.map((note) => ConfigLoader.normalizeChangelogNote(note)).filter(Boolean),
+      });
+    });
+
+    return versions.sort((left, right) => right.id - left.id);
+  }
+
+  /**
+   * Cleans one note of the changelog.
+   *
+   * The type is kept twice: as a key (`qol`, from `QoL`) the view can translate, and as the label
+   * of the file (`QoL`) it falls back to when the game does not know that kind yet.
+   *
+   * @param {unknown} note - Raw note.
+   * @returns {{type: string, label: string, important: boolean, text: Record<string, string>}|null}
+   *   The note, or null when it holds no readable text at all.
+   */
+  static normalizeChangelogNote(note) {
+    if (!note || typeof note !== 'object' || Array.isArray(note)) return null;
+
+    const label = typeof note.Type === 'string' ? note.Type.trim() : '';
+    const text = {};
+    if (note.Text && typeof note.Text === 'object' && !Array.isArray(note.Text)) {
+      Object.entries(note.Text).forEach(([lang, value]) => {
+        const key = lang.trim().toLowerCase();
+        if (key === '' || typeof value !== 'string' || value.trim() === '') return;
+        text[key] = value.trim();
+      });
+    }
+    if (Object.keys(text).length === 0) {
+      console.warn('[ConfigLoader] Changelog: note ignored (no text).', note);
+      return null;
+    }
+
+    return {
+      type: label.toLowerCase().replace(/[^a-z0-9]+/g, '') || 'other',
+      label: label || 'Other',
+      important: note.IsImportant === true,
+      text,
+    };
   }
 
   /**

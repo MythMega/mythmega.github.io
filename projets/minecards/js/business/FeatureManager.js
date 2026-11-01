@@ -30,7 +30,7 @@ import profileIconManager, {
   normalizeIconPath,
   PROFILE_ICON_FEATURE_PREFIX,
 } from './ProfileIconManager.js';
-import sparksManager from './SparksManager.js';
+import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 
 /** The features the code knows how to lock something behind. */
 export const FEATURES = Object.freeze({
@@ -627,7 +627,7 @@ export class FeatureManager {
       }
 
       const balance = priceSparks > 0
-        ? await sparksManager.applyDelta(context, -priceSparks)
+        ? await sparksManager.applyDelta(context, -priceSparks, SPARKS_SOURCES.FEATURE)
         : sparksManager.normalizeBalance(
             await context.get(STORES.USER_STATE, USER_STATE_KEYS.SPARKS)
           );

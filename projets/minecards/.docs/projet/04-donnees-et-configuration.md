@@ -151,6 +151,52 @@ sortie un set est encore annoncé par `SetAnnouncementPopup` au premier chargeme
 (`listBoosterSets()`, `getReleasedSetIds()`) qui filtrent, si bien qu'aucune carte d'un set non sorti
 ne peut fuiter dans une pioche, une boutique ou un code.
 
+### 4.2 ter Notes de mise à jour (`settings/changelog.json`)
+
+Le fichier de la page « Notes de mise à jour » des Paramètres. Un tableau, une entrée par version
+publiée, **dans l'ordre des sorties** :
+
+```json
+[
+  {
+    "Id": 1,
+    "Version": "1.0.",
+    "Notes": []
+  },
+  {
+    "Id": 2,
+    "Version": "1.0.1",
+    "Notes": [
+      {
+        "Type": "Feature",
+        "IsImportant": true,
+        "Text": {
+          "Fr": "Possibilité de placer ses boosters pour les stocker en booster bonus.",
+          "En": "Ability to store boosters into bonus boosters."
+        }
+      }
+    ]
+  }
+]
+```
+
+- `Id` : entier positif, ordonne les versions. `ConfigLoader.getChangelog()` trie **du plus récent au
+  plus ancien**, quel que soit l'ordre du fichier ; un `Id` en double est refusé par le linter.
+- `Version` : le numéro affiché tel quel (`1.0.1`). Une entrée sans `Version` est ignorée.
+- `Notes` : liste de `{ Type, IsImportant, Text }`. `Type` est libre (`Feature`, `Fix`, `QoL` sont
+  ceux que le jeu traduit ; tout autre garde son mot d'origine à l'écran), `IsImportant` met la note
+  en avant (bordure et étoile), `Text` porte la phrase par langue (`Fr`, `En`).
+- Une note sans texte lisible est ignorée à la lecture ; le linter avertit quand une langue du jeu
+  manque et refuse un `Id` en double, une `Version` en double ou une note sans `Type`.
+- Le fichier est **la seule source** de la page : publier une version ne demande aucune modification
+  de code. Il est précaché par le service worker, comme `config.json` et `cardsets.json`.
+- La pastille « nouvelle version » du bouton « Réglages » lit le même fichier :
+  `ChangelogManager` compare le plus grand `Id` avec `user_state["changelogSeen"]` et allume le point
+  tant qu'une version n'a pas été ouverte. Un `Id` retiré ne rallume donc rien.
+- Comme tout le shell, le fichier est servi en *stale-while-revalidate* : après une publication, la
+  première visite sert encore l'ancienne copie, la suivante la nouvelle. Une vraie livraison
+  incrémente `VERSION` dans `sw.js`, ce qui précache la version fraîche dès l'installation.
+
 ## 4.3 Autres fichiers de données
 
 | Fichier | Schéma | Consommateur |
@@ -169,6 +215,7 @@ ne peut fuiter dans une pioche, une boutique ou un code.
 | `settings/overlay.json` | `timings` (durées de la timeline), `booster.spinStepPerFrame`, `easing`, `sound` | `js/overlay.js` |
 | `settings/sounds.json` | carte des sons d'interface : `event`, `file` (sous `assets/sound/ui/`), `_comment`, `enabled` | `SoundManager` (+ `UiSounds`) |
 | `settings/cardsets.json` | `{ sets: [ { id, releaseDate, promo } ] }` : identifiants, date de sortie UTC et présence de promos | `ConfigLoader`, `BoosterManager` |
+| `settings/changelog.json` | liste de versions `{ Id, Version, Notes: [ { Type, IsImportant, Text: { Fr, En } } ] }` : les notes de mise à jour, triées par `Id` décroissant à la lecture (§4.2 ter) | `ConfigLoader`, `SettingsView` |
 | `settings/daily_connect_rewards.json` | liste de chapitres `{ ID, RewardListName, Dates: { Start, End }, Days: [ { Day, Reward, Unique?, UniqueID?, ReplacementRewardIfClaimed? } ] }` : les récompenses de connexion, un jour par entrée, `Day: null` pour l'entrée par défaut. Schéma complet et règles dans [05-daily-rewards.md](05-daily-rewards.md) | `DailyRewardManager` |
 | `settings/boosters_trophy.json` | paliers récurrents par extension (complétion, boosters ouverts) | `TrophyManager` |
 | `settings/global_trophy.json` | paliers globaux (cartes, boosters, cartes différentes, blocs minés, pioches) | `TrophyManager` |
@@ -238,6 +285,9 @@ avertissement, une médaille retombe sur `default.png`, etc.).
   fichier qui nomme un trophée, une icône ou un titre doit nommer quelque chose qui existe.
 - **Catalogues** : un set est déclaré une fois, possède son `data/boosters/<setId>.json`, sa date de
   sortie est un jour réel, et son drapeau `promo` correspond à `data/promo_cards/`.
+- **Notes de mise à jour** : chaque version a un `Id` positif unique, un numéro unique, et chaque
+  note un `Type` et un texte dans chaque langue du jeu (avertissement pour une langue manquante,
+  erreur pour un doublon).
 - **Économie** : les prix en Sparks couvrent les cinq raretés, `shop.itemsValues` ne nomme que des
   ressources réellement minées, une offre épinglée n'est payée qu'en ressources connues et sur une
   fenêtre non vide, et les blocs de la mine ont un poids, une dureté et des récompenses valides ;

@@ -191,6 +191,9 @@ body {
   min-height: var(--header-height);
   padding: var(--space-2) var(--space-4);
   padding-top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
+  /* The identity of the header is anchored to the left edge of the bar (it hangs a few pixels below
+     it, see `.app-header__identity`), so the brand and the counters start after it. */
+  padding-left: calc(var(--space-4) + 3.75rem);
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
@@ -215,6 +218,118 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Identity of the header: the avatar of the player, the level on its corner, and that level's
+   progress as a ring around it. It is a BUTTON (it opens the profile), so it has to lose the box a
+   button normally carries: the picture alone is the target. */
+.app-header__identity {
+  /* Pinned to the right edge of the bar rather than laid out in the row of counters: it is taller
+     than a chip, and a flex item would either stretch the bar (which then just gets taller) or
+     stay inside it. Anchored here it sits on the same line as the counters and hangs a few pixels
+     BELOW the bar, over the top of the page - the slot the counters reserve for it is
+     `padding-right` on `.app-header__stats`. */
+  position: absolute;
+  left: var(--space-4);
+  /* A few pixels lower than the bar, no more: on a phone the top of the picture then lands on the
+     top of the counters, and on a wide screen it is a couple of pixels under it - which is what
+     "slightly out of the bar" means. The ring adds its own three pixels. */
+  bottom: -0.25rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* The circle the picture sits in. `--level-progress` is the percentage of the CURRENT level, written
+   by `App.refreshHeaderIdentity()`; the ring reads it below. */
+.app-header__avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-surface-alt);
+  --level-progress: 0;
+}
+
+/* The progress ring, painted BEHIND the picture: a full circle of the track colour and, on top of
+   it, the filled share of the level. It is a `conic-gradient` cut into a band by a radial mask, so
+   the run starts at twelve o'clock and its end is visible as a hard edge at any value - which a
+   border or an `outline` could never show. The band sits just outside the picture (the inset), so
+   the artwork is never covered, and the colours come from the palette: the ring follows the theme
+   like every other accent of the game. */
+.app-header__avatar::before {
+  content: "";
+  position: absolute;
+  inset: -0.1875rem;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--color-accent) calc(var(--level-progress, 0) * 1%),
+    var(--color-border) 0
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 0.1875rem), #000 calc(100% - 0.1875rem));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 0.1875rem), #000 calc(100% - 0.1875rem));
+}
+
+.app-header__avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  /* The icons are pixel art (several ship as 6x6 or 8x8): a smooth upscale would turn them into a
+     blur, so the browser repeats the pixels instead (same rule as the profile avatar). */
+  image-rendering: pixelated;
+}
+
+.app-header__avatar-initial {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* The level, written on the lower right corner of the picture: it is the one number of the identity
+   and it must stay readable on any artwork, so it carries its own pill and a ring of the surface
+   colour that separates it from the avatar. */
+.app-header__avatar-level {
+  position: absolute;
+  /* Barely off the picture: the circle already overhangs the bar, and a badge hanging further out
+     would read as a floating pill instead of a corner. */
+  right: -0.1rem;
+  bottom: -0.1rem;
+  z-index: 1;
+  min-width: 1.05rem;
+  padding: 0 0.15rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px var(--color-surface);
+}
+
+/* The router marks the button like any other destination of the bar, so "you are on the profile"
+   reads on the avatar too: the halo is the same one the keyboard focus uses. */
+.app-header__identity.is-active .app-header__avatar,
+.app-header__identity:hover .app-header__avatar,
+.app-header__identity:focus-visible .app-header__avatar {
+  box-shadow: var(--glow-accent);
 }
 
 .app-header__stats {
@@ -433,13 +548,31 @@ body[data-connection="offline"] .app-header__clock {
    sits on its own centered row and is one step smaller, which leaves the counters the whole width
    of the header. */
 @media (max-width: 767px) {
+  /* A phone shows no brand at all: the name of the game is in the browser tab and in the installed
+     app, and the bar is worth more to the counters and to the identity than to a title repeated on
+     every screen. */
   .app-header__brand {
-    flex: 1 1 100%;
-    justify-content: center;
+    display: none;
   }
 
-  .app-header__title {
-    font-size: var(--font-size-md);
+  /* Two counters step aside on a phone so the row holds the avatar as well: the binders are one tap
+     away in the collection, and the Mine Pick picks are on the Mine page. The numbers are not lost,
+     they are simply not competing with the identity for the width of the bar. */
+  .app-header__stat--desktop-only {
+    display: none;
+  }
+
+  .app-header {
+    padding-left: calc(var(--space-4) + 3.5rem);
+  }
+
+  .app-header__avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .app-header__avatar-level {
+    font-size: 0.5625rem;
   }
 
   .app-header__tagline,
@@ -653,7 +786,9 @@ body.is-focus {
     position: relative;
   }
 
-  .app-nav__item span {
+  /* Every label of the bar, but not the badge of the settings: that one is a dot, not a word, and
+     clipping it would hide the only sign that a version is waiting. */
+  .app-nav__item span:not(.app-nav__badge) {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -664,6 +799,26 @@ body.is-focus {
     clip-path: inset(50%);
     white-space: nowrap;
   }
+}
+
+/* "A version you have not read is waiting in the settings": the same dot as the daily reward one of
+   the header, on the corner of the icon. Positioned against the button, so it follows the bar's
+   padding whatever the width of the label is. */
+.app-nav__item {
+  position: relative;
+}
+
+.app-nav__badge {
+  position: absolute;
+  top: 0.25rem;
+  /* The icon is 22 px wide and centred in the button: its upper right corner is 11 px right of the
+     middle, which is where the dot is pinned - whatever the width of the label under it. */
+  right: calc(50% - 0.7rem);
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-surface);
 }
 
 .app-nav__item svg {

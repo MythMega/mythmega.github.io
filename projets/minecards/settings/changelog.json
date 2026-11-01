@@ -1,0 +1,53 @@
+[
+    {
+        "Id": 1,
+        "Version": "1.0.",
+        "Notes": []
+    },
+    {
+        "Id": 2,
+        "Version": "1.0.1",
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Possibilité de placer ses boosters pour les stocker en booster bonus.",
+                    "En": "Ability to store boosters into bonus boosters."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Correction de la génération de carte de profil sur iOS & Safari.",
+                    "En": "Fix profile card generation on iOS & Safari."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Fix appuie sur espace qui ouvre un booster même si pas dans la page de booster et bloque le joueur.",
+                    "En": "Fix space pressing that open booster in another page and make the player stuck."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Photo de profil et niveau disponible sur la barre supérieur.",
+                    "En": "Profile pic and level available on top bar."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Notes de mise à jour dans les paramètres.",
+                    "En": "Updates notes in settings tab."
+                }
+            }
+        ]
+    }
+]

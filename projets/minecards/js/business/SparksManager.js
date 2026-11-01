@@ -15,6 +15,18 @@
  * `copies` is only allowed while `quantity - copies >= 1`; the check runs INSIDE the write
  * transaction, so two rapid sales cannot both remove the last copy.
  *
+ * SOLD COUNTER: every sale adds its copies to `user_state["stats"].soldByRarity`, in the SAME
+ * transaction as the cards and the balance, so a rolled back sale never leaves a counter behind.
+ * It answers a different question than `drawsByRarity` (what was obtained), which is why the two
+ * are kept apart.
+ *
+ * LEDGER: every movement of the balance also feeds `stats.sparksEarned` / `stats.sparksSpent` and
+ * their per-origin maps. This is done in `applyDelta`, the single funnel every debit and credit
+ * goes through: a flow that forgets to declare its origin would still be counted, which is the
+ * whole point of putting it there rather than at the call sites. The two writers that cannot go
+ * through `applyDelta` (a booster reward and a gift folded into a larger transaction) call
+ * `recordFlow()` explicitly.
+ *
  * BUY RULE: buying one copy of any catalog card is always possible while the balance covers
  * `buyPrice[rarity]`. The balance check is inside the transaction, next to the write.
  *
@@ -38,6 +50,47 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 // Leaf module: it holds nothing but the `-Promo` suffix, so asking "is this a promo card?" never
 // drags `PromoManager` (and the whole catalogue loader) into the currency module.
 import { isPromoSetId } from './PromoSet.js';
+
+/**
+ * Origins of a balance movement, written in `stats.sparksEarnedBySource` / `sparksSpentBySource`.
+ *
+ * They are stable identifiers: the labels live in `settings/i18n/*.json` under
+ * `stats.sparks.source.<id>`, so a new origin only needs one entry here and one key per dictionary.
+ */
+export const SPARKS_SOURCES = Object.freeze({
+  BOOSTER: 'booster',
+  SALE: 'sale',
+  DAILY: 'daily',
+  MINING: 'mining',
+  REDEEM: 'redeem',
+  GIFT: 'gift',
+  CARD: 'card',
+  FEATURE: 'feature',
+  MINE_PICK: 'minepick',
+  TRADER: 'trader',
+  OTHER: 'other',
+});
+
+/** Origins that can credit the balance, in display order. */
+export const SPARKS_EARNED_SOURCES = Object.freeze([
+  SPARKS_SOURCES.BOOSTER,
+  SPARKS_SOURCES.SALE,
+  SPARKS_SOURCES.DAILY,
+  SPARKS_SOURCES.MINING,
+  SPARKS_SOURCES.REDEEM,
+  SPARKS_SOURCES.GIFT,
+  SPARKS_SOURCES.OTHER,
+]);
+
+/** Origins that can debit the balance, in display order. */
+export const SPARKS_SPENT_SOURCES = Object.freeze([
+  SPARKS_SOURCES.CARD,
+  SPARKS_SOURCES.BOOSTER,
+  SPARKS_SOURCES.FEATURE,
+  SPARKS_SOURCES.MINE_PICK,
+  SPARKS_SOURCES.TRADER,
+  SPARKS_SOURCES.OTHER,
+]);
 
 /** Error code thrown when the balance does not cover a purchase. */
 export const INSUFFICIENT_SPARKS = 'INSUFFICIENT_SPARKS';
@@ -162,16 +215,17 @@ export class SparksManager {
    *   instead of opening a new one (used by the booster/redeem/gift flows, which write several
    *   rewards atomically). In that mode the in-memory event is NOT emitted: the caller owns the
    *   transaction and publishes the balance after the commit.
+   * @param {string} [source=SPARKS_SOURCES.OTHER] - Origin of the credit, recorded in the ledger.
    * @returns {Promise<number>} The resulting balance.
    * @throws {TypeError} When `amount` is not a positive integer.
    * @throws {Error} When the write fails.
    */
-  async addSparks(amount, context = null) {
+  async addSparks(amount, context = null, source = SPARKS_SOURCES.OTHER) {
     if (!Number.isInteger(amount) || amount <= 0) {
       throw new TypeError(`SparksManager.addSparks expects a positive integer (received: ${JSON.stringify(amount)}).`);
     }
 
-    const apply = (activeContext) => this.applyDelta(activeContext, amount);
+    const apply = (activeContext) => this.applyDelta(activeContext, amount, source);
 
     const balance = context
       ? await apply(context)
@@ -188,10 +242,11 @@ export class SparksManager {
    *
    * @param {object} context - Transaction context.
    * @param {number} delta - Signed amount (may be negative).
+   * @param {string} [source=SPARKS_SOURCES.OTHER] - Origin of the movement, recorded in the ledger.
    * @returns {Promise<number>} The resulting balance.
    * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the delta would make the balance negative.
    */
-  async applyDelta(context, delta) {
+  async applyDelta(context, delta, source = SPARKS_SOURCES.OTHER) {
     const balance = this.normalizeBalance(await context.get(STORES.USER_STATE, USER_STATE_KEYS.SPARKS));
     const next = balance + delta;
     if (next < 0) {
@@ -201,7 +256,76 @@ export class SparksManager {
       );
     }
     await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.SPARKS);
+    await this.recordFlow(context, delta >= 0 ? { earned: delta, source } : { spent: -delta, source });
     return next;
+  }
+
+  /**
+   * Records a balance movement in `user_state["stats"]`.
+   *
+   * Called by `applyDelta` for every debit and credit; the flows that write the balance themselves
+   * (a booster reward, a gift) call it once next to their own write, inside the same transaction,
+   * so the ledger and the balance always agree.
+   *
+   * @param {object} context - Transaction context.
+   * @param {object} flow - Movement to record.
+   * @param {number} [flow.earned=0] - Sparks credited.
+   * @param {number} [flow.spent=0] - Sparks debited.
+   * @param {string} [flow.source=SPARKS_SOURCES.OTHER] - Origin of the movement.
+   * @returns {Promise<void>} Resolves once the ledger is written.
+   */
+  async recordFlow(context, { earned = 0, spent = 0, source = SPARKS_SOURCES.OTHER } = {}) {
+    const credited = Number.isInteger(earned) && earned > 0 ? earned : 0;
+    const debited = Number.isInteger(spent) && spent > 0 ? spent : 0;
+    if (credited === 0 && debited === 0) return;
+
+    const stored = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+    const stats = stored && typeof stored === 'object' ? { ...stored } : {};
+    stats.sparksEarned =
+      (Number.isInteger(stats.sparksEarned) && stats.sparksEarned >= 0 ? stats.sparksEarned : 0) + credited;
+    stats.sparksSpent =
+      (Number.isInteger(stats.sparksSpent) && stats.sparksSpent >= 0 ? stats.sparksSpent : 0) + debited;
+    stats.sparksEarnedBySource = SparksManager.incrementSource(
+      stats.sparksEarnedBySource,
+      SPARKS_EARNED_SOURCES,
+      source,
+      credited
+    );
+    stats.sparksSpentBySource = SparksManager.incrementSource(
+      stats.sparksSpentBySource,
+      SPARKS_SPENT_SOURCES,
+      source,
+      debited
+    );
+    await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
+  }
+
+  /**
+   * Adds an amount to one origin of a per-origin counter, keeping the known origins at zero.
+   *
+   * The map is always rebuilt with every known origin, so two rows of the statistics page never
+   * disagree on what an untouched origin looks like.
+   *
+   * @param {unknown} raw - Stored map.
+   * @param {readonly string[]} sources - Known origins.
+   * @param {string} source - Origin to increment.
+   * @param {number} amount - Amount to add (0 leaves the map as is).
+   * @returns {Record<string, number>} The rebuilt map.
+   */
+  static incrementSource(raw, sources, source, amount) {
+    const counts = {};
+    sources.forEach((id) => {
+      counts[id] = 0;
+    });
+    if (raw && typeof raw === 'object') {
+      Object.entries(raw).forEach(([id, value]) => {
+        if (Number.isInteger(value) && value >= 0) counts[id] = value;
+      });
+    }
+    if (amount > 0) {
+      counts[source] = (Number.isInteger(counts[source]) ? counts[source] : 0) + amount;
+    }
+    return counts;
   }
 
   /**
@@ -256,7 +380,8 @@ export class SparksManager {
 
         const remaining = quantity - copies;
         await context.put(STORES.COLLECTION, { ...entry, quantity: remaining, lastObtainedAt: entry.lastObtainedAt });
-        const balance = await this.applyDelta(context, gained);
+        const balance = await this.applyDelta(context, gained, SPARKS_SOURCES.SALE);
+        await this.recordSale(context, rarity, copies);
         return { balance, quantity: remaining, gained };
       }
     );
@@ -264,6 +389,37 @@ export class SparksManager {
     this.log(`Sold ${copies} copy(ies) of "${key}" for ${gained} Sparks (balance: ${result.balance}).`);
     eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.balance });
     return result;
+  }
+
+  /**
+   * Adds sold copies to `user_state["stats"].soldByRarity`.
+   *
+   * Joined to the sale transaction: the counter and the cards move together or not at all. The
+   * rest of the record is copied untouched, since the opening counters belong to `BoosterManager`
+   * and a sale has no business rewriting them.
+   *
+   * @param {object} context - Transaction context.
+   * @param {number} rarity - Card rarity (1-5). An unknown rarity is not counted at all.
+   * @param {number} copies - Number of copies sold (strictly positive).
+   * @returns {Promise<void>} Resolves once the counter is written.
+   */
+  async recordSale(context, rarity, copies) {
+    if (!Number.isInteger(rarity) || rarity < 1 || rarity > 5) return;
+
+    const stored = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+    const stats = stored && typeof stored === 'object' ? { ...stored } : {};
+    // Always the full 1..5 grid, like `buildDefaultStats()`: a save written before this counter
+    // existed starts at zero everywhere instead of carrying a half-filled map.
+    const sold = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    if (stats.soldByRarity && typeof stats.soldByRarity === 'object') {
+      Object.entries(stats.soldByRarity).forEach(([key, count]) => {
+        if (Number.isInteger(count) && count >= 0) sold[key] = count;
+      });
+    }
+    const previous = Number.isInteger(sold[rarity]) ? sold[rarity] : 0;
+    sold[rarity] = previous + copies;
+    stats.soldByRarity = sold;
+    await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
   }
 
   /**
@@ -297,7 +453,7 @@ export class SparksManager {
       [STORES.COLLECTION, STORES.USER_STATE],
       'readwrite',
       async (context) => {
-        const balance = await this.applyDelta(context, -price);
+        const balance = await this.applyDelta(context, -price, SPARKS_SOURCES.CARD);
         const existing = await context.get(STORES.COLLECTION, card.uniqueKey);
         const quantity = (Number.isFinite(existing?.quantity) ? existing.quantity : 0) + 1;
         const timestamp = this.buildTimestamp();

@@ -4,7 +4,7 @@
 
 Le profil utilisateur est géré par `profile.js` et permet de définir un **pseudo** qui est affiché sur la page de statistiques.
 
-**Note** : `profile.html` est une page obsolète qui redirige vers `data_management.html`.
+**Note** : `profile.html` (ex-`stats.html`) est la page de profil : niveau, XP, trophées et badges. Le pseudo y est affiché, mais `profile.js` n'y sert à rien puisque les champs de saisie vivent dans `settings.html`.
 
 ## Pseudo
 
@@ -47,7 +47,7 @@ function updatePseudo() {
 
 ### Badges
 
-Les badges débloqués (via le système de récompenses) sont affichés dans `#profileBadges` sur la page stats. Ce sont des images provenant de `data/reward.json`, filtrées par `type === 'Badge'`.
+Les badges débloqués (via le système de récompenses) sont affichés dans `#profileBadges` sur la page stats. Ce sont des images provenant de `data/rewards/`, filtrées par `type === 'Badge'`.
 
 ### Titre
 
@@ -57,7 +57,7 @@ Le plus haut titre débloqué (`type === 'Title'`) est affiché à la place du l
 
 ```js
 async function updateProfileBadgesAndTitle(currentLevel) {
-    // Charge data/reward.json
+    // Charge data/rewards/*.json
     // Filtre les récompenses débloquées (level <= currentLevel)
     // Affiche les badges dans #profileBadges
     // Affiche le plus haut titre dans #statsPseudoLabel

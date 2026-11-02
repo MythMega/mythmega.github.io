@@ -106,8 +106,9 @@ await updateImportedInDex(dateKey, true);
 | Score max | 50 | 100 |
 | Seed | date | `"week" + lundi` |
 | Paramètre URL | `?date=` | `?week=` |
-| Validation de date | format + non futur | format + date réelle + lundi + non futur |
+| Validation de date | format + non futur + fenêtre | format + date réelle + lundi + non futur + fenêtre |
 | Date invalide | alerte/redirection | popup vers lundi précédent |
+| Hors fenêtre rejouable | popup « non disponible pour vous » | popup « non disponible pour vous » (semaine du premier défi → semaine en cours) |
 | Stockage | `daily_results` | `weekly_results` |
 | Import texte | `parseDailyText` | `parseWeeklyText` |
 | XP de fin | +3, parfait +2, 1er essai +1 | +6, parfait +4, 1er essai +2 |

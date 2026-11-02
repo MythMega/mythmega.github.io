@@ -1,0 +1,193 @@
+[
+    {
+        "ID": 26,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 350
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 100
+            }],
+        "Tab": "Mega Evolution",
+        "Name_En": "Mega Changing Type",
+        "Name_Fr": "Type Variable",
+        "Desc_En": "Here's a challenge of many pokemon that changes it's type while mega evolving.",
+        "Desc_Fr": "Challenge avec une liste de pokémon dont le(s) type(s) change(nt) avec la méga-évolution .",
+        "FeetList": [
+            "6-M-X",
+            "36-M",
+            "127-M",
+            "130-M",
+            "150-M-X",
+            "160-M",
+            "154-M",
+            "181-M",
+            "254-M",
+            "306-M",
+            "334-M",
+            "358-M",
+            "359-M-Z",
+            "398-M",
+            "428-M",
+            "445-M-Z",
+            "531-M",
+            "545-M"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 100
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 116
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 117
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 29,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 400
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 100
+            }],
+        "Tab": "Mega Evolution",
+        "Name_En": "MEGA Z-A",
+        "Name_Fr": "MEGA Z-A",
+        "Desc_En": "Mega from Pokémon Z-A.",
+        "Desc_Fr": "Mega de Pokémon Z-A.",
+        "FeetList": [
+            "623-M",
+            "609-M",
+            "604-M",
+            "560-M",
+            "545-M",
+            "530-M",
+            "500-M",
+            "491-M",
+            "485-M",
+            "478-M",
+            "448-M-Z",
+            "445-M-Z",
+            "398-M",
+            "359-M-Z",
+            "358-M",
+            "227-M",
+            "160-M",
+            "154-M",
+            "149-M",
+            "121-M",
+            "71-M",
+            "26-M-Y",
+            "26-M-X",
+            "36-M"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 350
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 30,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 450
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 100
+            }],
+        "Tab": "Mega Evolution",
+        "Name_En": "MEGA XY",
+        "Name_Fr": "MEGA XY",
+        "Desc_En": "Mega from Pokémon X-Y.",
+        "Desc_Fr": "Mega de Pokémon X-Y.",
+        "FeetList": [
+            "3-M",
+            "6-M-X",
+            "6-M-Y",
+            "9-M",
+            "65-M",
+            "94-M",
+            "115-M",
+            "127-M",
+            "130-M",
+            "142-M",
+            "150-M-X",
+            "150-M-Y",
+            "181-M",
+            "212-M",
+            "214-M",
+            "229-M",
+            "248-M",
+            "257-M",
+            "282-M",
+            "303-M",
+            "306-M",
+            "308-M",
+            "310-M",
+            "354-M",
+            "359-M",
+            "445-M",
+            "448-M",
+            "460-M"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 350
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+    "ID": 31,
+    "Difficulty": "Medium",
+    "Requirements": [],
+    "Tab": "Mega Evolution",
+    "Name_En": "Terrifying Mega-Evolutions",
+    "Name_Fr": "Mega-Evolutions Terrifiantes",
+    "Desc_En": "Mega-evolution that can break a whole team.",
+    "Desc_Fr": "Des méga-évolutions qui peuvent détruire des équipes entières.",
+    "FeetList": [
+        "448-M-Z",
+        "65-M",
+        "248-M",
+        "373-M",
+        "376-M",
+        "445-M",
+        "94-M",
+        "428-M",
+        "303-M",
+        "15-M"
+    ],
+    "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 350
+            }],
+    "MustHideIfUnavailable": true,
+    "Availabilities": []
+}
+]

@@ -1,0 +1,92 @@
+[
+    {
+        "ID": 8,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Sunset paradise",
+        "Value": "crepuscule",
+        "File": "sunset.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 9,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Moonlight",
+        "Value": "nuit-etoilee",
+        "File": "moonlight.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 10,
+        "Type": "Background",
+        "Name": "Ocean Depth",
+        "Cat": "Collection",
+        "Value": "ocean-depth",
+        "File": "wave.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 33,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Spidey Web",
+        "Value": "spidey",
+        "File": "ariados.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 34,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Pokeball",
+        "Value": "giantpokeball",
+        "File": "pokeball.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 35,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Meowstastic",
+        "Value": "meowth",
+        "File": "meowth.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 36,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "God's Light",
+        "Value": "GodBidoof",
+        "File": "bidoof.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 117,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Kaléidoscope",
+        "Value": "creative-kaleido",
+        "File": "kaleidoscope.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 118,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Mega Evolution",
+        "Value": "mega-icon",
+        "File": "mega.webp",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 119,
+        "Type": "Background",
+        "Cat": "Collection",
+        "Name": "Mega Beedrill",
+        "Value": "mega-beedrill",
+        "File": "beedrill.png",
+        "RequiresUnlock": true
+    }
+]

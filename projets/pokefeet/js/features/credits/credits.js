@@ -1,6 +1,5 @@
 // credits.js - Page de crédits
 const Credits = (function () {
-    const CREDITS_URL = 'data/credits.json';
     let creditsData = null;
     let currentLang = 'fr';
 
@@ -13,9 +12,15 @@ const Credits = (function () {
     // --- Load credits data ---
     async function loadCreditsData() {
         try {
-            var res = await fetch(CREDITS_URL);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            creditsData = await res.json();
+            // Un fichier de data/credits/ peut manquer : on normalise la forme
+            // pour que l'absence d'une partie dégrade l'affichage au lieu de
+            // faire échouer toute la page.
+            var data = await DataFiles.load('credits');
+            creditsData = {
+                Credits: Array.isArray(data.Credits) ? data.Credits : [],
+                TranslationsFR: data.TranslationsFR || {},
+                TranslationsEN: data.TranslationsEN || {}
+            };
             console.log('[Credits] Loaded', creditsData.Credits.length, 'credits');
         } catch (e) {
             console.error('[Credits] Error loading credits:', e);
@@ -106,7 +111,11 @@ const Credits = (function () {
         var content = document.getElementById('creditsContent');
         if (!content) return;
 
-        var credits = filterType ? getCreditsByType(filterType) : creditsData.Credits;
+        // La liste peut manquer (data/credits/members.json indisponible) : on
+        // affiche l'état vide plutôt que de lever une erreur.
+        var credits = filterType
+            ? getCreditsByType(filterType)
+            : ((creditsData && creditsData.Credits) || []);
         var lang = getCurrentLang();
 
         if (credits.length === 0) {

@@ -25,11 +25,11 @@
 Toutes les pages principales:
 - ✅ `index.html` - Page d'accueil
 - ✅ `daily.html` - Défi quotidien
-- ✅ `pokefeet.html` - Mode Practice
+- ✅ `marathon.html` - Mode Practice
 - ✅ `history.html` - Historique
-- ✅ `pied-dex.html` - Pokédex
-- ✅ `data_management.html` - Gestion données
-- ✅ `old_daily.html` - Anciens défis
+- ✅ `dex.html` - Pokédex
+- ✅ `settings.html` - Gestion données
+- ✅ `old_challenges.html` - Anciens défis
 
 #### 5. **Messages Dynamiques Traduits**
 - ✅ `js/features/marathon/game.js` - Messages de jeu (Practice mode)
@@ -64,11 +64,11 @@ Toutes les pages principales:
 **Pages HTML modifiées** (7 fichiers):
 - index.html
 - daily.html
-- pokefeet.html
+- marathon.html
 - history.html
-- pied-dex.html
-- data_management.html
-- old_daily.html
+- dex.html
+- settings.html
+- old_challenges.html
 
 **Fichiers JavaScript modifiés** (4 fichiers):
 - js/features/marathon/game.js ✅ (Messages d'abandon, invalides, indices traduits)

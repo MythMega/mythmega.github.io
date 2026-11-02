@@ -43,8 +43,17 @@ return h >>> 0;
 
 ### 2.3 Date de session
 
+#### Fenêtre rejouable (`js/core/challenge-window.js`)
+
+Un daily passé n'est rejouable que s'il figure parmi les défis proposés par « Défis passés » :
+la fenêtre va de la plus ancienne date enregistrée (`daily_results` et `weekly_results`
+confondus) à aujourd'hui. Sans historique, seul le défi du jour est accessible.
+Le module est partagé : `old_challenges.html` y prend la première date proposée,
+`daily.js` y valide la date de l'URL, `weekly.js` y valide le lundi demandé.
+
 - `getDateFromURL()` lit `?date=YYYY-MM-DD`.
 - Refuse une date future (`alert`, redirection vers la page sans query).
+- Refuse une date antérieure à la fenêtre des défis passés (voir § Fenêtre rejouable) : `ChallengeWindow.checkDaily()` puis popup.
 - `sessionDate` est **figée** au démarrage : un passage à minuit ne change pas la partie en cours.
 - Sans paramètre : date locale du jour.
 - Si l'historique contient déjà cette date : affichage de l'écran « déjà joué » (`renderFinishedFromCookie`).
@@ -205,8 +214,9 @@ Ce mécanisme compense les échecs de chargement des sprites, mais peut masquer 
 ## 8. Checklist de test manuel
 
 1. Daily du jour : 5 Pokémon, ordre identique après rechargement/rejouer sur un autre navigateur à la même date.
-2. `?date=` passé : rejoue un daily antérieur ; si déjà joué, écran terminé.
-3. `?date=` futur : alerte et redirection.
+2. `?date=` passé **dans la fenêtre** (≥ premier défi enregistré) : rejoue un daily antérieur ; si déjà joué, écran terminé.
+3. `?date=` passé **hors fenêtre** : popup « Ce challenge n'est pas disponible pour vous » avec la date demandée et la date minimale atteignable.
+4. `?date=` futur : alerte et redirection.
 4. Bonne réponse 1er essai : +10, point vert.
 5. 1–4 erreurs : indices et points 8/6/4/2.
 6. 5 erreurs : popup, confirmation, passage au suivant.

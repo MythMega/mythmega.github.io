@@ -66,8 +66,7 @@ const ChallengeListUI = (function () {
         // Load cosmetics data for reward display
         let cosmeticsData = [];
         try {
-            var cosRes = await fetch('data/cosmetics.json');
-            cosmeticsData = await cosRes.json();
+            cosmeticsData = await DataFiles.load('cosmetics');
         } catch (e) {
             console.error('[ChallengeListUI] Error loading cosmetics:', e);
         }
@@ -84,6 +83,17 @@ const ChallengeListUI = (function () {
             }
 
             filteredChallenges.push(c);
+        }
+
+        // Aucun défi à afficher : données indisponibles (fichiers de
+        // data/bonus_challenges/ illisibles) ou onglet sans défi disponible
+        // aujourd'hui. On le dit au joueur au lieu de laisser la grille vide.
+        if (!filteredChallenges.length) {
+            const empty = document.createElement('div');
+            empty.className = 'challenges-empty';
+            empty.textContent = T('challenges.none', 'Aucun défi disponible pour le moment.');
+            container.appendChild(empty);
+            return;
         }
 
         for (const challenge of filteredChallenges) {
@@ -125,9 +135,13 @@ const ChallengeListUI = (function () {
             let rewardsHTML = '';
             if (challenge.Rewards && challenge.Rewards.length > 0) {
                 rewardsHTML = '<div class="challenge-rewards">';
+                let xpReward = 0;
+                let currencyReward = 0;
                 for (const reward of challenge.Rewards) {
                     if (reward.TypeReward === 'Experience') {
-                        rewardsHTML += `<span class="reward-badge xp">+${reward.Value} XP</span>`;
+                        xpReward += Number(reward.Value) || 0;
+                    } else if (reward.TypeReward === 'Currency') {
+                        currencyReward += Number(reward.Value) || 0;
                     } else if (reward.TypeReward === 'Cosmetic') {
                         var cos = cosmeticsData.find(function(c) { return c.ID === Number(reward.Value); });
                         if (cos) {
@@ -139,6 +153,15 @@ const ChallengeListUI = (function () {
                             rewardsHTML += '<span class="reward-badge cosmetic">Cosmétique #' + reward.Value + '</span>';
                         }
                     }
+                }
+                // 1 XP = 1 Pokédollar : le challenge rapporte aussi autant de P
+                if (xpReward > 0) {
+                    rewardsHTML += '<span class="reward-badge xp">+' + xpReward + ' XP</span>';
+                }
+                const pReward = xpReward + currencyReward;
+                if (pReward > 0) {
+                    rewardsHTML += '<span class="reward-badge pokedollars" title="' +
+                        T('challenges.pokedollars', 'Pokédollars') + '">+' + pReward + ' P</span>';
                 }
                 rewardsHTML += '</div>';
             }

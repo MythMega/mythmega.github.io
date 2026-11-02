@@ -1,0 +1,94 @@
+[
+    {
+        "Level": 20,
+        "ImageUrl": "./img/badges/gift_20.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "!PokeClaim F3ET3XPERT5"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Cadeau pédestre !",
+        "Description_FR": "Recuperez la famille de Tarsal Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Pedestrian Gift !",
+        "Description_EN": "Get Shiny Tarsal's Family on MythMega's when he's streaming and paste this code into his chat.",
+        "Button": {
+            "TxtButton_FR": "Rejoindre le stream",
+            "TxtButton_EN": "Join the stream",
+            "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 25,
+        "ImageUrl": "./img/badges/challenger.png",
+        "Reward": [
+            {
+                "Type": "Badge",
+                "Data": "./img/badges/challenger.png"
+            },
+            {
+                "Type": "Title",
+                "Data": "Challenger"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Dresseur Challenger !",
+        "Description_FR": "Vous parlez aux pieds.",
+        "Title_EN": "Challenger Trainer!",
+        "Description_EN": "You talk to feet.",
+        "Button": null
+    },
+    {
+        "Level": 35,
+        "ImageUrl": "./img/badges/gift_35.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "!PokeClaim B1GF0OTH03N"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Cadeau Géant Hoenn!",
+        "Description_FR": "Recuperez les trois Golems 3G Shiny sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Giant Gift Hoenn !",
+        "Description_EN": "Get Shiny Golems Family 3G on MythMega's when he's streaming and paste this code into his chat.",
+        "Button": {
+            "TxtButton_FR": "Rejoindre le stream",
+            "TxtButton_EN": "Join the stream",
+            "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 45,
+        "ImageUrl": "./img/badges/pokegg_45.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "3XC3L03UF"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Regi-Hoenn",
+        "Description_FR": "Récuperez les 3 golems Regi de Hoenn + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Regi-Hoenn",
+        "Description_EN": "Get all 3 Hoenn Regi golems + 3 epic eggs on pokegg.",
+        "Button": {
+            "TxtButton_FR": "Réclamer la récompense",
+            "TxtButton_EN": "Claim the reward",
+            "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    }
+]

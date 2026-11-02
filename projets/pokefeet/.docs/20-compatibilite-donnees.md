@@ -58,9 +58,9 @@ Le champ racine `best` est conservé pour les anciens fichiers. Le hash est FNV-
 | Aucun `DB_NAME`, store, clé, cookie ou clé `localStorage` modifié | ✅ |
 | Ordre des `<script>` de chaque page identique à l'original | ✅ |
 | 21 pages chargées sans erreur d'asset locale | ✅ |
-| Daily de test écrit dans `daily_results`, relu par `history.html` et `stats.html` | ✅ |
+| Daily de test écrit dans `daily_results`, relu par `history.html` et `profile.html` | ✅ |
 | Weekly de test écrit dans `weekly_results`, relu par l'onglet Weekly | ✅ |
-| Entrée Dex de test écrite dans `dex_entries`, comptée par `pied-dex.html` | ✅ |
+| Entrée Dex de test écrite dans `dex_entries`, comptée par `dex.html` | ✅ |
 | Export/import : format et champs inchangés dans `js/data/data-manager.js` | ✅ (analyse statique) |
 
 Les tests de données ont été exécutés dans un navigateur local, puis les enregistrements de test ont été supprimés.
@@ -82,13 +82,13 @@ Les tests de données ont été exécutés dans un navigateur local, puis les en
 ## 4. Procédure de vérification manuelle
 
 1. Servir le dépôt avec un serveur statique local.
-2. Ouvrir `data_management.html`, exporter une sauvegarde.
+2. Ouvrir `settings.html`, exporter une sauvegarde.
 3. Jouer un Daily, un Weekly, un Marathon et un challenge bonus.
 4. Recharger chaque page et vérifier :
    - `history.html` : Daily et Weekly présents ;
-   - `stats.html` : jours, XP et trophées cohérents ;
-   - `pied-dex.html` : progression du Dex ;
-   - `data_management.html` : export contenant les mêmes données.
+   - `profile.html` : jours, XP et trophées cohérents ;
+   - `dex.html` : progression du Dex ;
+   - `settings.html` : export contenant les mêmes données.
 5. Importer la sauvegarde exportée dans un profil vierge et vérifier les mêmes écrans.
 6. Vérifier dans les DevTools → Application → IndexedDB que les noms de bases et de stores sont exactement ceux du tableau §1.
 
@@ -97,6 +97,6 @@ Les tests de données ont été exécutés dans un navigateur local, puis les en
 ## 5. En cas d'incident
 
 - Ne pas supprimer la base ni les cookies.
-- Exporter immédiatement via `data_management.html`.
+- Exporter immédiatement via `settings.html`.
 - Conserver le rapport de migration affiché par `js/data/migration.js` (il contient les cookies et un instantané des données lues).
 - Revenir au commit précédent : les chemins de fichiers peuvent être restaurés sans toucher aux données, car l'origine et le schéma n'ont pas changé.

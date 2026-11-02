@@ -4,7 +4,7 @@
 
 | Élément | Valeur |
 |---|---|
-| Page | `pied-dex.html` |
+| Page | `dex.html` |
 | Logique | `js/data/dex.js` (base), `js/features/dex/dex-ui.js` (rendu), `js/data/daily-to-dex-import.js` (reconstruction/import) |
 | Base | `PokefeetDexDB`, version 4, store `dex_entries` |
 | Total affiché | 698 Pokémon (toutes versions, pas de filtre par date) |
@@ -38,7 +38,7 @@ Le Pokédex est la collection locale : chaque Pokémon trouvé y est marqué, av
 
 ---
 
-## 3. Page `pied-dex.html`
+## 3. Page `dex.html`
 
 ### 3.1 Initialisation
 

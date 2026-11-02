@@ -71,8 +71,8 @@ Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler 
 | `pokefeet_language` | `fr` / `en` | `js/i18n/translate.js` | `js/i18n/translate.js` | 365 j |
 | `pk_best` | entier | `js/features/marathon/game.js`, `js/data/data-manager.js` | `js/features/marathon/game.js`, `js/features/stats/stats.js`, `js/data/data-manager.js`, `challenge-manager.js` | 365 j (3650 j à l'import) |
 | `pk_best_streak` | entier | `js/features/marathon/game.js`, `js/data/data-manager.js` | `js/features/marathon/game.js`, `js/features/stats/stats.js`, `js/data/data-manager.js`, `challenge-manager.js` | 365 j |
-| `pk_fast_mode` | `true` / `false` | `js/features/marathon/game.js`, `data_management.html` | `js/features/marathon/game.js` | 365 j |
-| `pk_pseudo` | chaîne ≤ 30 | `data_management.html` (inline), `js/features/settings/profile.js` (mort) | `js/features/stats/stats.js`, `custom-create-ui.js`, page crédits | 365 j |
+| `pk_fast_mode` | `true` / `false` | `js/features/marathon/game.js`, `settings.html` | `js/features/marathon/game.js` | 365 j |
+| `pk_pseudo` | chaîne ≤ 30 | `settings.html` (inline), `js/features/settings/profile.js` (mort) | `js/features/stats/stats.js`, `custom-create-ui.js`, page crédits | 365 j |
 | `pk_cosmetic_bg` | `Value` ou `null`/`default` | `js/features/settings/cosmetics.js` | `js/features/settings/cosmetics.js` | 365 j |
 | `pk_cosmetic_btn` | `Value` ou `null`/`default` | `js/features/settings/cosmetics.js` | `js/features/settings/cosmetics.js` | 365 j |
 | `pk_daily_result_v2` | JSON legacy | **plus personne** | `js/data/migration.js` (backup uniquement) | 3650 j |
@@ -88,8 +88,8 @@ Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler 
 |---|---|---|---|
 | `pk_practice_session` | localStorage | session Marathon (voir doc 03) | `js/features/marathon/game.js` |
 | `challenge_manager_state` | sessionStorage | `{challengeId, currentIndex, currentFails, gameActive, seed}` | `ChallengeManager.startChallenge()` |
-| `cosmetic_Background_cat` | sessionStorage | catégorie active de cosmétiques | inline `data_management.html` |
-| `cosmetic_Background-Buttons_cat` | sessionStorage | idem | inline `data_management.html` |
+| `cosmetic_Background_cat` | sessionStorage | catégorie active de cosmétiques | inline `settings.html` |
+| `cosmetic_Background-Buttons_cat` | sessionStorage | idem | inline `settings.html` |
 
 Le `sessionStorage` des challenges n'est pas nettoyé à la fin : `completeChallenge()` ne supprime pas `challenge_manager_state`. Une nouvelle partie écrase l'état, mais un retour sur un challenge peut restaurer un état périmé.
 

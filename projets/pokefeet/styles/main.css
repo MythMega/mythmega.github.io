@@ -1,5 +1,6 @@
 /* Pokefeet — point d’entrée CSS global.
    Les imports reprennent exactement l’ordre de l’ancien style.css. */
+@import url("./pwa-install.css");
 @import url("./base.css");
 @import url("./animations.css");
 @import url("./game-image.css");
@@ -24,3 +25,4 @@
 @import url("./type-badges.css");
 @import url("./toggle.css");
 @import url("./language-switcher.css");
+@import url("./whats-new.css");

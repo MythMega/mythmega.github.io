@@ -2,7 +2,7 @@
 
 ## 1. Vue d'ensemble
 
-La progression n'est **pas stockée** : elle est recalculée à chaque chargement de `stats.html` ou à chaque vérification de prérequis de challenge, à partir :
+La progression n'est **pas stockée** : elle est recalculée à chaque chargement de `profile.html` ou à chaque vérification de prérequis de challenge, à partir :
 
 - des historiques Daily/Weekly (`PokefeetDB`) ;
 - des cookies Marathon (`pk_best`, `pk_best_streak`) ;
@@ -24,9 +24,10 @@ Pour chaque date de `daily_results` :
 |---|---:|
 | Jour terminé (`results.length === 5`) | +3 |
 | Jour parfait (`score === 50`) | +2 |
-| Chaque round gagné au premier essai (`outcome === 'win' && attempts === 0`) | +1 |
+| Chaque round trouvé (`outcome === 'win'`) | +1 |
+| Chaque round trouvé au premier essai (`attempts === 0`), en plus | +1 |
 
-Maximum théorique par jour : 3 + 2 + 5 = **10 XP**.
+Maximum théorique par jour : 3 + 2 + 5 + 5 = **15 XP**.
 
 ### 2.2 Weekly
 
@@ -36,9 +37,10 @@ Pour chaque lundi de `weekly_results` :
 |---|---:|
 | Semaine terminée (`results.length === 10`) | +6 |
 | Semaine parfaite (`score === 100`, tous gagnés) | +4 |
-| Chaque round gagné au premier essai | +2 |
+| Chaque round trouvé | +1 |
+| Chaque round trouvé au premier essai, en plus | +2 |
 
-Maximum théorique par semaine : 6 + 4 + 20 = **30 XP**.
+Maximum théorique par semaine : 6 + 4 + 10 + 20 = **40 XP**.
 
 ### 2.3 Marathon
 
@@ -70,21 +72,54 @@ totalXP = dailyXP + weeklyXP + marathonXP + challengeXP + trophyXP;
 
 ## 3. Niveaux
 
+Une seule implémentation : `js/core/xp.js` (`PokefeetXP`). `js/features/stats/stats.js` délègue (`getLevel`, `getXPInLevel`, `levelCost`) pour éviter deux courbes divergentes.
+
 ```js
 const XP_PER_LEVEL = 100;
-level = Math.floor(totalXP / 100) + 1;
-xpInLevel = totalXP % 100;
+const XP_STEP      = 2;
+levelCost(n)  = 100 + 2 * (n - 1);            // coût du palier n → n+1
+xpToReach(n)  = k * (200 + 2 * (k - 1)) / 2;  // k = n - 1
+level         = plus grand n tel que xpToReach(n) <= totalXP
+xpInLevel     = totalXP - xpToReach(level)
 ```
 
-- Niveau 1 : 0–99 XP.
-- Niveau 2 : 100–199 XP.
-- Pas de niveau maximum.
-- La barre `#statsXPBarFill` affiche `xpInLevel / 100`.
+- Le palier 1 → 2 coûte 100 XP, puis chaque palier coûte 2 XP de plus que le précédent.
+- Pas de niveau maximum dans le code, mais les récompenses s'arrêtent au niveau 100.
+- La barre `#statsXPBarFill` affiche `xpInLevel / levelCost(level)` et le texte `xpInLevel / levelCost(level) XP`.
+- Le popup « Barème d'XP » (`#xpScaleModal`) affiche la courbe ; ses chiffres sont injectés par `renderLevelScale()`.
 - Le libellé `#statsLevel` est réécrit en `Niveau N` (français codé en dur) tout en préservant le bouton d'aide `?`.
+
+### 3.1 Pourquoi une courbe progressive
+
+Mesures sur le contenu disponible (octobre 2026) :
+
+| Source | XP |
+|---|---|
+| 41 challenges bonus (39 récompenses `Experience`) | 6 100 |
+| 79 trophées actifs | 13 900 |
+| **Total fixe** | **20 000** |
+| daily + weekly parfaits sur 487 jours d'historique | 10 088 |
+| rythme maximal | 145 XP / semaine (105 daily + 40 weekly) |
+
+Avec le barème plat (100 XP par palier, niveau 100 = 9 900 XP), les 20 000 XP de contenu fixe dépassaient deux fois le niveau 100 : un joueur ayant tout complété atteignait le **niveau 201**, et « Master » tombait au bout de la moitié du contenu. La courbe progressive place le niveau 100 à **19 602 XP**, soit exactement le contenu fixe du jeu (`XP_STEP = 2` : le joueur qui a tout complété atteint le niveau 101).
+
+Paliers de contrôle :
+
+| Niveau | Plate 100 XP | Progressive (XP_STEP = 2) |
+|---|---|---|
+| 2 | 100 | 100 |
+| 5 | 400 | 412 |
+| 10 | 900 | 972 |
+| 25 | 2 400 | 2 952 |
+| 50 | 4 900 | 7 252 |
+| 100 | 9 900 | 19 602 |
+
+XP totale → niveau, points de repère : 500 XP → niveau 5 ; 2 000 → 18 ; 5 000 → 37 ; 10 000 → 63 ; 20 000 (contenu complet) → 101.
+
 
 ---
 
-## 4. Trophées (`data/trophies.json`)
+## 4. Trophées (`data/trophies/`)
 
 ### 4.1 Structure
 
@@ -139,7 +174,7 @@ Chaque carte affiche image, nom, description, XP, rareté, état obtenu/verrouil
 
 ---
 
-## 5. Récompenses (`data/reward.json`)
+## 5. Récompenses (`data/rewards/`)
 
 ### 5.1 Paliers
 
@@ -156,7 +191,7 @@ Types réels : `StreamdexCMD` 9, `Badge` 5, `Title` 5.
 
 `Reward.isUnlocked(currentLevel)` : `currentLevel >= level`.
 
-L'onglet « Récompenses » de `stats.html` :
+L'onglet « Récompenses » de `profile.html` :
 
 - charge `reward.json` ;
 - instancie les `Reward` ;
@@ -180,9 +215,10 @@ Le pseudo (`pk_pseudo`) est affiché dans `#statsPseudo`.
 
 | Problème | Détail | Impact |
 |---|---|---|
-| Double implémentation | `js/features/stats/stats.js` et `ChallengeManager.computeTotalXP()` | deux totaux possibles |
+| Double implémentation | les calculs d'XP (stats.js, challenges, Boutique) passent par `js/core/xp.js` ; la logique des trophées y reste recopiée de `stats.js` | un trophée mal recopié ferait diverger le profil et la Boutique |
 | Recalcul complet | chaque `getPlayerLevel()` recharge bases + JSON | lenteur sur la liste de challenges |
-| XP non persisté | tout est dérivé | modification rétroactive du niveau |
+| XP non persisté | tout est dérivé | modification rétroactive du niveau (la courbe progressive fait **baisser** les niveaux existants) |
+| Daily rejouable | borné par `js/core/challenge-window.js` : `daily.html?date=…` et `weekly.html?week=…` n'acceptent que la fenêtre proposée par « Défis passés » (premier défi enregistré → aujourd'hui) | plus de farm rétroactif ; reste borné par le premier défi du joueur |
 | Trophées non datés | pas d'historique | impossible de distinguer ancien/nouveau |
 | `Type_Registered` coûteux | parcours de 698 Pokémon par trophée | 54 × 698 opérations |
 | `Niveau` codé en dur | `js/features/stats/stats.js` écrit `'Niveau ' + level` | non traduit |
@@ -190,20 +226,21 @@ Le pseudo (`pk_pseudo`) est affiché dans `#statsPseudo`.
 | Titre | dépend du dernier palier débloqué, pas d'un choix utilisateur | pas de personnalisation |
 | `StreamdexCMD` | copie dans le presse-papier | dépend de l'API clipboard |
 | Niveau max | 100 dans les données, pas de plafond dans le code | au-delà, plus de récompense |
+| Titres vs courbe | titres aux niveaux 10 / 25 / 50 / 100, désormais à 972 / 2 952 / 7 252 / 19 602 XP | « Master » demande désormais tout le contenu fixe du jeu |
 
 ---
 
 ## 7. Checklist de test manuel
 
 1. Profil vierge : niveau 1, 0 XP, aucun trophée, badge du niveau 1.
-2. Un daily terminé : +3 XP minimum ; parfait : +5 ; premier essai : +1 par round.
-3. Weekly : +6 / +4 / +2 par round premier essai.
+2. Un daily terminé : +3 XP minimum, +1 par round trouvé, +1 de plus par round trouvé du premier essai, +2 si jour parfait.
+3. Weekly : +6 / +4 / +10 pour les rounds trouvés / +20 pour ceux trouvés du premier essai.
 4. Marathon : record 100 et série 10 → 20 + 20 = 40 XP.
 5. Challenge avec 50 XP : total +50.
 6. Trophée débloqué : XP ajouté, carte colorée, progression 100 %.
 7. Trophée de type incomplet : progression partielle.
 8. Génération complète : trophée obtenu.
-9. Niveau 2 à 100 XP : barre 0/100, titre/badge mis à jour.
+9. Niveau 2 à 100 XP (barre `0/105`) ; niveau 10 à 1 080 XP (barre `0/145`), titre/badge mis à jour.
 10. Onglet Récompenses : 14 cartes, verrouillées/débloquées, popup.
 11. Modification d'un JSON : le niveau change après rechargement (comportement attendu mais à documenter).
 12. Deux onglets : pas d'écriture, donc pas de conflit.

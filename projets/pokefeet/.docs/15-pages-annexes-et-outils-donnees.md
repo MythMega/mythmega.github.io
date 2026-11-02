@@ -10,14 +10,14 @@ Rôle : hub de navigation + bandeau d'actualités.
 |---|---|
 | Daily Challenge | `daily.html` |
 | Weekly Challenge | `weekly.html` |
-| Défis passés | `old_daily.html` |
+| Défis passés | `old_challenges.html` |
 | Challenges Bonus | `list_challenges.html` |
 | Challenges Custom | `custom.html` |
-| Marathon | `pokefeet.html` |
+| Marathon | `marathon.html` |
 | Historique | `history.html` |
-| Pokédex | `pied-dex.html` |
-| Paramètres | `data_management.html` |
-| Profile | `stats.html` |
+| Pokédex | `dex.html` |
+| Paramètres | `settings.html` |
+| Profile | `profile.html` |
 
 ### 1.2 Bandeau d'actualités
 
@@ -38,13 +38,13 @@ Script inline :
 
 ---
 
-## 2. Défis passés (`old_daily.html`)
+## 2. Défis passés (`old_challenges.html`)
 
 Page calendrier des Daily et Weekly déjà disponibles.
 
 - Onglets Daily/Weekly.
 - Lit `daily_results` et `weekly_results`.
-- Détermine la plus ancienne date connue.
+- Détermine la plus ancienne date connue (`ChallengeWindow.firstDateOf`, `js/core/challenge-window.js`) : c'est exactement la limite que `daily.js` et `weekly.js` acceptent dans l'URL.
 - Daily : itère du plus ancien à aujourd'hui, un bouton par jour, classe `played`/`available`, lien `daily.html?date=...`.
 - Weekly : itère de la plus ancienne semaine au lundi courant, lien `weekly.html?week=...`.
 - Si aucune donnée : message `#noDailies`.
@@ -60,13 +60,30 @@ Limites :
 
 ## 3. Changelog (`changelog.html`)
 
-Page statique, sans logique métier. Contient un `<h1>` et un lien retour. Les entrées sont du HTML manuel. Aucune source de données, aucune génération automatique.
+Page statique qui lit `data/changelog.json` (aucun HTML manuel des entrées) :
+
+```json
+{
+  "Version": { "Major": 6, "Minor": 0, "Patch": 0, "Stage": "Release" },
+  "Title": "Mega Evolution",
+  "Date": "24/10/2026",
+  "Changelog": [
+    { "Type": "Content", "Severity": 3, "Translation_FR": "...", "Translation_EN": "..." }
+  ]
+}
+```
+
+- `Stage` vaut `Release`, `Beta` ou `Alpha` : il détermine la couleur et le libellé du badge (`v6.0.0`, `Beta 1.5`, `Alpha 1.9`).
+- `Type` vaut `Feature` (or), `Quality Of Life` (bleu), `Content` (vert) ou `Fix` (blanc) : la couleur du texte de la ligne suit (`type-feature`, `type-quality-of-life`, `type-content`, `type-fix`).
+- `Severity` va de 1 à 3 et pilote la graisse de la police de la ligne (`severity-1/2/3`).
+- Le texte affiché est `Translation_FR` ou `Translation_EN` selon la langue courante.
+- Les versions sont triées par date décroissante, puis par version décroissante (Release > Beta > Alpha).
 
 ---
 
 ## 4. Crédits (`credits.html` + `js/features/credits/credits.js`)
 
-- Charge `data/credits.json`.
+- Charge `data/credits/`.
 - `TranslationsFR`/`TranslationsEN` fournissent les libellés de types.
 - `Credits` : 15 personnes, avec `Person`, `Types[]`, `Image`, `Buttons[]`, `FunctionFR/EN`.
 - `renderTabs()` construit un onglet par type (Coder, Artist, etc.).
@@ -155,7 +172,11 @@ Elle n'est pas liée et ne fait pas partie du produit. Utile comme référence d
 
 | Fichier | Rôle apparent | Référencé au runtime |
 |---|---|---|
+| `data/poke_data.py` | accès aux données éclatées : chargement fusionné, re-découpage et manifestes | non |
 | `data/analyse_challenges.py` | analyse des challenges | non |
+| `data/analyze_prices.py` | somme des prix des cosmétiques | non |
+| `data/analyze_cosmetics_icon.py` | vérification des images de cosmétiques | non |
+| `data/add_file.py` | calcul du champ `File` des cosmétiques créatifs | non |
 | `data/egggroup-category.py` | enrichissement groupes d'œuf/catégorie | non |
 | `data/newpic.py` | génération/renommage d'images | non |
 | `data/setversion.py` | mise à jour de `version.json` | non |
@@ -174,7 +195,6 @@ Ces scripts constituent la **chaîne de production des données**. Ils ne sont n
 | `data/backup.json` | sauvegarde historique, non lue par le code |
 | `data/new_backup.json` | idem |
 | `data/result_analyse_challenge.log` | log d'analyse |
-| `data/pokefeet_commits.csv` | données de suivi |
 | `cover.png` | visuel, non référencé dans les pages |
 | `trophies.md` | documentation ancienne |
 | `README_I18N.md`, `I18N_DOCUMENTATION.md` | documentation i18n ancienne |
@@ -188,14 +208,14 @@ Ces scripts constituent la **chaîne de production des données**. Ils ne sont n
 index.html
 ├── daily.html
 ├── weekly.html
-├── old_daily.html ──► daily.html?date / weekly.html?week
+├── old_challenges.html ──► daily.html?date / weekly.html?week (fenêtre rejouable : premier défi enregistré → aujourd'hui)
 ├── list_challenges.html ──► challenge.html
 ├── custom.html ──► custom_create.html / custom_play.html
-├── pokefeet.html
+├── marathon.html
 ├── history.html
-├── pied-dex.html
-├── data_management.html
-└── stats.html
+├── dex.html
+├── settings.html
+└── profile.html
 
 footer (toutes pages de jeu)
 ├── index.html
@@ -204,7 +224,6 @@ footer (toutes pages de jeu)
 └── credits.html
 
 Pages sans lien entrant :
-├── profile.html (redirection)
 ├── prediction.html (protégée)
 ├── integration-pokefeet.html
 └── test-i18n.html
@@ -220,3 +239,4 @@ Pages sans lien entrant :
 4. **Supprimer** `backup.json`, `new_backup.json`, les logs et CSV s'ils ne servent plus.
 5. **Remplacer** le bandeau Google Sheets par un JSON local versionné, ou assumer la dépendance.
 6. **Unifier** les algorithmes de prédiction avec les modules de jeu (une seule source de vérité).
+érité).

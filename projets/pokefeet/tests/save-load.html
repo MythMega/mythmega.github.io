@@ -17,7 +17,7 @@
 
   <div id="notifications" aria-live="polite"></div>
 
-  <!-- Mêmes ids que data_management.html pour brancher DataManager.init() -->
+  <!-- Mêmes ids que settings.html pour brancher DataManager.init() -->
   <div id="dataPanel" style="display:none">
     <button id="exportBtn">Exporter les données</button>
     <input id="importFile" type="file" accept=".txt" />
@@ -48,6 +48,7 @@
     };
   </script>
   <script src="js/data/challenge-storage.js"></script>
+    <script src="js/data/data-files.js"></script>
   <script src="js/data/data-manager.js"></script>
   <script>
   (async function () {

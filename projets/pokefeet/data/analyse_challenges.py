@@ -1,12 +1,15 @@
 import json
+import os
 from collections import defaultdict
 
-# --- Chargement des fichiers JSON ---
-with open("bonus_challenges.json", "r", encoding="utf-8") as f:
-    challenges = json.load(f)
+import poke_data
 
-with open("pokemons.json", "r", encoding="utf-8") as f:
-    pokemons = json.load(f)
+# --- Chargement des fichiers JSON ---
+# Les données sont éclatées et lues via leurs manifestes :
+# data/bonus_challengesfiles.json (+ data/bonus_challenges/) et
+# data/monsfiles.json (+ data/mons/).
+challenges = poke_data.load("bonus_challenges")
+pokemons = poke_data.load_manifest("monsfiles.json", "mons")
 
 # --- Indexation des pokémons par leur numéro ---
 pokemon_by_index = {p["Index"]: p for p in pokemons}
@@ -14,13 +17,26 @@ pokemon_by_index = {p["Index"]: p for p in pokemons}
 total_pokemon_count = len(pokemons)
 total_challenges = len(challenges)
 
+# --- Fonction de tri robuste pour les index et les identifiants ---
+def safe_sort_key(s):
+    num = ""
+    for c in s:
+        if c.isdigit():
+            num += c
+        else:
+            break
+    return (int(num) if num else float("inf"), s)
+
+
 # --- Analyse des challenges ---
 pokemon_challenge_count = defaultdict(int)
 pokemon_challenge_names = defaultdict(list)
 
 challenge_reports = []
 
-for ch in challenges:
+# Les défis sont éclatés par onglet : on les trie par identifiant pour que le
+# rapport ne dépende pas du découpage des fichiers.
+for ch in sorted(challenges, key=lambda challenge: safe_sort_key(str(challenge["ID"]))):
     ch_name = ch["Name_Fr"]
     feet_list = ch["FeetList"]
 
@@ -39,16 +55,6 @@ for ch in challenges:
         "feet_count": len(feet_list)
     })
 
-# --- Fonction de tri robuste pour les index ---
-def safe_sort_key(s):
-    num = ""
-    for c in s:
-        if c.isdigit():
-            num += c
-        else:
-            break
-    return (int(num) if num else float("inf"), s)
-
 # --- Catégories ---
 present_pokemon = sorted(pokemon_challenge_count.keys(), key=safe_sort_key)
 overrepresented = sorted(
@@ -66,7 +72,7 @@ count_overrepresented = len(overrepresented)
 count_absent = len(absent_pokemon)
 
 # --- Génération du fichier résultat ---
-with open("result_analyse_challenge.log", "w", encoding="utf-8") as out:
+with open(os.path.join(poke_data.HERE, "result_analyse_challenge.log"), "w", encoding="utf-8") as out:
 
     out.write("===== ANALYSE DES CHALLENGES =====\n\n")
     out.write(f"Nombre total de Pokémon : {total_pokemon_count}\n")

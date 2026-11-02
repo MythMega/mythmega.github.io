@@ -131,7 +131,7 @@ class Challenge {
 ```
 
 - `Experience` : nombre de XP ajouté au total.
-- `Cosmetic` : ID numérique dans `data/cosmetics.json`.
+- `Cosmetic` : ID numérique dans `data/cosmetics/`.
 
 ### `Availabilities`
 
@@ -163,7 +163,7 @@ class Challenge {
 
 ## 5. `Reward`, `RewardItem`, `RewardButton`
 
-Source : `data/reward.json` (14 paliers).
+Source : `data/rewards/` (14 paliers).
 
 ```json
 {
@@ -316,7 +316,21 @@ Le hash est un **FNV-1a 32 bits** hexadécimal du JSON compact, pas une signatur
 
 ## 8. Autres schémas
 
-### 8.1 Cosmétiques (`data/cosmetics.json`)
+Tous ces jeux de données sont **éclatés** : un dossier par type (`data/<nom>/`) et un manifeste `data/<nom>files.json` qui liste les fichiers à charger, dans l'ordre de fusion (même principe que `data/monsfiles.json` pour `data/mons/`).
+
+| Jeu de données | Manifeste | Dossier | Découpage |
+|---|---|---|---|
+| Trophées | `data/trophiesfiles.json` | `data/trophies/` | `dex`, `progress`, `generations`, `types` |
+| Récompenses | `data/rewardsfiles.json` | `data/rewards/` | un fichier par palier de niveau |
+| Challenges bonus | `data/bonus_challengesfiles.json` | `data/bonus_challenges/` | un fichier par onglet (`Tab`) |
+| Cosmétiques | `data/cosmeticsfiles.json` | `data/cosmetics/` | `bg_*` / `btn_*` puis par catégorie |
+| Crédits | `data/creditsfiles.json` | `data/credits/` | membres, traductions FR, traductions EN |
+
+Côté navigateur, `js/data/data-files.js` lit le manifeste et fusionne les fichiers (`DataFiles.load('cosmetics')`) ; un fichier absent ou cassé est signalé en console sans bloquer les autres. Côté Python, `data/poke_data.py` applique exactement les mêmes règles (`poke_data.load('cosmetics')`, `poke_data.write('cosmetics', data)`).
+
+L'ordre du manifeste définit l'ordre de fusion : les consommateurs qui dépendent d'un ordre précis trient eux-mêmes (le profil trie les trophées par identifiant, les onglets de challenges filtrent par `Tab`).
+
+### 8.1 Cosmétiques (`data/cosmetics/`)
 
 ```json
 {
@@ -335,9 +349,9 @@ Le hash est un **FNV-1a 32 bits** hexadécimal du JSON compact, pas une signatur
 - `File` est relative à `img/cosmetics/`.
 - 30 fonds, 9 boutons ; 37 cosmétiques verrouillés.
 - Catégories : `Games` 12, `Event` 11, `Collection` 5, `Strat` 5, `Regional` 4, `null` 2.
-- `MustHideIfUnobtained` est utilisé par l'UI inline de `data_management.html`, pas par `js/features/settings/cosmetics.js`.
+- `MustHideIfUnobtained` est utilisé par l'UI inline de `settings.html`, pas par `js/features/settings/cosmetics.js`.
 
-### 8.2 Trophées (`data/trophies.json`)
+### 8.2 Trophées (`data/trophies/`)
 
 ```json
 {
@@ -356,7 +370,7 @@ Le hash est un **FNV-1a 32 bits** hexadécimal du JSON compact, pas une signatur
 
 Modes : `Type_Registered` 54, `Full_Generation_Register` 9, `Dex_Count` 4, `Daily_Count` 4, `Weekly_Count` 4, `Marathon_Streak` 4.
 
-### 8.3 Crédits (`data/credits.json`)
+### 8.3 Crédits (`data/credits/`)
 
 ```json
 {

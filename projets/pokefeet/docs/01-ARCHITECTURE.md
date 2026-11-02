@@ -5,14 +5,14 @@
 ```
 pokefeet/
 ├── index.html              # Page d'accueil
-├── pokefeet.html           # Mode Marathon (entraînement)
+├── marathon.html           # Mode Marathon (entraînement)
 ├── daily.html              # Mode Daily
 ├── weekly.html             # Mode Weekly
 ├── history.html            # Historique des parties
-├── stats.html              # Statistiques, XP, trophées
-├── profile.html            # Redirige vers data_management.html
-├── data_management.html    # Gestion des données (export/import)
-├── pied-dex.html           # Pokédex
+├── profile.html              # Statistiques, XP, trophées
+├── profile.html            # Redirige vers settings.html
+├── settings.html    # Gestion des données (export/import)
+├── dex.html           # Pokédex
 ├── prediction.html         # Prédictions (?)
 ├── changelog.html          # Changelog
 ├── integration-pokefeet.html # Page d'intégration
@@ -42,12 +42,20 @@ pokefeet/
 ├── translate.js            # Fonctions de traduction
 │
 ├── data/
-│   ├── pokemons.json       # Tous les Pokémon (Index, noms, types, images)
+│   ├── monsfiles.json      # Manifeste : fichiers Pokémon à charger
+│   ├── mons/               # Pokémon (Index, noms, types, images)
+│   ├── trophiesfiles.json  # Manifeste : fichiers de trophées à charger
+│   ├── trophies/           # Trophées éclatés (dex, progress, generations, types)
+│   ├── rewardsfiles.json   # Manifeste : fichiers de récompenses à charger
+│   ├── rewards/            # Récompenses (badges, titres) éclatées par palier
+│   ├── bonus_challengesfiles.json # Manifeste : fichiers de défis bonus
+│   ├── bonus_challenges/   # Défis bonus éclatés par onglet
+│   ├── cosmeticsfiles.json # Manifeste : fichiers de cosmétiques
+│   ├── cosmetics/          # Cosmétiques éclatés par type et catégorie
+│   ├── creditsfiles.json   # Manifeste : fichiers de crédits
+│   ├── credits/            # Crédits (membres, traductions)
+│   ├── changelog.json      # Changelog (versions, titres, entrées FR/EN)
 │   ├── version.json        # Versions des données et dates de déploiement
-│   ├── trophies.json       # Définition des trophées
-│   ├── reward.json         # Récompenses (badges, titres)
-│   ├── cosmetics.json      # Cosmétiques
-│   ├── bonus_challenges.json # Défis bonus
 │   ├── backup.json         # Backup
 │   └── ...
 │

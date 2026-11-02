@@ -542,9 +542,37 @@ if (swSource) {
         'settings/config.json',
         'translations/fr.json',
         'translations/en.json',
-        'data/monsfiles.json'
+        'data/monsfiles.json',
+        'data/trophiesfiles.json',
+        'data/rewardsfiles.json',
+        'data/bonus_challengesfiles.json',
+        'data/cosmeticsfiles.json',
+        'data/creditsfiles.json',
+        'data/changelog.json'
       ]) {
         if (!relativeEntries.has(relative)) report(swPath, `fichier critique absent du précache : ${relative}`);
+      }
+
+      // Chaque fichier listé par un manifeste de données (data/<nom>files.json)
+      // doit exister et être précaché : sinon le jeu de données est incomplet
+      // hors ligne, ou le manifeste pointe vers un fichier disparu.
+      for (const [manifestFile, manifestData] of jsonData) {
+        if (path.dirname(manifestFile) !== path.join(ROOT, 'data')) continue;
+        if (!/^[a-z_]+files\.json$/i.test(path.basename(manifestFile))) continue;
+        if (!Array.isArray(manifestData)) {
+          report(manifestFile, 'un manifeste de données doit être un tableau de noms de fichiers');
+          continue;
+        }
+        const directory = path.basename(manifestFile).replace(/files\.json$/i, '');
+        for (const entry of manifestData) {
+          const relative = `data/${directory}/${entry}`;
+          if (!fs.existsSync(path.join(ROOT, relative))) {
+            report(manifestFile, `fichier déclaré introuvable : ${relative}`);
+          }
+          if (!relativeEntries.has(relative)) {
+            report(swPath, `fichier de données absent du précache : ${relative}`);
+          }
+        }
       }
     }
   } catch (error) {

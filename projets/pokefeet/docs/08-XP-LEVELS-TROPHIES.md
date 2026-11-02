@@ -2,7 +2,7 @@
 
 Le système de progression est entièrement **calculé dynamiquement** à partir de l'historique des parties (Daily, Weekly, Marathon). Aucune XP n'est stockée — tout est recalculé à chaque affichage.
 
-Page : `stats.html` (module `stats.js`)
+Page : `profile.html` (module `stats.js`)
 
 ---
 
@@ -90,7 +90,7 @@ function getXPInLevel(totalXP) {
 
 ## Trophées
 
-### Format de `data/trophies.json`
+### Format de `data/trophies/`
 
 ```json
 [
@@ -144,7 +144,7 @@ Chaque trophée affiche :
 
 ## Récompenses
 
-### Format de `data/reward.json`
+### Format de `data/rewards/`
 
 ```json
 [

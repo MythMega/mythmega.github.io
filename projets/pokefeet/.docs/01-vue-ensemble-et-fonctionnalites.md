@@ -23,14 +23,14 @@ Le jeu est disponible en **français** et en **anglais** (453 clés par langue).
 index.html
 ├── Daily Challenge      → daily.html       (5 Pokémon, seed = date)
 ├── Weekly Challenge     → weekly.html      (10 Pokémon, seed = lundi)
-├── Défis passés         → old_daily.html   (calendrier Daily/Weekly)
+├── Défis passés         → old_challenges.html   (calendrier Daily/Weekly)
 ├── Challenges Bonus     → list_challenges.html → challenge.html
 ├── Challenges Custom    → custom.html → custom_create.html / custom_play.html
-├── Marathon             → pokefeet.html    (pool complet, reprise)
+├── Marathon             → marathon.html    (pool complet, reprise)
 ├── Historique           → history.html     (listes + courbes + stats)
-├── Pokédex              → pied-dex.html    (collection + import)
-├── Paramètres           → data_management.html (données, cosmétiques, profil)
-└── Profile              → stats.html       (niveau, XP, trophées, récompenses)
+├── Pokédex              → dex.html    (collection + import)
+├── Paramètres           → settings.html (données, cosmétiques, profil)
+└── Profile              → profile.html       (niveau, XP, trophées, récompenses)
 ```
 
 Le footer commun ajoute `data.html` (visualiseur de données), `changelog.html` et `credits.html`.
@@ -43,10 +43,10 @@ Le footer commun ajoute `data.html` (visualiseur de données), `changelog.html` 
 
 | Fonctionnalité | Page | Logique | Stockage | Documentation |
 |---|---|---|---|---|
-| Marathon / Practice | `pokefeet.html` | `js/features/marathon/game.js` + `js/features/marathon/ui.js` | `localStorage` session, cookies best score/streak | [05](./05-mode-marathon.md) |
+| Marathon / Practice | `marathon.html` | `js/features/marathon/game.js` + `js/features/marathon/ui.js` | `localStorage` session, cookies best score/streak | [05](./05-mode-marathon.md) |
 | Daily | `daily.html` | `js/features/daily/daily.js` | IndexedDB `daily_results`, cookies legacy, Dex | [06](./06-mode-daily.md) |
 | Weekly | `weekly.html` | `js/features/weekly/weekly.js` | IndexedDB `weekly_results`, Dex | [07](./07-mode-weekly.md) |
-| Défis passés | `old_daily.html` | `js/features/history/old-daily.js` | lecture IndexedDB | [12](./12-historique-et-statistiques.md) |
+| Défis passés | `old_challenges.html` | `js/features/history/old-daily.js` | lecture IndexedDB | [12](./12-historique-et-statistiques.md) |
 | Challenges bonus | `list_challenges.html`, `challenge.html` | `js/core/challenge.js`, `business/challenge-*`, `ui/challenge-*-ui.js` | `PokefeetChallengeDB`, Dex | [08](./08-challenges-bonus.md) |
 | Challenges custom | `custom_create.html`, `custom_play.html` | `business/custom_challenges/*`, `ui/custom_challenges/*` | aucun (URL uniquement) | [09](./09-challenges-custom.md) |
 
@@ -54,22 +54,22 @@ Le footer commun ajoute `data.html` (visualiseur de données), `changelog.html` 
 
 | Fonctionnalité | Page | Logique | Stockage | Documentation |
 |---|---|---|---|---|
-| Pokédex | `pied-dex.html` | `js/data/dex.js`, `js/features/dex/dex-ui.js`, `js/data/daily-to-dex-import.js` | `PokefeetDexDB` | [10](./10-pokedex.md) |
-| XP / niveaux | `stats.html` | `js/features/stats/stats.js`, `js/features/challenges/challenge-manager.js` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
-| Trophées | `stats.html` | `js/features/stats/stats.js`, `data/trophies.json` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
-| Récompenses (badges, titres) | `stats.html` | `entity/reward/*`, `data/reward.json` | cookie pseudo + niveau calculé | [11](./11-progression-xp-trophees-recompenses.md) |
-| Profil (pseudo, titre, badges) | `data_management.html`, `stats.html` | inline + `js/features/stats/stats.js` | cookie `pk_pseudo` | [13](./13-profil-cosmetiques-sauvegarde.md) |
-| Cosmétiques | toutes les pages | `js/features/settings/cosmetics.js`, `data/cosmetics.json` | cookies `pk_cosmetic_bg/btn` | [13](./13-profil-cosmetiques-sauvegarde.md) |
+| Pokédex | `dex.html` | `js/data/dex.js`, `js/features/dex/dex-ui.js`, `js/data/daily-to-dex-import.js` | `PokefeetDexDB` | [10](./10-pokedex.md) |
+| XP / niveaux | `profile.html` | `js/features/stats/stats.js`, `js/features/challenges/challenge-manager.js` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
+| Trophées | `profile.html` | `js/features/stats/stats.js`, `data/trophies/` | recalcul à la volée | [11](./11-progression-xp-trophees-recompenses.md) |
+| Récompenses (badges, titres) | `profile.html` | `entity/reward/*`, `data/rewards/` | cookie pseudo + niveau calculé | [11](./11-progression-xp-trophees-recompenses.md) |
+| Profil (pseudo, titre, badges) | `settings.html`, `profile.html` | inline + `js/features/stats/stats.js` | cookie `pk_pseudo` | [13](./13-profil-cosmetiques-sauvegarde.md) |
+| Cosmétiques | toutes les pages | `js/features/settings/cosmetics.js`, `data/cosmetics/` | cookies `pk_cosmetic_bg/btn` | [13](./13-profil-cosmetiques-sauvegarde.md) |
 
 ### 3.3 Historique, données et continuité
 
 | Fonctionnalité | Page | Logique | Documentation |
 |---|---|---|---|
 | Historique Daily/Weekly | `history.html` | `js/features/history/history.js`, `js/features/history/history-curve.js` | [12](./12-historique-et-statistiques.md) |
-| Statistiques détaillées | `stats.html` | `js/features/stats/stats.js` | [12](./12-historique-et-statistiques.md) |
-| Export de sauvegarde | `data_management.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
-| Import de sauvegarde | `data_management.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
-| Import manuel Daily/Weekly (emoji) | `data_management.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
+| Statistiques détaillées | `profile.html` | `js/features/stats/stats.js` | [12](./12-historique-et-statistiques.md) |
+| Export de sauvegarde | `settings.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
+| Import de sauvegarde | `settings.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
+| Import manuel Daily/Weekly (emoji) | `settings.html` | `js/data/data-manager.js` | [04](./04-persistance-et-migration.md) |
 | Migration IndexedDB/cookies | toutes les pages | `js/data/migration.js` | [04](./04-persistance-et-migration.md) |
 | Visualiseur de données | `data.html` | script inline | [15](./15-pages-annexes-et-outils-donnees.md) |
 | Prédictions protégées | `prediction.html` | script inline | [15](./15-pages-annexes-et-outils-donnees.md) |
@@ -83,7 +83,7 @@ Le footer commun ajoute `data.html` (visualiseur de données), `changelog.html` 
 | Notifications, gauges, autocomplete | `js/features/marathon/ui.js`, scripts de mode | [14](./14-ui-transversale-et-i18n.md) |
 | Footer commun | `js/ui/footer.js` | [14](./14-ui-transversale-et-i18n.md) |
 | Bandeau d'actualités | inline `index.html` (Google Sheets) | [15](./15-pages-annexes-et-outils-donnees.md) |
-| Crédits | `js/features/credits/credits.js`, `data/credits.json` | [15](./15-pages-annexes-et-outils-donnees.md) |
+| Crédits | `js/features/credits/credits.js`, `data/credits/` | [15](./15-pages-annexes-et-outils-donnees.md) |
 
 ---
 
@@ -155,12 +155,12 @@ Un Pokémon est disponible si `deploy_date === null` ou `deploy_date <= date du 
 | Marathon | `Pokemon`, `PokemonVersions`, `TypeIcons`, `UI`, `Translator` | `localStorage` `pk_practice_session`, cookies `pk_best`, `pk_best_streak` | `data/pokemons.json`, `data/version.json` |
 | Daily | `Pokemon`, `PokemonVersions`, `TypeIcons`, `Dex`, `Migration`, `Translator` | `PokefeetDB/daily_results`, Dex | `PokefeetDB/daily_results`, `data/pokemons.json` |
 | Weekly | idem Daily | `PokefeetDB/weekly_results`, Dex | idem |
-| Challenges bonus | `Challenge`, `ChallengeManager`, `ChallengeStorage`, `Dex`, `Cosmetics` | `PokefeetChallengeDB`, Dex | `data/bonus_challenges.json`, `data/pokemons.json`, `data/trophies.json` |
+| Challenges bonus | `Challenge`, `ChallengeManager`, `ChallengeStorage`, `Dex`, `Cosmetics` | `PokefeetChallengeDB`, Dex | `data/bonus_challenges/`, `data/pokemons.json`, `data/trophies/` |
 | Challenges custom | `Pokemon`, codec, `CompressionStream` | rien | `data/pokemons.json` |
 | Pokédex | `Pokemon`, `PokemonVersions`, `Dex` | `PokefeetDexDB` | `PokefeetDB`, `PokefeetDexDB` |
 | XP / trophées | `Dex`, `ChallengeStorage`, `PokemonVersions` (indirect) | rien (calcul) | les 3 bases + JSON |
-| Récompenses | `Reward`, `RewardItem`, `RewardButton` | rien | `data/reward.json`, cookie pseudo |
-| Cosmétiques | `ChallengeStorage` | cookies `pk_cosmetic_*` | `data/cosmetics.json`, `PokefeetChallengeDB` |
+| Récompenses | `Reward`, `RewardItem`, `RewardButton` | rien | `data/rewards/`, cookie pseudo |
+| Cosmétiques | `ChallengeStorage` | cookies `pk_cosmetic_*` | `data/cosmetics/`, `PokefeetChallengeDB` |
 | Export/import | `Dex`, `DailyToDexImport`, `ChallengeStorage` | les 3 bases + cookies | fichier `.txt` |
 | Migration | aucune | les 3 bases + cookies | IndexedDB v1–v4, cookies legacy |
 

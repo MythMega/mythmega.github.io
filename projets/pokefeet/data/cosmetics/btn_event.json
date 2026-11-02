@@ -1,0 +1,48 @@
+[
+    {
+        "ID": 2,
+        "Type": "Background-Buttons",
+        "Name": "Pride",
+        "Cat": "Event",
+        "Value": "cosmetics-pride-btn",
+        "File": "background-pride.png",
+        "MustHideIfUnobtained": true,
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 32,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "Bloody Controls",
+        "Value": "haloween2026",
+        "File": "blood-buttons.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 111,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "JMDEV's Stars button",
+        "Value": "event-jmdev-stars-btn",
+        "File": "jmdev-stars.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 112,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "JMDEV's Neon button",
+        "Value": "event-jmdev-neon-btn",
+        "File": "jmdev-neon.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 113,
+        "Type": "Background-Buttons",
+        "Cat": "Event",
+        "Name": "JMDEV's Ocean button",
+        "Value": "event-jmdev-ocean-btn",
+        "File": "jmdev-ocean.png",
+        "RequiresUnlock": true
+    }
+]

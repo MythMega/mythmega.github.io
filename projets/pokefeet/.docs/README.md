@@ -51,10 +51,10 @@
 | Pokémon dans `data/pokemons.json` | 698 |
 | Générations représentées | 1 à 5 principalement, 7 à 9 en faible volume |
 | Versions de données (`version.json`) | 4 (déploiements entre le 27/05/2026 et le 31/08/2026) |
-| Trophées (`trophies.json`) | 79 |
-| Challenges bonus (`bonus_challenges.json`) | 32 |
-| Cosmétiques (`js/features/settings/cosmetics.json`) | 39 (30 fonds, 9 boutons) |
-| Récompenses de niveau (`reward.json`) | 14 |
+| Trophées (`data/trophies/`) | 79 |
+| Challenges bonus (`data/bonus_challenges/`) | 32 |
+| Cosmétiques (`data/cosmetics/`) | 39 (30 fonds, 9 boutons) |
+| Récompenses de niveau (`data/rewards/`) | 14 |
 | Clés de traduction | 453 en français, 453 en anglais |
 | Bases IndexedDB | 3 : `PokefeetDB`, `PokefeetDexDB`, `PokefeetChallengeDB` |
 | Tests automatisés détectés | 0 |

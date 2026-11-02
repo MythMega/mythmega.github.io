@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <base href="../" />
+  <title>Pokefeet — test du système d'XP</title>
+  <style>
+    body { background:#060c18; color:#e7eef9; font-family:system-ui, sans-serif; padding:20px; }
+    pre { background:#0b1424; border:1px solid #22314a; border-radius:10px; padding:14px; white-space:pre-wrap; }
+    .ok { color:#4ade80; } .ko { color:#f87171; }
+  </style>
+</head>
+<body>
+  <h1>Test du système d'XP</h1>
+  <p>Vérifie les règles d'XP des dailies/weeklies, la courbe de niveaux et le calcul de l'XP totale.</p>
+
+  <pre id="test-result">En cours…</pre>
+
+  <script>
+    // Doublure minimale : le banc porte sur les règles d'XP, pas sur la traduction.
+    // ChallengeStorage n'est volontairement pas chargé : les défis bonus comptent
+    // alors pour 0 XP, ce que la valeur attendue de l'XP totale prend en compte.
+    window.Translator = {
+      get: function (_key, fallback) { return fallback === undefined ? _key : fallback; },
+      getLanguage: function () { return 'fr'; }
+    };
+  </script>
+  <script src="js/data/data-files.js"></script>
+  <script src="js/data/pokemon-files.js"></script>
+  <script src="js/core/xp.js"></script>
+  <script>
+  (async function () {
+    'use strict';
+
+    const DB_NAME = 'PokefeetDB';
+    const DB_VERSION = 4;
+    const DAILY_STORE = 'daily_results';
+    const WEEKLY_STORE = 'weekly_results';
+
+    // Règles d'XP (js/core/xp.js) :
+    //  - daily  : +1 par round trouvé (+1 de plus du premier coup), +3 si les
+    //             5 rounds sont joués, +2 si le score est parfait ;
+    //  - weekly : +1 par round trouvé (+2 de plus du premier coup), +6 si les
+    //             10 rounds sont joués, +4 si le score est parfait ;
+    //  - marathon : floor(meilleur score / 5) + 2 par round de série.
+    const SEED_DAILY = {
+      '2026-01-04': { score: 30, results: rounds(5, 1) },   // 5 + 3 = 8 XP
+      '2026-01-05': { score: 50, results: rounds(5, 0) }    // 10 + 3 + 2 = 15 XP
+    };
+    const SEED_WEEKLY = {
+      '2025-12-29': { score: 100, results: rounds(10, 0) }  // 30 + 6 + 4 = 40 XP
+    };
+    const SEED_BEST = 150;
+    const SEED_STREAK = 6;
+    // Minimum garanti par les données injectées, sans compter les défis et les
+    // trophées : 23 (dailies) + 40 (weekly) + 42 (marathon).
+    const MIN_TOTAL_XP = 105;
+
+    const checks = [];
+
+    function check(name, ok, detail) {
+      checks.push({ name: name, ok: !!ok, detail: detail === undefined || detail === null ? null : String(detail) });
+    }
+
+    function rounds(count, attempts) {
+      const list = [];
+      for (let i = 0; i < count; i++) list.push({ outcome: 'win', attempts: attempts });
+      return list;
+    }
+
+    function fails(count) {
+      const list = [];
+      for (let i = 0; i < count; i++) list.push({ outcome: 'fail', attempts: 5 });
+      return list;
+    }
+
+    function openDb(name, version, stores) {
+      return new Promise(function (resolve, reject) {
+        const req = indexedDB.open(name, version);
+        req.onupgradeneeded = function () {
+          const db = req.result;
+          stores.forEach(function (store) {
+            if (!db.objectStoreNames.contains(store)) db.createObjectStore(store, { keyPath: 'date' });
+          });
+        };
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    }
+
+    async function seedHistory() {
+      const db = await openDb(DB_NAME, DB_VERSION, [DAILY_STORE, WEEKLY_STORE]);
+      await new Promise(function (resolve, reject) {
+        const tx = db.transaction([DAILY_STORE, WEEKLY_STORE], 'readwrite');
+        Object.keys(SEED_DAILY).forEach(function (date) {
+          tx.objectStore(DAILY_STORE).put(Object.assign({ date: date }, SEED_DAILY[date]));
+        });
+        Object.keys(SEED_WEEKLY).forEach(function (date) {
+          tx.objectStore(WEEKLY_STORE).put(Object.assign({ date: date }, SEED_WEEKLY[date]));
+        });
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+      db.close();
+    }
+
+    function setCookie(name, value) {
+      document.cookie = name + '=' + value + ';path=/;SameSite=Lax';
+    }
+
+    function clearCookie(name) {
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+    }
+
+    // ── Courbe de niveaux ──────────────────────────────────────
+    function checkCurve() {
+      check('palier de base : 100 XP', PokefeetXP.XP_PER_LEVEL === 100, PokefeetXP.XP_PER_LEVEL);
+      check('progression douce : 2 XP par palier', PokefeetXP.XP_STEP === 2, PokefeetXP.XP_STEP);
+      check('coût du niveau 1 → 2 : 100 XP', PokefeetXP.levelCost(1) === 100, PokefeetXP.levelCost(1));
+      check('coût du niveau 2 → 3 : 102 XP', PokefeetXP.levelCost(2) === 102, PokefeetXP.levelCost(2));
+      check('coût du niveau 100 → 101 : 298 XP', PokefeetXP.levelCost(100) === 298, PokefeetXP.levelCost(100));
+
+      let growing = true;
+      let breakDetail = '';
+      for (let level = 1; level < 200; level++) {
+        if (!(PokefeetXP.levelCost(level + 1) > PokefeetXP.levelCost(level))) {
+          growing = false;
+          breakDetail = 'palier ' + level + ' : ' + PokefeetXP.levelCost(level) + ' puis ' + PokefeetXP.levelCost(level + 1);
+          break;
+        }
+      }
+      check('les paliers augmentent strictement (niveaux 1 à 200)', growing, breakDetail);
+
+      const anchors = [[1, 0], [2, 100], [10, 972], [25, 2952], [50, 7252], [100, 19602]];
+      let anchorsOk = true;
+      let anchorDetail = '';
+      anchors.forEach(function (pair) {
+        const value = PokefeetXP.xpToReach(pair[0]);
+        if (value !== pair[1]) {
+          anchorsOk = false;
+          anchorDetail += (anchorDetail ? ' ; ' : '') + 'niveau ' + pair[0] + ' = ' + value + ' au lieu de ' + pair[1];
+        }
+      });
+      check('seuils de référence (niveaux 1, 2, 10, 25, 50, 100)', anchorsOk, anchorDetail);
+
+      let sumOk = true;
+      let levelOk = true;
+      let inLevelOk = true;
+      let boundaryOk = true;
+      let sweepDetail = '';
+      for (let level = 1; level <= 200; level++) {
+        const threshold = PokefeetXP.xpToReach(level);
+        let sum = 0;
+        for (let step = 1; step < level; step++) sum += PokefeetXP.levelCost(step);
+
+        if (sum !== threshold && sumOk) {
+          sumOk = false;
+          sweepDetail = 'niveau ' + level + ' : somme des paliers ' + sum + ' ≠ seuil ' + threshold;
+        }
+        if (PokefeetXP.getLevel(threshold) !== level && levelOk) {
+          levelOk = false;
+          sweepDetail = 'niveau ' + level + ' : seuil ' + threshold + ' donne le niveau ' + PokefeetXP.getLevel(threshold);
+        }
+        if (PokefeetXP.getXPInLevel(threshold) !== 0 && inLevelOk) {
+          inLevelOk = false;
+          sweepDetail = 'niveau ' + level + ' : XP dans le niveau ' + PokefeetXP.getXPInLevel(threshold) + ' au lieu de 0';
+        }
+        if (level > 1 && PokefeetXP.getLevel(threshold - 1) !== level - 1 && boundaryOk) {
+          boundaryOk = false;
+          sweepDetail = 'niveau ' + level + ' : un XP de moins donne le niveau ' + PokefeetXP.getLevel(threshold - 1);
+        }
+      }
+      check('le seuil d’un niveau est la somme des paliers précédents', sumOk, sweepDetail);
+      check('le niveau calculé correspond au seuil atteint', levelOk, sweepDetail);
+      check('XP dans le niveau nulle pile au seuil', inLevelOk, sweepDetail);
+      check('un XP sous le seuil laisse le niveau précédent', boundaryOk, sweepDetail);
+
+      check('XP dans le niveau : 10 XP après le seuil', PokefeetXP.getXPInLevel(PokefeetXP.xpToReach(37) + 10) === 10, PokefeetXP.getXPInLevel(PokefeetXP.xpToReach(37) + 10));
+      check('niveau 1 à 0 XP', PokefeetXP.getLevel(0) === 1, PokefeetXP.getLevel(0));
+      check('un total négatif reste au niveau 1', PokefeetXP.getLevel(-500) === 1, PokefeetXP.getLevel(-500));
+      check('un total illisible reste au niveau 1', PokefeetXP.getLevel(NaN) === 1, PokefeetXP.getLevel(NaN));
+      check('un total sous forme de texte est accepté', PokefeetXP.getLevel('202') === 3, PokefeetXP.getLevel('202'));
+    }
+
+    // ── Règles d'XP des dailies et weeklies ────────────────────
+    function checkRules() {
+      const perfectDaily = PokefeetXP.dailyXP({ score: 50, results: rounds(5, 0) });
+      check('daily parfait : 15 XP (5 rounds × 2, +3, +2)', perfectDaily === 15, perfectDaily);
+
+      const plainDaily = PokefeetXP.dailyXP({ score: 30, results: rounds(5, 1) });
+      check('daily trouvé sans premier coup : 8 XP (5 × 1, +3)', plainDaily === 8, plainDaily);
+
+      const lostDaily = PokefeetXP.dailyXP({ score: 0, results: fails(5) });
+      check('daily tout perdu : 3 XP (les 5 rounds joués)', lostDaily === 3, lostDaily);
+
+      const partialDaily = PokefeetXP.dailyXP({ score: 40, results: rounds(4, 0) });
+      check('daily incomplet : 8 XP (4 rounds × 2, sans bonus)', partialDaily === 8, partialDaily);
+
+      const perfectWeekly = PokefeetXP.weeklyXP({ score: 100, results: rounds(10, 0) });
+      check('weekly parfait : 40 XP (10 rounds × 3, +6, +4)', perfectWeekly === 40, perfectWeekly);
+
+      const slowPerfectWeekly = PokefeetXP.weeklyXP({ score: 100, results: rounds(10, 1) });
+      check('weekly parfait sans premier coup : 20 XP (10 × 1, +6, +4)', slowPerfectWeekly === 20, slowPerfectWeekly);
+
+      const lostWeekly = PokefeetXP.weeklyXP({ score: 0, results: fails(10) });
+      check('weekly tout perdu : 6 XP (les 10 rounds joués)', lostWeekly === 6, lostWeekly);
+
+      const partialWeekly = PokefeetXP.weeklyXP({ score: 50, results: rounds(5, 0) });
+      check('weekly incomplet : 15 XP (5 rounds × 3, sans bonus)', partialWeekly === 15, partialWeekly);
+
+      check('un daily vide ne rapporte rien', PokefeetXP.dailyXP(null) === 0 && PokefeetXP.dailyXP({}) === 0, PokefeetXP.dailyXP({}));
+      check('un weekly vide ne rapporte rien', PokefeetXP.weeklyXP(null) === 0 && PokefeetXP.weeklyXP({}) === 0, PokefeetXP.weeklyXP({}));
+
+      check('un daily ne peut pas dépasser 15 XP', perfectDaily <= 15, perfectDaily);
+      check('un weekly ne peut pas dépasser 40 XP', perfectWeekly <= 40, perfectWeekly);
+
+      const dailySum = PokefeetXP.computeDailyXP(SEED_DAILY);
+      const weeklySum = PokefeetXP.computeWeeklyXP(SEED_WEEKLY);
+      check('l’historique des dailies s’additionne (8 + 15)', dailySum === 23, dailySum);
+      check('l’historique des weeklies s’additionne (40)', weeklySum === 40, weeklySum);
+      check('un historique vide vaut 0 XP', PokefeetXP.computeDailyXP({}) === 0 && PokefeetXP.computeWeeklyXP({}) === 0);
+    }
+
+    // ── Marathon, mesuré à travers l'XP totale ─────────────────
+    // computeMarathonXP n'est pas exporté par PokefeetXP : on isole sa part en
+    // comparant des XP totales où seule l'entrée observée change. L'historique,
+    // les défis et les trophées restent identiques d'une mesure à l'autre.
+    async function checkMarathon() {
+      setCookie('pk_best', SEED_BEST);
+      setCookie('pk_best_streak', SEED_STREAK);
+      const withBest = await PokefeetXP.computeTotalXP();
+
+      setCookie('pk_best', '0');
+      const withoutBest = await PokefeetXP.computeTotalXP();
+      check('le meilleur score apporte floor(150 / 5) = 30 XP', withBest - withoutBest === 30, withBest + ' - ' + withoutBest);
+
+      setCookie('pk_best_streak', '0');
+      const withoutStreak = await PokefeetXP.computeTotalXP();
+      check('la série apporte au moins 2 XP par round (6 rounds = 12 XP)', withoutBest - withoutStreak >= 12, withoutBest + ' - ' + withoutStreak);
+
+      return withBest;
+    }
+
+    // ── Contenu du jeu face à la courbe ────────────────────────
+    async function checkContentBalance() {
+      const challenges = await DataFiles.load('challenges');
+      const trophies = await DataFiles.load('trophies');
+
+      let challengeXP = 0;
+      challenges.forEach(function (challenge) {
+        (challenge.Rewards || []).forEach(function (reward) {
+          if (reward.TypeReward === 'Experience') challengeXP += Number(reward.Value) || 0;
+        });
+      });
+      const trophyXP = trophies
+        .filter(function (trophy) { return trophy.Enabled; })
+        .reduce(function (sum, trophy) { return sum + (Number(trophy.XP) || 0); }, 0);
+      const contentXP = challengeXP + trophyXP;
+      const level = PokefeetXP.getLevel(contentXP);
+
+      check('le niveau 100 (Master) est atteignable avec le contenu disponible',
+        contentXP >= PokefeetXP.xpToReach(100),
+        'contenu ' + contentXP + ' XP (défis ' + challengeXP + ' + trophées ' + trophyXP + '), Master à ' + PokefeetXP.xpToReach(100) + ' XP, soit le niveau ' + level);
+
+      check('le contenu n’ouvre pas plus de 10 niveaux après Master',
+        level <= 110,
+        'contenu ' + contentXP + ' XP → niveau ' + level);
+    }
+
+    async function run() {
+      checkCurve();
+      checkRules();
+      await seedHistory();
+      const total = await checkMarathon();
+      await checkContentBalance();
+
+      // XP totale de bout en bout. Les trophées et les défis ne peuvent
+      // qu'ajouter aux 23 + 40 + 42 XP certains.
+      check('XP totale : au moins dailies + weekly + marathon', total >= MIN_TOTAL_XP,
+        total + ' XP (attendu ≥ ' + MIN_TOTAL_XP + ')');
+
+      const level = PokefeetXP.getLevel(total);
+      const inLevel = PokefeetXP.getXPInLevel(total);
+      check('le niveau déduit de l’XP totale est cohérent',
+        level >= 2 && inLevel >= 0 && inLevel < PokefeetXP.levelCost(level),
+        'niveau ' + level + ', XP dans le niveau ' + inLevel + ' / ' + PokefeetXP.levelCost(level));
+
+      clearCookie('pk_best');
+      clearCookie('pk_best_streak');
+    }
+
+    function report(error) {
+      const failed = checks.filter(function (c) { return !c.ok; });
+      if (error) check('exécution du test', false, error && error.stack ? error.stack : String(error));
+      const passed = checks.filter(function (c) { return c.ok; }).length;
+      const lines = checks.map(function (c) {
+        return (c.ok ? '✔ ' : '✖ ') + c.name + (c.ok || !c.detail ? '' : ' — ' + c.detail);
+      });
+      const summary = (error ? 'ERREUR' : (failed.length === 0 ? 'PASS' : 'FAIL')) +
+        ' — ' + passed + '/' + checks.length + ' vérifications';
+      document.getElementById('test-result').textContent = lines.join('\n') + '\n\n' + summary;
+      document.title = 'TEST:' + (failed.length === 0 && !error ? 'PASS' : 'FAIL');
+      window.__TEST_RESULT__ = {
+        pass: failed.length === 0 && !error,
+        summary: summary,
+        checks: checks,
+        error: error ? String(error && error.stack ? error.stack : error) : null,
+        consoleErrors: []
+      };
+    }
+
+    const timeout = setTimeout(function () {
+      report(new Error('le test n’a pas terminé en 60 s'));
+    }, 60000);
+
+    try {
+      await run();
+      clearTimeout(timeout);
+      report(null);
+    } catch (error) {
+      clearTimeout(timeout);
+      report(error);
+    }
+  })();
+  </script>
+</body>
+</html>

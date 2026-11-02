@@ -210,6 +210,12 @@
     color: #fb923c;
 }
 
+/* 1 XP = 1 Pokédollar : le même challenge rapporte aussi des P */
+.reward-badge.pokedollars {
+    background: rgba(251,191,36,0.16);
+    color: #fbbf24;
+}
+
 .challenge-requirements {
     display: flex;
     flex-direction: column;
@@ -612,6 +618,16 @@
     }
 
     .image-container img { height: 260px; }
+}
+
+/* Message affiché quand la grille de défis n'a rien à montrer : données
+   indisponibles ou onglet sans défi disponible. */
+.challenges-empty {
+    grid-column: 1 / -1;
+    padding: 36px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
 }
 
 @media (prefers-reduced-motion: reduce) {

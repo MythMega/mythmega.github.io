@@ -8,7 +8,6 @@
   const WEEKLY_COUNT  = 10;
   const MAX_SCORE     = COUNT * 10;
   const WEEKLY_MAX    = WEEKLY_COUNT * 10;
-  const XP_PER_LEVEL  = 100;
   let dbInstance = null;
   let idbTimedOut = false;
   let trophiesData = [];
@@ -117,76 +116,8 @@
     } catch (e) { console.error('Error loading Pokemon data:', e); return []; }
   }
 
-  // ── XP & Level calculation ───────────────────────────────
-  function computeDailyXP(dailyHistory) {
-    let xp = 0;
-    for (const date in dailyHistory) {
-      const entry = dailyHistory[date];
-      const results = entry.results || [];
-      let dayPerfect = entry.score === MAX_SCORE;
-      let dayFinished = results.length === COUNT;
-      if (dayFinished) xp += 3;
-      if (dayPerfect) xp += 2;
-      for (let i = 0; i < results.length; i++) {
-        const r = results[i];
-        if (r && r.outcome === 'win' && r.attempts === 0) xp += 1;
-      }
-    }
-    return xp;
-  }
-
-  function computeWeeklyXP(weeklyHistory) {
-    let xp = 0;
-    for (const date in weeklyHistory) {
-      const entry = weeklyHistory[date];
-      const results = entry.results || [];
-      if (results.length === WEEKLY_COUNT) {
-        const allWins = results.every(r => r && r.outcome === 'win');
-        xp += 6;
-        if (allWins && entry.score === WEEKLY_MAX) xp += 4;
-      }
-      for (let i = 0; i < results.length; i++) {
-        const r = results[i];
-        if (r && r.outcome === 'win' && r.attempts === 0) xp += 2;
-      }
-    }
-    return xp;
-  }
-
-    function computeMarathonXP() {
-      const bestScore = parseInt(getCookie('pk_best') || '0', 10);
-      const bestStreak = parseInt(getCookie('pk_best_streak') || '0', 10);
-      if (bestScore > 0 || bestStreak > 0) {
-        return Math.floor(bestScore / 5) + (bestStreak * 2);
-      }
-      return 0;
-    }
-
-    async function computeChallengeXP() {
-      let totalXP = 0;
-      try {
-        // Check if ChallengeStorage exists
-        if (typeof ChallengeStorage === 'undefined' || !ChallengeStorage.getAllCompletions) {
-          return 0;
-        }
-        const challengeCompletions = await ChallengeStorage.getAllCompletions();
-        const res = await fetch('data/bonus_challenges.json');
-        const allChallenges = await res.json();
-        for (const challengeId in challengeCompletions) {
-          const challenge = allChallenges.find(c => c.ID == challengeId);
-          if (challenge && challenge.Rewards) {
-            for (const reward of challenge.Rewards) {
-              if (reward.TypeReward === 'Experience') {
-                totalXP += reward.Value;
-              }
-            }
-          }
-        }
-      } catch (e) {
-        console.error('Error computing challenge XP:', e);
-      }
-      return totalXP;
-    }
+  // Le détail des formules d'XP vit dans js/core/xp.js (partagé avec la Boutique,
+  // les challenges et les fins de partie) : ici on ne garde que le rendu.
 
   // ── Trophy checking ───────────────────────────────────────
   function countCompletedDailies(dailyHistory) {
@@ -346,6 +277,17 @@
     if (!container) return;
     container.innerHTML = '';
 
+    // Aucun trophée chargé : data/trophies/ indisponible. On le dit au joueur
+    // au lieu de laisser la section vide.
+    if (!trophies.length) {
+      const T = (k, f) => typeof Translator !== 'undefined' ? Translator.get(k, f) : f;
+      const empty = document.createElement('div');
+      empty.className = 'trophies-empty';
+      empty.textContent = T('stats.noTrophies', 'Aucun trophée à afficher pour le moment.');
+      container.appendChild(empty);
+      return;
+    }
+
     // Séparer les trophées Type_Registered des autres
     const typeRegisteredTrophies = [];
     const otherTrophies = [];
@@ -443,18 +385,22 @@
   }
 
   // ── XP & Level display ───────────────────────────────────
+  // La courbe de niveaux vit dans js/core/xp.js (PokefeetXP) : on délègue
+  // pour qu'il n'existe qu'une seule implémentation à maintenir.
   function getLevel(totalXP) {
-    return Math.floor(totalXP / XP_PER_LEVEL) + 1;
+    return PokefeetXP.getLevel(totalXP);
   }
 
   function getXPInLevel(totalXP) {
-    return totalXP % XP_PER_LEVEL;
+    return PokefeetXP.getXPInLevel(totalXP);
   }
 
   function renderLevelAndXP(totalXP) {
     const level = getLevel(totalXP);
     const xpInLevel = getXPInLevel(totalXP);
-    const pct = (xpInLevel / XP_PER_LEVEL) * 100;
+    // Chaque palier coûte un peu plus cher que le précédent.
+    const levelCost = PokefeetXP.levelCost(level);
+    const pct = Math.min(100, (xpInLevel / levelCost) * 100);
 
     const statsLevel = document.getElementById('statsLevel');
     if (statsLevel) {
@@ -465,7 +411,55 @@
     }
     document.getElementById('statsTotalXP').textContent = 'XP totale: ' + totalXP;
     document.getElementById('statsXPBarFill').style.width = pct + '%';
-    document.getElementById('statsXPBarText').textContent = xpInLevel + ' / ' + XP_PER_LEVEL + ' XP';
+    document.getElementById('statsXPBarText').textContent = xpInLevel + ' / ' + levelCost + ' XP';
+  }
+
+  // Les traductions arrivent après le premier rendu (`Translator.init` est
+  // asynchrone) : on attend qu'elles soient là avant d'écrire du texte à jetons,
+  // sinon `applyTranslations` réécrirait les jetons bruts dans le popup.
+  function translatorReady() {
+    return new Promise((resolve) => {
+      if (typeof Translator === 'undefined') { resolve(); return; }
+      if (Translator.get('common.backHome', null) !== null) { resolve(); return; }
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (Translator.get('common.backHome', null) !== null || Date.now() - start > 4000) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 40);
+    });
+  }
+
+  // Chiffres de la courbe affichés dans le popup « Barème d'XP ». Ils viennent
+  // de PokefeetXP : si la courbe change, le popup suit tout seul.
+  async function renderLevelScale() {
+    await translatorReady();
+    const T = (k, f) => typeof Translator !== 'undefined' ? Translator.get(k, f) : f;
+    document.querySelectorAll('#xpScaleModal [data-level]').forEach(function (row) {
+      const level = Number(row.dataset.level) || 1;
+      row.textContent = T('xpScale.levelsFrom', 'Niveau {level} → {next}')
+        .replace('{level}', level)
+        .replace('{next}', level + 1);
+    });
+    [['xpLevelCost2', 1], ['xpLevelCost10', 9], ['xpLevelCost50', 49], ['xpLevelCost100', 99]]
+      .forEach(function (pair) {
+        const el = document.getElementById(pair[0]);
+        if (el) el.textContent = PokefeetXP.levelCost(pair[1]);
+      });
+    const total = document.getElementById('xpLevelTotal');
+    if (total) total.textContent = PokefeetXP.xpToReach(100);
+
+    // Le texte d'introduction contient {step} et {total} : on les remplace par les
+    // valeurs réelles de la courbe, pour qu'il ne puisse pas se désynchroniser.
+    const desc = document.getElementById('xpLevelsDesc');
+    if (desc) {
+      desc.textContent = T('xpScale.levelsDesc', desc.textContent)
+        .replace('{step}', PokefeetXP.XP_STEP)
+        .replace('{total}', PokefeetXP.xpToReach(100));
+    }
+    // `xpScale.levelsDesc` n'a volontairement pas de data-i18n : le texte est
+    // piloté ici, avec les valeurs de la courbe injectées.
   }
 
   // --- Detailed stats cards ---
@@ -536,7 +530,7 @@
 
     function makeCard(titleKey, titleFallback, rows) {
       const col = document.createElement('div');
-      col.className = 'col-12 col-sm-6 col-xl-3';
+      col.className = 'cp-stats-col';
       col.innerHTML = '<div style="background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;height:100%;">' +
         '<div data-i18n="' + titleKey + '" style="font-weight:700;color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;">' + titleFallback + '</div>' +
         rows.map(([lKey, lFallback, val]) =>
@@ -548,7 +542,7 @@
     }
 
     const row = document.createElement('div');
-    row.className = 'row g-3';
+    row.className = 'cp-stats-row';
 
     row.appendChild(makeCard('history.stats.global', 'Globaux', [
       [isWeekly ? 'history.stats.weekly.totalWeeksPlayed' : 'history.stats.totalDaysPlayed', isWeekly ? 'Semaines jou\u00e9es' : 'Jours jou\u00e9s', dates.length],
@@ -593,10 +587,9 @@
   // ── Profile badges & title from rewards ────────────────────
   async function loadRewardsData() {
     try {
-      const res = await fetch('data/reward.json');
-      return await res.json();
+      return await DataFiles.load('rewards');
     } catch (e) {
-      console.error('[Rewards] Error loading reward.json:', e);
+      console.error('[Rewards] Error loading rewards:', e);
       return [];
     }
   }
@@ -666,8 +659,7 @@
 
     // Load trophies data
     try {
-      const res = await fetch('data/trophies.json');
-      trophiesData = await res.json();
+      trophiesData = await DataFiles.load('trophies');
     } catch (e) {
       console.error('Error loading trophies:', e);
       trophiesData = [];
@@ -679,24 +671,16 @@
       loadWeeklyHistory()
     ]);
 
-    // Compute base XP
-    let totalXP = 0;
-    totalXP += computeDailyXP(dailyHistory);
-    totalXP += computeWeeklyXP(weeklyHistory);
-    totalXP += computeMarathonXP();
-    totalXP += await computeChallengeXP();
+    // XP totale (Daily, Weekly, Marathon, challenges et trophées)
+    const totalXP = await PokefeetXP.computeTotalXP();
 
-    // Check trophies and add their XP
+    // Détail des trophées pour l'affichage des cartes
     const trophyResult = await checkTrophies(dailyHistory, weeklyHistory);
     const trophies = trophyResult.results;
     const trophyProgress = trophyResult.progressMap;
-    let trophyXP = 0;
-    for (const t of trophies) {
-      if (t.earned) trophyXP += t.xp;
-    }
-    totalXP += trophyXP;
 
     renderLevelAndXP(totalXP);
+    renderLevelScale();
 
     // Update profile badges & title from rewards
     const currentLevel = getLevel(totalXP);
@@ -746,6 +730,8 @@
     const marathonPanel  = document.getElementById('statsMarathonPanel');
     const trophiesPanel  = document.getElementById('statsTrophiesPanel');
     const rewardsPanel   = document.getElementById('statsRewardsPanel');
+    const tabCustomizeBtn = document.getElementById('statsTabCustomizeBtn');
+    const customizePanel  = document.getElementById('statsCustomizePanel');
     const totalDaysEl    = document.getElementById('totalDays');
 
     let weeklyRendered = false, marathonRendered = false, trophiesRendered = false, rewardsRendered = false;
@@ -790,8 +776,8 @@
     }
 
     function onTabClick(activeBtn, panel, renderFn) {
-      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn, tabRewardsBtn].forEach(b => b?.classList.remove('active'));
-      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel, rewardsPanel].forEach(p => { if (p) p.style.display = 'none'; });
+      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn, tabRewardsBtn, tabCustomizeBtn].forEach(b => b?.classList.remove('active'));
+      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel, rewardsPanel, customizePanel].forEach(p => { if (p) p.style.display = 'none'; });
       if (activeBtn) activeBtn.classList.add('active');
       if (panel) panel.style.display = '';
       if (renderFn) renderFn();
@@ -822,6 +808,14 @@
       onTabClick(tabTrophiesBtn, trophiesPanel, () => {
         if (!trophiesRendered) { trophiesRendered = true; renderTrophiesTab(); }
         else { setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.trophies', 'Troph\u00e9es') : 'Troph\u00e9es', trophyEarned + ' / ' + trophyTotal); }
+      });
+    });
+
+    if (tabCustomizeBtn) tabCustomizeBtn.addEventListener('click', () => {
+      onTabClick(tabCustomizeBtn, customizePanel, () => {
+        // La grille est construite par l'onglet lui-même ; on la rafraîchit
+        // pour refléter un achat fait pendant la visite.
+        if (typeof window.renderCosmetics === 'function') window.renderCosmetics();
       });
     });
 
@@ -863,8 +857,7 @@
       // Charger les récompenses depuis le JSON
       let rewardsData = [];
       try {
-        const res = await fetch('data/reward.json');
-        rewardsData = await res.json();
+        rewardsData = await DataFiles.load('rewards');
       } catch (e) {
         console.error('Error loading rewards:', e);
         rewardsData = [];

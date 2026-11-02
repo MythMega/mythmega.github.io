@@ -1,0 +1,71 @@
+[
+    {
+        "Level": 50,
+        "ImageUrl": "./img/badges/champion.png",
+        "Reward": [
+            {
+                "Type": "Badge",
+                "Data": "./img/badges/champion.png"
+            },
+            {
+                "Type": "Title",
+                "Data": "Champion"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Dresseur Champion !",
+        "Description_FR": "Vous parlez aux pieds.",
+        "Title_EN": "Champion Trainer!",
+        "Description_EN": "You understand feet.",
+        "Button": null
+    },
+    {
+        "Level": 65,
+        "ImageUrl": "./img/badges/gift_65.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "!PokeClaim B1GF0OTS1NN0H"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Cadeau Géant Sinnoh!",
+        "Description_FR": "Recuperez Regigigas Shiny + 100 pokédollars sur le stream de MythMega quand celui-ci est ouvert et collez y ce code.",
+        "Title_EN": "Giant Gift Sinnoh !",
+        "Description_EN": "Get Shiny Regigigas + 100 pokédollars on MythMega's when he's streaming and paste this code into his chat.",
+        "Button": {
+            "TxtButton_FR": "Rejoindre le stream",
+            "TxtButton_EN": "Join the stream",
+            "UrlButton": "https://twitch.tv/mythmega"
+        }
+    },
+    {
+        "Level": 75,
+        "ImageUrl": "./img/badges/pokegg_75.png",
+        "Reward": [
+            {
+                "Type": "StreamdexCMD",
+                "Data": "HYP03UF"
+            },
+            {
+                "Type": "Currency",
+                "Data": 50
+            }
+        ],
+        "Title_FR": "Pokefeet x Pokegg Regi-Sinnoh",
+        "Description_FR": "Récuperez Regigigas + 3 oeufs épiques sur Pokegg.",
+        "Title_EN": "Pokefeet x Pokegg Regi-Hoenn",
+        "Description_EN": "Get Regigigas + 3 epic eggs on pokegg.",
+        "Button": {
+            "TxtButton_FR": "Réclamer la récompense",
+            "TxtButton_EN": "Claim the reward",
+            "UrlButton": "https://web.jmdev.fr/projets/pokegg/redeem.html"
+        }
+    }
+]

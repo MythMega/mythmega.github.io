@@ -735,6 +735,19 @@ const Daily = (function () {
     updateProgressUI();
   }
 
+  // --- Gains de la partie : l'XP du jour, et autant de Pokédollars (1 XP = 1 P) ---
+  function renderEarnedRewards(payload) {
+    const container = document.getElementById('dailyRewards');
+    if (!container) return;
+    const xp = PokefeetXP.dailyXP({ score: payload.score, results: payload.results || [] });
+
+    container.innerHTML =
+      '<span class="earned-label">' + Translator.get('daily.earned', 'Gains de ce daily') + ' :</span>' +
+      '<span class="earned-chip xp">+' + xp + ' XP</span>' +
+      '<span class="earned-chip money">+' + xp + ' P</span>';
+    container.classList.remove('hidden');
+  }
+
   // --- Adapter finishDaily pour utiliser l'historique ---
   async function finishDaily() {
     // persist results into history map
@@ -765,6 +778,9 @@ const Daily = (function () {
 
     // Display alert for new pokemons
     displayNewPokemonsAlert(newPokemons);
+
+    // Gains XP / P de la partie
+    renderEarnedRewards(payload);
 
     // prepare share text
     const share = buildShareText(results, payload.date, score);
@@ -976,6 +992,7 @@ const Daily = (function () {
     // payload: { score, results }
     const date = dateStr || dateSeedStr();
     const saved = payload || { score: 0, results: [] };
+    renderEarnedRewards(saved);
     const share = buildShareText(saved.results || [], date, saved.score || 0);
     shareArea.textContent = share;
     afterDone.classList.remove('hidden');
@@ -1027,6 +1044,16 @@ const Daily = (function () {
     if (typeof Migration !== 'undefined') await Migration.ready;
     // Get the date from URL parameter if provided
     overrideDate = getDateFromURL();
+    // Un daily passé n'est rejouable que s'il fait partie de la fenêtre proposée
+    // par « Défis passés » (premier défi enregistré → aujourd'hui). Hors fenêtre,
+    // la date est refusée : la page affiche la popup explicative au lieu du défi.
+    if (overrideDate && typeof ChallengeWindow !== 'undefined') {
+      const range = await ChallengeWindow.checkDaily(overrideDate);
+      if (!range.ok) {
+        ChallengeWindow.showUnavailablePopup('daily', range.attempted, range.min);
+        return;
+      }
+    }
     
     // load pokemons data (tous les fichiers listés dans data/monsfiles.json)
     try {

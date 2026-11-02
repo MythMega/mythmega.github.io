@@ -148,7 +148,7 @@ Les Index absents du JSON sont filtrés ; la session peut sauter des Pokémon sa
 
 ### 4.6 Pages HTML avec logique inline
 
-`data.html` (~250 lignes), `prediction.html` (~350), `data_management.html` (~200), `index.html` (bandeau). Difficile à tester et à réutiliser.
+`data.html` (~250 lignes), `prediction.html` (~350), `settings.html` (~200), `index.html` (bandeau). Difficile à tester et à réutiliser.
 
 ### 4.7 Double documentation
 
@@ -165,7 +165,7 @@ Les Index absents du JSON sont filtrés ; la session peut sauter des Pokémon sa
 | Point | Coût | Contexte |
 |---|---|---|
 | `getPlayerLevel()` | recharge 3 bases + 4 JSON | chaque prérequis de challenge |
-| `checkTrophies()` | 54 trophées × 698 Pokémon | chargement de `stats.html` |
+| `checkTrophies()` | 54 trophées × 698 Pokémon | chargement de `profile.html` |
 | `renderDetailedStats` | parcourt tout l'historique | à chaque onglet |
 | `clear + putAll` | réécrit tout l'historique | chaque fin de Daily/Weekly |
 | `forceUpdate` | séquentiel, toutes les entrées | bouton Dex |
@@ -186,7 +186,7 @@ Aucune mesure de performance n'a été faite : les coûts sont déduits de la le
 | IndexedDB | `onblocked` si plusieurs onglets ; timeouts variables (5 s / 8 s) |
 | `localStorage` | indisponible en navigation privée stricte ; erreurs avalées |
 | Cookies | taille limitée ; `pk_daily_result_v2` pouvait être volumineux |
-| Bootstrap CDN | dépendance réseau sur `stats.html` et `history.html` |
+| Bootstrap CDN | dépendance réseau sur `profile.html` et `history.html` |
 | Google Sheets | bandeau d'accueil dépendant d'un document externe |
 | Images distantes | crédits (Twitch), fallback Marathon (PokeAPI) |
 | `beforeunload` | comportement variable selon les navigateurs |

@@ -129,6 +129,7 @@ const ChallengeGameUI = (function () {
 
         const fails = result ? result.fails : ChallengeManager.currentFails;
         const xpGained = result ? result.xpGained : 0;
+        const pokedollarsGained = result ? (result.pokedollarsGained || 0) : 0;
 
         const gameEl = document.getElementById('challengeGame');
         if (gameEl) gameEl.classList.add('hidden');
@@ -159,6 +160,7 @@ const ChallengeGameUI = (function () {
                     '<div>' + T('challenge.totalFails', 'Erreurs totales') + ' : <strong style="color:#ef4444;font-size:18px;">' + fails + '</strong></div>' +
                     '<div>' + T('challenge.totalPokemon', 'Pokémon') + ' : <strong style="color:#4ade80;font-size:18px;">' + currentChallenge.FeetList.length + '</strong></div>' +
                     '<div style="color:#4ade80;font-weight:700;font-size:18px;">+' + xpGained + ' XP</div>' +
+                    '<div style="color:#fbbf24;font-weight:700;font-size:18px;">+' + pokedollarsGained + ' P</div>' +
                 '</div>' +
                 '<div style="display:flex;gap:12px;margin-top:24px;">' +
                     '<button id="copyChallengeResult" data-tag="customizables-button" style="flex:1;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">' + T('challenge.copyResult', 'Copier le résultat') + '</button>' +

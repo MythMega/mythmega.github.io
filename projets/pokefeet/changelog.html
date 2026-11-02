@@ -67,35 +67,49 @@
       flex-shrink: 0;
     }
 
-    .changelog-message {
-      font-size: 14px;
+    .changelog-title {
+      font-size: 15px;
+      font-weight: 700;
       color: var(--text);
-      line-height: 1.5;
-      flex: 1;
+      margin: 0 0 8px;
     }
 
-    .changelog-entry {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: rgba(0,0,0,0.30);
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-bottom: 6px;
-      transition: background 150ms;
-    }
-    .changelog-entry:hover {
-      background: rgba(0,0,0,0.35);
-    }
-
-    .changelog-entry-left {
+    .changelog-items {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-      min-width: 110px;
+      gap: 5px;
     }
+
+    .changelog-item {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      padding: 7px 12px;
+      border-radius: 7px;
+      background: rgba(0,0,0,0.30);
+      border: 1px solid rgba(255,255,255,0.05);
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+
+    .changelog-item::before {
+      content: '•';
+      opacity: 0.65;
+    }
+
+    /* La couleur du texte vient du Type de la modification... */
+    .changelog-item.type-feature         { color: #f5c542; }
+    .changelog-item.type-quality-of-life { color: #60a5fa; }
+    .changelog-item.type-content         { color: #4ade80; }
+    .changelog-item.type-fix             { color: #ffffff; }
+
+    /* ...et la graisse de sa Severity (3 = majeure, 1 = mineure). */
+    .changelog-item.severity-3 { font-weight: 700; }
+    .changelog-item.severity-2 { font-weight: 500; }
+    .changelog-item.severity-1 { font-weight: 400; }
 
     #changelog-loading {
       text-align: center;
@@ -107,6 +121,12 @@
 </head>
 <body>
   <main id="app">
+    <div class="deco n1"></div>
+    <div class="deco n2"></div>
+    <div class="deco n3"></div>
+    <div class="deco n4"></div>
+    <div class="deco-secondary n11"></div>
+    <div class="deco-secondary n12"></div>
     <header>
       <h1>Pokefeet — Changelog</h1>
       <a class="small-btn" href="index.html" data-i18n="common.backHome">Retour à l'accueil</a>
@@ -129,71 +149,109 @@
   <script src="js/data/migration.js"></script>
   <script src="js/core/pokemon.js"></script>
   <script src="js/data/challenge-storage.js"></script>
+  <script src="js/data/data-files.js"></script>
   <script src="js/features/settings/cosmetics.js"></script>
   <script>
+    const CHANGELOG_URL = './data/changelog.json';
+
+    // Les éléments sont écrits en français et en anglais dans data/changelog.json.
+    function currentLanguage() {
+      if (typeof Translator !== 'undefined' && Translator.getLanguage) return Translator.getLanguage();
+      return document.documentElement.lang || 'fr';
+    }
+
+    function translatedItem(item) {
+      const key = currentLanguage() === 'en' ? 'Translation_EN' : 'Translation_FR';
+      return item[key] || item.Translation_EN || item.Translation_FR || '';
+    }
+
+    // "Feature" -> "type-feature", "Quality Of Life" -> "type-quality-of-life"
+    function typeClass(type) {
+      return 'type-' + String(type || '').toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    function badgeFor(version) {
+      const v = version || {};
+      const stage = String(v.Stage || 'Release').toLowerCase();
+      if (stage === 'beta')  return { className: 'beta',  label: 'Beta ' + v.Major + '.' + v.Minor };
+      if (stage === 'alpha') return { className: 'alpha', label: 'Alpha ' + v.Major + '.' + v.Minor };
+      return { className: 'release', label: 'v' + v.Major + '.' + v.Minor + '.' + v.Patch };
+    }
+
+    // Tri : date décroissante, puis version décroissante (Release > Beta > Alpha).
+    function dateValue(date) {
+      const parts = String(date || '').split('/');
+      if (parts.length !== 3) return 0;
+      return Date.UTC(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
+    }
+
+    function versionRank(version) {
+      const v = version || {};
+      const stage = String(v.Stage || 'Release').toLowerCase();
+      const base = (Number(v.Major) || 0) * 1000000 + (Number(v.Minor) || 0) * 1000 + (Number(v.Patch) || 0);
+      if (stage === 'beta')  return -2000000000 + base;
+      if (stage === 'alpha') return -3000000000 + base;
+      return base;
+    }
+
+    function renderEntries(entries) {
+      const listEl = document.getElementById('changelog-list');
+      listEl.innerHTML = '';
+
+      entries.forEach(entry => {
+        const badge = badgeFor(entry.Version);
+
+        const group = document.createElement('div');
+        group.className = 'changelog-version-group';
+
+        const header = document.createElement('div');
+        header.className = 'changelog-version-header';
+        const badgeEl = document.createElement('span');
+        badgeEl.className = 'version-badge ' + badge.className;
+        badgeEl.textContent = badge.label;
+        const dateEl = document.createElement('span');
+        dateEl.className = 'changelog-date';
+        dateEl.textContent = entry.Date || '';
+        header.appendChild(badgeEl);
+        header.appendChild(dateEl);
+        group.appendChild(header);
+
+        const title = document.createElement('h2');
+        title.className = 'changelog-title';
+        title.textContent = entry.Title || '';
+        group.appendChild(title);
+
+        const items = document.createElement('ul');
+        items.className = 'changelog-items';
+        (entry.Changelog || []).forEach(item => {
+          const line = document.createElement('li');
+          line.className = 'changelog-item ' + typeClass(item.Type) + ' severity-' + item.Severity;
+          line.textContent = translatedItem(item);
+          items.appendChild(line);
+        });
+        group.appendChild(items);
+
+        listEl.appendChild(group);
+      });
+    }
+
     async function loadChangelog() {
       const loadingEl = document.getElementById('changelog-loading');
       const listEl    = document.getElementById('changelog-list');
 
       try {
-        const res  = await fetch('./data/pokefeet_commits.csv');
-        const text = await res.text();
-        const lines = text.trim().split('\n');
+        const res = await fetch(CHANGELOG_URL);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const entries = await res.json();
+        if (!Array.isArray(entries)) throw new Error('tableau attendu dans ' + CHANGELOG_URL);
 
-        // Skip header row
-        const entries = lines.slice(1).map(line => {
-          const parts = line.split(';');
-          if (parts.length < 4) return null;
-          const [verMaj, verPatch, dateRaw, ...msgParts] = parts;
-          const raw = dateRaw.trim();
-          return {
-            verMaj:   verMaj.trim(),
-            verPatch: verPatch.trim(),
-            date:     new Date(raw),
-            datePart: raw.slice(0, 10), // YYYY-MM-DD from the CSV (local date, timezone-independent)
-            message:  msgParts.join(';').trim()
-          };
-        }).filter(Boolean);
-
-        // Sort: primary = date-part descending, secondary = version rank descending
         entries.sort((a, b) => {
-          if (a.datePart !== b.datePart) return b.datePart.localeCompare(a.datePart);
-          return versionRank(b.verMaj, b.verPatch) - versionRank(a.verMaj, a.verPatch);
+          const byDate = dateValue(b.Date) - dateValue(a.Date);
+          if (byDate !== 0) return byDate;
+          return versionRank(b.Version) - versionRank(a.Version);
         });
 
-        // Render
-        listEl.innerHTML = '';
-        entries.forEach(entry => {
-          const { verMaj, verPatch, date, message } = entry;
-
-          // Determine badge style
-          let badgeClass, badgeLabel;
-          if (/^[0-9]+$/.test(verMaj)) {
-            badgeClass = 'release';
-            badgeLabel = `v${verMaj}.${verPatch}`;
-          } else if (verMaj.startsWith('B')) {
-            badgeClass = 'beta';
-            badgeLabel = `Beta ${verMaj.slice(1)}.${verPatch}`;
-          } else {
-            badgeClass = 'alpha';
-            badgeLabel = `Alpha ${verMaj.slice(1)}.${verPatch}`;
-          }
-
-          const dateStr = date.toLocaleDateString('fr-FR', {
-            year: 'numeric', month: 'short', day: 'numeric'
-          });
-
-          const entryEl = document.createElement('div');
-          entryEl.className = 'changelog-entry';
-          entryEl.innerHTML = `
-            <div class="changelog-entry-left">
-              <span class="version-badge ${badgeClass}">${badgeLabel}</span>
-              <span class="changelog-date">${dateStr}</span>
-            </div>
-            <span class="changelog-message">${escapeHtml(message)}</span>
-          `;
-          listEl.appendChild(entryEl);
-        });
+        renderEntries(entries);
 
         loadingEl.style.display = 'none';
         listEl.style.display    = 'block';
@@ -204,29 +262,9 @@
       }
     }
 
-    function escapeHtml(str) {
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    // Returns a numeric rank for version sorting (higher = more recent)
-    // Release > Beta > Alpha ; within each category, major then patch
-    function versionRank(verMaj, verPatch) {
-      const patch = parseInt(verPatch) || 0;
-      if (/^[0-9]+$/.test(verMaj)) {
-        return 2_000_000 + parseInt(verMaj) * 1000 + patch; // Release
-      } else if (verMaj.startsWith('B')) {
-        return 1_000_000 + (parseInt(verMaj.slice(1)) || 0) * 1000 + patch; // Beta
-      } else {
-        return (parseInt(verMaj.slice(1)) || 0) * 1000 + patch; // Alpha
-      }
-    }
-
     loadChangelog();
   </script>
+  <script src="js/ui/whats-new.js"></script>
   <script src="js/pwa.js"></script>
 </body>
 </html>

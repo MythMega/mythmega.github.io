@@ -1,0 +1,62 @@
+[
+    {
+        "Id": 1,
+        "Name_en": "New Pokédex (5)",
+        "Name_fr": "Nouveau Pokédex (5)",
+        "Desc_en": "You filled 5 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 5 entrées du Pokédex.",
+        "XP": 25,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 5
+        },
+        "Rarity": 1,
+        "Picture": "./img/trophy/dex/bronze.png",
+        "Enabled": true
+    },
+    {
+        "Id": 2,
+        "Name_en": "Pokédex Connoisseur (100)",
+        "Name_fr": "Connaisseur Pokédex (100)",
+        "Desc_en": "You filled 100 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 100 entrées du Pokédex.",
+        "XP": 100,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 100
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/dex/silver.png",
+        "Enabled": true
+    },
+    {
+        "Id": 3,
+        "Name_en": "Pokédex expert (500)",
+        "Name_fr": "Expert Pokédex (500)",
+        "Desc_en": "You filled 500 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 500 entrées du Pokédex.",
+        "XP": 250,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 500
+        },
+        "Rarity": 2,
+        "Picture": "./img/trophy/dex/gold.png",
+        "Enabled": true
+    },
+    {
+        "Id": 4,
+        "Name_en": "Pokédex Master (735)",
+        "Name_fr": "Maitre Pokédex (735)",
+        "Desc_en": "You filled 735 Pokédex entries.",
+        "Desc_fr": "Tu as rempli 735 entrées du Pokédex.",
+        "XP": 500,
+        "Obtention_Method": {
+            "Mode": "Dex_Count",
+            "Value": 735
+        },
+        "Rarity": 4,
+        "Picture": "./img/trophy/dex/platinum.png",
+        "Enabled": true
+    }
+]

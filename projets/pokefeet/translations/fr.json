@@ -1,4 +1,9 @@
 {
+  "whatsNew": {
+    "intro": "Voici ce qui change dans cette version.",
+    "close": "C'est parti",
+    "link": "Tout le changelog"
+  },
   "common": {
     "backHome": "Retour à l'accueil",
     "hints": "Indices",
@@ -18,11 +23,13 @@
     "oldDaily": "Défis passés",
     "saveLoad": "Paramètres",
     "practice": "Marathon",
+    "profile": "Profil",
     "pokedex": "Pokédex",
     "modeDesc": "Daily : un défi par jour — Weekly : 10 Pokémon par semaine",
     "byLine": "/ Code par JMDEV",
     "bonusChallenges": "Challenges Bonus",
-    "customChallenges": "Challenges Custom"
+    "customChallenges": "Challenges Custom",
+    "shop": "Poké-Boutique"
   },
   "daily": {
     "title": "Pokefeet Daily",
@@ -65,6 +72,7 @@
     "failRevealed": "Échec — Pokémon révélé",
     "skipRevealed": "Passé — Pokémon révélé",
     "finishedShare": "Daily terminé — partagez votre résultat",
+    "earned": "Gains de ce daily",
     "pointsEarned": "+{n} points",
     "confirmSkip": "Es-tu sûr de vouloir passer ce Pokémon ?",
     "newlyDiscovered": "🌟 Nouveau Pokémon découvert : {names}!",
@@ -77,7 +85,8 @@
     "invalidDateMsg": "Ce weekly n'est pas valide : la date doit correspondre à un lundi. Vous allez être redirigé vers le lundi précédent.",
     "goToMonday": "Valider",
     "futureWeekly": "Impossible de jouer un weekly du futur",
-    "finishedShare": "Weekly terminé — partagez votre résultat"
+    "finishedShare": "Weekly terminé — partagez votre résultat",
+    "earned": "Gains de ce weekly"
   },
   "practice": {
     "title": "Pokefeet",
@@ -219,6 +228,10 @@
     "fastMode": "Mode rapide (Marathon)",
     "fastModeDesc": "En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.",
     "customize": "Personnalisations",
+    "equipTitle": "Utiliser {name} maintenant ?",
+    "equipText": "Le cosmétique est à vous. Vous pouvez l'équiper tout de suite, ou continuer à regarder la boutique.",
+    "equipNow": "Utiliser maintenant",
+    "equipLater": "Plus tard",
     "exportImport": "Export / Import",
     "saveRestore": "Sauvegarder ou restaurer vos données",
     "exportDesc": "Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.",
@@ -321,12 +334,13 @@
     "tooLong": "Le pseudo ne doit pas dépasser 30 caractères"
   },
   "stats": {
-    "title": "Statistiques — Pokefeet",
+    "title": "Profil — Pokefeet",
     "marathon": "Marathon",
     "marathonBest": "Meilleurs scores Marathon",
     "marathonInfo": "Ces scores correspondent à votre meilleure performance en mode Marathon (tous Pokémon).",
     "pseudoLabel": "Joueur",
     "trophies": "Trophées",
+    "noTrophies": "Aucun trophée à afficher pour le moment.",
     "trophiesTitle": "Trophées",
     "bestStreakLabel": "Best streak",
     "viewDaily": "Voir ce daily",
@@ -346,11 +360,15 @@
     "challenges": "Challenges Bonus",
     "challengesDesc": "Chaque challenge bonus complété rapporte l'XP indiquée dans sa récompense.",
     "achievements": "Succès",
-    "dailyDesc": "XP gagnée chaque jour en fonction du nombre de parfaits (basé sur la formule '3 + (round-parfait), +2 si jour parfait') :",
-    "weeklyDesc": "XP gagnée chaque semaine en fonction du nombre de parfaits (basé sur la formule '6 + (round-parfait x 2), +4 si jour parfait') :",
+    "dailyDesc": "XP de la journée, les 5 rounds étant trouvés : +3 XP la journée terminée, +1 XP par round trouvé, +1 XP de plus par round trouvé du premier coup, +2 XP si la journée est parfaite — 15 XP au maximum.",
+    "weeklyDesc": "XP de la semaine, les 10 rounds étant trouvés : +6 XP la semaine terminée, +1 XP par round trouvé, +2 XP de plus par round trouvé du premier coup, +4 XP si la semaine est parfaite — 40 XP au maximum.",
     "marathonDesc": "XP calculée à partir de vos meilleures performances Marathon :",
     "marathonFormula": "Meilleur score ÷ 5 + Meilleure série × 2",
     "achievementsDesc": "Chaque succès débloqué donne l'XP indiquée sur sa carte.",
+    "levels": "Niveaux",
+    "levelsDesc": "Chaque niveau coûte {step} XP de plus que le précédent : le niveau 1 → 2 demande 100 XP, tandis que le niveau 100 (Master) réclame le contenu complet du jeu, soit {total} XP.",
+    "levelsFrom": "Niveau {level} → {next}",
+    "levelsTotal": "Niveau 100 — Master",
     "perfects": "parfaits",
     "perfects_0": "0 parfait",
     "xpPerPerfects": "parfait = {xp} XP",
@@ -371,6 +389,16 @@
     "view": "Voir",
     "comingSoon": "Arrive bientôt"
   },
+  "challengeWindow": {
+    "unavailableTitle": "Ce challenge n'est pas disponible pour vous",
+    "unavailableDaily": "Vous ne pouvez rejouer un Daily qu'à partir de votre tout premier défi enregistré.",
+    "unavailableWeekly": "Vous ne pouvez rejouer un Weekly qu'à partir de votre tout premier défi enregistré.",
+    "attemptedDate": "Date demandée",
+    "earliestDate": "Date minimale atteignable",
+    "playToday": "Jouer aujourd'hui",
+    "playCurrentWeek": "Jouer la semaine en cours",
+    "pastChallenges": "Défis passés"
+  },
   "oldDaily": {
     "tabDaily": "Daily",
     "tabWeekly": "Weekly",
@@ -385,7 +413,9 @@
   },
   "challenges": {
     "title": "Challenges",
-    "back": "Retour"
+    "back": "Retour",
+    "pokedollars": "Pokédollars",
+    "none": "Aucun défi disponible pour le moment."
   },
   "challenge": {
     "play": "Jouer",
@@ -424,7 +454,52 @@
   "cosmetics": {
     "default": "Par défaut",
     "defaultShort": "Défaut",
-    "lockedHint": "🔒 {name} — À débloquer via un challenge"
+    "lockedHint": "🔒 {name} — À débloquer via un challenge",
+    "shopLockedHint": "🛒 {name} — En vente à la Poké-Boutique",
+    "shopPopupText": "Ce cosmétique n'est pas encore débloqué : il est en vente à la Poké-Boutique.",
+    "buyDirect": "Acheter directement",
+    "openShop": "Ouvrir Boutique"
+  },
+  "shop": {
+    "title": "Poké-Boutique",
+    "subtitle": "Dépensez vos Pokédollars pour débloquer des thèmes",
+    "balance": "Solde",
+    "totalXP": "XP totale",
+    "bonus": "Bonus de niveau",
+    "spent": "Déjà dépensé",
+    "rate": "1 XP totale = 1 P. Le prix des cosmétiques déjà achetés est déduit en permanence de votre XP totale.",
+    "preview": "Aperçu",
+    "stopPreview": "Arrêter l'aperçu",
+    "previewHint": "Cliquez sur un cosmétique pour le prévisualiser avant de l'acheter.",
+    "previewBg": "Fond d'écran appliqué à la page entière pour cet aperçu.",
+    "previewBtn": "Style de bouton appliqué aux boutons d'exemple ci-dessus.",
+    "demoPrimary": "Daily Challenge",
+    "demoSecondary": "Historique",
+    "demoSubmit": "Valider",
+    "filterBackground": "Fonds d'écran",
+    "filterButtons": "Boutons",
+    "typeBackground": "Fond d'écran",
+    "typeButtons": "Boutons",
+    "empty": "Aucun cosmétique en vente pour le moment.",
+    "buy": "Acheter",
+    "buyTitle": "Acheter ce cosmétique",
+    "confirm": "Confirmer ?",
+    "owned": "Obtenu",
+    "ownedShort": "Obtenu",
+    "tooExpensive": "Solde insuffisant",
+    "missing": "Il manque {amount}",
+    "insufficient": "Solde insuffisant : il manque {missing} P",
+    "buyFailed": "Achat impossible.",
+    "bought": "{name} débloqué pour {price} !",
+    "price": "Prix",
+    "yourBalance": "Votre solde",
+    "unavailable": "Boutique indisponible",
+    "openShop": "Ouvrir la Poké-Boutique",
+    "customize": "Personnalisations",
+    "equipTitle": "Utiliser {name} maintenant ?",
+    "equipText": "Le cosmétique est à vous. Vous pouvez l'équiper tout de suite, ou continuer à regarder la boutique.",
+    "equipNow": "Utiliser maintenant",
+    "equipLater": "Plus tard"
   },
   "data": {
     "writeError": "Impossible d'écrire dans IndexedDB",
@@ -530,5 +605,14 @@
     "found": "Pokémon trouvé : ",
     "tryAgainMsg": "Essaie encore",
     "errorCount": "erreur(s)"
+  },
+  "pwa": {
+    "title": "Installer Pokefeet",
+    "message": "Ajoutez le jeu à votre écran d'accueil : un seul tap pour jouer, même hors ligne.",
+    "action": "Installer",
+    "actionLabel": "Installer Pokefeet sur l'écran d'accueil",
+    "settingsTitle": "Installer l'application",
+    "settingsDesc": "Ajoutez Pokefeet à votre écran d'accueil ou à votre bureau pour le lancer comme une application.",
+    "later": "Plus tard"
   }
 }

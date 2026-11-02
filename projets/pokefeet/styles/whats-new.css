@@ -1,0 +1,166 @@
+/* --- Popup « nouveautés » du changelog (js/ui/whats-new.js) --- */
+
+.whats-new {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(3, 8, 18, 0.78);
+}
+
+.whats-new[hidden] {
+  display: none;
+}
+
+.whats-new__card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(460px, 100%);
+  max-height: min(82vh, 640px);
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  background: linear-gradient(180deg, #12233d, #0a1526);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  color: var(--text, #e8f1ff);
+  animation: whats-new-pop 0.22s ease-out;
+}
+
+.whats-new__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whats-new__badge {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #166534;
+  color: #bbf7d0;
+}
+
+.whats-new__badge--beta {
+  background: #78350f;
+  color: #fde68a;
+}
+
+.whats-new__badge--alpha {
+  background: #1e3a5f;
+  color: #bae6fd;
+}
+
+.whats-new__date {
+  font-size: 12px;
+  color: rgba(232, 241, 255, 0.6);
+}
+
+.whats-new__title {
+  margin: 0;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.whats-new__intro {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(232, 241, 255, 0.72);
+}
+
+.whats-new__items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.whats-new__item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+/* Comme sur la page changelog : la couleur vient du Type, la graisse de la Severity. */
+.whats-new__item::before {
+  content: '•';
+  margin-right: 9px;
+  opacity: 0.65;
+}
+
+.whats-new__item.type-feature          { color: #f5c542; }
+.whats-new__item.type-quality-of-life  { color: #60a5fa; }
+.whats-new__item.type-content          { color: #4ade80; }
+.whats-new__item.type-fix              { color: #ffffff; }
+.whats-new__item.severity-3            { font-weight: 700; }
+.whats-new__item.severity-2            { font-weight: 500; }
+.whats-new__item.severity-1            { font-weight: 400; }
+
+.whats-new__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.whats-new__link {
+  font-size: 13px;
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+.whats-new__link:hover {
+  text-decoration: underline;
+}
+
+.whats-new__btn {
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #04101f;
+  background: linear-gradient(180deg, #7dd3fc, #38bdf8);
+  cursor: pointer;
+}
+
+.whats-new__btn:hover {
+  filter: brightness(1.08);
+}
+
+.whats-new__btn:focus-visible {
+  outline: 2px solid #f5c542;
+  outline-offset: 2px;
+}
+
+@keyframes whats-new-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html.no-animations .whats-new__card {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whats-new__card {
+    animation: none;
+  }
+}

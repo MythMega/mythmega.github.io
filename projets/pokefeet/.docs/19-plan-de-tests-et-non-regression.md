@@ -94,7 +94,8 @@ Avant chaque scénario :
 |---|---|---|
 | D1 | Daily du jour | 5 Pokémon déterministes |
 | D2 | Rejouer le même jour | écran « déjà joué », contrôles désactivés |
-| D3 | `?date=` passé non joué | daily rejouable |
+| D3 | `?date=` passé non joué, dans la fenêtre | daily rejouable |
+| D3b | `?date=` antérieur au premier défi enregistré | popup, défi non lancé, aucune sauvegarde possible |
 | D4 | `?date=` futur | alerte, redirection |
 | D5 | Bonne réponse | +10/8/6/4/2, point vert/orange |
 | D6 | 5 erreurs | popup, révélation, passage |
@@ -109,7 +110,8 @@ Avant chaque scénario :
 | # | Scénario | Attendu |
 |---|---|---|
 | W1 | Weekly courant | 10 Pokémon |
-| W2 | `?week=` lundi passé | rejouable |
+| W2 | `?week=` lundi passé, dans la fenêtre | rejouable |
+| W2b | `?week=` antérieur à la semaine du premier défi | popup, semaine non lancée |
 | W3 | `?week=` non-lundi | popup lundi précédent |
 | W4 | `?week=` futur | alerte |
 | W5 | `?week=2026-02-30` | rejeté |
@@ -125,6 +127,7 @@ Avant chaque scénario :
 | P3 | Clic Daily | `daily.html?date=...` |
 | P4 | Onglet Weekly | semaines, clic `weekly.html?week=...` |
 | P5 | Déjà joué | classe `played` |
+| P6 | Première date proposée == plus ancienne clé `daily_results`/`weekly_results` | cohérente avec la fenêtre acceptée par `daily.html` / `weekly.html` |
 
 ### 2.6 Challenges bonus
 
@@ -337,8 +340,8 @@ Mesurer avant/après sur un profil avec :
 
 | Scénario | Métrique | Cible indicative |
 |---|---|---|
-| Chargement `stats.html` | temps jusqu'à niveau affiché | < 1,5 s |
-| Chargement `pied-dex.html` | temps jusqu'à grille | < 2 s |
+| Chargement `profile.html` | temps jusqu'à niveau affiché | < 1,5 s |
+| Chargement `dex.html` | temps jusqu'à grille | < 2 s |
 | Ouverture d'un onglet stats | temps de rendu | < 300 ms |
 | Fin de Daily | temps de sauvegarde | < 200 ms |
 | `forceUpdate` | durée | < 2 s |
@@ -415,7 +418,7 @@ Il contrôle :
 | Propriété | Défaut | Effet |
 |---|---|---|
 | `historyChartDays` | `60` | Nombre de jours affichés dans le graphique Daily de `history.html` |
-| `oldDailyPageSize` | `30` | Nombre de dates par page dans `old_daily.html` (Daily et Weekly) |
-| `dexPageSize` | `100` | Nombre d'entrées par page dans `pied-dex.html` |
+| `oldDailyPageSize` | `30` | Nombre de dates par page dans `old_challenges.html` (Daily et Weekly) |
+| `dexPageSize` | `100` | Nombre d'entrées par page dans `dex.html` |
 
 Toute valeur non entière, hors bornes ou toute clé inconnue fait échouer `npm run lint`.

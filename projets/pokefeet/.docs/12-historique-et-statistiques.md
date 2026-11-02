@@ -5,9 +5,9 @@
 | Page | Rôle | Scripts |
 |---|---|---|
 | `history.html` | listes Daily/Weekly, courbes de score, cartes de statistiques | `js/features/history/history.js`, `js/features/history/history-curve.js` |
-| `stats.html` | profil, XP, niveaux, trophées, récompenses, stats détaillées | `js/features/stats/stats.js`, `entity/reward/*` |
+| `profile.html` | profil, XP, niveaux, trophées, récompenses, stats détaillées | `js/features/stats/stats.js`, `entity/reward/*` |
 
-`stats.html` ne réutilise **pas** `js/features/history/history-curve.js` : `js/features/stats/stats.js` réimplémente les mêmes métriques. `history.html` charge les deux modules, qui écrivent dans les mêmes conteneurs.
+`profile.html` ne réutilise **pas** `js/features/history/history-curve.js` : `js/features/stats/stats.js` réimplémente les mêmes métriques. `history.html` charge les deux modules, qui écrivent dans les mêmes conteneurs.
 
 ---
 
@@ -66,7 +66,7 @@ Définitions :
 
 ---
 
-## 3. `stats.html`
+## 3. `profile.html`
 
 ### 3.1 En-tête
 

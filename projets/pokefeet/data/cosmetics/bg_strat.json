@@ -1,0 +1,56 @@
+[
+    {
+        "ID": 50,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 1G",
+        "Value": "strat-1g",
+        "File": "strat-1g.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 51,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 2G",
+        "Value": "strat-2g",
+        "File": "strat-2g.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 52,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 3G",
+        "Value": "strat-3g",
+        "File": "strat-3g.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 53,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 4G",
+        "Value": "strat-4g",
+        "File": "strat-4g.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 54,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 5G",
+        "Value": "strat-5g",
+        "File": "strat-5g.png",
+        "RequiresUnlock": true
+    },
+    {
+        "ID": 55,
+        "Type": "Background",
+        "Cat": "Strat",
+        "Name": "Strat 6G",
+        "Value": "strat-6g",
+        "File": "strat-6g.png",
+        "RequiresUnlock": false
+    }
+]

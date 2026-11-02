@@ -1,0 +1,447 @@
+[
+    {
+        "ID": 6,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 300
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 50
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Poisonous Quizz",
+        "Name_Fr": "Quizz Venimeux",
+        "Desc_En": "A hazardous expedition through murky swamps, shadowy caves, and eerie marshlands scattered across Kanto, Johto, Hoenn, and Sinnoh. This quiz embraces the thrill of danger, the mystery of toxic environments, and the excitement of exploring places where only the bravest adventurers dare to wander.",
+        "Desc_Fr": "Une expédition périlleuse à travers des marécages troubles, des cavernes sombres et des marais inquiétants disséminés dans Kanto, Johto, Hoenn et Sinnoh. Ce quizz met en avant le frisson du danger, le mystère des environnements toxiques et l’excitation d’explorer des lieux où seuls les aventuriers les plus courageux osent s’aventurer.",
+        "FeetList": [
+            "3",
+            "24",
+            "31",
+            "89",
+            "94",
+            "109",
+            "110",
+            "169",
+            "194-B",
+            "211",
+            "315",
+            "317",
+            "335",
+            "336",
+            "407",
+            "434",
+            "452",
+            "454",
+            "73",
+            "080-B",
+            "089-B",
+            "110-B",
+            "199-B",
+            "211-B",
+            "215-B"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 250
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 7
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 7,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 350
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 60
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Sunray Quizz",
+        "Name_Fr": "Quizz Rayon de soleil",
+        "Desc_En": "A radiant challenge inspired by the blazing sun over Hoenn’s deserts and the shimmering cliffs of Kanto’s coastal routes. This quiz celebrates warmth, brilliance, and the fiery determination of creatures who embody the dazzling energy of summer adventures.",
+        "Desc_Fr": "Un défi éclatant inspiré par le soleil brûlant des déserts de Hoenn et les falaises scintillantes des routes côtières de Kanto. Ce quizz célèbre la chaleur, la brillance et la détermination ardente de créatures qui incarnent l’énergie éblouissante des aventures estivales.",
+        "FeetList": [
+            "6",
+            "26",
+            "38",
+            "126",
+            "136",
+            "146",
+            "192",
+            "218",
+            "239",
+            "244",
+            "250",
+            "251",
+            "323",
+            "338",
+            "377",
+            "383",
+            "392",
+            "407",
+            "421",
+            "462",
+            "467",
+            "483",
+            "484",
+            "485",
+            "492",
+            "324",
+            "370",
+            "406",
+            "441",
+            "449"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 250
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 8
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 8,
+        "Difficulty": "Impossible",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 400
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 75
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Moonlight Quizz",
+        "Name_Fr": "Quizz Clair de lune",
+        "Desc_En": "A mystical nighttime journey through Johto’s quiet forests and Sinnoh’s starlit tundras. This quiz embraces the calm beauty of moonlit landscapes, the serenity of nocturnal exploration, and the enchanting atmosphere that settles over the regions when the sun goes down.",
+        "Desc_Fr": "Un voyage nocturne mystique à travers les forêts tranquilles de Johto et les toundras étoilées de Sinnoh. Ce quizz met en avant la beauté calme des paysages éclairés par la lune, la sérénité des explorations nocturnes et l’atmosphère envoûtante qui enveloppe les régions lorsque le soleil disparaît.",
+        "FeetList": [
+            "12",
+            "26-B",
+            "028-B",
+            "36",
+            "038-B",
+            "078-B",
+            "121",
+            "127",
+            "157-B",
+            "164",
+            "173",
+            "196",
+            "197",
+            "235",
+            "238",
+            "249",
+            "282",
+            "301",
+            "303",
+            "327",
+            "337",
+            "342",
+            "359",
+            "385",
+            "386",
+            "414",
+            "420",
+            "430",
+            "488",
+            "491"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 500
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 9
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 9,
+        "Difficulty": "Medium",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 100
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 10
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "To The Pool! Quizz",
+        "Name_Fr": "Quizz A la Piscine!",
+        "Desc_En": "A refreshing summer event celebrating creatures who adore splashing around in the waters of Cerulean City or the crystal lakes of Sinnoh. This quiz captures the joy of cooling off during a heat wave, the playful spirit of sunny days, and the carefree atmosphere of aquatic adventures.",
+        "Desc_Fr": "Un événement estival rafraîchissant célébrant des créatures qui adorent s’amuser dans les eaux d’Azuria ou les lacs cristallins de Sinnoh. Ce quizz capture la joie de se rafraîchir pendant une vague de chaleur, l’esprit joueur des journées ensoleillées et l’atmosphère détendue des aventures aquatiques.",
+        "FeetList": [
+            "8",
+            "54",
+            "61",
+            "62",
+            "80",
+            "90",
+            "116",
+            "120",
+            "118",
+            "138",
+            "148",
+            "226",
+            "245",
+            "259",
+            "298",
+            "319",
+            "320",
+            "350",
+            "366",
+            "489"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 100
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 10
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 11
+            }
+        ],
+        "Availabilities": null
+    },
+    {
+        "ID": 22,
+        "Difficulty": "Easy",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 25
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 8
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Arachnophobia",
+        "Name_Fr": "Arachnophobie",
+        "Desc_En": "Spooky challenge with lots of spidey.",
+        "Desc_Fr": "Challenge avec moins de pokémon que de pattes d'araignée...",
+        "FeetList": [
+            "168",
+            "167",
+            "290",
+            "376",
+            "595",
+            "596"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 100
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 33
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 23,
+        "Difficulty": "Easy",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 25
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 8
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Meowstastic",
+        "Name_Fr": "Fantasmiaougorique",
+        "Desc_En": "Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow Meow.",
+        "Desc_Fr": "Miaou.",
+        "FeetList": [
+            "52",
+            "53",
+            "053-B",
+            "052-B",
+            "301",
+            "300",
+            "431",
+            "432",
+            "509",
+            "510"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 100
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 35
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 24,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 35
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 10
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Starter Pack",
+        "Name_Fr": "Starter Pack",
+        "Desc_En": "All 1-5G Starters.",
+        "Desc_Fr": "Tous les starter 1-5G.",
+        "FeetList": [
+            "1",
+            "2",
+            "3",
+            "5",
+            "4",
+            "7",
+            "8",
+            "9",
+            "6",
+            "152",
+            "158",
+            "157",
+            "156",
+            "153",
+            "154",
+            "155",
+            "159",
+            "160",
+            "252",
+            "253",
+            "254",
+            "255",
+            "256",
+            "257",
+            "258",
+            "259",
+            "260",
+            "387",
+            "393",
+            "392",
+            "391",
+            "390",
+            "389",
+            "388",
+            "395",
+            "394",
+            "495",
+            "496",
+            "497",
+            "499",
+            "498",
+            "500",
+            "501",
+            "502",
+            "503",
+            "503-B",
+            "157-B",
+            "25",
+            "133",
+            "280"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 500
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 34
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    },
+    {
+        "ID": 25,
+        "Difficulty": "Hard",
+        "Requirements": [
+            {
+                "TypeRequirement": "dexcount",
+                "Value": 100
+            },
+            {
+                "TypeRequirement": "level",
+                "Value": 25
+            }
+        ],
+        "Tab": "Collection",
+        "Name_En": "Dieu",
+        "Name_Fr": "Dieu",
+        "Desc_En": "Pokemon's Gods.",
+        "Desc_Fr": "Le dieu des pokémon.",
+        "FeetList": [
+            "399",
+            "399",
+            "399",
+            "399",
+            "399",
+            "399",
+            "399",
+            "399",
+            "399",
+            "493"
+        ],
+        "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 1000
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 36
+            }
+        ],
+        "MustHideIfUnavailable": true,
+        "Availabilities": []
+    }
+]

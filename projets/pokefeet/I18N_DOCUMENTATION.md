@@ -10,11 +10,11 @@ Ce document explique comment utiliser et étendre le système de traduction mult
 beta/
 ├── index.html
 ├── daily.html
-├── pokefeet.html
+├── marathon.html
 ├── history.html
-├── pied-dex.html
-├── data_management.html
-├── old_daily.html
+├── dex.html
+├── settings.html
+├── old_challenges.html
 ├── translate.js              ← Moteur de traduction
 ├── language-switcher.js      ← Bouton flottant
 ├── i18n-setup.js            ← Initialisation

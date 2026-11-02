@@ -1,0 +1,249 @@
+{
+  "bossName": "Fragilady Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/lilligant_normal.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/lilligant_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 100000,
+  "date": "2026-10-31 20:01:54",
+  "durationSec": 5717,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 50000,
+      "countAtk": 2,
+      "baseDmg": 44241,
+      "level": 20,
+      "raidCount": 1161,
+      "luck": 0.56508666
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 40735,
+      "countAtk": 2,
+      "baseDmg": 15735,
+      "level": 18,
+      "raidCount": 539,
+      "luck": 1.2944074
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 9015,
+      "countAtk": 1,
+      "baseDmg": 9015,
+      "level": 16,
+      "raidCount": 373,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "nolhangonnehaut2301",
+      "damage": 4786,
+      "countAtk": 2,
+      "baseDmg": 2347,
+      "level": 14,
+      "raidCount": 102,
+      "luck": 1.0195994
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 384,
+      "countAtk": 1,
+      "baseDmg": 384,
+      "level": 4,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 99750
+    },
+    {
+      "platform": "youtube",
+      "damage": 5170
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-31 20:03:57",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9015,
+      "pvAfter": 90985,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 20:08:44",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15735,
+      "pvAfter": 75250,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-10-31 20:30:10",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 50250,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-10-31 20:42:35",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 384,
+      "pvAfter": 49866,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 20:49:11",
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "damages": 2347,
+      "pvAfter": 47519,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 20:50:49",
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "damages": 2439,
+      "pvAfter": 45080,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 20:59:51",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 20080,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 21:37:12",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

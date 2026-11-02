@@ -1,0 +1,244 @@
+{
+  "bossName": "Queulorior Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/smeargle_normal.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/smeargle_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 140000,
+  "date": "2026-10-31 21:40:25",
+  "durationSec": 8039,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 70000,
+      "countAtk": 2,
+      "baseDmg": 44703,
+      "level": 20,
+      "raidCount": 1162,
+      "luck": 0.7829452
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 65754,
+      "countAtk": 3,
+      "baseDmg": 15752,
+      "level": 18,
+      "raidCount": 540,
+      "luck": 1.3914423
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "evan6235",
+      "damage": 13287,
+      "countAtk": 4,
+      "baseDmg": 2540,
+      "level": 13,
+      "raidCount": 160,
+      "luck": 1.3077756
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 9243,
+      "countAtk": 1,
+      "baseDmg": 9243,
+      "level": 16,
+      "raidCount": 374,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 144997
+    },
+    {
+      "platform": "youtube",
+      "damage": 13287
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-10-31 21:48:00",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 105000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 22:10:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 35000,
+      "pvAfter": 70000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 22:27:42",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2540,
+      "pvAfter": 67460,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 22:29:28",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2553,
+      "pvAfter": 64907,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 22:36:38",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 5314,
+      "pvAfter": 59593,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 22:39:06",
+      "pseudo": "evan6235",
+      "platform": "youtube",
+      "damages": 2880,
+      "pvAfter": 56713,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-10-31 22:56:16",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15752,
+      "pvAfter": 40961,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-10-31 22:56:24",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9243,
+      "pvAfter": 31718,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-10-31 23:51:34",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 31634,
+      "pvAfter": 84,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": "Tu n\u0027es plus Ko !"
+    },
+    {
+      "at": "2026-10-31 23:54:24",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 18368,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

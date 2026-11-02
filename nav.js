@@ -174,7 +174,8 @@
              data-bs-toggle="dropdown" aria-expanded="false">Logiciels</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item${active('soft_MCCare.html')}" href="soft_MCCare.html">Suite MinecraftCare</a></li>
-            <li><a class="dropdown-item${active('soft_AutoVodMaker.html')}" href="soft_AutoVodMaker.html">AutoVODMaker</a></li>
+            <li><a class="dropdown-item" href="./projets/bulkut/">Bulkut</a></li>
+            <li><a class="dropdown-item${active('soft_AutoVodMaker.html')}" href="soft_AutoVodMaker.html">[DEPRECATED] AutoVODMaker</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="https://github.com/MythMega/" target="_blank" rel="noopener">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16" style="margin-right:4px;opacity:.7"><path d="M6.354 5.5H4a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3V8.5a.5.5 0 0 0-1 0V12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.5a2 2 0 0 1 2-2h2.354a.5.5 0 0 0 0-1z"/><path d="M7.5.5a.5.5 0 0 0 0 1h4.793L5.146 8.646a.5.5 0 1 0 .708.708L13 2.207V7a.5.5 0 0 0 1 0V1a.5.5 0 0 0-.5-.5h-6z"/></svg>Github</a></li>

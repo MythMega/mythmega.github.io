@@ -48,6 +48,7 @@ import profileCardManager, {
   PROFILE_CARD_DEFAULT_BORDER_COLOR,
   PROFILE_CARD_DEFAULT_TITLE_COLOR,
   PROFILE_CARD_ICON_ALIGNS,
+  PROFILE_CARD_ICON_SHAPES,
   PROFILE_CARD_ICON_SIZES,
 } from '../../business/ProfileCardManager.js';
 import colorManager, { AUTO_COLOR_ID, colorCss, colorName } from '../../business/ColorManager.js';
@@ -170,9 +171,11 @@ export class ProfileView {
     this.borderColorButton = this.root.querySelector('[data-profile-border-color-open]');
     this.borderColorSwatch = this.root.querySelector('[data-profile-border-color-swatch]');
     this.borderColorValue = this.root.querySelector('[data-profile-border-color-value]');
-    // Avatar size and anchor of the card. Both are bought, the middle option of each is free.
+    // Avatar size and anchor of the card. Both are bought, the middle option of each is free; the
+    // shape (Normal or Round) is free.
     this.iconSizesElement = this.root.querySelector('[data-profile-icon-sizes]');
     this.iconAlignsElement = this.root.querySelector('[data-profile-icon-aligns]');
+    this.iconShapesElement = this.root.querySelector('[data-profile-icon-shapes]');
     this.iconHelpElement = this.root.querySelector('[data-profile-icon-help]');
     // Colour picker dialog, shared by the three choosers.
     this.colorModal = this.root.querySelector('[data-profile-color-modal]');
@@ -186,15 +189,13 @@ export class ProfileView {
     this.cardBuyPriceElement = this.root.querySelector('[data-profile-card-buy-price]');
     this.cardBuyBalanceElement = this.root.querySelector('[data-profile-card-buy-balance]');
     this.cardBuyMessageElement = this.root.querySelector('[data-profile-card-buy-message]');
-    // The two samples of the purchase dialog (Normal and Full Art). They are drawn by
-    // `renderBuyPreviews()` and only exist for a size or an anchor purchase.
+    // The sample of the purchase dialog, drawn on the layout the player wears. It is filled by
+    // `renderBuyPreviews()` and only exists for a size or an anchor purchase.
     this.buyPreviewsElement = this.root.querySelector('[data-profile-card-buy-previews]');
-    this.buyPreviewHosts = {
-      classic: this.root.querySelector('[data-profile-card-buy-preview="classic"]'),
-      fullart: this.root.querySelector('[data-profile-card-buy-preview="fullart"]'),
-    };
-    /** @type {Record<string, ProfileCard|null>} Samples of the purchase dialog, by layout. */
-    this.buyPreviewCards = { classic: null, fullart: null };
+    this.buyPreviewHost = this.root.querySelector('[data-profile-card-buy-preview]');
+    this.buyPreviewLabel = this.root.querySelector('[data-profile-card-buy-preview-label]');
+    /** @type {ProfileCard|null} Sample of the purchase dialog (created once, then reused). */
+    this.buyPreviewCard = null;
     this.cardBuyConfirmButton = this.root.querySelector('[data-profile-card-buy-confirm]');
     this.cardBuyCloseButtons = this.root.querySelectorAll('[data-profile-card-buy-close]');
     this.cardDownloadButton = this.root.querySelector('[data-profile-card-download]');
@@ -241,6 +242,7 @@ export class ProfileView {
       borderColor: PROFILE_CARD_DEFAULT_BORDER_COLOR,
       iconSize: 'normal',
       iconAlign: 'center',
+      iconShape: 'normal',
     };
     /** @type {object|null} Last card model built by `ProfileCardManager` (drives the rarity picker). */
     this.lastCardModel = null;
@@ -351,14 +353,14 @@ export class ProfileView {
       ['[data-profile-border-color-open]', this.borderColorButton],
       ['[data-profile-icon-sizes]', this.iconSizesElement],
       ['[data-profile-icon-aligns]', this.iconAlignsElement],
+      ['[data-profile-icon-shapes]', this.iconShapesElement],
       ['[data-profile-color-modal]', this.colorModal],
       ['[data-profile-color-owned]', this.colorModalOwned],
       ['[data-profile-color-shop]', this.colorModalShop],
       ['[data-profile-card-buy-modal]', this.cardBuyModal],
       ['[data-profile-card-buy-feature]', this.cardBuyFeatureElement],
       ['[data-profile-card-buy-previews]', this.buyPreviewsElement],
-      ['[data-profile-card-buy-preview="classic"]', this.buyPreviewHosts.classic],
-      ['[data-profile-card-buy-preview="fullart"]', this.buyPreviewHosts.fullart],
+      ['[data-profile-card-buy-preview]', this.buyPreviewHost],
       ['[data-profile-card-buy-confirm]', this.cardBuyConfirmButton],
       ['[data-profile-card-download]', this.cardDownloadButton],
       ['[data-profile-card-expand]', this.cardExpandButton],
@@ -549,6 +551,12 @@ export class ProfileView {
         : null;
       if (button) this.handleIconOptionClick('iconAlign', button.dataset.profileCardIconAlign);
     });
+    this.listen(this.iconShapesElement, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-card-icon-shape]')
+        : null;
+      if (button) this.handleIconOptionClick('iconShape', button.dataset.profileCardIconShape);
+    });
     this.listen(this.cardBackgroundsElement, 'click', (event) => {
       const button = event.target instanceof Element
         ? event.target.closest('[data-profile-card-background]')
@@ -569,13 +577,13 @@ export class ProfileView {
     this.listen(this.cardModal, 'click', (event) => {
       if (event?.target === this.cardModal) this.closeCardModal();
     });
-    // A rotation or a window resize changes the width of the two purchase samples: their stage is
-    // refitted instead of staying at the scale of the width they were first drawn at.
+    // A rotation or a window resize changes the width of the purchase sample: its stage is refitted
+    // instead of staying at the scale of the width it was first drawn at.
     this.listen(window, 'resize', () => {
       // One frame later: the observer would otherwise read the width of the layout that is on its
       // way out.
       window.requestAnimationFrame(() => {
-        Object.values(this.buyPreviewCards).forEach((card) => card?.applyStage());
+        this.buyPreviewCard?.applyStage();
       });
     });
 
@@ -2224,6 +2232,7 @@ export class ProfileView {
   renderIconOptions(model) {
     const size = typeof model?.iconSize === 'string' ? model.iconSize : this.cardPreferences.iconSize;
     const align = typeof model?.iconAlign === 'string' ? model.iconAlign : this.cardPreferences.iconAlign;
+    const shape = typeof model?.iconShape === 'string' ? model.iconShape : this.cardPreferences.iconShape;
 
     this.renderIconRow(
       this.iconSizesElement,
@@ -2251,6 +2260,16 @@ export class ProfileView {
       ],
       align,
       'profileCardIconAlign'
+    );
+
+    this.renderIconRow(
+      this.iconShapesElement,
+      [
+        { id: 'normal', labelKey: 'profile.card.icon.shape.normal', featureId: null },
+        { id: 'round', labelKey: 'profile.card.icon.shape.round', featureId: null },
+      ],
+      shape,
+      'profileCardIconShape'
     );
 
     if (this.iconHelpElement) this.iconHelpElement.textContent = i18n.t('profile.card.icon.help');
@@ -2304,12 +2323,16 @@ export class ProfileView {
   /**
    * Wears one avatar size or anchor, or offers to buy it.
    *
-   * @param {'iconSize'|'iconAlign'} field - Preference to write.
-   * @param {string} value - Option id (`small`, `left`...).
+   * @param {'iconSize'|'iconAlign'|'iconShape'} field - Preference to write.
+   * @param {string} value - Option id (`small`, `left`, `round`...).
    * @returns {void}
    */
   handleIconOptionClick(field, value) {
-    const table = field === 'iconSize' ? PROFILE_CARD_ICON_SIZES : PROFILE_CARD_ICON_ALIGNS;
+    const table = field === 'iconSize'
+      ? PROFILE_CARD_ICON_SIZES
+      : field === 'iconShape'
+        ? PROFILE_CARD_ICON_SHAPES
+        : PROFILE_CARD_ICON_ALIGNS;
     const option = table[value];
     if (!option) return;
     const owned = option.featureId === null
@@ -2590,21 +2613,23 @@ export class ProfileView {
   }
 
   /**
-   * Shows, in the purchase dialog, what the option would look like in both layouts.
+   * Shows, in the purchase dialog, what the option would look like on the worn layout.
    *
    * Only a size or an anchor gets this: those two options are judged on the card itself, and a
-   * price alone says nothing about a 1.52x avatar pushed to the bottom of its band. The two
-   * samples are SEPARATE `ProfileCard`s (the player's card is never rebuilt or moved), wear the
-   * pending value even though it is not owned yet, and show a placeholder pseudo with fixed
-   * counters: it is a demonstration, not the account.
+   * price alone says nothing about a 1.52x avatar pushed to the bottom of its band.
    *
-   * The samples are drawn for BOTH layouts on purpose, including Full Art when the player does
-   * not own it: the question answered here is "what does this option do", and the answer differs
-   * between the two cards.
+   * ONE sample, on the layout the player already wears: showing the two layouts side by side made
+   * each of them too narrow to read, and neither fits a dialog that also carries the price and the
+   * confirmation. Full Art is bought on its own button, so a sample of it would answer a question
+   * nobody asked here.
+   *
+   * The sample is a SEPARATE `ProfileCard` (the player's card is never rebuilt or moved), wears the
+   * pending value even though it is not owned yet, and shows a placeholder pseudo with fixed
+   * counters: it is a demonstration, not the account.
    *
    * @param {string} id - Feature being bought.
    * @param {string} type - Kind of purchase (`feature`, `titleColor`, ...).
-   * @returns {Promise<void>} Resolves once both samples are drawn.
+   * @returns {Promise<void>} Resolves once the sample is drawn.
    */
   async renderBuyPreviews(id, type) {
     const element = this.buyPreviewsElement;
@@ -2630,36 +2655,39 @@ export class ProfileView {
     const sizeOption = PROFILE_CARD_ICON_SIZES[iconSize] ?? PROFILE_CARD_ICON_SIZES.normal;
     const alignOption = PROFILE_CARD_ICON_ALIGNS[iconAlign] ?? PROFILE_CARD_ICON_ALIGNS.center;
 
-    for (const [layout, host] of Object.entries(this.buyPreviewHosts)) {
-      if (!host) continue;
-      let card = this.buyPreviewCards[layout];
-      if (!card) {
-        card = new ProfileCard(host);
-        this.buyPreviewCards[layout] = card;
-      }
-      const model = {
-        ...base,
-        name: i18n.t('profile.card.buy.preview.name'),
-        layout,
-        iconSize,
-        iconScale: sizeOption.scale,
-        iconAlign,
-        iconPositionX: alignOption.positionX,
-        iconPositionY: alignOption.positionY ?? null,
-        boostersOpened: ICON_PREVIEW_STATS.boostersOpened,
-        distinctCards: ICON_PREVIEW_STATS.distinctCards,
-        sparks: ICON_PREVIEW_STATS.sparks,
-        blocksMined: ICON_PREVIEW_STATS.blocksMined,
-        picksMade: ICON_PREVIEW_STATS.picksMade,
-        firstObtainedAt: ICON_PREVIEW_STATS.firstObtainedAt,
-      };
-      card.setLayout(layout);
-      await card.render(model);
-      // The samples are created once and reused, so their stage would keep the scale of the width
-      // they had the first time (a phone, then a desktop): the fit is recomputed here, now that the
-      // dialog has its final width, and again on every window resize (`bindEvents`).
-      card.applyStage();
+    const host = this.buyPreviewHost;
+    if (!host) return;
+    const layout = Object.values(PROFILE_CARD_LAYOUTS).includes(base.layout)
+      ? base.layout
+      : PROFILE_CARD_DEFAULT_LAYOUT;
+    if (this.buyPreviewLabel) {
+      this.buyPreviewLabel.textContent = layout === 'fullart'
+        ? i18n.t('profile.card.layout.fullart')
+        : i18n.t('profile.card.layout.normal');
     }
+    if (!this.buyPreviewCard) this.buyPreviewCard = new ProfileCard(host);
+    const model = {
+      ...base,
+      name: i18n.t('profile.card.buy.preview.name'),
+      layout,
+      iconSize,
+      iconScale: sizeOption.scale,
+      iconAlign,
+      iconPositionX: alignOption.positionX,
+      iconPositionY: alignOption.positionY ?? null,
+      boostersOpened: ICON_PREVIEW_STATS.boostersOpened,
+      distinctCards: ICON_PREVIEW_STATS.distinctCards,
+      sparks: ICON_PREVIEW_STATS.sparks,
+      blocksMined: ICON_PREVIEW_STATS.blocksMined,
+      picksMade: ICON_PREVIEW_STATS.picksMade,
+      firstObtainedAt: ICON_PREVIEW_STATS.firstObtainedAt,
+    };
+    this.buyPreviewCard.setLayout(layout);
+    await this.buyPreviewCard.render(model);
+    // The sample is created once and reused, so its stage would keep the scale of the width it had
+    // the first time (a phone, then a desktop): the fit is recomputed here, now that the dialog has
+    // its final width, and again on every window resize (`bindEvents`).
+    this.buyPreviewCard.applyStage();
   }
 
   /**

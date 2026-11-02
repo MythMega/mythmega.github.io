@@ -308,6 +308,15 @@ export class ProfileCard {
       ? Math.min(1, Math.max(MIN_SCALE, (available - STAGE_INSET * 2) / PROFILE_CARD_WIDTH))
       : 1;
     this.host.style.setProperty('--profile-card-scale', String(scale));
+    // The card is authored 360 px wide whatever the scale: the offset brings the SCALED block back
+    // to the middle of its host, which keeps a narrower host from clipping the right of the frame
+    // (the stylesheet scales from the top left corner, so this is an exact pixel count).
+    // The host is what contains the card (it is `fit-content` on the profile panel, the full width of
+    // its wrapper in the purchase dialog): the offset is a centring INSIDE the host, never a guess
+    // from the width the scale was computed from.
+    const hostWidth = this.host.clientWidth;
+    const offset = hostWidth > 0 ? (hostWidth - PROFILE_CARD_WIDTH * scale) / 2 : 0;
+    this.host.style.setProperty('--profile-card-offset', `${offset}px`);
     // A transformed element keeps its layout height: the stage takes the SCALED one instead, so the
     // panel leaves no dead space under the card.
     this.host.style.height = `${Math.ceil(PROFILE_CARD_HEIGHT * scale)}px`;
@@ -488,6 +497,9 @@ export class ProfileCard {
     } else {
       this.cardElement.style.removeProperty('--card-icon-position-y');
     }
+    // The silhouette is an attribute, not a custom property: the stylesheet matches it with a
+    // square mask over the avatar, and the export copies the attribute like any other.
+    this.cardElement.dataset.iconShape = model.iconShape === 'round' ? 'round' : 'normal';
   }
 
   /**

@@ -1067,24 +1067,24 @@
   font-weight: 600;
 }
 
-/* The two samples of the purchase dialog: the same option on the Normal card and on the Full Art
-   one, side by side and stacked when the dialog is narrow. The card fits itself to the width of
-   its host, so each sample simply gets the room left by the other. */
+/* The sample of the purchase dialog: ONE card, on the layout the player wears, centred and capped.
+   The cap matters: the card scales itself down to the width of its wrapper, so a sample left free
+   to fill a 36rem dialog would look bigger than the real card. */
 .profile-card-buy__previews {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: var(--space-3);
   width: 100%;
 }
 
 .profile-card-buy__preview {
   display: flex;
-  flex: 1 1 200px;
+  flex: 0 1 15rem;
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
-  min-width: 0;
+  width: min(100%, 15rem);
   margin: 0;
 }
 
@@ -1096,7 +1096,6 @@
 }
 
 .profile-card-buy__preview-help {
-  flex-basis: 100%;
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);

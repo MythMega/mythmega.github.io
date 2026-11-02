@@ -62,6 +62,9 @@ export const PROFILE_CARD_DEFAULT_ICON_SIZE = 'normal';
 /** Avatar anchor stored when the account has bought none. */
 export const PROFILE_CARD_DEFAULT_ICON_ALIGN = 'center';
 
+/** Avatar shape stored when the player chose none. */
+export const PROFILE_CARD_DEFAULT_ICON_SHAPE = 'normal';
+
 /**
  * The avatar sizes of the card and the feature that unlocks each one.
  *
@@ -107,6 +110,18 @@ export const PROFILE_CARD_ICON_ALIGNS = Object.freeze({
     positionX: '50%',
     positionY: '85%',
   }),
+});
+
+/**
+ * The silhouette of the avatar, all free.
+ *
+ * The sprite is a square drawn by `background-size`, so the stylesheet cuts it into a circle with
+ * a mask of the very same box: nothing moves, only the outline changes. It is a matter of taste,
+ * not of progression, hence no `featureId`.
+ */
+export const PROFILE_CARD_ICON_SHAPES = Object.freeze({
+  normal: Object.freeze({ featureId: null, round: false }),
+  round: Object.freeze({ featureId: null, round: true }),
 });
 
 export class ProfileCardManager {
@@ -223,7 +238,7 @@ export class ProfileCardManager {
    *
    * @param {unknown} raw - Stored value.
    * @returns {{layout: string, rarity: number|null, titleColor: string, background: string|null,
-   *   borderColor: string, iconSize: string, iconAlign: string}}
+   *   borderColor: string, iconSize: string, iconAlign: string, iconShape: string}}
    *   The validated preferences (shipped defaults for anything malformed).
    */
   static normalizePreferences(raw) {
@@ -261,7 +276,10 @@ export class ProfileCardManager {
     const iconAlign = Object.prototype.hasOwnProperty.call(PROFILE_CARD_ICON_ALIGNS, source.iconAlign)
       ? source.iconAlign
       : PROFILE_CARD_DEFAULT_ICON_ALIGN;
-    return { layout, rarity, titleColor, background, borderColor, iconSize, iconAlign };
+    const iconShape = Object.prototype.hasOwnProperty.call(PROFILE_CARD_ICON_SHAPES, source.iconShape)
+      ? source.iconShape
+      : PROFILE_CARD_DEFAULT_ICON_SHAPE;
+    return { layout, rarity, titleColor, background, borderColor, iconSize, iconAlign, iconShape };
   }
 
   /**
@@ -295,8 +313,10 @@ export class ProfileCardManager {
    * @param {unknown} [payload.borderColor] - `'auto'` or the id of a palette colour.
    * @param {unknown} [payload.iconSize] - `'small'`, `'normal'` or `'large'`.
    * @param {unknown} [payload.iconAlign] - `'left'`, `'center'` or `'right'`.
+   * @param {unknown} [payload.iconShape] - `'normal'` or `'round'`.
    * @returns {Promise<{layout: string, rarity: number|null, titleColor: string,
-   *   background: string|null, borderColor: string, iconSize: string, iconAlign: string}>} The
+   *   background: string|null, borderColor: string, iconSize: string, iconAlign: string,
+   *   iconShape: string}>} The
    *   resulting preferences.
    * @throws {Error} When the write fails.
    */
@@ -338,6 +358,11 @@ export class ProfileCardManager {
         next.iconAlign = ProfileCardManager.normalizePreferences({
           iconAlign: payload.iconAlign,
         }).iconAlign;
+      }
+      if (Object.prototype.hasOwnProperty.call(payload, 'iconShape')) {
+        next.iconShape = ProfileCardManager.normalizePreferences({
+          iconShape: payload.iconShape,
+        }).iconShape;
       }
     }
     await storageRepository.setUserState(USER_STATE_KEYS.PROFILE_CARD, next);
@@ -720,6 +745,8 @@ export class ProfileCardManager {
       iconPositionX: PROFILE_CARD_ICON_ALIGNS[iconAlign].positionX,
       // `null` lets the stylesheet centre the avatar itself (each layout does it its own way).
       iconPositionY: PROFILE_CARD_ICON_ALIGNS[iconAlign].positionY ?? null,
+      // Free, and only an outline: the stylesheet masks the avatar into a circle.
+      iconShape: stored.iconShape,
       trophyCount,
       thresholds: settings.rarityThresholds,
       rarities: ProfileCardManager.listRarities(settings.rarityThresholds, trophyCount, chosenRarity),

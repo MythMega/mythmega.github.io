@@ -61,8 +61,12 @@
   width: var(--card-width);
   height: var(--card-height);
   /* The stage scales the card as a single block (see `ProfileCard.applyScale`). */
-  transform: scale(var(--profile-card-scale, 1));
-  transform-origin: top center;
+  /* Authored 360 px wide and OPEN on the right of a narrower host: `--profile-card-offset` (set by
+     `ProfileCard.applyStage`) slides the scaled card back to the middle of that host, so the host's
+     clip only ever eats the empty margins of the layout box, never the frame. The origin is the top
+     left corner, which is what makes that offset an exact pixel count. */
+  transform: translateX(var(--profile-card-offset, 0)) scale(var(--profile-card-scale, 1));
+  transform-origin: top left;
   color: #fff;
   font-family: var(--card-font);
   text-align: left;
@@ -279,6 +283,25 @@
      (`overflow: hidden`). 42 % is the eye-level the Full Art card centres on. */
   background-size: auto calc(32% * var(--card-icon-scale, 1));
   background-position: var(--card-icon-position-x, 50%) var(--card-icon-position-y, 42%);
+}
+
+/* Round avatar. The sprite is a square painted by `background-size`, so a mask of the SAME box - the
+   same sizing formula, the same anchor - turns it into a circle without moving or resizing it. The
+   layer itself stays square: only the avatar is cut. `closest-side` fits the circle inside that
+   box, whatever the scale. */
+/* The mask must cover the very box `background-size` paints, and a gradient has no intrinsic
+   ratio (`auto` would fall back to the whole layer): the two sides are therefore both the band
+   height, which is exactly the box of a square avatar. */
+.profile-card-root .card-preview[data-icon-shape="round"] .card-underlay {
+  mask-image: radial-gradient(circle closest-side, #000 98%, transparent 100%);
+  mask-repeat: no-repeat;
+  mask-position: var(--card-icon-position-x, 50%) var(--card-icon-position-y, center);
+  mask-size: calc(80% * var(--card-icon-scale, 1)) calc(80% * var(--card-icon-scale, 1));
+}
+
+.profile-card-root .card-preview.card-layout-fullart[data-icon-shape="round"] .card-underlay {
+  mask-position: var(--card-icon-position-x, 50%) var(--card-icon-position-y, 42%);
+  mask-size: calc(32% * var(--card-icon-scale, 1)) calc(32% * var(--card-icon-scale, 1));
 }
 
 .profile-card-root .card-foil-underlay {

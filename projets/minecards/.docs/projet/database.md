@@ -402,7 +402,7 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 
 ```json
 { "layout": "classic", "rarity": 3, "titleColor": "auto", "background": "SERIE-A1 _ M018_fullart",
-  "borderColor": "auto", "iconSize": "normal", "iconAlign": "center" }
+  "borderColor": "auto", "iconSize": "normal", "iconAlign": "center", "iconShape": "normal" }
 ```
 
 - `layout` : `classic` ou `fullart` (le Full Art n'est honoré que si la fonctionnalité est achetée).
@@ -417,6 +417,8 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
   fonctionnalité (`profileIconTiny`, `profileIconVerySmall`, `profileIconSmall`, `profileIconLarge`,
   `profileIconVeryLarge`, `profileIconHuge`, `profileIconAlignTop`, `profileIconAlignLeft`,
   `profileIconAlignRight`, `profileIconAlignBottom`) : une option non possédée retombe sur le défaut.
+- `iconShape` : `normal` (le sprite tel quel) ou `round` (le même sprite, découpé en cercle par un
+  `mask-image`) ; les deux sont gratuits et aucun achat n'est consulté.
 - `background` : clé de collection d'une **carte favorite** dont le `Background` sert d'illustration
   (`null` ou absent = la première favorite). Une clé qui n'est plus favorite retombe sur la première.
 - Aucun rendu n'est stocké : la carte est une projection recalculée.

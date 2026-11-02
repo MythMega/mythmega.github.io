@@ -32,7 +32,7 @@ Clés de `user_state` :
 - `"stats"` : `{ boostersOpened, godpacksOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: {1..5}, drawsByCard: { [key]: count }, soldByRarity: {1..5}, sparksEarned, sparksSpent, sparksEarnedBySource: { [origine]: count }, sparksSpentBySource: { [origine]: count } }`. `soldByRarity` compte les exemplaires **vendus** au magasin (`SparksManager`), pas les exemplaires obtenus : c'est le miroir de `drawsByRarity`, et les deux ne se mélangent jamais. Les quatre champs `sparks*` forment le **grand livre de la monnaie** : chaque crédit et chaque débit y entre avec son origine (`boosters`, `sale`, `daily`, `mining`, `redeem`, `gift`, `card`, `feature`, `minepick`, `trader`, `other`), écrits par `SparksManager.applyDelta()` — le point de passage unique du solde.
 - `"giftSync"` : `{ lastCheckedLine, lastCheckAt }`.
 - `"sparks"` : `number` — solde de Sparks du joueur (`SparksManager`), la monnaie du jeu.
-- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null, titleColor: string, background: string|null, borderColor: string, iconSize: "tiny"|"verySmall"|"small"|"normal"|"large"|"veryLarge"|"huge", iconAlign: "top"|"left"|"center"|"right"|"bottom" }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie, la rareté portée (`null` = la plus haute atteinte), la couleur du titre, la couleur du **contour** (`auto` = celui de la rareté), la taille et l'alignement de l'**icône de profil**, et la **carte favorite** dont le `Background` sert d'illustration (`null` = la première favorite).
+- `"profileCard"` : `{ layout: "classic"|"fullart", rarity: 1..5|null, titleColor: string, background: string|null, borderColor: string, iconSize: "tiny"|"verySmall"|"small"|"normal"|"large"|"veryLarge"|"huge", iconAlign: "top"|"left"|"center"|"right"|"bottom", iconShape: "normal"|"round" }` — préférences d'affichage de la carte de profil (`ProfileCardManager`) : la disposition choisie, la rareté portée (`null` = la plus haute atteinte), la couleur du titre, la couleur du **contour** (`auto` = celui de la rareté), la taille, l'alignement et la forme de l'**icône de profil**, et la **carte favorite** dont le `Background` sert d'illustration (`null` = la première favorite).
 - `"purchases"` : `{ [featureId]: { boughtAt } }` — les **fonctionnalités achetées en Sparks** (`FeatureManager`), indexées par identifiant. Seul ce qui a été payé est écrit : le prix reste dans `settings/config.json`, donc le changer ne recharge jamais un propriétaire.
 - `"profile"` : `{ name, icon, photo, title, usernameColor, favorites: string[], featured: string[] }` — profil du joueur (`ProfileManager`) : nom affiché, icône du catalogue (`icon`), URL de la photo d'une sauvegarde ancienne (`photo`, lue et affichée, plus jamais écrite), **titre** affiché sous le pseudo (`title`, `""` = aucun — voir 3.I), **couleur du pseudo** (`usernameColor`, `auto` ou un `id` de `settings/colors.json` acheté sous `usernameColor.<id>`), les cartes favorites et les trophées mis en avant. Chaque liste démarre avec `profile.defaultFavorites` (3) et `profile.defaultFeaturedTrophies` (1) emplacements ; les suivants s'achètent en Sparks jusqu'à `maxFavorites` / `maxFeaturedTrophies` (5), la possession étant lue dans `purchases` (`ProfileManager.getLimits()`).
 - `"trophies"` : `{ unlocked: { [trophyId]: { unlockedAt, experience } } }` — trophées débloqués (`TrophyManager`). Un déblocage est **définitif** : revendre des cartes ne le reprend jamais.
@@ -609,10 +609,14 @@ Rien n'est stocké : la carte est une **projection** du profil, recalculée à c
   `profileIconVeryLarge`, `profileIconHuge`, `profileIconAlignTop`, `profileIconAlignLeft`,
   `profileIconAlignRight`, `profileIconAlignBottom` dans `features.items`, 75 Sparks chacune).
   Aucun plafond : à 1.52x l'avatar dépasse la carte, et la couche de l'avatar (`overflow: hidden`)
-  le rogne sur ses bords, donc les deux plus grandes tailles se distinguent vraiment. La **popup d'achat** d'une taille ou d'un alignement montre l'option en vrai, sur une
-  **carte d'exemple** (pseudo et compteurs fictifs, l'icône du joueur) présentée en **Normal et en
-  Full Art** côte à côte : deux instances de `ProfileCard` dédiées, la vraie carte n'est jamais
-  reconstruite ni déplacée.
+  le rogne sur ses bords, donc les deux plus grandes tailles se distinguent vraiment. La **forme**
+  de l'icône est libre (`user_state["profileCard"].iconShape`) : `normal` (le sprite tel quel) ou
+  `round`, obtenu par un `mask-image` de **la même boîte** que le `background-size` de l'avatar - un
+  `radial-gradient(circle closest-side)` posé sur `mask-size` / `mask-position`, donc rien ne bouge
+  et seule la silhouette change. La **popup d'achat** d'une taille ou d'un alignement montre
+  l'option en vrai, sur une **carte d'exemple** (pseudo et compteurs fictifs, l'icône du joueur)
+  dans la disposition ACTUELLEMENT portée, plafonnée à 15 rem pour rester du gabarit d'une carte :
+  une instance de `ProfileCard` dédiée, la vraie carte n'est jamais reconstruite ni déplacée.
 - **Cartes manipulables :** chaque détail de carte (collection, favoris, offre du marchand, résumé
   d'ouverture, statistiques et carte de profil agrandie) peut être **incliné en le maintenant** à la
   souris ou au doigt. `CardTilt` lit `cardDetail` dans `settings/config.json` :

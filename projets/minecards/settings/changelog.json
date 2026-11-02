@@ -103,11 +103,27 @@
                 }
             },
             {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Forme de l'icône de profil au choix : normale ou ronde, gratuitement.",
+                    "En": "Choose the profile icon shape: square or round, for free."
+                }
+            },
+            {
                 "Type": "QoL",
                 "IsImportant": true,
                 "Text": {
                     "Fr": "Les couleurs se choisissent dans un sélecteur, plus dans une grille sous la carte.",
                     "En": "Colours are chosen in a picker instead of a grid under the card."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "La popup d'achat d'une couleur s'affiche au-dessus du sélecteur de couleurs.",
+                    "En": "A colour purchase dialog is shown above the colour picker."
                 }
             },
             {

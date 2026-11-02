@@ -429,6 +429,16 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
     (`overflow: hidden`). La popup d'achat
     d'une taille ou d'un alignement y montre l'option appliquée sur une carte d'exemple (pseudo et
     compteurs fictifs), en Normal **et** en Full Art côte à côte, avant de confirmer ;
+  - **taille, alignement et forme de l'icône de profil** sur la carte : normale, centrée et de
+    forme normale par défaut ; les sept tailles forment une échelle géométrique (minuscule 0.55,
+    très petite 0.70, petite 0.85, normale 1, grande 1.15, très grande 1.32, gigantesque 1.52) et
+    les cinq ancres sont en haut, gauche, centre, droite et en bas (`features.items.profileIcon*`,
+    75 Sparks par option). Une icône trop grande n'est pas plafonnée : elle est rognée par la carte
+    (`overflow: hidden`). La **forme** (Normal / Rond) est gratuite : « Rond » découpe le sprite en
+    cercle par un `mask-image` calé sur la boîte du `background-size`, sans le déplacer. La popup
+    d'achat d'une taille ou d'un alignement y montre l'option appliquée sur une carte d'exemple
+    (pseudo et compteurs fictifs) dans la disposition déjà portée, plafonnée à 15 rem, avant de
+    confirmer ;
   - carte agrandie manipulable : maintien à la souris ou au doigt pour l'incliner
     (`cardDetail.maxRotationDeg`) avec une légère épaisseur (`cardDetail.thicknessPx`) ;
   - « Agrandir la carte » et « Télécharger la carte » (PNG 720 × 1000, police et images incorporées

@@ -46,10 +46,18 @@
   width: min(100%, 40rem);
 }
 
-/* The purchase dialog of a card option: a little wider than the default, because it hosts two
-   sample cards side by side. Not as wide as `--wide`: it is a question, not a gallery. */
+/* The purchase dialog of a card option: a little wider than the default, because it hosts a sample
+   card next to its price and its confirmation. Not as wide as `--wide`: it is a question, not a
+   gallery. */
 .modal__dialog--buy {
   width: min(100%, 36rem);
+}
+
+/* A dialog opened FROM another dialog (the purchase of a swatch, opened by the colour picker):
+   the later sibling would otherwise paint over it. One step is enough - a third dialog never opens
+   on top of a purchase. */
+.modal--stacked {
+  z-index: calc(var(--z-overlay) + 1);
 }
 
 .modal__close {

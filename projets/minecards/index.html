@@ -233,7 +233,7 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=b675d6fa31">
-  <link rel="stylesheet" href="css/base.css?v=9cfadc94bb">
+  <link rel="stylesheet" href="css/base.css?v=9bfaf90bdb">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=c1f55c71a3">
   <link rel="stylesheet" href="css/views/collection.css?v=df8d2e3a7f">
@@ -241,7 +241,7 @@
   <link rel="stylesheet" href="css/views/stats.css?v=d629d29877">
   <link rel="stylesheet" href="css/views/minepick.css?v=e3d3cbe888">
   <link rel="stylesheet" href="css/views/mineblock.css?v=eb0bd14812">
-  <link rel="stylesheet" href="css/views/profile.css?v=7cec1ff38c">
+  <link rel="stylesheet" href="css/views/profile.css?v=5914ee7cd1">
   <link rel="stylesheet" href="css/views/titles.css?v=9bfcf36ae7">
   <link rel="stylesheet" href="css/components/trophy.css?v=1be7c92faa">
   <link rel="stylesheet" href="css/views/settings.css?v=c280ee758a">
@@ -251,7 +251,7 @@
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=12a4c405a1">
   <link rel="stylesheet" href="css/components/card-shine.css?v=b524891613">
-  <link rel="stylesheet" href="css/components/modal.css?v=b2eb71c0a5">
+  <link rel="stylesheet" href="css/components/modal.css?v=698a62fd4b">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
   <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
   <link rel="stylesheet" href="css/components/daily-reward.css?v=a006ff2e0f">
@@ -915,7 +915,6 @@
                 <span class="profile-card-panel__color-dot" data-profile-border-color-swatch aria-hidden="true"></span>
                 <span data-profile-border-color-value></span>
               </button>
-              <p class="profile-card-panel__colors-help" data-profile-border-color-help></p>
             </div>
             <!-- Avatar: the size (Normal, smaller or larger) and the anchor (left, centre, right)
                  are bought separately, like the colours. The centre and the normal size are free. -->
@@ -953,7 +952,7 @@
            a confirmation. It also carries the "not enough Sparks" refusal, so the player learns the
            price of what they want instead of a silent nothing. -->
       <div class="modal" data-profile-card-buy-modal hidden>
-        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-card-buy-title">
+        <div class="modal__dialog modal__dialog--buy" role="dialog" aria-modal="true" aria-labelledby="profile-card-buy-title">
           <button type="button" class="modal__close" data-profile-card-buy-close aria-label="×">×</button>
           <h2 class="modal__title" id="profile-card-buy-title" data-i18n="profile.card.buy.title">Débloquer une fonctionnalité</h2>
           <div class="modal__body profile-card-buy">
@@ -961,6 +960,20 @@
             <p class="profile-card-buy__price" data-profile-card-buy-price></p>
             <p class="profile-card-buy__balance" data-profile-card-buy-balance></p>
             <p class="profile-card-buy__message" data-profile-card-buy-message data-tone="info"></p>
+            <!-- What the option being bought looks like, in both layouts, on a sample card: the
+                 pseudo and the counters are fictional, the avatar is the player's own. Filled by
+                 `ProfileView.renderBuyPreviews()` for a size or an anchor only. -->
+            <div class="profile-card-buy__previews" data-profile-card-buy-previews hidden>
+              <figure class="profile-card-buy__preview">
+                <figcaption class="profile-card-buy__preview-label" data-i18n="profile.card.layout.normal">Normale</figcaption>
+                <div class="profile-card-preview__host" data-profile-card-buy-preview="classic"></div>
+              </figure>
+              <figure class="profile-card-buy__preview">
+                <figcaption class="profile-card-buy__preview-label" data-i18n="profile.card.layout.fullart">Full Art</figcaption>
+                <div class="profile-card-preview__host" data-profile-card-buy-preview="fullart"></div>
+              </figure>
+              <p class="profile-card-buy__preview-help" data-i18n="profile.card.buy.preview.help">Pseudo et compteurs fictifs.</p>
+            </div>
           </div>
           <div class="modal__actions">
             <button type="button" class="btn btn--primary" data-profile-card-buy-confirm data-i18n="profile.card.buy.confirm">Acheter</button>
@@ -2098,7 +2111,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=7393ff2645"></script>
+  <script type="module" src="js/app.js?v=0c7db32ac7"></script>
 
 </body>
 </html>

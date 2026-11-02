@@ -76,6 +76,16 @@ export const BOOT_OVERLAY_ID = 'app-boot';
 /** Id of the fatal error container. */
 export const FATAL_ERROR_ID = 'app-fatal';
 
+/**
+ * Session flag remembering that the page already tried to repair itself.
+ *
+ * A browser that keeps an old module (a profile view that still expects the markup of the previous
+ * release, for instance) makes the boot fail with a message nobody can act on. Clearing the caches
+ * and reloading fixes it, but only ONCE: a second failure in the same session is a real bug, and
+ * reloading again would loop forever.
+ */
+const BOOT_REPAIR_KEY = 'minecards:bootRepair';
+
 /** Ids of the header elements updated through events. */
 export const HEADER_IDS = Object.freeze({
   DAILY: 'header-daily-boosters',
@@ -287,12 +297,103 @@ export class App {
       } else {
         await this.startOnboarding();
       }
+      // The boot went through: a later failure is a real bug, not a repaired page, and may be
+      // repaired on its own turn.
+      this.forgetBootRepair();
     } catch (error) {
       console.error('[App] Fatal boot error.', error);
+      // A page that mixes two releases (an old module kept by the browser, the new markup) fails
+      // here with a message about missing elements. One clean reload repairs it; after that, the
+      // player gets a panel they can act on instead of a dead page.
+      if (await this.repairStaleBuild(error)) return;
       this.showFatalError(error);
     } finally {
       this.hideBootOverlay();
     }
+  }
+
+  /**
+   * Tells whether an error comes from a page mixing two releases of the game.
+   *
+   * The views verify their markup (`ProfileView markup is incomplete…`) and the browser refuses to
+   * load a module that changed under its feet: both mean that `index.html` and one of the modules
+   * do not belong to the same release, which is exactly what a clean reload fixes.
+   *
+   * @param {unknown} error - Error raised by the boot.
+   * @returns {boolean} True when reloading is worth a try.
+   */
+  static isStaleBuildError(error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return /markup is incomplete|Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i.test(
+      message
+    );
+  }
+
+  /**
+   * Repairs a page that mixes two releases, at most once per session.
+   *
+   * @param {unknown} error - Error raised by the boot.
+   * @returns {Promise<boolean>} True when the page is reloading (the caller must stop here).
+   */
+  async repairStaleBuild(error) {
+    if (!App.isStaleBuildError(error)) return false;
+    let alreadyRepaired = false;
+    try {
+      alreadyRepaired = sessionStorage.getItem(BOOT_REPAIR_KEY) === '1';
+      if (!alreadyRepaired) sessionStorage.setItem(BOOT_REPAIR_KEY, '1');
+    } catch (storageError) {
+      // A private window may refuse `sessionStorage`: the repair is then attempted, unguarded.
+      console.warn('[App] The boot repair flag could not be stored.', storageError);
+    }
+    if (alreadyRepaired) {
+      console.error('[App] The page is still mixing two releases after a reload.');
+      return false;
+    }
+    console.warn('[App] Two releases of the game were mixed: clearing the caches and reloading.');
+    await this.hardReload();
+    return true;
+  }
+
+  /**
+   * Forgets that the page had to be repaired, once the boot succeeds.
+   *
+   * @returns {void}
+   */
+  forgetBootRepair() {
+    try {
+      sessionStorage.removeItem(BOOT_REPAIR_KEY);
+    } catch (error) {
+      console.warn('[App] The boot repair flag could not be cleared.', error);
+    }
+  }
+
+  /**
+   * Drops every stored copy of the game and reloads the page.
+   *
+   * The service worker and its caches go first: they are what keeps an old module alive after a
+   * release. The page is then reloaded as-is, which re-fetches `index.html` and every module it
+   * imports from the server.
+   *
+   * @returns {Promise<void>} Resolves once the reload was requested (never returns otherwise).
+   */
+  async hardReload() {
+    try {
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map((registration) => registration.unregister()));
+      }
+    } catch (error) {
+      console.warn('[App] The service worker could not be unregistered.', error);
+    }
+    try {
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((key) => caches.delete(key)));
+      }
+    } catch (error) {
+      console.warn('[App] A cache could not be cleared.', error);
+    }
+    window.location.reload();
   }
 
   /**
@@ -597,14 +698,25 @@ export class App {
     }
     console.info('[App] Starting the profile view…');
     // The profile carries the button that opens the statistics: the router stays here.
-    this.profileView = new ProfileView(root, {
-      onNavigate: (viewName) => this.router?.show(viewName),
-    });
     try {
+      // The CONSTRUCTOR is inside the `try` on purpose: it is where the markup is verified, and a
+      // module kept from the previous release fails there. One broken page must not cost the player
+      // the whole game (the boot used to stop on the fatal panel for this alone).
+      this.profileView = new ProfileView(root, {
+        onNavigate: (viewName) => this.router?.show(viewName),
+      });
       await this.profileView.init();
     } catch (error) {
       console.error('[App] The profile view could not be loaded.', error);
-      this.profileView.setFeedback('profile.error.load', 'error');
+      this.profileView?.setFeedback('profile.error.load', 'error');
+      this.profileView = null;
+      // A page mixing two releases usually announces itself HERE, and only here: the view checks
+      // its markup when it is built. One clean reload fixes it; if it already was tried, the panel
+      // says so and lets the player continue with the rest of the game.
+      if (App.isStaleBuildError(error)) {
+        if (await this.repairStaleBuild(error)) return;
+        this.showFatalError(error);
+      }
       return;
     }
     console.info('[App] Profile view ready.');
@@ -1935,8 +2047,40 @@ export class App {
     const detail = document.createElement('pre');
     detail.textContent = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
 
+    // The page is most often ONE release behind: saying so, with a button that really clears the
+    // copies the browser kept, is the only useful thing this panel can offer. "Continue" is kept
+    // as the risky way out for a player who prefers a partial game to a closed one.
+    const hint = document.createElement('p');
+    hint.className = 'app-fatal__hint';
+    hint.textContent = this.translate(
+      'app.fatal.hint',
+      'The page may be showing an old version of the game. Reloading downloads the current one.'
+    );
+
+    const actions = document.createElement('div');
+    actions.className = 'app-fatal__actions';
+
+    const reload = document.createElement('button');
+    reload.type = 'button';
+    reload.className = 'btn btn--primary';
+    reload.textContent = this.translate('app.fatal.reload', 'Reload the game');
+    reload.addEventListener('click', () => {
+      reload.disabled = true;
+      void this.hardReload();
+    });
+
+    const ignore = document.createElement('button');
+    ignore.type = 'button';
+    ignore.className = 'btn btn--ghost';
+    ignore.textContent = this.translate('app.fatal.continue', 'Continue anyway');
+    ignore.addEventListener('click', () => {
+      container.hidden = true;
+    });
+
+    actions.append(reload, ignore);
+
     container.textContent = '';
-    container.append(title, message, detail);
+    container.append(title, message, hint, detail, actions);
     container.hidden = false;
   }
 

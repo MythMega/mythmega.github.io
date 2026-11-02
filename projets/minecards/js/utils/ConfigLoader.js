@@ -112,6 +112,16 @@ export const DEFAULT_BINDER_SETTINGS = Object.freeze({
 export const DEFAULT_FEATURE_SETTINGS = Object.freeze({
   items: Object.freeze({
     cardLayoutFullArt: Object.freeze({ priceSparks: 1000 }),
+    profileIconTiny: Object.freeze({ priceSparks: 75 }),
+    profileIconVerySmall: Object.freeze({ priceSparks: 75 }),
+    profileIconSmall: Object.freeze({ priceSparks: 75 }),
+    profileIconLarge: Object.freeze({ priceSparks: 75 }),
+    profileIconVeryLarge: Object.freeze({ priceSparks: 75 }),
+    profileIconHuge: Object.freeze({ priceSparks: 75 }),
+    profileIconAlignTop: Object.freeze({ priceSparks: 75 }),
+    profileIconAlignLeft: Object.freeze({ priceSparks: 75 }),
+    profileIconAlignRight: Object.freeze({ priceSparks: 75 }),
+    profileIconAlignBottom: Object.freeze({ priceSparks: 75 }),
   }),
 });
 

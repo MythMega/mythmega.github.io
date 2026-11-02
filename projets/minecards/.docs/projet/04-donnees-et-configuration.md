@@ -38,7 +38,7 @@ jeu.
 | `titles` | titres de joueur | `defaultPath: settings/default_titles.json`, `directory: data/titles` |
 | `profileCard` | paliers de rareté, illustration par défaut, chiffres de série | seuils 0/5/15/30/50 ; `defaultArtPath: assets/img/card_back.png` ; `seriesDigits: 4` |
 | `cardDetail` | inclinaison et épaisseur des cartes en détail | `enabled: true`, `maxRotationDeg: 15`, `thicknessPx: 6` |
-| `features` | fonctionnalités achetables | `cardLayoutFullArt.priceSparks: 1000` |
+| `features` | fonctionnalités achetables | `cardLayoutFullArt.priceSparks: 1000`, `profileIcon*` (tailles et alignements de l'icône) `priceSparks: 75` |
 | `shop` | marchand : graine, unicité, échanges, offres, valeurs, achat en Sparks | `seedSalt: "minecards-trader-v1"`, `allItemsUniques: true`, `tradesPerDay: 3`, composition 2/1/1/1, valeurs de rareté 50/100/250/500, valeurs de ressources 1/5/20/50/100, `dailySparkOffer: { maxResourceValue: 100, priceMultiplier: 2 }` |
 
 Deux règles valent pour tout le fichier :
@@ -257,7 +257,9 @@ avertissement, une médaille retombe sur `default.png`, etc.).
 - **Les images sont la seule famille servie depuis un cache en ligne** (*cache-first*). CSS, modules,
   sons et JSON sont *network-first* : le réseau fait foi, le cache ne répond que s'il échoue. C'est
   ce qui empêche une copie périmée de survivre à une mise à jour, même sans `VERSION` bumpée, et ce
-  qui garde les caches petits (seules les illustrations s'y ajoutent).
+  qui garde les caches petits (seules les illustrations s'y ajoutent). Ces requêtes sortent en
+  `cache: 'no-cache'` : le cache HTTP du navigateur revalide auprès du serveur au lieu de resservir
+  un module vieux de dix minutes, ce qui mélangeait deux releases au démarrage.
 - Sont exclus du cache : requêtes `no-store`/`reload`/`no-cache`, requêtes `Range`, cross-origin hors
   CDN (API d'heure, Google Sheet), le worker lui-même et les fichiers privés (`admin/`, `.docs/`).
 - `.well-known/assetlinks.json` est également exclu : c'est le fichier Digital Asset Links de l'app

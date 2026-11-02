@@ -262,8 +262,8 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 - **Dépenses** : achat de cartes (`buyPrice` : 10/25/100/500/2500), booster supplémentaire (1500),
   pioche supplémentaire (1000), layout Full Art (1000), couleurs de titre de carte et de pseudo
   (125 par défaut, 300 pour un dégradé), couleurs de contour de carte (500 pour une couleur unie,
-  800 pour un dégradé), icône de profil plus grande ou plus petite (75) et son alignement à gauche
-  ou à droite (75).
+  800 pour un dégradé), les six tailles d'icône de profil autres que « normale » et les quatre
+  alignements autres que « centrée » (75 Sparks chacun).
 - Toute opération mixte (collection + Sparks) passe par une **transaction unique** : impossible de
   débiter sans donner la carte, ou l'inverse.
 - `SPARKS_UPDATED` met à jour le compteur d'en-tête et les écrans ouverts.
@@ -421,9 +421,14 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
     `borderPrice`) ; une entrée peut être un dégradé (`hex` sous forme de liste + `direction`). Les
     trois se choisissent dans une **popup** qui sépare les couleurs débloquées des couleurs à
     acheter ;
-  - **taille et alignement de l'icône de profil** sur la carte : normale et centrée par défaut, les
-    quatre autres options s'achètent (`features.items.profileIconLarge`, `profileIconSmall`,
-    `profileIconAlignLeft`, `profileIconAlignRight`) et se règlent dans le panneau de la carte ;
+  - **taille et alignement de l'icône de profil** sur la carte : normale et centrée par défaut ;
+    les sept tailles forment une échelle géométrique (minuscule 0.55, très petite 0.70, petite
+    0.85, normale 1, grande 1.15, très grande 1.32, gigantesque 1.52) et les cinq ancres sont
+    en haut, gauche, centre, droite et en bas (`features.items.profileIcon*`, 75 Sparks par
+    option). Une icône trop grande n'est pas plafonnée : elle est rognée par la carte
+    (`overflow: hidden`). La popup d'achat
+    d'une taille ou d'un alignement y montre l'option appliquée sur une carte d'exemple (pseudo et
+    compteurs fictifs), en Normal **et** en Full Art côte à côte, avant de confirmer ;
   - carte agrandie manipulable : maintien à la souris ou au doigt pour l'incliner
     (`cardDetail.maxRotationDeg`) avec une légère épaisseur (`cardDetail.thicknessPx`) ;
   - « Agrandir la carte » et « Télécharger la carte » (PNG 720 × 1000, police et images incorporées

@@ -255,9 +255,12 @@
   inset: 0;
   background-size: contain;
   background-repeat: no-repeat;
-  /* `--card-icon-position-x` is the anchor bought for the avatar (50 % by default); the size of
-     each layout multiplies its own band height by `--card-icon-scale`. */
-  background-position: var(--card-icon-position-x, 50%) center;
+  /* `--card-icon-position-x` / `--card-icon-position-y` are the anchors bought for the avatar
+     (50 % and the layout's own vertical centring by default); the size of each layout multiplies
+     its own band height by `--card-icon-scale`. The layer clips itself, so a gigantic avatar is
+     cropped by the card instead of covering the name band and the description. */
+  background-position: var(--card-icon-position-x, 50%) var(--card-icon-position-y, center);
+  overflow: hidden;
   z-index: 3;
   pointer-events: none;
   /* The avatar illustrations are pixel art: never smooth them. */
@@ -272,8 +275,10 @@
    height of a character, in the middle of the art area. The normal layout needs no override: its
    underlay is already confined to the band between the name and the description. */
 .profile-card-root .card-preview.card-layout-fullart .card-underlay {
+  /* No ceiling: the two biggest sizes must READ as bigger, and the layer clips what goes past it
+     (`overflow: hidden`). 42 % is the eye-level the Full Art card centres on. */
   background-size: auto calc(32% * var(--card-icon-scale, 1));
-  background-position: var(--card-icon-position-x, 50%) 42%;
+  background-position: var(--card-icon-position-x, 50%) var(--card-icon-position-y, 42%);
 }
 
 .profile-card-root .card-foil-underlay {
@@ -534,6 +539,8 @@
 /* The avatar covers 80 % of the height of the band it is confined to: it sits ON the artwork
    instead of hiding it (the card maker would draw a full-band sprite here). */
 .profile-card-root .card-preview.card-layout-classic .card-underlay {
+  /* No ceiling here either: at 1.52x the avatar is wider than the card and is cropped by it,
+     which is what the biggest sizes are for. */
   background-size: auto calc(80% * var(--card-icon-scale, 1));
 }
 

@@ -95,6 +95,14 @@
                 }
             },
             {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Quatre tailles et deux alignements de plus, avec un aperçu avant achat.",
+                    "En": "Four more sizes and two more anchors, with a preview before buying."
+                }
+            },
+            {
                 "Type": "QoL",
                 "IsImportant": true,
                 "Text": {

@@ -289,10 +289,16 @@
     "_comment": "Extra features bought with Sparks (see `js/business/FeatureManager.js`). Each entry of 'items' is one purchasable feature, under the identifier the code knows it by: 'cardLayoutFullArt' locks the Full Art layout of the profile card. 'priceSparks' is what it costs, a whole number of Sparks. An entry the code knows (see `FeatureManager.FEATURES`) falls back to its shipped price when the value here is missing, negative or malformed, so a typo can never give a paid feature away; an entry nobody knows is ignored rather than sold blind. Buying is final: there is no refund, which is why the price is shown before the confirmation.",
     "items": {
       "cardLayoutFullArt": { "priceSparks": 1000 },
+      "profileIconTiny": { "priceSparks": 75 },
+      "profileIconVerySmall": { "priceSparks": 75 },
       "profileIconLarge": { "priceSparks": 75 },
       "profileIconSmall": { "priceSparks": 75 },
+      "profileIconVeryLarge": { "priceSparks": 75 },
+      "profileIconHuge": { "priceSparks": 75 },
+      "profileIconAlignTop": { "priceSparks": 75 },
       "profileIconAlignLeft": { "priceSparks": 75 },
-      "profileIconAlignRight": { "priceSparks": 75 }
+      "profileIconAlignRight": { "priceSparks": 75 },
+      "profileIconAlignBottom": { "priceSparks": 75 }
     }
   },
 

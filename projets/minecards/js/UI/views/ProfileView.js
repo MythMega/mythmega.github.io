@@ -76,10 +76,32 @@ const FEATURE_LABEL_KEYS = Object.freeze({
   [FEATURES.PROFILE_ICON_SMALL]: 'profile.card.feature.profileIconSmall',
   [FEATURES.PROFILE_ICON_ALIGN_LEFT]: 'profile.card.feature.profileIconAlignLeft',
   [FEATURES.PROFILE_ICON_ALIGN_RIGHT]: 'profile.card.feature.profileIconAlignRight',
+  [FEATURES.PROFILE_ICON_TINY]: 'profile.card.feature.profileIconTiny',
+  [FEATURES.PROFILE_ICON_VERY_SMALL]: 'profile.card.feature.profileIconVerySmall',
+  [FEATURES.PROFILE_ICON_VERY_LARGE]: 'profile.card.feature.profileIconVeryLarge',
+  [FEATURES.PROFILE_ICON_HUGE]: 'profile.card.feature.profileIconHuge',
+  [FEATURES.PROFILE_ICON_ALIGN_TOP]: 'profile.card.feature.profileIconAlignTop',
+  [FEATURES.PROFILE_ICON_ALIGN_BOTTOM]: 'profile.card.feature.profileIconAlignBottom',
 });
 
 /** The three colour pickers of the card, and the palette usage each one buys. */
 export const PROFILE_COLOR_KINDS = Object.freeze(['title', 'username', 'border']);
+
+/**
+ * Counters of the icon preview.
+ *
+ * Deliberately fixed: the preview is a sample of a SIZE, not a second copy of the account. Showing
+ * the real Sparks, dates and collection there would turn a try-before-you-buy into a screenshot of
+ * the player's numbers.
+ */
+const ICON_PREVIEW_STATS = Object.freeze({
+  boostersOpened: 12,
+  distinctCards: 34,
+  sparks: 250,
+  blocksMined: 512,
+  picksMade: 26,
+  firstObtainedAt: '2026-01-01T00:00:00.000Z',
+});
 import { STATS_VIEW_NAME } from './StatsView.js';
 import { TITLES_VIEW_NAME } from './TitlesView.js';
 import { TROPHIES_VIEW_NAME } from './TrophiesView.js';
@@ -148,7 +170,6 @@ export class ProfileView {
     this.borderColorButton = this.root.querySelector('[data-profile-border-color-open]');
     this.borderColorSwatch = this.root.querySelector('[data-profile-border-color-swatch]');
     this.borderColorValue = this.root.querySelector('[data-profile-border-color-value]');
-    this.borderColorHelp = this.root.querySelector('[data-profile-border-color-help]');
     // Avatar size and anchor of the card. Both are bought, the middle option of each is free.
     this.iconSizesElement = this.root.querySelector('[data-profile-icon-sizes]');
     this.iconAlignsElement = this.root.querySelector('[data-profile-icon-aligns]');
@@ -165,6 +186,15 @@ export class ProfileView {
     this.cardBuyPriceElement = this.root.querySelector('[data-profile-card-buy-price]');
     this.cardBuyBalanceElement = this.root.querySelector('[data-profile-card-buy-balance]');
     this.cardBuyMessageElement = this.root.querySelector('[data-profile-card-buy-message]');
+    // The two samples of the purchase dialog (Normal and Full Art). They are drawn by
+    // `renderBuyPreviews()` and only exist for a size or an anchor purchase.
+    this.buyPreviewsElement = this.root.querySelector('[data-profile-card-buy-previews]');
+    this.buyPreviewHosts = {
+      classic: this.root.querySelector('[data-profile-card-buy-preview="classic"]'),
+      fullart: this.root.querySelector('[data-profile-card-buy-preview="fullart"]'),
+    };
+    /** @type {Record<string, ProfileCard|null>} Samples of the purchase dialog, by layout. */
+    this.buyPreviewCards = { classic: null, fullart: null };
     this.cardBuyConfirmButton = this.root.querySelector('[data-profile-card-buy-confirm]');
     this.cardBuyCloseButtons = this.root.querySelectorAll('[data-profile-card-buy-close]');
     this.cardDownloadButton = this.root.querySelector('[data-profile-card-download]');
@@ -326,6 +356,9 @@ export class ProfileView {
       ['[data-profile-color-shop]', this.colorModalShop],
       ['[data-profile-card-buy-modal]', this.cardBuyModal],
       ['[data-profile-card-buy-feature]', this.cardBuyFeatureElement],
+      ['[data-profile-card-buy-previews]', this.buyPreviewsElement],
+      ['[data-profile-card-buy-preview="classic"]', this.buyPreviewHosts.classic],
+      ['[data-profile-card-buy-preview="fullart"]', this.buyPreviewHosts.fullart],
       ['[data-profile-card-buy-confirm]', this.cardBuyConfirmButton],
       ['[data-profile-card-download]', this.cardDownloadButton],
       ['[data-profile-card-expand]', this.cardExpandButton],
@@ -535,6 +568,15 @@ export class ProfileView {
     this.cardModalCloseButtons.forEach((button) => this.listen(button, 'click', () => this.closeCardModal()));
     this.listen(this.cardModal, 'click', (event) => {
       if (event?.target === this.cardModal) this.closeCardModal();
+    });
+    // A rotation or a window resize changes the width of the two purchase samples: their stage is
+    // refitted instead of staying at the scale of the width they were first drawn at.
+    this.listen(window, 'resize', () => {
+      // One frame later: the observer would otherwise read the width of the layout that is on its
+      // way out.
+      window.requestAnimationFrame(() => {
+        Object.values(this.buyPreviewCards).forEach((card) => card?.applyStage());
+      });
     });
 
     // The modal is rebuilt on every open, so its action buttons are handled by delegation.
@@ -903,8 +945,6 @@ export class ProfileView {
       borderId,
       {
         autoKey: 'profile.card.borderColor.auto',
-        helpKey: 'profile.card.borderColor.help',
-        helpElement: this.borderColorHelp,
       }
     );
   }
@@ -916,7 +956,7 @@ export class ProfileView {
    * @param {HTMLElement|null} swatch - Element showing the colour.
    * @param {HTMLElement|null} label - Element receiving the name.
    * @param {string} id - Colour id worn (`auto` for the default).
-   * @param {{autoKey: string, helpKey: string, helpElement: HTMLElement|null}} options - Labels.
+   * @param {{autoKey: string, helpKey?: string, helpElement?: HTMLElement|null}} options - Labels.
    * @returns {void}
    */
   renderChooser(button, swatch, label, id, { autoKey, helpKey, helpElement }) {
@@ -926,7 +966,9 @@ export class ProfileView {
     swatch.style.setProperty('--swatch-color', auto ? 'var(--color-title)' : colorCss(entry));
     label.textContent = auto ? i18n.t(autoKey) : colorName(entry, i18n.getLang());
     button.setAttribute('aria-label', i18n.t('profile.color.open', { color: label.textContent }));
-    if (helpElement) helpElement.textContent = i18n.t(helpKey);
+    // The frame chooser carries no help line any more: its button already says which colour is
+    // worn, and the picker explains the rest.
+    if (helpElement && helpKey) helpElement.textContent = i18n.t(helpKey);
   }
 
   /**
@@ -2186,9 +2228,13 @@ export class ProfileView {
     this.renderIconRow(
       this.iconSizesElement,
       [
+        { id: 'tiny', labelKey: 'profile.card.icon.size.tiny', featureId: FEATURES.PROFILE_ICON_TINY },
+        { id: 'verySmall', labelKey: 'profile.card.icon.size.verySmall', featureId: FEATURES.PROFILE_ICON_VERY_SMALL },
         { id: 'small', labelKey: 'profile.card.icon.size.small', featureId: FEATURES.PROFILE_ICON_SMALL },
         { id: 'normal', labelKey: 'profile.card.icon.size.normal', featureId: null },
         { id: 'large', labelKey: 'profile.card.icon.size.large', featureId: FEATURES.PROFILE_ICON_LARGE },
+        { id: 'veryLarge', labelKey: 'profile.card.icon.size.veryLarge', featureId: FEATURES.PROFILE_ICON_VERY_LARGE },
+        { id: 'huge', labelKey: 'profile.card.icon.size.huge', featureId: FEATURES.PROFILE_ICON_HUGE },
       ],
       size,
       'profileCardIconSize'
@@ -2197,9 +2243,11 @@ export class ProfileView {
     this.renderIconRow(
       this.iconAlignsElement,
       [
+        { id: 'top', labelKey: 'profile.card.icon.align.top', featureId: FEATURES.PROFILE_ICON_ALIGN_TOP },
         { id: 'left', labelKey: 'profile.card.icon.align.left', featureId: FEATURES.PROFILE_ICON_ALIGN_LEFT },
         { id: 'center', labelKey: 'profile.card.icon.align.center', featureId: null },
         { id: 'right', labelKey: 'profile.card.icon.align.right', featureId: FEATURES.PROFILE_ICON_ALIGN_RIGHT },
+        { id: 'bottom', labelKey: 'profile.card.icon.align.bottom', featureId: FEATURES.PROFILE_ICON_ALIGN_BOTTOM },
       ],
       align,
       'profileCardIconAlign'
@@ -2522,6 +2570,8 @@ export class ProfileView {
     this.cardBuyModal.classList.remove('is-opening');
     void this.cardBuyModal.offsetWidth;
     this.cardBuyModal.classList.add('is-opening');
+    // Drawn once the dialog is visible: a card fitted to a hidden host has no width to fit.
+    void this.renderBuyPreviews(id, this.pendingPurchaseType);
     this.log(`Purchase of "${id}" offered (${priceValue} Sparks, balance ${balance}).`);
   }
 
@@ -2534,8 +2584,82 @@ export class ProfileView {
     if (!this.cardBuyModal || this.cardBuyModal.hidden) return;
     this.cardBuyModal.hidden = true;
     this.cardBuyModal.classList.remove('is-opening');
+    if (this.buyPreviewsElement) this.buyPreviewsElement.hidden = true;
     this.pendingFeatureId = null;
     this.pendingPurchaseType = 'feature';
+  }
+
+  /**
+   * Shows, in the purchase dialog, what the option would look like in both layouts.
+   *
+   * Only a size or an anchor gets this: those two options are judged on the card itself, and a
+   * price alone says nothing about a 1.52x avatar pushed to the bottom of its band. The two
+   * samples are SEPARATE `ProfileCard`s (the player's card is never rebuilt or moved), wear the
+   * pending value even though it is not owned yet, and show a placeholder pseudo with fixed
+   * counters: it is a demonstration, not the account.
+   *
+   * The samples are drawn for BOTH layouts on purpose, including Full Art when the player does
+   * not own it: the question answered here is "what does this option do", and the answer differs
+   * between the two cards.
+   *
+   * @param {string} id - Feature being bought.
+   * @param {string} type - Kind of purchase (`feature`, `titleColor`, ...).
+   * @returns {Promise<void>} Resolves once both samples are drawn.
+   */
+  async renderBuyPreviews(id, type) {
+    const element = this.buyPreviewsElement;
+    if (!element) return;
+    // The id here is a FEATURE id (`profileIconTiny`), not an option id (`tiny`): the tables are
+    // keyed by option, so the entry carrying that feature is what tells the two apart.
+    const sizeEntry = type === 'feature'
+      ? Object.entries(PROFILE_CARD_ICON_SIZES).find(([, option]) => option.featureId === id)
+      : undefined;
+    const alignEntry = type === 'feature'
+      ? Object.entries(PROFILE_CARD_ICON_ALIGNS).find(([, option]) => option.featureId === id)
+      : undefined;
+    if (!sizeEntry && !alignEntry) {
+      element.hidden = true;
+      return;
+    }
+    element.hidden = false;
+    const base = this.lastCardModel;
+    if (!base) return;
+
+    const iconSize = sizeEntry ? sizeEntry[0] : base.iconSize;
+    const iconAlign = alignEntry ? alignEntry[0] : base.iconAlign;
+    const sizeOption = PROFILE_CARD_ICON_SIZES[iconSize] ?? PROFILE_CARD_ICON_SIZES.normal;
+    const alignOption = PROFILE_CARD_ICON_ALIGNS[iconAlign] ?? PROFILE_CARD_ICON_ALIGNS.center;
+
+    for (const [layout, host] of Object.entries(this.buyPreviewHosts)) {
+      if (!host) continue;
+      let card = this.buyPreviewCards[layout];
+      if (!card) {
+        card = new ProfileCard(host);
+        this.buyPreviewCards[layout] = card;
+      }
+      const model = {
+        ...base,
+        name: i18n.t('profile.card.buy.preview.name'),
+        layout,
+        iconSize,
+        iconScale: sizeOption.scale,
+        iconAlign,
+        iconPositionX: alignOption.positionX,
+        iconPositionY: alignOption.positionY ?? null,
+        boostersOpened: ICON_PREVIEW_STATS.boostersOpened,
+        distinctCards: ICON_PREVIEW_STATS.distinctCards,
+        sparks: ICON_PREVIEW_STATS.sparks,
+        blocksMined: ICON_PREVIEW_STATS.blocksMined,
+        picksMade: ICON_PREVIEW_STATS.picksMade,
+        firstObtainedAt: ICON_PREVIEW_STATS.firstObtainedAt,
+      };
+      card.setLayout(layout);
+      await card.render(model);
+      // The samples are created once and reused, so their stage would keep the scale of the width
+      // they had the first time (a phone, then a desktop): the fit is recomputed here, now that the
+      // dialog has its final width, and again on every window resize (`bindEvents`).
+      card.applyStage();
+    }
   }
 
   /**
@@ -3017,6 +3141,8 @@ export class ProfileView {
     this.unsubscribers = [];
     this.profileCard?.destroy();
     this.profileCard = null;
+    Object.values(this.buyPreviewCards).forEach((card) => card?.destroy());
+    this.buyPreviewCards = { classic: null, fullart: null };
     this.profile = null;
     this.trophyState = null;
     this.collection = null;

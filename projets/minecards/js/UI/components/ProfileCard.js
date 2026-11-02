@@ -481,6 +481,13 @@ export class ProfileCard {
       ? model.iconPositionX
       : '50%';
     this.cardElement.style.setProperty('--card-icon-position-x', positionX);
+    // The vertical anchor is OPTIONAL: the two vertical options name it, the three horizontal ones
+    // leave the property absent so each layout centres the avatar its own way.
+    if (typeof model.iconPositionY === 'string' && model.iconPositionY !== '') {
+      this.cardElement.style.setProperty('--card-icon-position-y', model.iconPositionY);
+    } else {
+      this.cardElement.style.removeProperty('--card-icon-position-y');
+    }
   }
 
   /**

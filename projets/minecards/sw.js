@@ -49,7 +49,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v69';
+const VERSION = 'v70';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -492,7 +492,13 @@ function isImage(request, url) {
  */
 async function networkFirst(request) {
   try {
-    const response = await fetch(request);
+    /* `no-cache` means "ask the server whether your copy is still good", NOT "skip the network".
+       The browser's own HTTP cache is what serves a MODULE from ten minutes ago while the page
+       itself is fresh (GitHub Pages sends `max-age=600`), which is how a release ends up mixing two
+       versions and how `ProfileView` came to demand markup that no longer existed. Revalidating
+       costs one conditional request: the server answers 304 and the module arrives untouched when
+       nothing changed, and the new bytes when something did. */
+    const response = await fetch(request, { cache: 'no-cache' });
     if (response.ok && response.type === 'basic') {
       await remember(request, response.clone());
     }

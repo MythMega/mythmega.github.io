@@ -70,9 +70,17 @@ export const PROFILE_CARD_DEFAULT_ICON_ALIGN = 'center';
  * free size is the middle one: a player who bought nothing gets exactly the card that shipped.
  */
 export const PROFILE_CARD_ICON_SIZES = Object.freeze({
+  // The ladder is geometric: `small` (0.85) applied twice is `verySmall` (0.70), three times is
+  // `tiny` (0.55); `large` (1.15) applied twice is `veryLarge` (1.32), three times is `huge`
+  // (1.52). Each step keeps the same visual rhythm, so no size looks like a mistake next to its
+  // neighbour.
+  tiny: Object.freeze({ scale: 0.55, featureId: FEATURES.PROFILE_ICON_TINY }),
+  verySmall: Object.freeze({ scale: 0.7, featureId: FEATURES.PROFILE_ICON_VERY_SMALL }),
   small: Object.freeze({ scale: 0.85, featureId: FEATURES.PROFILE_ICON_SMALL }),
   normal: Object.freeze({ scale: 1, featureId: null }),
   large: Object.freeze({ scale: 1.15, featureId: FEATURES.PROFILE_ICON_LARGE }),
+  veryLarge: Object.freeze({ scale: 1.32, featureId: FEATURES.PROFILE_ICON_VERY_LARGE }),
+  huge: Object.freeze({ scale: 1.52, featureId: FEATURES.PROFILE_ICON_HUGE }),
 });
 
 /**
@@ -83,9 +91,22 @@ export const PROFILE_CARD_ICON_SIZES = Object.freeze({
  * the frame.
  */
 export const PROFILE_CARD_ICON_ALIGNS = Object.freeze({
+  // `positionY` is absent from the three horizontal anchors: the stylesheet owns the vertical
+  // centring of each layout (the Full Art card anchors a little higher). Only the two vertical
+  // anchors name it, and they leave the avatar centred horizontally.
+  top: Object.freeze({
+    featureId: FEATURES.PROFILE_ICON_ALIGN_TOP,
+    positionX: '50%',
+    positionY: '15%',
+  }),
   left: Object.freeze({ featureId: FEATURES.PROFILE_ICON_ALIGN_LEFT, positionX: '12%' }),
   center: Object.freeze({ featureId: null, positionX: '50%' }),
   right: Object.freeze({ featureId: FEATURES.PROFILE_ICON_ALIGN_RIGHT, positionX: '88%' }),
+  bottom: Object.freeze({
+    featureId: FEATURES.PROFILE_ICON_ALIGN_BOTTOM,
+    positionX: '50%',
+    positionY: '85%',
+  }),
 });
 
 export class ProfileCardManager {
@@ -697,6 +718,8 @@ export class ProfileCardManager {
       iconScale: PROFILE_CARD_ICON_SIZES[iconSize].scale,
       iconAlign,
       iconPositionX: PROFILE_CARD_ICON_ALIGNS[iconAlign].positionX,
+      // `null` lets the stylesheet centre the avatar itself (each layout does it its own way).
+      iconPositionY: PROFILE_CARD_ICON_ALIGNS[iconAlign].positionY ?? null,
       trophyCount,
       thresholds: settings.rarityThresholds,
       rarities: ProfileCardManager.listRarities(settings.rarityThresholds, trophyCount, chosenRarity),

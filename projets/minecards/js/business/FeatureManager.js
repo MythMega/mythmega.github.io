@@ -44,6 +44,18 @@ export const FEATURES = Object.freeze({
   PROFILE_ICON_ALIGN_LEFT: 'profileIconAlignLeft',
   /** The avatar anchored to the right of its band, with a small margin. */
   PROFILE_ICON_ALIGN_RIGHT: 'profileIconAlignRight',
+  /** The largest avatar of the ladder (1.52x, the `large` step applied three times). */
+  PROFILE_ICON_HUGE: 'profileIconHuge',
+  /** A larger avatar than `large` (1.32x, the `large` step applied twice). */
+  PROFILE_ICON_VERY_LARGE: 'profileIconVeryLarge',
+  /** A smaller avatar than `small` (0.70x, the `small` step applied twice). */
+  PROFILE_ICON_VERY_SMALL: 'profileIconVerySmall',
+  /** The smallest avatar of the ladder (0.55x, the `small` step applied three times). */
+  PROFILE_ICON_TINY: 'profileIconTiny',
+  /** The avatar centred horizontally but pushed towards the top of its band. */
+  PROFILE_ICON_ALIGN_TOP: 'profileIconAlignTop',
+  /** The avatar centred horizontally but pushed towards the bottom of its band. */
+  PROFILE_ICON_ALIGN_BOTTOM: 'profileIconAlignBottom',
 });
 
 /**

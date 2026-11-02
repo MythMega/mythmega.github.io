@@ -411,10 +411,12 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
   couleur non possédée retombe sur `auto`, même dans une sauvegarde retouchée.
 - `borderColor` : même règle pour le **contour** de la carte (`auto` = celui de la rareté), acheté
   sous `cardBorderColor.<id>`.
-- `iconSize` : `small` (0.85), `normal` (1) ou `large` (1.15) ; `iconAlign` : `left`, `center` ou
-  `right`. Les deux valeurs gratuites (`normal`, `center`) sont les défauts, les autres exigent leur
-  fonctionnalité (`profileIconSmall`, `profileIconLarge`, `profileIconAlignLeft`,
-  `profileIconAlignRight`) : une option non possédée retombe sur le défaut.
+- `iconSize` : `tiny` (0.55), `verySmall` (0.70), `small` (0.85), `normal` (1), `large` (1.15),
+  `veryLarge` (1.32) ou `huge` (1.52) ; `iconAlign` : `top`, `left`, `center`, `right` ou `bottom`.
+  `normal` et `center` sont gratuits et servent de défauts ; les dix autres valeurs exigent leur
+  fonctionnalité (`profileIconTiny`, `profileIconVerySmall`, `profileIconSmall`, `profileIconLarge`,
+  `profileIconVeryLarge`, `profileIconHuge`, `profileIconAlignTop`, `profileIconAlignLeft`,
+  `profileIconAlignRight`, `profileIconAlignBottom`) : une option non possédée retombe sur le défaut.
 - `background` : clé de collection d'une **carte favorite** dont le `Background` sert d'illustration
   (`null` ou absent = la première favorite). Une clé qui n'est plus favorite retombe sur la première.
 - Aucun rendu n'est stocké : la carte est une projection recalculée.

@@ -46,6 +46,12 @@
   width: min(100%, 40rem);
 }
 
+/* The purchase dialog of a card option: a little wider than the default, because it hosts two
+   sample cards side by side. Not as wide as `--wide`: it is a question, not a gallery. */
+.modal__dialog--buy {
+  width: min(100%, 36rem);
+}
+
 .modal__close {
   position: absolute;
   top: var(--space-2);

@@ -1,0 +1,131 @@
+{
+  "bossName": "Muplodocus Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/goodra_normal.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/goodra_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": false,
+  "pvMax": 100000,
+  "date": "2026-11-02 21:19:38",
+  "durationSec": 2994,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 75000,
+      "countAtk": 3,
+      "baseDmg": 44550,
+      "level": 20,
+      "raidCount": 1164,
+      "luck": 0.56116724
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 40929,
+      "countAtk": 2,
+      "baseDmg": 15929,
+      "level": 18,
+      "raidCount": 541,
+      "luck": 1.2847322
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 115929
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-02 21:24:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 75000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 21:35:05",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15929,
+      "pvAfter": 59071,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 21:46:30",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 34071,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 21:52:59",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 9071,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:09:32",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 25000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

@@ -321,6 +321,12 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 - **Codes personnels `useritem`** : générés hors ligne par le gamemaster, signés avec la clé de
   `useritemCode` ; `js/business/UserItemCode.js` les vérifie et les décode. Un code peut accorder
   des cartes (y compris promo), des Sparks, des boosters bonus, etc.
+- **Carte au hasard** : une récompense peut être `RandomCard-List` (clés de collection) ou
+  `RandomCard-Filter` (`Rarities`, `layouts`, `Sets`, `BePromo`), écrite avec les clés `Type` /
+  `Qte` / `Data` comme une récompense de connexion. `RandomCardReward` prend jusqu'à 10 cartes
+  distinctes des impressions sorties, en tire une uniformément et construit la bande ; la carte
+  est créditée dans la transaction du claim, puis `CardRoulettePopup` la révèle (roulette de cinq
+  secondes, mode focus, mention « nouvelle » ou « doublon »).
 - Chaque rédemption écrit ses récompenses et l'entrée `redeemed_codes` dans une transaction, puis
   annonce `CARDS_OBTAINED` / `SPARKS_UPDATED`.
 - Lien profond `index.html?Redeem=<code>` : si la page s'ouvre sans compte, le code est mémorisé et
@@ -397,6 +403,9 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
 - **Identité en lecture seule** : pseudo, avatar, titre ; un bouton crayon révèle le formulaire, et
   un bouton « Mon code » copie l'UUID du compte (la même valeur que la page Paramètres) dans le
   presse-papiers, avec un toast de confirmation.
+  Le sélecteur d'avatars n'offre que les icônes **débloquées** ou **achetables** : une icône gagnée
+  par un trophée mais encore verrouillée n'apparaît que si `settings.devMode` est activé, où elle
+  sert de liste de ce qu'il reste à obtenir.
 - **Niveau et barre d'XP** sous l'identité.
 - **Trophées mis en avant** (1 au départ, 5 max) et **cartes favorites** (3 au départ, 5 max) sur
   une ligne défilante, chaque vignette ouvrant une modale de détail. La tuile « + » de chaque liste

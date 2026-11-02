@@ -13,7 +13,7 @@
         "Repeatable": false
     },
     {
-        "_comment": "Code à usage infini, permet d'obtenir 3 boosters A1, et la carte d'index SERIE-A1 / Z001. Prendre la premiere avec cet index. Disponibilité : avant le 15 octobre 2026, mais code répétable a l'infini",
+        "_comment": "Code à usage infini, permet d'obtenir 30 boosters A1, 30 booster A2, et la carte d'index SERIE-A1 / Z001 + 1M sparks. Prendre la premiere avec cet index. Disponibilité : avant le 15 octobre 2026, mais code répétable a l'infini",
         "Code": "IM.A.CHEAT3R.",
         "Rewards": [
             {
@@ -42,6 +42,36 @@
             "EndDate": "2026-10-25"
         },
         "Repeatable": true
+    },
+    {
+        "Code": "WoollyD4nce",
+        "Rewards": [
+            {
+                    "Type": "RandomCard-List",
+                    "Qte": 1,
+                    "Data": {
+                        "ListCard": [
+                            "SERIE-A1 _ W001_classic",
+                            "SERIE-A1 _ W002_classic",
+                            "SERIE-A1 _ W003_classic",
+                            "SERIE-A1 _ W004_classic",
+                            "SERIE-A1 _ W005_classic",
+                            "SERIE-A1 _ W006_classic",
+                            "SERIE-A1 _ W007_classic",
+                            "SERIE-A1 _ W008_classic",
+                            "SERIE-A1 _ W009_classic",
+                            "SERIE-A1 _ W010_classic",
+                            "SERIE-A1 _ W011_classic",
+                            "SERIE-A1 _ W012_classic",
+                            "SERIE-A1 _ W013_classic",
+                            "SERIE-A1 _ W014_classic",
+                            "SERIE-A1 _ W015_classic",
+                            "SERIE-A1 _ W016_classic"
+                        ]
+                    }
+            }
+        ],
+        "Repeatable": false
     },
     {
         "Code": "SPIDERD4NCE",

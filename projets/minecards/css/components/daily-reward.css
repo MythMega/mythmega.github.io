@@ -116,6 +116,29 @@
 /* A card reward is a PRINTING, not a pictogram: the illustration keeps the portrait of the card and
    grows until the tile is full, so the day reads as "a card" before anything else. The hairline and
    the shadow are what separate a light illustration from the surface of the tile. */
+.daily-reward__day-icon--random {
+  width: auto;
+  height: 2.3rem;
+  max-height: none;
+  color: var(--color-text);
+  image-rendering: auto;
+}
+
+/* The tint of a random card tile: the reward wears the colour of the best rarity it can draw from
+   the super rare up (`RandomCardReward.randomCardTint`). Below that, and for a list reward, the ink
+   of the theme is enough: the day does not promise anything better than a regular card. */
+.daily-reward__day-icon--random[data-tint="super"] {
+  color: var(--color-rarity-super);
+}
+
+.daily-reward__day-icon--random[data-tint="legendary"] {
+  color: var(--color-rarity-legendary);
+}
+
+.daily-reward__day-icon--random[data-tint="mythic"] {
+  color: var(--color-rarity-mythic);
+}
+
 .daily-reward__day-icon--card {
   width: auto;
   height: 2.3rem;

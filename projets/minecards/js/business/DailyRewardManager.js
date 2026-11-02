@@ -16,6 +16,10 @@
  * It is not a giveaway of a free booster per day: the quota of `DateSyncManager` stays the only
  * source of daily boosters, and a chapter only adds what its JSON declares.
  *
+ * A "RANDOM CARD" REWARD (`RandomCard-List`, `RandomCard-Filter`) is drawn at claim time by
+ * `js/business/RandomCardReward.js`, inside the same transaction, and the claim result carries the
+ * strip the roulette spins. Nothing about it is written before the claim.
+ *
  * STATE (`user_state["dailyRewards"]`)
  *   `{ chapterId, progress, lastClaimDay, claimedUniques, seenDay }`
  *   - `chapterId`    : the chapter the run belongs to. A different chapter resets the run, which is
@@ -40,6 +44,13 @@ import boosterManager from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import miningManager, { RESOURCE_TEXTURE_DIRECTORY, SPARKS_TEXTURE } from './MiningManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
+import {
+  isRandomCardRewardType,
+  parseRandomCardSpec,
+  randomCardTint,
+  resolveRandomCardReward,
+  resetRandomCardCatalog,
+} from './RandomCardReward.js';
 
 /** Path of the chapter file, relative to the application root. */
 export const DAILY_REWARDS_PATH = 'settings/daily_connect_rewards.json';
@@ -70,6 +81,8 @@ export const DAILY_REWARD_KINDS = Object.freeze({
   RESOURCE: 'resource',
   BOOSTER: 'booster',
   CARD: 'card',
+  // A card drawn at claim time and revealed by the roulette (`RandomCard-List`, `RandomCard-Filter`).
+  RANDOM_CARD: 'randomcard',
 });
 
 /**
@@ -357,6 +370,11 @@ export class DailyRewardManager {
       if (cardId === '') return null;
       return { kind: DAILY_REWARD_KINDS.CARD, type, quantity, slug: null, cardId };
     }
+    if (isRandomCardRewardType(type)) {
+      const spec = parseRandomCardSpec(raw);
+      if (!spec) return null;
+      return { kind: DAILY_REWARD_KINDS.RANDOM_CARD, type, quantity, slug: null, cardId: null, spec };
+    }
     // Anything else must be a resource of the mine ("Stone Dust", "Void Dust", "Ultima"…): the slug
     // is the one the save stores and the one the texture is named after.
     const slug = String(type)
@@ -570,11 +588,18 @@ export class DailyRewardManager {
     }
 
     const card = reward.kind === DAILY_REWARD_KINDS.CARD ? await this.resolveCard(reward.cardId) : null;
+    // A random card is drawn at claim time only: describing the day never reads the catalogue, so
+    // the board stays cheap and an empty pool fails at the claim, where the player can be told.
+    const randomCard = reward.kind === DAILY_REWARD_KINDS.RANDOM_CARD;
     return {
       entry,
       reward,
       card,
       icon: DailyRewardManager.iconOf(reward, card),
+      // The tile of a random card is drawn by the popup (a rounded card with a question mark),
+      // tinted with the best rarity the reward can give.
+      svg: randomCard ? 'random-card' : '',
+      tint: randomCard ? randomCardTint(reward.spec) : null,
       aura: DailyRewardManager.auraOf(reward),
       quantity: reward.quantity,
       unavailable: reward.kind === DAILY_REWARD_KINDS.CARD && !card,
@@ -616,6 +641,7 @@ export class DailyRewardManager {
     if (!reward) return null;
     if (reward.kind === DAILY_REWARD_KINDS.BOOSTER) return DAILY_REWARD_AURAS.GOLD;
     if (reward.kind === DAILY_REWARD_KINDS.CARD) return DAILY_REWARD_AURAS.PINK;
+    if (reward.kind === DAILY_REWARD_KINDS.RANDOM_CARD) return DAILY_REWARD_AURAS.PINK;
     if (reward.kind === DAILY_REWARD_KINDS.RESOURCE) {
       if (GOLD_RESOURCES.has(reward.slug)) return DAILY_REWARD_AURAS.GOLD;
       if (PINK_RESOURCES.has(reward.slug)) return DAILY_REWARD_AURAS.PINK;
@@ -806,7 +832,7 @@ export class DailyRewardManager {
           await miningManager.grantResources({ [plan.reward.slug]: plan.quantity }, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
           await dateSyncManager.addBonusBoosters(plan.setId, plan.quantity, context);
-        } else if (plan.kind === DAILY_REWARD_KINDS.CARD) {
+        } else if (plan.kind === DAILY_REWARD_KINDS.CARD || plan.kind === DAILY_REWARD_KINDS.RANDOM_CARD) {
           const existing = await context.get(STORES.COLLECTION, plan.card.uniqueKey);
           const quantity = (existing?.quantity ?? 0) + plan.quantity;
           if (!existing) grantedNewKeys.push(plan.card.uniqueKey);
@@ -862,7 +888,7 @@ export class DailyRewardManager {
     } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
       await dateSyncManager.getRemainingBoosters(plan.setId);
       dateSyncManager.emitQuotaUpdated(plan.setId);
-    } else if (plan.kind === DAILY_REWARD_KINDS.CARD) {
+    } else if (plan.kind === DAILY_REWARD_KINDS.CARD || plan.kind === DAILY_REWARD_KINDS.RANDOM_CARD) {
       eventBus.emit(EVENTS.CARDS_OBTAINED, {
         cards: [plan.card],
         newKeys: grantedNewKeys,
@@ -879,6 +905,10 @@ export class DailyRewardManager {
       reward: plan.reward,
       quantity: plan.quantity,
       card: plan.card ?? null,
+      // The roulette of the popup: the strip and the winning position, empty for every other kind.
+      reel: plan.reel ?? null,
+      // "New card" is decided by the transaction itself (the key it had to create).
+      isNew: plan.card ? grantedNewKeys.includes(plan.card.uniqueKey) : false,
       setId: plan.setId ?? null,
       snapshot,
     };
@@ -895,6 +925,26 @@ export class DailyRewardManager {
    *   the player to choose its extension.
    */
   async buildPlan(reward, setId) {
+    // The roulette reward: the pool is read, one card is drawn uniformly among the DISTINCT
+    // printings, and the strip the wheel spins is built here, once - it is the same list the
+    // transaction grants, so the card the player sees under the marker is the card they receive.
+    if (reward.kind === DAILY_REWARD_KINDS.RANDOM_CARD) {
+      const draw = await resolveRandomCardReward(reward.spec);
+      if (!draw) {
+        throw new DailyRewardError(
+          DAILY_REWARD_ERRORS.CONTENT_NOT_RELEASED,
+          'No released card matches the random card reward.'
+        );
+      }
+      return {
+        kind: reward.kind,
+        reward,
+        quantity: reward.quantity,
+        card: draw.winner,
+        reel: { cards: draw.cards, winnerIndex: draw.winnerIndex },
+      };
+    }
+
     if (reward.kind === DAILY_REWARD_KINDS.CARD) {
       const card = await this.resolveCard(reward.cardId);
       if (!card) {
@@ -1004,6 +1054,7 @@ export class DailyRewardManager {
     this.loadPromise = null;
     this.cardIndexPromise = null;
     this.boosterChoicePromise = null;
+    resetRandomCardCatalog();
   }
 }
 

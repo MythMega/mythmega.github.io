@@ -122,7 +122,12 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
 3 bis. **Mine** (`data-view="mineblock"`) : le **quota de blocs du jour** (`mining.blocksPerDay`, 50), minés **un par un**, avec les ressources récoltées — voir section 3.G sexies. Elle occupe l'emplacement que les **Trophées** tenaient dans la barre du bas : le catalogue des trophées s'ouvre désormais depuis le **Profil**, par un second bouton à côté de « Statistiques », et porte pour cela son propre **bouton retour** (comme la page Statistiques, elle aussi ouverte depuis le Profil). Quatre fonctions ont donc leur page **hors** de la barre — Statistiques, Trophées, Titres — ou **dedans** — la Mine — et les trois premières savent revenir au profil.
 4. **Paramètres** : langue, thème, **animations** (sélecteur + aperçu animé joué à l'ouverture de la page, le mode explosif marqué de sa seule pastille « BLAGUE »), **foil** (deux curseurs : intensité des motifs, **brillance** de la ligne qui balaie la carte — l'aperçu du panneau est un mythique, donc l'effet suit le doigt), **heure UTC de référence**, compte (UUID), sauvegarde (export / import / reset), **bouton "Vérifier les distributions"**, lien vers l'historique des cadeaux.
 5. **Cadeaux** : historique des distributions reçues.
-6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité, répétable ou non — voir Étape 9).
+6. **Redeem** : codes spéciaux de `settings/codes.json` (plusieurs récompenses, fenêtre de disponibilité,
+   répétable ou non — voir Étape 9). Une récompense peut être une **carte au hasard**
+   (`RandomCard-List` / `RandomCard-Filter`, mêmes clés `Type` / `Qte` / `Data` que les
+   récompenses de connexion) : `js/business/RandomCardReward.js` construit la réserve et tire la
+   carte, `js/UI/components/CardRoulettePopup.js` la révèle avec une roulette de cinq secondes en
+   mode focus. La carte est écrite **avant** l'animation.
 
 L'heure UTC affichée dans les Paramètres est celle de `DateSyncManager` (jamais `Date.now()`), publiée par `CLOCK_TICK` : elle est donc toujours d'accord avec le quota quotidien et les fenêtres de disponibilité des codes.
 

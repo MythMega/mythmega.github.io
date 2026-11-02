@@ -141,6 +141,36 @@
                     "Fr": "Les visuels de booster ne s'affichent plus à l'envers, sauf le booster 3D.",
                     "En": "Booster artwork is no longer shown upside down, except the 3D booster."
                 }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Récompenses « carte au hasard » : une roulette de cartes révèle la carte obtenue, dans les récompenses de connexion comme dans les codes.",
+                    "En": "“Random card” rewards: a card roulette reveals the card earned, in the daily rewards as well as in the codes."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Les icônes de profil ni disponibles ni achetables sont masquées du sélecteur hors du mode développeur.",
+                    "En": "Profile icons that are neither available nor for sale are hidden from the picker outside the developer mode."
+                }
+            }
+        ]
+    },
+    {
+        "Id": 4,
+        "Version": "1.0.3",
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Roue des cartes, pour obtenir une carte aléatoire, en code ou via récompense quotidienne.",
+                    "En": "Card wheel, to get card, by codes or daily reward."
+                }
             }
         ]
     }

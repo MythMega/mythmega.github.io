@@ -6,6 +6,9 @@
   "scripts": {
     "lint": "node scripts/lint.mjs",
     "test": "node scripts/test-save-load.mjs",
+    "test:data": "node scripts/test-data-integrity.mjs",
+    "test:json": "node scripts/test-json-schemas.mjs",
+    "test:all": "npm run lint && npm run test:data && npm run test:json && npm test",
     "serve": "python scripts/serve.py 5981"
   }
 }

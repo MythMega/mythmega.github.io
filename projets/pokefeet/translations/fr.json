@@ -1,4 +1,9 @@
 {
+  "whatsNew": {
+    "intro": "Voici ce qui change dans cette version.",
+    "close": "C'est parti",
+    "link": "Tout le changelog"
+  },
   "common": {
     "backHome": "Retour à l'accueil",
     "hints": "Indices",
@@ -223,6 +228,10 @@
     "fastMode": "Mode rapide (Marathon)",
     "fastModeDesc": "En mode Marathon, passer directement au Pokémon suivant sans écran de résultat intermédiaire.",
     "customize": "Personnalisations",
+    "equipTitle": "Utiliser {name} maintenant ?",
+    "equipText": "Le cosmétique est à vous. Vous pouvez l'équiper tout de suite, ou continuer à regarder la boutique.",
+    "equipNow": "Utiliser maintenant",
+    "equipLater": "Plus tard",
     "exportImport": "Export / Import",
     "saveRestore": "Sauvegarder ou restaurer vos données",
     "exportDesc": "Exportez vos données (historique daily + meilleur score) dans un fichier texte. Vous pouvez ensuite réimporter ce fichier sur un autre navigateur ou après réinstallation.",
@@ -486,7 +495,11 @@
     "yourBalance": "Votre solde",
     "unavailable": "Boutique indisponible",
     "openShop": "Ouvrir la Poké-Boutique",
-    "customize": "Personnalisations"
+    "customize": "Personnalisations",
+    "equipTitle": "Utiliser {name} maintenant ?",
+    "equipText": "Le cosmétique est à vous. Vous pouvez l'équiper tout de suite, ou continuer à regarder la boutique.",
+    "equipNow": "Utiliser maintenant",
+    "equipLater": "Plus tard"
   },
   "data": {
     "writeError": "Impossible d'écrire dans IndexedDB",
@@ -592,5 +605,14 @@
     "found": "Pokémon trouvé : ",
     "tryAgainMsg": "Essaie encore",
     "errorCount": "erreur(s)"
+  },
+  "pwa": {
+    "title": "Installer Pokefeet",
+    "message": "Ajoutez le jeu à votre écran d'accueil : un seul tap pour jouer, même hors ligne.",
+    "action": "Installer",
+    "actionLabel": "Installer Pokefeet sur l'écran d'accueil",
+    "settingsTitle": "Installer l'application",
+    "settingsDesc": "Ajoutez Pokefeet à votre écran d'accueil ou à votre bureau pour le lancer comme une application.",
+    "later": "Plus tard"
   }
 }

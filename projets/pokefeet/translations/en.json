@@ -1,4 +1,9 @@
 {
+  "whatsNew": {
+    "intro": "Here is what changed in this version.",
+    "close": "Got it",
+    "link": "Full changelog"
+  },
   "common": {
     "backHome": "Back Home",
     "hints": "Hints",
@@ -223,6 +228,10 @@
     "fastMode": "Fast mode (Marathon)",
     "fastModeDesc": "In Marathon mode, skip the intermediate result screen and go straight to the next Pokémon.",
     "customize": "Customization",
+    "equipTitle": "Use {name} now?",
+    "equipText": "The cosmetic is yours. Equip it right away, or keep browsing the shop.",
+    "equipNow": "Use it now",
+    "equipLater": "Later",
     "exportImport": "Export / Import",
     "saveRestore": "Save or restore your data",
     "exportDesc": "Export your data (daily history + best score) to a text file. You can then reimport this file to another browser or after reinstalling.",
@@ -486,7 +495,11 @@
     "yourBalance": "Your balance",
     "unavailable": "Shop unavailable",
     "openShop": "Open the Poké-Mart",
-    "customize": "Customization"
+    "customize": "Customization",
+    "equipTitle": "Use {name} now?",
+    "equipText": "The cosmetic is yours. Equip it right away, or keep browsing the shop.",
+    "equipNow": "Use it now",
+    "equipLater": "Later"
   },
   "data": {
     "writeError": "Cannot write to IndexedDB",
@@ -592,5 +605,14 @@
     "found": "Pokémon found: ",
     "tryAgainMsg": "Try again",
     "errorCount": "error(s)"
+  },
+  "pwa": {
+    "title": "Install Pokefeet",
+    "message": "Add the game to your home screen: one tap to play, even offline.",
+    "action": "Install",
+    "actionLabel": "Install Pokefeet on the home screen",
+    "settingsTitle": "Install the app",
+    "settingsDesc": "Add Pokefeet to your home screen or desktop to launch it like an app.",
+    "later": "Later"
   }
 }

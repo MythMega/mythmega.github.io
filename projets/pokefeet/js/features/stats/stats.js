@@ -730,6 +730,8 @@
     const marathonPanel  = document.getElementById('statsMarathonPanel');
     const trophiesPanel  = document.getElementById('statsTrophiesPanel');
     const rewardsPanel   = document.getElementById('statsRewardsPanel');
+    const tabCustomizeBtn = document.getElementById('statsTabCustomizeBtn');
+    const customizePanel  = document.getElementById('statsCustomizePanel');
     const totalDaysEl    = document.getElementById('totalDays');
 
     let weeklyRendered = false, marathonRendered = false, trophiesRendered = false, rewardsRendered = false;
@@ -774,8 +776,8 @@
     }
 
     function onTabClick(activeBtn, panel, renderFn) {
-      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn, tabRewardsBtn].forEach(b => b?.classList.remove('active'));
-      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel, rewardsPanel].forEach(p => { if (p) p.style.display = 'none'; });
+      [tabDailyBtn, tabWeeklyBtn, tabMarathonBtn, tabTrophiesBtn, tabRewardsBtn, tabCustomizeBtn].forEach(b => b?.classList.remove('active'));
+      [dailyPanel, weeklyPanel, marathonPanel, trophiesPanel, rewardsPanel, customizePanel].forEach(p => { if (p) p.style.display = 'none'; });
       if (activeBtn) activeBtn.classList.add('active');
       if (panel) panel.style.display = '';
       if (renderFn) renderFn();
@@ -806,6 +808,14 @@
       onTabClick(tabTrophiesBtn, trophiesPanel, () => {
         if (!trophiesRendered) { trophiesRendered = true; renderTrophiesTab(); }
         else { setScoreboard(typeof Translator !== 'undefined' ? Translator.get('stats.trophies', 'Troph\u00e9es') : 'Troph\u00e9es', trophyEarned + ' / ' + trophyTotal); }
+      });
+    });
+
+    if (tabCustomizeBtn) tabCustomizeBtn.addEventListener('click', () => {
+      onTabClick(tabCustomizeBtn, customizePanel, () => {
+        // La grille est construite par l'onglet lui-même ; on la rafraîchit
+        // pour refléter un achat fait pendant la visite.
+        if (typeof window.renderCosmetics === 'function') window.renderCosmetics();
       });
     });
 

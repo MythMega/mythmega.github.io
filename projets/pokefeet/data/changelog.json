@@ -5,7 +5,14 @@
         "Date": "24/10/2026",
         "Changelog": [
             { "Type": "Content", "Severity": 3, "Translation_FR": "72 nouvelles Méga-Évolutions rejoignent le Pokédex", "Translation_EN": "72 new Mega Evolutions join the Pokédex" },
-            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis bonus autour des Méga-Évolutions", "Translation_EN": "New bonus challenges built around Mega Evolutions" }
+            { "Type": "Content", "Severity": 2, "Translation_FR": "Nouveaux défis bonus autour des Méga-Évolutions", "Translation_EN": "New bonus challenges built around Mega Evolutions" },
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "La Poké-Boutique : filtres, aperçu en direct et achat de thèmes avec vos Pokédollars", "Translation_EN": "The Poké-Shop: filters, live preview and theme purchases with your Pokédollars" },
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Après un achat, une popup propose d'équiper le cosmétique tout de suite", "Translation_EN": "After a purchase, a popup offers to equip the cosmetic right away" },
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Pokefeet s'installe comme une application : bannière sur mobile et bouton dans les Paramètres", "Translation_EN": "Pokefeet installs as an app: banner on mobile and a button in Settings" },
+            { "Type": "Feature", "Severity": 3, "Translation_FR": "Courbe d'XP retravaillée de fond en comble : paliers progressifs et niveau Master à 19 602 XP", "Translation_EN": "Fully reworked XP curve: progressive tiers and a Master level at 19,602 XP" },
+            { "Type": "Feature", "Severity": 2, "Translation_FR": "Une popup de nouveautés présente chaque nouvelle version du jeu", "Translation_EN": "A what's-new popup introduces every new game version" },
+            { "Type": "Quality Of Life", "Severity": 2, "Translation_FR": "Les personnalisations quittent les Paramètres pour un nouvel onglet du profil", "Translation_EN": "Customization moves from Settings to a new profile tab" },
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Types de Pokémon et dates de défis corrigés dans les données", "Translation_EN": "Fixed Pokémon types and challenge dates in the data" }
         ]
     },
     {

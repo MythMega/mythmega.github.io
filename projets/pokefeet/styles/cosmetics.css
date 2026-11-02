@@ -3276,3 +3276,175 @@ body.creative-kaleido .deco-secondary::before {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+
+/* --- Après un achat : proposition d'équiper le cosmétique --- */
+.equip-prompt {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(2, 6, 16, 0.78);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.equip-prompt.hidden { display: none; }
+
+.equip-prompt-content {
+  width: min(100%, 400px);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  background: var(--card-solid);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.equip-prompt-img {
+  width: 92px;
+  height: 92px;
+  padding: 6px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.equip-prompt-title {
+  margin: 12px 0 6px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.equip-prompt-text {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.equip-prompt-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.equip-prompt-actions button { width: 100%; }
+
+@keyframes equip-pop {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .equip-prompt-content { animation: equip-pop 160ms ease-out; }
+}
+
+/* --- Onglet Personnalisations du profil : grilles, Pokédollars, achat --- */
+    /* Cosmetics grid */
+    .cosmetics-section { margin-bottom: 24px; }
+    .cosmetics-section-title {
+      font-size:13px; font-weight:700; color:var(--accent-bright);
+      text-transform:uppercase; letter-spacing:0.06em;
+      margin:0 0 12px; padding-bottom:6px;
+      border-bottom:1px solid var(--glass-border);
+    }
+    .cosmetics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 10px;
+    }
+    .cosmetic-btn {
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      padding:10px 6px; border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      border:2px solid transparent;
+      cursor:pointer; transition:all .15s;
+      font-size:11px; color:var(--muted);
+      position:relative;
+    }
+    .cosmetic-btn:hover { background:rgba(255,255,255,0.07); }
+    .cosmetic-btn.active { border-color:var(--accent); background:rgba(52,211,153,0.1); }
+    .cosmetic-btn.locked { opacity:0.4; cursor:not-allowed; }
+    .cosmetic-btn.locked:hover { background:rgba(255,255,255,0.03); }
+    .cosmetic-btn img { width:36px; height:36px; object-fit:contain; border-radius:6px; }
+    .cosmetic-btn .cosmetic-name { font-size:10px; font-weight:600; text-align:center; line-height:1.2; color:#fff; }
+    .cosmetic-btn .cosmetic-lock { position:absolute; top:4px; right:4px; font-size:10px; color:#ef4444; }
+    .cosmetic-btn .cosmetic-check { position:absolute; top:4px; right:4px; font-size:10px; color:#4ade80; }
+    /* Sub-tabs for cosmetics categories */
+    .cosmetic-subtabs {
+      display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
+      margin:0 0 16px;
+    }
+    .cosmetic-subtab-btn {
+      padding:6px 14px; border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px; background:rgba(255,255,255,0.03);
+      color:var(--muted); cursor:pointer; font-weight:600;
+      font-size:.8rem; transition:background .15s,color .15s;
+    }
+    .cosmetic-subtab-btn.active { background:rgba(52,211,153,0.2); color:var(--accent-bright); border-color:var(--accent); }
+    .cosmetic-subtab-btn:hover { background:rgba(255,255,255,0.07); }
+    /* Cosmetics scrollable area */
+    .cosmetics-scroll {
+      max-height:420px; overflow-y:auto; padding-right:6px;
+    }
+    .cosmetics-scroll::-webkit-scrollbar { width:4px; }
+    .cosmetics-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.15); border-radius:2px; }
+    .cosmetics-scroll .cosmetics-section:last-child { margin-bottom:0; }
+    .cosmetic-type-toggle {
+      display:flex; gap:10px; align-items:center; justify-content:center;
+      margin-bottom:16px; flex-wrap:wrap;
+    }
+    .cosmetic-type-toggle button {
+      padding:7px 18px; border:1px solid rgba(255,255,255,0.12);
+      border-radius:8px; background:rgba(255,255,255,0.03);
+      color:var(--muted); cursor:pointer; font-weight:600;
+      font-size:.85rem; transition:all .15s;
+    }
+    .cosmetic-type-toggle button.active { background:rgba(52,211,153,0.15); color:var(--accent-bright); border-color:var(--accent); }
+    .cosmetic-type-toggle button:hover { background:rgba(255,255,255,0.07); }
+    .cosmetic-type-content { display:none; }
+    .cosmetic-type-content.active { display:block; }
+
+    /* Cosmétiques en vente : verrouillés visuellement mais cliquables */
+    .cosmetic-btn.locked-shop { cursor:pointer; }
+    .cosmetic-btn.locked-shop:hover { background:rgba(251,191,36,0.10); }
+    .cosmetic-btn.locked-shop .cosmetic-lock { color:#fbbf24; }
+
+    /* Barre Pokédollars de l'onglet Personnalisations */
+    .dm-wallet {
+      display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px;
+      padding:8px 12px; margin:0 0 14px; border-radius:8px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg, rgba(202,138,4,0.14), rgba(22,163,74,0.08));
+      font-size:12px; color:var(--muted);
+    }
+    .dm-wallet strong { color:#fbbf24; font-weight:800; font-size:15px; }
+    .dm-wallet a { margin-left:auto; font-size:12px; font-weight:700; }
+
+    /* Popup d'achat d'un cosmétique verrouillé */
+    .shop-unlock-popup {
+      position:fixed; inset:0; z-index:120; padding:16px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(2,6,16,0.78);
+      -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    }
+    .shop-unlock-content {
+      width:min(100%, 400px); max-height:90vh; overflow:auto;
+      background:var(--card-solid); border:1px solid var(--line);
+      border-radius:var(--radius-lg); box-shadow:var(--shadow);
+      padding:20px; text-align:center;
+    }
+    .shop-unlock-img { width:76px; height:76px; object-fit:contain; border-radius:10px; background:rgba(255,255,255,0.04); padding:6px; }
+    .shop-unlock-title { margin:12px 0 4px; font-size:18px; font-weight:800; color:#fff; }
+    .shop-unlock-text { margin:0 0 12px; font-size:13px; color:var(--muted); line-height:1.5; }
+    .shop-unlock-info { margin:0 0 16px; font-size:13px; color:var(--muted-light); }
+    .shop-unlock-info strong { color:#fbbf24; }
+    .shop-unlock-info .missing { color:#f87171; font-weight:700; }
+    .shop-unlock-actions { display:flex; flex-direction:column; gap:8px; }
+    .shop-unlock-actions button { width:100%; }

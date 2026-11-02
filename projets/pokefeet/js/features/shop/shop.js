@@ -125,6 +125,15 @@
     preview = item;
     applyPreview();
     render();
+
+    // Achat terminé : on propose d'équiper le cosmétique tout de suite.
+    if (typeof PokefeetEquipPrompt !== 'undefined') {
+      PokefeetEquipPrompt.open(item, function (equipped) {
+        if (!equipped) return; // « Plus tard » : l'aperçu reste affiché
+        preview = null;
+        applyPreview();
+      });
+    }
   }
 
   // ── Rendu ──────────────────────────────────────────────────

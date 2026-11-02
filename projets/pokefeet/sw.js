@@ -10,7 +10,7 @@
  * Le cache est versionné : incrémenter CACHE_VERSION après une modification
  * importante des fichiers précachés pour forcer le renouvellement.
  */
-const CACHE_VERSION = 'pokefeet-v15';
+const CACHE_VERSION = 'pokefeet-v20';
 const CACHE_NAME = `${CACHE_VERSION}-shell`;
 const OFFLINE_URL = './offline.html';
 const BASE_URL = new URL('./', self.location.href);
@@ -36,17 +36,22 @@ const PRECACHE_URLS = [
   './custom_play.html',
   './daily.html',
   './data.html',
+  './data_management.html',
   './dex.html',
   './history.html',
   './integration-pokefeet.html',
   './list_challenges.html',
   './marathon.html',
   './old_challenges.html',
+  './old_daily.html',
+  './pied-dex.html',
+  './pokefeet.html',
   './prediction.html',
   './profile.html',
   './settings.html',
   './shop.html',
   './test-i18n.html',
+  './stats.html',
   './weekly.html',
 
   './styles/main.css',
@@ -71,6 +76,7 @@ const PRECACHE_URLS = [
   './styles/language-switcher.css',
   './styles/loader.css',
   './styles/notifications.css',
+  './styles/pwa-install.css',
   './styles/past-challenges.css',
   './styles/responsive.css',
   './styles/round-gauge.css',
@@ -114,6 +120,7 @@ const PRECACHE_URLS = [
   './js/features/marathon/game.js',
   './js/features/marathon/ui.js',
   './js/features/settings/cosmetics.js',
+  './js/features/shop/equip-prompt.js',
   './js/features/settings/profile.js',
   './js/features/shop/shop.js',
   './js/features/stats/stats.js',
@@ -121,6 +128,8 @@ const PRECACHE_URLS = [
   './js/i18n/language-switcher.js',
   './js/i18n/setup.js',
   './js/i18n/translate.js',
+  './js/ui/whats-new.js',
+  './styles/whats-new.css',
   './js/pwa.js',
   './js/ui/footer.js',
   './js/ui/fx.js',

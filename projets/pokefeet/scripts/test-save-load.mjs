@@ -19,6 +19,7 @@
  * Aucune dépendance npm. CHROME_PATH permet de forcer le chemin du navigateur.
  *
  * Usage : npm test
+ *         TEST_FILTER=<regex> ne lance que les cas dont le nom ou la page correspond.
  */
 
 import { spawn, execFileSync } from 'node:child_process';
@@ -35,6 +36,14 @@ const TEST_PAGES = [
   '/tests/button-theme.html',
   '/tests/xp-system.html'
 ];
+// `TEST_FILTER` limite la suite à certains cas : utile pour rejouer un seul
+// scénario pendant la mise au point d'un test.
+const CASE_FILTER = process.env.TEST_FILTER ? new RegExp(process.env.TEST_FILTER, 'i') : null;
+const PAGES_TO_RUN = CASE_FILTER ? TEST_PAGES.filter((page) => CASE_FILTER.test(page)) : TEST_PAGES;
+const CASES_TO_RUN = CASE_FILTER
+  ? BROWSER_CASES.filter((item) => CASE_FILTER.test(item.name) || CASE_FILTER.test(item.page))
+  : BROWSER_CASES;
+
 const TIMEOUT_MS = 90000;
 const SETTLE_TIMEOUT_MS = 20000;
 
@@ -337,7 +346,7 @@ function killBrowser(browser) {
 // Ouvre une page dans Chrome headless, exécute `run`, et nettoie tout.
 // Retourne null quand Chrome est introuvable (test ignoré), sinon le résultat
 // de `run`.
-async function withPage({ url, serverOptions = {}, run }) {
+async function withPage({ url, serverOptions = {}, cookies = {}, run }) {
   const chrome = findChrome();
   if (!chrome) {
     console.warn('⚠ Chrome introuvable — test navigateur ignoré (définir CHROME_PATH pour l’activer).');
@@ -363,7 +372,7 @@ async function withPage({ url, serverOptions = {}, run }) {
         '--disable-background-networking',
         '--remote-debugging-port=0',
         `--user-data-dir=${profile}`,
-        targetUrl
+        'about:blank'
       ],
       { stdio: ['ignore', 'ignore', 'pipe'], detached: process.platform !== 'win32' }
     );
@@ -391,6 +400,24 @@ async function withPage({ url, serverOptions = {}, run }) {
 
     cdp = await connectCdp(pageTarget.webSocketDebuggerUrl);
     await cdp.send('Runtime.enable');
+
+    // Les cookies du cas sont posés avant la navigation : la page les lit dès
+    // son chargement, comme un joueur qui revient avec ses données.
+    const cookieNames = Object.keys(cookies);
+    if (cookieNames.length > 0) {
+      await cdp.send('Network.enable');
+      const expires = Math.floor(Date.now() / 1000) + 86400;
+      for (const name of cookieNames) {
+        await cdp.send('Network.setCookie', {
+          name,
+          value: String(cookies[name]),
+          url: `http://127.0.0.1:${port}/`,
+          path: '/',
+          expires
+        });
+      }
+    }
+    await cdp.send('Page.navigate', { url: targetUrl });
     // Les scripts de la page doivent avoir fini de s'exécuter : sans cela les
     // assertions peuvent tourner avant que les globales du jeu existent.
     const ready = await waitForCondition(cdp, 'document.readyState === "complete"', SETTLE_TIMEOUT_MS);
@@ -435,6 +462,7 @@ async function runBrowserCase(caseDef) {
     const exitCode = await withPage({
       url: caseDef.page,
       serverOptions: { faults: caseDef.faults, corrupt: caseDef.corrupt },
+      cookies: caseDef.cookies,
       run: async ({ cdp }) => {
         await waitForSetupAndSettle(cdp, caseDef, SETTLE_TIMEOUT_MS);
 
@@ -466,12 +494,12 @@ async function runBrowserCase(caseDef) {
 async function main() {
   let exitCode = 0;
 
-  for (const page of TEST_PAGES) {
+  for (const page of PAGES_TO_RUN) {
     const code = await runTestPage(page);
     if (code !== 0) exitCode = code;
   }
 
-  for (const caseDef of BROWSER_CASES) {
+  for (const caseDef of CASES_TO_RUN) {
     const code = await runBrowserCase(caseDef);
     if (code !== 0) exitCode = code;
   }

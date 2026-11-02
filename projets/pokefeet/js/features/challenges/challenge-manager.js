@@ -89,8 +89,10 @@ const ChallengeManager = (function () {
             await loadChallenges();
         }
         const totalXP = await computeTotalXP();
-        const level = Math.floor(totalXP / 100) + 1;
-        return level;
+        // Même courbe que le profil : PokefeetXP.getLevel() est la seule
+        // source de vérité, sinon un défi reste verrouillé alors que le profil
+        // annonce le niveau atteint.
+        return PokefeetXP.getLevel(totalXP);
     }
 
     // Vérifier si un joueur peut jouer un challenge

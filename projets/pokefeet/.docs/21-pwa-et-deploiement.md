@@ -128,6 +128,23 @@ Il :
 - enregistre `sw.js` avec `scope: './'` ;
 - écoute `updatefound` pour signaler une mise à jour.
 
+
+### 4.1 Invitation à l'installation
+
+`js/pwa.js` retient `beforeinstallprompt` : sans écouteur, aucun navigateur
+n'affiche d'invitation (Chrome ne propose que son icône dans la barre d'adresse).
+Une bannière `styles/pwa-install.css` propose alors « Installer » ou « Plus tard »,
+6 s après le chargement, sur mobile uniquement (le bureau a déjà l'icône).
+La réponse est gardée dans `localStorage` (`pokefeet_install_prompt`) :
+« Plus tard » vaut 30 jours, une installation vaut définitivement.
+
+Un bouton « Installer l'application » figure aussi dans Paramètres
+(`[data-pwa-install]`, monté par `js/pwa.js`). Il n'apparaît que si
+l'installation aboutira vraiment : événement `beforeinstallprompt` retenu et
+page non déjà installée. Il reste donc masqué sur Firefox, sur Safari
+ordinateur et quand l'application tourne déjà en mode standalone.
+iOS ne déclenche pas l'événement : l'installation passe par Partager →
+« Sur l'écran d'accueil ».
 Le Service Worker est à la racine de `/projets/pokefeet/`. C'est indispensable :
 un fichier placé dans un sous-dossier ne pourrait pas contrôler tout le site.
 

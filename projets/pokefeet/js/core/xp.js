@@ -17,6 +17,14 @@ const PokefeetXP = (function () {
   function readStore(storeName) {
     return new Promise(function (resolve) {
       const req = indexedDB.open(DB_NAME, DB_VERSION);
+      // Une page peut lire l'XP avant les modules d'historique : sans créer les
+      // magasins ici, la base existerait au bon numéro de version mais vide, et
+      // toutes les transactions suivantes échoueraient.
+      req.onupgradeneeded = function () {
+        const db = req.result;
+        if (!db.objectStoreNames.contains('daily_results')) db.createObjectStore('daily_results', { keyPath: 'date' });
+        if (!db.objectStoreNames.contains('weekly_results')) db.createObjectStore('weekly_results', { keyPath: 'date' });
+      };
       req.onerror = function () { resolve([]); };
       req.onsuccess = function () {
         const db = req.result;

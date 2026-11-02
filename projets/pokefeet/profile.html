@@ -498,6 +498,7 @@
       <button class="stats-tab-btn" id="statsTabMarathonBtn" data-i18n="stats.marathon">Marathon</button>
       <button class="stats-tab-btn" id="statsTabTrophiesBtn" data-i18n="stats.trophies">Trophées</button>
       <button class="stats-tab-btn" id="statsTabRewardsBtn" data-i18n="stats.rewards">Récompenses</button>
+      <button class="stats-tab-btn" id="statsTabCustomizeBtn" data-i18n="dataManagement.tabCustomize">Personnalisations</button>
     </div>
 
     <section class="game-area container py-3">
@@ -542,7 +543,58 @@
           <div id="rewardsGrid" class="rewards-grid"></div>
         </div>
       </div>
+      <div id="statsCustomizePanel" class="center-card" style="display:none;max-width:760px;width:100%;padding:20px;box-sizing:border-box;">
+        <h3 style="margin:0 0 16px; font-size:16px; font-weight:700; color:var(--accent-bright); text-transform:uppercase; letter-spacing:0.07em;" data-i18n="dataManagement.customize">Personnalisations</h3>
+
+        <div class="dm-wallet" id="dmWalletBar">
+          <span><span data-i18n="shop.balance">Solde</span> : <strong id="dmWalletBalance">0 P</strong></span>
+          <span><span data-i18n="shop.spent">Déjà dépensé</span> : <span id="dmWalletSpent">0</span></span>
+          <a href="shop.html" class="shop-link" data-i18n="shop.openShop">Ouvrir la Poké-Boutique</a>
+        </div>
+
+        <!-- Type toggle: Background / Buttons -->
+        <div class="cosmetic-type-toggle" id="cosmeticTypeToggle">
+          <button class="active" data-type="Background">🎨 Fond d'écran</button>
+          <button data-type="Background-Buttons">🔘 Style des boutons</button>
+        </div>
+
+        <!-- Background content -->
+        <div class="cosmetic-type-content active" data-type="Background">
+          <!-- Category sub-tabs will be injected by JS -->
+          <div class="cosmetic-subtabs" id="cosmeticBgSubtabs"></div>
+          <div class="cosmetics-scroll" id="cosmeticBgScroll">
+            <div class="cosmetics-section">
+              <div class="cosmetics-grid" id="cosmeticsBgGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons content -->
+        <div class="cosmetic-type-content" data-type="Background-Buttons">
+          <div class="cosmetic-subtabs" id="cosmeticBtnSubtabs"></div>
+          <div class="cosmetics-scroll" id="cosmeticBtnScroll">
+            <div class="cosmetics-section">
+              <div class="cosmetics-grid" id="cosmeticsBtnGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
+
+    <div id="shopUnlockPopup" class="shop-unlock-popup hidden" role="dialog" aria-modal="true" aria-labelledby="shopUnlockTitle">
+      <div class="shop-unlock-content">
+        <img id="shopUnlockImg" class="shop-unlock-img" src="./icon.png" alt="" />
+        <h2 class="shop-unlock-title" id="shopUnlockTitle">—</h2>
+        <p class="shop-unlock-text" data-i18n="cosmetics.shopPopupText">Ce cosmétique n'est pas encore débloqué : il est en vente à la Poké-Boutique.</p>
+        <p class="shop-unlock-info" id="shopUnlockInfo"></p>
+        <div class="shop-unlock-actions">
+          <button id="shopUnlockBuy" data-tag="customizables-button">Acheter directement</button>
+          <button id="shopUnlockOpen" class="secondary" data-i18n="cosmetics.openShop">Ouvrir Boutique</button>
+          <button id="shopUnlockClose" class="secondary" data-i18n="common.close">Fermer</button>
+        </div>
+      </div>
+    </div>
 
     <!-- XP Scale modal -->
     <div class="xp-modal" id="xpScaleModal">
@@ -651,7 +703,270 @@
   <script src="js/features/settings/cosmetics.js"></script>
   <script src="js/data/pokemon-files.js"></script>
   <script src="js/core/xp.js"></script>
+  <script src="js/core/wallet.js"></script>
+  <script src="js/ui/fx.js"></script>
+  <script src="js/features/shop/equip-prompt.js"></script>
   <script src="js/features/stats/stats.js"></script>
+  <script>
+    // ---- Personnalisations : thèmes, solde Pokédollars et popup d'achat ----
+    (function () {
+      var t = function (key, fallback) {
+        return (typeof Translator !== 'undefined') ? Translator.get(key, fallback) : fallback;
+      };
+      var money = function (amount) {
+        return (typeof PokefeetWallet !== 'undefined') ? PokefeetWallet.formatP(amount) : amount + ' P';
+      };
+
+      // Onglets Fond d'écran / Style des boutons
+      (function () {
+        var toggle = document.getElementById('cosmeticTypeToggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', function (e) {
+          var btn = e.target.closest('button');
+          if (!btn) return;
+          toggle.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          document.querySelectorAll('.cosmetic-type-content').forEach(function (c) { c.classList.remove('active'); });
+          var content = document.querySelector('.cosmetic-type-content[data-type="' + btn.dataset.type + '"]');
+          if (content) content.classList.add('active');
+        });
+      })();
+
+      // Popup d'achat d'un cosmétique en vente à la Poké-Boutique
+      var popup = document.getElementById('shopUnlockPopup');
+      var popupItem = null;
+
+      function closePopup() {
+        popup.classList.add('hidden');
+        popupItem = null;
+      }
+
+      function notify(message, fail) {
+        if (typeof PokefeetFX !== 'undefined' && !PokefeetFX.notificationsEnabled()) return;
+        var n = document.createElement('div');
+        n.className = 'notification';
+        n.textContent = message;
+        if (fail) n.style.background = '#491111';
+        document.getElementById('notifications').appendChild(n);
+        setTimeout(function () {
+          n.style.opacity = 0;
+          setTimeout(function () { n.remove(); }, 400);
+        }, 2200);
+        if (typeof PokefeetFX !== 'undefined') PokefeetFX.notificationSound(fail ? 'fail' : 'success');
+      }
+
+      function refreshWallet() {
+        if (typeof PokefeetWallet === 'undefined') return;
+        PokefeetWallet.getState().then(function (state) {
+          document.getElementById('dmWalletBalance').textContent = PokefeetWallet.formatP(state.balance);
+          document.getElementById('dmWalletSpent').textContent = PokefeetWallet.format(state.spent);
+        });
+      }
+
+      function openBuyPopup(cosmetic) {
+        popupItem = cosmetic;
+        var price = Number(cosmetic.Price) || 0;
+
+        var img = document.getElementById('shopUnlockImg');
+        img.src = 'img/cosmetics/' + (cosmetic.File || 'default.png');
+        img.alt = cosmetic.Name;
+        img.onerror = function () { this.src = './icon.png'; };
+        document.getElementById('shopUnlockTitle').textContent = cosmetic.Name;
+
+        var info = document.getElementById('shopUnlockInfo');
+        var buyBtn = document.getElementById('shopUnlockBuy');
+        buyBtn.textContent = t('cosmetics.buyDirect', 'Acheter directement') + ' (' + money(price) + ')';
+        buyBtn.disabled = true;
+        info.textContent = t('common.loading', 'Chargement...');
+        popup.classList.remove('hidden');
+
+        if (typeof PokefeetWallet === 'undefined') return;
+        PokefeetWallet.getState().then(function (state) {
+          var missing = price - state.balance;
+          buyBtn.disabled = missing > 0;
+          info.textContent = t('shop.price', 'Prix') + ' : ' + money(price) +
+            ' — ' + t('shop.yourBalance', 'Votre solde') + ' : ' + money(state.balance);
+          if (missing > 0) {
+            var warn = document.createElement('div');
+            warn.className = 'missing';
+            warn.textContent = t('shop.insufficient', 'Solde insuffisant : il manque {missing} P')
+              .replace('{missing}', PokefeetWallet.format(missing));
+            info.appendChild(warn);
+          }
+        });
+      }
+
+      if (popup) {
+        popup.addEventListener('click', function (e) { if (e.target === popup) closePopup(); });
+        document.getElementById('shopUnlockClose').addEventListener('click', closePopup);
+        document.getElementById('shopUnlockOpen').addEventListener('click', function () { location.href = 'shop.html'; });
+
+        var buyBtn = document.getElementById('shopUnlockBuy');
+        buyBtn.addEventListener('click', function () {
+          if (!popupItem) return;
+          var item = popupItem;
+          buyBtn.disabled = true;
+          PokefeetWallet.buy(item.ID).then(function (result) {
+            if (!result.ok) {
+              var message = result.error === 'insufficient'
+                ? t('shop.insufficient', 'Solde insuffisant : il manque {missing} P')
+                    .replace('{missing}', PokefeetWallet.format(Number(item.Price) - result.state.balance))
+                : t('shop.buyFailed', 'Achat impossible.');
+              notify(message, true);
+              buyBtn.disabled = false;
+              return;
+            }
+            closePopup();
+            notify(t('shop.bought', '{name} débloqué pour {price} !')
+              .replace('{name}', item.Name).replace('{price}', money(result.price)));
+            if (typeof PokefeetFX !== 'undefined') PokefeetFX.playSound('positive');
+            refreshWallet();
+            window.renderCosmetics();
+            if (typeof PokefeetEquipPrompt !== 'undefined') PokefeetEquipPrompt.open(item);
+          });
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !popup.classList.contains('hidden')) closePopup();
+        });
+      }
+
+      // ---- Grille d'un type, découpée par catégorie ----
+      function createCosmeticBtn(cosmetic, isSelected) {
+        var unlocked = Cosmetics.isUnlocked(cosmetic);
+        // En vente et pas encore acheté : verrouillé visuellement, mais le clic
+        // ouvre la popup qui renvoie vers la Poké-Boutique.
+        var forSale = !unlocked && Cosmetics.isBuyable(cosmetic);
+
+        var div = document.createElement('div');
+        div.className = 'cosmetic-btn';
+        if (isSelected) div.classList.add('active');
+        if (!unlocked) div.classList.add('locked');
+        if (forSale) div.classList.add('locked-shop');
+
+        var img = document.createElement('img');
+        img.src = 'img/cosmetics/' + (cosmetic.File || 'default.png');
+        img.alt = cosmetic.Name;
+        img.onerror = function () { this.src = './icon.png'; };
+        div.appendChild(img);
+
+        var name = document.createElement('span');
+        name.className = 'cosmetic-name';
+        name.textContent = cosmetic.Name;
+        div.appendChild(name);
+
+        var marker = document.createElement('span');
+        if (!unlocked) {
+          marker.className = 'cosmetic-lock';
+          marker.textContent = forSale ? '🛒' : '🔒';
+          div.appendChild(marker);
+        } else if (isSelected) {
+          marker.className = 'cosmetic-check';
+          marker.textContent = '✓';
+          div.appendChild(marker);
+        }
+
+        if (forSale) {
+          div.title = t('cosmetics.shopLockedHint', '🛒 {name} — En vente à la Poké-Boutique').replace('{name}', cosmetic.Name);
+          div.addEventListener('click', function () { openBuyPopup(cosmetic); });
+        } else if (unlocked) {
+          div.title = cosmetic.Name;
+          div.addEventListener('click', function () {
+            Cosmetics.select(cosmetic.Type, isSelected ? 'default' : cosmetic.Value);
+            window.renderCosmetics();
+          });
+        } else {
+          div.title = '🔒 ' + cosmetic.Name + ' — À débloquer via un challenge';
+        }
+
+        return div;
+      }
+
+      function buildGrid(type, gridEl, subtabsEl, selectedValue) {
+        var items = Cosmetics.getAll().filter(function (c) { return c.Type === type; });
+        var cats = ['General'];
+        items.forEach(function (c) {
+          var cat = c.Cat || 'General';
+          if (cats.indexOf(cat) === -1) cats.push(cat);
+        });
+
+        var storageKey = 'cosmetic_' + type + '_cat';
+        var activeCat = sessionStorage.getItem(storageKey);
+        if (cats.indexOf(activeCat) === -1) activeCat = 'General';
+
+        subtabsEl.innerHTML = '';
+        cats.forEach(function (cat) {
+          var btn = document.createElement('button');
+          btn.className = 'cosmetic-subtab-btn' + (cat === activeCat ? ' active' : '');
+          btn.textContent = cat;
+          btn.dataset.cat = cat;
+          btn.addEventListener('click', function () {
+            sessionStorage.setItem(storageKey, cat);
+            buildGrid(type, gridEl, subtabsEl, selectedValue);
+          });
+          subtabsEl.appendChild(btn);
+        });
+
+        gridEl.innerHTML = '';
+
+        var defaultBtn = document.createElement('div');
+        defaultBtn.className = 'cosmetic-btn' + (selectedValue ? '' : ' active');
+        defaultBtn.title = t('cosmetics.default', 'Par défaut');
+        var defaultImg = document.createElement('img');
+        defaultImg.src = './icon.png';
+        defaultImg.alt = t('cosmetics.defaultShort', 'Défaut');
+        defaultBtn.appendChild(defaultImg);
+        var defaultName = document.createElement('span');
+        defaultName.className = 'cosmetic-name';
+        defaultName.textContent = t('cosmetics.defaultShort', 'Défaut');
+        defaultBtn.appendChild(defaultName);
+        if (!selectedValue) {
+          var check = document.createElement('span');
+          check.className = 'cosmetic-check';
+          check.textContent = '✓';
+          defaultBtn.appendChild(check);
+        }
+        defaultBtn.addEventListener('click', function () {
+          Cosmetics.select(type, 'default');
+          window.renderCosmetics();
+        });
+        gridEl.appendChild(defaultBtn);
+
+        items.forEach(function (c) {
+          if ((c.Cat || 'General') !== activeCat) return;
+          if (c.MustHideIfUnobtained && !Cosmetics.isUnlocked(c)) return;
+          gridEl.appendChild(createCosmeticBtn(c, selectedValue === c.Value));
+        });
+      }
+
+      window.renderCosmetics = function () {
+        buildGrid('Background',
+          document.getElementById('cosmeticsBgGrid'),
+          document.getElementById('cosmeticBgSubtabs'),
+          Cosmetics.getSelectedBg());
+        buildGrid('Background-Buttons',
+          document.getElementById('cosmeticsBtnGrid'),
+          document.getElementById('cosmeticBtnSubtabs'),
+          Cosmetics.getSelectedBtn());
+      };
+
+      function initCosmeticsUI() {
+        refreshWallet();
+        Cosmetics.load().then(function () {
+          window.renderCosmetics();
+        }).catch(function (err) {
+          console.error('[Cosmetics] Failed to load:', err);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCosmeticsUI);
+      } else {
+        initCosmeticsUI();
+      }
+    })();
+  </script>
+  <script src="js/ui/whats-new.js"></script>
   <script src="js/pwa.js"></script>
 </body>
 </html>

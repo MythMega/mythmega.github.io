@@ -8,6 +8,7 @@
  *  - `page`    : chemin de la page à charger (depuis la racine du projet) ;
  *  - `faults`  : fichiers servis en 404 (fichier de données absent) ;
  *  - `corrupt` : fichiers servis en 200 avec un contenu invalide (manifeste cassé) ;
+ *  - `cookies` : cookies posés avant la navigation (données de jeu simulées) ;
  *  - `setup`   : expression exécutée une fois la page chargée (ex. ouvrir un onglet) ;
  *  - `settle`  : expression interrogée jusqu'à devenir vraie, ou jusqu'au délai ;
  *  - `checks`  : assertions { name, expression, match? | expect? }. L'expression est
@@ -24,6 +25,12 @@
  * simplement absentes), mais un manifeste absent ou invalide fait échouer le
  * chargement complet du jeu de données. Les cas ci-dessous couvrent les deux.
  */
+
+import { PWA_CASES } from './pwa-cases.mjs';
+import { LEVEL_CASES } from './challenge-level-cases.mjs';
+import { SHOP_CASES } from './shop-cases.mjs';
+import { WHATS_NEW_CASES } from './whats-new-cases.mjs';
+import { CUSTOMIZE_CASES } from './customize-cases.mjs';
 
 const XP_SCALE_PAGE = {
   name: 'profil — barème d’XP cohérent avec la courbe',
@@ -247,5 +254,10 @@ export const BROWSER_CASES = [
   SHOP_CATALOG_MANIFEST_CORRUPT,
   CREDITS_PART_FAULT,
   CREDITS_MANIFEST_CORRUPT,
-  CHANGELOG_FILE_FAULT
+  CHANGELOG_FILE_FAULT,
+  ...PWA_CASES,
+  ...LEVEL_CASES,
+  ...SHOP_CASES,
+  ...WHATS_NEW_CASES,
+  ...CUSTOMIZE_CASES
 ];

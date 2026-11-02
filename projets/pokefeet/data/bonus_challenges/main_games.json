@@ -468,9 +468,7 @@
             "127-M",
             "248-M"
         ],
-        "Rewards": [],
-        "MustHideIfUnavailable": true,
-        "Availabilities": [
+        "Rewards": [
             {
                 "TypeReward": "Experience",
                 "Value": 100
@@ -478,8 +476,9 @@
             {
                 "TypeReward": "Cosmetic",
                 "Value": 114
-            }
-        ]
+            }],
+        "MustHideIfUnavailable": false,
+        "Availabilities": null
     },
     {
         "ID": 28,
@@ -506,9 +505,7 @@
             "214-M",
             "229-M"
         ],
-        "Rewards": [],
-        "MustHideIfUnavailable": true,
-        "Availabilities": [
+        "Rewards": [
             {
                 "TypeReward": "Experience",
                 "Value": 100
@@ -516,7 +513,8 @@
             {
                 "TypeReward": "Cosmetic",
                 "Value": 115
-            }
-        ]
+            }],
+        "MustHideIfUnavailable": true,
+        "Availabilities": null
     }
 ]

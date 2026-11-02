@@ -49,7 +49,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v70';
+const VERSION = 'v71';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -131,6 +131,7 @@ const PRECACHE_URLS = [
   './css/components/toast.css',
   './css/components/auto-claim.css',
   './css/components/daily-reward.css',
+  './css/components/card-roulette.css',
   './css/components/notifications.css',
   './css/components/install-prompt.css',
   './css/components/info-hint.css',
@@ -149,6 +150,7 @@ const PRECACHE_URLS = [
   './js/UI/components/AutoClaimPopup.js',
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
+  './js/UI/components/CardRoulettePopup.js',
   './js/UI/components/DailyRewardPopup.js',
   './js/UI/components/GameNotifier.js',
   './js/UI/components/InfoHint.js',
@@ -194,6 +196,7 @@ const PRECACHE_URLS = [
   './js/business/ProfileManager.js',
   './js/business/PromoManager.js',
   './js/business/PromoSet.js',
+  './js/business/RandomCardReward.js',
   './js/business/RedeemManager.js',
   './js/business/SparksManager.js',
   './js/business/TitleManager.js',

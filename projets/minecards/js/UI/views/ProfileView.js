@@ -212,6 +212,9 @@ export class ProfileView {
     this.trophiesButton = this.root.querySelector('[data-profile-trophies]');
     this.titlesButton = this.root.querySelector('[data-profile-titles]');
 
+    /** @type {boolean} True when `settings.devMode` lets the picker show the locked avatars. */
+    this.devMode = false;
+
     this.assertMarkup();
 
     /** @type {((viewName: string) => void)|null} */
@@ -663,7 +666,7 @@ export class ProfileView {
       // openings (`TrophyManager` subscribes to `BOOSTER_OPENED`) and the automatic boot evaluation
       // own the announcements, so a save that unlocks a dozen trophies shows one toast, not twelve.
       const [profile, trophyState, collection, preferences, catalog, purchases, titleColors,
-        usernameColors, borderColors, colorCatalog] = await Promise.all([
+        usernameColors, borderColors, colorCatalog, settings] = await Promise.all([
         profileManager.getProfile(),
         trophyManager.evaluate({ notify: false }),
         collectionManager.getCollectionView(),
@@ -674,8 +677,12 @@ export class ProfileView {
         featureManager.getUsernameColors(),
         featureManager.getBorderColors(),
         colorManager.listColors(),
+        accountManager.getSettings(),
       ]);
       this.profile = profile;
+      // The developer mode is what makes the picker show the avatars nobody can use yet: without
+      // it, a tile that is neither available nor for sale is simply not offered.
+      this.devMode = settings.devMode === true;
       this.trophyState = trophyState;
       this.collection = collection;
       this.cardPreferences = preferences;
@@ -1277,8 +1284,10 @@ export class ProfileView {
   /**
    * Renders the avatar picker: the "no icon" choice, the default icons and the trophy-pinned ones.
    *
-   * A locked icon stays visible but disabled, with the trophy that grants it as a hint: the picker
-   * is also the list of what there is to earn.
+   * In the developer mode every locked icon stays visible but disabled, with the trophy that grants
+   * it as a hint: the picker is then also the list of what there is to earn. Out of it, a tile that
+   * is neither available nor for sale is not offered at all - it is a picture of something the
+   * player cannot reach, and the picker is a choice, not a catalogue.
    *
    * @returns {void}
    */
@@ -1292,7 +1301,9 @@ export class ProfileView {
       source: 'none',
     }));
 
-    [...this.icons.default, ...this.icons.unlockable].forEach((icon) => {
+    const offered = [...this.icons.default, ...this.icons.unlockable]
+      .filter((icon) => this.devMode || icon.unlocked === true || icon.purchasable === true);
+    offered.forEach((icon) => {
       this.iconsList.appendChild(this.buildIconOption(icon));
     });
     this.log(`${this.iconsList.children.length} avatar(s) offered in the picker.`);

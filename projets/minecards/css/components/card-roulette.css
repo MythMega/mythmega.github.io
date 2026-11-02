@@ -1,0 +1,209 @@
+/* =============================================================================
+   card-roulette.css - The gacha wheel of a "random card" reward.
+
+   Reference: `js/UI/components/CardRoulettePopup.js` (the markup, the spin and the
+   reveal) and `js/business/RandomCardReward.js` (the strip and the winner).
+
+   The dialog has TWO phases, and only one is on screen at a time: the wheel
+   (`.card-roulette__window` with its strip and its marker) then the reveal
+   (`.card-roulette__reveal`). Colours come exclusively from `css/themes.css`, so
+   the wheel reads the same in every palette.
+   ============================================================================= */
+
+.card-roulette__dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: min(100%, 30rem);
+  /* The strip must scroll inside the window, not push the dialog wider. */
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.card-roulette__badge {
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-roulette__subtitle {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* --- The wheel ------------------------------------------------------------ */
+
+.card-roulette__window {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding-block: var(--space-3);
+  overflow: hidden;
+  /* The two edges fade out instead of cutting a card in half: the wheel keeps going under them,
+     which is what makes it read as a wheel rather than as a list of five cards. */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  );
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.card-roulette__window[hidden] {
+  display: none;
+}
+
+.card-roulette__strip {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* The spin is a transform on the strip: promoting it once keeps the animation on the compositor
+     whatever the number of tiles. */
+  will-change: transform;
+}
+
+.card-roulette__tile {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(3.6rem, 15vw, 5rem);
+  aspect-ratio: 5 / 7;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  /* The faces of the strip come from the asset repository: while one loads, the tile shows the
+     shared card back rather than an empty box, so a slow connection still reads as a wheel. */
+  background-image: url("../../assets/img/card_back.png");
+  background-position: center;
+  background-size: cover;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-roulette__tile-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The marker: the card under it is the one the player gets. */
+.card-roulette__marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  width: 2px;
+  translate: -50% 0;
+  background-color: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  pointer-events: none;
+}
+
+.card-roulette__marker::before,
+.card-roulette__marker::after {
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 0;
+  translate: -50% 0;
+  border-inline: 0.35rem solid transparent;
+  content: "";
+}
+
+.card-roulette__marker::before {
+  top: 0;
+  border-top: 0.45rem solid var(--color-accent);
+}
+
+.card-roulette__marker::after {
+  bottom: 0;
+  border-bottom: 0.45rem solid var(--color-accent);
+}
+
+/* --- The reveal ----------------------------------------------------------- */
+
+.card-roulette__reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding-block: var(--space-2);
+}
+
+.card-roulette__reveal[hidden] {
+  display: none;
+}
+
+.card-roulette__reveal.is-active {
+  animation: card-roulette-reveal var(--duration-base) var(--easing-standard);
+}
+
+.card-roulette__reveal-image {
+  display: block;
+  width: min(52%, 9.5rem);
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.card-roulette__reveal-name {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.card-roulette__reveal-meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.card-roulette__reveal-state {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.card-roulette__reveal-state[data-new="true"] {
+  color: var(--color-success);
+}
+
+.card-roulette__reveal-state[data-new="false"] {
+  color: var(--color-text-muted);
+}
+
+@keyframes card-roulette-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The wheel is the point of the screen: it stays, but the reveal does not scale in. A player who
+     does not want to wait can tap the wheel to stop it at once. */
+  .card-roulette__reveal.is-active {
+    animation: none;
+  }
+}

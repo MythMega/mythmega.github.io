@@ -58,6 +58,7 @@ de `DateSyncManager`, jamais l'horloge de l'appareil : sans ancrage, rien n'est 
 | `Type` | `Sparks`, `Booster`, `Card`, ou le nom d'une ressource de la mine (`Stone Dust`, `Sculk Dust`, `Glowstone Dust`, `Void Dust`, `Ultima`) |
 | `Qte` | quantité, entier strictement positif |
 | `CardID` | **`Card` uniquement** : l'`Index` de la carte (`PROMO-A1 / E01`). Si l'index est imprimé en classique **et** en Full Art, la Full Art est préférée |
+| `Data` | **`RandomCard-List` et `RandomCard-Filter` uniquement** : la liste ou les critères de la carte tirée (voir 5.1.5) |
 
 Une ressource est stockée sous forme de *slug* (`Stone Dust` → `stone_dust`), qui est à la fois la
 clé de la sauvegarde, le nom de la texture (`assets/img/dusts/stone_dust.png`) et la clé i18n
@@ -82,6 +83,39 @@ tard (nouveau chapitre, nouvelle année) et que l'identifiant est déjà dans la
 
 Le lint exige donc **les deux** champs : sans `UniqueID` la récompense serait redistribuée, et sans
 remplacement le jour deviendrait irrécupérable (`NO_REWARD`).
+
+### 5.1.5 `RandomCard-List` et `RandomCard-Filter`
+
+Deux `Type` donnent **une carte tirée au moment du claim**, et non une carte écrite dans le fichier.
+Toute la mécanique vit dans `js/business/RandomCardReward.js`, partagée avec les codes.
+
+```json
+{ "Type": "RandomCard-List", "Qte": 1,
+  "Data": { "ListCard": ["SERIE-A1 _ W001_classic", "SERIE-A1 _ W002_classic"] } }
+
+{ "Type": "RandomCard-Filter", "Qte": 1,
+  "Data": { "Rarities": [4], "layouts": ["fullart"], "Sets": ["A1"], "BePromo": false } }
+```
+
+| Champ de `Data` | Rôle |
+|---|---|
+| `ListCard` | clés de collection (`<id>_<layout>`, la clé que stocke `collection`), pas des `Index` |
+| `DefaultLayout` | liste vide : « n'importe quelle carte imprimée ainsi » (`classic` ou `fullart`) ; sans lui, toutes les impressions sorties |
+| `Rarities` | raretés acceptées (1 à 5) ; vide = toutes |
+| `layouts` | `classic`, `fullart` (`normal` accepté pour `classic`) ; vide = les deux |
+| `Sets` | extensions, écrites `A1`, `A1-Promo` ou `PROMO-A1` ; vide = toutes |
+| `BePromo` | `true` : uniquement les cartes promo ; `false` : uniquement celles des extensions. Un set écrit sous sa forme promo force les promos |
+
+**Le tirage** : jusqu'à 10 cartes **distinctes** parmi les impressions sorties qui correspondent
+(mélangées, jamais les dix premières du catalogue), puis une carte tirée **uniformément** : chaque
+carte différente de la réserve a exactement la même chance, quel que soit son nombre d'impressions.
+Une réserve de trois cartes ne change donc pas les probabilités, elle change le nombre de visuels.
+
+**La roue** : les cartes de la réserve remplissent une bande de 26 cases (répétées si la réserve en
+compte moins de cinq), la carte gagnante est posée près de la fin, et la bande défile cinq secondes
+avant de s'arrêter sous le repère. Le tirage et l'écriture ont lieu **avant** l'animation : la carte
+montrée est celle qui est déjà dans la sauvegarde, l'animation ne peut donc jamais être rejouée pour
+obtenir une autre carte, et la fermer ne coûte rien.
 
 ---
 
@@ -138,6 +172,18 @@ bloqué par `unavailable`.
 objet, une secousse dorée pour un booster, un retournement avec halo rose pour une carte. Elle dure
 1,7 s, puis le tableau est redessiné. Le son est celui des notifications de l'interface.
 
+**Carte au hasard** : la case ne peut pas montrer une illustration, la carte n'existant pas encore.
+Elle est dessinée (rect arrondi + « ? ») et prend la couleur de l'information : l'encre du thème pour
+une liste ou pour un filtre dont la meilleure rareté est une rareté ordinaire, puis violet (3), or (4)
+et rose (5) selon la rareté la plus haute du filtre. La description du jour annonce « 1 carte au
+hasard », jamais un nom.
+
+**Roulette** (`js/UI/components/CardRoulettePopup.js`) : une récompense `RandomCard-List` ou
+`RandomCard-Filter` ne joue pas l'animation ci-dessus. Après l'écriture, une popup par-dessus la
+popup affiche une bande de cartes qui défile cinq secondes (un appui l'arrête tout de suite), puis
+révèle la carte obtenue, sa rareté et si elle est **nouvelle** ; le mode focus retire la coquille de
+l'application pendant tout l'épisode, comme pour une ouverture de booster ou un Mine Pick.
+
 **Choix de l'extension** (récompense `Booster`) : la popup demande sur quelle extension utiliser le
 pack **au moment du claim**. S'il n'y a qu'une extension sortie, elle est choisie sans rien
 demander. La liste ne contient que les extensions **sorties** (`listBoosterSets()`), jamais une
@@ -171,7 +217,8 @@ La règle `data/daily-rewards` du linter refuse, entre autres : un chapitre sans
 deux fois, une fenêtre absente, vide ou dans le mauvais ordre, une date qui n'existe pas, deux
 entrées pour le même `Day`, plusieurs entrées par défaut, un `Qte` non positif, un `Type` inconnu,
 un `CardID` qu'aucun catalogue ne déclare, un `UniqueID` réutilisé, un `Unique` sans identifiant ou
-sans remplacement. Elle avertit sur un jour manquant dans la numérotation.
+sans remplacement, une clé de `ListCard` qui ne correspond à aucune impression, une `Rarities` hors de
+1 à 5, un `layouts` inconnu. Elle avertit sur un jour manquant dans la numérotation.
 
 ```bash
 node tools/lint.mjs --only data/daily-rewards

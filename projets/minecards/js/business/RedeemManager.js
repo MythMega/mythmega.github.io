@@ -24,6 +24,11 @@
  *                   ItemId is ignored);
  *   - `PreferedLayout`: optional `classic`/`fullart`; when set, the FIRST matching card with that
  *                   layout is preferred, otherwise the first card with that `Index`;
+ *   - a reward may also use the spelling of a daily chapter (`Type`, `Qte`, `Data`), which is how
+ *                   a "random card" is declared: `RandomCard-List` (card keys) and
+ *                   `RandomCard-Filter` (`Rarities`, `layouts`, `Sets`, `BePromo`) are resolved by
+ *                   `js/business/RandomCardReward.js` when the code is claimed, and granted as a
+ *                   card with the strip the roulette of `CardRoulettePopup` spins;
  *   - `Quantity`  : integer > 0;
  *   - `Availabilities`: `null` = always available, else `{ StartDate, EndDate }` (`YYYY-MM-DD` days,
  *                   each nullable). `StartDate` is INCLUSIVE, `EndDate` is EXCLUSIVE ("before the
@@ -81,6 +86,11 @@ import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js'
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import {
+  isRandomCardRewardType,
+  parseRandomCardSpec,
+  resolveRandomCardReward,
+} from './RandomCardReward.js';
 
 /** Path of the code catalogue, relative to the application root. */
 export const CODES_PATH = 'settings/codes.json';
@@ -659,13 +669,34 @@ export class RedeemManager {
         return null;
       }
 
-      const quantity = raw.Quantity;
+      // A code may spell a reward with the keys of a daily chapter (`Type`, `Qte`, `Data`), which
+      // is how a random card reward is written: both spellings designate the same reward.
+      const rewardType = raw.RewardType ?? raw.Type;
+      const quantity = raw.Quantity ?? raw.Qte;
       if (!isPositiveInteger(quantity)) {
         console.warn('[RedeemManager] A code reward has an invalid "Quantity"; the code is refused.');
         return null;
       }
 
-      if (raw.RewardType === REDEEM_REWARD_TYPES.BOOSTER) {
+      if (isRandomCardRewardType(rewardType)) {
+        const spec = parseRandomCardSpec({ Type: rewardType, Data: raw.Data });
+        const draw = spec ? await resolveRandomCardReward(spec) : null;
+        if (!draw) {
+          console.warn('[RedeemManager] A code grants a random card no released card matches; the code is refused.');
+          return null;
+        }
+        // Granted as an ordinary card (`type: 'card'`), with the strip the roulette spins.
+        rewards.push({
+          type: 'card',
+          key: draw.winner.uniqueKey,
+          quantity,
+          card: draw.winner,
+          reel: { cards: draw.cards, winnerIndex: draw.winnerIndex },
+        });
+        continue;
+      }
+
+      if (rewardType === REDEEM_REWARD_TYPES.BOOSTER) {
         let setId;
         try {
           setId = dateSyncManager.assertKnownSet(raw.ItemId);
@@ -677,7 +708,7 @@ export class RedeemManager {
         continue;
       }
 
-      if (raw.RewardType === REDEEM_REWARD_TYPES.CARD) {
+      if (rewardType === REDEEM_REWARD_TYPES.CARD) {
         const row = await this.resolveCard(raw.ItemId, raw.PreferedLayout);
         if (!row) {
           console.warn('[RedeemManager] A code references an unknown card; the code is refused.');
@@ -687,7 +718,7 @@ export class RedeemManager {
         continue;
       }
 
-      if (raw.RewardType === REDEEM_REWARD_TYPES.SPARKS) {
+      if (rewardType === REDEEM_REWARD_TYPES.SPARKS) {
         // `ItemId` is meaningless for the currency: `Quantity` is the whole reward.
         rewards.push({ type: 'sparks', key: 'sparks', quantity, card: null });
         continue;
@@ -1089,6 +1120,9 @@ export class RedeemManager {
               reward.quantity,
               context
             );
+            // "New card" is decided by the transaction itself: the roulette of the popup only
+            // reports it, it never recomputes it from a collection read that could race.
+            reward.isNew = granted.newKeys.includes(reward.card.uniqueKey);
             grantedCards.push(reward.card);
             grantedNewKeys.push(...granted.newKeys);
           }

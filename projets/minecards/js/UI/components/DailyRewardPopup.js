@@ -33,6 +33,7 @@ import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { themeIcon } from '../../utils/ThemeIcons.js';
 import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import cardRoulettePopup from './CardRoulettePopup.js';
 import Toast from './Toast.js';
 
 /** Class of the overlay, which is also a `.modal` for the shared dialog sounds. */
@@ -365,7 +366,9 @@ export class DailyRewardPopup {
 
       button.append(number);
 
-      if (day.icon) {
+      if (day.svg === 'random-card') {
+        button.append(this.buildRandomCardIcon(day));
+      } else if (day.icon) {
         const icon = document.createElement('img');
         // The two rewards that are drawn rather than spelled (a card printing, the artwork of a pack)
         // keep their own proportions instead of the square of a pictogram: the tile is then read as
@@ -406,6 +409,48 @@ export class DailyRewardPopup {
       item.append(button);
       list.append(item);
     });
+  }
+
+  /**
+   * Builds the tile of a "random card" day: a rounded card frame with a question mark.
+   *
+   * The tile is drawn rather than picked from `assets/img`, because its colour is information: the
+   * reward wears the ink of the theme when it promises an ordinary card, and the colour of the best
+   * rarity it can draw from the super rare up (`RandomCardReward.randomCardTint`).
+   *
+   * @param {object} day - Day entry of the snapshot (`svg`, `tint`).
+   * @returns {SVGElement} The glyph, ready to append to the tile.
+   */
+  buildRandomCardIcon(day) {
+    const namespace = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(namespace, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 32');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.classList.add(`${DAILY_REWARD_CLASS}__day-icon`, `${DAILY_REWARD_CLASS}__day-icon--random`);
+    svg.dataset.tint = day.tint || 'ink';
+
+    const frame = document.createElementNS(namespace, 'rect');
+    frame.setAttribute('x', '1.5');
+    frame.setAttribute('y', '1.5');
+    frame.setAttribute('width', '21');
+    frame.setAttribute('height', '29');
+    frame.setAttribute('rx', '4');
+    frame.setAttribute('ry', '4');
+    frame.setAttribute('fill', 'none');
+    frame.setAttribute('stroke', 'currentColor');
+    frame.setAttribute('stroke-width', '2.5');
+
+    const mark = document.createElementNS(namespace, 'text');
+    mark.setAttribute('x', '12');
+    mark.setAttribute('y', '21');
+    mark.setAttribute('text-anchor', 'middle');
+    mark.setAttribute('font-size', '14');
+    mark.setAttribute('font-weight', '700');
+    mark.setAttribute('fill', 'currentColor');
+    mark.textContent = '?';
+
+    svg.append(frame, mark);
+    return svg;
   }
 
   /**
@@ -580,6 +625,12 @@ export class DailyRewardPopup {
       this.selectedDay = result.snapshot.claimable ? result.snapshot.dayNumber : result.snapshot.progress;
       this.boosterChoices = null;
       this.pendingSetId = null;
+      // A random card is not an item in a puff: it is won at the wheel. The card is already in the
+      // save at this point, the roulette only shows which one.
+      if (result.kind === DAILY_REWARD_KINDS.RANDOM_CARD && result.reel) {
+        this.showRoulette(result);
+        return;
+      }
       this.showGain(result);
     } catch (error) {
       console.error('[DailyRewardPopup] The daily reward could not be claimed.', error);
@@ -627,6 +678,32 @@ export class DailyRewardPopup {
     this.pendingSetId = setId;
     soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
     void this.handleClaim();
+  }
+
+  /**
+   * Opens the roulette of a random card reward, then redraws the board.
+   *
+   * The claim is ALREADY written: the wheel cannot fail, cannot be rerolled and closing it never
+   * loses the card. The board is redrawn once the dialog is dismissed.
+   *
+   * @param {object} result - Return value of `DailyRewardManager.claim()` (`reel`, `card`, `isNew`).
+   * @returns {void}
+   */
+  showRoulette(result) {
+    if (!this.root) return;
+    soundManager.playUi(UI_SOUNDS.MODAL_OPEN);
+    void cardRoulettePopup
+      .open({
+        cards: result.reel.cards,
+        winnerIndex: result.reel.winnerIndex,
+        isNew: result.isNew === true,
+        titleKey: 'daily.roulette.title',
+      })
+      .then(() => {
+        this.isBusy = false;
+        this.render();
+      });
+    this.log(`Roulette opened for "${result.card?.uniqueKey ?? '?'}".`);
   }
 
   /**
@@ -739,6 +816,9 @@ export class DailyRewardPopup {
           name: day.card.getName(i18n.getLang()),
           rarity: getRarityLabel(day.card.rarity, (key) => i18n.t(key)),
         });
+      case DAILY_REWARD_KINDS.RANDOM_CARD:
+        // The card is drawn at claim time: the board can only promise a count, never a name.
+        return i18n.t('daily.reward.randomCard', { count: reward.quantity });
       default:
         return i18n.t('daily.reward.unknown');
     }

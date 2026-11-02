@@ -37,6 +37,9 @@ const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 /** Reward kinds a redeem code understands. */
 const REWARD_TYPES = new Set(['Booster', 'Card', 'Sparks']);
 
+/** Reward kinds that draw their card at claim time, with a list or a filter of printings. */
+const RANDOM_CARD_TYPES = new Set(['randomcard-list', 'randomcard-filter']);
+
 const isRecord = (value) => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 
 /** True for a string that still holds something once trimmed. */
@@ -157,6 +160,116 @@ function readCardIndex(context) {
     });
   });
   return index;
+}
+
+/**
+ * Validates the `Data` of a random card reward (`RandomCard-List`, `RandomCard-Filter`).
+ *
+ * The two shapes are the ones `js/business/RandomCardReward.js` reads: a list of printings named by
+ * their collection key (`<Index>_<layout>`), or the criteria of a filter. A malformed field is
+ * reported instead of silently widening the reward, which is what the game does at runtime (a field
+ * it cannot read is dropped).
+ *
+ * @param {unknown} data - `Data` of the reward.
+ * @param {Set<string>} keys - Collection keys (`<id>_<layout>`) every catalogue prints.
+ * @param {(message: string) => void} fail - Reporter of the entry.
+ * @returns {void}
+ */
+function checkRandomCardData(data, keys, fail) {
+  if (!isRecord(data)) {
+    fail('a random card reward needs a Data object');
+    return;
+  }
+
+  if (data.ListCard !== undefined) {
+    if (!Array.isArray(data.ListCard)) {
+      fail('Data.ListCard must be an array of card keys');
+    } else {
+      data.ListCard.forEach((entry) => {
+        if (!isFilled(entry)) {
+          fail(`Data.ListCard holds ${JSON.stringify(entry)}, expected a card key`);
+          return;
+        }
+        const key = entry.trim();
+        const separator = key.lastIndexOf('_');
+        const cardIndex = separator > 0 ? key.slice(0, separator) : '';
+        const layout = separator > 0 ? key.slice(separator + 1) : '';
+        if (cardIndex === '' || layout === '') {
+          fail(`Data.ListCard entry ${JSON.stringify(key)} is not \"<Index>_<layout>\"`);
+          return;
+        }
+        if (!keys.has(`${cardIndex}_${layout}`)) {
+          fail(`Data.ListCard entry ${JSON.stringify(key)} names no printing any catalogue declares`);
+        }
+      });
+    }
+  }
+
+  if (data.Rarities !== undefined) {
+    const rarities = Array.isArray(data.Rarities) ? data.Rarities : [data.Rarities];
+    rarities.forEach((rarity) => {
+      if (!isIntegerBetween(rarity, 1, 5)) {
+        fail(`Data.Rarities holds ${JSON.stringify(rarity)}, expected an integer from 1 to 5`);
+      }
+    });
+  }
+
+  if (data.layouts !== undefined) {
+    const layouts = Array.isArray(data.layouts) ? data.layouts : [data.layouts];
+    layouts.forEach((layout) => {
+      const normalized = isFilled(layout) ? layout.trim().toLowerCase() : '';
+      if (normalized !== 'normal' && !LAYOUTS.has(normalized)) {
+        fail(`Data.layouts holds ${JSON.stringify(layout)}, expected classic, fullart or normal`);
+      }
+    });
+  }
+
+  if (data.Sets !== undefined) {
+    const sets = Array.isArray(data.Sets) ? data.Sets : [data.Sets];
+    sets.forEach((set) => {
+      if (!isFilled(set)) {
+        fail(`Data.Sets holds ${JSON.stringify(set)}, expected an extension id`);
+      }
+    });
+  }
+
+  if (data.DefaultLayout !== undefined) {
+    const normalized = isFilled(data.DefaultLayout) ? data.DefaultLayout.trim().toLowerCase() : '';
+    if (normalized !== 'normal' && !LAYOUTS.has(normalized)) {
+      fail(`Data.DefaultLayout is ${JSON.stringify(data.DefaultLayout)}, expected classic or fullart`);
+    }
+  }
+
+  if (data.BePromo !== undefined && typeof data.BePromo !== 'boolean') {
+    fail('Data.BePromo must be a boolean');
+  }
+}
+
+/**
+ * Collection keys of every printing the catalogues declare (`<id>_<layout>`).
+ *
+ * The `id` is the one the collection stores (`Card.normalizeIndexToId`): an `Index` written
+ * `SERIE-A1 / W001` becomes `SERIE-A1 _ W001`, which is the key a random card list names.
+ *
+ * @param {object} context - Linter context.
+ * @returns {Set<string>} The printable keys.
+ */
+function readCardKeySet(context) {
+  const keys = new Set();
+  listCatalogues(context).forEach((catalogue) => {
+    const cards = readCards(context, catalogue);
+    if (cards === null) return;
+    cards.forEach((card) => {
+      if (!isRecord(card) || !isFilled(card.Index) || !isFilled(card.Layout)) return;
+      const id = card.Index
+        .split('/')
+        .map((part) => part.trim())
+        .filter((part) => part !== '')
+        .join(' _ ');
+      keys.add(`${id}_${card.Layout}`);
+    });
+  });
+  return keys;
 }
 
 /** The sets declared by `settings/cardsets.json`, or null when the file lists none. */
@@ -469,6 +582,8 @@ export default [
       const sets = readSets(context);
       const setIds = new Set((sets ?? []).map((set) => set.id));
       const text = context.readText(CODES_FILE);
+      // The printings of every catalogue, for the card keys a random card list may name.
+      const cardKeys = readCardKeySet(context);
       /** Normalized code, to the spelling that declared it first. */
       const seen = new Map();
 
@@ -518,14 +633,20 @@ export default [
               fail(`code "${code}" holds a reward that is not an object`);
               return;
             }
-            if (!REWARD_TYPES.has(reward.RewardType)) {
-              fail(`code "${code}" has reward type ${JSON.stringify(reward.RewardType)}, expected Booster, Card or Sparks`);
-            }
-            if (!Number.isInteger(reward.Quantity) || reward.Quantity <= 0) {
-              fail(`code "${code}" rewards ${JSON.stringify(reward.Quantity)} ${reward.RewardType}(s), expected a positive integer`);
-            }
-            if (reward.RewardType === 'Booster' && !setIds.has(reward.ItemId)) {
+            // A reward is spelled either with the fields of a code (`RewardType`, `Quantity`) or
+            // with the ones of a daily chapter (`Type`, `Qte`, `Data`), which is how a random card
+            // is written. Both are accepted, exactly like `RedeemManager.resolveRewards()` does.
+            const type = reward.RewardType ?? reward.Type;
+            const quantity = reward.Quantity ?? reward.Qte;
+            if (typeof type === 'string' && RANDOM_CARD_TYPES.has(type.trim().toLowerCase())) {
+              checkRandomCardData(reward.Data, cardKeys, fail);
+            } else if (!REWARD_TYPES.has(type)) {
+              fail(`code "${code}" has reward type ${JSON.stringify(type)}, expected Booster, Card, Sparks or a random card`);
+            } else if (type === 'Booster' && !setIds.has(reward.ItemId)) {
               fail(`code "${code}" rewards booster "${reward.ItemId}", which is not a set of ${CARDSETS_FILE}`);
+            }
+            if (!Number.isInteger(quantity) || quantity <= 0) {
+              fail(`code "${code}" rewards ${JSON.stringify(quantity)} ${type}(s), expected a positive integer`);
             }
           });
         }
@@ -1301,6 +1422,8 @@ export default [
       }
 
       const index = readCardIndex(context);
+      // The collection keys a random card list may name (`<id>_<layout>`).
+      const cardKeys = readCardKeySet(context);
       const resources = new Set();
       const mining = readOrNull(context, MINING_FILE);
       if (isRecord(mining) && Array.isArray(mining.Blocks)) {
@@ -1469,6 +1592,10 @@ export default [
 
         const type = reward.Type.trim().toLowerCase();
         if (type === 'sparks' || type === 'booster') return;
+        if (RANDOM_CARD_TYPES.has(type)) {
+          checkRandomCardData(reward.Data, cardKeys, (message) => fail(`${label}: ${message}`));
+          return;
+        }
         if (type === 'card') {
           if (!isFilled(reward.CardID)) {
             fail(`${label}: a Card reward needs a CardID (the Index of the card)`);

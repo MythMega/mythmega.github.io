@@ -29,6 +29,7 @@ import redeemManager, {
 import boosterManager from '../../business/BoosterManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { applyCardGlow } from '../../utils/Shine.js';
+import cardRoulettePopup from '../components/CardRoulettePopup.js';
 
 /**
  * Identity of the panel. It is NOT a router view anymore: the promo codes live inside the settings
@@ -271,12 +272,16 @@ export class RedeemView {
     this.setBusy(true);
 
     try {
-      await redeemManager.claim(this.pendingCode);
+      const result = await redeemManager.claim(this.pendingCode);
       this.closeModal();
       this.setFeedback('redeem.success', 'info');
       Toast.success('redeem.success');
       this.input.value = '';
       this.log('Code claimed.');
+      // A code may hand out "a random card": the card is already in the save, the roulette shows
+      // which one it is (and whether it is new) once the confirmation modal is gone.
+      const draw = result.rewards.find((reward) => reward.reel);
+      if (draw) void this.openRoulette(draw);
     } catch (error) {
       console.warn('[RedeemView] The code was refused.', error);
       this.closeModal();
@@ -298,6 +303,24 @@ export class RedeemView {
   handleCancel() {
     if (this.isClaiming) return;
     this.closeModal();
+  }
+
+  /**
+   * Opens the roulette of a random card reward of the claim.
+   *
+   * The reward is already granted: closing the dialog never loses the card, and the wheel cannot be
+   * rerolled to fish for another printing.
+   *
+   * @param {{reel: {cards: object[], winnerIndex: number}, isNew?: boolean}} reward - Claimed reward.
+   * @returns {Promise<void>} Resolves once the dialog is dismissed.
+   */
+  async openRoulette(reward) {
+    await cardRoulettePopup.open({
+      cards: reward.reel.cards,
+      winnerIndex: reward.reel.winnerIndex,
+      isNew: reward.isNew === true,
+      titleKey: 'code.roulette.title',
+    });
   }
 
   /**
@@ -403,6 +426,17 @@ export class RedeemView {
     const item = document.createElement('li');
     item.className = 'redeem__reward';
     item.dataset.type = reward.type;
+
+    // A random card is drawn at claim time: the confirmation must not spoil it (nor show a
+    // printing the claim could draw again), so the row only promises a count.
+    if (reward.reel) {
+      item.dataset.type = 'randomcard';
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.randomCard', { count: reward.quantity });
+      item.appendChild(line);
+      return item;
+    }
 
     if (reward.type === 'card' && reward.card) {
       applyCardGlow(item, reward.card);

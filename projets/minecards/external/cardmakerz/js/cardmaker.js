@@ -267,3 +267,96 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   }
 });
 
+/* --------------------------------------------------------------------------
+ * JSON du booster
+ *
+ * Le bloc copié est celui qu'on colle dans la liste « Cards » du fichier d'un
+ * booster (`data/boosters/<Serie>.json`) : mêmes champs, même ordre et même
+ * échelle de rareté que les cartes du jeu. Le Card Maker ne gère qu'une seule
+ * langue, donc le nom et la description saisis alimentent FR et EN ; « Path »
+ * reste explicitement null, il n'est rempli qu'une fois l'image webp publiée.
+ * ------------------------------------------------------------------------ */
+
+/* Échelle du champ « Rarity » des fichiers JSON : 1 = Commune … 5 = Mythique
+ * (les options du sélecteur suivent le même ordre, cf. RarityDef du Bulk Generator). */
+const RARITY_JSON_VALUES = [1, 2, 3, 4, 5];
+
+/* Objet JSON de la carte affichée, prêt à coller dans le fichier du booster. */
+function buildCardJson() {
+  const title = inputTitle.value.trim();
+  const description = inputText.value.trim();
+  const style = inputFont.options[inputFont.selectedIndex].textContent.trim();
+  const rarity = RARITY_JSON_VALUES[inputRarity.selectedIndex] || RARITY_JSON_VALUES[0];
+
+  return {
+    Index: inputSeries.value.trim(),
+    Name_FR: title,
+    Name_EN: title,
+    Desc_FR: description,
+    Desc_EN: description,
+    Rarity: rarity,
+    Style: style,
+    Background: inputImage.value.trim(),
+    Underlay: inputUnderlay.value.trim(),
+    Layout: previewLayout(),
+    Path: null,
+  };
+}
+
+/* Copie un texte dans le presse-papiers.
+ * `navigator.clipboard` n'existe qu'en contexte sécurisé (https ou localhost) et
+ * peut être refusé : on retombe alors sur la sélection d'un champ temporaire,
+ * seule méthode acceptée partout, y compris pour une page ouverte en file://. */
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // Refus du navigateur : on passe au repli.
+    }
+  }
+
+  const field = document.createElement('textarea');
+  field.value = text;
+  field.setAttribute('readonly', '');
+  field.style.position = 'fixed';
+  field.style.top = '-1000px';
+  document.body.appendChild(field);
+  field.select();
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch (e) {
+    copied = false;
+  }
+  document.body.removeChild(field);
+  return copied;
+}
+
+const copyJsonBtn = document.getElementById('copy-json-btn');
+const copyJsonStatus = document.getElementById('copy-json-status');
+const jsonOutput = document.getElementById('json-output');
+
+copyJsonBtn.addEventListener('click', async () => {
+  // 4 espaces : même indentation que les cartes déjà présentes dans les fichiers.
+  const json = JSON.stringify(buildCardJson(), null, 4);
+  const copied = await copyText(json);
+
+  copyJsonStatus.textContent = copied
+    ? 'JSON copié : collez-le dans la liste « Cards » du fichier du booster.'
+    : 'Copie refusée par le navigateur : le JSON est affiché ci-dessous, à sélectionner à la main.';
+  copyJsonStatus.dataset.state = copied ? 'ok' : 'error';
+  copyJsonStatus.hidden = false;
+
+  // Repli visible : la copie a échoué, le texte reste accessible et sélectionné.
+  if (!copied) {
+    jsonOutput.value = json;
+    jsonOutput.hidden = false;
+    jsonOutput.select();
+  } else {
+    jsonOutput.hidden = true;
+  }
+});
+

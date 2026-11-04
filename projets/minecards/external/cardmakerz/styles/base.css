@@ -159,6 +159,28 @@
     }
     button:hover { background: #4752c4; }
 
+    /* Boutons secondaires (copie du JSON) : même gabarit, teinte plus discrète. */
+    button.btn-secondary { background: #3f3f50; }
+    button.btn-secondary:hover { background: #4a4a5e; }
+
+    /* Retour de la copie du JSON, juste sous le bouton. */
+    .copy-status {
+      margin: 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #a0a0b0;
+    }
+    .copy-status[data-state='ok'] { color: #43b581; }
+    .copy-status[data-state='error'] { color: #f04747; }
+
+    /* Repli quand le presse-papiers est refusé : le JSON reste sélectionnable. */
+    .json-output {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      white-space: pre;
+    }
+
     /* Conteneur principal de la carte */
     .card-preview {
       width: var(--card-width);

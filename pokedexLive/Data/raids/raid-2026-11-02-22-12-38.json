@@ -1,0 +1,253 @@
+{
+  "bossName": "Raichu Fantomatique",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/raichu_shiny.png",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/StreamDex/Custom/Collections/Halloween_2026/raichu_shiny.png",
+  "bossRarity": "UNCOMMON",
+  "shiny": true,
+  "pvMax": 130000,
+  "date": "2026-11-02 22:12:38",
+  "durationSec": 1298,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 137830,
+      "countAtk": 16,
+      "baseDmg": 9123,
+      "level": 16,
+      "raidCount": 376,
+      "luck": 0.9442481
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 137830
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 1,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 8
+    },
+    {
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 1,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-02 22:33:45",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9123,
+      "pvAfter": 120877,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:33:46",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9201,
+      "pvAfter": 111676,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Tu as \u00E9t\u00E9 mis KO. Tes attaques ne feront plus de d\u00E9gats pendant 5 minutes !"
+    },
+    {
+      "at": "2026-11-02 22:33:47",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 111676,
+      "heal": false,
+      "critical": false,
+      "statut": "KO",
+      "statusEffect": "Ko jusqu\u0027\u00E0 22h38:46."
+    },
+    {
+      "at": "2026-11-02 22:34:09",
+      "pseudo": "jmdevfr",
+      "platform": "twitch",
+      "damages": 0,
+      "pvAfter": 111676,
+      "heal": true,
+      "critical": false,
+      "statut": "",
+      "statusEffect": "jmdevfr a soign\u00E9 tout le monde ! ( 1 personne(s) )"
+    },
+    {
+      "at": "2026-11-02 22:34:09",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9154,
+      "pvAfter": 102522,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:11",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9228,
+      "pvAfter": 93294,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:11",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9202,
+      "pvAfter": 84092,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:12",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9169,
+      "pvAfter": 74923,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9170,
+      "pvAfter": 65753,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9147,
+      "pvAfter": 56606,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-11-02 22:34:14",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9173,
+      "pvAfter": 47433,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:14",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9185,
+      "pvAfter": 38248,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:15",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9147,
+      "pvAfter": 29101,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:15",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9216,
+      "pvAfter": 19885,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:15",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9227,
+      "pvAfter": 10658,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9243,
+      "pvAfter": 1415,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-02 22:34:16",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9245,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": null
+    }
+  ]
+}

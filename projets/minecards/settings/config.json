@@ -19,7 +19,9 @@
     "list": [
       { "id": "normal", "labelKey": "settings.animation.normal", "tearMs": 700, "flipMs": 220, "staggerMs": 60 },
       { "id": "epic", "labelKey": "settings.animation.epic", "tearMs": 1200, "flipMs": 640, "staggerMs": 150 },
-      { "id": "explosive", "labelKey": "settings.animation.explosive", "parodic": true, "tearMs": 950, "flipMs": 900, "staggerMs": 90 }
+      { "id": "explosive", "labelKey": "settings.animation.explosive", "parodic": true, "tearMs": 950, "flipMs": 900, "staggerMs": 90 },
+      { "id": "none", "labelKey": "settings.animation.none", "tearMs": 220, "flipMs": 90, "staggerMs": 0 },
+      { "id": "mining", "labelKey": "settings.animation.mining", "tearMs": 900, "flipMs": 300, "staggerMs": 70 }
     ],
     "default": "epic"
   },
@@ -330,7 +332,7 @@
     "dailySparkOffer": {
       "_comment": "One resource sold for Sparks per UTC day, once. Its quantity is drawn so that quantity * its value in 'itemsValues' never exceeds 'maxResourceValue'; 'priceMultiplier' turns that value into the price in Sparks (2 = the player pays twice the value).",
       "maxResourceValue": 100,
-      "priceMultiplier": 2
+      "priceMultiplier": 1
     }
   }
 }

@@ -153,6 +153,55 @@
   color: var(--color-text-muted);
 }
 
+/* --- Expired-currency announcement (`CurrencyExpiryPopup.js`) -------------- */
+
+.currency-expiry__dialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.currency-expiry__title {
+  margin: 0;
+}
+
+.currency-expiry__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* One currency: its texture, then what became of the balance. Several currencies can expire at once
+   (a long absence), so the rows share one dialog instead of stacking one dialog each. */
+.currency-expiry__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.currency-expiry__texture {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  image-rendering: pixelated;
+}
+
+.currency-expiry__texture[hidden] {
+  display: none;
+}
+
+.currency-expiry__message {
+  margin: 0;
+  color: var(--color-text);
+}
+
 @keyframes modal-fade {
   from {
     opacity: 0;

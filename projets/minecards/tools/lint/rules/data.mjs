@@ -22,6 +22,8 @@ const DAILY_REWARDS_FILE = 'settings/daily_connect_rewards.json';
 const CHANGELOG_FILE = 'settings/changelog.json';
 const RARITY_FILE = 'settings/defaultRarity.json';
 const PINNED_OFFERS_FILE = 'data/shop/pinned_offers.json';
+const ILLAGER_CURRENCIES_FILE = 'data/illager_shop/illager_currencies.json';
+const ILLAGER_SHOP_FILE = 'data/illager_shop/illager_shop.json';
 
 /** Print layouts a card may declare. */
 const LAYOUTS = new Set(['classic', 'fullart']);
@@ -35,7 +37,10 @@ const TROPHY_RARITIES = new Set(['bronze', 'silver', 'gold', 'diamond', 'emerald
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Reward kinds a redeem code understands. */
-const REWARD_TYPES = new Set(['Booster', 'Card', 'Sparks']);
+const REWARD_TYPES = new Set(['Booster', 'Card', 'Sparks', 'Currency', 'CustomCurrency']);
+
+/** Reward kinds a trade of the Illager Shop understands. */
+const ILLAGER_REWARD_TYPES = new Set(['Sparks', 'Ultima', 'Card', 'Booster']);
 
 /** Reward kinds that draw their card at claim time, with a list or a filter of printings. */
 const RANDOM_CARD_TYPES = new Set(['randomcard-list', 'randomcard-filter']);
@@ -381,10 +386,14 @@ export default [
           } else {
             if (!path.includes('<lang>')) fail(`${label} path has no <lang> placeholder`);
             if (knownLayout && named) {
-              const expected = `${index.replace(/\s*\/\s*/, ' _ ')}_${layout}.png`;
+              const base = `${index.replace(/\s*\/\s*/, ' _ ')}_${layout}`;
               const actual = path.slice(path.lastIndexOf('/') + 1);
-              if (actual !== expected) {
-                fail(`${label} path "${actual}" does not match its index and layout ("${expected}")`);
+              // The illustrations were migrated to WebP; a catalogue that still names the PNG file
+              // is accepted as well, so a catalogue can be converted card by card.
+              if (actual !== `${base}.webp` && actual !== `${base}.png`) {
+                fail(
+                  `${label} path "${actual}" does not match its index and layout ("${base}.webp")`
+                );
               }
             }
           }
@@ -1606,11 +1615,31 @@ export default [
           }
           return;
         }
+        // A currency of the Illager Shop is named by its ID alone: it has to be one the shop
+        // declares, otherwise the day would credit a balance no screen can show.
+        if (type === 'currency' || type === 'customcurrency') {
+          const rawId = reward.Data ?? reward.CurrencyID ?? reward.ItemId;
+          const declared = new Set();
+          const currencies = readOrNull(context, ILLAGER_CURRENCIES_FILE);
+          if (Array.isArray(currencies)) {
+            currencies.forEach((currency) => {
+              if (isRecord(currency) && isFilled(currency.ID)) declared.add(currency.ID.trim());
+            });
+          }
+          if (typeof rawId !== 'string' || rawId.trim() === '') {
+            fail(`${label}: a Currency reward needs the ID of the currency in "Data"`);
+          } else if (!declared.has(rawId.trim())) {
+            fail(
+              `${label}: currency ${JSON.stringify(rawId)} is not declared by ${ILLAGER_CURRENCIES_FILE}`
+            );
+          }
+          return;
+        }
         // Anything else is a resource of the mine: its name must be one a block actually rewards,
         // otherwise the day would grant a quantity nobody can see in the inventory.
         if (resources.size > 0 && !resources.has(type)) {
           fail(
-            `${label}: Type ${JSON.stringify(reward.Type)} is neither Sparks, Booster, Card nor a resource of ${MINING_FILE}`
+            `${label}: Type ${JSON.stringify(reward.Type)} is neither Sparks, Booster, Card, Currency nor a resource of ${MINING_FILE}`
           );
         }
       }
@@ -1722,6 +1751,183 @@ export default [
           languages
             .filter((code) => !written.includes(code))
             .forEach((code) => fail(`${where}: the note is not translated in "${code}"`, 'warning'));
+        });
+      });
+    },
+  },
+  {
+    id: 'data/illager-shop',
+    summary: 'The Illager Shop is complete, and every card, extension and currency it names exists.',
+    severity: 'error',
+    /** Reads the currencies, then every set of offers, offer by offer. */
+    run(context) {
+      const cards = readCardIndex(context);
+      const paths = readPaths(context);
+      const boosterIds = new Set(
+        listJsonFiles(context, paths.boosters).map((name) => name.replace(/\.json$/i, ''))
+      );
+
+      const isDay = (value) =>
+        typeof value === 'string' && DAY_PATTERN.test(value.trim()) && Number.isFinite(Date.parse(`${value.trim()}T00:00:00.000Z`));
+
+      const currencyIds = new Set();
+      const currencies = readOrNull(context, ILLAGER_CURRENCIES_FILE);
+      if (Array.isArray(currencies)) {
+        const text = context.readText(ILLAGER_CURRENCIES_FILE);
+        currencies.forEach((currency, position) => {
+          const label = `currency #${position + 1}`;
+          if (!isRecord(currency)) {
+            context.report({
+              file: ILLAGER_CURRENCIES_FILE,
+              line: 1,
+              column: 1,
+              message: `${label} is not an object`,
+            });
+            return;
+          }
+          const line = lineAt(text, isFilled(currency.ID) ? `"ID": ${JSON.stringify(currency.ID)}` : '');
+          const fail = (message, severity) =>
+            context.report({ file: ILLAGER_CURRENCIES_FILE, line, column: 1, message, severity });
+
+          const id = currency.ID;
+          if (!isFilled(id)) {
+            fail(`${label} has no ID`);
+          } else if (currencyIds.has(id)) {
+            fail(`${label} declares "${id}" twice`);
+          } else {
+            currencyIds.add(id);
+          }
+          if (!isFilled(currency.Name)) fail(`${label} has no Name`);
+          if (!isFilled(currency.Texture)) {
+            fail(`${label} has no Texture`);
+          } else if (!/^(\.\/)?assets\//.test(currency.Texture.trim())) {
+            fail(`${label} texture "${currency.Texture}" is not under assets/`);
+          }
+          if (!isDay(currency.ExpirationDate)) {
+            fail(`${label} ExpirationDate ${JSON.stringify(currency.ExpirationDate)} is not a real day (YYYY-MM-DD)`);
+          }
+          if (!Number.isInteger(currency.ConversionRate) || currency.ConversionRate <= 0) {
+            fail(`${label} ConversionRate ${JSON.stringify(currency.ConversionRate)} is not a positive integer`);
+          }
+        });
+      }
+
+      const sets = readOrNull(context, ILLAGER_SHOP_FILE);
+      if (sets === null) return;
+      if (!Array.isArray(sets) || sets.length === 0) {
+        context.report({
+          file: ILLAGER_SHOP_FILE,
+          line: 1,
+          column: 1,
+          message: 'no "set of offers" array: the shop declares nothing',
+        });
+        return;
+      }
+
+      const text = context.readText(ILLAGER_SHOP_FILE);
+      const setIds = new Set();
+      sets.forEach((set, position) => {
+        const label = `set #${position + 1}`;
+        if (!isRecord(set)) {
+          context.report({
+            file: ILLAGER_SHOP_FILE,
+            line: 1,
+            column: 1,
+            message: `${label} is not an object`,
+          });
+          return;
+        }
+        const id = set.ID;
+        const line = lineAt(text, Number.isInteger(id) ? `"ID": ${id}` : '');
+        const fail = (message, severity) =>
+          context.report({ file: ILLAGER_SHOP_FILE, line, column: 1, message, severity });
+
+        if (!Number.isInteger(id)) {
+          fail(`${label} has no integer ID`);
+        } else if (setIds.has(id)) {
+          fail(`${label} declares ID ${id} twice`);
+        } else {
+          setIds.add(id);
+        }
+        if (!isFilled(set.SetName)) fail(`${label} has no SetName`);
+
+        const window = isRecord(set.Availabilities) ? set.Availabilities : {};
+        if (!isDay(window.Start) || !isDay(window.End)) {
+          fail(`${label} Availabilities need a real Start and End day (YYYY-MM-DD)`);
+        } else if (window.Start.trim() > window.End.trim()) {
+          fail(`${label} starts (${window.Start}) after it ends (${window.End})`);
+        }
+
+        if (!isFilled(set.CurrencyUsed)) {
+          fail(`${label} has no CurrencyUsed`);
+        } else if (!currencyIds.has(set.CurrencyUsed)) {
+          fail(`${label} is paid in "${set.CurrencyUsed}", which no currency declares`);
+        }
+
+        if (!Array.isArray(set.TradeSet) || set.TradeSet.length === 0) {
+          fail(`${label} has no TradeSet`);
+          return;
+        }
+
+        set.TradeSet.forEach((trade, index) => {
+          const where = `${label} trade #${index + 1}`;
+          if (!isRecord(trade)) {
+            fail(`${where} is not an object`);
+            return;
+          }
+          if (!Number.isInteger(trade.Price) || trade.Price <= 0) {
+            fail(`${where} Price ${JSON.stringify(trade.Price)} is not a positive integer`);
+          }
+          if (trade.Repeatable !== undefined && typeof trade.Repeatable !== 'boolean') {
+            fail(`${where} Repeatable ${JSON.stringify(trade.Repeatable)} is not a boolean`);
+          }
+          if (!Array.isArray(trade.Rewards) || trade.Rewards.length === 0) {
+            fail(`${where} grants nothing`);
+            return;
+          }
+          trade.Rewards.forEach((reward) => {
+            if (!isRecord(reward)) {
+              fail(`${where} declares a reward that is not an object`);
+              return;
+            }
+            const type = reward.Type;
+            if (!ILLAGER_REWARD_TYPES.has(type)) {
+              fail(`${where} reward type ${JSON.stringify(type)} is not "Sparks", "Ultima", "Card" or "Booster"`);
+              return;
+            }
+            if (!Number.isInteger(reward.Qte) || reward.Qte <= 0) {
+              fail(`${where} reward quantity ${JSON.stringify(reward.Qte)} is not a positive integer`);
+            }
+            if (type === 'Card') {
+              const data = reward.Data;
+              const match = typeof data === 'string' ? /^(.*?)_(classic|fullart)$/i.exec(data.trim()) : null;
+              const index = match ? match[1].replace(/\s*_\s*/g, ' / ').trim() : null;
+              if (index === null) {
+                fail(`${where} rewards card ${JSON.stringify(data)}, expected "<Index>_<layout>"`);
+                return;
+              }
+              const printings = cards.get(index);
+              if (!printings) {
+                fail(`${where} rewards card "${index}", which no catalogue declares`);
+                return;
+              }
+              const layout = match[2].toLowerCase();
+              if (!printings.has(layout)) {
+                fail(
+                  `${where} rewards the "${layout}" printing of "${index}", which does not exist ("${[...printings].join('", "')}" do)`,
+                  'warning'
+                );
+              }
+            }
+            if (type === 'Booster') {
+              const data = typeof reward.Data === 'string' ? reward.Data.trim() : '';
+              if (data === '') {
+                fail(`${where} rewards a booster without naming its extension`);
+              } else if (!boosterIds.has(data.toUpperCase()) && !boosterIds.has(data)) {
+                fail(`${where} rewards a booster of "${data}", which has no catalogue in "${paths.boosters}"`);
+              }
+            }
+          });
         });
       });
     },

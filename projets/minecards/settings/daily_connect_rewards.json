@@ -106,8 +106,9 @@
             {
                 "Day": 11,
                 "Reward": {
-                    "Type": "Sparks",
-                    "Qte": 5
+                    "Type": "Currency",
+                    "Qte": 2,
+                    "Data": "AllaysCurrency"
                 }
             },
             {
@@ -134,8 +135,9 @@
             {
                 "Day": 15,
                 "Reward": {
-                    "Type": "Sparks",
-                    "Qte": 3
+                    "Type": "Currency",
+                    "Qte": 2,
+                    "Data": "AllaysCurrency"
                 }
             },
             {
@@ -175,8 +177,9 @@
             {
                 "Day": 18,
                 "Reward": {
-                    "Type": "Sparks",
-                    "Qte": 5
+                    "Type": "Currency",
+                    "Qte": 3,
+                    "Data": "AllaysCurrency"
                 }
             },
             {
@@ -209,8 +212,9 @@
             {
                 "Day": 22,
                 "Reward": {
-                    "Type": "Sparks",
-                    "Qte": 3
+                    "Type": "Currency",
+                    "Qte": 3,
+                    "Data": "AllaysCurrency"
                 }
             },
             {
@@ -230,8 +234,9 @@
             {
                 "Day": 25,
                 "Reward": {
-                    "Type": "Sparks",
-                    "Qte": 5
+                    "Type": "Currency",
+                    "Qte": 5,
+                    "Data": "AllaysCurrency"
                 }
             },
             {

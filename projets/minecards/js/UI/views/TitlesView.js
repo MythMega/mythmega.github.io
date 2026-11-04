@@ -64,7 +64,9 @@ export class TitlesView {
     this.backButton = this.root.querySelector('[data-titles-back]');
     this.feedbackElement = this.root.querySelector('[data-titles-feedback]');
     this.summaryElement = this.root.querySelector('[data-titles-summary]');
-    this.listElement = this.root.querySelector('[data-titles-list]');
+    this.noneListElement = this.root.querySelector('[data-titles-none-list]');
+    this.tabsElement = this.root.querySelector('[data-titles-tabs]');
+    this.panelsElement = this.root.querySelector('[data-titles-panels]');
     this.emptyElement = this.root.querySelector('[data-titles-empty]');
     this.modal = this.root.querySelector('[data-titles-modal]');
     this.modalTitle = this.root.querySelector('[data-titles-modal-title]');
@@ -82,6 +84,12 @@ export class TitlesView {
     this.trophyState = null;
     /** @type {{level: object[], collection: object[], all: object[]}|null} Catalogue of the last render. */
     this.titles = null;
+    /** @type {Map<string, HTMLButtonElement>} Tab buttons, keyed by category id. */
+    this.categoryTabs = new Map();
+    /** @type {Map<string, HTMLElement>} Panels, keyed by category id. */
+    this.categoryPanels = new Map();
+    /** @type {string|null} Category displayed, kept across a reload. */
+    this.activeCategory = null;
     /** @type {boolean} True once `init()` bound everything. */
     this.isInitialized = false;
     /** @type {boolean} True when the view is the active one. */
@@ -117,7 +125,9 @@ export class TitlesView {
     const missing = [
       ['[data-titles-back]', this.backButton],
       ['[data-titles-summary]', this.summaryElement],
-      ['[data-titles-list]', this.listElement],
+      ['[data-titles-none-list]', this.noneListElement],
+      ['[data-titles-tabs]', this.tabsElement],
+      ['[data-titles-panels]', this.panelsElement],
       ['[data-titles-modal]', this.modal],
       ['[data-titles-modal-title]', this.modalTitle],
       ['[data-titles-modal-body]', this.modalBody],
@@ -167,9 +177,10 @@ export class TitlesView {
   bindEvents() {
     this.listen(this.backButton, 'click', () => this.onNavigate?.(TITLES_BACK_VIEW));
 
-    // ONE delegated listener: the rows are rebuilt on every render. The condition button is checked
-    // FIRST, because it lives inside the row of a locked title, whose choose button is disabled.
-    this.listen(this.listElement, 'click', (event) => {
+    // ONE delegated listener per container: the rows are rebuilt on every render. The condition
+    // button is checked FIRST, because it lives inside the row of a locked title, whose choose
+    // button is disabled. The "no title" row lives outside the tabs, so it has its own container.
+    const handleRowClick = (event) => {
       if (!(event.target instanceof Element)) return;
       const condition = event.target.closest('[data-title-condition]');
       if (condition) {
@@ -178,7 +189,16 @@ export class TitlesView {
       }
       const choose = event.target.closest('[data-title-choose]');
       if (choose && !choose.disabled) void this.selectTitle(choose.dataset.titleChoose);
+    };
+    this.listen(this.noneListElement, 'click', handleRowClick);
+    this.listen(this.panelsElement, 'click', handleRowClick);
+
+    this.listen(this.tabsElement, 'click', (event) => {
+      const button =
+        event?.target instanceof Element ? event.target.closest('[data-titles-tab]') : null;
+      if (button) this.showTab(button.dataset.titlesTab);
     });
+    this.listen(this.tabsElement, 'keydown', (event) => this.handleTabKeyDown(event));
 
     this.listen(this.modal, 'click', (event) => {
       // A click on the backdrop (never on the dialog itself) closes the modal.
@@ -259,24 +279,55 @@ export class TitlesView {
   }
 
   /**
-   * Renders every row: "no title", the levels, then the collections extension by extension.
+   * Renders the "no title" row, then the tabs and the panels of the categories.
    *
    * @returns {void}
    */
   renderTitles() {
-    if (!this.titles || !this.listElement) return;
+    if (!this.titles || !this.panelsElement) return;
     const selected = TitlesView.readSelectedId(this.profile);
-    this.listElement.textContent = '';
+    const categories = this.buildCategories();
 
-    this.listElement.appendChild(this.buildNoneRow(selected));
+    this.noneListElement.replaceChildren(this.buildNoneRow(selected));
 
-    if (this.titles.level.length > 0) {
-      this.listElement.appendChild(this.buildGroupHeading(i18n.t('titles.group.level')));
-      this.titles.level.forEach((title) => this.listElement.appendChild(this.buildRow(title, selected)));
+    if (categories.length === 0) {
+      this.categoryTabs.clear();
+      this.categoryPanels.clear();
+      this.tabsElement.replaceChildren();
+      this.panelsElement.replaceChildren();
+    } else {
+      this.renderPanels(categories, selected);
+      this.renderTabs(categories);
     }
 
-    // The collection titles are cut per extension: they are granted by the collection trophies of
-    // ONE extension, and mixing the two extensions in one list would hide that.
+    if (this.emptyElement) {
+      this.emptyElement.hidden = this.titles.all.length > 0;
+    }
+    this.log(
+      `${this.titles.all.length} title(s) rendered ` +
+        `(${this.titles.all.filter((title) => title.unlocked).length} unlocked, ` +
+        `${categories.length} category(ies), selected: ${selected || 'none'}).`
+    );
+  }
+
+  /**
+   * Groups the catalogue into the categories the tabs show.
+   *
+   * The collection titles are cut per extension: they are granted by the collection trophies of ONE
+   * extension, and mixing the two extensions in one panel would hide that.
+   *
+   * @returns {Array<{id: string, label: string, titles: object[]}>} One entry per category.
+   */
+  buildCategories() {
+    const categories = [];
+    if (this.titles.level.length > 0) {
+      categories.push({
+        id: 'level',
+        label: i18n.t('titles.group.level'),
+        titles: this.titles.level,
+      });
+    }
+
     const bySet = new Map();
     this.titles.collection.forEach((title) => {
       const setId = title.grantingTrophy?.setId ?? '';
@@ -284,19 +335,139 @@ export class TitlesView {
       bySet.get(setId).push(title);
     });
     bySet.forEach((titles, setId) => {
-      this.listElement.appendChild(this.buildGroupHeading(
-        i18n.t('titles.group.collection', { set: this.resolveSetName(setId) })
-      ));
-      titles.forEach((title) => this.listElement.appendChild(this.buildRow(title, selected)));
+      categories.push({
+        id: `set:${setId}`,
+        label: i18n.t('titles.group.collection', { set: this.resolveSetName(setId) }),
+        titles,
+      });
+    });
+    return categories;
+  }
+
+  /**
+   * DOM id of the panel of a category.
+   *
+   * @param {string} id - Category id (`level`, `set:A1`).
+   * @returns {string} A valid element id.
+   */
+  static panelIdOf(id) {
+    return `titles-panel-${String(id).replace(/[^A-Za-z0-9_-]+/g, '-')}`;
+  }
+
+  /**
+   * Draws one panel per category.
+   *
+   * Every panel is built, then hidden but the selected one: switching tabs never rebuilds a row,
+   * and the selected title stays where it belongs.
+   *
+   * @param {Array<{id: string, label: string, titles: object[]}>} categories - Categories.
+   * @param {string} selected - Id displayed by the profile.
+   * @returns {void}
+   */
+  renderPanels(categories, selected) {
+    const panels = categories.map((category) => {
+      const panel = document.createElement('div');
+      panel.className = 'titles__panel';
+      panel.id = TitlesView.panelIdOf(category.id);
+      panel.dataset.titlesPanel = category.id;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', `${TitlesView.panelIdOf(category.id)}-tab`);
+
+      const list = document.createElement('ul');
+      list.className = 'titles__list';
+      list.append(...category.titles.map((title) => this.buildRow(title, selected)));
+      panel.append(list);
+      return panel;
     });
 
-    if (this.emptyElement) {
-      this.emptyElement.hidden = this.titles.all.length > 0;
-    }
-    this.log(
-      `${this.titles.all.length} title(s) rendered ` +
-        `(${this.titles.all.filter((title) => title.unlocked).length} unlocked, selected: ${selected || 'none'}).`
-    );
+    this.panelsElement.replaceChildren(...panels);
+    this.categoryPanels = new Map(panels.map((panel) => [panel.dataset.titlesPanel, panel]));
+  }
+
+  /**
+   * Draws the strip of categories and displays its tab.
+   *
+   * The roving tabindex keeps the strip to a single stop of the Tab key: only the selected button
+   * is reachable with Tab, the others are reached with the arrows.
+   *
+   * @param {Array<{id: string, label: string, titles: object[]}>} categories - Categories.
+   * @returns {void}
+   */
+  renderTabs(categories) {
+    const buttons = categories.map((category) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'titles__tab';
+      button.id = `${TitlesView.panelIdOf(category.id)}-tab`;
+      button.dataset.titlesTab = category.id;
+      button.setAttribute('role', 'tab');
+      button.setAttribute('aria-controls', TitlesView.panelIdOf(category.id));
+      button.setAttribute('aria-selected', 'false');
+      button.tabIndex = -1;
+      button.textContent = category.label;
+      return button;
+    });
+
+    this.tabsElement.replaceChildren(...buttons);
+    this.categoryTabs = new Map(buttons.map((button) => [button.dataset.titlesTab, button]));
+
+    // The category the player was reading survives a reload (an unlock, a language change).
+    const keep = this.categoryTabs.has(this.activeCategory)
+      ? this.activeCategory
+      : this.categoryTabs.keys().next().value;
+    this.showTab(keep, { silent: true });
+  }
+
+  /**
+   * Shows one category and hides the others.
+   *
+   * @param {string|null} id - Category id.
+   * @param {object} [options] - Display options.
+   * @param {boolean} [options.silent=false] - Skips the log (used at render time).
+   * @returns {void}
+   */
+  showTab(id, { silent = false } = {}) {
+    if (typeof id !== 'string' || !this.categoryTabs.has(id)) return;
+    this.activeCategory = id;
+
+    this.categoryTabs.forEach((button, key) => {
+      const isActive = key === id;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      button.tabIndex = isActive ? 0 : -1;
+    });
+    this.categoryPanels.forEach((panel, key) => {
+      panel.hidden = key !== id;
+    });
+
+    if (silent) return;
+    this.log(`Category "${id}" displayed.`);
+  }
+
+  /**
+   * Moves the selection with the keyboard, as a tab list is expected to answer.
+   *
+   * @param {KeyboardEvent} event - Key pressed inside the strip.
+   * @returns {void}
+   */
+  handleTabKeyDown(event) {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    const ids = [...this.categoryTabs.keys()];
+    if (ids.length === 0) return;
+
+    event.preventDefault();
+    const current = Math.max(ids.indexOf(this.activeCategory), 0);
+    const next =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? ids.length - 1
+          : event.key === 'ArrowLeft'
+            ? (current - 1 + ids.length) % ids.length
+            : (current + 1) % ids.length;
+
+    this.showTab(ids[next]);
+    this.categoryTabs.get(ids[next])?.focus();
   }
 
   /**
@@ -318,24 +489,6 @@ export class TitlesView {
    */
   static readSelectedId(profile) {
     return typeof profile?.title === 'string' ? profile.title.trim() : '';
-  }
-
-  /**
-   * Builds one group heading.
-   *
-   * @param {string} label - Translated label.
-   * @returns {HTMLHeadingElement} The heading.
-   */
-  buildGroupHeading(label) {
-    // The heading is wrapped in its own `<li>`: the list only accepts list items, and a heading
-    // that is not one would be invalid markup (it is also what keeps the outline navigable).
-    const item = document.createElement('li');
-    item.className = 'titles__group-item';
-    const heading = document.createElement('h3');
-    heading.className = 'titles__group';
-    heading.textContent = label;
-    item.appendChild(heading);
-    return item;
   }
 
   /**
@@ -679,6 +832,8 @@ export class TitlesView {
     this.profile = null;
     this.trophyState = null;
     this.titles = null;
+    this.categoryTabs.clear();
+    this.categoryPanels.clear();
     this.isInitialized = false;
   }
 }

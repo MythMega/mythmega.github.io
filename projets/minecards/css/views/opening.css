@@ -300,6 +300,14 @@
   margin: 0;
 }
 
+/* What the card is about. Only the details opened from a surface without a page of its own (a shop
+   offer, a daily reward) show it: the collection and the opening summary list the facts of the
+   printing, not the text of the card. */
+.card-modal__desc {
+  margin: 0;
+  line-height: 1.5;
+}
+
 .card-modal__row {
   display: flex;
   align-items: baseline;

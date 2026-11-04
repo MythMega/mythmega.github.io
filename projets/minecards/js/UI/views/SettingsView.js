@@ -33,6 +33,13 @@
  *                 one note per line with its kind). The file is the only source: publishing a
  *                 version never touches this view.
  *
+ * SECTIONS
+ * The panels above are grouped into four sections (appearance, game, account, more) and only one is
+ * displayed at a time, from the tab strip of the markup: the page used to be a single column of a
+ * dozen panels, which nobody could scan. The selection is a display concern only — every panel is
+ * rendered once, whether it is shown or not — and `app.js` selects the section of a panel it has to
+ * reveal (the promo codes and the gift history live in the last one).
+ *
  * The modal is shared by the confirmations (import, reset) and by the distribution report: a
  * confirmation shows Cancel + Confirm, an information message only shows a Close button.
  *
@@ -82,6 +89,27 @@ export const SETTINGS_VIEW_NAME = 'settings';
  */
 const CHANGELOG_TYPES = ['feature', 'fix', 'qol'];
 
+/** Page the "buy" button of the premium offer opens, in a tab of its own. */
+export const PREMIUM_OFFER_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ';
+
+/**
+ * What the premium offer advertises, in display order.
+ *
+ * ONE list for the two places that show it (the panel of the section and the dialog that buys it):
+ * a benefit added here appears in both, and the two can never disagree on what is being sold.
+ */
+export const PREMIUM_PERK_KEYS = Object.freeze([
+  'settings.premium.perk.boosters',
+  'settings.premium.perk.card',
+  'settings.premium.perk.legendary',
+  'settings.premium.perk.sixcards',
+  'settings.premium.perk.sparks',
+  'settings.premium.perk.early',
+  'settings.premium.perk.cardDiscount',
+  'settings.premium.perk.illagerDiscount',
+  'settings.premium.perk.traderMarkup',
+]);
+
 export class SettingsView {
   /**
    * @param {HTMLElement} rootElement - The settings `<section>`.
@@ -103,6 +131,7 @@ export class SettingsView {
     this.onShowGiftHistory = typeof onShowGiftHistory === 'function' ? onShowGiftHistory : null;
 
     const query = (selector) => this.root.querySelector(selector);
+    this.tabsElement = query('[data-settings-tabs]');
     this.feedbackElement = query('[data-settings-feedback]');
     this.languageContainer = query('[data-settings-languages]');
     this.themeContainer = query('[data-settings-themes]');
@@ -158,9 +187,34 @@ export class SettingsView {
     this.modalClose = query('[data-settings-modal-close]');
     this.modalCancel = query('[data-settings-modal-cancel]');
     this.modalConfirm = query('[data-settings-modal-confirm]');
+    this.premiumPerksElement = query('[data-settings-premium-perks]');
+    this.premiumOpenButton = query('[data-settings-premium-open]');
+    this.premiumModal = query('[data-settings-premium-modal]');
+    this.premiumTitle = query('[data-settings-premium-title]');
+    this.premiumBody = query('[data-settings-premium-body]');
+    this.premiumClose = query('[data-settings-premium-close]');
+    this.premiumCancel = query('[data-settings-premium-cancel]');
+    this.premiumBuy = query('[data-settings-premium-buy]');
+
+    /** @type {Map<string, HTMLButtonElement>} Tab buttons, keyed by section name. */
+    this.tabButtons = new Map(
+      [...this.root.querySelectorAll('[data-settings-tab]')].map((button) => [
+        button.dataset.settingsTab,
+        button,
+      ])
+    );
+    /** @type {Map<string, HTMLElement>} Tab panels, keyed by section name. */
+    this.tabPanels = new Map(
+      [...this.root.querySelectorAll('[data-settings-tabpanel]')].map((panel) => [
+        panel.dataset.settingsTabpanel,
+        panel,
+      ])
+    );
 
     this.assertMarkup();
 
+    /** @type {string|null} Section on screen (null until `renderTabs()` picks one). */
+    this.activeTab = null;
     /** @type {boolean} True once `init()` bound everything. */
     this.isInitialized = false;
     /** @type {boolean} True when the view is the active one. */
@@ -185,6 +239,8 @@ export class SettingsView {
      *   params: object|null, report: object|null, confirmVariant: string,
      *   onConfirm: Function|null}|null} */
     this.pendingModal = null;
+    /** @type {boolean} True once the premium dialog was used: it then only offers to close. */
+    this.premiumUsed = false;
 
     /** @type {Map<string, HTMLButtonElement>} Language buttons, keyed by language code. */
     this.languageButtons = new Map();
@@ -224,6 +280,12 @@ export class SettingsView {
   assertMarkup() {
     const missing = [
       ['[data-settings-feedback]', this.feedbackElement],
+      ['[data-settings-tabs]', this.tabsElement],
+      ['[data-settings-tabpanel="appearance"]', this.tabPanels.get('appearance')],
+      ['[data-settings-tabpanel="game"]', this.tabPanels.get('game')],
+      ['[data-settings-tabpanel="account"]', this.tabPanels.get('account')],
+      ['[data-settings-tabpanel="premium"]', this.tabPanels.get('premium')],
+      ['[data-settings-tabpanel="more"]', this.tabPanels.get('more')],
       ['[data-settings-languages]', this.languageContainer],
       ['[data-settings-themes]', this.themeContainer],
       ['[data-settings-animations]', this.animationContainer],
@@ -268,6 +330,14 @@ export class SettingsView {
       ['[data-settings-modal-close]', this.modalClose],
       ['[data-settings-modal-cancel]', this.modalCancel],
       ['[data-settings-modal-confirm]', this.modalConfirm],
+      ['[data-settings-premium-perks]', this.premiumPerksElement],
+      ['[data-settings-premium-open]', this.premiumOpenButton],
+      ['[data-settings-premium-modal]', this.premiumModal],
+      ['[data-settings-premium-title]', this.premiumTitle],
+      ['[data-settings-premium-body]', this.premiumBody],
+      ['[data-settings-premium-close]', this.premiumClose],
+      ['[data-settings-premium-cancel]', this.premiumCancel],
+      ['[data-settings-premium-buy]', this.premiumBuy],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -287,11 +357,13 @@ export class SettingsView {
     if (this.isInitialized) return;
     this.isInitialized = true;
     this.log('Initializing…');
+    this.renderTabs();
     await this.renderLanguageSelector();
     await this.renderThemeSelector();
     await this.renderAnimationSelector();
     this.renderRenderSelector();
     this.renderAnimationDemo();
+    this.renderPremiumPerks();
     this.renderFoilSlider();
     this.renderGlareSlider();
     this.renderGlowSlider();
@@ -309,6 +381,91 @@ export class SettingsView {
     this.log(
       `Ready (lang: ${i18n.getLang()}, theme: ${themeManager.getTheme()}, animation: ${animationManager.getMode()}).`
     );
+  }
+
+  /**
+   * Wires the tab strip and displays its first section.
+   *
+   * The buttons live in the markup, one per section, each carrying the id of the panel it controls:
+   * adding a section is therefore a markup change, and every panel keeps being rendered normally
+   * (a hidden panel is only `display: none`, never unmounted).
+   *
+   * @returns {void}
+   */
+  renderTabs() {
+    if (!this.tabsElement) return;
+
+    this.tabButtons.forEach((button, name) => {
+      if (!this.tabPanels.has(name)) {
+        console.warn(`[SettingsView] The tab "${name}" controls no panel; it is hidden.`);
+        button.hidden = true;
+        return;
+      }
+      button.addEventListener('click', () => this.showTab(name));
+    });
+
+    const first = this.tabButtons.keys().next().value ?? null;
+    this.showTab(first, { silent: true });
+  }
+
+  /**
+   * Shows one section and hides the others.
+   *
+   * The whole selection is driven by `aria-selected` and the `hidden` attribute, never by removing
+   * elements: a panel that is shown again keeps its rendered content (the demo card, the changelog,
+   * the generated pickers) exactly as it was. The strip follows the roving tabindex pattern, where
+   * only the active button is reachable with Tab and the arrows move inside the strip.
+   *
+   * @param {string|null} name - Section to display.
+   * @param {object} [options] - Display options.
+   * @param {boolean} [options.silent=false] - Skips the sound and the log (used at startup, where
+   *   nothing was clicked).
+   * @returns {void}
+   */
+  showTab(name, { silent = false } = {}) {
+    if (typeof name !== 'string' || !this.tabPanels.has(name)) return;
+    if (this.activeTab === name && !silent) return;
+
+    this.activeTab = name;
+    this.tabButtons.forEach((button, key) => {
+      const isActive = key === name;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      button.tabIndex = isActive ? 0 : -1;
+    });
+    this.tabPanels.forEach((panel, key) => {
+      panel.hidden = key !== name;
+    });
+
+    if (silent) return;
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
+    this.log(`Section "${name}" displayed.`);
+  }
+
+  /**
+   * Moves the selection with the keyboard, as a tab list is expected to answer.
+   *
+   * @param {KeyboardEvent} event - Key pressed inside the strip.
+   * @returns {void}
+   */
+  handleTabKeyDown(event) {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    const names = [...this.tabButtons.keys()].filter((name) => this.tabPanels.has(name));
+    if (names.length === 0) return;
+
+    event.preventDefault();
+    const current = Math.max(names.indexOf(this.activeTab), 0);
+    const next =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? names.length - 1
+          : event.key === 'ArrowLeft'
+            ? (current - 1 + names.length) % names.length
+            : (current + 1) % names.length;
+
+    this.showTab(names[next]);
+    this.tabButtons.get(names[next])?.focus();
   }
 
   /**
@@ -1598,6 +1755,7 @@ export class SettingsView {
    * @returns {void}
    */
   bindEvents() {
+    this.listen(this.tabsElement, 'keydown', (event) => this.handleTabKeyDown(event));
     this.listen(this.demoPlayButton, 'click', () => this.playAnimationDemo());
     this.listen(this.foilSlider, 'input', (event) => this.handleFoilInput(event));
     this.listen(this.foilSlider, 'change', () => this.handleFoilChange());
@@ -1654,8 +1812,24 @@ export class SettingsView {
         this.closeModal();
       }
     });
+    this.listen(this.premiumOpenButton, 'click', () => this.openPremiumModal());
+    this.listen(this.premiumClose, 'click', () => this.closePremiumModal());
+    this.listen(this.premiumCancel, 'click', () => this.closePremiumModal());
+    this.listen(this.premiumBuy, 'click', () => this.handlePremiumBuy());
+    this.listen(this.premiumModal, 'click', (event) => {
+      if (event?.target === this.premiumModal) {
+        this.closePremiumModal();
+      }
+    });
     this.listen(document, 'keydown', (event) => {
-      if (event?.key === 'Escape' && this.modal && !this.modal.hidden) {
+      if (event?.key !== 'Escape') return;
+      // The premium dialog is the one the player just opened: Escape closes it before the
+      // confirmation dialog of the page, which can never be open at the same time anyway.
+      if (this.premiumModal && !this.premiumModal.hidden) {
+        this.closePremiumModal();
+        return;
+      }
+      if (this.modal && !this.modal.hidden) {
         this.closeModal();
       }
     });
@@ -2258,6 +2432,129 @@ export class SettingsView {
   }
 
   /**
+   * Opens the premium offer: what the subscription grants, and the button that buys it.
+   *
+   * The dialog is rebuilt on every opening, so a player who closed it once reads the complete offer
+   * again rather than the last thing that was on screen.
+   *
+   * @returns {void}
+   */
+  openPremiumModal() {
+    if (!this.premiumModal) return;
+    this.premiumUsed = false;
+    this.renderPremiumBody();
+    this.premiumCancel.hidden = false;
+    this.premiumBuy.textContent = i18n.t('settings.premium.buy');
+    this.premiumModal.hidden = false;
+    this.premiumOpenButton.setAttribute('aria-expanded', 'true');
+    this.premiumBuy.focus();
+    this.log('Premium offer displayed.');
+  }
+
+  /**
+   * Runs the purchase of the premium offer.
+   *
+   * The offer page opens in a tab of its own (the game keeps this one), and the dialog then says
+   * what the subscription really is. A second press on the same button only closes the dialog: there
+   * is nothing left to buy.
+   *
+   * @returns {void}
+   */
+  handlePremiumBuy() {
+    if (!this.premiumModal || this.premiumModal.hidden) return;
+    if (this.premiumUsed) {
+      this.closePremiumModal();
+      return;
+    }
+
+    // `noopener` keeps the opened page away from this window, and `noreferrer` keeps the address of
+    // the game out of its logs: the offer is a page of somebody else.
+    window.open(PREMIUM_OFFER_URL, '_blank', 'noopener,noreferrer');
+    this.premiumUsed = true;
+    this.renderPremiumBody();
+    this.premiumCancel.hidden = true;
+    this.premiumBuy.textContent = i18n.t('settings.premium.after.close');
+    this.premiumBuy.focus();
+    this.log('Premium offer opened in a new tab.');
+  }
+
+  /**
+   * Writes the advantages of the offer in the panel of the section.
+   *
+   * @returns {void}
+   */
+  renderPremiumPerks() {
+    if (!this.premiumPerksElement) return;
+    this.premiumPerksElement.textContent = '';
+    this.appendPremiumPerkItems(this.premiumPerksElement);
+  }
+
+  /**
+   * Fills a list with one row per advantage of the offer, in the active language.
+   *
+   * @param {HTMLUListElement} list - The `<ul>` receiving the rows.
+   * @returns {void}
+   */
+  appendPremiumPerkItems(list) {
+    PREMIUM_PERK_KEYS.forEach((key) => {
+      const item = document.createElement('li');
+      item.textContent = i18n.t(key);
+      list.appendChild(item);
+    });
+  }
+
+  /**
+   * Builds the list of the advantages, for the dialog.
+   *
+   * @returns {HTMLUListElement} The list, ready to append.
+   */
+  buildPremiumPerkList() {
+    const list = document.createElement('ul');
+    list.className = 'premium__perks premium__perks--dialog';
+    this.appendPremiumPerkItems(list);
+    return list;
+  }
+
+  /**
+   * Writes the body of the premium dialog for the state it is in.
+   *
+   * Before the offer is used it is the pitch and the advantages; once the offer page was opened it
+   * is the answer, which has no list and no second chance to buy.
+   *
+   * @returns {void}
+   */
+  renderPremiumBody() {
+    if (!this.premiumBody) return;
+    this.premiumTitle.textContent = i18n.t(
+      this.premiumUsed ? 'settings.premium.after.title' : 'settings.premium.modal.title'
+    );
+    this.premiumBody.textContent = '';
+
+    if (this.premiumUsed) {
+      const answer = document.createElement('p');
+      answer.textContent = i18n.t('settings.premium.after.body');
+      this.premiumBody.appendChild(answer);
+      return;
+    }
+
+    const pitch = document.createElement('p');
+    pitch.textContent = i18n.t('settings.premium.modal.body');
+    this.premiumBody.append(pitch, this.buildPremiumPerkList());
+  }
+
+  /**
+   * Closes the premium dialog.
+   *
+   * @returns {void}
+   */
+  closePremiumModal() {
+    if (!this.premiumModal) return;
+    this.premiumModal.hidden = true;
+    this.premiumOpenButton.setAttribute('aria-expanded', 'false');
+    this.premiumUsed = false;
+  }
+
+  /**
    * Closes the modal (confirmation or information) and forgets the pending action.
    *
    * @returns {void}
@@ -2373,6 +2670,9 @@ export class SettingsView {
     this.renderFoilValue();
     this.renderNotificationDurationValue();
     this.renderClock();
+    this.renderPremiumPerks();
+    // An open dialog is part of the page: its pitch and its list follow the language too.
+    if (this.premiumModal && !this.premiumModal.hidden) this.renderPremiumBody();
     void this.renderChangelog();
     this.renderFeedback();
     if (this.pendingModal) {

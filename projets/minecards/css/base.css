@@ -212,6 +212,28 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* The pseudo of the player, in front of the name of the game (`"<pseudo> - MineCards"`). It shares
+   the header line with the tagline and the counters, so a long name is cut instead of pushing them:
+   the title of the game stays readable, which is the one thing this corner is for. The separator is
+   drawn here rather than written in the markup, so a header without a pseudo (no account yet) does
+   not start with a dangling dash. */
+.app-header__player {
+  display: inline-block;
+  max-width: 12rem;
+  vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-header__player[hidden] {
+  display: none;
+}
+
+.app-header__player:not([hidden]) + .app-header__brand-name::before {
+  content: " - ";
+}
+
 .app-header__tagline {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);

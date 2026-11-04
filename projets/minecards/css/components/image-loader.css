@@ -1,0 +1,57 @@
+/* =============================================================================
+   image-loader.css - The small "the pictures are on their way" indicator.
+
+   Reference: `js/utils/ImagePreloader.js`, `js/UI/components/CardRoulettePopup.js` (the wheel waits
+   for its strip) and `js/UI/views/OpeningView.js` (the spotlight card waits for its artwork).
+
+   The illustrations live on a remote CDN: a flow that shows several of them preloads them first, and
+   this line is what the player sees during the rare moments the preload is not already done (a cold
+   connection, a file shipped after the last visit). It is deliberately small: on a normal connection
+   it never appears at all.
+   ============================================================================= */
+
+.image-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.image-loader[hidden] {
+  display: none;
+}
+
+.image-loader__spinner {
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: var(--radius-pill);
+  animation: image-loader-spin 900ms linear infinite;
+}
+
+.image-loader__label {
+  letter-spacing: 0.02em;
+}
+
+/* Two or three words, no more: a card face hidden behind a paragraph is worse than the stall it
+   explains. */
+.image-loader--inline {
+  margin: 0;
+  font-size: var(--font-size-xs);
+}
+
+@keyframes image-loader-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-loader__spinner {
+    animation-duration: 2.4s;
+  }
+}

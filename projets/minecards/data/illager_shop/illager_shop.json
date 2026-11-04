@@ -1,0 +1,55 @@
+[
+    {
+        "ID": 1,
+        "SetName": "Genesis Illager items",
+        "Availabilities": {
+            "Start": "2026-11-03",
+            "End": "2026-12-06"
+        },
+        "CurrencyUsed": "AllaysCurrency",
+        "TradeSet": [
+            {
+                "Price": 1,
+                "Rewards": [
+                    {
+                        "Type": "Sparks",
+                        "Qte": 25
+                    }
+                ],
+                "Repeatable" : true
+            },
+            {
+                "Price": 3,
+                "Rewards": [
+                    {
+                        "Type": "Card",
+                        "Qte": 1,
+                        "Data": "PROMO-A1 _ M02_fullart"
+                    }
+                ],
+                "Repeatable" : false
+            },
+            {
+                "Price": 5,
+                "Rewards": [
+                    {
+                        "Type": "Booster",
+                        "Qte": 1,
+                        "Data": "A1"
+                    }
+                ],
+                "Repeatable" : false
+            },
+            {
+                "Price": 1,
+                "Rewards": [
+                    {
+                        "Type": "Ultima",
+                        "Qte": 1
+                    }
+                ],
+                "Repeatable" : true
+            }
+        ]
+    }
+]

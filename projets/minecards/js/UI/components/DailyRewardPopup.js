@@ -27,6 +27,7 @@ import dailyRewardManager, {
   DAILY_REWARD_KINDS,
   DailyRewardManager,
 } from '../../business/DailyRewardManager.js';
+import illagerShopManager from '../../business/IllagerShopManager.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
@@ -34,6 +35,7 @@ import { themeIcon } from '../../utils/ThemeIcons.js';
 import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import cardRoulettePopup from './CardRoulettePopup.js';
+import cardDetailPopup from './CardDetailPopup.js';
 import Toast from './Toast.js';
 
 /** Class of the overlay, which is also a `.modal` for the shared dialog sounds. */
@@ -241,7 +243,7 @@ export class DailyRewardPopup {
     const detail = document.createElement('div');
     detail.className = `${DAILY_REWARD_CLASS}__detail`;
     detail.dataset.dailyRewardDetail = '';
-    detail.addEventListener('click', (event) => this.handleSetChoice(event));
+    detail.addEventListener('click', (event) => this.handleDetailClick(event));
 
     const gain = document.createElement('div');
     gain.className = `${DAILY_REWARD_CLASS}__gain`;
@@ -476,6 +478,9 @@ export class DailyRewardPopup {
     reward.textContent = this.describeReward(day);
     detail.append(reward);
 
+    const card = this.buildDetailCard(day);
+    if (card) detail.append(card);
+
     const state = document.createElement('p');
     state.className = `${DAILY_REWARD_CLASS}__detail-state`;
     state.dataset.state = day.state;
@@ -510,6 +515,73 @@ export class DailyRewardPopup {
       block.append(group);
       detail.append(block);
     }
+  }
+
+  /**
+   * Builds the thumbnail of the card of the previewed day, when that day gives one.
+   *
+   * A card is the one reward of the board the player can open: its thumbnail is a button that shows
+   * the card large, in the very view every card detail of the game uses (`CardDetailPopup`). A day
+   * whose card the catalogue cannot resolve has no thumbnail: its tile already says the day is
+   * unavailable, and there is nothing to open.
+   *
+   * @param {object} day - Day entry of the snapshot.
+   * @returns {HTMLElement|null} The button, or null when there is no card to show.
+   */
+  buildDetailCard(day) {
+    if (!day.card || day.reward?.kind !== DAILY_REWARD_KINDS.CARD) return null;
+    const name = day.card.getName(i18n.getLang());
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `${DAILY_REWARD_CLASS}__detail-card`;
+    button.dataset.dailyRewardCard = 'open';
+    button.setAttribute('aria-label', i18n.t('daily.card.open', { name }));
+    button.title = button.getAttribute('aria-label');
+
+    const image = document.createElement('img');
+    image.className = `${DAILY_REWARD_CLASS}__detail-card-image`;
+    image.src = i18n.resolveImagePath(day.card.illustration);
+    image.alt = '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    button.appendChild(image);
+    return button;
+  }
+
+  /**
+   * Opens the card of the previewed day large, on top of the board.
+   *
+   * @returns {Promise<void>} Resolves once the popup is displayed.
+   */
+  async openCardPreview() {
+    const day = this.getSelectedDayInfo();
+    if (!day?.card) return;
+    await cardDetailPopup.open(day.card, {
+      rows: [[
+        i18n.t('daily.card.reward'),
+        i18n.t('daily.day', { day: day.day, total: this.snapshot?.totalDays ?? 0 }),
+      ]],
+    });
+    this.log(`Card detail displayed: ${day.card.uniqueKey ?? day.card.index}.`);
+  }
+
+  /**
+   * Handles a click under the board: the thumbnail of a card opens it, and anything else belongs to
+   * the extension picker of a booster.
+   *
+   * @param {Event} event - Click event of the details area.
+   * @returns {void}
+   */
+  handleDetailClick(event) {
+    const card = event.target instanceof Element
+      ? event.target.closest('[data-daily-reward-card]')
+      : null;
+    if (card) {
+      void this.openCardPreview();
+      return;
+    }
+    this.handleSetChoice(event);
   }
 
   /**
@@ -816,6 +888,15 @@ export class DailyRewardPopup {
           name: day.card.getName(i18n.getLang()),
           rarity: getRarityLabel(day.card.rarity, (key) => i18n.t(key)),
         });
+      case DAILY_REWARD_KINDS.CUSTOM_CURRENCY: {
+        // The name of a currency lives in the Illager Shop data files: the chapter only names the
+        // ID, and the raw ID is the fallback when those files were never read.
+        const currency = illagerShopManager.getCurrency(reward.currencyId);
+        return i18n.t('daily.reward.currency', {
+          count: reward.quantity,
+          name: currency?.name ?? reward.currencyId,
+        });
+      }
       case DAILY_REWARD_KINDS.RANDOM_CARD:
         // The card is drawn at claim time: the board can only promise a count, never a name.
         return i18n.t('daily.reward.randomCard', { count: reward.quantity });

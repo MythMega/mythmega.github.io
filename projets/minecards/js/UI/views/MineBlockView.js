@@ -16,12 +16,14 @@ import i18n from '../../utils/I18n.js';
 import miningManager, { getMiningErrorMessageKey } from '../../business/MiningManager.js';
 import accountManager from '../../business/AccountManager.js';
 import traderManager, { getTraderErrorMessageKey } from '../../business/TraderManager.js';
+import illagerShopManager, { getIllagerErrorMessageKey } from '../../business/IllagerShopManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
 import Toast from '../components/Toast.js';
 import infoHint from '../components/InfoHint.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
+import cardDetailPopup from '../components/CardDetailPopup.js';
 
 /** View name, matching `data-view="mineblock"` in `index.html`. */
 export const MINE_BLOCK_VIEW_NAME = 'mineblock';
@@ -160,6 +162,23 @@ export class MineBlockView {
     this.traderList = this.root.querySelector('[data-mineblock-trader-list]');
     this.traderEmpty = this.root.querySelector('[data-mineblock-trader-empty]');
     this.traderFeedback = this.root.querySelector('[data-mineblock-trader-feedback]');
+    this.illagerButton = this.root.querySelector('[data-mineblock-illager]');
+    this.illagerModal = this.root.querySelector('[data-illager-modal]');
+    this.illagerClose = this.root.querySelector('[data-illager-close]');
+    this.illagerDismiss = this.root.querySelector('[data-illager-dismiss]');
+    this.illagerWallet = this.root.querySelector('[data-illager-wallet]');
+    this.illagerCurrencyIcon = this.root.querySelector('[data-illager-currency-icon]');
+    this.illagerCurrencyName = this.root.querySelector('[data-illager-currency-name]');
+    this.illagerBalance = this.root.querySelector('[data-illager-balance]');
+    this.illagerWindowRow = this.root.querySelector('[data-illager-window-row]');
+    this.illagerWindow = this.root.querySelector('[data-illager-window]');
+    this.illagerOffersSection = this.root.querySelector('[data-illager-offers-section]');
+    this.illagerList = this.root.querySelector('[data-illager-list]');
+    this.illagerEmpty = this.root.querySelector('[data-illager-empty]');
+    this.illagerPatrol = this.root.querySelector('[data-illager-patrol]');
+    this.illagerPatrolRow = this.root.querySelector('[data-illager-patrol-row]');
+    this.illagerPatrolTimer = this.root.querySelector('[data-illager-patrol-timer]');
+    this.illagerFeedback = this.root.querySelector('[data-illager-feedback]');
     this.tradeList = this.root.querySelector('[data-mineblock-trade-list]');
     this.tradeEmpty = this.root.querySelector('[data-mineblock-trade-empty]');
     this.tradeRestockRow = this.root.querySelector('[data-mineblock-trade-restock-row]');
@@ -297,6 +316,10 @@ export class MineBlockView {
       ['[data-mineblock-trader-list]', this.traderList],
       ['[data-mineblock-trader-empty]', this.traderEmpty],
       ['[data-mineblock-trader-feedback]', this.traderFeedback],
+      ['[data-mineblock-illager]', this.illagerButton],
+      ['[data-illager-modal]', this.illagerModal],
+      ['[data-illager-list]', this.illagerList],
+      ['[data-illager-feedback]', this.illagerFeedback],
       ['[data-mineblock-trade-list]', this.tradeList],
       ['[data-mineblock-trade-empty]', this.tradeEmpty],
       ['[data-mineblock-trade-restock]', this.tradeRestock],
@@ -423,6 +446,24 @@ export class MineBlockView {
     // The backdrop closes a dialog: a tap outside is never a dead end.
     this.listen(this.traderModal, 'click', (event) => {
       if (event.target === this.traderModal) this.closeModal(this.traderModal);
+    });
+
+    this.listen(this.illagerButton, 'click', () => this.openModal(this.illagerModal, this.illagerButton));
+    // One delegated listener: the offers are rebuilt after every purchase.
+    this.listen(this.illagerList, 'click', (event) => {
+      const buy = event.target.closest('[data-illager-buy]');
+      if (buy instanceof HTMLElement) {
+        void this.buyIllagerOffer(buy.dataset.illagerBuy);
+        return;
+      }
+      // The picture of a card reward opens the card itself, exactly like the collection's.
+      const open = event.target.closest('[data-illager-card]');
+      if (open instanceof HTMLElement) void this.openIllagerCard(open.dataset.illagerCard);
+    });
+    this.listen(this.illagerClose, 'click', () => this.closeModal(this.illagerModal));
+    this.listen(this.illagerDismiss, 'click', () => this.closeModal(this.illagerModal));
+    this.listen(this.illagerModal, 'click', (event) => {
+      if (event.target === this.illagerModal) this.closeModal(this.illagerModal);
     });
 
     // The offer detail is opened from the shop and stays on top of it.
@@ -1131,11 +1172,26 @@ export class MineBlockView {
         this.setTraderFeedback(getTraderErrorMessageKey(error?.code), 'error');
       });
     }
+    if (modal === this.illagerModal) {
+      // The shop of the Illagers is read on every opening: the set that is open changes with the
+      // day, and the balance changes with every purchase.
+      this.setIllagerFeedback(null);
+      void this.renderIllager().catch((error) => {
+        console.error('[MineBlockView] The Illager Shop could not be loaded.', error);
+        this.setIllagerFeedback(getIllagerErrorMessageKey(error?.code), 'error');
+      });
+    }
     modal.hidden = false;
     trigger.setAttribute('aria-expanded', 'true');
     this.openDialog = { modal, trigger };
     modal.querySelector('.modal__close')?.focus();
-    this.log(`Dialog displayed: ${modal === this.inventoryModal ? 'inventory' : 'wandering trader'}.`);
+    const label =
+      modal === this.inventoryModal
+        ? 'inventory'
+        : modal === this.illagerModal
+          ? 'illager shop'
+          : 'wandering trader';
+    this.log(`Dialog displayed: ${label}.`);
   }
 
   /**
@@ -1816,6 +1872,300 @@ export class MineBlockView {
   }
 
   /**
+   * Reads the Illager Shop and greys its button when no set is open today.
+   *
+   * The button is never disabled: a player who taps it while the patrol is away must still learn
+   * WHEN the merchant comes back, which is exactly what the dialog shows.
+   *
+   * @returns {Promise<void>} Resolves once the button reflects the day.
+   */
+  async refreshIllagerAvailability() {
+    try {
+      const state = await illagerShopManager.getState();
+      this.illagerState = state;
+      this.illagerButton?.classList.toggle('is-quiet', !state.open);
+      this.illagerButton?.setAttribute('aria-disabled', String(!state.open));
+    } catch (error) {
+      console.warn('[MineBlockView] The Illager Shop could not be read.', error);
+    }
+  }
+
+  /**
+   * Opens the Illager Shop: reads the set of the day and draws it.
+   *
+   * @returns {Promise<void>} Resolves once the dialog is filled.
+   * @throws {Error} When the shop cannot be read.
+   */
+  async renderIllager() {
+    const state = await illagerShopManager.getState();
+    this.paintIllager(state);
+    this.log(`Illager Shop rendered: ${state.offers.length} offer(s), open: ${state.open}.`);
+  }
+
+  /**
+   * Draws a shop state: the wallet, the window, the offers and the patrol.
+   *
+   * @param {object} state - State returned by `IllagerShopManager.getState()`.
+   * @returns {void}
+   */
+  paintIllager(state) {
+    this.illagerState = state;
+    this.illagerButton?.classList.toggle('is-quiet', !state.open);
+    this.illagerButton?.setAttribute('aria-disabled', String(!state.open));
+
+    const currency = state.currency;
+    this.illagerWallet.hidden = !currency;
+    if (currency) {
+      this.illagerCurrencyIcon.hidden = false;
+      this.illagerCurrencyIcon.src = currency.texture;
+      this.illagerCurrencyIcon.onerror = () => {
+        this.illagerCurrencyIcon.hidden = true;
+      };
+      this.illagerCurrencyName.textContent = currency.name;
+      this.illagerCurrencyName.title = currency.expiration
+        ? i18n.t('mineblock.illager.expires', { day: this.formatTraderWeek(currency.expiration) })
+        : '';
+      this.illagerBalance.textContent = String(state.balance);
+    }
+
+    // The window of the open set, or the countdown of the next one: never both.
+    const now = dateSyncManager.getEstimatedUtcMs();
+    const endMs = state.open
+      ? MineBlockView.endOfUtcDay(state.endsOn)
+      : state.nextStart
+        ? Date.parse(`${state.nextStart}T00:00:00.000Z`)
+        : null;
+    const deadline = Number.isFinite(endMs) ? endMs : null;
+    this.illagerWindowRow.hidden = !state.open || deadline === null;
+    this.illagerPatrolRow.hidden = state.open || deadline === null;
+    if (deadline !== null) {
+      const target = state.open ? this.illagerWindow : this.illagerPatrolTimer;
+      target.textContent = now > 0 ? this.formatRemaining(deadline - now) : '--:--:--';
+      target.setAttribute('datetime', new Date(deadline).toISOString());
+    }
+
+    this.illagerPatrol.hidden = state.open;
+    this.illagerOffersSection.hidden = !state.open;
+    this.illagerEmpty.hidden = state.offers.length > 0;
+    this.illagerList.textContent = '';
+    state.offers.forEach((offer) => this.illagerList.appendChild(this.buildIllagerOffer(offer)));
+    this.illagerCountdown = now > 0 && deadline !== null ? { element: state.open ? this.illagerWindow : this.illagerPatrolTimer, endMs: deadline } : null;
+  }
+
+  /**
+   * Builds one offer of the Illager Shop: what it grants, its price and the button that pays it.
+   *
+   * @param {object} offer - Offer returned by `IllagerShopManager.getState()`.
+   * @returns {HTMLElement} The `<li>` of the offer.
+   */
+  buildIllagerOffer(offer) {
+    const item = document.createElement('li');
+    item.className = 'illager-shop__offer';
+    item.dataset.offerKey = offer.key;
+    if (offer.exhausted) {
+      item.dataset.state = 'exhausted';
+    } else if (!offer.affordable) {
+      item.dataset.state = 'expensive';
+    }
+
+    const body = document.createElement('div');
+    const rewards = document.createElement('ul');
+    rewards.className = 'illager-shop__offer-rewards';
+    offer.rewards.forEach((reward, index) => {
+      rewards.appendChild(this.buildIllagerReward(reward, offer, index));
+    });
+
+    const footer = document.createElement('div');
+    footer.className = 'illager-shop__offer-footer';
+    const price = document.createElement('span');
+    price.className = 'illager-shop__price';
+    price.textContent = `×${offer.price} ${this.illagerState?.currency?.name ?? ''}`.trim();
+    footer.appendChild(price);
+    if (!offer.repeatable) {
+      const flag = document.createElement('span');
+      flag.className = 'illager-shop__flag';
+      flag.textContent = i18n.t('mineblock.illager.unique');
+      footer.appendChild(flag);
+    }
+
+    body.append(rewards, footer);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--primary btn--small';
+    button.dataset.illagerBuy = offer.key;
+    button.disabled = offer.exhausted || !offer.affordable;
+    button.textContent = offer.exhausted
+      ? i18n.t('mineblock.illager.soldOut')
+      : i18n.t('mineblock.illager.buy');
+    button.title = offer.exhausted
+      ? i18n.t('mineblock.illager.soldOut')
+      : `${offer.price} ${this.illagerState?.currency?.name ?? ''}`.trim();
+
+    item.append(body, button);
+    return item;
+  }
+
+  /**
+   * Builds one line of an offer: the picture of what it grants, and its name in the language of the
+   * player.
+   *
+   * The picture is the whole point of the line: a Spark, a resource, the artwork of the pack of an
+   * extension or the illustration of a card are read before their name is. A card is the one reward
+   * worth opening, so its line is a button: a tap shows the card large (`CardDetailPopup`).
+   *
+   * @param {object} reward - Reward returned by `IllagerShopManager.getState()`.
+   * @param {object} offer - Offer the reward belongs to (its price is the row of the popup).
+   * @param {number} index - Position of the reward in the offer.
+   * @returns {HTMLElement} The `<li>` of the reward.
+   */
+  buildIllagerReward(reward, offer, index) {
+    const label = this.describeIllagerReward(reward);
+    const item = document.createElement('li');
+    item.className = 'illager-shop__reward';
+
+    const picture = document.createElement('img');
+    picture.className = 'illager-shop__reward-icon';
+    // The picture is decorative inside the button below: the button is what is announced.
+    picture.alt = '';
+    picture.loading = 'lazy';
+    picture.decoding = 'async';
+    // A pack and a card are pictures, not glyphs: the stylesheet keeps their own proportions.
+    picture.dataset.kind = reward.type.toLowerCase();
+    if (reward.texture) {
+      picture.src = i18n.resolveImagePath(reward.texture);
+      picture.addEventListener('error', () => {
+        // A missing picture must not leave a broken image in the line: the name still says it.
+        picture.hidden = true;
+      });
+    } else {
+      picture.hidden = true;
+    }
+
+    const text = document.createElement('span');
+    text.textContent = label;
+
+    if (!reward.card) {
+      item.append(picture, text);
+      return item;
+    }
+
+    const open = document.createElement('button');
+    open.type = 'button';
+    open.className = 'illager-shop__reward-open';
+    open.dataset.illagerCard = `${offer.key}#${index}`;
+    open.setAttribute('aria-label', i18n.t('mineblock.illager.details', { card: label }));
+    open.title = open.getAttribute('aria-label');
+    open.append(picture, text);
+    item.appendChild(open);
+    return item;
+  }
+
+  /**
+   * Opens the detail of one card sold by the Illagers, on top of the shop.
+   *
+   * The detail is a READ-ONLY view of the card: the shop behind it keeps the pay button, so the
+   * price and the stock stay in one place only.
+   *
+   * @param {string|undefined} token - `"<offer key>#<index of the reward>"`, read from the button.
+   * @returns {Promise<void>} Resolves once the popup is displayed.
+   */
+  async openIllagerCard(token) {
+    const [offerKey, index] = String(token ?? '').split('#');
+    const offer = (this.illagerState?.offers ?? []).find((candidate) => candidate.key === offerKey);
+    const reward = offer?.rewards[Number(index)];
+    if (!reward?.card) {
+      console.warn(`[MineBlockView] The card of the Illager offer "${token}" is gone.`);
+      return;
+    }
+    const currency = this.illagerState?.currency?.name ?? '';
+    await cardDetailPopup.open(reward.card, {
+      rows: [[i18n.t('mineblock.illager.price'), `×${offer.price} ${currency}`.trim()]],
+    });
+    this.log(`Card detail displayed: ${reward.card.uniqueKey ?? reward.card.index}.`);
+  }
+
+  /**
+   * Writes what one reward of an offer grants, in the language of the player.
+   *
+   * @param {object} reward - Reward returned by `IllagerShopManager.getState()`.
+   * @returns {string} The sentence of the reward.
+   */
+  describeIllagerReward(reward) {
+    if (reward.type === 'Sparks') {
+      return i18n.t('mineblock.illager.reward.sparks', { count: reward.quantity });
+    }
+    if (reward.type === 'Ultima') {
+      return i18n.t('mineblock.illager.reward.ultima', { count: reward.quantity });
+    }
+    if (reward.type === 'Booster') {
+      return i18n.t('mineblock.illager.reward.booster', { count: reward.quantity, set: reward.setId ?? '' });
+    }
+    return reward.card ? reward.card.getName(i18n.getLang()) : '';
+  }
+
+  /**
+   * Pays one Illager offer and reports what it granted.
+   *
+   * @param {string} offerKey - Key of the offer to buy.
+   * @returns {Promise<void>} Resolves once the purchase was reported.
+   */
+  async buyIllagerOffer(offerKey) {
+    if (!offerKey || this.isBuyingIllager) return;
+    this.isBuyingIllager = true;
+    this.setIllagerFeedback(null);
+    this.illagerList.classList.add('is-busy');
+
+    try {
+      const result = await illagerShopManager.buy(offerKey);
+      const summary = result.offer.rewards
+        .map((reward) => this.describeIllagerReward(reward))
+        .join(', ');
+      Toast.success('mineblock.illager.boughtToast', { params: { reward: summary } });
+      await this.renderIllager();
+    } catch (error) {
+      console.error('[MineBlockView] The Illager offer could not be bought.', error);
+      this.setIllagerFeedback(getIllagerErrorMessageKey(error?.code), 'error');
+    } finally {
+      this.isBuyingIllager = false;
+      this.illagerList.classList.remove('is-busy');
+    }
+  }
+
+  /**
+   * Writes the feedback line of the Illager Shop.
+   *
+   * @param {string|null} key - Translation key, or null to clear the line.
+   * @param {string} [tone='info'] - Tone worn by the line (`info` or `error`).
+   * @param {object} [params=undefined] - Placeholders of the sentence.
+   * @returns {void}
+   */
+  setIllagerFeedback(key, tone = 'info', params = undefined) {
+    if (!this.illagerFeedback) return;
+    if (!key) {
+      this.illagerFeedback.hidden = true;
+      this.illagerFeedback.textContent = '';
+      return;
+    }
+    this.illagerFeedback.textContent = i18n.t(key, params);
+    this.illagerFeedback.dataset.tone = tone;
+    this.illagerFeedback.hidden = false;
+  }
+
+  /**
+   * Ticks the countdown of the Illager Shop.
+   *
+   * @param {number} [now] - Current trusted UTC time in milliseconds.
+   * @returns {void}
+   */
+  updateIllagerCountdown(now = dateSyncManager.getEstimatedUtcMs()) {
+    if (!this.illagerCountdown || !(now > 0)) return;
+    this.illagerCountdown.element.textContent = this.formatRemaining(
+      this.illagerCountdown.endMs - now
+    );
+  }
+
+  /**
    * Returns the instant a UTC day ends (`YYYY-MM-DD` at 23:59:59.999 UTC).
    *
    * @param {string|null} day - UTC day.
@@ -2155,13 +2505,23 @@ export class MineBlockView {
    * @returns {void}
    */
   handleClockTick(payload) {
-    if (payload?.utc instanceof Date) this.updateTraderCountdowns(payload.utc.getTime());
+    if (payload?.utc instanceof Date) {
+      this.updateTraderCountdowns(payload.utc.getTime());
+      this.updateIllagerCountdown(payload.utc.getTime());
+    }
     if (!payload || typeof payload.timeUntilReset !== 'string') return;
     if (!this.countdownElement.hidden) {
       this.countdownValue.textContent = payload.timeUntilReset;
     }
     if (!(payload.utc instanceof Date) || payload.formatted === '--:--:--') return;
     const day = payload.utc.toISOString().slice(0, 10);
+    // The button of the Illagers reflects the day: greyed between two sets, and repainted when a set
+    // opens or closes under the player's feet. One read per day is enough (it also converts the
+    // currencies that expired), so the stamp keeps the tick from touching the save every second.
+    if (this.illagerDay !== day) {
+      this.illagerDay = day;
+      void this.refreshIllagerAvailability();
+    }
     if (this.state?.day && day !== this.state.day) {
       this.log(`New UTC day (${day}): reloading the mine.`);
       this.state = null;

@@ -90,6 +90,21 @@
         "Repeatable": false
     },
     {
+        "Code": "MOREALL4YS",
+        "Rewards": [
+            {
+                "RewardType": "Currency",
+                "Quantity": 1,
+                "ItemId": "AllaysCurrency"
+            }
+        ],
+        "Repeatable": false,
+        "Availabilities" : {
+            "StartDate": null,
+            "EndDate": "2026-12-05"
+        }
+    },
+    {
         "Code": "HALL0WEEN2K26",
         "Rewards": [
             {

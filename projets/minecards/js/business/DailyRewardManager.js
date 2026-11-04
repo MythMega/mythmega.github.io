@@ -44,6 +44,7 @@ import boosterManager from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import miningManager, { RESOURCE_TEXTURE_DIRECTORY, SPARKS_TEXTURE } from './MiningManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
+import illagerShopManager, { ILLAGER_SHOP_EVENT } from './IllagerShopManager.js';
 import {
   isRandomCardRewardType,
   parseRandomCardSpec,
@@ -83,6 +84,9 @@ export const DAILY_REWARD_KINDS = Object.freeze({
   CARD: 'card',
   // A card drawn at claim time and revealed by the roulette (`RandomCard-List`, `RandomCard-Filter`).
   RANDOM_CARD: 'randomcard',
+  // A currency of the Illager Shop, named by its id alone (`AllaysCurrency`): the shop owns its
+  // name, its texture and the day it expires, so a chapter only has to hand out an amount.
+  CUSTOM_CURRENCY: 'currency',
 });
 
 /**
@@ -375,6 +379,21 @@ export class DailyRewardManager {
       if (!spec) return null;
       return { kind: DAILY_REWARD_KINDS.RANDOM_CARD, type, quantity, slug: null, cardId: null, spec };
     }
+    // `Currency` is how the chapter files spell it, `CustomCurrency` the long form: both name the
+    // same reward, and the id is the only thing that identifies a currency.
+    if (type.toLowerCase() === 'currency' || type.toLowerCase() === 'customcurrency') {
+      const rawId = raw.CurrencyID ?? raw.Data ?? raw.ItemId;
+      const currencyId = typeof rawId === 'string' ? rawId.trim() : '';
+      if (currencyId === '') return null;
+      return {
+        kind: DAILY_REWARD_KINDS.CUSTOM_CURRENCY,
+        type,
+        quantity,
+        slug: null,
+        cardId: null,
+        currencyId,
+      };
+    }
     // Anything else must be a resource of the mine ("Stone Dust", "Void Dust", "Ultima"…): the slug
     // is the one the save stores and the one the texture is named after.
     const slug = String(type)
@@ -575,6 +594,10 @@ export class DailyRewardManager {
         ? entry.replacement
         : entry.reward;
 
+    // A currency of the Illager Shop is named by its id alone: its texture lives in the shop data,
+    // which has to be read before a tile can show it.
+    if (reward?.kind === DAILY_REWARD_KINDS.CUSTOM_CURRENCY) await illagerShopManager.init();
+
     if (!reward) {
       return {
         entry,
@@ -626,6 +649,10 @@ export class DailyRewardManager {
         // A card the catalogue cannot resolve still reads as a card: the back is honest about it
         // (the tile and the preview both say the day is unavailable), where an empty box said nothing.
         return card?.illustration || CARD_REWARD_FALLBACK_TEXTURE;
+      case DAILY_REWARD_KINDS.CUSTOM_CURRENCY:
+        // The texture of a currency belongs to the Illager Shop data, never to the chapter. Until
+        // those files are read the tile simply stays empty, which is what an unknown id gives anyway.
+        return illagerShopManager.getCurrency(reward.currencyId)?.texture ?? '';
       default:
         return '';
     }
@@ -830,6 +857,8 @@ export class DailyRewardManager {
           balance = await sparksManager.addSparks(plan.quantity, context, SPARKS_SOURCES.DAILY);
         } else if (plan.kind === DAILY_REWARD_KINDS.RESOURCE) {
           await miningManager.grantResources({ [plan.reward.slug]: plan.quantity }, context);
+        } else if (plan.kind === DAILY_REWARD_KINDS.CUSTOM_CURRENCY) {
+          await illagerShopManager.grantCurrency(plan.reward.currencyId, plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
           await dateSyncManager.addBonusBoosters(plan.setId, plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.CARD || plan.kind === DAILY_REWARD_KINDS.RANDOM_CARD) {
@@ -876,6 +905,8 @@ export class DailyRewardManager {
     // same events a booster, a gift or a trade already emits.
     if (plan.kind === DAILY_REWARD_KINDS.SPARKS) {
       eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: committed.balance });
+    } else if (plan.kind === DAILY_REWARD_KINDS.CUSTOM_CURRENCY) {
+      eventBus.emit(ILLAGER_SHOP_EVENT, { currencyId: plan.reward.currencyId });
     } else if (plan.kind === DAILY_REWARD_KINDS.RESOURCE) {
       const state = await miningManager.getState();
       eventBus.emit(EVENTS.MINING_UPDATED, {

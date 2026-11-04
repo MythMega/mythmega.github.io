@@ -465,6 +465,11 @@ Vue : `js/UI/views/ProfileView.js`, identité via `ProfileManager`, carte via
   choisie. Le bloc est un bouton de navigation : il ouvre le profil. Il est mis à jour par
   `EXPERIENCE_UPDATED` (niveau et anneau) et `PROFILE_UPDATED` (pseudo et avatar) : rien n'est
   interrogé périodiquement.
+- **La marque de l'en-tête** : « <pseudo> - MineCards » sur écran large. Le pseudo sort du profil
+  (`App.renderHeaderPlayer()`, redessiné par `PROFILE_UPDATED`) avec « Steve » tant qu'aucun nom
+  n'est choisi, et de nouveau « Steve » quand un compte est libéré. Le séparateur est un `::before`
+  du titre du jeu : sans pseudo, la marque ne commence pas par un tiret. Le nom est tronqué
+  (12 rem) pour ne jamais pousser les compteurs de la barre.
 - **Sur téléphone**, les compteurs « Binders » et « Pioches » quittent l'en-tête
   (`app-header__stat--desktop-only`) pour laisser la largeur à l'avatar : les binders sont à un tap
   dans la collection et les pioches sur la page Mine, aucune information n'est perdue. Le titre
@@ -616,3 +621,52 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
 - `external/boosterciewerz/` : prototype 3D ultra simplifié (référence visuelle et de performance).
 - `external/autobingo_splitter.html`, `reorganizer.html`, `autoidnum/`, `autoreorder/`,
   `desc_grabber/` : outils de préparation des données.
+
+## 24. Rapport d'erreur et préchargement des images
+
+- **Popup d'erreur** : toute erreur non attrapée (exception, promesse rejetée, ressource absente)
+  ouvre `ErrorPopup`, avec le message, un code court `MC-XXXXXX` et un bouton qui copie le rapport
+  complet (navigateur, OS, GPU et WebGL, stockage, version du shell, pile de l'erreur) puis ouvre le
+  Discord (`https://discord.gg/Zk8TRnwCxG`) dans un nouvel onglet. Les détails restent sélectionnables
+  si le presse-papiers est refusé. Une même erreur n'est signalée qu'une fois, et trois popups au
+  maximum par page. Le rapporteur est armé avant le démarrage du jeu, donc un échec de bootstrap est
+  déjà couvert.
+- **Rendu 3D** : `Booster3DRenderer` détecte la perte du contexte WebGL et une image entièrement vide
+  (grille de pixels lue sur deux images). Le booster 2D prend alors le relais et la popup explique le
+  repli. Le rapport porte le vendeur, le moteur et le drapeau de rendu logiciel : c'est ce qui
+  distingue une machine sans pilote graphique d'un navigateur qui bloque WebGL.
+- **Préchargement** : `ImagePreloader` télécharge et décode chaque illustration une seule fois par
+  page. L'ouverture d'un booster lance le téléchargement des cinq cartes au tirage, et la roulette des
+  récompenses « carte au hasard » attend sa bande avant de tourner. Le mini loader
+  (`css/components/image-loader.css`) ne s'affiche que si l'image manque au moment de l'affichage.
+
+## 25. Illager Shop et monnaies personnalisées
+
+- **Le marchand** : un second étal dans la vue Mine, à côté du marchand itinérant, avec sa propre
+  palette (cendre, sang, braise), son titre et ses deux sons (`illager.open`, `illager.close`).
+  `IllagerShopManager` lit `data/illager_shop/illager_shop.json` : un set est ouvert entre les deux
+  jours de son `Availabilities` (bornes incluses, horloge UTC de confiance), et chaque set a sa
+  monnaie (`CurrencyUsed`).
+- **Les offres** : `TradeSet` est une liste de `{ Price, Rewards, Repeatable }`. Un prix se paie dans
+  la monnaie du set ; une offre `Repeatable: false` ne s'achète qu'une fois. `Rewards` accepte
+  `Sparks`, `Ultima`, `Card` (`Data` = chemin d'illustration, `SERIE-A1 _ W001_fullart`) et `Booster`
+  (`Data` = identifiant de série). Tout achat est une seule transaction : la monnaie, le compteur
+  d'achats et la récompense sont écrits ensemble, ou pas du tout.
+- **Ce que montre une offre** : chaque récompense est dessinée avant d'être nommée — la texture des
+  Sparks, celle de la ressource (`assets/img/dusts/<slug>.png`), l'illustration du pack de
+  l'extension (`BoosterTexture`) ou l'illustration de la carte. Une carte est cliquable :
+  `CardDetailPopup` l'ouvre en grand par-dessus l'étal (foil, halo, inclinaison 3D, interrupteur
+  « Effets »), avec son prix en ligne supplémentaire. `resolveRewards()` porte cette image dans le
+  champ `texture` de chaque récompense ; une image introuvable laisse simplement le nom.
+- **La patrouille** : sans set ouvert, le bouton reste cliquable mais grisé, et le dialogue affiche
+  `assets/img/patrol.png` avec le compte à rebours du prochain set, sans révéler son contenu.
+- **Les monnaies** : `data/illager_shop/illager_currencies.json` décrit chaque monnaie (nom,
+  texture, `ExpirationDate`, `ConversionRate`). Le solde vit dans
+  `user_state["illagerShop"].balances`. Un code (`RewardType: "Currency"`, `ItemId`) ou une
+  récompense de connexion (`Type: "Currency"`, `Data`) n'a besoin que de l'identifiant. Passé la
+  date d'expiration, le solde restant est multiplié par `ConversionRate` et crédité en Sparks.
+- **La conversion annoncée** : au démarrage, `App.collectExpiredCurrencies()` appelle
+  `convertExpired()` avant que la vue Mine ne lise le shop, puis `CurrencyExpiryPopup` s'ouvre une
+  fois le boot terminé : une ligne par monnaie expirée (texture, nom, solde perdu, Sparks reçus).
+  La conversion reste idempotente et se fait aussi à chaque lecture du shop quand elle a été ratée
+  (horloge non fiable au boot) : la popup n'est qu'une explication, jamais la source des Sparks.

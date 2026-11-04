@@ -55,10 +55,10 @@ de `DateSyncManager`, jamais l'horloge de l'appareil : sans ancrage, rien n'est 
 
 | Champ | Rôle |
 |---|---|
-| `Type` | `Sparks`, `Booster`, `Card`, ou le nom d'une ressource de la mine (`Stone Dust`, `Sculk Dust`, `Glowstone Dust`, `Void Dust`, `Ultima`) |
+| `Type` | `Sparks`, `Booster`, `Card`, `Currency` (une monnaie de l'Illager Shop), ou le nom d'une ressource de la mine (`Stone Dust`, `Sculk Dust`, `Glowstone Dust`, `Void Dust`, `Ultima`) |
 | `Qte` | quantité, entier strictement positif |
 | `CardID` | **`Card` uniquement** : l'`Index` de la carte (`PROMO-A1 / E01`). Si l'index est imprimé en classique **et** en Full Art, la Full Art est préférée |
-| `Data` | **`RandomCard-List` et `RandomCard-Filter` uniquement** : la liste ou les critères de la carte tirée (voir 5.1.5) |
+| `Data` | **`RandomCard-List` et `RandomCard-Filter` uniquement** : la liste ou les critères de la carte tirée (voir 5.1.5). **`Currency` uniquement** : l'`ID` de la monnaie (`AllaysCurrency`), seul nom accepté — son nom et sa texture viennent de `data/illager_shop/illager_currencies.json` |
 
 Une ressource est stockée sous forme de *slug* (`Stone Dust` → `stone_dust`), qui est à la fois la
 clé de la sauvegarde, le nom de la texture (`assets/img/dusts/stone_dust.png`) et la clé i18n
@@ -167,6 +167,13 @@ deux fois) dans le format portrait de la carte, pas dans un carré de pictogramm
 correspond à aucune carte du catalogue, `iconOf()` retombe sur le dos de carte commun
 (`assets/img/card_back.png`) : la case dit toujours qu'il s'agit d'une carte, et le claim reste
 bloqué par `unavailable`.
+
+**Aperçu d'une carte** : quand le jour affiché sous le tableau donne une carte, son aperçu montre
+la **miniature de la carte**, qui est un bouton : un appui l'ouvre en grand dans
+`CardDetailPopup` (`js/UI/components/CardDetailPopup.js`), la vue partagée avec l'Illager Shop —
+illustration dans la fenêtre du foil, halo de la rareté, inclinaison à la souris ou au doigt, et
+l'interrupteur « Effets ». L'aperçu reste disponible pour un jour à venir : on peut regarder la
+carte avant le jour du claim.
 
 **Animation de claim** : différente selon la nature du cadeau — une apparition avec éclat pour un
 objet, une secousse dorée pour un booster, un retournement avec halo rose pour une carte. Elle dure

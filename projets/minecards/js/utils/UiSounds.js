@@ -38,6 +38,11 @@ const SPECIFIC_MODAL_SOUNDS = [
     open: UI_SOUNDS.TRADER_OPEN,
     close: UI_SOUNDS.TRADER_CLOSE,
   },
+  {
+    selector: '[data-illager-modal]',
+    open: UI_SOUNDS.ILLAGER_OPEN,
+    close: UI_SOUNDS.ILLAGER_CLOSE,
+  },
 ];
 
 /** Content clues for a card dialog that does not have a dedicated attribute. */

@@ -49,7 +49,19 @@
   body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-sticker,
   body[data-animation="explosive"] .opening__burst.is-visible .opening__burst-confetti,
   body[data-animation="explosive"] .minepick__cards.is-dealing,
-  body[data-animation="explosive"] .minepick__cards.is-shuffling .minepick__card {
+  body[data-animation="explosive"] .minepick__cards.is-shuffling .minepick__card,
+  body[data-animation="mining"] .booster-3d.is-tearing .booster-3d__viewport,
+  body[data-animation="mining"] .booster-3d.is-tearing .booster-3d__fallback,
+  body[data-animation="mining"] .booster-3d.is-tearing .booster-3d__viewport::after,
+  body[data-animation="mining"] .booster-3d.is-tearing::after,
+  body[data-animation="mining"] .opening__stage .card-reveal__card,
+  body[data-animation="mining"] .opening__stage .card-reveal__card.is-entering-next,
+  body[data-animation="mining"] .opening__stage .card-reveal__card.is-entering-prev,
+  body[data-animation="mining"] .card-reveal__summary-item,
+  body[data-animation="mining"] .card-reveal__card.is-flipped,
+  body[data-animation="mining"] .opening__stage .card-reveal__card.is-flipped,
+  body[data-animation="mining"] .card-reveal__card.is-flipped .card-reveal__face--back::after,
+  body[data-animation="mining"] .opening__stage .card-reveal__card.is-flipped .card-reveal__face--back::after {
     animation: none;
   }
 

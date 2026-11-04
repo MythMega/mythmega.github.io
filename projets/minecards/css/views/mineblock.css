@@ -915,3 +915,256 @@
     animation: none;
   }
 }
+
+/* --- The Illager Shop ---------------------------------------------------- */
+
+/* The second merchant of the mine. Its palette is its own (ash, blood and ember) instead of the blue
+   accent of the game, so it is never mistaken for the Wandering Trader, and the tokens are scoped to
+   the dialog rather than added to the theme: it is a place, not a setting. */
+.illager-shop {
+  --illager-ash: #16110e;
+  --illager-ember: #ff7a45;
+  --illager-blood: #b3261e;
+  --illager-ink: #f2dfc4;
+  --illager-muted: #c9b49a;
+  border: 1px solid #3d2a1f;
+  background-color: var(--illager-ash);
+  background-image: radial-gradient(circle at 50% -10%, rgba(179, 38, 30, 0.35), transparent 62%);
+  color: var(--illager-ink);
+}
+
+.illager-shop__title {
+  color: var(--illager-ember);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(179, 38, 30, 0.55);
+}
+
+.illager-shop__intro,
+.illager-shop__empty,
+.illager-shop__patrol-text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--illager-muted);
+}
+
+.mineblock__illager-button {
+  position: relative;
+}
+
+/* No set is open today: the button is greyed, but it stays clickable - the dialog is what says
+   when the patrol comes back. */
+.mineblock__illager-button.is-quiet {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+/* The wallet: the currency of the open set and what the player owns of it, in one line. */
+.illager-shop__wallet {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #3d2a1f;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.illager-shop__wallet-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  image-rendering: pixelated;
+}
+
+.illager-shop__wallet-name {
+  flex: 1 1 auto;
+  font-size: var(--font-size-sm);
+}
+
+.illager-shop__wallet-amount {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--illager-ember);
+}
+
+.illager-shop__window {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--illager-muted);
+}
+
+.illager-shop__window-value,
+.illager-shop__patrol-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--illager-ember);
+}
+
+.illager-shop__offers {
+  margin-top: var(--space-4);
+}
+
+.illager-shop__offers-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-md);
+  color: var(--illager-ink);
+}
+
+.illager-shop__list {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A purchase in flight freezes the list: a second tap would spend a balance that no longer covers
+   it. */
+.illager-shop__list.is-busy {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.illager-shop__offer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3);
+  border: 1px solid #3d2a1f;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.illager-shop__offer[data-state="expensive"] {
+  border-color: rgba(179, 38, 30, 0.65);
+}
+
+.illager-shop__offer[data-state="exhausted"] {
+  opacity: 0.55;
+}
+
+.illager-shop__offer-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.illager-shop__reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--font-size-sm);
+}
+
+.illager-shop__reward-icon,
+.illager-shop__price-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  image-rendering: pixelated;
+}
+
+/* A pack and a card are pictures, not glyphs: they keep their own proportions and are drawn tall
+   enough to be recognised before their name is read. */
+.illager-shop__reward-icon[data-kind="booster"],
+.illager-shop__reward-icon[data-kind="card"] {
+  width: auto;
+  height: 3.25rem;
+  object-fit: contain;
+}
+
+/* The card of an offer is the one reward worth opening: its line is a button, and it says so on
+   hover and on focus. */
+.illager-shop__reward-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.illager-shop__reward-open:hover,
+.illager-shop__reward-open:focus-visible {
+  border-color: rgba(255, 122, 69, 0.55);
+  background-color: rgba(255, 122, 69, 0.12);
+}
+
+.illager-shop__reward-open:focus-visible {
+  outline: 2px solid var(--illager-ember);
+  outline-offset: 2px;
+}
+
+.illager-shop__offer-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.illager-shop__price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 700;
+  color: var(--illager-ember);
+}
+
+.illager-shop__flag {
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a08a72;
+}
+
+/* The patrol: nobody is here. The next set is counted down, never revealed. */
+.illager-shop__patrol {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  text-align: center;
+}
+
+.illager-shop__patrol-image {
+  width: min(100%, 20rem);
+  border-radius: var(--radius-md);
+}
+
+.illager-shop__patrol-timer {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-weight: 700;
+}
+
+.illager-shop__feedback {
+  margin-top: var(--space-3);
+}
+
+.illager-shop .btn--primary {
+  border-color: #7e1a15;
+  background-color: var(--illager-blood);
+  color: #fff3e4;
+}
+
+.illager-shop .btn--primary:disabled {
+  opacity: 0.5;
+}

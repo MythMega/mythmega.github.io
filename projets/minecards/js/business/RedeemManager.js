@@ -84,6 +84,7 @@ import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
+import illagerShopManager from './IllagerShopManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import {
@@ -96,7 +97,15 @@ import {
 export const CODES_PATH = 'settings/codes.json';
 
 /** Reward types declared in `settings/codes.json`. */
-export const REDEEM_REWARD_TYPES = Object.freeze({ BOOSTER: 'Booster', CARD: 'Card', SPARKS: 'Sparks' });
+export const REDEEM_REWARD_TYPES = Object.freeze({
+  BOOSTER: 'Booster',
+  CARD: 'Card',
+  SPARKS: 'Sparks',
+  // A currency of the Illager Shop, named by its id alone (`AllaysCurrency`). Both spellings are
+  // accepted: the code files ship `Currency`.
+  CUSTOM_CURRENCY: 'CustomCurrency',
+  CURRENCY: 'Currency',
+});
 
 /** Kinds of code handled by `resolveCode()` (step 10 adds `useritem`). */
 export const REDEEM_KINDS = Object.freeze({ SPECIAL: 'special', USER_ITEM: 'useritem' });
@@ -724,6 +733,24 @@ export class RedeemManager {
         continue;
       }
 
+      // `Currency` is how the code files spell it, `CustomCurrency` the long form: both name the
+      // same reward, and the id is the only thing that identifies a currency.
+      if (
+        rewardType === REDEEM_REWARD_TYPES.CUSTOM_CURRENCY ||
+        rewardType === REDEEM_REWARD_TYPES.CURRENCY
+      ) {
+        // The currency is named by its ID alone: its name, its texture and the day it expires
+        // belong to the Illager Shop data files, never to a code.
+        const currencyId = String(raw.ItemId ?? raw.CurrencyID ?? raw.Data ?? '').trim();
+        await illagerShopManager.init();
+        if (!illagerShopManager.getCurrency(currencyId)) {
+          console.warn('[RedeemManager] A code grants an unknown currency; the code is refused.', currencyId);
+          return null;
+        }
+        rewards.push({ type: 'currency', key: currencyId, quantity, card: null });
+        continue;
+      }
+
       console.warn('[RedeemManager] A code declares an unknown "RewardType"; the code is refused.');
       return null;
     }
@@ -1112,6 +1139,8 @@ export class RedeemManager {
           const reward = rewards[index];
           if (reward.type === 'booster') {
             await dateSyncManager.addBonusBoosters(reward.key, reward.quantity, context);
+          } else if (reward.type === 'currency') {
+            await illagerShopManager.grantCurrency(reward.key, reward.quantity, context);
           } else if (reward.type === 'sparks') {
             await sparksManager.addSparks(reward.quantity, context, SPARKS_SOURCES.REDEEM);
           } else {

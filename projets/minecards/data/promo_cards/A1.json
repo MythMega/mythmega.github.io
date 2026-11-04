@@ -2,57 +2,70 @@
   "Serie": "Promo A1",
   "Name": "Promo Genesis Block",
   "Card": [
-      {
-        "Index": "PROMO-A1 / B01",
-        "Name_FR": "Build It Spideryde",
-        "Name_EN": "Build It Spideryde",
-        "Desc_FR": "Construction pyramidale arachnide. En hyperlapse.",
-        "Desc_EN": "Arachnid pyramid build. By hyperlapse !",
-        "Rarity": 5,
-        "Style": "Press Start 2P (Pixel)",
-        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Promo_B1_Art.png",
-        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Promo_B1_Art-fg.png",
-        "Layout": "fullart",
-        "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ B01_fullart.png"
-      },
-      {
-        "Index": "PROMO-A1 / M01",
-        "Name_FR": "Villageois Gourmand",
-        "Name_EN": "Greedy Villager",
-        "Desc_FR": "C'est le villageois le plus gourmand du village.",
-        "Desc_EN": "The most greedy villager from its village.",
-        "Rarity": 5,
-        "Style": "Press Start 2P (Pixel)",
-        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_bg-cropped.png",
-        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_fg-cropped.png",
-        "Layout": "fullart",
-        "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ M01_fullart.png"
-      },
-      {
-        "Index": "PROMO-A1 / E01",
-        "Name_FR": "Jack o'Lantern",
-        "Name_EN": "Jack o'Lantern",
-        "Desc_FR": "Spooky Scary Halloween promo ! Event Halloween 2026 - Jack o'Lantern.",
-        "Desc_EN": "Spooky Scary Halloween promo ! Event Halloween 2026 - Jack o'Lantern.",
-        "Rarity": 5,
-        "Style": "Press Start 2P (Pixel)",
-        "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_bg.png",
-        "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_fg.png",
-        "Layout": "fullart",
-        "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ E01_fullart.png"
-      },
-      {
-        "Index": "PROMO-A1 / D01",
-        "Name_FR": "Forêt Ambrée",
-        "Name_EN": "Dappled Forest",
-        "Desc_FR": "La forêt ambrée (nom en anglais : dappled forest) est un biome forestier froid composé de sapins et de peupliers aux feuilles rouges, orange et jaunes, sur un sol d'herbe orangée et de terre stérile recouvert de tas de feuilles, de buissons rouges et de champignons bruns. .",
-        "Desc_EN": "The dappled forest is a woodland biome consisting of poplar trees with red, orange, and yellow leaves, along with the occasional spruce tree. The ground is an orange-brown grass and coarse dirt soil covered by leaf litter, red shrubs, and brown mushrooms. ",
-        "Rarity": 5,
-        "Style": "Press Start 2P (Pixel)",
-        "Background": "https://minecraft.wiki/images/thumb/Dappled_Forest_Vibrant_Visuals.png/1920px-Dappled_Forest_Vibrant_Visuals.png?581a2",
-        "Underlay": "https://minecraft.wiki/images/thumb/Dappled_Forest_Vibrant_Visuals.png/1920px-Dappled_Forest_Vibrant_Visuals.png?581a2",
-        "Layout": "fullart",
-        "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ D01_fullart.png"
-      }
+    {
+      "Index": "PROMO-A1 / B01",
+      "Name_FR": "Build It Spideryde",
+      "Name_EN": "Build It Spideryde",
+      "Desc_FR": "Construction pyramidale arachnide. En hyperlapse.",
+      "Desc_EN": "Arachnid pyramid build. By hyperlapse !",
+      "Rarity": 5,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Promo_B1_Art.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Promo_B1_Art-fg.png",
+      "Layout": "fullart",
+      "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ B01_fullart.webp"
+    },
+    {
+      "Index": "PROMO-A1 / M01",
+      "Name_FR": "Villageois Gourmand",
+      "Name_EN": "Greedy Villager",
+      "Desc_FR": "C'est le villageois le plus gourmand du village.",
+      "Desc_EN": "The most greedy villager from its village.",
+      "Rarity": 5,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_bg-cropped.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/villager_fg-cropped.png",
+      "Layout": "fullart",
+      "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ M01_fullart.webp"
+    },
+    {
+      "Index": "PROMO-A1 / E01",
+      "Name_FR": "Jack o'Lantern",
+      "Name_EN": "Jack o'Lantern",
+      "Desc_FR": "Spooky Scary Halloween promo ! Event Halloween 2026 - Jack o'Lantern.",
+      "Desc_EN": "Spooky Scary Halloween promo ! Event Halloween 2026 - Jack o'Lantern.",
+      "Rarity": 5,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_bg.png",
+      "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/jack_fg.png",
+      "Layout": "fullart",
+      "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ E01_fullart.webp"
+    },
+    {
+      "Index": "PROMO-A1 / D01",
+      "Name_FR": "Forêt Ambrée",
+      "Name_EN": "Dappled Forest",
+      "Desc_FR": "La forêt ambrée (nom en anglais : dappled forest) est un biome forestier froid composé de sapins et de peupliers aux feuilles rouges, orange et jaunes, sur un sol d'herbe orangée et de terre stérile recouvert de tas de feuilles, de buissons rouges et de champignons bruns.",
+      "Desc_EN": "The dappled forest is a woodland biome consisting of poplar trees with red, orange, and yellow leaves, along with the occasional spruce tree. The ground is an orange-brown grass and coarse dirt soil covered by leaf litter, red shrubs, and brown mushrooms. ",
+      "Rarity": 5,
+      "Style": "Press Start 2P (Pixel)",
+      "Background": "https://minecraft.wiki/images/thumb/Dappled_Forest_Vibrant_Visuals.png/1920px-Dappled_Forest_Vibrant_Visuals.png?581a2",
+      "Underlay": "https://minecraft.wiki/images/thumb/Dappled_Forest_Vibrant_Visuals.png/1920px-Dappled_Forest_Vibrant_Visuals.png?581a2",
+      "Layout": "fullart",
+      "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ D01_fullart.webp"
+    },
+    {
+    "Index": "PROMO-A1 / M02",
+    "Name_FR": "Illusionniste",
+    "Name_EN": "Illusioner",
+    "Desc_FR": "Les illusionnistes (nom anglais : illusioners) sont des créatures hostiles inutilisées faisant partie de la famille des illageois qui sont des villageois rejetés, les autres étant le vindicateur, l'évocateur et le pillard.",
+    "Desc_EN": "The illusioner is an unused illager armed with a bow. It attacks by firing arrows and creating illusions.",
+    "Rarity": 5,
+    "Style": "Press Start 2P (Pixel)",
+    "Background": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/illusionner-bg.png",
+    "Underlay": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/illusionner-fg.png",
+    "Layout": "fullart",
+      "Path": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/cards/A1-Promo/<lang>/PROMO-A1 _ M02_fullart.webp"
+    }
   ]
 }

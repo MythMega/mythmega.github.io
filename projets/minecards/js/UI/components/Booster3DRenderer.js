@@ -210,6 +210,7 @@ export class Booster3DRenderer {
     modelPath = DEFAULT_MODEL_PATH,
     onOpenRequest = null,
     onOpenStart = null,
+    onUnavailable = null,
     interactive = true,
     renderSettings = null,
     label = 'booster',
@@ -223,6 +224,7 @@ export class Booster3DRenderer {
     this.modelPath = modelPath;
     this.onOpenRequest = onOpenRequest;
     this.onOpenStart = onOpenStart;
+    this.onUnavailable = onUnavailable;
     this.interactive = interactive !== false;
     this.label = label;
     /** @type {object} Active lighting/material recipe (merged over the classic defaults). */
@@ -252,6 +254,14 @@ export class Booster3DRenderer {
     this.isTearing = false;
     /** @type {boolean} True when WebGL + Three.js are usable. */
     this.isAvailable = false;
+    /** @type {string|null} Why the scene stopped being usable, once it did. */
+    this.failureReason = null;
+    /** @type {{samples: number, blankFrames: number}|null} Pixel probe of the first frames. */
+    this.frameProbe = null;
+    /** @type {number} Number of frames the pixel probe was attempted on. */
+    this.frameProbeAttempts = 0;
+    /** @type {(event: Event) => void} Context-loss handler, kept so it can be unbound. */
+    this.handleContextLostBound = (event) => this.handleContextLost(event);
 
     /** @type {{x: number, y: number}|null} Last pointer position. */
     this.pointerStart = null;
@@ -376,6 +386,9 @@ export class Booster3DRenderer {
       false
     );
     this.container.appendChild(this.renderer.domElement);
+    // A driver reset, a laptop switching GPU or a sleeping tab can take the context away: without
+    // this listener the canvas simply stays black for the rest of the session.
+    this.renderer.domElement.addEventListener('webglcontextlost', this.handleContextLostBound, false);
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
@@ -891,7 +904,134 @@ export class Booster3DRenderer {
     }
 
     this.renderer?.render(this.scene, this.camera);
+    this.probeFrame();
     this.frameHandle = requestAnimationFrame(() => this.loop());
+  }
+
+  /**
+   * Runs the "is anything actually painted?" probe on two early frames.
+   *
+   * A WebGL context can be created, the modules loaded, the model parsed and every frame rendered
+   * while the canvas stays empty: a software rasterizer that fails silently, a driver that refuses
+   * the shaders after the fact. Nothing in the API says so, but the pixels do. The booster sits at
+   * the centre of the frame, so an empty centre on two different frames is a broken scene, and the
+   * opening view is told to show the 2D booster instead of a black rectangle.
+   *
+   * @returns {void}
+   */
+  probeFrame() {
+    if (this.failureReason || this.frameProbeAttempts >= 30) return;
+    this.frameProbeAttempts += 1;
+    // Two chances, far apart: the very first frames of a scene can legitimately be empty while the
+    // GPU finishes uploading the textures.
+    const attempt = this.frameProbeAttempts;
+    if (attempt !== 2 && attempt !== 30) return;
+
+    const { blank, samples } = this.sampleFramePixels();
+    this.frameProbe = {
+      samples,
+      blankFrames: (this.frameProbe?.blankFrames ?? 0) + (blank ? 1 : 0),
+    };
+    if (!blank) {
+      this.log(`Frame probe: ${samples} sample(s) painted, the scene renders.`);
+      this.frameProbeAttempts = 30;
+      return;
+    }
+    this.log(`Frame probe: no pixel painted on attempt ${attempt}.`);
+    if (attempt === 30) {
+      this.handleRenderFailure('blank-frame', this.frameProbe);
+    }
+  }
+
+  /**
+   * Reads a 3x3 grid of pixels of the frame that was just drawn.
+   *
+   * `readPixels` is only valid on the current frame, which is why this runs from the render loop and
+   * never from a timer.
+   *
+   * @returns {{blank: boolean, samples: number}} True when not a single sample carries an alpha.
+   */
+  sampleFramePixels() {
+    const gl = this.renderer?.getContext?.();
+    if (!gl) return { blank: true, samples: 0 };
+    const width = gl.drawingBufferWidth;
+    const height = gl.drawingBufferHeight;
+    if (!width || !height) return { blank: true, samples: 0 };
+
+    const pixel = new Uint8Array(4);
+    const fractions = [0.5, 0.3, 0.7];
+    let samples = 0;
+    let drawn = 0;
+    try {
+      fractions.forEach((fractionX) => {
+        fractions.forEach((fractionY) => {
+          const x = Math.min(width - 1, Math.max(0, Math.floor(width * fractionX)));
+          const y = Math.min(height - 1, Math.max(0, Math.floor(height * fractionY)));
+          gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+          samples += 1;
+          if (pixel[3] > 8) drawn += 1;
+        });
+      });
+    } catch (error) {
+      // A context that cannot be read is not a proof of a black canvas: leave the scene alone.
+      return { blank: false, samples };
+    }
+    return { blank: drawn === 0, samples };
+  }
+
+  /**
+   * Handles the loss of the WebGL context.
+   *
+   * @param {Event} event - `webglcontextlost` event.
+   * @returns {void}
+   */
+  handleContextLost(event) {
+    event?.preventDefault?.();
+    this.log('WebGL context lost.');
+    this.handleRenderFailure('context-lost');
+  }
+
+  /**
+   * Declares the scene unusable and hands the stage back to the 2D booster.
+   *
+   * Called at most once: the first failure wins, so a scene that is already falling back can never
+   * report twice.
+   *
+   * @param {string} reason - `blank-frame` or `context-lost`.
+   * @param {object|null} [details=null] - Probe details, kept for the error report.
+   * @returns {void}
+   */
+  handleRenderFailure(reason, details = null) {
+    if (this.failureReason) return;
+    this.failureReason = reason;
+    this.isAvailable = false;
+    this.stop();
+    this.getStageElement()?.classList?.add('is-fallback');
+    this.log(`Render failure (${reason}): the 2D booster takes over.`, details ?? '');
+    if (typeof this.onUnavailable === 'function') {
+      try {
+        this.onUnavailable(this.describeFailure());
+      } catch (error) {
+        console.warn(`[Booster3DRenderer:${this.label}] The fallback handler failed.`, error);
+      }
+    }
+  }
+
+  /**
+   * Describes why the scene is not usable, for an error report.
+   *
+   * @returns {{reason: string|null, label: string, model: string, texture: string|null,
+   *   probe: object|null}|null} The description, or null while the scene works.
+   */
+  describeFailure() {
+    if (!this.failureReason) return null;
+    return {
+      reason: this.failureReason,
+      label: this.label,
+      model: this.modelPath,
+      texture: this.texturePath,
+      probe: this.frameProbe ? { ...this.frameProbe } : null,
+    };
   }
 
   /**
@@ -1158,6 +1298,7 @@ export class Booster3DRenderer {
     this.scene = null;
 
     if (this.renderer) {
+      this.renderer.domElement?.removeEventListener('webglcontextlost', this.handleContextLostBound);
       this.renderer.dispose?.();
       this.renderer.domElement?.remove();
       this.renderer = null;
@@ -1165,6 +1306,9 @@ export class Booster3DRenderer {
 
     this.camera = null;
     this.isAvailable = false;
+    this.failureReason = null;
+    this.frameProbe = null;
+    this.frameProbeAttempts = 0;
     this.isTearing = false;
     this.openRequested = false;
     this.log('Resources released.');

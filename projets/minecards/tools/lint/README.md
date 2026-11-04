@@ -59,6 +59,28 @@ that every file naming a card, a trophy, an icon or a resource names one that ex
 | `data/economy` | a Sparks price map missing a rarity, a shop resource no block of the mine rewards, a pinned offer priced in an unknown resource or sold over an empty period, a mining block with a broken weight, hardness, reward chance or crack range |
 | `data/rarity-table` | a rarity table drawing a rarity outside 1-5, or weights that do not add up to 1 (warning) |
 | `data/daily-rewards` | a daily reward chapter without an id or a real window, a day declared twice, a missing default day, a reward type or quantity the game cannot hand out, a `CardID` no catalogue declares, a `UniqueID` reused, a `Unique` day without its replacement |
+| `data/illager-shop` | a currency without an id, a name, a texture under `assets/`, a real expiration day or a positive conversion rate; a currency declared twice; a set of offers without a window, paid in a currency that does not exist or with an empty `TradeSet`; a trade without a positive price or without rewards; a card or an extension a reward names but that does not exist (the layout is a warning: the first printing is used instead) |
+
+### Data quality, assets and the web app
+
+`data.mjs` checks what the game READS. These rules check what it SERVES: the shape of every JSON
+file, the files the data names, the sound map, the profile icons, the manifest, and the assets
+themselves.
+
+| Rule | What it refuses |
+| --- | --- |
+| `data/json-root` | a JSON file whose root is null, a scalar, or an empty array |
+| `data/media-paths` | an asset path named by a data or settings file that is not on disk |
+| `data/card-media` | a booster without `BoosterTexture` (or one pointing at nothing), a card without its `Path`, a picture whose extension is not an image |
+| `data/sound-map` | a sound without event or file, an event declared twice, a file outside `assets/sound/`, not an mp3 or missing, an `enabled` that is not a boolean |
+| `data/profile-icons` | an icon catalogue that is not an array, an icon without name or file, a file declared twice or missing |
+| `data/manifest` | a manifest without its required keys, a relative `start_url` or `scope`, an unknown `display`, an icon without `sizes` or `type`, or an icon file that is missing |
+| `assets/files` | a file of `assets/img`, `assets/sound`, `assets/icons`, `assets/fonts` with an unknown extension, and any empty (0 byte) file, boosters included |
+
+The card illustrations live in another repository and are named by absolute URLs: they cannot be
+opened from here, so their shape is checked instead (filled, absolute, image extension, the index
+and layout of the file name, which `data/card-catalogue` already owns). Everything shipped in this
+repository is checked on disk.
 
 ### JavaScript — `js/`, `sw.js`, `admin/`, `tools/`
 

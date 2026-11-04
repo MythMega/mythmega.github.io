@@ -1,0 +1,36 @@
+/* =============================================================================
+   animations/none.css - The `none` mode (`data-animation="none"`).
+
+   The quiet mode: NOTHING moves. Where `normal` is already cinematic, this one removes the
+   choreography instead of restaging it - the pack is there, then it is gone; the card is simply
+   in front; the summary is simply filled. It is meant for a player who wants the game without the
+   spectacle (a small device, a slow connection, a headache), and it is NOT the accessibility
+   switch: `prefers-reduced-motion` still wins over it, but it also wins over every other mode.
+
+   The rules copy the selectors of the base choreography, as `accessibility.css` does, because a
+   shorter selector loses against a more specific rule of the views. The durations still come from
+   `config.json` (`--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms`): the pack keeps its
+   short pause before it disappears, so the view's own timing never has to special-case this mode.
+   ============================================================================= */
+
+body[data-animation="none"] .booster-3d.is-tearing .booster-3d__viewport,
+body[data-animation="none"] .booster-3d.is-tearing .booster-3d__fallback,
+body[data-animation="none"] .booster-3d.is-tearing::after,
+body[data-animation="none"] .booster-3d.is-tearing::before,
+body[data-animation="none"] .opening__stage .card-reveal__card,
+body[data-animation="none"] .opening__stage .card-reveal__card.is-entering-next,
+body[data-animation="none"] .opening__stage .card-reveal__card.is-entering-prev,
+body[data-animation="none"] .card-reveal__card.is-flipped,
+body[data-animation="none"] .opening__stage .card-reveal__card--r5.is-flipped,
+body[data-animation="none"] .card-reveal__card.is-flipped::after,
+body[data-animation="none"] .card-reveal--summary::after,
+body[data-animation="none"] .card-reveal__summary-item,
+body[data-animation="none"] .opening__summary,
+body[data-animation="none"] .minepick__cards.is-dealing,
+body[data-animation="none"] .minepick__cards.is-shuffling .minepick__card {
+  animation: none;
+}
+
+/* A card that is flipped must still show its front face: the base stylesheet keeps a static
+   `transform: rotateY(180deg)` for exactly this case (it is the same mechanism as the reduced
+   motion), so nothing is added here on purpose - writing a transform would fight the 3D context. */

@@ -233,29 +233,31 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=b675d6fa31">
-  <link rel="stylesheet" href="css/base.css?v=9bfaf90bdb">
+  <link rel="stylesheet" href="css/base.css?v=83d0151ff6">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
-  <link rel="stylesheet" href="css/views/opening.css?v=c1f55c71a3">
-  <link rel="stylesheet" href="css/views/collection.css?v=df8d2e3a7f">
+  <link rel="stylesheet" href="css/views/opening.css?v=8562bb9b2d">
+  <link rel="stylesheet" href="css/views/collection.css?v=25f89ebf80">
   <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
   <link rel="stylesheet" href="css/views/stats.css?v=d629d29877">
   <link rel="stylesheet" href="css/views/minepick.css?v=e3d3cbe888">
-  <link rel="stylesheet" href="css/views/mineblock.css?v=eb0bd14812">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=c13867df93">
   <link rel="stylesheet" href="css/views/profile.css?v=2a60b79361">
-  <link rel="stylesheet" href="css/views/titles.css?v=9bfcf36ae7">
+  <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=1be7c92faa">
-  <link rel="stylesheet" href="css/views/settings.css?v=c280ee758a">
+  <link rel="stylesheet" href="css/views/settings.css?v=a44773954b">
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=12a4c405a1">
   <link rel="stylesheet" href="css/components/card-shine.css?v=b524891613">
-  <link rel="stylesheet" href="css/components/modal.css?v=886a1d09e1">
+  <link rel="stylesheet" href="css/components/modal.css?v=814bd4a515">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
   <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
-  <link rel="stylesheet" href="css/components/daily-reward.css?v=3851829c49">
-  <link rel="stylesheet" href="css/components/card-roulette.css?v=0aa647e92d">
+  <link rel="stylesheet" href="css/components/daily-reward.css?v=7ab3acc8af">
+  <link rel="stylesheet" href="css/components/card-roulette.css?v=ffd08ce0eb">
+  <link rel="stylesheet" href="css/components/error-popup.css?v=6639af2fdc">
+  <link rel="stylesheet" href="css/components/image-loader.css?v=40c1405fc5">
   <link rel="stylesheet" href="css/components/notifications.css?v=e179758c8e">
   <link rel="stylesheet" href="css/components/install-prompt.css?v=11cabfc4d6">
   <link rel="stylesheet" href="css/components/info-hint.css?v=848c08b3f4">
@@ -263,12 +265,14 @@
        (tear, card flip, summary) according to `data-animation` on <html>/<body>. One file per
        concern, and `accessibility.css` closes the group so `prefers-reduced-motion` wins over
        every mode. The contract is documented in `css/animations/defaults.css`. -->
-  <link rel="stylesheet" href="css/animations/defaults.css?v=1a9311d1ab">
+  <link rel="stylesheet" href="css/animations/defaults.css?v=1d5ae245cf">
   <link rel="stylesheet" href="css/animations/opening.css?v=7ae1c8b1b1">
   <link rel="stylesheet" href="css/animations/epic.css?v=5f12c0675e">
   <link rel="stylesheet" href="css/animations/explosive.css?v=190a0acf1f">
+  <link rel="stylesheet" href="css/animations/none.css?v=62877ca863">
+  <link rel="stylesheet" href="css/animations/mining.css?v=4e559203ef">
   <link rel="stylesheet" href="css/animations/minepick.css?v=86c8cd3c16">
-  <link rel="stylesheet" href="css/animations/accessibility.css?v=15a548d08a">
+  <link rel="stylesheet" href="css/animations/accessibility.css?v=74031947b5">
 
   <!-- Three.js is pinned so the 3D scene stays reproducible. It is imported dynamically by
        `js/UI/components/Booster3DRenderer.js`: if the CDN is unreachable (offline use, blocked
@@ -389,7 +393,15 @@
 
   <header class="app-header">
     <div class="app-header__brand">
-      <h1 class="app-header__title" data-i18n="app.title">MineCards</h1>
+      <!-- The brand reads "<pseudo> - MineCards" on a desktop header: the pseudo is written by
+           `App.renderHeaderPlayer()` from the saved profile ("Steve" until one is chosen), and the
+           separator lives in the stylesheet so a header without a pseudo (no account yet) shows the
+           name of the game alone. The whole brand is dropped on a phone, so nothing has to be hidden
+           a second time. -->
+      <h1 class="app-header__title">
+        <span class="app-header__player" data-header-player hidden></span>
+        <span class="app-header__brand-name" data-i18n="app.title">MineCards</span>
+      </h1>
       <p class="app-header__tagline" data-i18n="app.tagline">Ouvrez des boosters, complétez votre collection.</p>
     </div>
 
@@ -591,6 +603,12 @@
         <div class="opening__spotlight" data-opening-spotlight hidden>
           <p class="opening__counter" data-opening-counter aria-live="polite"></p>
           <p class="opening__reveal-hint" data-opening-reveal-hint data-i18n="opening.reveal.hint">Touchez la carte pour la révéler</p>
+          <!-- The five illustrations are preloaded when the pack is drawn; this line covers the slow
+               connection where one of them is still on its way when the card is displayed. -->
+          <p class="image-loader" data-opening-spotlight-loading hidden>
+            <span class="image-loader__spinner" aria-hidden="true"></span>
+            <span class="image-loader__label" data-i18n="opening.reveal.loading">Chargement de la carte…</span>
+          </p>
           <div class="opening__stage" data-opening-stage-card></div>
           <div class="opening__spotnav">
             <button type="button" class="btn btn--ghost" data-opening-prev data-i18n="opening.reveal.prev">Précédente</button>
@@ -650,16 +668,27 @@
           <h2 class="view__title" data-i18n="view.collection.title">Collection</h2>
           <p class="view__subtitle" data-collection-progress role="status"></p>
         </div>
-        <!-- Binders: the personal 30-slot pages. The button lives in the header of the page, to the
-             right of the title and OUTSIDE the filter panel below - a binder is a place of its own,
-             not one more filter of the grid. It opens the list of the player's binders, and the
-             editor behind it. -->
-        <button type="button" class="btn btn--ghost collection__binders-open" data-collection-binders-open aria-haspopup="dialog" aria-expanded="false">
-          <img class="collection__binders-icon" data-icon="binders" alt="" aria-hidden="true">
-          <span data-i18n="binders.title">Binders</span>
-        </button>
+        <div class="view__header-actions">
+          <!-- Progress: a page of its own (`#view-progression`), opened from here like the trophies
+               are opened from the profile. It was a tab of this page, which put a whole second page
+               inside a box; the grid now keeps the full width of the screen. -->
+          <button type="button" class="btn btn--ghost btn--small" data-collection-progression-open>
+            <span data-i18n="collection.progression.open">Progression</span>
+          </button>
+          <!-- Binders: the personal 30-slot pages. The button lives in the header of the page, to the
+               right of the title and OUTSIDE the filter panel below - a binder is a place of its
+               own, not one more filter of the grid. It opens the list of the player's binders, and
+               the editor behind it. -->
+          <button type="button" class="btn btn--ghost collection__binders-open" data-collection-binders-open aria-haspopup="dialog" aria-expanded="false">
+            <img class="collection__binders-icon" data-icon="binders" alt="" aria-hidden="true">
+            <span data-i18n="binders.title">Binders</span>
+          </button>
+        </div>
       </div>
 
+      <!-- The grid and its filters. The progression of every extension is NOT here any more: it is
+           a page of its own, opened by the button of the header. The filter popup stays on this
+           page, so it can be opened whatever the grid shows. -->
       <div class="collection__filters panel" data-collection-filters>
         <div class="collection__toolbar">
           <!-- Every detailed filter lives in the popup below: the bar keeps the search, the button
@@ -682,6 +711,7 @@
       <p class="feedback" data-collection-feedback role="status" hidden></p>
       <div class="collection__grid" data-collection-grid></div>
       <p class="placeholder" data-collection-empty hidden data-i18n="collection.empty">Aucune carte ne correspond aux filtres.</p>
+
 
       <!-- Filter & sort popup. Its body is rebuilt by `CollectionView` from the loaded catalog
            (the extension list is dynamic), so the markup only carries the shell. -->
@@ -750,6 +780,30 @@
           <div class="modal__body" data-collection-modal-body></div>
         </div>
       </div>
+    </section>
+
+    <!-- 2 bis. Progression: the two completion bars of every extension. Opened from the collection,
+         next to the binders, and left with the back button under the title: it used to be a tab of
+         the collection, which put a whole second page inside a box. One tab per extension, because
+         a stack of sets on one screen is long to read. Rendered by `ProgressionView`. -->
+    <section class="view" id="view-progression" data-view="progression" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.progression.title">Progression</h2>
+        <p class="view__subtitle" data-i18n="view.progression.subtitle">Deux objectifs par extension : « Collection » compte les numéros, « Collection+ » compte chaque impression. Les cartes promo ne comptent pas.</p>
+        <div class="view__header-actions">
+          <button type="button" class="btn btn--ghost btn--small" data-progression-back>
+            <span data-i18n="progression.back">Retour à la collection</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="feedback" data-progression-feedback role="status" hidden></p>
+
+      <!-- One button per extension, then the panel of the selected one. Both are built by
+           `ProgressionView` from the catalog it reads, so a new extension needs no markup here. -->
+      <div class="progression__tabs" role="tablist" data-progression-tabs aria-label="Extensions" data-i18n-aria-label="progression.tabs.label"></div>
+      <div class="progression__panels" data-progression-panels></div>
+      <p class="placeholder" data-progression-empty hidden data-i18n="collection.progression.empty">Aucune extension à suivre pour le moment.</p>
     </section>
 
     <!-- 3. Profile: identity, level, pinned trophies and favourite cards. -->
@@ -1192,9 +1246,15 @@
         <section class="panel titles__panel">
           <p class="titles__summary" data-titles-summary></p>
           <p class="titles__note" data-i18n="titles.note">Un titre n'est jamais obligatoire : « Aucun titre » n'en affiche aucun, même si vous en avez déjà débloqué un.</p>
-          <!-- A `<ul>` of rows: one element per title, plus its group headings. Every row is a
-               button whose `aria-pressed` says whether it is the displayed title. -->
-          <ul class="titles__list" data-titles-list></ul>
+          <!-- The general choice comes first: "Aucun titre" is not a category, it clears the
+               displayed title whatever is unlocked, so it does not belong in one of the tabs. -->
+          <ul class="titles__list titles__list--none" data-titles-none-list></ul>
+
+          <!-- One tab per category (the levels, then one per extension): the catalogue is a long
+               list of sentences, and headings alone were not enough to find one's way in it. Both
+               the strip and the panels are built by TitlesView from the catalogue. -->
+          <div class="titles__tabs" role="tablist" data-titles-tabs aria-label="Catégories de titres" data-i18n-aria-label="titles.tabs.label"></div>
+          <div class="titles__panels" data-titles-panels></div>
           <p class="titles__empty" data-titles-empty hidden data-i18n="titles.empty">Aucun titre au catalogue.</p>
         </section>
       </div>
@@ -1267,6 +1327,13 @@
           <button type="button" class="btn btn--ghost btn--small" data-mineblock-trader aria-haspopup="dialog" aria-expanded="false">
             <img class="mineblock__trader-icon" src="assets/img/wanderingtrader.png" alt="" aria-hidden="true" decoding="async">
             <span data-i18n="mineblock.trader">Marchand itinérant</span>
+          </button>
+          <!-- The Illager Shop: the second merchant of the mine, paid in a custom currency. It is
+               greyed while no set of offers is open, but it stays clickable: the dialog then tells
+               when the patrol comes back. -->
+          <button type="button" class="btn btn--ghost btn--small mineblock__illager-button" data-mineblock-illager aria-haspopup="dialog" aria-expanded="false">
+            <img class="mineblock__trader-icon" src="assets/img/illager_shop.webp" alt="" aria-hidden="true" decoding="async">
+            <span data-i18n="mineblock.illager">Illager Shop</span>
           </button>
         </div>
       </div>
@@ -1386,6 +1453,46 @@
         </div>
       </div>
 
+      <!-- The Illager Shop: the offers of the set open today, paid in the custom currency of that
+           set. The view builds every offer; only the frame, the wallet and the patrol state are
+           here, because they exist even when nothing is on sale. -->
+      <div class="modal" data-illager-modal hidden>
+        <div class="modal__dialog modal__dialog--wide illager-shop" role="dialog" aria-modal="true" aria-labelledby="illager-shop-title">
+          <button type="button" class="modal__close" data-illager-close aria-label="×">×</button>
+          <h2 class="modal__title illager-shop__title" id="illager-shop-title" data-i18n="mineblock.illager.title">Illager Shop</h2>
+          <div class="modal__body">
+            <p class="illager-shop__intro" data-i18n="mineblock.illager.intro">Les Illagers vendent ce qu'ils ont pillé. Ils ne prennent qu'une seule monnaie, et elle ne dure qu'un temps.</p>
+            <div class="illager-shop__wallet" data-illager-wallet hidden>
+              <img class="illager-shop__wallet-icon" data-illager-currency-icon alt="" decoding="async">
+              <span class="illager-shop__wallet-name" data-illager-currency-name></span>
+              <span class="illager-shop__wallet-amount" data-illager-balance>0</span>
+            </div>
+            <p class="illager-shop__window" data-illager-window-row hidden>
+              <span class="illager-shop__window-label" data-i18n="mineblock.illager.ends">Les Illagers lèvent le camp dans</span>
+              <time class="illager-shop__window-value" data-illager-window>--:--:--</time>
+            </p>
+            <section class="illager-shop__offers" data-illager-offers-section>
+              <h3 class="illager-shop__offers-title" data-i18n="mineblock.illager.offers">Ce qu'ils vendent</h3>
+              <p class="illager-shop__empty" data-illager-empty hidden data-i18n="mineblock.illager.empty">Le coffre est vide : ils reviennent avec du butin.</p>
+              <ul class="illager-shop__list" data-illager-list></ul>
+            </section>
+            <!-- The patrol: nobody is here today. The next set is never revealed, only counted down. -->
+            <div class="illager-shop__patrol" data-illager-patrol hidden>
+              <img class="illager-shop__patrol-image" src="assets/img/patrol.png" alt="" aria-hidden="true" decoding="async">
+              <p class="illager-shop__patrol-text" data-i18n="mineblock.illager.patrol">Les Illagers sont partis en patrouille. Ils installent leur étal bientôt.</p>
+              <p class="illager-shop__patrol-timer" data-illager-patrol-row hidden>
+                <span class="illager-shop__patrol-label" data-i18n="mineblock.illager.patrolTimer">Prochain étal dans</span>
+                <time class="illager-shop__patrol-value" data-illager-patrol-timer>--:--:--</time>
+              </p>
+            </div>
+            <p class="feedback illager-shop__feedback" data-illager-feedback role="status" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-illager-dismiss data-i18n="mineblock.illager.close">Fermer</button>
+          </div>
+        </div>
+      </div>
+
       <!-- One offer in detail: the card, large, with its description, its price and its stock.
            Opened by a tap on the picture of an offer and stacked ON TOP of the shop, so the
            player never loses the list they were browsing. -->
@@ -1410,304 +1517,352 @@
       <p class="feedback" data-settings-feedback role="status" hidden></p>
 
       <div class="settings">
-        <!-- Language: buttons are generated from `settings/config.json` by SettingsView. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.language.title">Langue</h3>
-          <div class="lang-switch settings__choices" data-settings-languages role="group" data-i18n-aria-label="settings.language.title" aria-label="Langue"></div>
-        </section>
+        <!-- Sections: the page is a long stack of panels, so it shows one group at a time. One
+             button per section, each controlling the panel named by its `aria-controls`; only
+             the selected panel is displayed. `SettingsView` drives the selection (click,
+             arrows, Home/End) and `app.js` selects the section of a panel it must reveal. -->
+        <div class="settings__tabs" role="tablist" data-settings-tabs aria-label="Sections des paramètres" data-i18n-aria-label="settings.tabs.label">
+          <button type="button" class="settings__tab" id="settings-tab-appearance" role="tab" data-settings-tab="appearance" aria-controls="settings-panel-appearance" aria-selected="true" data-i18n="settings.tab.appearance">Apparence</button>
+          <button type="button" class="settings__tab" id="settings-tab-game" role="tab" data-settings-tab="game" aria-controls="settings-panel-game" aria-selected="false" tabindex="-1" data-i18n="settings.tab.game">Jeu</button>
+          <button type="button" class="settings__tab" id="settings-tab-account" role="tab" data-settings-tab="account" aria-controls="settings-panel-account" aria-selected="false" tabindex="-1" data-i18n="settings.tab.account">Compte</button>
+          <button type="button" class="settings__tab" id="settings-tab-premium" role="tab" data-settings-tab="premium" aria-controls="settings-panel-premium" aria-selected="false" tabindex="-1" data-i18n="settings.tab.premium">Premium</button>
+          <button type="button" class="settings__tab" id="settings-tab-more" role="tab" data-settings-tab="more" aria-controls="settings-panel-more" aria-selected="false" tabindex="-1" data-i18n="settings.tab.more">Notes de mise à jour</button>
+        </div>
 
-        <!-- Theme: same contract, one button per theme declared in `config.json`. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.theme.title">Thème</h3>
-          <div class="lang-switch settings__choices" data-settings-themes role="group" data-i18n-aria-label="settings.theme.title" aria-label="Thème"></div>
-        </section>
+        <div class="settings__tabpanel" id="settings-panel-appearance" role="tabpanel"
+             aria-labelledby="settings-tab-appearance" data-settings-tabpanel="appearance">
+          <!-- Language: buttons are generated from `settings/config.json` by SettingsView. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.language.title">Langue</h3>
+            <div class="lang-switch settings__choices" data-settings-languages role="group" data-i18n-aria-label="settings.language.title" aria-label="Langue"></div>
+          </section>
 
-        <!-- Animations: the flavour of the opening ("normal", "epic", "explosive"). The buttons are
-             generated from `config.json` by SettingsView, like the languages and the themes, and
-             the demo replays the three stages with the real card markup: the choice is made by
-             looking at it. The parodic mode is flagged by the badge of its own button. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.animation.title">Animations</h3>
-          <div class="lang-switch settings__choices" data-settings-animations role="group" data-i18n-aria-label="settings.animation.title" aria-label="Animations"></div>
-          <div class="anim-demo">
-            <p class="anim-demo__label" data-i18n="settings.animation.demo">Aperçu de l'animation</p>
-            <div class="anim-demo__stage" data-animation-demo-stage aria-hidden="true"></div>
-            <div class="card-reveal card-reveal--summary anim-demo__tiles" data-animation-demo-tiles aria-hidden="true"></div>
-            <button type="button" class="btn btn--ghost anim-demo__play" data-animation-demo-play data-i18n="settings.animation.demoPlay">Rejouer l'aperçu</button>
-          </div>
-          <p class="settings__help" data-info-hint="settings-animation" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
-        </section>
+          <!-- Theme: same contract, one button per theme declared in `config.json`. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.theme.title">Thème</h3>
+            <div class="lang-switch settings__choices" data-settings-themes role="group" data-i18n-aria-label="settings.theme.title" aria-label="Thème"></div>
+          </section>
 
-        <!-- Foil: how strong the reflection of the super rare, legendary and mythic printings is, and
-             how bright the line sweeping across them is. Each slider drives its own custom property
-             live (`--foil-intensity` and `--glare-intensity`), so the demo card of the panel above
-             follows the finger; the min/max/step of each one are filled in from `settings/config.json`
-             by SettingsView (the values below are the defaults, already correct before the script
-             runs), and the value shown in the <output> is written by the view because it depends on
-             the percentage, not only on the language. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.foil.title">Foil</h3>
-          <div class="foil-slider">
-            <div class="foil-slider__head">
-              <label class="foil-slider__label" for="settings-foil" data-i18n="settings.foil.intensity">Intensité du foil</label>
-              <output class="foil-slider__value" data-settings-foil-value for="settings-foil">100 %</output>
+          <!-- Animations: the flavour of the opening ("normal", "epic", "explosive"). The buttons are
+               generated from `config.json` by SettingsView, like the languages and the themes, and
+               the demo replays the three stages with the real card markup: the choice is made by
+               looking at it. The parodic mode is flagged by the badge of its own button. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.animation.title">Animations</h3>
+            <div class="lang-switch settings__choices" data-settings-animations role="group" data-i18n-aria-label="settings.animation.title" aria-label="Animations"></div>
+            <div class="anim-demo">
+              <p class="anim-demo__label" data-i18n="settings.animation.demo">Aperçu de l'animation</p>
+              <div class="anim-demo__stage" data-animation-demo-stage aria-hidden="true"></div>
+              <div class="card-reveal card-reveal--summary anim-demo__tiles" data-animation-demo-tiles aria-hidden="true"></div>
+              <button type="button" class="btn btn--ghost anim-demo__play" data-animation-demo-play data-i18n="settings.animation.demoPlay">Rejouer l'aperçu</button>
             </div>
-            <input type="range" class="foil-slider__input" id="settings-foil" data-settings-foil min="0" max="100" step="5" value="100" aria-describedby="settings-foil-help">
-          </div>
-          <div class="foil-slider">
-            <div class="foil-slider__head">
-              <label class="foil-slider__label" for="settings-glare" data-i18n="settings.foil.glare">Brillance</label>
-              <output class="foil-slider__value" data-settings-glare-value for="settings-glare">100 %</output>
-            </div>
-            <input type="range" class="foil-slider__input" id="settings-glare" data-settings-glare min="0" max="100" step="5" value="100" aria-describedby="settings-glare-help">
-          </div>
-          <p class="settings__help" id="settings-foil-help" data-info-hint="settings-foil" data-i18n="settings.foil.help">Le foil dessine les motifs de la carte (grille, nid d'abeilles, trame) ; la brillance règle le trait de lumière qui la traverse. À 0 %, l'effet correspondant disparaît complètement.</p>
-          <p class="settings__help" id="settings-glare-help" data-info-hint="settings-foil" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
-        </section>
+            <p class="settings__help" data-info-hint="settings-animation" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
+          </section>
 
-        <!-- Illumination: the halo around the trophy medals, as a level from 0 (off) to 5. It has
-             its own panel - and its own range in `config.json` (`glow.trophies`) - because the
-             cards will get the same kind of setting later, each with its own bounds. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.glow.title">Illumination</h3>
-          <div class="foil-slider">
-            <div class="foil-slider__head">
-              <label class="foil-slider__label" for="settings-glow-trophies" data-i18n="settings.glow.trophies">Lueur des trophées</label>
-              <output class="foil-slider__value" data-settings-glow-value for="settings-glow-trophies">2</output>
+          <!-- Foil: how strong the reflection of the super rare, legendary and mythic printings is, and
+               how bright the line sweeping across them is. Each slider drives its own custom property
+               live (`--foil-intensity` and `--glare-intensity`), so the demo card of the panel above
+               follows the finger; the min/max/step of each one are filled in from `settings/config.json`
+               by SettingsView (the values below are the defaults, already correct before the script
+               runs), and the value shown in the <output> is written by the view because it depends on
+               the percentage, not only on the language. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.foil.title">Foil</h3>
+            <div class="foil-slider">
+              <div class="foil-slider__head">
+                <label class="foil-slider__label" for="settings-foil" data-i18n="settings.foil.intensity">Intensité du foil</label>
+                <output class="foil-slider__value" data-settings-foil-value for="settings-foil">100 %</output>
+              </div>
+              <input type="range" class="foil-slider__input" id="settings-foil" data-settings-foil min="0" max="100" step="5" value="100" aria-describedby="settings-foil-help">
             </div>
-            <input type="range" class="foil-slider__input" id="settings-glow-trophies" data-settings-glow min="0" max="5" step="1" value="2" aria-describedby="settings-glow-help">
-          </div>
-          <p class="settings__help" id="settings-glow-help" data-info-hint="settings-glow" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
-        </section>
+            <div class="foil-slider">
+              <div class="foil-slider__head">
+                <label class="foil-slider__label" for="settings-glare" data-i18n="settings.foil.glare">Brillance</label>
+                <output class="foil-slider__value" data-settings-glare-value for="settings-glare">100 %</output>
+              </div>
+              <input type="range" class="foil-slider__input" id="settings-glare" data-settings-glare min="0" max="100" step="5" value="100" aria-describedby="settings-glare-help">
+            </div>
+            <p class="settings__help" id="settings-foil-help" data-info-hint="settings-foil" data-i18n="settings.foil.help">Le foil dessine les motifs de la carte (grille, nid d'abeilles, trame) ; la brillance règle le trait de lumière qui la traverse. À 0 %, l'effet correspondant disparaît complètement.</p>
+            <p class="settings__help" id="settings-glare-help" data-info-hint="settings-foil" data-i18n="settings.foil.glareHelp">La brillance ne touche que le reflet qui balaie la carte : les motifs du foil restent visibles même à 0 %.</p>
+          </section>
 
-        <!-- Automatic mining: the pace of the taps landed while Shift+Space is held (or while a
-             finger stays on the block on a phone). Three stops, "normal" being the historical beat
-             of `mining.keyHoldIntervalMs`; the speed is a preference of the account
-             (`settings.mineSpeed`), read by MineBlockView when the mine opens. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.mine.title">Minage automatique</h3>
-          <div class="foil-slider">
-            <div class="foil-slider__head">
-              <label class="foil-slider__label" for="settings-mine-speed" data-i18n="settings.mine.speed">Vitesse du minage automatique</label>
-              <output class="foil-slider__value" data-settings-mine-speed-value for="settings-mine-speed">Normal</output>
+          <!-- Illumination: the halo around the trophy medals, as a level from 0 (off) to 5. It has
+               its own panel - and its own range in `config.json` (`glow.trophies`) - because the
+               cards will get the same kind of setting later, each with its own bounds. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.glow.title">Illumination</h3>
+            <div class="foil-slider">
+              <div class="foil-slider__head">
+                <label class="foil-slider__label" for="settings-glow-trophies" data-i18n="settings.glow.trophies">Lueur des trophées</label>
+                <output class="foil-slider__value" data-settings-glow-value for="settings-glow-trophies">2</output>
+              </div>
+              <input type="range" class="foil-slider__input" id="settings-glow-trophies" data-settings-glow min="0" max="5" step="1" value="2" aria-describedby="settings-glow-help">
             </div>
-            <input type="range" class="foil-slider__input" id="settings-mine-speed" data-settings-mine-speed min="0" max="2" step="1" value="0" aria-describedby="settings-mine-speed-help">
-          </div>
-          <p class="settings__help" id="settings-mine-speed-help" data-i18n="settings.mine.help">Cadence des coups portés quand vous maintenez Maj+Espace, ou quand vous gardez le doigt sur le bloc sur mobile. « Très rapide » va deux fois plus vite que « Normal ».</p>
-        </section>
-
-        <!-- Notifications: how long one game notification stays on screen, and which kinds are
-             allowed at all. The bounds of the slider come from `config.json` (`notifications`),
-             and the three switches are always the kinds `NotificationCenter` knows: the duration
-             is written in seconds and applied live, while the switches are merged one by one in
-             `settings.notificationTypes`. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.notifications.title">Notifications</h3>
-          <div class="foil-slider">
-            <div class="foil-slider__head">
-              <label class="foil-slider__label" for="settings-notification-duration" data-i18n="settings.notifications.duration">Durée des notifications</label>
-              <output class="foil-slider__value" data-settings-notification-duration-value for="settings-notification-duration">3 s</output>
-            </div>
-            <input type="range" class="foil-slider__input" id="settings-notification-duration" data-settings-notification-duration min="1" max="8" step="1" value="3" aria-describedby="settings-notification-duration-help">
-          </div>
-          <div class="settings__toggles">
-            <div class="settings__toggle">
-              <span class="settings__toggle-label" data-i18n="settings.notifications.collection">Progression des collections</span>
-              <button type="button" class="switch" data-settings-notification-collection role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.collection">
-                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-                <span class="switch__state" data-settings-notification-collection-state></span>
-              </button>
-            </div>
-            <div class="settings__toggle">
-              <span class="settings__toggle-label" data-i18n="settings.notifications.experience">Expérience gagnée</span>
-              <button type="button" class="switch" data-settings-notification-experience role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.experience">
-                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-                <span class="switch__state" data-settings-notification-experience-state></span>
-              </button>
-            </div>
-            <div class="settings__toggle">
-              <span class="settings__toggle-label" data-i18n="settings.notifications.titleKind">Titres débloqués</span>
-              <button type="button" class="switch" data-settings-notification-title role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.titleKind">
-                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-                <span class="switch__state" data-settings-notification-title-state></span>
-              </button>
-            </div>
-          </div>
-          <p class="settings__help" data-info-hint="settings-notifications" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
-          <!-- Moved after the panel help so both sentences read in order inside the "i" popover;
-               the slider still points at it through `aria-describedby`. -->
-          <p class="settings__help" id="settings-notification-duration-help" data-info-hint="settings-notifications" data-i18n="settings.notifications.durationHelp">Temps pendant lequel une notification reste affichée avant de laisser la place à la suivante.</p>
-        </section>
-
-        <!-- Sounds: the global switch (master gate) then one row per family. The rows are built by
-             SettingsView from `SoundManager.SOUND_CATEGORY_ORDER`; each has its own switch and a
-             volume from 0 to 5. When the master switch is off the whole block is hidden. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.sound.title">Sons</h3>
-          <button type="button" class="switch" data-settings-sound role="switch" aria-checked="true" data-i18n-aria-label="settings.sound.title">
-            <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-            <span class="switch__state" data-settings-sound-state></span>
-          </button>
-          <p class="settings__help" data-info-hint="settings-sound" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément.</p>
-          <div class="settings__sound" data-settings-sound-categories></div>
-          <p class="settings__help" data-settings-sound-help data-info-hint="settings-sound" data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
-        </section>
+            <p class="settings__help" id="settings-glow-help" data-info-hint="settings-glow" data-i18n="settings.glow.help">Règle le halo autour des médailles de trophées : discret sur l'argent et l'or, plus large sur le diamant et l'émeraude. À 0, plus aucun halo. Le bronze n'en a jamais.</p>
+          </section>
 
         <!-- Display: the indicator the game paints over a scrolling panel can be swapped for the
-             bar of the system. The switch writes `settings.nativeScrollbars`, and
-             `ScrollHint.setNativeBars()` applies it live (it is also the one that re-reads the
-             preference at boot, before the first screen is painted). -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.display.title">Affichage</h3>
-          <div class="settings__toggles">
-            <div class="settings__toggle">
-              <span class="settings__toggle-label" data-i18n="settings.scrollbars.label">Barres de défilement du système</span>
-              <button type="button" class="switch" data-settings-native-scrollbars role="switch" aria-checked="false" data-i18n-aria-label="settings.scrollbars.label">
-                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-                <span class="switch__state" data-settings-native-scrollbars-state></span>
-              </button>
+               bar of the system. The switch writes `settings.nativeScrollbars`, and
+               `ScrollHint.setNativeBars()` applies it live (it is also the one that re-reads the
+               preference at boot, before the first screen is painted). -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.display.title">Affichage</h3>
+            <div class="settings__toggles">
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.scrollbars.label">Barres de défilement du système</span>
+                <button type="button" class="switch" data-settings-native-scrollbars role="switch" aria-checked="false" data-i18n-aria-label="settings.scrollbars.label">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-native-scrollbars-state></span>
+                </button>
+              </div>
             </div>
+            <p class="settings__help" data-i18n="settings.scrollbars.help">Le jeu dessine sa propre barre, fine et discrète, qui n'apparaît que pendant le défilement. Activez cette option pour retrouver la barre de votre système, toujours visible et déplaçable.</p>
+          </section>
+        </div>
+
+        <div class="settings__tabpanel" id="settings-panel-game" role="tabpanel"
+             aria-labelledby="settings-tab-game" data-settings-tabpanel="game">
+          <!-- Automatic mining: the pace of the taps landed while Shift+Space is held (or while a
+               finger stays on the block on a phone). Three stops, "normal" being the historical beat
+               of `mining.keyHoldIntervalMs`; the speed is a preference of the account
+               (`settings.mineSpeed`), read by MineBlockView when the mine opens. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.mine.title">Minage automatique</h3>
+            <div class="foil-slider">
+              <div class="foil-slider__head">
+                <label class="foil-slider__label" for="settings-mine-speed" data-i18n="settings.mine.speed">Vitesse du minage automatique</label>
+                <output class="foil-slider__value" data-settings-mine-speed-value for="settings-mine-speed">Normal</output>
+              </div>
+              <input type="range" class="foil-slider__input" id="settings-mine-speed" data-settings-mine-speed min="0" max="2" step="1" value="0" aria-describedby="settings-mine-speed-help">
+            </div>
+            <p class="settings__help" id="settings-mine-speed-help" data-i18n="settings.mine.help">Cadence des coups portés quand vous maintenez Maj+Espace, ou quand vous gardez le doigt sur le bloc sur mobile. « Très rapide » va deux fois plus vite que « Normal ».</p>
+          </section>
+
+          <!-- Notifications: how long one game notification stays on screen, and which kinds are
+               allowed at all. The bounds of the slider come from `config.json` (`notifications`),
+               and the three switches are always the kinds `NotificationCenter` knows: the duration
+               is written in seconds and applied live, while the switches are merged one by one in
+               `settings.notificationTypes`. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.notifications.title">Notifications</h3>
+            <div class="foil-slider">
+              <div class="foil-slider__head">
+                <label class="foil-slider__label" for="settings-notification-duration" data-i18n="settings.notifications.duration">Durée des notifications</label>
+                <output class="foil-slider__value" data-settings-notification-duration-value for="settings-notification-duration">3 s</output>
+              </div>
+              <input type="range" class="foil-slider__input" id="settings-notification-duration" data-settings-notification-duration min="1" max="8" step="1" value="3" aria-describedby="settings-notification-duration-help">
+            </div>
+            <div class="settings__toggles">
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.notifications.collection">Progression des collections</span>
+                <button type="button" class="switch" data-settings-notification-collection role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.collection">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-notification-collection-state></span>
+                </button>
+              </div>
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.notifications.experience">Expérience gagnée</span>
+                <button type="button" class="switch" data-settings-notification-experience role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.experience">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-notification-experience-state></span>
+                </button>
+              </div>
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.notifications.titleKind">Titres débloqués</span>
+                <button type="button" class="switch" data-settings-notification-title role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.titleKind">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-notification-title-state></span>
+                </button>
+              </div>
+            </div>
+            <p class="settings__help" data-info-hint="settings-notifications" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
+            <!-- Moved after the panel help so both sentences read in order inside the "i" popover;
+                 the slider still points at it through `aria-describedby`. -->
+            <p class="settings__help" id="settings-notification-duration-help" data-info-hint="settings-notifications" data-i18n="settings.notifications.durationHelp">Temps pendant lequel une notification reste affichée avant de laisser la place à la suivante.</p>
+          </section>
+
+          <!-- Sounds: the global switch (master gate) then one row per family. The rows are built by
+               SettingsView from `SoundManager.SOUND_CATEGORY_ORDER`; each has its own switch and a
+               volume from 0 to 5. When the master switch is off the whole block is hidden. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.sound.title">Sons</h3>
+            <button type="button" class="switch" data-settings-sound role="switch" aria-checked="true" data-i18n-aria-label="settings.sound.title">
+              <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+              <span class="switch__state" data-settings-sound-state></span>
+            </button>
+            <p class="settings__help" data-info-hint="settings-sound" data-i18n="settings.sound.help">Activez ou coupez tous les sons du jeu, puis réglez chaque famille séparément.</p>
+            <div class="settings__sound" data-settings-sound-categories></div>
+            <p class="settings__help" data-settings-sound-help data-info-hint="settings-sound" data-i18n="settings.sound.category.help">Chaque famille a son propre interrupteur et un volume de 0 à 5. À 0, elle est silencieuse.</p>
+          </section>
+
           </div>
-          <p class="settings__help" data-i18n="settings.scrollbars.help">Le jeu dessine sa propre barre, fine et discrète, qui n'apparaît que pendant le défilement. Activez cette option pour retrouver la barre de votre système, toujours visible et déplaçable.</p>
-        </section>
 
-        <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the
-             collection shows its key and a button copying it (CollectionView reads the setting on
-             every opening, so the switch takes effect without a reload). -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.dev.title">Mode développeur</h3>
-          <button type="button" class="switch" data-settings-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.dev.title">
-            <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-            <span class="switch__state" data-settings-dev-state></span>
-          </button>
-          <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier.</p>
-        </section>
+        <div class="settings__tabpanel" id="settings-panel-account" role="tabpanel"
+             aria-labelledby="settings-tab-account" data-settings-tabpanel="account">
+          <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the
+               collection shows its key and a button copying it (CollectionView reads the setting on
+               every opening, so the switch takes effect without a reload). -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.dev.title">Mode développeur</h3>
+            <button type="button" class="switch" data-settings-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.dev.title">
+              <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+              <span class="switch__state" data-settings-dev-state></span>
+            </button>
+            <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier.</p>
+          </section>
 
-        <!-- Booster rendering: a developer tool, hidden unless the switch above is on. The choices
-             are generated from `boosterRender.modes` of `config.json` by SettingsView, and the
-             recipe is applied live to the 3D preview and to the opening scene. -->
-        <section class="panel settings__panel" data-settings-render-panel hidden>
-          <h3 class="settings__title" data-i18n="settings.render.title">Rendu du booster</h3>
-          <div class="lang-switch settings__choices" data-settings-render role="group" data-i18n-aria-label="settings.render.title" aria-label="Rendu du booster"></div>
-          <p class="settings__help" data-info-hint="settings-render" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
-          <p class="settings__help" data-settings-render-detail></p>
-        </section>
+          <!-- Booster rendering: a developer tool, hidden unless the switch above is on. The choices
+               are generated from `boosterRender.modes` of `config.json` by SettingsView, and the
+               recipe is applied live to the 3D preview and to the opening scene. -->
+          <section class="panel settings__panel" data-settings-render-panel hidden>
+            <h3 class="settings__title" data-i18n="settings.render.title">Rendu du booster</h3>
+            <div class="lang-switch settings__choices" data-settings-render role="group" data-i18n-aria-label="settings.render.title" aria-label="Rendu du booster"></div>
+            <p class="settings__help" data-info-hint="settings-render" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
+            <p class="settings__help" data-settings-render-detail></p>
+          </section>
 
-        <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.account.title">Compte</h3>
-          <p class="settings__help" data-info-hint="settings-account" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
-          <p class="settings__uuid">
-            <code class="settings__uuid-value" data-settings-uuid>…</code>
-            <button type="button" class="btn btn--ghost" data-settings-copy data-i18n="settings.account.copy">Copier</button>
-          </p>
-        </section>
+          <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.account.title">Compte</h3>
+            <p class="settings__help" data-info-hint="settings-account" data-i18n="settings.account.help">Communiquez cet identifiant pour recevoir des cadeaux. Il ne change jamais.</p>
+            <p class="settings__uuid">
+              <code class="settings__uuid-value" data-settings-uuid>…</code>
+              <button type="button" class="btn btn--ghost" data-settings-copy data-i18n="settings.account.copy">Copier</button>
+            </p>
+          </section>
 
-        <!-- UTC clock: the header one is hidden on a phone, and this is the reference time of the
-             game (daily booster reset, availability window of the promo codes). The value is written
-             by SettingsView from the trusted clock, never from `Date.now()`. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.clock.title">Heure UTC</h3>
-          <p class="settings__clock">
-            <time class="settings__clock-value" data-settings-utc>--:--:--</time>
-            <span class="settings__clock-day" data-settings-utc-day></span>
-          </p>
-          <p class="settings__help" data-info-hint="settings-clock" data-i18n="settings.clock.help">L'heure de référence du jeu : les boosters quotidiens se réinitialisent à minuit UTC.</p>
-        </section>
+          <!-- UTC clock: the header one is hidden on a phone, and this is the reference time of the
+               game (daily booster reset, availability window of the promo codes). The value is written
+               by SettingsView from the trusted clock, never from `Date.now()`. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.clock.title">Heure UTC</h3>
+            <p class="settings__clock">
+              <time class="settings__clock-value" data-settings-utc>--:--:--</time>
+              <span class="settings__clock-day" data-settings-utc-day></span>
+            </p>
+            <p class="settings__help" data-info-hint="settings-clock" data-i18n="settings.clock.help">L'heure de référence du jeu : les boosters quotidiens se réinitialisent à minuit UTC.</p>
+          </section>
 
-        <!-- Save: export / import / full reset. The import and the reset ask for a confirmation. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.save.title">Sauvegarde</h3>
-          <div class="settings__actions">
-            <button type="button" class="btn btn--primary" data-settings-export data-i18n="settings.save.export">Exporter</button>
-            <button type="button" class="btn btn--ghost" data-settings-import data-i18n="settings.save.import">Importer</button>
-            <button type="button" class="btn btn--danger" data-settings-reset data-i18n="settings.save.reset">Réinitialiser</button>
-          </div>
-          <input type="file" data-settings-file accept=".save,application/octet-stream" hidden>
-        </section>
+          <!-- Save: export / import / full reset. The import and the reset ask for a confirmation. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.save.title">Sauvegarde</h3>
+            <div class="settings__actions">
+              <button type="button" class="btn btn--primary" data-settings-export data-i18n="settings.save.export">Exporter</button>
+              <button type="button" class="btn btn--ghost" data-settings-import data-i18n="settings.save.import">Importer</button>
+              <button type="button" class="btn btn--danger" data-settings-reset data-i18n="settings.save.reset">Réinitialiser</button>
+            </div>
+            <input type="file" data-settings-file accept=".save,application/octet-stream" hidden>
+          </section>
 
-        <!-- Distributions (step 8): the sheet is read on demand, never polled. -->
-        <section class="panel settings__panel">
-          <h3 class="settings__title" data-i18n="settings.distributions.title">Distributions</h3>
-          <div class="settings__actions">
-            <button type="button" class="btn btn--ghost" data-settings-check-gifts data-i18n="settings.distributions.check">Vérifier les distributions</button>
-            <button type="button" class="btn btn--ghost" data-settings-gift-history data-i18n="settings.distributions.history">Historique des cadeaux</button>
-          </div>
-          <p class="settings__help" data-info-hint="settings-distributions" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
-        </section>
+          <!-- Distributions (step 8): the sheet is read on demand, never polled. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.distributions.title">Distributions</h3>
+            <div class="settings__actions">
+              <button type="button" class="btn btn--ghost" data-settings-check-gifts data-i18n="settings.distributions.check">Vérifier les distributions</button>
+              <button type="button" class="btn btn--ghost" data-settings-gift-history data-i18n="settings.distributions.history">Historique des cadeaux</button>
+            </div>
+            <p class="settings__help" data-info-hint="settings-distributions" data-i18n="settings.distributions.help">Chaque distribution n'est créditée qu'une seule fois : les cadeaux déjà reçus sont ignorés.</p>
+          </section>
 
-        <!-- Release notes: the whole page is drawn by SettingsView from `settings/changelog.json`
-             (newest version open, the older ones folded), so publishing a version never needs a
-             code change here. -->
-        <section class="panel settings__panel settings__panel--wide">
-          <h3 class="settings__title" data-i18n="settings.changelog.title">Notes de mise à jour</h3>
-          <p class="settings__help" data-i18n="settings.changelog.help">L'historique des versions publiées, de la plus récente à la plus ancienne.</p>
-          <div class="changelog" data-settings-changelog></div>
-        </section>
+          <!-- Promo codes (step 7). They used to be a bottom-bar destination: they now live here, next
+               to the distributions. The view is wired on `[data-panel="redeem"]`. -->
+          <section class="settings__subview" data-panel="redeem">
+            <h3 class="settings__title" data-i18n="view.redeem.title">Codes promo</h3>
+            <p class="settings__help" data-i18n="view.redeem.subtitle">Saisissez un code pour recevoir votre récompense.</p>
+
+            <div class="panel redeem__panel">
+              <!-- A form is used only for its "Enter submits" behaviour: the view cancels the default action. -->
+              <form class="redeem__form" data-redeem-form novalidate>
+                <label class="field">
+                  <span class="field__label" data-i18n="redeem.input.label">Code</span>
+                  <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="64" data-i18n-placeholder="redeem.input.placeholder" placeholder="Votre code…">
+                </label>
+                <button type="submit" class="btn btn--primary" data-redeem-submit data-i18n="redeem.submit">Valider</button>
+              </form>
+
+              <p class="redeem__hint" data-i18n="redeem.hint">Les codes ne sont pas sensibles à la casse.</p>
+              <p class="feedback" data-redeem-feedback role="status" hidden></p>
+            </div>
+
+            <!-- Confirmation modal (step 9): the rewards are listed before anything is granted. -->
+            <div class="modal" data-redeem-modal hidden>
+              <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="redeem-modal-title">
+                <button type="button" class="modal__close" data-redeem-modal-close aria-label="×">×</button>
+                <h2 class="modal__title" id="redeem-modal-title" data-redeem-modal-title></h2>
+                <div class="modal__body" data-redeem-modal-body></div>
+                <div class="modal__actions">
+                  <!-- Labels are always written by RedeemView (confirmation vs success). -->
+                  <button type="button" class="btn btn--ghost" data-redeem-modal-cancel></button>
+                  <button type="button" class="btn btn--primary" data-redeem-modal-confirm></button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Gifts history (step 8). Same move: wired on `[data-panel="gifts"]`. -->
+          <section class="settings__subview" data-panel="gifts">
+            <h3 class="settings__title" data-i18n="view.gifts.title">Cadeaux reçus</h3>
+            <p class="settings__help" data-i18n="view.gifts.subtitle">Retrouvez ici les cadeaux crédités par les distributions.</p>
+
+            <p class="feedback" data-gifts-feedback role="status" hidden></p>
+
+            <div class="panel">
+              <div class="gifts__meta-header">
+                <p class="gifts__last-check" data-gifts-last-check></p>
+                <p class="gifts__count" data-gifts-count hidden></p>
+              </div>
+
+              <!-- Category filter (step 9): labels are written by GiftsView. -->
+              <div class="gifts__filters" data-gifts-filters role="group" data-i18n-aria-label="gifts.filter.label" aria-label="Filtrer les cadeaux">
+                <button type="button" class="gifts__filter" data-gifts-filter="all" aria-pressed="true"></button>
+                <button type="button" class="gifts__filter" data-gifts-filter="distribution" aria-pressed="false"></button>
+                <button type="button" class="gifts__filter" data-gifts-filter="codes" aria-pressed="false"></button>
+              </div>
+
+              <ul class="gifts__list" data-gifts-list></ul>
+
+              <div class="gifts__empty" data-gifts-empty hidden>
+                <p class="gifts__empty-text" data-i18n="gifts.empty">Aucun cadeau reçu pour le moment.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Premium: the paid offer of the game. The button opens a dialog that states what the
+             subscription grants before anything is bought (`SettingsView.openPremiumModal()`); the
+             panel itself only names the offer and its price. -->
+        <div class="settings__tabpanel" id="settings-panel-premium" role="tabpanel"
+             aria-labelledby="settings-tab-premium" data-settings-tabpanel="premium">
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.premium.title">Mode Premium</h3>
+            <p class="settings__help" data-i18n="settings.premium.help">Plus de boosters chaque jour, et une carte que les autres joueurs ne peuvent pas obtenir.</p>
+
+            <div class="premium">
+              <p class="premium__price">
+                <span class="premium__amount" data-i18n="settings.premium.price">4,99 $</span>
+                <span class="premium__period" data-i18n="settings.premium.period">par semaine</span>
+              </p>
+              <!-- The advantages are written by `SettingsView` from one list of keys, which the
+                   offer dialog reuses: the panel and the dialog can never disagree. -->
+              <ul class="premium__perks" data-settings-premium-perks></ul>
+              <button type="button" class="btn btn--primary" data-settings-premium-open aria-haspopup="dialog" aria-expanded="false" data-i18n="settings.premium.cta">Découvrir Premium</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="settings__tabpanel" id="settings-panel-more" role="tabpanel"
+             aria-labelledby="settings-tab-more" data-settings-tabpanel="more">
+          <!-- Release notes: the whole page is drawn by SettingsView from `settings/changelog.json`
+               (newest version open, the older ones folded), so publishing a version never needs a
+               code change here. -->
+          <section class="panel settings__panel settings__panel--wide">
+            <h3 class="settings__title" data-i18n="settings.changelog.title">Notes de mise à jour</h3>
+            <p class="settings__help" data-i18n="settings.changelog.help">L'historique des versions publiées, de la plus récente à la plus ancienne.</p>
+            <div class="changelog" data-settings-changelog></div>
+          </section>
+        </div>
+
       </div>
-
-      <!-- Promo codes (step 7). They used to be a bottom-bar destination: they now live here, next
-           to the distributions. The view is wired on `[data-panel="redeem"]`. -->
-      <section class="settings__subview" data-panel="redeem">
-        <h3 class="settings__title" data-i18n="view.redeem.title">Codes promo</h3>
-        <p class="settings__help" data-i18n="view.redeem.subtitle">Saisissez un code pour recevoir votre récompense.</p>
-
-        <div class="panel redeem__panel">
-          <!-- A form is used only for its "Enter submits" behaviour: the view cancels the default action. -->
-          <form class="redeem__form" data-redeem-form novalidate>
-            <label class="field">
-              <span class="field__label" data-i18n="redeem.input.label">Code</span>
-              <input class="field__input redeem__input" type="text" data-redeem-input name="code" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="64" data-i18n-placeholder="redeem.input.placeholder" placeholder="Votre code…">
-            </label>
-            <button type="submit" class="btn btn--primary" data-redeem-submit data-i18n="redeem.submit">Valider</button>
-          </form>
-
-          <p class="redeem__hint" data-i18n="redeem.hint">Les codes ne sont pas sensibles à la casse.</p>
-          <p class="feedback" data-redeem-feedback role="status" hidden></p>
-        </div>
-
-        <!-- Confirmation modal (step 9): the rewards are listed before anything is granted. -->
-        <div class="modal" data-redeem-modal hidden>
-          <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="redeem-modal-title">
-            <button type="button" class="modal__close" data-redeem-modal-close aria-label="×">×</button>
-            <h2 class="modal__title" id="redeem-modal-title" data-redeem-modal-title></h2>
-            <div class="modal__body" data-redeem-modal-body></div>
-            <div class="modal__actions">
-              <!-- Labels are always written by RedeemView (confirmation vs success). -->
-              <button type="button" class="btn btn--ghost" data-redeem-modal-cancel></button>
-              <button type="button" class="btn btn--primary" data-redeem-modal-confirm></button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Gifts history (step 8). Same move: wired on `[data-panel="gifts"]`. -->
-      <section class="settings__subview" data-panel="gifts">
-        <h3 class="settings__title" data-i18n="view.gifts.title">Cadeaux reçus</h3>
-        <p class="settings__help" data-i18n="view.gifts.subtitle">Retrouvez ici les cadeaux crédités par les distributions.</p>
-
-        <p class="feedback" data-gifts-feedback role="status" hidden></p>
-
-        <div class="panel">
-          <div class="gifts__meta-header">
-            <p class="gifts__last-check" data-gifts-last-check></p>
-            <p class="gifts__count" data-gifts-count hidden></p>
-          </div>
-
-          <!-- Category filter (step 9): labels are written by GiftsView. -->
-          <div class="gifts__filters" data-gifts-filters role="group" data-i18n-aria-label="gifts.filter.label" aria-label="Filtrer les cadeaux">
-            <button type="button" class="gifts__filter" data-gifts-filter="all" aria-pressed="true"></button>
-            <button type="button" class="gifts__filter" data-gifts-filter="distribution" aria-pressed="false"></button>
-            <button type="button" class="gifts__filter" data-gifts-filter="codes" aria-pressed="false"></button>
-          </div>
-
-          <ul class="gifts__list" data-gifts-list></ul>
-
-          <div class="gifts__empty" data-gifts-empty hidden>
-            <p class="gifts__empty-text" data-i18n="gifts.empty">Aucun cadeau reçu pour le moment.</p>
-          </div>
-        </div>
-      </section>
 
       <!-- Confirmation modal (save import, full reset). -->
       <div class="modal" data-settings-modal hidden>
@@ -1720,6 +1875,20 @@
                  information message), which is why they carry no `data-i18n` attribute. -->
             <button type="button" class="btn btn--ghost" data-settings-modal-cancel>Annuler</button>
             <button type="button" class="btn btn--primary" data-settings-modal-confirm>Confirmer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium offer: the terms of the subscription, then its purchase. The labels of the actions
+           are written by `SettingsView`, because the dialog changes once the offer was opened. -->
+      <div class="modal" data-settings-premium-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="settings-premium-modal-title">
+          <button type="button" class="modal__close" data-settings-premium-close aria-label="×">×</button>
+          <h2 class="modal__title" id="settings-premium-modal-title" data-settings-premium-title></h2>
+          <div class="modal__body" data-settings-premium-body></div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-settings-premium-cancel data-i18n="settings.confirm.cancel">Annuler</button>
+            <button type="button" class="btn btn--primary" data-settings-premium-buy></button>
           </div>
         </div>
       </div>
@@ -2111,7 +2280,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=0c7db32ac7"></script>
+  <script type="module" src="js/app.js?v=a3c8b9f9d1"></script>
 
 </body>
 </html>

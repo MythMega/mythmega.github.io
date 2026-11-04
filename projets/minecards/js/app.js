@@ -48,6 +48,7 @@ import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
 import { CollectionView, COLLECTION_VIEW_NAME } from './UI/views/CollectionView.js';
 import { MinePickView, MINE_PICK_VIEW_NAME } from './UI/views/MinePickView.js';
 import { MineBlockView, MINE_BLOCK_VIEW_NAME } from './UI/views/MineBlockView.js';
+import { ProgressionView, PROGRESSION_VIEW_NAME } from './UI/views/ProgressionView.js';
 import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
@@ -63,12 +64,16 @@ import gameNotifier from './UI/components/GameNotifier.js';
 import autoClaimPopup from './UI/components/AutoClaimPopup.js';
 import dailyRewardPopup from './UI/components/DailyRewardPopup.js';
 import setAnnouncementPopup from './UI/components/SetAnnouncementPopup.js';
+import currencyExpiryPopup from './UI/components/CurrencyExpiryPopup.js';
+import illagerShopManager from './business/IllagerShopManager.js';
 import autoClaimManager from './business/AutoClaimManager.js';
 import dailyRewardManager from './business/DailyRewardManager.js';
 import changelogManager from './business/ChangelogManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
+import errorPopup from './UI/components/ErrorPopup.js';
+import { installErrorReporter, setErrorPresenter, reportError } from './utils/ErrorReporter.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -115,6 +120,17 @@ export const DAILY_REWARDS_SELECTORS = Object.freeze({
  * Selectors of the identity of the header: the avatar of the player, the level on its corner and the
  * ring that carries the progress of that level.
  */
+/**
+ * Pseudo the brand of the header shows until the player chose one.
+ *
+ * The name of the character the game is about: a header without a pseudo reads "Steve - MineCards",
+ * which is still a name, where an empty slot would read as a profile that failed to load.
+ */
+export const DEFAULT_PLAYER_NAME = 'Steve';
+
+/** Selector of the pseudo of the brand (`<pseudo> - MineCards`, see `css/base.css`). */
+export const HEADER_PLAYER_SELECTOR = '[data-header-player]';
+
 export const HEADER_IDENTITY_SELECTORS = Object.freeze({
   ROOT: '[data-header-identity]',
   AVATAR: '[data-header-avatar]',
@@ -174,6 +190,8 @@ export const VIEW_NAMES = Object.freeze({
   ONBOARDING: 'onboarding',
   OPENING: 'opening',
   COLLECTION: 'collection',
+  // Progression: a page of its own, opened from the header of the collection.
+  PROGRESSION: 'progression',
   PROFILE: 'profile',
   // Statistics: opened from the profile, not a destination of the bottom bar of its own anymore.
   STATS: 'stats',
@@ -213,6 +231,8 @@ export class App {
     this.openingView = null;
     /** @type {CollectionView|null} Card collection grid (step 5). */
     this.collectionView = null;
+    /** @type {ProgressionView|null} Completion bars of every extension (opened from the collection). */
+    this.progressionView = null;
     /** @type {ProfileView|null} Profile page (identity, level, pinned trophies, favourites). */
     this.profileView = null;
     /** @type {StatsView|null} Statistics page (opened from the profile). */
@@ -246,6 +266,8 @@ export class App {
     this.autoClaimsStarted = false;
     /** @type {boolean} True once the upcoming-set announcements were scheduled. */
     this.setAnnouncementsStarted = false;
+    /** @type {Array<object>|null} Currencies expired while away, announced once the boot is done. */
+    this.expiredCurrencies = null;
     /** @type {number|null} Level evaluated by the boot trophy pass, reused by the auto-claims. */
     this.currentLevel = null;
     /** @type {boolean} True once the bonus inventory dialog is wired. */
@@ -306,6 +328,13 @@ export class App {
       // here with a message about missing elements. One clean reload repairs it; after that, the
       // player gets a panel they can act on instead of a dead page.
       if (await this.repairStaleBuild(error)) return;
+      // The fatal panel is the last resort of the boot; the report is what the player pastes on the
+      // Discord, and it is built from the same error.
+      reportError(error, {
+        source: 'boot',
+        titleKey: 'error.popup.titleBoot',
+        bodyKey: 'error.popup.bodyBoot',
+      });
       this.showFatalError(error);
     } finally {
       this.hideBootOverlay();
@@ -541,11 +570,15 @@ export class App {
     await this.refreshDailyRewardBadge();
     await this.startOpeningView();
     await this.startCollectionView();
+    await this.startProgressionView();
     await this.startProfileView();
     await this.startStatsView();
     await this.startTrophiesView();
     await this.startTitlesView();
     await this.startMinePickView();
+    // The conversion of the expired currencies runs BEFORE the mine view reads the shop: it is what
+    // captures what the player lost while away, so the popup of the boot can name it.
+    await this.collectExpiredCurrencies();
     await this.startMineBlockView();
     await this.startSettingsView();
     await this.startRedeemView();
@@ -630,7 +663,10 @@ export class App {
       return;
     }
     console.info('[App] Starting the collection view…');
-    this.collectionView = new CollectionView(root);
+    // The progression left the page for one of its own: the view only asks the router for it.
+    this.collectionView = new CollectionView(root, {
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
     try {
       await this.collectionView.init();
     } catch (error) {
@@ -641,6 +677,38 @@ export class App {
     console.info('[App] Collection view ready.');
     if (this.router?.getCurrentView() === COLLECTION_VIEW_NAME) {
       this.collectionView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Wires the progression page (the two completion bars of every extension).
+   *
+   * The page left the collection like the statistics left the profile: it is opened from the header
+   * of the collection and comes back there with its own back button, so the router stays the only
+   * thing that switches views.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startProgressionView() {
+    const root = document.querySelector(`[data-view="${PROGRESSION_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The progression view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the progression view…');
+    this.progressionView = new ProgressionView(root, {
+      onNavigate: (viewName) => this.router?.show(viewName),
+    });
+    try {
+      await this.progressionView.init();
+    } catch (error) {
+      console.error('[App] The progression view could not be loaded.', error);
+      this.progressionView.setFeedback('progression.error.load', 'error');
+      return;
+    }
+    console.info('[App] Progression view ready.');
+    if (this.router?.getCurrentView() === PROGRESSION_VIEW_NAME) {
+      this.progressionView.handleViewActivated();
     }
   }
 
@@ -901,6 +969,19 @@ export class App {
     if (this.setAnnouncementsStarted) return;
     this.setAnnouncementsStarted = true;
     window.setTimeout(async () => {
+      // What became of an expired currency comes FIRST: it is money the player already lost, and the
+      // dialog says how much of it came back as Sparks.
+      if (this.expiredCurrencies?.length) {
+        autoClaimManager.hold('currency-expiry');
+        try {
+          await currencyExpiryPopup.show(this.expiredCurrencies);
+        } catch (error) {
+          console.warn('[App] The expired currencies could not be announced.', error);
+        } finally {
+          autoClaimManager.release('currency-expiry');
+          this.expiredCurrencies = null;
+        }
+      }
       autoClaimManager.hold('set-announcement');
       try {
         await setAnnouncementPopup.announcePending();
@@ -911,6 +992,31 @@ export class App {
       }
       this.startAutoClaims();
     }, 0);
+  }
+
+  /**
+   * Converts the balances of the currencies that expired while the player was away.
+   *
+   * The conversion belongs to `IllagerShopManager.convertExpired()`, which is idempotent (an empty
+   * balance is worth no Sparks, and nothing is written for zero) and also runs on every read of the
+   * shop. Running it here first is what lets the boot TELL the player: the result is kept for the
+   * announcement of `startSetAnnouncements()`, which happens once the boot overlay is gone.
+   *
+   * A failure is not fatal: the balance then stays in the save and is converted on the next read.
+   *
+   * @returns {Promise<void>} Resolves once the expired balances were converted (or the failure logged).
+   */
+  async collectExpiredCurrencies() {
+    this.expiredCurrencies = [];
+    const day = dateSyncManager.getCurrentUtcDay();
+    if (!day) return;
+    try {
+      await illagerShopManager.init();
+      this.expiredCurrencies = await illagerShopManager.convertExpired(day);
+    } catch (error) {
+      console.warn('[App] The expired currencies could not be converted.', error);
+      this.expiredCurrencies = [];
+    }
   }
 
   /**
@@ -1058,6 +1164,10 @@ export class App {
       console.warn(`[App] The settings panel "${selector}" is missing from index.html.`);
       return;
     }
+    // The panel may live in a section of the settings that is not the one on screen: the section is
+    // selected first, otherwise there would be no layout to jump to.
+    const section = panel.closest('[data-settings-tabpanel]')?.dataset.settingsTabpanel;
+    if (section) this.settingsView?.showTab(section);
     // Called synchronously: `SpaRouter.show()` has already applied the active class, so the panel
     // has a layout to scroll to and the jump is instantaneous (a deferred, animated scroll is
     // throttled by the browser and can be interrupted by the next tap).
@@ -1255,7 +1365,10 @@ export class App {
     if (this.headerIdentityBound) return;
     this.headerIdentityBound = true;
     eventBus.on(EVENTS.EXPERIENCE_UPDATED, (payload) => this.renderHeaderLevel(payload?.level));
-    eventBus.on(EVENTS.PROFILE_UPDATED, (payload) => this.renderHeaderAvatar(payload?.profile));
+    eventBus.on(EVENTS.PROFILE_UPDATED, (payload) => {
+      this.renderHeaderAvatar(payload?.profile);
+      this.renderHeaderPlayer(payload?.profile);
+    });
     // The label of the button is a sentence built here, so a language switch has to rebuild it.
     eventBus.on(EVENTS.LANG_CHANGED, () => this.renderHeaderIdentityLabel());
   }
@@ -1273,7 +1386,27 @@ export class App {
       console.warn('[App] The profile of the header could not be read.', error);
     }
     this.renderHeaderAvatar(profile);
+    this.renderHeaderPlayer(profile);
     this.renderHeaderLevel(this.levelSnapshot);
+  }
+
+  /**
+   * Writes the pseudo of the player in front of the name of the game, in the header.
+   *
+   * The brand reads `"<pseudo> - MineCards"` (the separator belongs to the stylesheet, see
+   * `css/base.css`): the header names the player as soon as the game is open. A player who never
+   * chose a name is `Steve`, and an account that is leaving (reset, imported save) falls back to it,
+   * so the header never keeps the name of a save that is gone.
+   *
+   * @param {object|null} profile - Stored profile (`{name}`), or null after a reset.
+   * @returns {void}
+   */
+  renderHeaderPlayer(profile) {
+    const player = document.querySelector(HEADER_PLAYER_SELECTOR);
+    if (!player) return;
+    const name = typeof profile?.name === 'string' ? profile.name.trim() : '';
+    player.textContent = name === '' ? DEFAULT_PLAYER_NAME : name;
+    player.hidden = false;
   }
 
   /**
@@ -1444,6 +1577,10 @@ export class App {
       this.collectionView.destroy();
       this.collectionView = null;
     }
+    if (this.progressionView) {
+      this.progressionView.destroy();
+      this.progressionView = null;
+    }
     if (this.profileView) {
       this.profileView.destroy();
       this.profileView = null;
@@ -1496,6 +1633,8 @@ export class App {
     this.autoClaimsStarted = false;
     setAnnouncementPopup.clear();
     this.setAnnouncementsStarted = false;
+    currencyExpiryPopup.clear();
+    this.expiredCurrencies = null;
     // The install offer belongs to the device, not to the account: it is only taken off the
     // screen, so it can come back once the new account reaches the main screen.
     installPrompt.hide();
@@ -1504,6 +1643,7 @@ export class App {
     // clean circle instead of inheriting the avatar and the level of a save that is not its own.
     this.levelSnapshot = null;
     this.renderHeaderAvatar(null);
+    this.renderHeaderPlayer(null);
     this.renderHeaderLevel(null);
     this.stopUtcClock();
     this.utcTimeProvider = null;
@@ -2102,6 +2242,12 @@ export class App {
   }
 }
 
+// The error reporter is armed before ANY of the game boots: a module that fails to load, a view that
+// throws while it is built or a promise nobody awaited has to be reportable, and the report is the
+// only thing a player can hand over (`ErrorPopup`: copy the code, paste it on the Discord).
+installErrorReporter();
+setErrorPresenter((report) => errorPopup.show(report));
+
 // Capture the `?Redeem=` deep link before anything else renders, so a first-visit player keeps
 // their pending code through the onboarding (step 10).
 capturePendingRedeem();
@@ -2121,7 +2267,10 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('./sw.js', { scope: '/projets/minecards/' })
       .then((registration) => console.info('[PWA] Service worker registered:', registration.scope))
-      .catch((error) => console.error('[PWA] Service worker registration failed:', error));
+      .catch((error) => {
+        console.error('[PWA] Service worker registration failed:', error);
+        reportError(error, { source: 'service-worker' });
+      });
   });
 }
 

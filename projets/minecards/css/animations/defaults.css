@@ -37,8 +37,13 @@
                      `Booster3DRenderer`);
      - `epic`      : the same choreography, staged. The pack rises inside a field of light
                      rays with dust motes, the booster leaves a streak, the flipped card
-                     sends a shockwave ring and zooms, rarities 4 and 5 get a real halo and
-                     the summary raises a light sweep over every tile;
+                     sends a shockwave ring and zooms, rarities 4 and 5 get a real halo                     and the summary raises a light sweep over every tile;
+     - `none`      : the quiet mode, where NOTHING moves (`css/animations/none.css`):
+                     the pack is there, then it is gone;
+     - `mining`    : the pack is mined with the ten crack frames of the Mine, throws block
+                     shards, lands on a four-step beat AND the back of every card is mined
+                     too - the crack frames run over it, then the card appears on a hard
+                     cut instead of a half turn (`css/animations/mining.css`);
      - `explosive` : DELIBERATELY RIDICULOUS (flagged `parodic: true` in `config.json`).
                      On top of the comic tear, the shake, the "BOUM !" and the fairground
                      flip, the pack now throws confetti (`OpeningView.spawnConfetti()`),

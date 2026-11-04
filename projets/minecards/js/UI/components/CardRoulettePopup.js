@@ -28,6 +28,7 @@ import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { applyCardGlow } from '../../utils/Shine.js';
 import { setFocusMode } from '../../utils/FocusMode.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { preloadImages, isImageReady } from '../../utils/ImagePreloader.js';
 
 /** Class of the overlay, which is also a `.modal` for the shared dialog sounds. */
 export const CARD_ROULETTE_CLASS = 'card-roulette';
@@ -37,6 +38,9 @@ export const CARD_ROULETTE_SPIN_MS = 5000;
 
 /** Braking curve of the wheel: fast start, very long deceleration, no bounce. */
 const SPIN_EASING = 'cubic-bezier(0.12, 0.72, 0.09, 1)';
+
+/** Longest wait for the illustrations of the strip before the wheel starts anyway, in ms. */
+const REEL_PRELOAD_TIMEOUT_MS = 8000;
 
 export class CardRoulettePopup {
   constructor() {
@@ -50,6 +54,8 @@ export class CardRoulettePopup {
     this.state = null;
     /** @type {boolean} True while the wheel turns. */
     this.spinning = false;
+    /** @type {number} Token guarding the asynchronous preload of the strip. */
+    this.spinToken = 0;
     /** @type {number|null} Timer of the spin. */
     this.timer = null;
     /** @type {number|null} Timer of the reveal beat. */
@@ -127,7 +133,7 @@ export class CardRoulettePopup {
 
     this.renderStrip(cards);
     this.renderReveal();
-    this.startSpin(winnerIndex);
+    void this.startSpin(winnerIndex);
     this.log(`Spinning ${cards.length} tile(s), winner at ${winnerIndex}.`);
     return closed;
   }
@@ -141,6 +147,9 @@ export class CardRoulettePopup {
     if (!this.root) return;
     this.clearTimers();
     this.spinning = false;
+    this.spinToken += 1;
+    const loading = this.root.querySelector('[data-card-roulette-loading]');
+    if (loading) loading.hidden = true;
     this.root.hidden = true;
     document.removeEventListener('keydown', this.handleKeyDown);
     setFocusMode(false);
@@ -204,6 +213,20 @@ export class CardRoulettePopup {
     subtitle.className = `${CARD_ROULETTE_CLASS}__subtitle`;
     subtitle.dataset.cardRouletteSubtitle = '';
 
+    // The wheel waits for its pictures instead of turning over empty tiles (see `ImagePreloader`):
+    // this line is only visible on a connection slow enough to need it.
+    const loading = document.createElement('p');
+    loading.className = 'image-loader';
+    loading.dataset.cardRouletteLoading = '';
+    loading.hidden = true;
+    const loadingSpinner = document.createElement('span');
+    loadingSpinner.className = 'image-loader__spinner';
+    loadingSpinner.setAttribute('aria-hidden', 'true');
+    const loadingLabel = document.createElement('span');
+    loadingLabel.className = 'image-loader__label';
+    loadingLabel.dataset.cardRouletteLoadingLabel = '';
+    loading.append(loadingSpinner, loadingLabel);
+
     const windowElement = document.createElement('div');
     windowElement.className = `${CARD_ROULETTE_CLASS}__window`;
     windowElement.dataset.cardRouletteWindow = '';
@@ -249,7 +272,7 @@ export class CardRoulettePopup {
     confirm.addEventListener('click', () => this.close());
     actions.append(confirm);
 
-    dialog.append(badge, title, subtitle, windowElement, reveal, actions);
+    dialog.append(badge, title, subtitle, loading, windowElement, reveal, actions);
     root.append(dialog);
     document.body.append(root);
 
@@ -274,6 +297,8 @@ export class CardRoulettePopup {
     if (title) title.textContent = i18n.t(titleKey);
     if (subtitle) subtitle.textContent = i18n.t('card.roulette.subtitle');
     if (confirm) confirm.textContent = i18n.t('card.roulette.claim');
+    const loadingLabel = this.root.querySelector('[data-card-roulette-loading-label]');
+    if (loadingLabel) loadingLabel.textContent = i18n.t('card.roulette.loading');
   }
 
   /**
@@ -339,10 +364,12 @@ export class CardRoulettePopup {
    * @param {number} winnerIndex - Position the wheel must stop on.
    * @returns {void}
    */
-  startSpin(winnerIndex) {
+  async startSpin(winnerIndex) {
     if (!this.root) return;
     this.clearTimers();
     this.spinning = true;
+    const token = this.spinToken + 1;
+    this.spinToken = token;
 
     const windowElement = this.root.querySelector('[data-card-roulette-window]');
     const strip = this.root.querySelector('[data-card-roulette-strip]');
@@ -355,6 +382,17 @@ export class CardRoulettePopup {
     this.renderLabels();
     windowElement.hidden = false;
     windowElement.removeAttribute('aria-hidden');
+
+    // The card is already granted, so waiting for the pictures costs nothing: the wheel then turns
+    // over complete tiles instead of flashing empty ones on a slow connection.
+    const loading = this.root.querySelector('[data-card-roulette-loading]');
+    const urls = Array.from(strip.querySelectorAll('img')).map((image) => image.src);
+    if (!urls.every((url) => isImageReady(url))) {
+      if (loading) loading.hidden = false;
+      await preloadImages(urls, { timeout: REEL_PRELOAD_TIMEOUT_MS });
+      if (!this.spinning || token !== this.spinToken) return;
+      if (loading) loading.hidden = true;
+    }
 
     // Rewind, then let the browser settle the layout: measuring before it would read the previous
     // strip and stop the wheel a few pixels off the marker.
@@ -391,6 +429,8 @@ export class CardRoulettePopup {
     if (!this.spinning) return;
     this.spinning = false;
     this.clearTimers();
+    const loading = this.root?.querySelector('[data-card-roulette-loading]');
+    if (loading) loading.hidden = true;
     const strip = this.root?.querySelector('[data-card-roulette-strip]');
     if (strip) strip.style.transition = 'none';
 

@@ -44,6 +44,8 @@ import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRe
 import boosterRenderManager from '../../utils/BoosterRenderManager.js';
 import { getShineClasses, applyShine, applyCardGlow } from '../../utils/Shine.js';
 import { buildCardEffectsToggle, syncCardEffectsToggle } from '../components/CardEffectsToggle.js';
+import { preloadImage, preloadImages, isImageReady } from '../../utils/ImagePreloader.js';
+import { reportError } from '../../utils/ErrorReporter.js';
 
 /** View name, matching `data-view="opening"` in `index.html`. */
 export const OPENING_VIEW_NAME = 'opening';
@@ -56,6 +58,9 @@ const SWIPE_THRESHOLD_PX = 24;
 
 /** Beat of the automatic reveal while Space is held, in milliseconds (the overlay's own pace). */
 const SPACE_AUTO_ADVANCE_MS = 900;
+
+/** Wait before the spotlight stops waiting for an illustration that never arrives, in ms. */
+const SPOTLIGHT_IMAGE_TIMEOUT_MS = 8000;
 
 /** Pieces the "explosive" mode throws over the stage. Enough to be silly, few enough to keep
  *  the burst readable (and 18 compositor layers is about what a phone takes for free). */
@@ -110,6 +115,7 @@ export class OpeningView {
     this.nextSetButton = this.root.querySelector('[data-booster-next-set]');
 
     this.revealHint = this.root.querySelector('[data-opening-reveal-hint]');
+    this.spotlightLoading = this.root.querySelector('[data-opening-spotlight-loading]');
     this.spotlightElement = this.root.querySelector('[data-opening-spotlight]');
     this.spotlightStage = this.root.querySelector('[data-opening-stage-card]');
     this.counterElement = this.root.querySelector('[data-opening-counter]');
@@ -185,6 +191,8 @@ export class OpeningView {
     this.spotlightEntryTimer = null;
     /** @type {boolean} True when a tap landed while the card was still arriving. */
     this.pendingSpotlightAction = false;
+    /** @type {number} Token guarding the asynchronous picture warm-up of the spotlight. */
+    this.spotlightLoadToken = 0;
     /** @type {number|null} Interval advancing the reveal while Space is held. */
     this.spaceHoldTimer = null;
     /** @type {string|null} Last feedback i18n key (re-translated on `LANG_CHANGED`). */
@@ -1139,6 +1147,9 @@ export class OpeningView {
         newKeys: result.newKeys,
       });
       this.pendingResult = result;
+      // The five illustrations are fetched NOW, while the booster is still on screen and the player
+      // has to tear it open: the first card of the reveal then has nothing left to wait for.
+      this.warmupCardImages(result.cards);
       if (typeof this.onBoosterOpened === 'function') {
         this.onBoosterOpened(result);
       }
@@ -1230,6 +1241,9 @@ export class OpeningView {
       label: result.setId,
       onOpenStart: () => this.handleBoosterOpenStart(),
       onOpenRequest: () => this.handleBoosterOpenGesture(),
+      // A scene that dies AFTER its `init()` (a lost WebGL context, a canvas that stays blank)
+      // cannot be caught by the `await` below: it hands the stage back to the 2D booster here.
+      onUnavailable: (failure) => this.handleBoosterRendererFailure(failure, set),
     });
 
     const ready = await this.renderer3d.init();
@@ -1242,6 +1256,7 @@ export class OpeningView {
       this.scheduleIdleDispose();
     } else {
       console.warn('[OpeningView] 3D unavailable, showing the 2D fallback.');
+      this.reportBoosterFailure(this.renderer3d?.describeFailure() ?? null);
       this.showBoosterFallback(set);
     }
   }
@@ -1282,6 +1297,7 @@ export class OpeningView {
 
       if (!ready) {
         console.warn('[OpeningView] The 3D preview is unavailable, showing the 2D image.');
+        this.reportBoosterFailure(renderer.describeFailure());
         renderer.dispose();
         this.previewFailed = true;
         this.showPreviewFallback(set);
@@ -1595,6 +1611,106 @@ export class OpeningView {
       );
     }
     this.refreshSpotlightButtons();
+    this.syncSpotlightImage();
+  }
+
+  /**
+   * Starts the download of the illustrations of a freshly drawn pack.
+   *
+   * The pictures live on a remote CDN: asking for them the moment the pack is drawn overlaps the
+   * download with the tear of the booster, which is the time the player spends looking at the model
+   * anyway. Nothing is awaited here: the reveal stays driven by the player, and `syncSpotlightImage`
+   * is what covers the rare case where a picture is still on its way.
+   *
+   * @param {Array<{illustration: string}>} cards - Cards of the pack.
+   * @returns {void}
+   */
+  warmupCardImages(cards) {
+    const urls = (Array.isArray(cards) ? cards : []).map((card) =>
+      i18n.resolveImagePath(card?.illustration)
+    );
+    this.log(`Preloading ${urls.length} illustration(s) of the pack…`);
+    void preloadImages(urls).then((outcome) => {
+      if (outcome.failed.length > 0) {
+        console.warn(
+          `[OpeningView] ${outcome.failed.length} illustration(s) could not be preloaded.`,
+          outcome.failed
+        );
+        return;
+      }
+      this.log(`${outcome.ready} illustration(s) ready.`);
+    });
+  }
+
+  /**
+   * Shows the mini loader while the artwork of the spotlight card is not decoded yet.
+   *
+   * On a normal connection the five pictures were warmed up before the booster was torn open and this
+   * never appears; on a slow one it is the difference between a card that flips on a blank face and a
+   * card that says it is coming. The token makes a fast "next, next, next" harmless: only the card
+   * displayed when the download ends may hide the loader.
+   *
+   * @returns {void}
+   */
+  syncSpotlightImage() {
+    const loader = this.spotlightLoading;
+    if (!loader) return;
+
+    const token = this.spotlightLoadToken + 1;
+    this.spotlightLoadToken = token;
+    const card = this.cardComponents[this.spotlightIndex]?.card ?? null;
+    if (!card) {
+      loader.hidden = true;
+      return;
+    }
+
+    const url = i18n.resolveImagePath(card.illustration);
+    if (isImageReady(url)) {
+      loader.hidden = true;
+      return;
+    }
+
+    loader.hidden = false;
+    void preloadImage(url, { timeout: SPOTLIGHT_IMAGE_TIMEOUT_MS }).then((ready) => {
+      if (token !== this.spotlightLoadToken) return;
+      loader.hidden = true;
+      if (!ready) {
+        console.warn(`[OpeningView] Illustration "${url}" is still unavailable.`);
+      }
+    });
+  }
+
+  /**
+   * Reacts to a 3D scene that stopped working AFTER it started (a lost context, a blank canvas).
+   *
+   * @param {object|null} failure - Description returned by `Booster3DRenderer.describeFailure()`.
+   * @param {object|null} set - Extension whose booster was on screen.
+   * @returns {void}
+   */
+  handleBoosterRendererFailure(failure, set) {
+    this.log(`The 3D scene stopped working (${failure?.reason ?? 'unknown'}).`);
+    this.reportBoosterFailure(failure);
+    if (!set) return;
+    this.showBoosterFallback(set);
+  }
+
+  /**
+   * Sends a 3D failure to the error dialog, once per session.
+   *
+   * The message is deliberately the same whatever the cause: the reason travels in the context, and
+   * one fixed message is what lets two failures of the same scene collapse into a single dialog (the
+   * reporter deduplicates on source and message).
+   *
+   * @param {object|null} failure - Description of the failure, when there is one.
+   * @returns {void}
+   */
+  reportBoosterFailure(failure) {
+    reportError(new Error('The 3D booster could not be rendered.'), {
+      source: 'booster-3d',
+      titleKey: 'error.popup.title3d',
+      bodyKey: 'error.popup.body3d',
+      context: failure ?? null,
+    });
   }
 
   /**

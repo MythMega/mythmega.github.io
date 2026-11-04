@@ -1,0 +1,242 @@
+/* =============================================================================
+   animations/mining.css - The `mining` mode (`data-animation="mining"`).
+
+   The pack is MINED, like a block of the Mine: the ten crack frames of
+   `assets/img/blocks/break/` walk over it, the stage throws block shards, and the card lands on a
+   four-step beat. The frames are the 16x16 greyscale textures the Mine already uses, drawn
+   `image-rendering: pixelated` so the cracks keep their pixels instead of being blurred.
+
+   HOW TEN FILES REPLAY AS ONE ANIMATION
+     `background-image` is a discrete property: it cannot be interpolated, so a keyframe that
+     changes it makes the picture jump at that exact point. The ten frames are therefore one
+     keyframe each, spread over `--anim-tear-ms`, and the timing function stays `linear`: the change
+     lands once per frame, on the beat of the pickaxe. No sprite sheet, no JS, no new asset.
+
+   The crack layer is a pseudo-element of the VIEWPORT, so it follows the pack when it is shoved
+   down instead of staying behind it. Every rule is keyed on `body[data-animation="mining"]`; the
+   contract (stages, durations, defaults) is `css/animations/defaults.css`.
+   ============================================================================= */
+
+/* --- The pack --------------------------------------------------------------- */
+
+/* Ten hits, each one shoving the pack down a pixel or two before the block breaks. */
+body[data-animation="mining"] .booster-3d.is-tearing .booster-3d__viewport,
+body[data-animation="mining"] .booster-3d.is-tearing .booster-3d__fallback {
+  animation: booster-mine-hit var(--anim-tear-ms) steps(10, end) forwards;
+}
+
+@keyframes booster-mine-hit {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  82% {
+    opacity: 1;
+    transform: translateY(4px) scale(0.99);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(9px) scale(0.94);
+  }
+}
+
+/* The cracks. Invisible until the tear starts, gone with the pack. */
+body[data-animation="mining"] .booster-3d__viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/img/blocks/break/1.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-animation="mining"] .booster-3d.is-tearing .booster-3d__viewport::after {
+  animation: mine-crack-frames var(--anim-tear-ms) linear forwards;
+}
+
+@keyframes mine-crack-frames {
+  0% {
+    opacity: 0;
+    background-image: url('../../assets/img/blocks/break/1.png');
+  }
+  8% {
+    opacity: 1;
+    background-image: url('../../assets/img/blocks/break/1.png');
+  }
+  18% {
+    background-image: url('../../assets/img/blocks/break/2.png');
+  }
+  28% {
+    background-image: url('../../assets/img/blocks/break/3.png');
+  }
+  38% {
+    background-image: url('../../assets/img/blocks/break/4.png');
+  }
+  48% {
+    background-image: url('../../assets/img/blocks/break/5.png');
+  }
+  58% {
+    background-image: url('../../assets/img/blocks/break/6.png');
+  }
+  68% {
+    background-image: url('../../assets/img/blocks/break/7.png');
+  }
+  78% {
+    background-image: url('../../assets/img/blocks/break/8.png');
+  }
+  86% {
+    background-image: url('../../assets/img/blocks/break/9.png');
+  }
+  93% {
+    background-image: url('../../assets/img/blocks/break/10.png');
+  }
+  100% {
+    opacity: 0;
+    background-image: url('../../assets/img/blocks/break/10.png');
+  }
+}
+
+/* The block breaks: a handful of square shards fly out of the pack. They are boxes of the stage,
+   never children of the card, and they only move with `transform` and `opacity` - a `filter`
+   would flatten the 3D context of the scene. */
+body[data-animation="mining"] .booster-3d.is-tearing::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  background-color: var(--color-text-muted);
+  box-shadow:
+    -38px -26px 0 -1px var(--color-text-muted),
+    30px -34px 0 -2px var(--color-border),
+    -22px 18px 0 -2px var(--color-border),
+    42px 12px 0 -1px var(--color-text-muted),
+    -54px 4px 0 -3px var(--color-border),
+    12px 32px 0 -2px var(--color-text-muted);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: mine-shards var(--anim-tear-ms) var(--easing-standard) forwards;
+}
+
+@keyframes mine-shards {
+  0%,
+  60% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(34px) scale(1.15);
+  }
+}
+
+/* --- The card --------------------------------------------------------------- */
+
+/* The card arrives on four hard steps, like a block being placed: no overshoot, no easing. */
+body[data-animation="mining"] .opening__stage .card-reveal__card {
+  animation: spotlight-rise-mine var(--anim-flip-ms) steps(4, end);
+}
+
+body[data-animation="mining"] .opening__stage .card-reveal__card.is-entering-next {
+  animation:
+    spotlight-rise-mine var(--anim-flip-ms) steps(4, end),
+    spotlight-in-right-mine var(--anim-flip-ms) steps(4, end);
+}
+
+body[data-animation="mining"] .opening__stage .card-reveal__card.is-entering-prev {
+  animation:
+    spotlight-rise-mine var(--anim-flip-ms) steps(4, end),
+    spotlight-in-left-mine var(--anim-flip-ms) steps(4, end);
+}
+
+@keyframes spotlight-rise-mine {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spotlight-in-right-mine {
+  from {
+    opacity: 0;
+    transform: translateX(60px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spotlight-in-left-mine {
+  from {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- The summary ------------------------------------------------------------ */
+
+/* The tiles pop on the same beat as the card, so the whole opening reads as one blocky ritual. */
+body[data-animation="mining"] .card-reveal__summary-item {
+  animation-timing-function: steps(4, end);
+}
+
+/* --- The back of the card --------------------------------------------------- */
+
+/* The back of every card is MINED as well, and quickly: the same ten crack frames run over it in a
+   fraction of a second, then the card is simply there. The container never completes a half turn -
+   it snaps to the front on a hard cut once the cracks have landed - so the reveal is the gesture of
+   a block being broken, not a smooth flip. This is the one place where a mode replaces the
+   choreography itself, and it stays purely visual: the card, its rarity and the summary do not
+   change.
+
+   The `.opening__stage` selectors are spelled out because the arrival rule of the view
+   (`css/views/opening.css`) is keyed on that ancestor: the mined reveal has to beat it, not only
+   the base flip of `css/components/card-reveal.css`. They also come LAST in this file, so the
+   reduced-motion sheet can override them with the very same selectors. */
+body[data-animation="mining"] .card-reveal__card.is-flipped,
+body[data-animation="mining"] .opening__stage .card-reveal__card.is-flipped {
+  animation: card-mine-reveal var(--anim-flip-ms) linear both;
+}
+
+@keyframes card-mine-reveal {
+  0%,
+  82% {
+    transform: rotateY(0deg);
+  }
+  83%,
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+/* The cracks live on the BACK face - the one facing the player until the cut - and stop a touch
+   before the container turns over, so the last frame is read before the card appears. */
+body[data-animation="mining"] .card-reveal__card.is-flipped .card-reveal__face--back::after,
+body[data-animation="mining"] .opening__stage .card-reveal__card.is-flipped .card-reveal__face--back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('../../assets/img/blocks/break/1.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  opacity: 0;
+  animation: mine-crack-frames calc(var(--anim-flip-ms) * 0.82) linear forwards;
+}

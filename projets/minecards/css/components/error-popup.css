@@ -1,0 +1,108 @@
+/* =============================================================================
+   error-popup.css - The "something went wrong" dialog.
+
+   Reference: `js/UI/components/ErrorPopup.js` (the markup) and `.docs/main.md` section 3.K.
+
+   The dialog inherits `.modal` and `.modal__dialog` (overlay, card, entrance animation); this file
+   only lays out its own content: the badge, the message, the code that has to be readable at a
+   glance, the technical details folded away, and the two actions.
+   ============================================================================= */
+
+.error-popup__dialog {
+  width: min(100%, 36rem);
+}
+
+.error-popup__badge {
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-warning);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.error-popup__body {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* The code, the label and the small copy button share one line; the code itself is what a player
+   reads aloud on Discord, so it is the only monospace, higher-contrast text of the dialog. */
+.error-popup__code-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.error-popup__code-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.error-popup__code {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-family: var(--font-family-mono, monospace);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.06em;
+  user-select: all;
+}
+
+.error-popup__details {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.error-popup__details summary {
+  cursor: pointer;
+  padding: var(--space-1) 0;
+  font-weight: 700;
+}
+
+/* The full report, shown as-is: it is what a refused clipboard leaves the player to select by hand.
+   `pre-wrap` keeps one fact per line without ever overflowing the dialog. */
+.error-popup__detail {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-2);
+  max-height: 12rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-family: var(--font-family-mono, monospace);
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+  user-select: text;
+}
+
+.error-popup__hint {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Three report buttons: the copy alone, then the two that also open a tab. They wrap on a phone
+   rather than shrinking to an unreadable width. */
+.error-popup__dialog .modal__actions {
+  flex-wrap: wrap;
+}
+
+.error-popup[hidden] {
+  display: none;
+}

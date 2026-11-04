@@ -446,3 +446,127 @@ body[data-connection="offline"] .settings__clock-value {
   margin: 0;
   font-size: var(--font-size-sm);
 }
+
+/* --- Sections (tabs) ------------------------------------------------------ */
+
+/* The page grew into a long stack of panels: four sections show one group at a time, which is what
+   keeps it readable on a phone. The strip scrolls sideways rather than wrapping, so it never takes
+   two rows; the active button takes the accent of the palette, like `.lang-switch__option.is-active`
+   does for the pickers. */
+.settings__tabs {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  scrollbar-width: thin;
+}
+
+.settings__tab {
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.settings__tab:hover {
+  color: var(--color-text);
+}
+
+.settings__tab.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.settings__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* A panel keeps the rhythm of the page it replaced. `hidden` needs its own rule: a class selector
+   would otherwise beat the `display: none` the attribute carries in the user agent stylesheet. */
+.settings__tabpanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.settings__tabpanel[hidden] {
+  display: none;
+}
+
+/* --- Premium offer (`SettingsView`, "Premium" section) ------------------- */
+
+/* The offer reads as a single object: its price, what it grants, then the button that opens its
+   dialog. A dashed frame says it is a separate thing from the preferences above - it is the only
+   panel of this page that talks about money. */
+.premium {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.premium__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.premium__amount {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.premium__period {
+  color: var(--color-text-muted);
+}
+
+.premium__perks {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.premium__perks li + li {
+  margin-top: var(--space-1);
+}
+
+/* --- Wide screens --------------------------------------------------------- */
+
+/* From the tablet up the page lays its panels out two by two, but the strip of sections always stays
+   ABOVE them, on a full-width row of its own. A strip on the left and its panel on the right reads
+   as two unrelated columns, and the section that was picked became hard to find back. The panels
+   carry the two columns instead, so every section keeps the layout of a phone, doubled. */
+@media (min-width: 768px) {
+  .settings__tabs,
+  .settings__tabpanel,
+  .settings__subview {
+    grid-column: 1 / -1;
+  }
+
+  .settings__tabpanel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}

@@ -474,3 +474,151 @@
     animation: none;
   }
 }
+
+/* --- Progression page (`#view-progression`, `js/UI/views/ProgressionView.js`) - */
+
+/* ONE extension at a time: a stack of sets would be a long scroll for a page whose content is two
+   numbers per extension. The strip mirrors the one of the settings - it scrolls sideways instead of
+   wrapping - and only the selected button is reachable with Tab (roving tabindex). */
+.progression__tabs {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  scrollbar-width: thin;
+}
+
+.progression__tab {
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.progression__tab:hover {
+  color: var(--color-text);
+}
+
+.progression__tab.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.progression__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.progression__panels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* `hidden` needs its own rule: a class selector would otherwise beat the `display: none` the
+   attribute carries in the user agent stylesheet. */
+.progression__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.progression__panel[hidden] {
+  display: none;
+}
+
+.progression__set {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.progression__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.progression__name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.progression__code {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.progression__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 0.25rem);
+}
+
+.progression__row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.progression__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Tabular figures: the two values stay aligned while the bars grow. */
+.progression__value {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+}
+
+.progression__bar {
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border);
+}
+
+.progression__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--color-accent);
+  transition: width 220ms ease;
+}
+
+/* A finished extension is announced by the bar itself: nothing else is needed to read it. */
+.progression__row[data-complete="true"] .progression__value {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progression__fill {
+    transition: none;
+  }
+}

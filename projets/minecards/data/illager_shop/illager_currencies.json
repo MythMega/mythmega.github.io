@@ -1,0 +1,10 @@
+[
+    {
+        "ID": "AllaysCurrency",
+        "_comment": "Monnaie temporaire, avec expiration le 6 decembre, utilisable dans l'Illager Shop. Quand la date d'expiration arrive, là monnaie est reset a 0 et disparait, mais le total restant est multiplié par ConversionRate en Sparks",
+        "Name": "Allay's Sparks",
+        "ExpirationDate": "2026-12-06",
+        "Texture": "./assets/img/currencies/allayssparks.webp",
+        "ConversionRate": 20
+    }
+]

@@ -173,5 +173,106 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 5,
+        "Version": "1.0.4",
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Page Progression ouverte depuis la collection : deux barres par extension, les numéros et les impressions, une extension à la fois.",
+                    "En": "Progress page opened from the collection: two bars per extension, numbers and printings, one extension at a time."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Deux ambiances d'ouverture de plus : Aucune (immobile) et Minage (le booster et le dos des cartes se fissurent).",
+                    "En": "Two more opening moods: None (still) and Mining (the booster and the card backs crack)."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Paramètres réorganisés en quatre onglets ; codes promo et cadeaux reçus dans Compte, barres de défilement dans Apparence.",
+                    "En": "Settings reorganised into four tabs; promo codes and received gifts in Account, system scrollbars in Appearance."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {        "Fr": "Illager Shop : un second marchand dans la mine, avec sa monnaie temporaire, son thème et ses sons.",
+        "En": "Illager Shop: a second merchant in the mine, with its own temporary currency, theme and sounds."
+      }
+    },
+    {
+      "Type": "Feature",
+      "IsImportant": false,
+      "Text": {
+        "Fr": "Illager Shop : chaque offre montre ce qu'elle donne (Sparks, matériaux, texture du booster, miniature de la carte), et une carte s'ouvre en grand avec ses effets 3D. Les cartes des récompenses de connexion s'ouvrent de la même manière.",
+        "En": "Illager Shop: every offer shows what it grants (Sparks, materials, booster texture, card thumbnail), and a card opens large with its 3D effects. Cards of the daily connection rewards open the same way."
+      }
+    },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Grille des récompenses quotidiennes : icônes des monnaies affichées, Allay's Sparks rééquilibrés à partir du jour 10.",
+                    "En": "Daily rewards grid: currency icons displayed, Allay's Sparks rebalanced from day 10."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Nouvelle disposition des titres : onglets par catégorie, une ligne par titre et « Aucun titre » à part.",
+                    "En": "New titles layout: tabs per category, one row per title and “No title” set apart."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Monnaies personnalisées obtenues par code ou récompense de connexion ; une monnaie expirée est convertie en Sparks, avec une popup au retour qui rappelle le solde perdu et les Sparks reçus.",
+                    "En": "Custom currencies granted by a code or a daily reward; an expired currency is converted into Sparks, with a popup on your return recalling the lost balance and the Sparks you got."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Popup d'erreur : code copiable, avec report en un clic vers le Discord ou vers GitHub (navigateur, carte graphique, rendu WebGL et pile inclus).",
+                    "En": "Error popup: copyable code, with a one-click report to Discord or GitHub (browser, graphics card, WebGL renderer and stack included)."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Un rendu 3D qui reste noir (pilote graphique absent, contexte WebGL perdu) bascule sur le booster en 2D au lieu de bloquer l'ouverture.",
+                    "En": "A 3D rendering that stays black (missing graphics driver, lost WebGL context) falls back to the 2D booster instead of blocking the opening."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Les illustrations sont préchargées avant l'ouverture d'un booster et avant la roue d'une carte au hasard : plus de micro-chargements sur une petite connexion.",
+                    "En": "Illustrations are preloaded before a booster opening and before the random card wheel: no more micro-loads on a small connection."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Mode Premium : accessible depuis les paramètres.",
+                    "En": "Premium Mode : available from settings."
+                }
+            }
+        ]
     }
 ]

@@ -94,7 +94,7 @@ posant `data-theme` sur `<html>` **et** `<body>` (les deux sélecteurs doivent r
 
 ## 3.4 Animations
 
-Trois modes, déclarés dans `animations.list` de `config.json` et portés par `data-animation` sur
+Cinq modes, déclarés dans `animations.list` de `config.json` et portés par `data-animation` sur
 `<html>`/`<body>` :
 
 | Mode | `tearMs` | `flipMs` | `staggerMs` | Style |
@@ -102,6 +102,8 @@ Trois modes, déclarés dans `animations.list` de `config.json` et portés par `
 | `normal` | 700 | 220 | 60 | cinématographique de base : retournement avec léger dépassement, zoom au passage, arrivée de la carte de biais, rebond du résumé |
 | `epic` (**défaut livré**) | 1200 | 640 | 150 | met en scène : rayons de lumière, poussières sur toute la vue (`css/animations/epic.css`, `::before` fixe en `z-index` négatif), traînée, onde de choc, halos renforcés, balayage du résumé |
 | `explosive` (parodique) | 950 | 900 | 90 | le booster tremble et explose derrière un « BOUM ! », autocollants, tremblement de la scène, anneau BD, confettis, cartes qui tournent, vignettes tombant du plafond |
+| `none` | 220 | 90 | 0 | rien ne bouge : le pack est là puis disparaît, la carte est simplement devant, le résumé se remplit d'un coup (`css/animations/none.css`) |
+| `mining` | 900 | 300 | 70 | le booster est miné : les dix trames de fissure de `assets/img/blocks/break/` défilent dessus en `image-rendering: pixelated`, éclats carrés à la casse, carte posée en quatre paliers ; le dos de chaque carte est miné aussi (fissures rapides puis apparition franche, sans retournement) (`css/animations/mining.css`) |
 
 - `AnimationManager` publie `--anim-tear-ms`, `--anim-flip-ms`, `--anim-stagger-ms` ; **le JS lit
   aussi** ces durées (séquences de la Mine Pick, garde d'arrivée du projecteur, mouvement WebGL du

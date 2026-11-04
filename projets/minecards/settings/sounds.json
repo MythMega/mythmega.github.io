@@ -38,6 +38,18 @@
       "enabled": true
     },
     {
+      "event": "illager.open",
+      "file": "assets/sound/ui/illager_shop_open.mp3",
+      "_comment": "The Illager Shop dialog opens. Its own sound, heavier than the Wandering Trader one: this merchant is not friendly.",
+      "enabled": true
+    },
+    {
+      "event": "illager.close",
+      "file": "assets/sound/ui/illager_shop_close.mp3",
+      "_comment": "The Illager Shop dialog closes. Replaces modal.close for this dialog only.",
+      "enabled": true
+    },
+    {
       "event": "chest.open",
       "file": "assets/sound/ui/chest_open.mp3",
       "_comment": "The chest that opens the mine inventory, in sync with the opening frames of its webp animation. Replaces modal.open for this dialog.",

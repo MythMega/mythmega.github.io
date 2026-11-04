@@ -108,6 +108,8 @@ export const EVENTS = Object.freeze({
    * through `CARDS_OBTAINED` (`source: 'trader'`), and the resources spent through `MINING_UPDATED`
    * (`getState()` of the mine, which the trade also changes). */
   TRADER_UPDATED: 'TRADER_UPDATED',
+  /** The Illager Shop changed: a purchase, or a currency that expired and was converted. */
+  ILLAGER_SHOP_UPDATED: 'ILLAGER_SHOP_UPDATED',
   /** Payload: `{ binders }`. Emitted by BinderManager after a binder was created, edited, deleted or
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */

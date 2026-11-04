@@ -16,7 +16,7 @@ jeu.
 | `defaultLang` | langue d'un nouveau compte | `fr` |
 | `themes` | thèmes proposés (`id`, `labelKey`) | `dark`, `light`, `classic`, `day`, `night` |
 | `defaultTheme` | thème d'un nouveau compte | `dark` |
-| `animations` | modes d'ouverture (`id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) | `normal` 700/220/60, `epic` 1200/640/150, `explosive` 950/900/90 (`parodic`), `default: epic` |
+| `animations` | modes d'ouverture (`id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) | `normal` 700/220/60, `epic` 1200/640/150, `explosive` 950/900/90 (`parodic`), `none` 220/90/0, `mining` 900/300/70, `default: epic` |
 | `foil` | bornes du curseur d'intensité + `glare` (brillance) | 0–100 pas 5, défaut 100 (les deux) |
 | `notifications` | bornes de durée + familles interruptibles | durée 1–8 s, défaut 3 ; types `collection`, `experience`, `title` |
 | `glow` | bornes du halo des trophées | `trophies` 0–5, défaut 2 |
@@ -304,3 +304,29 @@ avertissement, une médaille retombe sur `default.png`, etc.).
   lecture (`MiningManager.normalizeAssetPath`).
 - **Aucune donnée du joueur dans un fichier statique** : UUID, soldes, progression et préférences
   vivent exclusivement dans IndexedDB et le miroir `localStorage`.
+
+### L'Illager Shop (`data/illager_shop/`)
+
+Deux fichiers, lus par `js/business/IllagerShopManager.js`.
+
+`illager_currencies.json` — une monnaie par entrée :
+
+| Champ | Rôle |
+| --- | --- |
+| `ID` | identifiant stable, le seul nom qu'un code ou une récompense de connexion doit donner (`AllaysCurrency`) |
+| `Name` | nom affiché dans le portefeuille du dialogue |
+| `Texture` | icône, sous `assets/` |
+| `ExpirationDate` | dernier jour où la monnaie vaut quelque chose (`YYYY-MM-DD`) |
+| `ConversionRate` | Sparks crédités par unité restante le lendemain de l'expiration |
+
+`illager_shop.json` — un set d'offres par entrée : `ID`, `SetName`, `Availabilities { Start, End }`
+(les deux bornes incluses, horloge UTC), `CurrencyUsed` (un `ID` du fichier ci-dessus) et `TradeSet`.
+Un trade est `{ Price, Rewards, Repeatable }` : `Price` se paie dans la monnaie du set, `Rewards`
+accepte `Sparks`, `Ultima`, `Card` (`Data` = `<Index>_<layout>`, par exemple
+`PROMO-A1 _ E01_fullart`) et `Booster` (`Data` = identifiant de série). `Repeatable: false` limite
+le trade à un achat, pour la durée du set.
+
+Le solde et les compteurs d'achats vivent dans `user_state["illagerShop"]`
+(`{ balances: { [ID]: montant }, purchases: { [setId]: { [trade]: n } } }`). La règle de lint
+`data/illager-shop` vérifie ces deux fichiers : identifiants uniques, jours réels, fenêtre cohérente,
+monnaie déclarée, et chaque carte ou série nommée par une récompense.

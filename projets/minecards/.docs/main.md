@@ -25,7 +25,7 @@ Base IndexedDB `CardBoosterDB` (version 1), 5 ObjectStores :
 
 Clés de `user_state` :
 - `"account"` : `{ uuid, createdAt }` — **son existence = "un compte existe"**.
-- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, mineSpeed: "normal"|"fast"|"veryFast", devMode: boolean, boosterRenderMode: string }`.
+- `"settings"` : `{ lang: "fr"|"en", theme: "dark"|"light"|"classic", sound: boolean, animation: "normal"|"epic"|"explosive"|"none"|"mining", foilIntensity: number, glareIntensity: number, glowTrophies: number, notificationDuration: number, notificationTypes: { collection: boolean, experience: boolean, title: boolean }, mineSpeed: "normal"|"fast"|"veryFast", devMode: boolean, boosterRenderMode: string }`.
   `glowTrophies` est le **niveau** d'illumination des trophées (0-5, 2 par défaut, voir 3.G nonies) ; `notificationDuration` est la durée d'une notification **en secondes** (1-8, 3 par défaut) et `notificationTypes` les trois interrupteurs de la page Paramètres (voir 3.G ter). `boosterRenderMode` choisit la recette de rendu 3D (`boosterRender.modes` de `settings/config.json`, `blister` par défaut) ; le sélecteur n'apparaît dans les Paramètres qu'avec `devMode`.
 - `"quota"` : `{ lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: number }, purchasedBoosters }` (ex. `{ "set1": 2 }`). `purchasedBoosters` compte les boosters **achetés en Sparks** : globaux (comme les quotidiens), ils ne sont jamais effacés par le reset.
 - `"timeAnchor"` : `{ apiUtcMs, perfNow, lastKnownUtcMs }`.
@@ -829,6 +829,61 @@ unique par page, aucun `onclick`) ; et les chemins (`assets/` cité mais absent,
 service worker, médailles attendues par le catalogue).
 
 Détail des règles, architecture et recette pour en ajouter une : `tools/lint/README.md`.
+
+### K. Rapport d'erreur, repli du rendu 3D et préchargement des images
+
+**Tout problème visible finit dans une popup, avec un code.** `js/utils/ErrorReporter.js` s'installe
+avant que le jeu ne démarre (`js/app.js`, avant le bootstrap) et écoute les trois façons dont un
+navigateur signale un échec que personne n'a attrapé : `window.error` en **phase de capture** (une
+exception, mais aussi une ressource qui ne charge pas : ces événements ne bouillonnent pas),
+`unhandledrejection`, et `console.error` (conservé comme contexte, jamais affiché seul).
+`js/UI/components/ErrorPopup.js` affiche le message, le code `MC-XXXXXX` et un bouton qui copie le
+rapport complet puis ouvre `https://discord.gg/Zk8TRnwCxG` dans un nouvel onglet. Le rapport
+(`js/utils/ErrorReport.js` + `js/utils/Diagnostics.js`) contient le navigateur, l'OS, l'écran, les
+cœurs, la mémoire, le réseau, **le vendeur et le moteur WebGL, le drapeau de rendu logiciel**, le
+quota de stockage, la version du shell (le nom des caches du service worker la porte) et la pile de
+l'erreur. Garde-fous : un même incident n'ouvre qu'une popup, et trois popups au maximum par page,
+une CDN en panne ne doit pas ensevelir le jeu. Le texte reste sélectionnable dans un bloc
+« détails » : un presse-papiers refusé (Firefox en HTTP simple) ne bloque personne.
+
+**Un rendu 3D qui échoue ne laisse plus un rectangle noir.** `Booster3DRenderer` écoute
+`webglcontextlost` et lit une grille de 3x3 pixels sur deux images du début de la boucle
+(`readPixels`, valide uniquement dans l'image qui vient d'être dessinée). Un centre vide deux fois de
+suite veut dire que la scène ne rend rien : l'ouverture bascule alors sur le booster 2D et la popup
+explique le repli. C'est le cas d'un Windows fraîchement réinstallé sans pilote graphique : WebGL
+existe, le contexte se crée, et le navigateur affiche pourtant du noir. C'est aussi pourquoi le
+rapport porte le drapeau de rendu logiciel : il distingue une machine sans pilote d'un navigateur qui
+bloque WebGL.
+
+**Les images sont préchargées.** `js/utils/ImagePreloader.js` télécharge et décode une image une
+seule fois par page (une promesse par URL, jamais rejetée, oubliée en cas d'échec pour permettre une
+nouvelle tentative). L'ouverture d'un booster lance le téléchargement des cinq illustrations dès que
+le pack est tiré, la roulette d'une carte au hasard attend sa bande avant de tourner, et le mini
+`image-loader` (`css/components/image-loader.css`) ne s'affiche que si la carte arrive avant son
+image.
+
+### L. L'Illager Shop
+
+Le second marchand de la mine. `js/business/IllagerShopManager.js` lit deux fichiers :
+`data/illager_shop/illager_currencies.json` (les monnaies : id, nom, texture, jour d'expiration,
+taux de conversion) et `data/illager_shop/illager_shop.json` (les sets d'offres). Un set est ouvert
+entre les deux jours de son `Availabilities`, bornes incluses, lues sur l'horloge UTC de confiance :
+c'est le même étal pour tout le monde, et il se ferme tout seul.
+
+Quand aucun set n'est ouvert, le bouton reste **cliquable mais grisé** : `assets/img/patrol.png`
+dit que les Illagers sont partis en patrouille, avec le compte à rebours du prochain set et sans
+révéler son contenu. Un set a une monnaie (`CurrencyUsed`) ; `TradeSet` liste des offres
+`{ Price, Rewards, Repeatable }` où `Rewards` accepte `Sparks`, `Ultima`, `Card` (un chemin
+d'illustration, `PROMO-A1 _ E01_fullart`) et `Booster` (un identifiant de série). Tout achat tient
+dans une seule transaction : la monnaie, le compteur d'achats et la récompense.
+
+Les monnaies personnalisées ont **deux portes d'entrée et rien de plus** : un code
+(`RewardType: "Currency"`, `ItemId`) et une récompense de connexion (`Type: "Currency"`,
+`Data`). Les deux ne nomment que l'identifiant ; le nom, la texture et l'expiration restent dans le
+fichier du shop, donc une monnaie peut être distribuée des semaines avant l'ouverture de son étal.
+Passé son `ExpirationDate`, le solde restant est multiplié par `ConversionRate` et crédité en Sparks
+(`SPARKS_SOURCES.ILLAGER`), puis remis à zéro : la conversion est idempotente, un solde nul ne
+crédite rien.
 
 ---
 

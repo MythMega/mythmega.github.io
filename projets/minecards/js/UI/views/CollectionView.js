@@ -61,6 +61,7 @@ import Toast from '../components/Toast.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
+import { PROGRESSION_VIEW_NAME } from './ProgressionView.js';
 import { getShineClasses, applyShine, applyCardGlow } from '../components/CardComponent.js';
 import { buildCardEffectsToggle, syncCardEffectsToggle } from '../components/CardEffectsToggle.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
@@ -128,14 +129,18 @@ export const COLLECTION_DIRECTION = Object.freeze({
 export class CollectionView {
   /**
    * @param {HTMLElement} rootElement - The collection `<section>`.
+   * @param {object} [options] - View options.
+   * @param {(viewName: string) => void} [options.onNavigate] - Called by the progression button to
+   *   switch view (the router belongs to `app.js`, which passes its `show()`).
    */
-  constructor(rootElement) {
+  constructor(rootElement, { onNavigate = null } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('CollectionView requires the collection section element.');
     }
 
     this.root = rootElement;
     this.progressElement = this.root.querySelector('[data-collection-progress]');
+    this.progressionOpenButton = this.root.querySelector('[data-collection-progression-open]');
     this.searchInput = this.root.querySelector('[data-collection-search]');
     this.countElement = this.root.querySelector('[data-collection-count]');
     this.feedbackElement = this.root.querySelector('[data-collection-feedback]');
@@ -179,6 +184,9 @@ export class CollectionView {
     this.modalClose = this.root.querySelector('[data-collection-modal-close]');
 
     this.assertMarkup();
+
+    /** @type {((viewName: string) => void)|null} */
+    this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
 
     /** @type {object[]} Every catalog entry (owned or missing). */
     this.entries = [];
@@ -271,6 +279,7 @@ export class CollectionView {
   assertMarkup() {
     const missing = [
       ['[data-collection-search]', this.searchInput],
+      ['[data-collection-progression-open]', this.progressionOpenButton],
       ['[data-collection-grid]', this.gridElement],
       ['[data-collection-filter-open]', this.filterOpenButton],
       ['[data-collection-filter-modal]', this.filterModal],
@@ -740,6 +749,9 @@ export class CollectionView {
         this.renderGrid();
       }, 150);
     });
+    // The progression is a page of its own, like the trophies of the profile: this button only
+    // asks the application to show it (the router belongs to `app.js`).
+    this.listen(this.progressionOpenButton, 'click', () => this.onNavigate?.(PROGRESSION_VIEW_NAME));
     // Filter & sort popup: the shell is static, the controls inside are rebuilt on every reload
     // (the extension list is dynamic), so the clicks are delegated to the body.
     this.listen(this.filterOpenButton, 'click', () => this.openFilterModal());

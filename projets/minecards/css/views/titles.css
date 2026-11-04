@@ -39,6 +39,64 @@
   color: var(--color-text-muted);
 }
 
+/* --- Categories (tabs) ---------------------------------------------------- */
+
+/* The catalogue is a long list of sentences: the levels and each collection get their own tab, so
+   the page shows one category at a time. The strip mirrors the one of the settings (sideways
+   scrolling, accent on the active button) and keeps a single stop of the Tab key through a roving
+   tabindex. */
+.titles__tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  padding: var(--space-2);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  scrollbar-width: thin;
+}
+
+.titles__tab {
+  flex: 0 0 auto;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.titles__tab:hover {
+  color: var(--color-text);
+}
+
+.titles__tab.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.titles__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* `hidden` needs its own rule: a class selector would otherwise beat the `display: none` the
+   attribute carries in the user agent stylesheet. */
+.titles__panel[hidden] {
+  display: none;
+}
+
+/* The "Aucun titre" row sits above the strip, so it gets the room of a block of its own. */
+.titles__list--none {
+  margin-bottom: var(--space-3);
+}
+
 .titles__list {
   display: flex;
   flex-direction: column;

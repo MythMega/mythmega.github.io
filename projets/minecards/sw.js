@@ -49,7 +49,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v71';
+const VERSION = 'v73';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -132,6 +132,8 @@ const PRECACHE_URLS = [
   './css/components/auto-claim.css',
   './css/components/daily-reward.css',
   './css/components/card-roulette.css',
+  './css/components/error-popup.css',
+  './css/components/image-loader.css',
   './css/components/notifications.css',
   './css/components/install-prompt.css',
   './css/components/info-hint.css',
@@ -139,6 +141,8 @@ const PRECACHE_URLS = [
   './css/animations/opening.css',
   './css/animations/epic.css',
   './css/animations/explosive.css',
+  './css/animations/none.css',
+  './css/animations/mining.css',
   './css/animations/minepick.css',
   './css/animations/accessibility.css',
   /* ES modules: the entry point and every module it imports, because a missing one is a blank page
@@ -150,7 +154,14 @@ const PRECACHE_URLS = [
   './js/UI/components/AutoClaimPopup.js',
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
+  './js/UI/components/CardDetailPopup.js',
   './js/UI/components/CardRoulettePopup.js',
+  './js/UI/components/CurrencyExpiryPopup.js',
+  './js/UI/components/ErrorPopup.js',
+  './js/utils/Diagnostics.js',
+  './js/utils/ErrorReport.js',
+  './js/utils/ErrorReporter.js',
+  './js/utils/ImagePreloader.js',
   './js/UI/components/DailyRewardPopup.js',
   './js/UI/components/GameNotifier.js',
   './js/UI/components/InfoHint.js',
@@ -191,6 +202,7 @@ const PRECACHE_URLS = [
   './js/business/SetAnnouncementManager.js',
   './js/business/MiningManager.js',
   './js/business/TraderManager.js',
+  './js/business/IllagerShopManager.js',
   './js/business/ProfileIconManager.js',
   './js/business/ProfileCardManager.js',
   './js/business/ProfileManager.js',
@@ -287,6 +299,8 @@ const PRECACHE_URLS = [
   './assets/sound/ui/modal_close.mp3',
   './assets/sound/ui/wandering_open.mp3',
   './assets/sound/ui/wandering_close.mp3',
+  './assets/sound/ui/illager_shop_open.mp3',
+  './assets/sound/ui/illager_shop_close.mp3',
   './assets/sound/ui/chest_open.mp3',
   './assets/sound/ui/chest_close.mp3',
   './assets/sound/ui/panel_open.mp3',

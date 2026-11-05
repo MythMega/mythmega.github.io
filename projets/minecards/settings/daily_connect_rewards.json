@@ -80,7 +80,7 @@
                 "Day": 8,
                 "Reward": {
                     "Type": "Sparks",
-                    "Qte": 5
+                    "Qte": 15
                 }
             },
             {
@@ -115,7 +115,7 @@
                 "Day": 12,
                 "Reward": {
                     "Type": "Sparks",
-                    "Qte": 10
+                    "Qte": 20
                 }
             },
             {
@@ -228,7 +228,7 @@
                 "Day": 24,
                 "Reward": {
                     "Type": "Sparks",
-                    "Qte": 5
+                    "Qte": 25
                 }
             },
             {
@@ -307,7 +307,7 @@
                 "Day": null,
                 "Reward": {
                     "Type": "Sparks",
-                    "Qte": 10
+                    "Qte": 15
                 }
             }
         ]

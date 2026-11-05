@@ -7,7 +7,7 @@
  *
  * SHAPE OF A REPORT
  *   { code, capturedAt, source, titleKey, bodyKey, error: { name, message, stack },
- *     context, diagnostics, consoleErrors, text }
+ *     severity, context, diagnostics, consoleErrors, text }
  *
  * THE CODE
  * `MC-1A2B3C`: six hex characters derived from the name, the message and the source. The same bug
@@ -163,6 +163,7 @@ export function buildReportText(report) {
   push(lines, 'Captured', report.capturedAt);
   push(lines, 'Version', report.version);
   push(lines, 'Source', report.source);
+  push(lines, 'Severity', report.severity);
   push(lines, 'Language', diagnostics?.game?.language);
   push(lines, 'Theme', diagnostics?.game?.theme);
 
@@ -275,6 +276,7 @@ export async function createErrorReport(
     bodyKey = 'error.popup.body',
     context = null,
     consoleErrors = [],
+    severity = 'blocking',
   } = {}
 ) {
   const normalized = normalizeError(error);
@@ -291,6 +293,7 @@ export async function createErrorReport(
     code: buildErrorCode({ name: normalized.name, message: normalized.message, source }),
     capturedAt: new Date().toISOString(),
     source,
+    severity,
     titleKey,
     bodyKey,
     error: normalized,

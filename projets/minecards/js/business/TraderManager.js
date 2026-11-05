@@ -34,9 +34,12 @@
  *   itself on Monday (00:00 UTC), which is what `week` in the state follows.
  *
  * WHAT IS PERSISTED (`user_state["trader"]`)
- *   `week`      : the Monday the stored purchases belong to;
- *   `purchases` : `{ [offerKey]: count }` — how many times each offer was bought THIS week. A state
- *                 whose `week` is not the current one is read as empty, which is the reroll.
+ *   `week`       : the Monday the stored purchases belong to;
+ *   `purchases`  : `{ [offerKey]: count }` — how many times each offer was bought THIS week. A state
+ *                  whose `week` is not the current one is read as empty, which is the reroll;
+ *   `pinnedUsed` : `{ [offerKey]: count }` — the same, for the PINNED offers, but never reset: their
+ *                  stock (`MaxUse`) is permanent, so a hand-written offer sold once is gone for
+ *                  good, even after a reroll.
  *
  * A purchase is committed in ONE transaction (the mined resources, the collection row and the
  * purchase count, all three in the same read-modify-write): a failure can never charge the price
@@ -504,15 +507,18 @@ export class TraderManager {
    * hand-edited one) starts with an untouched shop instead of throwing.
    *
    * @param {unknown} raw - Value read from `user_state["trader"]`.
-   * @returns {{week: string|null, purchases: Record<string, number>, tradeDay: string|null,
+   * @returns {{week: string|null, purchases: Record<string, number>,
+   *   pinnedUsed: Record<string, number>, tradeDay: string|null,
    *   tradeUses: Record<string, number>, sparkDay: string|null, sparkBought: boolean}}
    *   The normalized state.
    */
   normalizeState(raw) {
     const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+    const purchases = TraderManager.normalizeCounters(source.purchases);
     return {
       week: /^\d{4}-\d{2}-\d{2}$/.test(source.week) ? source.week : null,
-      purchases: TraderManager.normalizeCounters(source.purchases),
+      purchases,
+      pinnedUsed: TraderManager.normalizePinnedUses(source.pinnedUsed, purchases),
       // The daily trades are counted apart from the weekly purchases: they roll over at midnight
       // UTC, while the shop rolls over on Monday (`tradeDay` is the day the counts belong to).
       tradeDay: /^\d{4}-\d{2}-\d{2}$/.test(source.tradeDay) ? source.tradeDay : null,
@@ -522,6 +528,27 @@ export class TraderManager {
       sparkDay: /^\d{4}-\d{2}-\d{2}$/.test(source.sparkDay) ? source.sparkDay : null,
       sparkBought: source.sparkBought === true,
     };
+  }
+
+  /**
+   * Reads the PERMANENT use counts of the pinned offers.
+   *
+   * A pinned offer is written by hand for a special occasion, so its stock never comes back: its
+   * uses live APART from the weekly purchases, which a reroll wipes. A save written before this map
+   * existed keeps those counts in `purchases`; they are carried over, so a player who already bought
+   * a pinned offer cannot buy it again after the update.
+   *
+   * @param {unknown} raw - Raw `pinnedUsed` map.
+   * @param {Record<string, number>} purchases - Weekly purchases of the save, for the migration.
+   * @returns {Record<string, number>} The counts, by pinned offer key.
+   */
+  static normalizePinnedUses(raw, purchases) {
+    const uses = TraderManager.normalizeCounters(raw);
+    Object.entries(purchases ?? {}).forEach(([key, count]) => {
+      if (!key.startsWith(`${PINNED_OFFER_PREFIX}-`)) return;
+      uses[key] = Math.max(uses[key] ?? 0, count);
+    });
+    return uses;
   }
 
   /**
@@ -768,8 +795,9 @@ export class TraderManager {
     const state = this.normalizeState(await storageRepository.getUserState(USER_STATE_KEYS.TRADER));
     // A stored week that is not the current one is a reroll: its purchases no longer count.
     const purchases = state.week === week ? state.purchases : {};
-
-    const pinned = await this.buildPinnedOffers(purchases);
+    // The pinned offers are the exception: their uses are permanent, so they are read from their
+    // own map, which no reroll ever clears.
+    const pinned = await this.buildPinnedOffers(state.pinnedUsed);
     const weekly = await this.buildWeeklyOffers(week, purchases, seedSalt);
     this.log(
       `Shop of the week of ${week ?? 'unknown day'}: ${weekly.length} drawn offer(s), ${pinned.length} pinned.`
@@ -785,11 +813,11 @@ export class TraderManager {
    * offer outside its window, pointing at an unknown card or carrying a price with no usable line
    * is left out with a warning rather than breaking the shop.
    *
-   * @param {Record<string, number>} purchases - Purchases of the current week, by offer key.
+   * @param {Record<string, number>} pinnedUsed - PERMANENT uses of the pinned offers, by offer key.
    * @returns {Promise<Array<object>>} The pinned offers.
    * @throws {Error} When the file cannot be read (a missing file leaves the shop without them).
    */
-  async buildPinnedOffers(purchases) {
+  async buildPinnedOffers(pinnedUsed) {
     // The file is read once per session: the shop is rebuilt on every purchase, and a hand-written
     // offer list does not change under the player's feet.
     if (!this.pinnedEntries) {
@@ -839,7 +867,7 @@ export class TraderManager {
           card,
           price,
           maxUses,
-          bought: purchases[key] ?? 0,
+          bought: pinnedUsed[key] ?? 0,
           period: {
             min: typeof period.Min === 'string' ? period.Min : null,
             max: typeof period.Max === 'string' ? period.Max : null,
@@ -1200,11 +1228,13 @@ export class TraderManager {
       async (context) => {
         const state = this.normalizeState(await context.get(STORES.USER_STATE, USER_STATE_KEYS.TRADER));
         // The reroll is evaluated INSIDE the transaction: a purchase made a second after the shop
-        // was rerolled can never spend the stock of the previous week.
+        // was rerolled can never spend the stock of the previous week. A pinned offer is counted in
+        // its OWN map and never rolled over: once bought, it can never be bought again.
         const purchases = state.week === week ? state.purchases : {};
-        const bought = purchases[offer.key] ?? 0;
+        const isPinned = offer.source === 'pinned';
+        const bought = isPinned ? state.pinnedUsed[offer.key] ?? 0 : purchases[offer.key] ?? 0;
         if (offer.maxUses !== null && bought >= offer.maxUses) {
-          throw new TraderError(TRADER_ERRORS.SOLD_OUT, `Offer "${offer.key}" is exhausted for this week.`);
+          throw new TraderError(TRADER_ERRORS.SOLD_OUT, `Offer "${offer.key}" is exhausted.`);
         }
 
         const stored = miningManager.normalizeState(
@@ -1222,11 +1252,15 @@ export class TraderManager {
 
         const resources = await miningManager.spendResources(cost, context);
         const granted = await boosterManager.addCardToCollection([offer.card], 1, context);
-        await context.put(
-          STORES.USER_STATE,
-          { week, purchases: { ...purchases, [offer.key]: bought + 1 } },
-          USER_STATE_KEYS.TRADER
-        );
+        // The WHOLE state is written back: this record also carries the trades taken today and the
+        // daily Sparks purchase, which a partial write would silently reset.
+        const nextState = { ...state, week };
+        if (isPinned) {
+          nextState.pinnedUsed = { ...state.pinnedUsed, [offer.key]: bought + 1 };
+        } else {
+          nextState.purchases = { ...purchases, [offer.key]: bought + 1 };
+        }
+        await context.put(STORES.USER_STATE, nextState, USER_STATE_KEYS.TRADER);
 
         return {
           resources,

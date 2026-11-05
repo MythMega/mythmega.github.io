@@ -47,6 +47,14 @@
                     "Fr": "Notes de mise à jour dans les paramètres.",
                     "En": "Updates notes in settings tab."
                 }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
             }
         ]
     },
@@ -157,6 +165,14 @@
                     "Fr": "Les icônes de profil ni disponibles ni achetables sont masquées du sélecteur hors du mode développeur.",
                     "En": "Profile icons that are neither available nor for sale are hidden from the picker outside the developer mode."
                 }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
             }
         ]
     },
@@ -170,6 +186,14 @@
                 "Text": {
                     "Fr": "Roue des cartes, pour obtenir une carte aléatoire, en code ou via récompense quotidienne.",
                     "En": "Card wheel, to get card, by codes or daily reward."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
                 }
             }
         ]
@@ -206,17 +230,17 @@
                 "Type": "Feature",
                 "IsImportant": true,
                 "Text": {        "Fr": "Illager Shop : un second marchand dans la mine, avec sa monnaie temporaire, son thème et ses sons.",
-        "En": "Illager Shop: a second merchant in the mine, with its own temporary currency, theme and sounds."
-      }
-    },
-    {
-      "Type": "Feature",
-      "IsImportant": false,
-      "Text": {
-        "Fr": "Illager Shop : chaque offre montre ce qu'elle donne (Sparks, matériaux, texture du booster, miniature de la carte), et une carte s'ouvre en grand avec ses effets 3D. Les cartes des récompenses de connexion s'ouvrent de la même manière.",
-        "En": "Illager Shop: every offer shows what it grants (Sparks, materials, booster texture, card thumbnail), and a card opens large with its 3D effects. Cards of the daily connection rewards open the same way."
-      }
-    },
+                    "En": "Illager Shop: a second merchant in the mine, with its own temporary currency, theme and sounds."
+                }
+                },
+                {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Illager Shop : chaque offre montre ce qu'elle donne (Sparks, matériaux, texture du booster, miniature de la carte), et une carte s'ouvre en grand avec ses effets 3D. Les cartes des récompenses de connexion s'ouvrent de la même manière.",
+                    "En": "Illager Shop: every offer shows what it grants (Sparks, materials, booster texture, card thumbnail), and a card opens large with its 3D effects. Cards of the daily connection rewards open the same way."
+                }
+                },
             {
                 "Type": "QoL",
                 "IsImportant": false,
@@ -271,6 +295,60 @@
                 "Text": {
                     "Fr": "Mode Premium : accessible depuis les paramètres.",
                     "En": "Premium Mode : available from settings."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
+            }
+        ]
+    },
+    {
+        "Id": 6,
+        "Version": "1.0.5",
+        "Notes": [
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Modification de la gestion d'erreur : elle ne fais plus de popup en cas d'erreur non blocante.",
+                    "En": "Different error managment : no more popup during non critical errors."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Ajout d'un onglet dans les paramètres pour garder les dernier rapports. Reset après chaque mise a jour.",
+                    "En": "Added a tab in settings to keep last error reports. Resetted after every new version pushed."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Blocage du déplacement de l'image du bloc à miner.",
+                    "En": "Bloc the ability to drag picture of block to mine."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Fixes divers.",
+                    "En": "Various Fixes."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
                 }
             }
         ]

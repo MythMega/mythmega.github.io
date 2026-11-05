@@ -551,6 +551,77 @@ body[data-connection="offline"] .settings__clock-value {
   margin-top: var(--space-1);
 }
 
+/* --- Error report (`SettingsView`, "Rapport d'erreurs" section) ---------- */
+
+/* One row per recorded incident: the left edge carries the severity, the badge says it in words,
+   and the code stays selectable so a player can quote it. A minor incident is not a broken screen
+   (the game continued), which is exactly why it is listed here instead of in a popup. */
+.error-log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.error-log__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-warning);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+}
+
+.error-log__item[data-severity='blocking'] {
+  border-left-color: var(--color-accent);
+}
+
+.error-log__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.error-log__badge {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-warning);
+  color: var(--color-accent-contrast);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.error-log__item[data-severity='blocking'] .error-log__badge {
+  background-color: var(--color-accent);
+}
+
+.error-log__code {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  user-select: all;
+}
+
+.error-log__message {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.error-log__meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.error-log__release:empty {
+  display: none;
+}
+
 /* --- Wide screens --------------------------------------------------------- */
 
 /* From the tablet up the page lays its panels out two by two, but the strip of sections always stays

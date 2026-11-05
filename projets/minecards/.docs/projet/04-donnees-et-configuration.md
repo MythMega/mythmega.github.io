@@ -222,8 +222,7 @@ publiée, **dans l'ordre des sorties** :
 | `settings/ui` | pas de fichier : toute la copie passe par `settings/i18n/` | — |
 
 **Aucun de ces fichiers n'est possédé par le joueur** : ils sont en lecture seule et servis par le
-serveur. Un fichier absent n'est jamais une erreur bloquante (`PromoManager` l'ignore avec un
-avertissement, une médaille retombe sur `default.png`, etc.).
+serveur.Un fichier absent n'est jamais une erreur bloquante (une médaille retombe sur `default.png`, etc.). Les catalogues attendus par extension, eux, existent **toujours** : `python tools/sync_catalogs.py` crée `data/titles/<setId>.json`, `data/trophies/<setId>.json` et `data/profile_icons/<setId>.json` pour chaque set déclaré, plus `data/promo_cards/<setId>.json` pour chaque set `promo`, avec une liste vide quand il n'y a encore rien à déclarer, et ne touche jamais un fichier existant (`--check` pour la CI, `--dry-run` pour voir sans écrire).
 
 ## 4.4 Internationalisation
 

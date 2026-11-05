@@ -27,7 +27,8 @@
  * (`cards/A1-Promo/<lang>/...`). A group therefore carries `label` (from `Serie`) next to `name`
  * (from `Name`), and falls back to "<extension> · Promo" when its file declares neither.
  *
- * A missing file is NOT an error: an extension that ships no promo simply has none. The load
+ * A missing file is NOT an error: an extension that ships no promo simply has none, and the EMPTY
+ * file `tools/sync_catalogs.py` writes for a declared series means exactly the same. The load
  * is cached (the files ship with the application and never change while the page is open).
  */
 
@@ -139,7 +140,9 @@ export class PromoManager {
       try {
         const entries = PromoManager.getRawEntries(payload);
         if (entries.length === 0) {
-          console.warn(`[PromoManager] "${path}" declares no promo card: the group is skipped.`);
+          // An empty catalogue is a DELIBERATE placeholder, written by
+          // `tools/sync_catalogs.py` for a declared series with no promo
+          // card yet: a series with nothing to give is not an error.
           continue;
         }
         // The file NAME identifies the group (it is the illustration folder, `cards/A1-Promo/`),

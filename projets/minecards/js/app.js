@@ -74,6 +74,7 @@ import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
 import errorPopup from './UI/components/ErrorPopup.js';
 import { installErrorReporter, setErrorPresenter, reportError } from './utils/ErrorReporter.js';
+import errorLog from './utils/ErrorLog.js';
 
 /** Id of the boot overlay removed once the application is ready. */
 export const BOOT_OVERLAY_ID = 'app-boot';
@@ -450,6 +451,9 @@ export class App {
     // the default below, once the account settings are read.
     await boosterRenderManager.init();
     await i18n.init();
+    // The log of the settings belongs to ONE release: a page that runs a newer version than the
+    // one that wrote it clears it, because a failure of the previous release may already be fixed.
+    await errorLog.syncRelease();
   }
 
   /**

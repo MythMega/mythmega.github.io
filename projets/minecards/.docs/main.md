@@ -90,7 +90,7 @@ Note : pas de cookies. Tout est en IndexedDB. Seul un miroir `localStorage` de `
   trophée et n'a pas de réglage ; une carte manquante ne le reçoit pas (silhouette grise).
 
 ### D bis. Cartes promo (obtention par code ou événement)
-- **Déclaration :** un fichier par série dans `data/promo_cards/<serie>.json` (`promos.directory` ; le drapeau `promo` de `settings/cardsets.json` dit quelles séries en ont un). Le contenu est soit un tableau d'entrées de carte, soit `{ Serie, Name, Cards: [...] }` ; le groupe exposé s'appelle `<serie>-Promo` et porte le nom de la série (« Genesis Blocks · Promo »). Une série sans fichier n'a simplement pas de promo, et un fichier absent ou invalide est ignoré avec un avertissement (`PromoManager`).
+- **Déclaration :** un fichier par série dans `data/promo_cards/<serie>.json` (`promos.directory` ; le drapeau `promo` de `settings/cardsets.json` dit quelles séries en ont un). Le contenu est soit un tableau d'entrées de carte, soit `{ Serie, Name, Cards: [...] }` ; le groupe exposé s'appelle `<serie>-Promo` et porte le nom de la série (« Genesis Blocks · Promo »). Une série déclarée `promo` possède **toujours** son fichier : `tools/sync_catalogs.py` en crée un vide (`"Card": []`) quand il manque, et un catalogue vide vaut « aucune promo », sans avertissement. Un fichier absent est ignoré en silence, un fichier invalide avec un avertissement (`PromoManager`).
 - **Jamais tirées :** `BoosterManager` ne lit pas ces fichiers et les cartes n'entrent dans **aucune** table de rareté. Elles ne peuvent donc sortir ni d'une ouverture ni d'une Mine Pick.
 - **Obtention :** uniquement par **code** (`RedeemManager` : codes de feuille et codes personnels `useritem`, catalogue étendu aux promos) ou par **cadeau** (`GiftManager`, pour les distributions d'événement).
 - **Collection :** une promo non possédée **n'apparaît pas** (pas de silhouette, pas de case vide) ; le groupe `-Promo` n'apparaît dans le filtre que dès qu'une carte du groupe est possédée. Les cartes possédées portent une pastille « Promo » et se comportent comme les autres (favoris, vente/achat, détail).
@@ -462,7 +462,8 @@ donc **jamais** être demandée.
 achetée est **épuisée jusqu'au lundi suivant** ; à `false` la boutique la revend tant que le joueur a les
 ressources. Les **offres épinglées** de `data/shop/pinned_offers.json` ne sont jamais aléatoires : chacune
 porte sa carte (`Index`, avec `isPromotional` pour une promo), son prix (autant de lignes qu'elle veut,
-en noms de ressources), ses dates d'entrée et d'expiration (`Period`) et son stock (`MaxUse`). Les deux
+en noms de ressources), ses dates d'entrée et d'expiration (`Period`) et son stock (`MaxUse`), qui est
+**définitif** : une offre épinglée achetée ne revient jamais, même après un reroll. Les deux
 familles d'offres sont dessinées par la même vue, dans la même liste, les épinglées en tête.
 
 **Les échanges du jour.** Sous les offres, la boutique affiche `shop.tradesPerDay` **échanges de
@@ -843,7 +844,19 @@ rapport complet puis ouvre `https://discord.gg/Zk8TRnwCxG` dans un nouvel onglet
 cœurs, la mémoire, le réseau, **le vendeur et le moteur WebGL, le drapeau de rendu logiciel**, le
 quota de stockage, la version du shell (le nom des caches du service worker la porte) et la pile de
 l'erreur. Garde-fous : un même incident n'ouvre qu'une popup, et trois popups au maximum par page,
-une CDN en panne ne doit pas ensevelir le jeu. Le texte reste sélectionnable dans un bloc
+une CDN en panne ne doit pas ensevelir le jeu.
+
+**Toutes les erreurs ne méritent pas une popup.** `ErrorReporter` classe chaque échec : une ressource
+qui ne charge pas, un service worker que le navigateur refuse (scope interdit, profil durci), une
+scène 3D retombée sur son booster 2D et une promesse rejetée que personne n'attendait sont
+**mineurs** - le jeu continue - et n'ouvrent donc plus de dialogue ; une exception non attrapée, un
+démarrage raté ou un échec signalé par `app` restent **bloquants** et ouvrent la popup.
+`js/utils/ErrorLog.js` garde les cinq derniers incidents **distincts** (code `MC-XXXXXX`, gravité,
+nombre d'occurrences, date), persistés dans `localStorage` parce qu'une erreur de démarrage arrive
+avant IndexedDB, et les affiche dans l'onglet « Rapport d'erreurs » des paramètres, à côté des notes
+de mise à jour : c'est le seul endroit où un incident mineur est lisible. Le journal appartient à
+**une** version (le plus grand `Id` de `settings/changelog.json`) : charger une version plus récente
+le vide, car une erreur de la version précédente n'est plus actionnable. Le texte reste sélectionnable dans un bloc
 « détails » : un presse-papiers refusé (Firefox en HTTP simple) ne bloque personne.
 
 **Un rendu 3D qui échoue ne laisse plus un rectangle noir.** `Booster3DRenderer` écoute

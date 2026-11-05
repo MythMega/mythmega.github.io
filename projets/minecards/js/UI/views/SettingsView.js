@@ -33,10 +33,14 @@
  *                 one note per line with its kind). The file is the only source: publishing a
  *                 version never touches this view.
  *
+ *   - errors    : the last distinct incidents of the current release (`js/utils/ErrorLog.js`), with
+ *                 their severity, their code and how often they were met. A MINOR incident never
+ *                 opened a dialog, so this panel is the only place it can be read.
+ *
  * SECTIONS
- * The panels above are grouped into four sections (appearance, game, account, more) and only one is
- * displayed at a time, from the tab strip of the markup: the page used to be a single column of a
- * dozen panels, which nobody could scan. The selection is a display concern only — every panel is
+ * The panels above are grouped into six sections (appearance, game, account, premium, more and the
+ * error report) and only one is displayed at a time, from the tab strip of the markup: the page used
+ * to be a single column of a dozen panels, which nobody could scan. The selection is a display concern only — every panel is
  * rendered once, whether it is shown or not — and `app.js` selects the section of a panel it has to
  * reveal (the promo codes and the gift history live in the last one).
  *
@@ -78,6 +82,7 @@ import giftManager, {
 import autoClaimManager, { AUTO_CLAIM_REASONS } from '../../business/AutoClaimManager.js';
 import Toast from '../components/Toast.js';
 import notificationCenter from '../components/NotificationCenter.js';
+import errorLog, { ERROR_SEVERITY } from '../../utils/ErrorLog.js';
 import { applyShine } from '../components/CardComponent.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
@@ -140,6 +145,8 @@ export class SettingsView {
     this.renderContainer = query('[data-settings-render]');
     this.renderDetailElement = query('[data-settings-render-detail]');
     this.changelogElement = query('[data-settings-changelog]');
+    this.errorLogElement = query('[data-settings-error-log]');
+    this.errorLogReleaseElement = query('[data-settings-error-release]');
     this.foilSlider = query('[data-settings-foil]');
     this.foilValueElement = query('[data-settings-foil-value]');
     this.glareSlider = query('[data-settings-glare]');
@@ -286,7 +293,9 @@ export class SettingsView {
       ['[data-settings-tabpanel="account"]', this.tabPanels.get('account')],
       ['[data-settings-tabpanel="premium"]', this.tabPanels.get('premium')],
       ['[data-settings-tabpanel="more"]', this.tabPanels.get('more')],
+      ['[data-settings-tabpanel="errors"]', this.tabPanels.get('errors')],
       ['[data-settings-languages]', this.languageContainer],
+      ['[data-settings-error-log]', this.errorLogElement],
       ['[data-settings-themes]', this.themeContainer],
       ['[data-settings-animations]', this.animationContainer],
       ['[data-settings-foil]', this.foilSlider],
@@ -376,6 +385,7 @@ export class SettingsView {
     await this.renderAccount();
     this.renderClock();
     await this.renderChangelog();
+    this.renderErrorLog();
     this.bindEvents();
     this.subscribeToEvents();
     this.log(
@@ -902,6 +912,110 @@ export class SettingsView {
 
     item.append(badge, text);
     return item;
+  }
+
+  /**
+   * Draws the error report: the last distinct incidents of this release.
+   *
+   * A minor incident never opened a dialog (see `ErrorReporter`), which is exactly why it is listed
+   * here with its code: the player can still quote it, and this panel is the only place it shows.
+   * The list follows the log live, so an incident raised while the settings is open appears without
+   * a reload.
+   *
+   * @returns {void}
+   */
+  renderErrorLog() {
+    if (!this.errorLogElement) return;
+
+    const entries = errorLog.getEntries();
+    const release = errorLog.getRelease();
+
+    if (this.errorLogReleaseElement) {
+      const known = release.version !== null;
+      this.errorLogReleaseElement.hidden = !known;
+      this.errorLogReleaseElement.textContent = known
+        ? i18n.t('settings.errors.release', { version: release.version, count: entries.length })
+        : '';
+    }
+
+    if (entries.length === 0) {
+      this.errorLogElement.replaceChildren(this.buildErrorLogNotice());
+      return;
+    }
+
+    this.errorLogElement.replaceChildren(...entries.map((entry) => this.buildErrorLogItem(entry)));
+  }
+
+  /**
+   * Builds the sentence the report shows instead of a list.
+   *
+   * @returns {HTMLElement} The list item carrying the sentence.
+   */
+  buildErrorLogNotice() {
+    const notice = document.createElement('li');
+    notice.className = 'error-log__empty settings__help';
+    notice.textContent = i18n.t('settings.errors.empty');
+    return notice;
+  }
+
+  /**
+   * Builds one incident: its severity, its code, its message and how often it was met.
+   *
+   * The code stays selectable so a player can quote it in a message, even for an incident the game
+   * announced nowhere.
+   *
+   * @param {object} entry - Incident read from `errorLog.getEntries()`.
+   * @returns {HTMLElement} The list item.
+   */
+  buildErrorLogItem(entry) {
+    const item = document.createElement('li');
+    item.className = 'error-log__item';
+    item.dataset.severity = entry.severity;
+
+    const head = document.createElement('p');
+    head.className = 'error-log__head';
+    const badge = document.createElement('span');
+    badge.className = 'error-log__badge';
+    badge.textContent = i18n.t(
+      entry.severity === ERROR_SEVERITY.MINOR ? 'settings.errors.minor' : 'settings.errors.blocking'
+    );
+    const code = document.createElement('code');
+    code.className = 'error-log__code';
+    code.textContent = entry.code;
+    head.append(badge, code);
+
+    const message = document.createElement('p');
+    message.className = 'error-log__message';
+    message.textContent = entry.message;
+
+    const meta = document.createElement('p');
+    meta.className = 'error-log__meta';
+    meta.textContent = [
+      i18n.t('settings.errors.source', { source: entry.source }),
+      i18n.t('settings.errors.count', { count: entry.count }),
+      SettingsView.formatErrorDate(entry.at),
+    ]
+      .filter(Boolean)
+      .join(' · ');
+
+    item.append(head, message, meta);
+    return item;
+  }
+
+  /**
+   * Formats the moment of an incident in the active language.
+   *
+   * @param {string} iso - ISO timestamp of the last occurrence.
+   * @returns {string} The readable date, or an empty string when it cannot be read.
+   */
+  static formatErrorDate(iso) {
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) return '';
+    try {
+      return date.toLocaleString(i18n.getLang());
+    } catch (error) {
+      return date.toISOString();
+    }
   }
 
   /**
@@ -1886,6 +2000,7 @@ export class SettingsView {
       })
     );
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.renderClock(payload)));
+    this.unsubscribers.push(errorLog.subscribe(() => this.renderErrorLog()));
     this.log('Event subscriptions registered.');
   }
 

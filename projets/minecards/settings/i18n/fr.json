@@ -719,6 +719,16 @@
   "settings.premium.after.body": "Aucun mode premium ne sera ajouté : c'était une petite blague. Aucun paiement ne vous a été demandé, et rien n'a changé dans votre collection.",
   "settings.premium.after.close": "Fermer",
   "settings.tab.more": "Notes de mise à jour",
+  "settings.tab.errors": "Rapport d'erreurs",
+
+  "settings.errors.title": "Rapport d'erreurs",
+  "settings.errors.help": "Les cinq derniers incidents distincts de cette version. Un incident mineur n'ouvre aucune popup : il est noté ici, avec son code et son nombre d'occurrences. La liste repart de zéro à chaque nouvelle version.",
+  "settings.errors.release": "Version {version} · {count} incident(s) enregistré(s).",
+  "settings.errors.empty": "Aucun incident enregistré sur cette version.",
+  "settings.errors.minor": "Mineure",
+  "settings.errors.blocking": "Bloquante",
+  "settings.errors.source": "Origine : {source}",
+  "settings.errors.count": "{count} fois",
   "settings.language.title": "Langue",
   "settings.foil.title": "Foil",
   "settings.foil.intensity": "Intensité du foil",
@@ -1151,7 +1161,7 @@
 
   "error.popup.badge": "Erreur",
   "error.popup.title": "Une erreur est survenue",
-  "error.popup.body": "Le jeu a rencontré un problème. Le rapport contient tout ce qu'il faut pour comprendre le souci : copie-le et envoie-le sur Discord ou sur GitHub.",
+  "error.popup.body": "Le jeu a rencontré un problème. Le rapport contient tout ce qu'il faut pour comprendre le souci : copie-le et envoie-le sur Discord ou sur GitHub. S'il apparaît juste après une mise à jour, il peut venir de fichiers pas encore à jour : recharge la page (Ctrl+F5), c'est souvent tout ce qu'il faut.",
   "error.popup.code": "Code d'erreur",
   "error.popup.copy": "Copier le code",
   "error.popup.copied": "Copié.",
@@ -1166,7 +1176,7 @@
   "error.popup.titleImage": "Une image n'a pas pu être chargée",
   "error.popup.bodyImage": "Le jeu continue sans elle. Copie le code d'erreur : il contient l'adresse de l'image et le navigateur utilisé.",
   "error.popup.titleBoot": "Le jeu n'a pas pu démarrer",
-  "error.popup.bodyBoot": "Copie le code d'erreur avant de recharger : il contient ce qui a bloqué le démarrage.",
+  "error.popup.bodyBoot": "Copie le code d'erreur avant de recharger : il contient ce qui a bloqué le démarrage. Si le jeu vient d'être mis à jour, un fichier pas encore à jour peut en être la cause : un simple rechargement de la page (Ctrl+F5) suffit souvent.",
 
   "daily.reward.currency": "{count} {name}",
 

@@ -338,7 +338,12 @@ export default [
           return;
         }
         if (cards.length === 0) {
-          context.report({ file: catalogue.file, line: 1, column: 1, message: 'the catalogue is empty' });
+          // An EMPTY promo catalogue is deliberate: it is the placeholder written for a
+          // declared series with no promo card yet. A booster catalogue is what the set
+          // is made of, so only that one can never be empty.
+          if (catalogue.kind !== 'promo') {
+            context.report({ file: catalogue.file, line: 1, column: 1, message: 'the catalogue is empty' });
+          }
           return;
         }
 
@@ -796,7 +801,12 @@ export default [
         }
 
         const list = Array.isArray(root.TrophyList) ? root.TrophyList : null;
-        if (list === null || list.length === 0) {
+        if (list !== null && list.length === 0) {
+          // An EMPTY list is deliberate: it is the placeholder `tools/sync_catalogs.py`
+          // writes for a set whose collection trophies are not written yet.
+          return;
+        }
+        if (list === null) {
           context.report({ file, line: 1, column: 1, message: 'the set declares no TrophyList' });
           return;
         }

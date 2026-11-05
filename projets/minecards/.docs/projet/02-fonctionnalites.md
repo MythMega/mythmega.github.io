@@ -234,7 +234,8 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
   produit pas ne peut jamais être demandée.
 - **Stock** : `shop.allItemsUniques` (true) → une offre achetée est épuisée jusqu'au lundi suivant ;
   à false, la boutique la revend tant que le joueur a les ressources.
-- **Offres épinglées** : `data/shop/pinned_offers.json` — carte, prix, fenêtre de vente, stock.
+- **Offres épinglées** : `data/shop/pinned_offers.json` — carte, prix, fenêtre de vente, stock
+  **définitif** (une offre achetée ne revient jamais, même après un reroll).
   Jamais aléatoires, **construites avant les offres tirées** et affichées en tête, mises en avant
   (bordure d'accent, halo, pastille).
 - **Achat du jour en Sparks** : `shop.dailySparkOffer` — une ressource et sa quantité sont tirées de

@@ -104,6 +104,9 @@
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  /* A press that moves the mouse must never select the picture nor drag it out of the button. */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .mineblock__rock:disabled {
@@ -136,6 +139,15 @@
 
 .mineblock__texture {
   filter: drop-shadow(0 6px 16px var(--overlay));
+}
+
+/* The two pictures of the block are decoration of a button: WebKit would otherwise let the player
+   drag the texture away instead of mining it. */
+.mineblock__texture,
+.mineblock__crack {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .mineblock__crack {

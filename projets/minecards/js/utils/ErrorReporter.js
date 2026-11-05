@@ -17,6 +17,13 @@
  *   - `unhandledrejection`: the promise nobody awaited, the most common bug of a `void` call;
  *   - `console.error`: kept as context for the next report, never displayed on its own.
  *
+ * SEVERITY AND THE ERROR LOG
+ * Every failure is recorded in `js/utils/ErrorLog.js`, which the settings lists (last five DISTINCT
+ * incidents, with their severity and occurrence count). Only a BLOCKING one opens a dialog: the
+ * sources of `MINOR_ERROR_SOURCES` are failures the game survives, and interrupting the player for
+ * them would bury the failure that really stopped them. A minor incident is therefore visible in
+ * the settings, never as a popup.
+ *
  * WHAT IT GUARANTEES
  *   - the same failure is reported ONCE per page (fingerprint on source + name + message);
  *   - at most `MAX_ERROR_DIALOGS_PER_SESSION` dialogs per page, so a broken CDN cannot bury the game
@@ -25,7 +32,8 @@
  *     than no reporter at all.
  */
 
-import { createErrorReport, normalizeError } from './ErrorReport.js';
+import { buildErrorCode, createErrorReport, normalizeError } from './ErrorReport.js';
+import { errorLog, ERROR_SEVERITY } from './ErrorLog.js';
 
 /** Maximum number of dialogs opened per page, whatever the number of failures. */
 export const MAX_ERROR_DIALOGS_PER_SESSION = 3;
@@ -35,6 +43,50 @@ const CONSOLE_MEMORY_LIMIT = 12;
 
 /** Longest console line kept, in characters. */
 const CONSOLE_LINE_MAX_CHARS = 220;
+
+/**
+ * Browser warnings that are NOT failures of the game.
+ *
+ * Blink raises "ResizeObserver loop completed with undelivered notifications" (and its "limit
+ * exceeded" sibling) when an observed element changes size while the observer callbacks run. The
+ * layout is correct on the next frame, nothing is broken, and the browser itself calls it a warning:
+ * opening a crash dialog for it buries the real failures under noise nobody can act on.
+ */
+const IGNORED_ERROR_PATTERNS = [/^ResizeObserver loop/i];
+
+/**
+ * Sources whose failure the game SURVIVES, so no dialog is worth interrupting the player for.
+ *
+ * Interrupting a player is a cost: the dialog stops the game, and three of them already saturate a
+ * page. These failures leave the game playable, which is what makes them MINOR:
+ *   - `resource`: an illustration, a stylesheet or a module failed to load, and the screen fell
+ *     back to its placeholder (`ImagePreloader`, `image-loader`);
+ *   - `service-worker`: the browser refused to install the offline shell (a scope it does not
+ *     allow, a hardened profile). The game runs, only the offline mode is missing;
+ *   - `booster-3d`: the 3D scene failed and the opening already switched to its 2D booster;
+ *   - `promise`: a promise nobody awaited rejected. The page continues; the operation that failed
+ *     reports its own feedback where the player can act on it.
+ * A `runtime` exception, a failed `boot` or the default `app` source stay BLOCKING: nothing tells
+ * whether the game is still doing what it was asked, so the player gets the dialog and the code.
+ */
+export const MINOR_ERROR_SOURCES = Object.freeze([
+  'resource',
+  'service-worker',
+  'booster-3d',
+  'promise',
+]);
+
+/**
+ * Resolves the severity of a failure.
+ *
+ * @param {string} source - Where the failure was caught.
+ * @param {string|null} [explicit=null] - Severity explicitly asked by the caller, when known.
+ * @returns {string} `ERROR_SEVERITY.MINOR` or `ERROR_SEVERITY.BLOCKING`.
+ */
+export function resolveErrorSeverity(source, explicit = null) {
+  if (explicit === ERROR_SEVERITY.MINOR || explicit === ERROR_SEVERITY.BLOCKING) return explicit;
+  return MINOR_ERROR_SOURCES.includes(source) ? ERROR_SEVERITY.MINOR : ERROR_SEVERITY.BLOCKING;
+}
 
 /** @type {boolean} True once the listeners are installed. */
 let installed = false;
@@ -189,14 +241,21 @@ function dispatch(report) {
  * @param {string} [options.bodyKey] - i18n key of the dialog message.
  * @param {object|null} [options.context=null] - Details of the failure.
  * @param {boolean} [options.silent=false] - True to log without opening a dialog.
- * @returns {Promise<object|null>} The report, or null when it was refused.
+ * @param {string|null} [options.severity=null] - Severity to force (`minor` or `blocking`); by
+ *   default it comes from the source (`MINOR_ERROR_SOURCES`). A minor failure is recorded in the
+ *   error log of the settings and NEVER opens a dialog.
+ * @returns {Promise<object|null>} The report (blocking failures only), or null otherwise.
  */
 export function reportError(
   error,
-  { source = 'app', titleKey, bodyKey, context = null, silent = false } = {}
+  { source = 'app', titleKey, bodyKey, context = null, silent = false, severity = null } = {}
 ) {
   try {
     const normalized = normalizeError(error);
+    if (IGNORED_ERROR_PATTERNS.some((pattern) => pattern.test(normalized.message))) {
+      console.info('[ErrorReporter] Ignored a browser warning.', normalized.message);
+      return Promise.resolve(null);
+    }
     const fingerprint = `${source}|${normalized.name}|${normalized.message}`;
 
     if (silent) {
@@ -208,6 +267,21 @@ export function reportError(
     }
     reported.add(fingerprint);
 
+    // Remembered whatever its severity: the settings is where a minor failure is read, since it
+    // never opens a dialog.
+    const resolvedSeverity = resolveErrorSeverity(source, severity);
+    errorLog.record({
+      code: buildErrorCode({ name: normalized.name, message: normalized.message, source }),
+      message: normalized.message,
+      source,
+      severity: resolvedSeverity,
+    });
+
+    if (resolvedSeverity === ERROR_SEVERITY.MINOR) {
+      console.info(`[ErrorReporter] Minor failure recorded (${source}): ${normalized.message}`);
+      return Promise.resolve(null);
+    }
+
     if (dialogCount >= MAX_ERROR_DIALOGS_PER_SESSION) {
       console.warn('[ErrorReporter] Error dialog limit reached for this page.');
       return Promise.resolve(null);
@@ -216,6 +290,7 @@ export function reportError(
 
     return createErrorReport(error, {
       source,
+      severity: resolvedSeverity,
       ...(titleKey ? { titleKey } : {}),
       ...(bodyKey ? { bodyKey } : {}),
       context,

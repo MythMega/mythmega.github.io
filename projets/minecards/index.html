@@ -240,11 +240,11 @@
   <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
   <link rel="stylesheet" href="css/views/stats.css?v=d629d29877">
   <link rel="stylesheet" href="css/views/minepick.css?v=e3d3cbe888">
-  <link rel="stylesheet" href="css/views/mineblock.css?v=c13867df93">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=6fdfb7865d">
   <link rel="stylesheet" href="css/views/profile.css?v=2a60b79361">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=1be7c92faa">
-  <link rel="stylesheet" href="css/views/settings.css?v=a44773954b">
+  <link rel="stylesheet" href="css/views/settings.css?v=15cc1f9d6a">
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
@@ -1354,8 +1354,10 @@
           <div class="mineblock__stage">
             <button type="button" class="mineblock__rock" data-mineblock-rock>
               <span class="mineblock__rock-inner">
-                <img class="mineblock__texture" data-mineblock-texture alt="" decoding="async">
-                <img class="mineblock__crack" data-mineblock-crack alt="" aria-hidden="true" hidden>
+                <!-- `draggable="false"` on both pictures: a click on the block that moves the mouse
+                     must mine, never start a native drag of the picture. -->
+                <img class="mineblock__texture" data-mineblock-texture alt="" decoding="async" draggable="false">
+                <img class="mineblock__crack" data-mineblock-crack alt="" aria-hidden="true" hidden draggable="false">
               </span>
               <span class="mineblock__burst" data-mineblock-burst aria-hidden="true"></span>
             </button>
@@ -1527,6 +1529,7 @@
           <button type="button" class="settings__tab" id="settings-tab-account" role="tab" data-settings-tab="account" aria-controls="settings-panel-account" aria-selected="false" tabindex="-1" data-i18n="settings.tab.account">Compte</button>
           <button type="button" class="settings__tab" id="settings-tab-premium" role="tab" data-settings-tab="premium" aria-controls="settings-panel-premium" aria-selected="false" tabindex="-1" data-i18n="settings.tab.premium">Premium</button>
           <button type="button" class="settings__tab" id="settings-tab-more" role="tab" data-settings-tab="more" aria-controls="settings-panel-more" aria-selected="false" tabindex="-1" data-i18n="settings.tab.more">Notes de mise à jour</button>
+          <button type="button" class="settings__tab" id="settings-tab-errors" role="tab" data-settings-tab="errors" aria-controls="settings-panel-errors" aria-selected="false" tabindex="-1" data-i18n="settings.tab.errors">Rapport d'erreurs</button>
         </div>
 
         <div class="settings__tabpanel" id="settings-panel-appearance" role="tabpanel"
@@ -1859,6 +1862,18 @@
             <h3 class="settings__title" data-i18n="settings.changelog.title">Notes de mise à jour</h3>
             <p class="settings__help" data-i18n="settings.changelog.help">L'historique des versions publiées, de la plus récente à la plus ancienne.</p>
             <div class="changelog" data-settings-changelog></div>
+          </section>
+        </div>
+
+        <div class="settings__tabpanel" id="settings-panel-errors" role="tabpanel"
+             aria-labelledby="settings-tab-errors" data-settings-tabpanel="errors">
+          <!-- Error report: the last distinct incidents of THIS release, blocking or not. A minor
+               one never opened a dialog, so this panel is the only place it can be read. -->
+          <section class="panel settings__panel settings__panel--wide">
+            <h3 class="settings__title" data-i18n="settings.errors.title">Rapport d'erreurs</h3>
+            <p class="settings__help" data-i18n="settings.errors.help">Les cinq derniers incidents distincts de cette version. Un incident mineur n'ouvre aucune popup : il est noté ici, avec son code.</p>
+            <p class="settings__help error-log__release" data-settings-error-release hidden></p>
+            <ul class="error-log" data-settings-error-log></ul>
           </section>
         </div>
 
@@ -2280,7 +2295,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=a3c8b9f9d1"></script>
+  <script type="module" src="js/app.js?v=5f60a51947"></script>
 
 </body>
 </html>

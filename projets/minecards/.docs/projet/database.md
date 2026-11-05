@@ -344,7 +344,8 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 ```json
 {
   "week": "2026-10-13",
-  "purchases": { "weekly:A1:0": 1, "pinned:1": 1 },
+  "purchases": { "weekly:A1:0": 1 },
+  "pinnedUsed": { "pinned:1": 1 },
   "tradeDay": "2026-10-18",
   "tradeUses": { "trade:3:0:2-4": 1 },
   "sparkDay": "2026-10-19",
@@ -354,6 +355,9 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 
 - `week` : lundi (`YYYY-MM-DD`) de la semaine à laquelle appartiennent les achats. Un `week`
   différent du lundi courant = reroll : les achats ne comptent plus.
+- `pinnedUsed` : usages **définitifs** des offres épinglées (`pinned:<OfferID>`), hors du reroll :
+  une offre épinglée achetée ne revient jamais. Une sauvegarde antérieure garde ces compteurs dans
+  `purchases` ; `TraderManager.normalizeState()` les y reprend.
 - `purchases` : nombre d'achats par clé d'offre.
 - `tradeDay` : jour UTC auquel appartiennent les compteurs d'échanges (reset à minuit UTC,
   indépendant du reroll hebdomadaire).

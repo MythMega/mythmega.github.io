@@ -393,6 +393,9 @@ export class MineBlockView {
    */
   bindEvents() {
     this.listen(this.rockElement, 'click', (event) => this.handleRockClick(event));
+    // A press that slides the mouse would start a native drag of the picture of the block: no drag,
+    // on any browser, the gesture stays a mining tap.
+    this.listen(this.rockElement, 'dragstart', (event) => event.preventDefault());
     // On a phone there is no keyboard to hold: a finger kept on the block mines on the very same
     // beat as Shift+Space. A mouse is left out - it already has the shortcut.
     this.listen(this.rockElement, 'pointerdown', (event) => this.handleRockPointerDown(event));

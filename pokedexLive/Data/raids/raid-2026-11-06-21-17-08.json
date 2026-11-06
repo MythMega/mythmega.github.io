@@ -1,0 +1,342 @@
+{
+  "bossName": "Drattak",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salamence_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salamence_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": true,
+  "pvMax": 180000,
+  "date": "2026-11-06 21:17:08",
+  "durationSec": 2528,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 89779,
+      "countAtk": 2,
+      "baseDmg": 44779,
+      "level": 20,
+      "raidCount": 1166,
+      "luck": 1.0024676
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 80376,
+      "countAtk": 3,
+      "baseDmg": 16002,
+      "level": 18,
+      "raidCount": 543,
+      "luck": 1.6742907
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 28159,
+      "countAtk": 2,
+      "baseDmg": 9343,
+      "level": 16,
+      "raidCount": 377,
+      "luck": 1.506957
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 10037,
+      "countAtk": 3,
+      "baseDmg": 1943,
+      "level": 13,
+      "raidCount": 105,
+      "luck": 1.7219077
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 5818,
+      "countAtk": 3,
+      "baseDmg": 1130,
+      "level": 10,
+      "raidCount": 68,
+      "luck": 1.7162242
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "VaniaSilva-sl5xo",
+      "damage": 223,
+      "countAtk": 1,
+      "baseDmg": 223,
+      "level": 1,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 204132
+    },
+    {
+      "platform": "youtube",
+      "damage": 10260
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 1,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "VaniaSilva-sl5xo",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-06 21:18:21",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 16002,
+      "pvAfter": 163998,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:20:49",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1130,
+      "pvAfter": 162868,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:31:06",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 44779,
+      "pvAfter": 118089,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:31:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9343,
+      "pvAfter": 108746,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:36:56",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 32164,
+      "pvAfter": 76582,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:39:10",
+      "pseudo": "VaniaSilva-sl5xo",
+      "platform": "youtube",
+      "damages": 223,
+      "pvAfter": 76359,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:39:13",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 2276,
+      "pvAfter": 74083,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:39:57",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1943,
+      "pvAfter": 72140,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:45:13",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 18816,
+      "pvAfter": 53324,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:51:23",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 4114,
+      "pvAfter": 49210,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:54:58",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 32210,
+      "pvAfter": 17000,
+      "heal": false,
+      "critical": false,
+      "statut": "FROZEN",
+      "statusEffect": "Tu as \u00E9t\u00E9 gel\u00E9. Tes attaques ne feront plus de d\u00E9gat jusqu\u0027a ce que tu d\u00E9g\u00E8le (30% de chance \u00E0 chaque tour) !"
+    },
+    {
+      "at": "2026-11-06 21:58:53",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 3980,
+      "pvAfter": 13020,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:58:56",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 2412,
+      "pvAfter": 10608,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-06 21:59:16",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

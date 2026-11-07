@@ -352,5 +352,139 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 7,
+        "Version": "1.0.6",
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Langue des cartes séparée de celle du site : chaque joueur choisit la langue de l'interface et celle des cartes, avec un mode automatique qui suit le navigateur et se rabat sur l'anglais.",
+                    "En": "Card language split from the site language: each player picks the language of the interface and the one of the cards, with an automatic mode that follows the browser and falls back to English."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Bouton dans le rapport d'erreurs pour copier le journal complet, déjà mis en forme pour un rapport de bug sur Discord.",
+                    "En": "Button in the error report to copy the whole log, already formatted to be pasted in a Discord bug report."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Popup « nouveautés » au démarrage : le résumé de la dernière version s'affiche une seule fois par version, uniquement sur une sauvegarde existante, avec un bouton vers le changelog complet.",
+                    "En": "“What's new” popup at startup: the summary of the latest version is shown once per version, only on an existing save, with a button to the full changelog."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Ouverture multiple : « Ouvrir 10 » (quotidiens ou bonus) et « Ouvrir X » avec ses deux compteurs et leur bouton « Tout », chaque paquet révélé avec son compteur « Ouverture du booster n / X » puis un récapitulatif défilant de tous les paquets.",
+                    "En": "Multiple opening: “Open 10” (daily or bonus) and “Open X” with its two counters and their “All” button, each pack revealed with its “Opening booster n / X” counter, then a scrolling recap of every pack."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Tag « non possédée » sur les cartes du Mine Pick, dans le style du tag « nouveau » d'une ouverture, remis à jour dès qu'une carte rejoint la collection.",
+                    "En": "“Not owned” tag on the Mine Pick cards, styled like the “new” tag of an opening, refreshed as soon as a card joins the collection."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Ouvertures sauvegardées : dix emplacements dans les statistiques pour garder une ouverture à vie, avec un bouton pour la rejouer en visuel, sans carte, sans expérience et sans Sparks.",
+                    "En": "Saved openings: ten slots in the statistics to keep an opening forever, with a button to replay it visually, without cards, experience or Sparks."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Tag « non possédée » aussi chez le Wandering Trader et dans l'Illager Shop : chaque carte encore absente de la collection est signalée dans la boutique.",
+                    "En": "“Not owned” tag also on the Wandering Trader and in the Illager Shop: every card still missing from the collection is flagged in the shop."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Partage d'une ouverture : « Partager l'ouverture » ouvre une page du booster (cartes, pseudo et avatar) d'où l'on copie le lien de l'animation ou on la lance dans un nouvel onglet.",
+                    "En": "Opening share: “Share this opening” opens a page of the pack (cards, pseudo and avatar) where the animation link can be copied or played in a new tab."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Illager Quests : un bouton à côté de l'Illager Shop ouvre les quêtes de la monnaie, avec leur progression depuis leur date de début, leurs récompenses (monnaie, Sparks, XP) et un compte à rebours quand aucune n'est disponible.",
+                    "En": "Illager Quests: a button next to the Illager Shop opens the quests of the currency, with their progress since their start date, their rewards (currency, Sparks, XP) and a countdown when none is available."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Pastille sur le bouton Illager Quests quand une quête est prête, et notification au moment où elle le devient.",
+                    "En": "Badge on the Illager Quests button when a quest is ready, and a notification the moment it becomes ready."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Dans la liste des quêtes, la monnaie est montrée par son icône et sa quantité ; son nom reste dans la notification de réclamation.",
+                    "En": "In the quest list, the currency is shown by its icon and its amount; its name stays in the claim notification."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Les Sparks gagnés via les quêtes apparaissent dans les statistiques, à leur propre source.",
+                    "En": "Sparks earned through quests show up in the statistics, under their own source."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Récapitulatif des ressources de la mine en haut du Wandering Trader : poussière de pierre, de sculk, de pierre lumineuse, du vide et Ultima, avec ce que vous possédez de chacune.",
+                    "En": "Recap of the mine resources at the top of the Wandering Trader: stone, sculk, glowstone and void dust plus Ultima, with what you own of each."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Sur mobile, « Ouvrir 10 » et « Ouvrir X » tiennent maintenant sur la même ligne, avec une taille réduite.",
+                    "En": "On mobile, “Open 10” and “Open X” now fit on the same line, with a smaller size."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Test automatisé des quêtes : identifiants uniques, dates réelles et cohérentes, objectifs et récompenses valides.",
+                    "En": "Automated quest test: unique ids, real and consistent dates, valid objectives and rewards."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
+            }
+        ]
     }
 ]

@@ -18,7 +18,10 @@
  *                       instead of only the second one.
  *   navigate            network first, then the cached copy of that exact page, then `index.html`.
  *                       The HTML is never served stale on purpose: a player who reloads must get
- *                       the current version as soon as they are online.
+ *                       the current version as soon as they are online. The request is sent with
+ *                       `cache: 'no-cache'` for that reason: the browser is made to revalidate its
+ *                       own copy (GitHub Pages sends `max-age=600`), so a release shows up on the
+ *                       first reload instead of ten minutes later.
  *   image               cache first: the illustrations (`cards/`, 374 MB) and the booster artworks
  *                       are heavy and never change under the same path, so the stored copy answers
  *                       at once and the fresh one replaces it in the background. Pictures are the
@@ -49,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v74';
+const VERSION = 'v85';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -92,6 +95,7 @@ const PRECACHE_URLS = [
   SHELL_INDEX,
   './overlay.html',
   './collection.html',
+  './booster.html',
   /* The manifest, so an offline install still gets its name and icons. */
   './manifest.json',
   /* Icons: what the operating system shows on the home screen and in the task switcher. */
@@ -113,6 +117,7 @@ const PRECACHE_URLS = [
   './css/views/opening.css',
   './css/views/collection.css',
   './css/views/binders.css',
+  './css/views/booster-share.css',
   './css/views/stats.css',
   './css/views/minepick.css',
   './css/views/mineblock.css',
@@ -128,6 +133,7 @@ const PRECACHE_URLS = [
   './css/components/card-reveal.css',
   './css/components/card-shine.css',
   './css/components/modal.css',
+  './css/components/changelog-popup.css',
   './css/components/toast.css',
   './css/components/auto-claim.css',
   './css/components/daily-reward.css',
@@ -149,6 +155,7 @@ const PRECACHE_URLS = [
      offline - the browser stops execution instead of degrading. */
   './js/app.js',
   './js/binder-share.js',
+  './js/booster-share.js',
   './js/overlay.js',
   './js/UI/SpaRouter.js',
   './js/UI/components/AutoClaimPopup.js',
@@ -167,6 +174,7 @@ const PRECACHE_URLS = [
   './js/UI/components/GameNotifier.js',
   './js/UI/components/InfoHint.js',
   './js/UI/components/InstallPrompt.js',
+  './js/UI/components/ChangelogPopup.js',
   './js/UI/components/NotificationCenter.js',
   './js/UI/components/ProfileCard.js',
   './js/UI/components/SetAnnouncementPopup.js',
@@ -232,6 +240,7 @@ const PRECACHE_URLS = [
   './js/utils/FoilManager.js',
   './js/utils/GlowManager.js',
   './js/utils/I18n.js',
+  './js/utils/CardLanguage.js',
   './js/utils/ScrollHint.js',
   './js/utils/Shine.js',
   './js/utils/SoundManager.js',
@@ -566,7 +575,11 @@ async function remember(request, response) {
  */
 async function navigationRequest(request) {
   try {
-    return await fetch(request);
+    /* `no-cache` asks the server whether the stored page is still current, exactly like the
+       same-origin assets below. Without it the HTML could come from the browser's HTTP cache for
+       up to ten minutes after a release, and a reload would show the previous version even though
+       the player asked for the new one. */
+    return await fetch(request, { cache: 'no-cache' });
   } catch (error) {
     const cached = await caches.match(request) || await caches.match(SHELL_INDEX);
     if (cached) return cached;

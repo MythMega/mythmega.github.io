@@ -14,6 +14,8 @@ jeu.
 |---|---|---|
 | `languages` | langues proposées (`code`, `label`) | `fr`, `en` |
 | `defaultLang` | langue d'un nouveau compte | `fr` |
+| `cardLanguages` | langues de la **donnée des cartes** (`code`, `label`), indépendantes de celles du site | `fr`, `en` |
+| `defaultCardLang` | langue des cartes quand le navigateur n'en propose aucune | `en` |
 | `themes` | thèmes proposés (`id`, `labelKey`) | `dark`, `light`, `classic`, `day`, `night` |
 | `defaultTheme` | thème d'un nouveau compte | `dark` |
 | `animations` | modes d'ouverture (`id`, `labelKey`, `parodic`, `tearMs`, `flipMs`, `staggerMs`) | `normal` 700/220/60, `epic` 1200/640/150, `explosive` 950/900/90 (`parodic`), `none` 220/90/0, `mining` 900/300/70, `default: epic` |
@@ -251,8 +253,15 @@ serveur.Un fichier absent n'est jamais une erreur bloquante (une médaille retom
 
 - `VERSION` doit être incrémenté à **chaque changement du shell** ; `activate` ne purge que les
   caches préfixés `minecards-` (les autres projets de l'hôte sont laissés intacts).
+- Une page déjà contrôlée se recharge **une seule fois** à `controllerchange` quand un nouveau worker
+  prend la main (`skipWaiting` + `claim`) : la nouvelle version remplace l'ancienne sans attendre la
+  visite suivante. Une première visite n'est jamais rechargée — sans contrôleur précédent, la page
+  tourne déjà sur la version que le worker vient de précacher, et le rechargement relancerait
+  l'onboarding.
 - La navigation est *network-first* avec repli `index.html` : jamais de HTML périmé servi
-  silencieusement.
+  silencieusement. La requête part en `cache: 'no-cache'`, comme les modules, donc le navigateur
+  revalide sa copie au lieu de resservir la page précédente pendant les dix minutes de `max-age`
+  de l'hôte.
 - **Les images sont la seule famille servie depuis un cache en ligne** (*cache-first*). CSS, modules,
   sons et JSON sont *network-first* : le réseau fait foi, le cache ne répond que s'il échoue. C'est
   ce qui empêche une copie périmée de survivre à une mise à jour, même sans `VERSION` bumpée, et ce
@@ -317,6 +326,15 @@ Deux fichiers, lus par `js/business/IllagerShopManager.js`.
 | `Texture` | icône, sous `assets/` |
 | `ExpirationDate` | dernier jour où la monnaie vaut quelque chose (`YYYY-MM-DD`) |
 | `ConversionRate` | Sparks crédités par unité restante le lendemain de l'expiration |
+| `Quests` | les quêtes de la monnaie (voir ci-dessous), facultatif |
+
+Une quête est `{ ID, StartDate, ExpirationDate?, Type, RequirementsToUnlock, RewardCurrency,
+RewardSparks, RewardXP }`. `Type` vaut `OpenBooster_Daily`, `DailyRewardClaim`, `SellCard`,
+`MineBlock`, `ShareBinder`, `MinePickCards` ou `DownloadProfilCard` ; `ExpirationDate` est
+facultative et retombe sur celle de la monnaie, qui reste le plafond. La règle de lint
+`data/illager-shop` vérifie ces quêtes : identifiants uniques dans tout le fichier, jours réels,
+`StartDate` avant l'expiration de la quête ET de la monnaie, type connu, objectif positif et
+récompenses entières non négatives.
 
 `illager_shop.json` — un set d'offres par entrée : `ID`, `SetName`, `Availabilities { Start, End }`
 (les deux bornes incluses, horloge UTC), `CurrencyUsed` (un `ID` du fichier ci-dessus) et `TradeSet`.

@@ -13,10 +13,12 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import miningManager, { getMiningErrorMessageKey } from '../../business/MiningManager.js';
 import accountManager from '../../business/AccountManager.js';
 import traderManager, { getTraderErrorMessageKey } from '../../business/TraderManager.js';
 import illagerShopManager, { getIllagerErrorMessageKey } from '../../business/IllagerShopManager.js';
+import illagerQuestManager, { getIllagerQuestErrorMessageKey } from '../../business/IllagerQuestManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
 import Toast from '../components/Toast.js';
@@ -24,6 +26,7 @@ import infoHint from '../components/InfoHint.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 import cardDetailPopup from '../components/CardDetailPopup.js';
+import { storageRepository, STORES } from '../../models/StorageRepository.js';
 
 /** View name, matching `data-view="mineblock"` in `index.html`. */
 export const MINE_BLOCK_VIEW_NAME = 'mineblock';
@@ -179,6 +182,28 @@ export class MineBlockView {
     this.illagerPatrolRow = this.root.querySelector('[data-illager-patrol-row]');
     this.illagerPatrolTimer = this.root.querySelector('[data-illager-patrol-timer]');
     this.illagerFeedback = this.root.querySelector('[data-illager-feedback]');
+
+    this.questsButton = this.root.querySelector('[data-mineblock-quests]');
+    this.questsModal = this.root.querySelector('[data-quest-modal]');
+    this.questsClose = this.root.querySelector('[data-quest-close]');
+    this.questsDismiss = this.root.querySelector('[data-quest-dismiss]');
+    this.questsWallet = this.root.querySelector('[data-quest-wallet]');
+    this.questsCurrencyIcon = this.root.querySelector('[data-quest-currency-icon]');
+    this.questsCurrencyName = this.root.querySelector('[data-quest-currency-name]');
+    this.questsBalance = this.root.querySelector('[data-quest-balance]');
+    this.questsList = this.root.querySelector('[data-quest-list]');
+    this.questsEmpty = this.root.querySelector('[data-quest-empty]');
+    this.questsNextRow = this.root.querySelector('[data-quest-next-row]');
+    this.questsNextTimer = this.root.querySelector('[data-quest-next]');
+    this.questsFeedback = this.root.querySelector('[data-quest-feedback]');
+    this.questsBadge = this.root.querySelector('[data-quests-badge]');
+    this.traderWallet = this.root.querySelector('[data-trader-wallet]');
+    /** @type {{element: HTMLElement, endMs: number}|null} Countdown of the next quests. */
+    this.questsCountdown = null;
+    /** @type {object|null} Last quest state painted. */
+    this.questsState = null;
+    /** @type {boolean} Whether a claim is in flight. */
+    this.isClaimingQuest = false;
     this.tradeList = this.root.querySelector('[data-mineblock-trade-list]');
     this.tradeEmpty = this.root.querySelector('[data-mineblock-trade-empty]');
     this.tradeRestockRow = this.root.querySelector('[data-mineblock-trade-restock-row]');
@@ -230,6 +255,8 @@ export class MineBlockView {
     this.traderState = null;
     /** @type {boolean} True while a purchase is being committed (guards double taps). */
     this.isBuying = false;
+    /** @type {Set<string>|null} Collection keys owned by the account, or null while unknown. */
+    this.ownedKeys = null;
     /**
      * @type {{modal: HTMLElement, trigger: HTMLElement}|null} Detail of an offer stacked on top of
      *   the shop. It is kept apart from `openDialog` on purpose: the shop stays open behind it, so
@@ -320,6 +347,11 @@ export class MineBlockView {
       ['[data-illager-modal]', this.illagerModal],
       ['[data-illager-list]', this.illagerList],
       ['[data-illager-feedback]', this.illagerFeedback],
+      ['[data-mineblock-quests]', this.questsButton],
+      ['[data-quest-modal]', this.questsModal],
+      ['[data-quest-list]', this.questsList],
+      ['[data-quest-feedback]', this.questsFeedback],
+      ['[data-trader-wallet]', this.traderWallet],
       ['[data-mineblock-trade-list]', this.tradeList],
       ['[data-mineblock-trade-empty]', this.tradeEmpty],
       ['[data-mineblock-trade-restock]', this.tradeRestock],
@@ -467,6 +499,18 @@ export class MineBlockView {
     this.listen(this.illagerDismiss, 'click', () => this.closeModal(this.illagerModal));
     this.listen(this.illagerModal, 'click', (event) => {
       if (event.target === this.illagerModal) this.closeModal(this.illagerModal);
+    });
+
+    this.listen(this.questsButton, 'click', () => this.openModal(this.questsModal, this.questsButton));
+    // One delegated listener: the quests are rebuilt after every claim.
+    this.listen(this.questsList, 'click', (event) => {
+      const claim = event.target.closest('[data-quest-claim]');
+      if (claim instanceof HTMLElement) void this.claimQuest(claim.dataset.questClaim);
+    });
+    this.listen(this.questsClose, 'click', () => this.closeModal(this.questsModal));
+    this.listen(this.questsDismiss, 'click', () => this.closeModal(this.questsModal));
+    this.listen(this.questsModal, 'click', (event) => {
+      if (event.target === this.questsModal) this.closeModal(this.questsModal);
     });
 
     // The offer detail is opened from the shop and stays on top of it.
@@ -685,7 +729,18 @@ export class MineBlockView {
     this.unsubscribers.push(
       eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged())
     );
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged())
+    );
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
+    // The badge of the quests must follow the counters LIVE: a quest that becomes ready while
+    // the player mines must show on the button before the dialog is opened.
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.ILLAGER_QUESTS_UPDATED, () => {
+        void this.refreshQuestAvailability();
+        if (this.openDialog?.modal === this.questsModal) void this.renderQuests();
+      })
+    );
     this.unsubscribers.push(
       eventBus.on(EVENTS.MINING_UPDATED, () => {
         // The tap that is being committed already rendered its own result (`handleMine`), and
@@ -736,7 +791,7 @@ export class MineBlockView {
     this.isLoading = true;
     this.setFeedback(null);
     try {
-      this.state = await miningManager.getState({ lang: i18n.getLang() });
+      this.state = await miningManager.getState({ lang: cardLanguage.getLang() });
       this.render();
     } catch (error) {
       console.error('[MineBlockView] The mine could not be loaded.', error);
@@ -936,7 +991,7 @@ export class MineBlockView {
     this.setFeedback(null);
 
     try {
-      const result = await miningManager.mine({ lang: i18n.getLang() });
+      const result = await miningManager.mine({ lang: cardLanguage.getLang() });
       soundManager.play(result.broke ? block.sounds.break : block.sounds.mine);
 
       // A broken block reports its own full hardness and 100 %, but `block` is now the NEXT one,
@@ -1184,6 +1239,15 @@ export class MineBlockView {
         this.setIllagerFeedback(getIllagerErrorMessageKey(error?.code), 'error');
       });
     }
+    if (modal === this.questsModal) {
+      // The quests are read on every opening: the day decides which ones exist, and a claim or a
+      // purchase changes the balance they pay in.
+      this.setQuestsFeedback(null);
+      void this.renderQuests().catch((error) => {
+        console.error('[MineBlockView] The Illager quests could not be loaded.', error);
+        this.setQuestsFeedback(getIllagerQuestErrorMessageKey(error?.code), 'error');
+      });
+    }
     modal.hidden = false;
     trigger.setAttribute('aria-expanded', 'true');
     this.openDialog = { modal, trigger };
@@ -1193,7 +1257,9 @@ export class MineBlockView {
         ? 'inventory'
         : modal === this.illagerModal
           ? 'illager shop'
-          : 'wandering trader';
+          : modal === this.questsModal
+            ? 'illager quests'
+            : 'wandering trader';
     this.log(`Dialog displayed: ${label}.`);
   }
 
@@ -1235,7 +1301,7 @@ export class MineBlockView {
     }
 
     this.offerDetailKey = offer.key;
-    this.offerTitle.textContent = offer.card.getName(i18n.getLang());
+    this.offerTitle.textContent = offer.card.getName(cardLanguage.getLang());
     this.offerBody.textContent = '';
     this.offerBody.appendChild(this.buildOfferDetail(offer));
 
@@ -1273,7 +1339,7 @@ export class MineBlockView {
    */
   buildOfferDetail(offer) {
     const fragment = document.createDocumentFragment();
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const rarityLabel = getRarityLabel(offer.rarity, (key) => i18n.t(key));
 
     const figure = document.createElement('figure');
@@ -1373,6 +1439,42 @@ export class MineBlockView {
   }
 
   /**
+   * Reads the keys the account owns, for the "NOT OWNED" tag of the shops.
+   *
+   * Read from the collection itself rather than kept as a running index: a copy that missed a grant
+   * (a booster opened in another tab, an imported save, a card granted elsewhere) would label a
+   * card the player already has. Called on every opening of the trader and of the Illager Shop, and
+   * after every purchase, since the badge must go away as soon as the card is bought.
+   *
+   * @returns {Promise<void>} Resolves once the owned keys are cached.
+   */
+  async refreshOwnedKeys() {
+    try {
+      const rows = await storageRepository.getAll(STORES.COLLECTION);
+      this.ownedKeys = new Set(
+        (rows ?? []).map((row) => row?.key).filter((key) => typeof key === 'string')
+      );
+    } catch (error) {
+      console.warn('[MineBlockView] The collection could not be read for the ownership tag.', error);
+      this.ownedKeys = null;
+    }
+  }
+
+  /**
+   * Tells whether a card is missing from the collection.
+   *
+   * An unknown ownership (the read failed) answers `false`: a missing read must not label a whole
+   * shop as missing cards.
+   *
+   * @param {object} card - Card to test.
+   * @returns {boolean} True when the account does not own the card.
+   */
+  isCardUnowned(card) {
+    if (!this.ownedKeys || !card?.uniqueKey) return false;
+    return !this.ownedKeys.has(card.uniqueKey);
+  }
+
+  /**
    * Reads the shop of the week, then draws it.
    *
    * The offers live in `TraderManager` (they are shared by every player and drawn from the Monday
@@ -1385,7 +1487,9 @@ export class MineBlockView {
    * @throws {Error} When the shop cannot be read.
    */
   async renderTrader({ force = false } = {}) {
+    await this.refreshOwnedKeys();
     this.traderState = await traderManager.getState({ force });
+    await this.renderTraderWallet();
     this.traderWeek.textContent = this.formatTraderWeek(this.traderState.week);
     if (this.traderState.week) {
       this.traderWeek.setAttribute('datetime', this.traderState.week);
@@ -1400,6 +1504,47 @@ export class MineBlockView {
       `Shop rendered: ${this.traderState.offers.length} offer(s), ` +
         `${this.traderState.trades.length} daily trade(s).`
     );
+  }
+
+  /**
+   * Draws the condensed stock of the mine at the top of the trader dialog.
+   *
+   * The five resources the trader accepts are read from the CONFIGURATION (`listResources`), so a
+   * resource the player never harvested still reads as an empty line instead of disappearing: a
+   * stock is only legible when its empty slots are there.
+   *
+   * @returns {Promise<void>} Resolves once the chips are drawn.
+   */
+  async renderTraderWallet() {
+    if (!this.traderWallet) return;
+    // Read together: the catalogue says what exists, the save says how much is owned.
+    const [resources, mining] = await Promise.all([
+      miningManager.listResources(),
+      miningManager.getState(),
+    ]);
+    this.traderWallet.textContent = '';
+    resources.forEach((resource) => {
+      const chip = document.createElement('span');
+      chip.className = 'mineblock__wallet-chip';
+      chip.dataset.resource = resource.slug;
+      chip.title = this.resolveResourceLabel(resource);
+      chip.setAttribute('role', 'listitem');
+
+      const icon = document.createElement('img');
+      icon.className = 'mineblock__wallet-icon';
+      icon.src = resource.texture;
+      icon.alt = '';
+      icon.decoding = 'async';
+      icon.addEventListener('error', () => {
+        icon.hidden = true;
+      });
+
+      const count = document.createElement('span');
+      count.textContent = `×${mining.resources?.[resource.slug] ?? 0}`;
+
+      chip.append(icon, count);
+      this.traderWallet.appendChild(chip);
+    });
   }
 
   /**
@@ -1666,7 +1811,7 @@ export class MineBlockView {
    * @returns {HTMLElement} The `<li>` of the offer.
    */
   buildOffer(offer) {
-    const name = offer.card.getName(i18n.getLang());
+    const name = offer.card.getName(cardLanguage.getLang());
     const rarityLabel = getRarityLabel(offer.rarity, (key) => i18n.t(key));
 
     const item = document.createElement('li');
@@ -1698,6 +1843,16 @@ export class MineBlockView {
     open.setAttribute('aria-label', i18n.t('mineblock.trader.details', { card: name }));
     open.title = i18n.t('mineblock.trader.details', { card: name });
     open.appendChild(picture);
+
+    // "NOT OWNED": the player must see, before paying, that this card is one they are missing. The
+    // ribbon is exactly the one of an opening, pinned on the thumbnail like on a Mine Pick card, so
+    // the shop and the board read the same way.
+    if (this.isCardUnowned(offer.card)) {
+      const flag = document.createElement('span');
+      flag.className = 'card-reveal__badge card-reveal__badge--unowned';
+      flag.textContent = i18n.t('opening.card.unowned');
+      open.appendChild(flag);
+    }
 
     const body = document.createElement('div');
     body.className = 'mineblock__offer-body';
@@ -1891,6 +2046,7 @@ export class MineBlockView {
     } catch (error) {
       console.warn('[MineBlockView] The Illager Shop could not be read.', error);
     }
+    void this.refreshQuestAvailability();
   }
 
   /**
@@ -1900,6 +2056,7 @@ export class MineBlockView {
    * @throws {Error} When the shop cannot be read.
    */
   async renderIllager() {
+    await this.refreshOwnedKeys();
     const state = await illagerShopManager.getState();
     this.paintIllager(state);
     this.log(`Illager Shop rendered: ${state.offers.length} offer(s), open: ${state.open}.`);
@@ -2060,6 +2217,14 @@ export class MineBlockView {
     open.setAttribute('aria-label', i18n.t('mineblock.illager.details', { card: label }));
     open.title = open.getAttribute('aria-label');
     open.append(picture, text);
+    // "NOT OWNED": the line is too short for the corner ribbon of an opening, so a pill in the same
+    // neutral ink tells it. The card detail stays read-only either way.
+    if (this.isCardUnowned(reward.card)) {
+      const flag = document.createElement('span');
+      flag.className = 'illager-shop__unowned';
+      flag.textContent = i18n.t('opening.card.unowned');
+      open.appendChild(flag);
+    }
     item.appendChild(open);
     return item;
   }
@@ -2104,7 +2269,7 @@ export class MineBlockView {
     if (reward.type === 'Booster') {
       return i18n.t('mineblock.illager.reward.booster', { count: reward.quantity, set: reward.setId ?? '' });
     }
-    return reward.card ? reward.card.getName(i18n.getLang()) : '';
+    return reward.card ? reward.card.getName(cardLanguage.getLang()) : '';
   }
 
   /**
@@ -2165,6 +2330,286 @@ export class MineBlockView {
     if (!this.illagerCountdown || !(now > 0)) return;
     this.illagerCountdown.element.textContent = this.formatRemaining(
       this.illagerCountdown.endMs - now
+    );
+  }
+
+  /**
+   * Reads the Illager quests and greys their button when none is available today.
+   *
+   * The button is never disabled: a player who taps it while no quest is open must still learn WHEN
+   * the next ones start, which is exactly what the dialog shows.
+   *
+   * @returns {Promise<void>} Resolves once the button reflects the day.
+   */
+  async refreshQuestAvailability() {
+    try {
+      const state = await illagerQuestManager.getState();
+      this.questsButton?.classList.toggle('is-quiet', !state.open);
+      this.questsButton?.setAttribute('aria-disabled', String(!state.open));
+      this.paintQuestBadge(state);
+    } catch (error) {
+      console.warn('[MineBlockView] The Illager quests could not be read.', error);
+    }
+  }
+
+  /**
+   * Opens the Illager quests: reads the quests of the day and draws them.
+   *
+   * @returns {Promise<void>} Resolves once the dialog is filled.
+   * @throws {Error} When the quests cannot be read.
+   */
+  async renderQuests() {
+    const state = await illagerQuestManager.getState();
+    this.paintQuests(state);
+    this.log(`Illager quests rendered: ${state.quests.length} quest(s), open: ${state.open}.`);
+  }
+
+  /**
+   * Draws a quest state: the wallet, the quests, and the countdown of the next ones.
+   *
+   * @param {object} state - State returned by `IllagerQuestManager.getState()`.
+   * @returns {void}
+   */
+  paintQuests(state) {
+    this.questsState = state;
+    this.questsButton?.classList.toggle('is-quiet', !state.open);
+    this.questsButton?.setAttribute('aria-disabled', String(!state.open));
+    this.paintQuestBadge(state);
+
+    const currency = state.currency;
+    this.questsWallet.hidden = !currency;
+    if (currency) {
+      this.questsCurrencyIcon.hidden = false;
+      this.questsCurrencyIcon.src = currency.texture;
+      this.questsCurrencyIcon.onerror = () => {
+        this.questsCurrencyIcon.hidden = true;
+      };
+      this.questsCurrencyName.textContent = currency.name;
+      this.questsCurrencyName.title = currency.expiration
+        ? i18n.t('mineblock.illager.expires', { day: this.formatTraderWeek(currency.expiration) })
+        : '';
+      this.questsBalance.textContent = String(state.balance);
+    }
+
+    this.questsList.textContent = '';
+    state.quests.forEach((quest) => this.questsList.appendChild(this.buildQuest(quest)));
+    this.questsEmpty.hidden = state.quests.length > 0;
+
+    // The next quests are only counted down when there is nothing left to do today: a list of
+    // claimed quests already explains the grey button.
+    const now = dateSyncManager.getEstimatedUtcMs();
+    const nextMs = state.nextStart ? Date.parse(`${state.nextStart}T00:00:00.000Z`) : Number.NaN;
+    const showNext = !state.open && Number.isFinite(nextMs);
+    this.questsNextRow.hidden = !showNext;
+    this.questsCountdown = showNext && now > 0 ? { element: this.questsNextTimer, endMs: nextMs } : null;
+    if (showNext) {
+      this.questsNextTimer.textContent = now > 0 ? this.formatRemaining(nextMs - now) : '--:--:--';
+      this.questsNextTimer.setAttribute('datetime', new Date(nextMs).toISOString());
+    }
+  }
+
+  /**
+   * Shows how many quests are complete and still unclaimed on the button of the mine.
+   *
+   * @param {object|null} state - State returned by `IllagerQuestManager.getState()`.
+   * @returns {void}
+   */
+  paintQuestBadge(state) {
+    if (!this.questsBadge) return;
+    const ready = Number.isInteger(state?.readyCount) ? state.readyCount : 0;
+    this.questsBadge.hidden = ready === 0;
+    this.questsBadge.textContent = ready > 9 ? '9+' : String(ready);
+  }
+
+  /**
+   * Builds one quest: what it asks, how far the player is, and what claiming it pays.
+   *
+   * @param {object} quest - Quest returned by `IllagerQuestManager.getState()`.
+   * @returns {HTMLElement} The `<li>` of the quest.
+   */
+  buildQuest(quest) {
+    const item = document.createElement('li');
+    item.className = 'illager-quest';
+    item.dataset.questId = quest.id;
+    if (quest.claimed) item.dataset.state = 'claimed';
+    else if (quest.complete) item.dataset.state = 'complete';
+
+    const head = document.createElement('div');
+    head.className = 'illager-quest__head';
+    const name = document.createElement('span');
+    name.className = 'illager-quest__name';
+    name.textContent = i18n.t(quest.typeKey);
+    const count = document.createElement('span');
+    count.className = 'illager-quest__count';
+    count.textContent = i18n.t('mineblock.quests.progress', {
+      count: quest.count,
+      target: quest.requirement,
+    });
+    head.append(name, count);
+
+    const bar = document.createElement('div');
+    bar.className = 'illager-quest__bar';
+    bar.setAttribute('role', 'progressbar');
+    bar.setAttribute('aria-valuemin', '0');
+    bar.setAttribute('aria-valuemax', String(quest.requirement));
+    bar.setAttribute('aria-valuenow', String(quest.count));
+    const fill = document.createElement('span');
+    fill.className = 'illager-quest__bar-fill';
+    fill.style.setProperty('--quest-progress', `${Math.min(100, quest.percent)}%`);
+    bar.appendChild(fill);
+
+    const footer = document.createElement('div');
+    footer.className = 'illager-quest__footer';
+    const rewards = document.createElement('ul');
+    rewards.className = 'illager-quest__rewards';
+    this.buildQuestRewards(quest).forEach((reward) => rewards.appendChild(reward));
+    footer.appendChild(rewards);
+
+    if (quest.expiresOn) {
+      const expires = document.createElement('span');
+      expires.className = 'illager-quest__expires';
+      expires.textContent = i18n.t('mineblock.quests.ends', {
+        day: this.formatTraderWeek(quest.expiresOn),
+      });
+      footer.appendChild(expires);
+    }
+
+    const claim = document.createElement('button');
+    claim.type = 'button';
+    claim.className = 'btn btn--primary btn--small';
+    claim.dataset.questClaim = quest.id;
+    claim.disabled = quest.claimed || !quest.complete;
+    claim.textContent = quest.claimed
+      ? i18n.t('mineblock.quests.claimed')
+      : i18n.t('mineblock.quests.claim');
+    footer.appendChild(claim);
+
+    item.append(head, bar, footer);
+    return item;
+  }
+
+  /**
+   * Builds the reward lines of a quest: the currency it pays in, its Sparks and its XP.
+   *
+   * @param {object} quest - Quest returned by `IllagerQuestManager.getState()`.
+   * @returns {HTMLElement[]} The `<li>` of each non-zero reward.
+   */
+  buildQuestRewards(quest) {
+    const lines = [];
+    const rewards = quest.rewards ?? {};
+
+    if (rewards.currency > 0) {
+      const item = document.createElement('li');
+      item.className = 'illager-quest__reward';
+      const picture = document.createElement('img');
+      picture.className = 'illager-quest__reward-icon';
+      picture.alt = '';
+      picture.decoding = 'async';
+      picture.title = this.questsState?.currency?.name ?? '';
+      if (this.questsState?.currency?.texture) picture.src = this.questsState.currency.texture;
+      item.appendChild(picture);
+      // The icon carries the currency; the name only appears in the toast of the claim.
+      const count = document.createElement('span');
+      count.className = 'illager-quest__reward-count';
+      count.textContent = i18n.t('mineblock.quests.reward.currencyShort', { count: rewards.currency });
+      item.appendChild(count);
+      lines.push(item);
+    }
+    if (rewards.sparks > 0) {
+      const item = document.createElement('li');
+      item.className = 'illager-quest__reward';
+      item.textContent = i18n.t('mineblock.quests.reward.sparks', { count: rewards.sparks });
+      lines.push(item);
+    }
+    if (rewards.xp > 0) {
+      const item = document.createElement('li');
+      item.className = 'illager-quest__reward';
+      item.textContent = i18n.t('mineblock.quests.reward.xp', { count: rewards.xp });
+      lines.push(item);
+    }
+    return lines;
+  }
+
+  /**
+   * Pays one completed quest and repaints the dialog.
+   *
+   * @param {string} questId - Id of the quest to claim.
+   * @returns {Promise<void>} Resolves once the claim was handled.
+   */
+  async claimQuest(questId) {
+    if (this.isClaimingQuest || typeof questId !== 'string' || questId === '') return;
+    this.isClaimingQuest = true;
+    this.questsList.classList.add('is-busy');
+    try {
+      const result = await illagerQuestManager.claim(questId);
+      Toast.success('mineblock.quests.claimedToast', {
+        params: { rewards: this.describeQuestRewards(result) },
+      });
+      await this.renderQuests();
+    } catch (error) {
+      console.error('[MineBlockView] The Illager quest could not be claimed.', error);
+      this.setQuestsFeedback(getIllagerQuestErrorMessageKey(error?.code), 'error');
+    } finally {
+      this.isClaimingQuest = false;
+      this.questsList.classList.remove('is-busy');
+    }
+  }
+
+  /**
+   * Writes the rewards of a claim as one sentence (`2 Allay's Sparks, 1 Spark, 3 XP`).
+   *
+   * @param {{quest: object, rewards: object}} result - Result of `IllagerQuestManager.claim()`.
+   * @returns {string} The sentence.
+   */
+  describeQuestRewards({ quest, rewards }) {
+    const parts = [];
+    if (rewards.currency > 0) {
+      parts.push(
+        i18n.t('mineblock.quests.reward.currency', {
+          count: rewards.currency,
+          currency: quest.currencyName,
+        })
+      );
+    }
+    if (rewards.sparks > 0) {
+      parts.push(i18n.t('mineblock.quests.reward.sparks', { count: rewards.sparks }));
+    }
+    if (rewards.xp > 0) {
+      parts.push(i18n.t('mineblock.quests.reward.xp', { count: rewards.xp }));
+    }
+    return parts.join(', ');
+  }
+
+  /**
+   * Writes the feedback line of the Illager quests.
+   *
+   * @param {string|null} key - Translation key, or null to clear the line.
+   * @param {string} [tone='info'] - Tone worn by the line (`info` or `error`).
+   * @param {object} [params=undefined] - Placeholders of the sentence.
+   * @returns {void}
+   */
+  setQuestsFeedback(key, tone = 'info', params = undefined) {
+    if (!this.questsFeedback) return;
+    if (!key) {
+      this.questsFeedback.hidden = true;
+      this.questsFeedback.textContent = '';
+      return;
+    }
+    this.questsFeedback.textContent = i18n.t(key, params);
+    this.questsFeedback.dataset.tone = tone;
+    this.questsFeedback.hidden = false;
+  }
+
+  /**
+   * Ticks the countdown of the next quests.
+   *
+   * @param {number} [now] - Current trusted UTC time in milliseconds.
+   * @returns {void}
+   */
+  updateQuestCountdown(now = dateSyncManager.getEstimatedUtcMs()) {
+    if (!this.questsCountdown || !(now > 0)) return;
+    this.questsCountdown.element.textContent = this.formatRemaining(
+      this.questsCountdown.endMs - now
     );
   }
 
@@ -2257,7 +2702,7 @@ export class MineBlockView {
 
     try {
       const result = await traderManager.buy(offerKey);
-      const name = result.card.getName(i18n.getLang());
+      const name = result.card.getName(cardLanguage.getLang());
       const toast = result.isNew
         ? Toast.success('mineblock.trader.boughtNew', { params: { card: name } })
         : Toast.info('mineblock.trader.bought', { params: { card: name } });
@@ -2511,6 +2956,7 @@ export class MineBlockView {
     if (payload?.utc instanceof Date) {
       this.updateTraderCountdowns(payload.utc.getTime());
       this.updateIllagerCountdown(payload.utc.getTime());
+      this.updateQuestCountdown(payload.utc.getTime());
     }
     if (!payload || typeof payload.timeUntilReset !== 'string') return;
     if (!this.countdownElement.hidden) {
@@ -2524,6 +2970,7 @@ export class MineBlockView {
     if (this.illagerDay !== day) {
       this.illagerDay = day;
       void this.refreshIllagerAvailability();
+      void this.refreshQuestAvailability();
     }
     if (this.state?.day && day !== this.state.day) {
       this.log(`New UTC day (${day}): reloading the mine.`);

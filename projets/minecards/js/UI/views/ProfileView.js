@@ -29,6 +29,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
 import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
@@ -622,6 +623,7 @@ export class ProfileView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.TROPHY_UNLOCKED, () => this.handleTrophyUnlocked()));
     this.unsubscribers.push(eventBus.on(EVENTS.TITLE_UNLOCKED, () => this.handleTitleUnlocked()));
     this.unsubscribers.push(eventBus.on(EVENTS.EXPERIENCE_UPDATED, (payload) => {
@@ -979,7 +981,7 @@ export class ProfileView {
     const entry = id === AUTO_COLOR_ID ? null : this.colorCatalog.find((color) => color.id === id) ?? null;
     const auto = entry === null;
     swatch.style.setProperty('--swatch-color', auto ? 'var(--color-title)' : colorCss(entry));
-    label.textContent = auto ? i18n.t(autoKey) : colorName(entry, i18n.getLang());
+    label.textContent = auto ? i18n.t(autoKey) : colorName(entry, cardLanguage.getLang());
     button.setAttribute('aria-label', i18n.t('profile.color.open', { color: label.textContent }));
     // The frame chooser carries no help line any more: its button already says which colour is
     // worn, and the picker explains the rest.
@@ -1066,7 +1068,7 @@ export class ProfileView {
       button.dataset.selected = String(isSelected);
       button.setAttribute('aria-pressed', String(isSelected));
       button.style.setProperty('--swatch-color', colorCss(entry));
-      const name = colorName(entry, i18n.getLang());
+      const name = colorName(entry, cardLanguage.getLang());
       const label = isOwned ? name : i18n.t(lockedKey, { color: name, price });
       button.title = label;
       button.setAttribute('aria-label', label);
@@ -1221,7 +1223,7 @@ export class ProfileView {
     if (!entry) return;
     void this.openBuyModal(id, {
       type: 'usernameColor',
-      label: colorName(entry, i18n.getLang()),
+      label: colorName(entry, cardLanguage.getLang()),
       price: this.usernameColorPrices[id] ?? 0,
     });
   }
@@ -1271,7 +1273,7 @@ export class ProfileView {
     if (id !== '') {
       try {
         const title = await titleManager.getTitle(id);
-        if (title) text = TitleManager.titleText(title, i18n.getLang());
+        if (title) text = TitleManager.titleText(title, cardLanguage.getLang());
       } catch (error) {
         console.warn(`[ProfileView] The title "${id}" could not be read.`, error);
       }
@@ -1729,9 +1731,9 @@ export class ProfileView {
       const favorites = new Set(this.profile.favorites ?? []);
       const entries = Array.from(this.entriesByKey.values())
         .filter((entry) => entry?.owned && entry.card && !favorites.has(entry.key))
-        .sort((a, b) => a.card.getName(i18n.getLang()).localeCompare(b.card.getName(i18n.getLang())));
+        .sort((a, b) => a.card.getName(cardLanguage.getLang()).localeCompare(b.card.getName(cardLanguage.getLang())));
       entries.forEach((entry) => {
-        const name = entry.card.getName(i18n.getLang());
+        const name = entry.card.getName(cardLanguage.getLang());
         const item = document.createElement('li');
         const button = document.createElement('button');
         button.type = 'button';
@@ -1937,7 +1939,7 @@ export class ProfileView {
    */
   buildCardTile(key, entry, index) {
     const card = entry?.card ?? null;
-    const name = card ? card.getName(i18n.getLang()) : key;
+    const name = card ? card.getName(cardLanguage.getLang()) : key;
 
     const item = document.createElement('li');
     item.className = 'profile__tile profile__tile--card';
@@ -2381,7 +2383,7 @@ export class ProfileView {
     if (!entry) return;
     void this.openBuyModal(id, {
       type: 'borderColor',
-      label: colorName(entry, i18n.getLang()),
+      label: colorName(entry, cardLanguage.getLang()),
       price: this.borderColorPrices[id] ?? 0,
     });
   }
@@ -2437,7 +2439,7 @@ export class ProfileView {
       button.dataset.profileCardBackground = key;
       button.dataset.selected = String(key === selected);
       button.setAttribute('aria-pressed', String(key === selected));
-      const name = card.getName(i18n.getLang());
+      const name = card.getName(cardLanguage.getLang());
       button.setAttribute('aria-label', i18n.t('profile.card.background.pick', { card: name }));
       button.title = name;
 
@@ -2509,7 +2511,7 @@ export class ProfileView {
     if (!entry) return;
     void this.openBuyModal(id, {
       type: 'titleColor',
-      label: colorName(entry, i18n.getLang()),
+      label: colorName(entry, cardLanguage.getLang()),
       price: this.titleColorPrices[id] ?? this.titleColorDefaultPrice,
     });
   }
@@ -2733,13 +2735,13 @@ export class ProfileView {
       const entry = this.colorCatalog.find((candidate) => candidate.id === id);
       if (isTitleColor) {
         this.ownedTitleColors.add(id);
-        label = entry ? colorName(entry, i18n.getLang()) : id;
+        label = entry ? colorName(entry, cardLanguage.getLang()) : id;
       } else if (isUsernameColor) {
         this.ownedUsernameColors.add(id);
-        label = entry ? colorName(entry, i18n.getLang()) : id;
+        label = entry ? colorName(entry, cardLanguage.getLang()) : id;
       } else if (isBorderColor) {
         this.ownedBorderColors.add(id);
-        label = entry ? colorName(entry, i18n.getLang()) : id;
+        label = entry ? colorName(entry, cardLanguage.getLang()) : id;
       } else if (isIcon) {
         label = this.icons?.default?.find((candidate) => candidate.file === id)?.name ?? id;
       } else {
@@ -2836,6 +2838,7 @@ export class ProfileView {
     this.setCardFeedback('profile.card.exporting');
     try {
       const file = await this.profileCard.download();
+      eventBus.emit(EVENTS.PROFILE_CARD_EXPORTED, { file });
       this.setCardFeedback('profile.card.downloaded', 'info', { file });
     } catch (error) {
       console.error('[ProfileView] The profile card could not be exported.', error);
@@ -2925,7 +2928,7 @@ export class ProfileView {
     if (!this.modal || !this.modalBody || !this.modalTitle) return;
 
     const card = entry?.card ?? null;
-    const name = card ? card.getName(i18n.getLang()) : key;
+    const name = card ? card.getName(cardLanguage.getLang()) : key;
     this.modalTitle.textContent = name;
     this.modalBody.textContent = '';
 

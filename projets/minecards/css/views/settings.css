@@ -622,6 +622,12 @@ body[data-connection="offline"] .settings__clock-value {
   display: none;
 }
 
+/* Copy button of the panel: aligned on the start of the panel, above the list it exports. */
+.error-log__copy {
+  align-self: flex-start;
+  margin-bottom: var(--space-2);
+}
+
 /* --- Wide screens --------------------------------------------------------- */
 
 /* From the tablet up the page lays its panels out two by two, but the strip of sections always stays

@@ -20,6 +20,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import Toast from '../components/Toast.js';
 import redeemManager, {
   getRedeemErrorMessageKey,
@@ -208,6 +209,7 @@ export class RedeemView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.log('Event subscriptions registered.');
   }
 
@@ -444,7 +446,7 @@ export class RedeemView {
       image.className = 'redeem__reward-image';
       image.loading = 'lazy';
       image.src = i18n.resolveImagePath(reward.card.illustration);
-      image.alt = reward.card.getName(i18n.getLang());
+      image.alt = reward.card.getName(cardLanguage.getLang());
       image.addEventListener('error', () => {
         console.warn(`[RedeemView] Illustration not found for "${reward.card.uniqueKey}".`);
         image.hidden = true;
@@ -454,7 +456,7 @@ export class RedeemView {
       const line = document.createElement('p');
       line.className = 'redeem__reward-line';
       line.textContent = i18n.t('redeem.reward.card', {
-        name: reward.card.getName(i18n.getLang()),
+        name: reward.card.getName(cardLanguage.getLang()),
         count: reward.quantity,
         rarity: getRarityLabel(reward.card.rarity, (key) => i18n.t(key)),
       });

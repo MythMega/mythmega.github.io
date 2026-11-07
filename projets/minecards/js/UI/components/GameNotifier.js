@@ -44,6 +44,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import boosterManager from '../../business/BoosterManager.js';
@@ -174,6 +175,9 @@ export class GameNotifier {
       this.unsubscribers.push(
         eventBus.on(EVENTS.EXPERIENCE_UPDATED, (payload) => this.handleExperienceUpdated(payload))
       );
+      this.unsubscribers.push(
+        eventBus.on(EVENTS.ILLAGER_QUEST_READY, (payload) => this.handleQuestReady(payload))
+      );
       this.log('Event subscriptions registered.');
     }
 
@@ -292,7 +296,7 @@ export class GameNotifier {
     if (list.length === 0) return;
     const fresh = Array.isArray(newKeys) ? newKeys : [];
     const firstName = fresh.length > 0
-      ? list.find((card) => card.uniqueKey === fresh[0])?.getName(i18n.getLang()) ?? ''
+      ? list.find((card) => card.uniqueKey === fresh[0])?.getName(cardLanguage.getLang()) ?? ''
       : '';
 
     // Only a FIRST copy is a distinct card, so buying a duplicate grants nothing.
@@ -349,7 +353,7 @@ export class GameNotifier {
       this.center.push({
         type: NOTIFICATION_TYPES.TITLE,
         badge: i18n.t('notif.title.badge'),
-        title: i18n.t('notif.title.unlocked', { title: TitleManager.titleText(title, i18n.getLang()) }),
+        title: i18n.t('notif.title.unlocked', { title: TitleManager.titleText(title, cardLanguage.getLang()) }),
       });
     });
   }
@@ -372,6 +376,27 @@ export class GameNotifier {
     this.announceExperience({
       amount: this.experience.nameChanged,
       titleKey: 'notif.experience.name',
+    });
+  }
+
+  /**
+   * Announces an Illager quest that just became ready to claim.
+   *
+   * The quest is named by its objective, never by its id, and the reward is left to the dialog:
+   * the notification only says that the trip to the Illagers is worth it.
+   *
+   * @param {object} payload - `ILLAGER_QUEST_READY` payload.
+   * @param {string} [payload.typeKey] - Translation key of the objective.
+   * @returns {void}
+   */
+  handleQuestReady({ typeKey } = {}) {
+    if (!this.isReady) return;
+    this.center.push({
+      type: NOTIFICATION_TYPES.QUEST,
+      badge: i18n.t('notif.quest.badge'),
+      title: i18n.t('notif.quest.ready', {
+        quest: i18n.t(typeof typeKey === 'string' ? typeKey : 'notif.quest.fallback'),
+      }),
     });
   }
 

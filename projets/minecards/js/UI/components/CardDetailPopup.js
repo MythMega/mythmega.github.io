@@ -23,6 +23,7 @@
  */
 
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
@@ -133,7 +134,7 @@ export class CardDetailPopup {
     this.ensureMarkup();
     this.previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const name = card.getName(lang);
     this.title.textContent = name;
     this.body.textContent = '';

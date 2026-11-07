@@ -148,17 +148,22 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 }
 ```
 
-- Toute valeur est **normalisée à la lecture** : langue inconnue → langue courante, thème inconnu →
-  défaut, animation inconnue → défaut, pourcentages hors bornes → ramenés dans la plage, mode de
-  rendu inconnu → `boosterRender.defaultMode`, `sound` n'est coupé que par un `false` explicite,
-  `devMode` ne s'active que par un `true` explicite.
-- Les défauts viennent de `settings/config.json` (`defaultLang`, `defaultTheme`, `foil`,
-  `notifications`, `glow`, `boosterRender`).
+- Toute valeur est **normalisée à la lecture** : langue inconnue → langue courante, langue de cartes
+  inconnue → `auto`, thème inconnu → défaut, animation inconnue → défaut, pourcentages hors bornes →
+  ramenés dans la plage, mode de rendu inconnu → `boosterRender.defaultMode`, `sound` n'est coupé que
+  par un `false` explicite, `devMode` ne s'active que par un `true` explicite.
+- Les défauts viennent de `settings/config.json` (`defaultLang`, `defaultCardLang`, `defaultTheme`,
+  `foil`, `notifications`, `glow`, `boosterRender`).
+- `cardLang` : langue des **cartes** (noms, descriptions, illustrations), indépendante de `lang` qui
+  règle l'interface. `auto` (défaut) suit la langue du navigateur restreinte à `cardLanguages` de
+  `config.json`, puis se rabat sur `defaultCardLang` (anglais) ; un code la fige. Un code disparu de
+  `config.json` retombe sur `auto`.
 - `mineSpeed` : vitesse du **minage automatique** (`Maj+Espace` maintenu, ou doigt maintenu sur le
   bloc sur mobile) : `normal` (défaut, cadence de `mining.keyHoldIntervalMs`, 250 ms), `fast`
   (divisée par 1,5) ou `veryFast` (divisée par 2, donc deux fois plus rapide que `normal`). Une
   valeur inconnue retombe sur `normal` ; le plancher de 100 ms reste appliqué.
-- **Miroir** : `lang` et `theme` sont recopiés dans `localStorage` (`mc_lang`, `mc_theme`) pour le
+- **Miroir** : `lang`, `cardLang` et `theme` sont recopiés dans `localStorage` (`mc_lang`,
+  `mc_card_lang`, `mc_theme`) pour le
   rendu avant premier paint. La valeur IndexedDB reste la seule autoritaire.
 
 ### 3.3 `quota`

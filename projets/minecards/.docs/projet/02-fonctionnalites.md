@@ -588,6 +588,10 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
 
 - Précache du shell à l'installation (HTML, CSS, modules, réglages, catalogue, dos de carte, sons,
   modèle 3D, Three.js épinglé).
+- Partage d'une ouverture : le récapitulatif propose « Partager l'ouverture », qui ouvre
+  `booster.html` dans un nouvel onglet avec le code du booster, la langue des cartes, le pseudo et
+  l'avatar. Cette page liste les cartes et offre deux actions : copier le lien `overlay.html` du
+  paquet, ou lancer l'animation dans un nouvel onglet.
 - Navigation *network-first* avec repli `index.html` ; **images en *cache-first*** (seuls fichiers
   servis depuis un cache en ligne) ; **le reste same-origin en *network-first*** (CSS, modules, sons,
   JSON) : le cache ne répond que hors-ligne, donc un fichier modifié n'est jamais masqué par une
@@ -671,3 +675,13 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
   fois le boot terminé : une ligne par monnaie expirée (texture, nom, solde perdu, Sparks reçus).
   La conversion reste idempotente et se fait aussi à chaque lecture du shop quand elle a été ratée
   (horloge non fiable au boot) : la popup n'est qu'une explication, jamais la source des Sparks.
+- **Les quêtes** : le bouton « Illager Quests », à côté de l'Illager Shop, ouvre les quêtes de la
+  monnaie (`Quests` de `illager_currencies.json`). Une quête démarre à son `StartDate` et se
+  termine à son `ExpirationDate`, ou à celle de la monnaie quand elle n'en donne pas (celle de la
+  monnaie reste le plafond). Son compteur ne commence donc qu'à sa date, et il est stocké par
+  identifiant de quête dans `user_state["illagerQuests"]`. Le dialogue montre la progression
+  (`{count} / {target}`), les récompenses (monnaie, Sparks, XP) et un bouton « Réclamer » actif une
+  fois l'objectif atteint ; la réclamation écrit la monnaie, les Sparks, l'XP et la marque dans une
+  seule transaction. Sans quête disponible, le bouton est grisé mais cliquable : le dialogue affiche
+  `assets/img/no_quest.webp` et le compte à rebours du prochain `StartDate`. Les Sparks des quêtes
+  ont leur propre source dans les statistiques (`SPARKS_SOURCES.QUEST`).

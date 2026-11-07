@@ -6,7 +6,8 @@
  * Responsibilities:
  *   - load `settings/i18n/<code>.json` files (available languages come from `settings/config.json`);
  *   - translate DOM nodes tagged with `data-i18n*` attributes;
- *   - resolve card illustration paths (`/fr/` <-> `/en/`) without a page reload;
+ *   - resolve card illustration paths (`/fr/` <-> `/en/`) in the CARD language, without a page
+ *     reload (see `js/utils/CardLanguage.js`: the interface and the cards are read independently);
  *   - notify the application through the `LANG_CHANGED` event.
  *
  * The language preference is mirrored into `localStorage` (`mc_lang`) so the inline bootstrap
@@ -20,6 +21,7 @@
 
 import { configLoader } from './ConfigLoader.js';
 import eventBus, { EVENTS } from './EventBus.js';
+import { cardLanguage } from './CardLanguage.js';
 
 /** Directory containing the translation files. */
 export const I18N_DIRECTORY = 'settings/i18n';
@@ -296,25 +298,30 @@ export class I18n {
    * A path without any language marker is returned unchanged, so neutral assets
    * (`assets/img/badge/icon.png`) can be used as-is.
    *
+   * The language of these paths is the CARD language, never the interface one: a player reading
+   * the game in French can collect the English printings. `CardLanguage` owns that preference.
+   *
    * @param {string} path - Raw path coming from a set JSON.
+   * @param {string} [lang] - Language to use (defaults to the card language).
    * @returns {string} The path for the active language (returned as-is when empty).
    * @throws {TypeError} When the path is not a string.
    */
-  resolveImagePath(path) {
+  resolveImagePath(path, lang = cardLanguage.getLang()) {
     if (typeof path !== 'string') {
       throw new TypeError(`I18n.resolveImagePath expects a string (received: ${JSON.stringify(path)}).`);
     }
-    if (path === '' || !this.lang) return path;
+    if (path === '' || !lang) return path;
 
     if (path.includes(LANG_PLACEHOLDER)) {
-      return path.split(LANG_PLACEHOLDER).join(this.lang);
+      return path.split(LANG_PLACEHOLDER).join(lang);
     }
 
-    const codes = this.availableLangs.length > 0 ? this.availableLangs : [this.lang];
+    const declared = cardLanguage.getAvailableLangs();
+    const codes = declared.includes(lang) ? declared : [...declared, lang];
     const pattern = new RegExp(`(^|/)(${codes.join('|')})(?=/)`, 'i');
     if (!pattern.test(path)) return path;
 
-    return path.replace(pattern, (match, prefix) => `${prefix}${this.lang}`);
+    return path.replace(pattern, (match, prefix) => `${prefix}${lang}`);
   }
 
   /**

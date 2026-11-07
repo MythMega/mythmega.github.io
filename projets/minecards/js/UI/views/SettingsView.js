@@ -57,6 +57,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import themeManager from '../../utils/ThemeManager.js';
 import animationManager from '../../utils/AnimationManager.js';
 import glowManager from '../../utils/GlowManager.js';
@@ -139,6 +140,9 @@ export class SettingsView {
     this.tabsElement = query('[data-settings-tabs]');
     this.feedbackElement = query('[data-settings-feedback]');
     this.languageContainer = query('[data-settings-languages]');
+    this.cardLanguageContainer = query('[data-settings-card-languages]');
+    /** @type {Map<string, HTMLButtonElement>} Card language buttons, keyed by preference. */
+    this.cardLanguageButtons = new Map();
     this.themeContainer = query('[data-settings-themes]');
     this.animationContainer = query('[data-settings-animations]');
     this.renderPanel = query('[data-settings-render-panel]');
@@ -147,6 +151,11 @@ export class SettingsView {
     this.changelogElement = query('[data-settings-changelog]');
     this.errorLogElement = query('[data-settings-error-log]');
     this.errorLogReleaseElement = query('[data-settings-error-release]');
+    this.errorLogCopyButton = query('[data-settings-error-copy]');
+    this.changelogAnnounceToggle = query('[data-settings-changelog-announce]');
+    this.changelogAnnounceStateElement = query('[data-settings-changelog-announce-state]');
+    /** @type {boolean} Last known state of the "new version" dialog preference. */
+    this.changelogAnnounceEnabled = true;
     this.foilSlider = query('[data-settings-foil]');
     this.foilValueElement = query('[data-settings-foil-value]');
     this.glareSlider = query('[data-settings-glare]');
@@ -161,11 +170,13 @@ export class SettingsView {
       collection: query('[data-settings-notification-collection]'),
       experience: query('[data-settings-notification-experience]'),
       title: query('[data-settings-notification-title]'),
+      quest: query('[data-settings-notification-quest]'),
     };
     this.notificationStateElements = {
       collection: query('[data-settings-notification-collection-state]'),
       experience: query('[data-settings-notification-experience-state]'),
       title: query('[data-settings-notification-title-state]'),
+      quest: query('[data-settings-notification-quest-state]'),
     };
     this.demoStage = query('[data-animation-demo-stage]');
     this.demoTiles = query('[data-animation-demo-tiles]');
@@ -235,7 +246,7 @@ export class SettingsView {
     /** @type {number} Duration of one notification, in seconds. */
     this.notificationDuration = 3;
     /** @type {Record<string, boolean>} Allowed notification kinds. */
-    this.notificationTypes = { collection: true, experience: true, title: true };
+    this.notificationTypes = { collection: true, experience: true, title: true, quest: true };
     /** @type {string} Speed of the automatic mining (`normal`, `fast` or `veryFast`). */
     this.mineSpeed = DEFAULT_MINE_SPEED;
     /** @type {string|null} UUID of the current account (read-only display). */
@@ -295,7 +306,9 @@ export class SettingsView {
       ['[data-settings-tabpanel="more"]', this.tabPanels.get('more')],
       ['[data-settings-tabpanel="errors"]', this.tabPanels.get('errors')],
       ['[data-settings-languages]', this.languageContainer],
+      ['[data-settings-card-languages]', this.cardLanguageContainer],
       ['[data-settings-error-log]', this.errorLogElement],
+      ['[data-settings-error-copy]', this.errorLogCopyButton],
       ['[data-settings-themes]', this.themeContainer],
       ['[data-settings-animations]', this.animationContainer],
       ['[data-settings-foil]', this.foilSlider],
@@ -304,6 +317,7 @@ export class SettingsView {
       ['[data-settings-glare-value]', this.glareValueElement],
       ['[data-settings-glow]', this.glowSlider],
       ['[data-settings-glow-value]', this.glowValueElement],
+      ['[data-settings-changelog-announce]', this.changelogAnnounceToggle],
       ['[data-settings-notification-duration]', this.notificationDurationSlider],
       ['[data-settings-notification-duration-value]', this.notificationDurationValue],
       ['[data-settings-mine-speed]', this.mineSpeedSlider],
@@ -311,6 +325,7 @@ export class SettingsView {
       ['[data-settings-notification-collection]', this.notificationToggles.collection],
       ['[data-settings-notification-experience]', this.notificationToggles.experience],
       ['[data-settings-notification-title]', this.notificationToggles.title],
+      ['[data-settings-notification-quest]', this.notificationToggles.quest],
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],
@@ -368,6 +383,7 @@ export class SettingsView {
     this.log('Initializing…');
     this.renderTabs();
     await this.renderLanguageSelector();
+    await this.renderCardLanguageSelector();
     await this.renderThemeSelector();
     await this.renderAnimationSelector();
     this.renderRenderSelector();
@@ -385,6 +401,7 @@ export class SettingsView {
     await this.renderAccount();
     this.renderClock();
     await this.renderChangelog();
+    await this.syncChangelogAnnounceToggle();
     this.renderErrorLog();
     this.bindEvents();
     this.subscribeToEvents();
@@ -930,6 +947,12 @@ export class SettingsView {
     const entries = errorLog.getEntries();
     const release = errorLog.getRelease();
 
+    // Nothing to copy on a clean release: the button stays visible (it is part of the panel) but
+    // disabled, rather than copying a report made of a single empty line.
+    if (this.errorLogCopyButton) {
+      this.errorLogCopyButton.disabled = entries.length === 0;
+    }
+
     if (this.errorLogReleaseElement) {
       const known = release.version !== null;
       this.errorLogReleaseElement.hidden = !known;
@@ -1003,6 +1026,75 @@ export class SettingsView {
   }
 
   /**
+   * Copies the whole report to the clipboard, formatted for Discord.
+   *
+   * A player reporting a bug rarely reformats anything: the text therefore carries the release and
+   * one block per incident (severity, code in a code span, origin, occurrences, date, message). An
+   * empty report is refused instead of copying a header with nothing under it.
+   *
+   * @returns {Promise<void>} Resolves once the copy attempt finished.
+   */
+  async handleCopyErrorLog() {
+    const entries = errorLog.getEntries();
+    if (entries.length === 0) {
+      this.setFeedback('settings.errors.copyEmpty', 'info');
+      return;
+    }
+
+    try {
+      await this.writeToClipboard(this.buildErrorLogClipboardText());
+      this.setFeedback('settings.errors.copied', 'info');
+      this.log(`Error report copied (${entries.length} incident(s)).`);
+    } catch (error) {
+      console.error('[SettingsView] The error report could not be copied.', error);
+      this.setFeedback('settings.errors.copyError', 'error');
+    }
+  }
+
+  /**
+   * Builds the text of the report, ready to paste on Discord.
+   *
+   * Discord markdown is used on purpose: the release line in bold, one bold heading per incident
+   * with its code in a code span (which also keeps the code selectable after the paste), then the
+   * message as a quote. Messages are flattened to one line so a stack trace never breaks the
+   * heading, and the labels follow the language of the interface (a report is read by whoever plays
+   * in that language).
+   *
+   * @returns {string} The plain-text report.
+   */
+  buildErrorLogClipboardText() {
+    const release = errorLog.getRelease();
+    const entries = errorLog.getEntries();
+    const version = release.version ?? '?';
+    const lines = [
+      `**MineCards** · ${i18n.t('settings.errors.release', { version, count: entries.length })}`,
+    ];
+
+    entries.forEach((entry, index) => {
+      const severity = i18n.t(
+        entry.severity === ERROR_SEVERITY.MINOR
+          ? 'settings.errors.minor'
+          : 'settings.errors.blocking'
+      );
+      lines.push('');
+      lines.push(
+        [
+          `**${index + 1}. ${severity}**`,
+          `\`${entry.code}\``,
+          entry.source,
+          i18n.t('settings.errors.count', { count: entry.count }),
+          SettingsView.formatErrorDate(entry.at),
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      );
+      lines.push(`> ${String(entry.message ?? '').replace(/\s*\n\s*/g, ' ')}`);
+    });
+
+    return lines.join('\n');
+  }
+
+  /**
    * Formats the moment of an incident in the active language.
    *
    * @param {string} iso - ISO timestamp of the last occurrence.
@@ -1030,6 +1122,88 @@ export class SettingsView {
       button.classList.toggle('is-active', isActive);
       button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
+  }
+
+  /**
+   * Renders one button per card language declared in `config.json`, "Automatic" first.
+   *
+   * The cards have their own language: a player reading the interface in French can collect the
+   * English printings. "Automatic" follows the browser and falls back to English, which is what a
+   * new account starts with.
+   *
+   * @returns {Promise<void>} Resolves once the buttons exist.
+   * @throws {Error} When the card language list cannot be loaded.
+   */
+  async renderCardLanguageSelector() {
+    const options = await cardLanguage.getOptions();
+    this.cardLanguageContainer.textContent = '';
+    this.cardLanguageButtons.clear();
+
+    options.forEach(({ code, label, labelKey }) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lang-switch__option';
+      button.dataset.cardLang = code;
+      button.textContent = labelKey ? i18n.t(labelKey) : label;
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => this.handleCardLanguageChange(code));
+      this.cardLanguageContainer.appendChild(button);
+      this.cardLanguageButtons.set(code, button);
+    });
+    this.syncCardLanguageButtons();
+  }
+
+  /**
+   * Reflects the active card language preference on the picker buttons.
+   *
+   * `auto` is compared as a preference, not as a resolved language: a browser speaking French shows
+   * "Automatique" active, not "Français".
+   *
+   * @returns {void}
+   */
+  syncCardLanguageButtons() {
+    const current = cardLanguage.getPreference();
+    this.cardLanguageButtons.forEach((button, code) => {
+      const isActive = code === current;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Switches the language of the cards at runtime (no reload) and persists the preference.
+   *
+   * The interface is deliberately left untouched: the two languages are independent, so switching
+   * one never moves the other. The views showing card data re-render on `CARD_LANG_CHANGED`.
+   *
+   * @param {string} preference - `auto` or a card language code.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleCardLanguageChange(preference) {
+    if (this.isBusy || preference === cardLanguage.getPreference()) return;
+
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
+    this.setBusy(true);
+    this.setFeedback(null);
+    try {
+      cardLanguage.setPreference(preference);
+    } catch (error) {
+      console.error('[SettingsView] Unable to switch the card language.', error);
+      this.setFeedback('settings.error.cardLang', 'error');
+      return;
+    } finally {
+      this.setBusy(false);
+      this.syncCardLanguageButtons();
+    }
+
+    try {
+      await accountManager.updateSettings({ cardLang: preference });
+      this.log(`Card language set to "${preference}" and saved.`);
+    } catch (error) {
+      // The switch is applied for this session but the preference was not stored.
+      console.error('[SettingsView] The card language preference could not be saved.', error);
+      this.setFeedback('settings.error.cardLang', 'error');
+    }
   }
 
   /**
@@ -1388,6 +1562,69 @@ export class SettingsView {
       console.error('[SettingsView] The scrollbar preference could not be saved.', error);
       this.applyNativeScrollbars(previous);
       this.setFeedback('settings.error.scrollbars', 'error');
+    }
+  }
+
+  /**
+   * Reflects the stored release-notes preference on its switch.
+   *
+   * Like the scrollbars, the switch holds no value of its own: `settings.announceChangelog` does,
+   * and `app.js` reads it at boot. Re-reading the store keeps the panel honest after an imported
+   * save or a reset.
+   *
+   * @returns {Promise<void>} Resolves once the switch matches the stored preference.
+   */
+  async syncChangelogAnnounceToggle() {
+    if (!this.changelogAnnounceToggle) return;
+    let enabled = true;
+    try {
+      const settings = await accountManager.getSettings();
+      enabled = settings.announceChangelog !== false;
+    } catch (error) {
+      console.warn('[SettingsView] The release-notes preference could not be read.', error);
+    }
+    this.applyChangelogAnnounce(enabled);
+  }
+
+  /**
+   * Draws the release-notes switch and its state label.
+   *
+   * @param {boolean} enabled - Whether the dialog opens at startup.
+   * @returns {void}
+   */
+  applyChangelogAnnounce(enabled) {
+    this.changelogAnnounceEnabled = enabled;
+    if (this.changelogAnnounceToggle) {
+      this.changelogAnnounceToggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+    }
+    if (this.changelogAnnounceStateElement) {
+      this.changelogAnnounceStateElement.textContent = i18n.t(
+        enabled ? 'settings.dev.on' : 'settings.dev.off'
+      );
+    }
+  }
+
+  /**
+   * Flips the release-notes preference and stores it.
+   *
+   * Nothing opens here: the dialog is read once at boot, so the change applies to the NEXT start.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleChangelogAnnounceToggle() {
+    if (this.isBusy) return;
+    const previous = this.changelogAnnounceEnabled !== false;
+    const next = !previous;
+    this.applyChangelogAnnounce(next);
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ announceChangelog: next });
+      this.log(`Release-notes dialog ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The release-notes preference could not be saved.', error);
+      this.applyChangelogAnnounce(previous);
+      this.setFeedback('settings.changelog.announceError', 'error');
     }
   }
 
@@ -1911,7 +2148,9 @@ export class SettingsView {
     });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
     this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());
+    this.listen(this.changelogAnnounceToggle, 'click', () => void this.handleChangelogAnnounceToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
+    this.listen(this.errorLogCopyButton, 'click', () => void this.handleCopyErrorLog());
     this.listen(this.exportButton, 'click', () => this.handleExport());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
     this.listen(this.fileInput, 'change', (event) => this.handleFileSelected(event));
@@ -1978,6 +2217,9 @@ export class SettingsView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.syncCardLanguageButtons())
+    );
     this.unsubscribers.push(eventBus.on(EVENTS.THEME_CHANGED, () => this.syncThemeButtons()));
     this.unsubscribers.push(
       eventBus.on(EVENTS.ANIMATION_CHANGED, () => {
@@ -2399,7 +2641,7 @@ export class SettingsView {
       const info = await giftManager.describeGift(total);
       if (total.type === GIFT_TYPES.CARD) {
         const name = info.card
-          ? info.card.getName(i18n.getLang())
+          ? info.card.getName(cardLanguage.getLang())
           : i18n.t('gifts.item.unknown', { key: total.key });
         items.push(i18n.t('gifts.result.card', { name, count: total.quantity }));
       } else if (total.type === GIFT_TYPES.SPARKS) {
@@ -2770,6 +3012,10 @@ export class SettingsView {
   handleLanguageChanged() {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
     this.syncLanguageButtons();
+    // The "Automatic" entry of the card picker is a translated label: it follows the interface.
+    void this.renderCardLanguageSelector().catch((error) => {
+      console.error('[SettingsView] The card language list could not be re-rendered.', error);
+    });
     void this.renderThemeSelector().catch((error) => {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
@@ -2809,6 +3055,7 @@ export class SettingsView {
     this.isActive = true;
     this.log('View activated.');
     this.syncLanguageButtons();
+    this.syncCardLanguageButtons();
     this.syncThemeButtons();
     this.syncAnimationButtons();
     this.syncRenderButtons();

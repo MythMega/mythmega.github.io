@@ -14,6 +14,18 @@
 export const CONFIG_PATH = 'settings/config.json';
 
 /**
+ * Languages the card data is written in, when `cardLanguages` is absent from `config.json`.
+ *
+ * The card language is independent from the interface language (see `js/utils/CardLanguage.js`):
+ * a catalogue only carries the handful of languages its `Name_XX`/`Desc_XX` fields were exported
+ * with, which is why this list is not derived from `languages`.
+ */
+export const DEFAULT_CARD_LANGUAGES = Object.freeze(['fr', 'en']);
+
+/** Card language used when nothing else matches: every catalogue carries it. */
+export const DEFAULT_CARD_LANG = 'en';
+
+/**
  * Catalogue of the booster sets, relative to the application root.
  *
  * It holds what the old `boosters.sets` array could not say: the release date of a set and whether
@@ -520,6 +532,20 @@ export class ConfigLoader {
       }
     });
 
+    // Optional section: the languages the CARD data is written in (see `CardLanguage`). An older
+    // cached `config.json` simply has none, and `CardLanguage` then falls back to `fr`/`en`.
+    const cardLanguages = rawConfig.cardLanguages;
+    if (cardLanguages !== undefined) {
+      if (!Array.isArray(cardLanguages) || cardLanguages.length === 0) {
+        throw new Error(`"${this.path}" must declare at least one language in "cardLanguages".`);
+      }
+      cardLanguages.forEach((entry, index) => {
+        if (!entry || typeof entry.code !== 'string' || entry.code.trim() === '') {
+          throw new Error(`"${this.path}" card language #${index} is missing a valid "code".`);
+        }
+      });
+    }
+
     const themes = rawConfig.themes;
     if (!Array.isArray(themes) || themes.length === 0) {
       throw new Error(`"${this.path}" must declare at least one theme in "themes".`);
@@ -568,6 +594,66 @@ export class ConfigLoader {
   async getLanguageOptions() {
     const config = await this.getConfig();
     return config.languages.map((entry) => ({ code: entry.code, label: entry.label || entry.code }));
+  }
+
+  /**
+   * Language codes the card data is written in, in declaration order.
+   *
+   * Read from the optional `cardLanguages` array; an older cached `config.json` (or a stripped one)
+   * falls back to the languages every catalogue ships with, so the cards always have one.
+   *
+   * @returns {Promise<string[]>} Language codes (e.g. `["fr", "en"]`).
+   * @throws {Error} See `load()`.
+   */
+  async getCardLanguages() {
+    const config = await this.getConfig();
+    const declared = Array.isArray(config.cardLanguages) ? config.cardLanguages : [];
+    const codes = declared
+      .map((entry) =>
+        typeof entry?.code === 'string' ? entry.code.trim().toLowerCase() : ''
+      )
+      .filter((code) => code !== '');
+    return codes.length > 0 ? codes : DEFAULT_CARD_LANGUAGES.slice();
+  }
+
+  /**
+   * Card language used when the browser language is not available.
+   *
+   * An undeclared or absent `defaultCardLang` falls back to English, then to the first declared
+   * language: a typo can never leave the cards in a language the catalogue does not carry.
+   *
+   * @returns {Promise<string>} A declared card language code.
+   * @throws {Error} See `load()`.
+   */
+  async getDefaultCardLang() {
+    const config = await this.getConfig();
+    const codes = await this.getCardLanguages();
+    const declared =
+      typeof config.defaultCardLang === 'string'
+        ? config.defaultCardLang.trim().toLowerCase()
+        : '';
+    if (codes.includes(declared)) return declared;
+    return codes.includes(DEFAULT_CARD_LANG) ? DEFAULT_CARD_LANG : codes[0];
+  }
+
+  /**
+   * Card languages with their display labels, for the settings picker.
+   *
+   * @returns {Promise<Array<{code: string, label: string}>>} Card language descriptors.
+   * @throws {Error} See `load()`.
+   */
+  async getCardLanguageOptions() {
+    const config = await this.getConfig();
+    const declared = Array.isArray(config.cardLanguages) ? config.cardLanguages : [];
+    const options = declared
+      .filter((entry) => typeof entry?.code === 'string' && entry.code.trim() !== '')
+      .map((entry) => ({
+        code: entry.code.trim().toLowerCase(),
+        label: entry.label || entry.code.trim().toUpperCase(),
+      }));
+    return options.length > 0
+      ? options
+      : DEFAULT_CARD_LANGUAGES.map((code) => ({ code, label: code.toUpperCase() }));
   }
 
   /**

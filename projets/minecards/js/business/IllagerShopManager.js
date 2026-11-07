@@ -206,9 +206,12 @@ export class IllagerShopManager {
   /**
    * Normalizes one currency entry.
    *
+   * The quests are kept RAW: they belong to `IllagerQuestManager`, which validates their dates
+   * against the currency and drops the entries that cannot run.
+   *
    * @param {object} raw - Raw entry of `illager_currencies.json`.
-   * @returns {{id: string, name: string, texture: string, expiration: string|null, conversionRate: number}}
-   *   The currency, with the null id of an unusable entry.
+   * @returns {{id: string, name: string, texture: string, expiration: string|null, conversionRate: number,
+   *   quests: Array<object>}} The currency, with the null id of an unusable entry.
    */
   static normalizeCurrency(raw) {
     const id = typeof raw.ID === 'string' ? raw.ID.trim() : '';
@@ -224,6 +227,7 @@ export class IllagerShopManager {
       texture,
       expiration,
       conversionRate: Number.isFinite(rate) && rate > 0 ? rate : 0,
+      quests: Array.isArray(raw.Quests) ? raw.Quests.filter(isRecord) : [],
     };
   }
 

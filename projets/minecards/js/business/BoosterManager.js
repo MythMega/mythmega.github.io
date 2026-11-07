@@ -64,6 +64,14 @@ export const DEFAULT_BOOSTER_SPARKS_REWARD = 5;
 export const BOOSTER_HISTORY_SIZE = 10;
 
 /**
+ * Number of openings a player can pin and keep forever (the saved slots of the statistics screen).
+ *
+ * Unlike the history, which is a rolling window, these entries never expire: the list is capped,
+ * and saving into a full list is refused rather than silently dropping the oldest one.
+ */
+export const SAVED_OPENINGS_SIZE = 10;
+
+/**
  * Builds the timestamp stored in `collection`.
  *
  * Both halves of the timestamp come from the TRUSTED clock: the day makes the collection
@@ -709,6 +717,155 @@ export class BoosterManager {
         ),
       };
     });
+  }
+
+  /**
+   * Reads the openings pinned by the player, with their cards resolved.
+   *
+   * A saved opening is a history entry (`code`, `setId`, `openedAt`, `godpack`, `keys`) plus an
+   * `id`. Cards are resolved exactly like the history: one that left its extension file becomes
+   * `null` at its position instead of breaking the row.
+   *
+   * @returns {Promise<Array<{id: string, code: string|null, setId: string, openedAt: string|null, godpack: boolean, keys: string[], set: object|null, cards: (Card|null)[]}>>}
+   *   The saved openings, most recent first.
+   * @throws {Error} When the list cannot be read or the extensions cannot be loaded.
+   */
+  async getSavedOpenings() {
+    await this.init();
+    const raw = await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.SAVED_OPENINGS);
+    return BoosterManager.normalizeSavedOpenings(raw).map((entry) => {
+      const set = this.boosterSets[entry.setId] ?? null;
+      return {
+        ...entry,
+        set,
+        cards: entry.keys.map((key) => set?.cards.find((card) => card.uniqueKey === key) ?? null),
+      };
+    });
+  }
+
+  /**
+   * Counts the pinned openings, for the "n / 10" line of the statistics screen.
+   *
+   * @returns {Promise<{count: number, max: number, full: boolean}>} Slots in use, total slots, and
+   *   whether one more opening can be saved.
+   * @throws {Error} When the list cannot be read.
+   */
+  async getSavedOpeningsState() {
+    const raw = await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.SAVED_OPENINGS);
+    const count = BoosterManager.normalizeSavedOpenings(raw).length;
+    return { count, max: SAVED_OPENINGS_SIZE, full: count >= SAVED_OPENINGS_SIZE };
+  }
+
+  /**
+   * Builds the identifier of a saved opening.
+   *
+   * The identifier only labels a row of the local list; `crypto.randomUUID()` is preferred, and a
+   * timestamp/random fallback keeps the feature usable where the Web Crypto API is not exposed
+   * (a page served over plain HTTP, for instance), with no security stake.
+   *
+   * @returns {string} An identifier, unique enough for the ten slots.
+   */
+  static buildSavedOpeningId() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return `saved-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+  }
+
+  /**
+   * Pins one opening in the slots, at the head of the list.
+   *
+   * The entry is built with `buildHistoryEntry()`, so it carries the same shareable code and card
+   * keys as the history. Nothing else is written: pinning an opening neither draws nor grants a
+   * card, it only keeps what the player just saw.
+   *
+   * @param {object} payload - Opening to save.
+   * @param {string} payload.setId - Extension of the pack.
+   * @param {Card[]} payload.cards - Cards of the pack, in draw order.
+   * @param {boolean} [payload.godpack=false] - True when the pack was a full art god pack.
+   * @returns {Promise<object>} The saved entry.
+   * @throws {TypeError} When the payload is incomplete.
+   * @throws {Error} When the list is full (`code: 'SAVED_OPENINGS_FULL'`) or cannot be written.
+   */
+  async saveOpening({ setId, cards, godpack = false } = {}) {
+    await this.init();
+    if (typeof setId !== 'string' || setId === '' || !Array.isArray(cards) || cards.length === 0) {
+      throw new TypeError('saveOpening() requires an extension id and at least one card.');
+    }
+    const entry = {
+      id: BoosterManager.buildSavedOpeningId(),
+      ...this.buildHistoryEntry({
+        setId,
+        cards,
+        set: this.boosterSets[setId] ?? null,
+        openedAt: buildCollectionTimestamp(),
+        godpack,
+      }),
+    };
+
+    const saved = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
+      const existing = BoosterManager.normalizeSavedOpenings(
+        await context.get(STORES.USER_STATE, USER_STATE_KEYS.SAVED_OPENINGS)
+      );
+      if (existing.length >= SAVED_OPENINGS_SIZE) return { full: true, entries: existing };
+      const entries = [entry, ...existing];
+      await context.put(STORES.USER_STATE, entries, USER_STATE_KEYS.SAVED_OPENINGS);
+      return { full: false, entries };
+    });
+
+    if (saved.full) {
+      const error = new Error(`All ${SAVED_OPENINGS_SIZE} saved-opening slots are taken.`);
+      error.code = 'SAVED_OPENINGS_FULL';
+      throw error;
+    }
+    console.info(`[BoosterManager] Opening saved (${saved.entries.length} / ${SAVED_OPENINGS_SIZE} slots).`);
+    return entry;
+  }
+
+  /**
+   * Frees one saved-opening slot.
+   *
+   * @param {string} id - Identifier of the saved entry.
+   * @returns {Promise<boolean>} True when an entry was removed.
+   * @throws {Error} When the list cannot be written.
+   */
+  async deleteSavedOpening(id) {
+    if (typeof id !== 'string' || id === '') return false;
+    return storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
+      const existing = BoosterManager.normalizeSavedOpenings(
+        await context.get(STORES.USER_STATE, USER_STATE_KEYS.SAVED_OPENINGS)
+      );
+      const filtered = existing.filter((entry) => entry.id !== id);
+      if (filtered.length === existing.length) return false;
+      await context.put(STORES.USER_STATE, filtered, USER_STATE_KEYS.SAVED_OPENINGS);
+      return true;
+    });
+  }
+
+  /**
+   * Normalizes a raw `user_state["savedOpenings"]` payload.
+   *
+   * Like the history, anything malformed is dropped instead of repaired: an imported save may come
+   * from any version of the application.
+   *
+   * @param {unknown} raw - Stored list.
+   * @returns {Array<{id: string, code: string|null, setId: string, openedAt: string|null, godpack: boolean, keys: string[]}>}
+   *   The valid entries, in their stored order.
+   */
+  static normalizeSavedOpenings(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .filter(
+        (entry) =>
+          entry &&
+          typeof entry === 'object' &&
+          typeof entry.id === 'string' &&
+          entry.id !== '' &&
+          typeof entry.setId === 'string' &&
+          Array.isArray(entry.keys) &&
+          entry.keys.every((key) => typeof key === 'string')
+      )
+      .slice(0, SAVED_OPENINGS_SIZE);
   }
 
   /**

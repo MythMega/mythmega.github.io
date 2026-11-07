@@ -235,23 +235,24 @@
   <link rel="stylesheet" href="css/themes.css?v=b675d6fa31">
   <link rel="stylesheet" href="css/base.css?v=83d0151ff6">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
-  <link rel="stylesheet" href="css/views/opening.css?v=8562bb9b2d">
+  <link rel="stylesheet" href="css/views/opening.css?v=aad5bae071">
   <link rel="stylesheet" href="css/views/collection.css?v=25f89ebf80">
   <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
-  <link rel="stylesheet" href="css/views/stats.css?v=d629d29877">
-  <link rel="stylesheet" href="css/views/minepick.css?v=e3d3cbe888">
-  <link rel="stylesheet" href="css/views/mineblock.css?v=6fdfb7865d">
+  <link rel="stylesheet" href="css/views/stats.css?v=b97f391afd">
+  <link rel="stylesheet" href="css/views/minepick.css?v=39df37dbf6">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=43ba5f9015">
   <link rel="stylesheet" href="css/views/profile.css?v=2a60b79361">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=1be7c92faa">
-  <link rel="stylesheet" href="css/views/settings.css?v=15cc1f9d6a">
+  <link rel="stylesheet" href="css/views/settings.css?v=bc973a89e3">
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
-  <link rel="stylesheet" href="css/components/card-reveal.css?v=12a4c405a1">
+  <link rel="stylesheet" href="css/components/card-reveal.css?v=f6d4429b3b">
   <link rel="stylesheet" href="css/components/card-shine.css?v=b524891613">
   <link rel="stylesheet" href="css/components/modal.css?v=814bd4a515">
+  <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
   <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
   <link rel="stylesheet" href="css/components/daily-reward.css?v=7ab3acc8af">
@@ -562,6 +563,15 @@
 
           <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
 
+          <!-- Batch opening: ten packs at once (the dialog then asks which bucket pays), or any
+               number of daily and bonus packs through two counters. Both are shown only while the
+               selected extension has something to open; the view decides that in
+               `renderBatchButtons()`. -->
+          <div class="opening__batch-actions">
+            <button type="button" class="btn btn--ghost btn--block" data-opening-open-ten data-i18n="opening.openTen" hidden>Ouvrir 10 boosters</button>
+            <button type="button" class="btn btn--ghost btn--block" data-opening-open-many data-i18n="opening.openMany" hidden>Ouvrir X boosters</button>
+          </div>
+
           <!-- Buy an extra booster with Sparks. Only offered once the free daily boosters are all
                spent; the label carries the price read from `settings/config.json`, so it is
                written by the view (`renderBuyButton`). -->
@@ -601,6 +611,9 @@
 
         <!-- Sub-stage: single spotlight card (one at a time, big) -->
         <div class="opening__spotlight" data-opening-spotlight hidden>
+          <!-- Which pack of a batch is being revealed ("Ouverture du booster 3 / 10"): empty and
+               hidden for a single opening. -->
+          <p class="opening__batch" data-opening-batch-counter aria-live="polite" hidden></p>
           <p class="opening__counter" data-opening-counter aria-live="polite"></p>
           <p class="opening__reveal-hint" data-opening-reveal-hint data-i18n="opening.reveal.hint">Touchez la carte pour la révéler</p>
           <!-- The five illustrations are preloaded when the pack is drawn; this line covers the slow
@@ -620,7 +633,15 @@
         <p class="opening__summary" data-opening-summary role="status" hidden></p>
 
         <div class="opening__actions" data-opening-actions hidden>
+          <button type="button" class="btn btn--ghost" data-opening-save data-i18n="opening.save" hidden>Sauvegarder cette ouverture</button>
           <button type="button" class="btn btn--ghost" data-opening-copy-code data-i18n="opening.copyCode">Copier le code du booster</button>
+          <!-- Opens `booster.html` in a new tab: the read-only page of this pack, from which the
+               player can copy the overlay link or play the animation. The icon is drawn inline,
+               like the icons of the other buttons of the page. -->
+          <button type="button" class="btn btn--ghost" data-opening-share>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="6" cy="12" r="2.4"/><circle cx="17.5" cy="6" r="2.4"/><circle cx="17.5" cy="18" r="2.4"/><path d="M8.2 10.9l7.1-3.6M8.2 13.1l7.1 3.6"/></svg>
+            <span data-i18n="opening.share">Partager l'ouverture</span>
+          </button>
           <button type="button" class="btn btn--primary" data-opening-finish data-i18n="opening.finish">Terminer</button>
         </div>
 
@@ -630,6 +651,56 @@
             <button type="button" class="modal__close" data-card-modal-close aria-label="×">×</button>
             <h2 class="modal__title" id="opening-card-modal-title" data-card-modal-title></h2>
             <div class="modal__body" data-card-modal-body></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- "Open 10 boosters": which bucket pays for the ten packs of the batch. A choice is
+           disabled when its bucket holds fewer than ten, so the promised count is always real.
+           The labels and the counts are written by `OpeningView.handleOpenTenClick()`. -->
+      <div class="modal" data-opening-ten-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="opening-ten-title">
+          <button type="button" class="modal__close" data-opening-ten-close aria-label="×">×</button>
+          <h2 class="modal__title" id="opening-ten-title" data-opening-ten-title></h2>
+          <div class="modal__body" data-opening-ten-body></div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-opening-ten-choice="daily"></button>
+            <button type="button" class="btn btn--primary" data-opening-ten-choice="bonus"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- "Open X boosters": two counters (daily and bonus), each with -, + and "all", so any
+           number of packs can be opened in one gesture. The bounds are the packs actually
+           available, written by `OpeningView.openCountModal()`. -->
+      <div class="modal" data-opening-count-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="opening-count-title">
+          <button type="button" class="modal__close" data-opening-count-close aria-label="×">×</button>
+          <h2 class="modal__title" id="opening-count-title" data-opening-count-title></h2>
+          <div class="modal__body" data-opening-count-body></div>
+          <div class="opening__counts">
+            <div class="opening__count" data-opening-count-row="daily">
+              <span class="opening__count-label" data-opening-count-label="daily"></span>
+              <div class="opening__count-controls">
+                <button type="button" class="btn btn--ghost btn--small" data-opening-count-step="-1" data-opening-count-kind="daily" data-i18n-aria-label="opening.batch.less">−</button>
+                <input class="opening__count-input" type="number" min="0" step="1" inputmode="numeric" value="0" data-opening-count-input="daily">
+                <button type="button" class="btn btn--ghost btn--small" data-opening-count-step="1" data-opening-count-kind="daily" data-i18n-aria-label="opening.batch.more">+</button>
+                <button type="button" class="btn btn--ghost btn--small" data-opening-count-all="daily" data-i18n="opening.batch.all">Tout</button>
+              </div>
+            </div>
+            <div class="opening__count" data-opening-count-row="bonus">
+              <span class="opening__count-label" data-opening-count-label="bonus"></span>
+              <div class="opening__count-controls">
+                <button type="button" class="btn btn--ghost btn--small" data-opening-count-step="-1" data-opening-count-kind="bonus" data-i18n-aria-label="opening.batch.less">−</button>
+                <input class="opening__count-input" type="number" min="0" step="1" inputmode="numeric" value="0" data-opening-count-input="bonus">
+                <button type="button" class="btn btn--ghost btn--small" data-opening-count-step="1" data-opening-count-kind="bonus" data-i18n-aria-label="opening.batch.more">+</button>
+                <button type="button" class="btn btn--ghost btn--small" data-opening-count-all="bonus" data-i18n="opening.batch.all">Tout</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-opening-count-cancel data-i18n="opening.batch.cancel">Annuler</button>
+            <button type="button" class="btn btn--primary" data-opening-count-confirm></button>
           </div>
         </div>
       </div>
@@ -1167,6 +1238,15 @@
           <p class="stats__line" data-stats-history-empty hidden data-i18n="stats.history.empty">Aucune ouverture enregistrée pour le moment.</p>
           <ol class="stats__history" data-stats-history></ol>
         </div>
+
+        <!-- Saved openings: ten slots kept forever, replayed as a visual only (no card, no XP,
+             no Sparks). Written by `BoosterManager.saveOpening()` from the summary of an opening. -->
+        <div class="panel stats__panel stats__panel--saved">
+          <h3 class="stats__title" data-i18n="stats.saved.title">Ouvertures sauvegardées</h3>
+          <p class="stats__line" data-stats-saved-count></p>
+          <p class="stats__line stats__line--muted" data-stats-saved-empty hidden data-i18n="stats.saved.empty">Aucune ouverture sauvegardée : ouvrez un booster, puis « Sauvegarder cette ouverture » sur son résumé.</p>
+          <ol class="stats__history" data-stats-saved></ol>
+        </div>
       </div>
 
       <!-- Card detail popup of the history -->
@@ -1335,6 +1415,13 @@
             <img class="mineblock__trader-icon" src="assets/img/illager_shop.webp" alt="" aria-hidden="true" decoding="async">
             <span data-i18n="mineblock.illager">Illager Shop</span>
           </button>
+          <!-- The Illager quests: dated objectives paid in the currency of the shop. Greyed while
+               none is available, but still clickable: the dialog then counts down to the next ones. -->
+          <button type="button" class="btn btn--ghost btn--small mineblock__illager-button mineblock__quests-button" data-mineblock-quests aria-haspopup="dialog" aria-expanded="false">
+            <img class="mineblock__trader-icon" src="assets/img/illager_quest.webp" alt="" aria-hidden="true" decoding="async">
+            <span data-i18n="mineblock.quests">Illager Quests</span>
+            <span class="mineblock__quests-badge" data-quests-badge hidden aria-hidden="true"></span>
+          </button>
         </div>
       </div>
 
@@ -1405,6 +1492,9 @@
           <button type="button" class="modal__close" data-mineblock-trader-close aria-label="×">×</button>
           <h2 class="modal__title" id="mineblock-trader-title" data-i18n="mineblock.trader.title">Marchand itinérant</h2>
           <div class="modal__body">
+            <!-- The condensed stock of the mine: the five resources the trader accepts, with what
+                 the player owns of each. The view builds the chips. -->
+            <div class="mineblock__wallet" data-trader-wallet role="list" data-i18n-aria-label="mineblock.trader.wallet"></div>
             <p class="mineblock__trader-intro" data-i18n="mineblock.trader.intro">Payez ses cartes avec les ressources de la mine. Sa marchandise change tous les lundis, pour tout le monde en même temps.</p>
             <p class="mineblock__trader-week">
               <span data-i18n="mineblock.trader.week">Semaine du</span>
@@ -1495,6 +1585,38 @@
         </div>
       </div>
 
+      <!-- The Illager quests: the dated objectives of the currency, with their progress. When none
+           is available, the dialog shows the empty picture and counts down to the next start. -->
+      <div class="modal" data-quest-modal hidden>
+        <div class="modal__dialog modal__dialog--wide illager-shop illager-quests" role="dialog" aria-modal="true" aria-labelledby="illager-quests-title">
+          <button type="button" class="modal__close" data-quest-close aria-label="×">×</button>
+          <h2 class="modal__title illager-shop__title" id="illager-quests-title" data-i18n="mineblock.quests.title">Illager Quests</h2>
+          <div class="modal__body">
+            <p class="illager-shop__intro" data-i18n="mineblock.quests.intro">Les Illagers confient des besognes à qui veut leur monnaie : elles commencent à leur date et ne durent qu'un temps.</p>
+            <div class="illager-shop__wallet" data-quest-wallet hidden>
+              <img class="illager-shop__wallet-icon" data-quest-currency-icon alt="" decoding="async">
+              <span class="illager-shop__wallet-name" data-quest-currency-name></span>
+              <span class="illager-shop__wallet-amount" data-quest-balance>0</span>
+            </div>
+            <ul class="illager-quests__list" data-quest-list></ul>
+            <div class="illager-quests__empty" data-quest-empty hidden>
+              <img class="illager-quests__empty-image" src="assets/img/no_quest.webp" alt="" aria-hidden="true" decoding="async">
+              <p class="illager-shop__empty" data-i18n="mineblock.quests.empty">Aucune quête disponible pour le moment : les Illagers préparent la suite.</p>
+            </div>
+            <!-- Kept OUTSIDE the empty block: a player who claimed every quest still sees when the
+                 next ones start, even though the list of claimed quests is shown instead. -->
+            <p class="illager-quests__next" data-quest-next-row hidden>
+              <span data-i18n="mineblock.quests.next">Prochaines quêtes dans</span>
+              <time class="illager-shop__patrol-value" data-quest-next>--:--:--</time>
+            </p>
+            <p class="feedback illager-shop__feedback" data-quest-feedback role="status" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-quest-dismiss data-i18n="mineblock.quests.close">Fermer</button>
+          </div>
+        </div>
+      </div>
+
       <!-- One offer in detail: the card, large, with its description, its price and its stock.
            Opened by a tap on the picture of an offer and stacked ON TOP of the shop, so the
            player never loses the list they were browsing. -->
@@ -1538,6 +1660,15 @@
           <section class="panel settings__panel">
             <h3 class="settings__title" data-i18n="settings.language.title">Langue</h3>
             <div class="lang-switch settings__choices" data-settings-languages role="group" data-i18n-aria-label="settings.language.title" aria-label="Langue"></div>
+          </section>
+
+          <!-- Card language: independent from the language of the site, so a French player can
+               collect the English printings and the other way round. The buttons are generated from
+               `config.json` (`cardLanguages`) by SettingsView, with an "Automatic" entry first. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.cardLanguage.title">Langue des cartes</h3>
+            <div class="lang-switch settings__choices" data-settings-card-languages role="group" data-i18n-aria-label="settings.cardLanguage.title" aria-label="Langue des cartes"></div>
+            <p class="settings__help" data-i18n="settings.cardLanguage.help">Les noms, les descriptions et les illustrations des cartes suivent ce réglage, indépendamment de la langue du site.</p>
           </section>
 
           <!-- Theme: same contract, one button per theme declared in `config.json`. -->
@@ -1675,6 +1806,13 @@
                 <button type="button" class="switch" data-settings-notification-title role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.titleKind">
                   <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
                   <span class="switch__state" data-settings-notification-title-state></span>
+                </button>
+              </div>
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.notifications.quest">Quêtes prêtes</span>
+                <button type="button" class="switch" data-settings-notification-quest role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.quest">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-notification-quest-state></span>
                 </button>
               </div>
             </div>
@@ -1858,6 +1996,24 @@
           <!-- Release notes: the whole page is drawn by SettingsView from `settings/changelog.json`
                (newest version open, the older ones folded), so publishing a version never needs a
                code change here. -->
+          <!-- "New version" dialog: `app.js` opens it once per version, for an existing save only.
+               The switch is ON by default (a player with a save should hear about what changed) and
+               only silences the popup: the dot of the settings button keeps pointing at unread
+               notes, and the history below stays available. -->
+          <section class="panel settings__panel settings__panel--wide">
+            <h3 class="settings__title" data-i18n="settings.changelog.announceTitle">Popup au démarrage</h3>
+            <div class="settings__toggles">
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.changelog.announce">Annoncer les nouveautés au démarrage</span>
+                <button type="button" class="switch" data-settings-changelog-announce role="switch" aria-checked="true" data-i18n-aria-label="settings.changelog.announce">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-changelog-announce-state></span>
+                </button>
+              </div>
+            </div>
+            <p class="settings__help" data-i18n="settings.changelog.announceHelp">À chaque nouvelle version, une popup résume les changements au premier lancement, une seule fois. Désactivez-la pour ne plus la voir : les notes restent disponibles ci-dessous.</p>
+          </section>
+
           <section class="panel settings__panel settings__panel--wide">
             <h3 class="settings__title" data-i18n="settings.changelog.title">Notes de mise à jour</h3>
             <p class="settings__help" data-i18n="settings.changelog.help">L'historique des versions publiées, de la plus récente à la plus ancienne.</p>
@@ -1873,6 +2029,9 @@
             <h3 class="settings__title" data-i18n="settings.errors.title">Rapport d'erreurs</h3>
             <p class="settings__help" data-i18n="settings.errors.help">Les cinq derniers incidents distincts de cette version. Un incident mineur n'ouvre aucune popup : il est noté ici, avec son code.</p>
             <p class="settings__help error-log__release" data-settings-error-release hidden></p>
+            <!-- One-click report: the text is built for Discord (bold headings, code spans) so a
+                 player can paste it in a bug report without reformatting anything. -->
+            <button type="button" class="btn btn--ghost error-log__copy" data-settings-error-copy data-i18n="settings.errors.copy">Copier le rapport</button>
             <ul class="error-log" data-settings-error-log></ul>
           </section>
         </div>
@@ -2295,7 +2454,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=5f60a51947"></script>
+  <script type="module" src="js/app.js?v=b1b79485e7"></script>
 
 </body>
 </html>

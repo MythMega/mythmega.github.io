@@ -29,6 +29,7 @@ import sparksManager from './business/SparksManager.js';
 import profileManager from './business/ProfileManager.js';
 import trophyManager from './business/TrophyManager.js';
 import i18n from './utils/I18n.js';
+import cardLanguage from './utils/CardLanguage.js';
 import themeManager from './utils/ThemeManager.js';
 import { applyThemeIcons } from './utils/ThemeIcons.js';
 import animationManager from './utils/AnimationManager.js';
@@ -64,8 +65,10 @@ import gameNotifier from './UI/components/GameNotifier.js';
 import autoClaimPopup from './UI/components/AutoClaimPopup.js';
 import dailyRewardPopup from './UI/components/DailyRewardPopup.js';
 import setAnnouncementPopup from './UI/components/SetAnnouncementPopup.js';
+import changelogPopup from './UI/components/ChangelogPopup.js';
 import currencyExpiryPopup from './UI/components/CurrencyExpiryPopup.js';
 import illagerShopManager from './business/IllagerShopManager.js';
+import illagerQuestManager from './business/IllagerQuestManager.js';
 import autoClaimManager from './business/AutoClaimManager.js';
 import dailyRewardManager from './business/DailyRewardManager.js';
 import changelogManager from './business/ChangelogManager.js';
@@ -267,6 +270,8 @@ export class App {
     this.autoClaimsStarted = false;
     /** @type {boolean} True once the upcoming-set announcements were scheduled. */
     this.setAnnouncementsStarted = false;
+    /** @type {boolean} True when the account was created during THIS session (onboarding). */
+    this.accountCreatedThisSession = false;
     /** @type {Array<object>|null} Currencies expired while away, announced once the boot is done. */
     this.expiredCurrencies = null;
     /** @type {number|null} Level evaluated by the boot trophy pass, reused by the auto-claims. */
@@ -451,6 +456,10 @@ export class App {
     // the default below, once the account settings are read.
     await boosterRenderManager.init();
     await i18n.init();
+    // The card language is resolved right after the interface one, and independently of it: the
+    // mirror it reads is what the cards of the onboarding preview are drawn with, before any
+    // account (and therefore any stored preference) exists.
+    await cardLanguage.init();
     // The log of the settings belongs to ONE release: a page that runs a newer version than the
     // one that wrote it clears it, because a failure of the previous release may already be fixed.
     await errorLog.syncRelease();
@@ -465,7 +474,12 @@ export class App {
   async startOnboarding() {
     const root = document.querySelector(`[data-view="${VIEW_NAMES.ONBOARDING}"]`);
     this.onboardingView = new OnboardingView(root, {
-      onAccountCreated: () => this.startMainApp(),
+      onAccountCreated: () => {
+        // A save created right now is a first launch, not an update: the "what's new" popup has
+        // nothing to announce, and the version is recorded so the SECOND launch stays silent too.
+        this.accountCreatedThisSession = true;
+        return this.startMainApp();
+      },
     });
     await this.onboardingView.init();
     this.onboardingView.show();
@@ -489,6 +503,14 @@ export class App {
     const targetLang = i18n.normalizeLang(settings.lang) || i18n.getLang();
     if (targetLang && targetLang !== i18n.getLang()) {
       await i18n.setLang(targetLang);
+    }
+
+    // The cards have their own language. The stored preference (`auto` by default) is applied
+    // before the first view is built, so the first collection is already drawn in the right one;
+    // the mirror written by `CardLanguage.init()` only covered the screens shown until now.
+    const targetCardLang = cardLanguage.normalizePreference(settings.cardLang);
+    if (targetCardLang && targetCardLang !== cardLanguage.getPreference()) {
+      cardLanguage.setPreference(targetCardLang);
     }
 
     const targetTheme = themeManager.isAvailableTheme(settings.theme)
@@ -568,6 +590,9 @@ export class App {
     this.startViewHelp();
     this.startInfoHints();
     await this.startTimeSync();
+    // The quests listen to the events of the other features: they must be attached before the
+    // first screen lets the player act, not when the quests dialog is first opened.
+    illagerQuestManager.start();
     this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
     await this.refreshHeaderSparks();
     await this.refreshHeaderBinders();
@@ -618,7 +643,9 @@ export class App {
       this.startUtcClock();
     }
 
-    console.info(`[App] Ready (lang: ${i18n.getLang()}, theme: ${themeManager.getTheme()}).`);
+    console.info(
+      `[App] Ready (lang: ${i18n.getLang()}, card lang: ${cardLanguage.getLang()} [${cardLanguage.getPreference()}], theme: ${themeManager.getTheme()}).`
+    );
   }
 
   /**
@@ -815,6 +842,7 @@ export class App {
     console.info('[App] Starting the statistics view…');
     this.statsView = new StatsView(root, {
       onNavigate: (viewName) => this.router?.show(viewName),
+      onReplay: (entry) => this.replaySavedOpening(entry),
     });
     try {
       await this.statsView.init();
@@ -973,6 +1001,9 @@ export class App {
     if (this.setAnnouncementsStarted) return;
     this.setAnnouncementsStarted = true;
     window.setTimeout(async () => {
+      // The release notes come FIRST: they are the only dialog that says what the game became,
+      // and it is shown once per version, right above the boot overlay.
+      await this.startChangelogAnnouncement();
       // What became of an expired currency comes FIRST: it is money the player already lost, and the
       // dialog says how much of it came back as Sparks.
       if (this.expiredCurrencies?.length) {
@@ -996,6 +1027,81 @@ export class App {
       }
       this.startAutoClaims();
     }, 0);
+  }
+
+  /**
+   * Announces the newest release on the first launch of that version.
+   *
+   * Only an EXISTING save sees it (the onboarding path records the version without a dialog), and
+   * only once per version: `ChangelogManager` keeps the highest announced id in
+   * `user_state["changelogAnnounced"]`, which is written BEFORE the dialog opens so a reload in
+   * the middle of it cannot announce the same version twice.
+   *
+   * @returns {Promise<void>} Resolves once the dialog was dismissed (or skipped).
+   */
+  async startChangelogAnnouncement() {
+    const state = await changelogManager.getAnnouncementState();
+    if (!state.latest) return;
+
+    if (this.accountCreatedThisSession) {
+      await changelogManager.markAnnounced(state.latest.id);
+      return;
+    }
+    if (!state.due) return;
+
+    // The switch of the release-notes tab silences the dialog, but the version is recorded anyway:
+    // turning it back on later announces the NEXT release instead of the whole backlog.
+    if (!(await this.isChangelogAnnouncementEnabled())) {
+      await changelogManager.markAnnounced(state.latest.id);
+      return;
+    }
+
+    await changelogManager.markAnnounced(state.latest.id);
+    // A dialog owns the screen: the automatic codes wait for it, like they wait for an extension
+    // announcement or an expired currency.
+    autoClaimManager.hold('changelog-popup');
+    try {
+      await changelogPopup.show(state.latest, {
+        onOpenChangelog: () => this.openFullChangelog(),
+      });
+    } catch (error) {
+      console.warn('[App] The release notes could not be announced.', error);
+    } finally {
+      autoClaimManager.release('changelog-popup');
+    }
+  }
+
+  /**
+   * Reads the "new version" dialog preference.
+   *
+   * The default is ON (`settings.announceChangelog`), so a save written before the switch existed
+   * keeps seeing the dialog. An unreadable settings store fails open: showing the notes once more
+   * is harmless, silently swallowing a release is not.
+   *
+   * @returns {Promise<boolean>} True when the dialog may open.
+   */
+  async isChangelogAnnouncementEnabled() {
+    try {
+      const settings = await accountManager.getSettings();
+      return settings.announceChangelog !== false;
+    } catch (error) {
+      console.warn('[App] The release-notes preference could not be read.', error);
+      return true;
+    }
+  }
+
+  /**
+   * Brings the full changelog forward: the settings screen, on its release-notes section.
+   *
+   * The router shows the settings view and the view selects its own section, so the player lands
+   * on the whole history without having to look for the tab. Opening the screen also marks the
+   * version as read, which is what clears the dot of the settings button.
+   *
+   * @returns {void}
+   */
+  openFullChangelog() {
+    this.router?.show(SETTINGS_VIEW_NAME);
+    this.settingsView?.showTab('more');
   }
 
   /**
@@ -1555,6 +1661,19 @@ export class App {
       `[App] Save imported (uuid: ${payload?.uuid ?? 'unknown'}): releasing the clock and the views.`
     );
     this.releaseAccountRuntime();
+  }
+
+  /**
+   * Replays a saved opening from the statistics screen: the opening view is shown, then replays
+   * the pack as a visual only (no card, no experience, no Sparks).
+   *
+   * @param {{setId: string, cards: Array, godpack?: boolean}} entry - Resolved saved entry.
+   * @returns {boolean} True when the replay started (false when the view was busy).
+   */
+  replaySavedOpening(entry) {
+    if (!this.openingView) return false;
+    this.router?.show(OPENING_VIEW_NAME);
+    return this.openingView.replaySaved(entry);
   }
 
   /**
@@ -2266,7 +2385,23 @@ installPrompt.start();
 // precaches the whole shell, which would otherwise compete with the files the page is still loading.
 // The scope names the mounted path of the game (`manifest.json` declares the same one), so moving
 // the game stays one visible edit instead of a silent behaviour change.
+//
+// A page that was already controlled is showing the previous release: when the freshly installed
+// worker takes over (`skipWaiting` + `claim` in `sw.js`), a single reload is what actually paints the
+// new views, instead of waiting for the player's next visit. The first visit is left alone on
+// purpose: there was no controller, the page already runs the version that worker just precached,
+// and reloading would restart the onboarding under the player's hands.
 if ('serviceWorker' in navigator) {
+  const wasControlled = Boolean(navigator.serviceWorker.controller);
+  let reloadingForUpdate = false;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!wasControlled || reloadingForUpdate) return;
+    reloadingForUpdate = true;
+    console.info('[PWA] New service worker in control: reloading for the new version.');
+    window.location.reload();
+  });
+
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('./sw.js', { scope: '/projets/minecards/' })

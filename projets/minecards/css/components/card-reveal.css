@@ -180,6 +180,15 @@
   letter-spacing: 0.04em;
 }
 
+/* "NOT OWNED" (Mine Pick): the same ribbon, in the neutral ink of the app instead of the accent.
+   The shape and the position are shared on purpose - the player reads both tags at a glance - and
+   only the colour tells what the tag is about (a new card / a card the account is missing). */
+.card-reveal__badge--unowned {
+  background-color: var(--color-text-muted);
+  color: var(--color-surface);
+  letter-spacing: 0;
+}
+
 /* --- Rarity rendering ---------------------------------------------------- */
 
 /* Rarities 1 to 3: plain printing with a light inner reflection. */

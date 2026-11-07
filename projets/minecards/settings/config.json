@@ -4,6 +4,11 @@
     { "code": "en", "label": "English" }
   ],
   "defaultLang": "fr",
+  "cardLanguages": [
+    { "code": "fr", "label": "Français" },
+    { "code": "en", "label": "English" }
+  ],
+  "defaultCardLang": "en",
 
   "themes": [
     { "id": "dark", "labelKey": "settings.theme.dark" },
@@ -50,7 +55,7 @@
       "step": 1,
       "default": 3
     },
-    "types": ["collection", "experience", "title"]
+    "types": ["collection", "experience", "title", "quest"]
   },
   "glow": {
     "_comment": "Glow ('Illumination') ranges. Each effect has its own 0-N slider on the settings screen, so a future one never inherits the bounds of another: 'trophies' is the halo around a trophy medal (none for bronze, light for silver and gold, medium for diamond and emerald - see css/components/trophy.css), and a 'cards' block will be added here when the card glow is tuned. The intensity is stored per account in `user_state[\"settings\"].glowTrophies`; `js/utils/GlowManager.js` publishes it as the 0-N factor `--trophy-glow-scale` on <html>, which the stylesheets multiply into the radius of their shadows. 0 switches the effect off completely.",

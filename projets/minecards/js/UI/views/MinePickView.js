@@ -41,11 +41,13 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import minePickManager, {
   getMinePickErrorMessageKey,
   MINE_PICK_ERRORS,
 } from '../../business/MinePickManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
+import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import sparksManager, { INSUFFICIENT_SPARKS } from '../../business/SparksManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import soundManager, { SOUNDS } from '../../utils/SoundManager.js';
@@ -137,6 +139,8 @@ export class MinePickView {
 
     this.assertMarkup();
 
+    /** @type {Set<string>|null} Keys owned by the account, or null while they are unknown. */
+    this.ownedKeys = null;
     /** @type {Array<object>} Boosters of the current board. */
     this.board = [];
     /** @type {CardComponent[]} Cards of the opened booster, in the order they were drawn. */
@@ -287,7 +291,7 @@ export class MinePickView {
   bindEvents() {
     this.listen(this.boardElement, 'click', (event) => this.handleBoardClick(event));
     this.listen(this.cardsElement, 'click', (event) => this.handleCardsClick(event));
-    this.listen(this.backButton, 'click', () => this.backToBoard());
+    this.listen(this.backButton, 'click', () => void this.backToBoard());
     this.listen(this.buyButton, 'click', () => this.handleBuyExtraPick());
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.log('DOM listeners bound.');
@@ -338,6 +342,7 @@ export class MinePickView {
       })
     );
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.handleSparksUpdated(payload)));
     this.unsubscribers.push(
@@ -367,6 +372,9 @@ export class MinePickView {
     this.setLoading(true);
     try {
       this.board = await minePickManager.getBoard();
+      // Ownership is read with the board: the "NOT OWNED" tag of the list is a fact about the save,
+      // and the board is rebuilt whenever the view comes back or the day changes.
+      await this.refreshOwnedKeys();
       // A fresh board invalidates the rendered list whatever the stored state says. The selection
       // goes with it: the index may not even point at the same pack anymore.
       this.boardSignature = '';
@@ -677,7 +685,7 @@ export class MinePickView {
    */
   buildRowStateText({ state, picked, keptCard, entry }) {
     if (state === 'picked' && picked) {
-      return i18n.t('minepick.board.picked', { name: keptCard?.getName(i18n.getLang()) ?? picked.key });
+      return i18n.t('minepick.board.picked', { name: keptCard?.getName(cardLanguage.getLang()) ?? picked.key });
     }
     if (state === 'locked') {
       return i18n.t('minepick.board.locked');
@@ -718,6 +726,16 @@ export class MinePickView {
     image.decoding = 'async';
     item.appendChild(image);
 
+    // "NOT OWNED": the same corner ribbon as the "NEW" badge of an opening, so the player reads
+    // both at a glance. It names the one thing the board exists for (which pack holds a card the
+    // account is still missing), without revealing the rarity of anything.
+    if (this.isCardUnowned(card)) {
+      const flag = document.createElement('span');
+      flag.className = 'card-reveal__badge card-reveal__badge--unowned';
+      flag.textContent = i18n.t('opening.card.unowned');
+      item.appendChild(flag);
+    }
+
     if (kept) {
       const flag = document.createElement('span');
       flag.className = 'minepick__mini-flag';
@@ -728,13 +746,49 @@ export class MinePickView {
   }
 
   /**
+   * Reads the keys the account owns, for the "NOT OWNED" tag of the cards on screen.
+   *
+   * Read from the collection itself rather than kept as a running index: the tag is a fact about
+   * the save, and a copy that missed a grant (a booster opened in another tab, an imported save)
+   * would be worse than a read. Called when the board is (re)loaded, i.e. when the page opens, and
+   * when the player comes back to the list after a pick.
+   *
+   * @returns {Promise<void>} Resolves once the owned keys are cached.
+   */
+  async refreshOwnedKeys() {
+    try {
+      const rows = await storageRepository.getAll(STORES.COLLECTION);
+      this.ownedKeys = new Set(
+        (rows ?? []).map((row) => row?.key).filter((key) => typeof key === 'string')
+      );
+    } catch (error) {
+      console.warn('[MinePickView] The collection could not be read for the ownership tag.', error);
+      this.ownedKeys = null;
+    }
+  }
+
+  /**
+   * Tells whether a card is missing from the collection.
+   *
+   * An unknown ownership (the read failed) answers `false`: a missing read must not label a whole
+   * board as missing cards.
+   *
+   * @param {object} card - Card to test.
+   * @returns {boolean} True when the account does not own the card.
+   */
+  isCardUnowned(card) {
+    if (!this.ownedKeys || !card?.uniqueKey) return false;
+    return !this.ownedKeys.has(card.uniqueKey);
+  }
+
+  /**
    * Describes a card for screen readers ("Name — Rarity").
    *
    * @param {object} card - Card to describe.
    * @returns {string} The description.
    */
   describeCard(card) {
-    return `${card.getName(i18n.getLang())} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
+    return `${card.getName(cardLanguage.getLang())} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
   }
 
   /**
@@ -878,7 +932,11 @@ export class MinePickView {
     if (!entry) return;
 
     entry.cards.forEach((card, cardIndex) => {
-      const component = new CardComponent(card, { isNew: false, flipOnClick: false });
+      const component = new CardComponent(card, {
+        isNew: false,
+        isUnowned: this.isCardUnowned(card),
+        flipOnClick: false,
+      });
       const element = component.render();
       element.dataset.minepickCard = String(cardIndex);
       // The rarity is duplicated on the stage element as a plain class: the ring of the card is
@@ -1317,7 +1375,7 @@ export class MinePickView {
    * @returns {void}
    */
   announceResult(result) {
-    const name = result.card.getName(i18n.getLang());
+    const name = result.card.getName(cardLanguage.getLang());
     const rarity = getRarityLabel(result.card.rarity, (key) => i18n.t(key));
     const parts = [i18n.t('minepick.result.kept', { name, rarity })];
     if (result.isNew) parts.push(i18n.t('minepick.result.new'));
@@ -1351,15 +1409,18 @@ export class MinePickView {
    *
    * @returns {void}
    */
-  backToBoard() {
+  async backToBoard() {
     this.clearCards();
     this.boosterIndex = null;
     this.keptIndex = null;
     this.canPick = false;
     this.clearSelection();
     this.showStage('board');
+    // The card that was just kept is now owned: re-reading keeps every tag of the list truthful.
+    await this.refreshOwnedKeys();
+    this.boardSignature = '';
     this.renderBoard(true);
-    void this.refreshQuota().catch((error) => {
+    await this.refreshQuota().catch((error) => {
       console.warn('[MinePickView] The allowance could not be refreshed.', error);
     });
   }

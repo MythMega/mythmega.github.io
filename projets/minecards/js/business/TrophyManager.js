@@ -25,10 +25,11 @@
  *   The total experience is DERIVED, never accumulated: `boostersOpened` × `experience.everyBooster`
  *   + distinct cards owned × `experience.everyDistinctCard` + `experience.nameChanged` when the
  *   player chose a name + the XP of every unlocked trophy (`ExperiencePerTrophy[rarity]`, or the
- *   trophy's own `Experience`). State derived from the collection can therefore never be counted
- *   twice, and an imported save immediately shows the right level. Only the trophies themselves are
- *   persisted (`user_state["trophies"]`), because an unlock is permanent: selling cards later must
- *   never take a trophy back.
+ *   trophy's own `Experience`) + the XP granted by the claimed Illager quests (persisted in
+ *   `user_state["illagerQuests"]`). State derived from the collection can therefore never be
+ *   counted twice, and an imported save immediately shows the right level. Only the trophies
+ *   themselves are persisted (`user_state["trophies"]`), because an unlock is permanent: selling
+ *   cards later must never take a trophy back.
  *
  *   The level curve is read from `config.json` (`levelling`): `defaultLevel` is where the account
  *   starts, the first level-up costs `baseRequiredExpToLevelUp` XP and every next one costs that
@@ -43,6 +44,7 @@ import miningManager from './MiningManager.js';
 import minePickManager from './MinePickManager.js';
 import profileManager from './ProfileManager.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
+import { ILLAGER_QUESTS_STATE_KEY, readQuestExperience } from './IllagerQuestState.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** `user_state` key holding the unlocked trophies. */
@@ -403,7 +405,7 @@ export class TrophyManager {
    */
   async buildContext() {
     await boosterManager.init();
-    const [listed, ownedRows, stats, profile, limits, levelling, experiencePerTrophy] =
+    const [listed, ownedRows, stats, profile, limits, levelling, experiencePerTrophy, questState] =
       await Promise.all([
         boosterManager.listBoosterSets(),
         storageRepository.getAll(STORES.COLLECTION),
@@ -412,6 +414,7 @@ export class TrophyManager {
         profileManager.getLimits(),
         configLoader.getLevellingSettings(),
         configLoader.getExperiencePerTrophy(),
+        storageRepository.getItem(STORES.USER_STATE, ILLAGER_QUESTS_STATE_KEY),
       ]);
     // The mine keeps its counters apart from `stats` (a mined block is not an opened booster): the
     // two mining families read them here, once, instead of each trophy re-reading the save. A mine
@@ -487,6 +490,8 @@ export class TrophyManager {
       defaultName: limits.defaultName,
       levelling,
       experiencePerTrophy,
+      // The XP the Illager quests granted: persisted with the quests, added to the derived total.
+      questExperience: readQuestExperience(questState),
     };
   }
 
@@ -1193,7 +1198,9 @@ export class TrophyManager {
     const byId = new Map(trophies.map((trophy) => [trophy.id, trophy]));
 
     let total =
-      context.boostersOpened * experience.everyBooster + context.distinctOwned * experience.everyDistinctCard;
+      context.boostersOpened * experience.everyBooster +
+      context.distinctOwned * experience.everyDistinctCard +
+      (context.questExperience ?? 0);
 
     // The name only counts when the player actually chose one (anything different from the
     // configured default name), so an untouched profile earns nothing.

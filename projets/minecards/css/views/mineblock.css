@@ -709,6 +709,7 @@
 /* The picture is a button: it opens the card. It brings no chrome of its own, so the offer keeps
    its layout whatever the platform's default button styling is. */
 .mineblock__offer-open {
+  position: relative;
   display: block;
   width: 100%;
   padding: 0;
@@ -716,6 +717,12 @@
   background: none;
   cursor: zoom-in;
   touch-action: manipulation;
+}
+
+/* The "NOT OWNED" ribbon of an offer is the one of an opening, pinned on the thumbnail: the same
+   corner and the same neutral ink as the Mine Pick, so the shop and the board read alike. */
+.mineblock__offer-open .card-reveal__badge {
+  pointer-events: none;
 }
 
 .mineblock__offer-open:focus-visible {
@@ -971,6 +978,24 @@
   opacity: 0.55;
 }
 
+/* At least one quest is complete and waits to be claimed: a count, never a silent button. */
+.mineblock__quests-badge {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.25rem;
+  border-radius: 999px;
+  background-color: var(--color-danger, #b3261e);
+  color: #fff3e4;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 /* The wallet: the currency of the open set and what the player owns of it, in one line. */
 .illager-shop__wallet {
   display: flex;
@@ -1122,6 +1147,18 @@
   outline-offset: 2px;
 }
 
+/* "NOT OWNED" next to the name of a card the account is missing: the line of an Illager reward is
+   too short for the corner ribbon, so the same fact is told by a pill in the same neutral ink. */
+.illager-shop__unowned {
+  padding: 0 0.3rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-text-muted);
+  color: var(--color-surface);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
 .illager-shop__offer-footer {
   display: flex;
   flex-wrap: wrap;
@@ -1179,4 +1216,162 @@
 
 .illager-shop .btn--primary:disabled {
   opacity: 0.5;
+}
+
+/* The Illager quests reuse the palette of the shop: they are the same place, seen from the other
+   side of the counter. */
+.illager-quests__list {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A claim in flight freezes the list: a second tap would pay the same quest twice. */
+.illager-quests__list.is-busy {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.illager-quest {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid #3d2a1f;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.illager-quest[data-state="complete"] {
+  border-color: rgba(255, 122, 69, 0.75);
+}
+
+.illager-quest[data-state="claimed"] {
+  opacity: 0.55;
+}
+
+.illager-quest__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.illager-quest__name {
+  font-size: var(--font-size-sm);
+  color: var(--illager-ink);
+}
+
+.illager-quest__count {
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--illager-ember);
+}
+
+.illager-quest__bar {
+  overflow: hidden;
+  height: 0.5rem;
+  border: 1px solid #3d2a1f;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.illager-quest__bar-fill {
+  display: block;
+  width: var(--quest-progress, 0%);
+  height: 100%;
+  background-image: linear-gradient(90deg, var(--illager-blood), var(--illager-ember));
+  transition: width 240ms ease;
+}
+
+.illager-quest__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.illager-quest__rewards {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.illager-quest__reward {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--font-size-sm);
+  color: var(--illager-muted);
+}
+
+.illager-quest__reward-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  image-rendering: pixelated;
+}
+
+/* The currency of a quest is its PICTURE and its count, never its name: the name stays in the
+   wallet at the top of the dialog and in the toast of the claim. */
+.illager-quest__reward-count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The trader opens on the stock of the mine: one chip per resource, picture first. */
+.mineblock__wallet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.mineblock__wallet-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.mineblock__wallet-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  image-rendering: pixelated;
+}
+
+.illager-quest__expires {
+  font-size: var(--font-size-xs);
+  color: #a08a72;
+}
+
+/* Nobody has work today: the picture says it before the sentence does. */
+.illager-quests__empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  text-align: center;
+}
+
+.illager-quests__empty-image {
+  width: min(100%, 20rem);
+  border-radius: var(--radius-md);
+}
+
+.illager-quests__next {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-weight: 700;
 }

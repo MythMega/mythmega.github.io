@@ -25,6 +25,7 @@
  */
 
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import { resolveTrophyIcon } from '../../business/TrophyManager.js';
 import TrophyDetail from './TrophyDetail.js';
@@ -355,7 +356,7 @@ export class ProfileCard {
     if (typeof id !== 'string' || id === '') return '';
     try {
       const title = await titleManager.getTitle(id);
-      return title ? TitleManager.titleText(title, i18n.getLang()) : '';
+      return title ? TitleManager.titleText(title, cardLanguage.getLang()) : '';
     } catch (error) {
       console.warn(`[ProfileCard] The title "${id}" could not be read.`, error);
       return '';

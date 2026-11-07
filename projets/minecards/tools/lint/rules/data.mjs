@@ -42,6 +42,17 @@ const REWARD_TYPES = new Set(['Booster', 'Card', 'Sparks', 'Currency', 'CustomCu
 /** Reward kinds a trade of the Illager Shop understands. */
 const ILLAGER_REWARD_TYPES = new Set(['Sparks', 'Ultima', 'Card', 'Booster']);
 
+/** Objectives an Illager quest can ask for (mirrors `ILLAGER_QUEST_TYPES`). */
+const ILLAGER_QUEST_TYPES = new Set([
+  'OpenBooster_Daily',
+  'DailyRewardClaim',
+  'SellCard',
+  'MineBlock',
+  'ShareBinder',
+  'MinePickCards',
+  'DownloadProfilCard',
+]);
+
 /** Reward kinds that draw their card at claim time, with a list or a filter of printings. */
 const RANDOM_CARD_TYPES = new Set(['randomcard-list', 'randomcard-filter']);
 
@@ -1781,6 +1792,9 @@ export default [
         typeof value === 'string' && DAY_PATTERN.test(value.trim()) && Number.isFinite(Date.parse(`${value.trim()}T00:00:00.000Z`));
 
       const currencyIds = new Set();
+      // The manager keys the progress of a quest by its id alone: an id declared by two currencies
+      // would share (and claim) the same counter.
+      const questIds = new Set();
       const currencies = readOrNull(context, ILLAGER_CURRENCIES_FILE);
       if (Array.isArray(currencies)) {
         const text = context.readText(ILLAGER_CURRENCIES_FILE);
@@ -1819,6 +1833,66 @@ export default [
           if (!Number.isInteger(currency.ConversionRate) || currency.ConversionRate <= 0) {
             fail(`${label} ConversionRate ${JSON.stringify(currency.ConversionRate)} is not a positive integer`);
           }
+
+          const currencyExpiration = isDay(currency.ExpirationDate) ? currency.ExpirationDate.trim() : null;
+          if (currency.Quests === undefined) return;
+          if (!Array.isArray(currency.Quests)) {
+            fail(`${label} Quests is not an array`);
+            return;
+          }
+          currency.Quests.forEach((quest, questPosition) => {
+            const where = `${label} quest #${questPosition + 1}`;
+            if (!isRecord(quest)) {
+              fail(`${where} is not an object`);
+              return;
+            }
+            if (!isFilled(quest.ID)) {
+              fail(`${where} has no ID`);
+            } else if (questIds.has(quest.ID.trim())) {
+              fail(`${where} declares "${quest.ID}" twice`);
+            } else {
+              questIds.add(quest.ID.trim());
+            }
+            if (!ILLAGER_QUEST_TYPES.has(quest.Type)) {
+              fail(`${where} Type ${JSON.stringify(quest.Type)} is not a known quest type`);
+            }
+            if (!Number.isInteger(quest.RequirementsToUnlock) || quest.RequirementsToUnlock <= 0) {
+              fail(
+                `${where} RequirementsToUnlock ${JSON.stringify(quest.RequirementsToUnlock)} is not a positive integer`
+              );
+            }
+            ['RewardCurrency', 'RewardSparks', 'RewardXP'].forEach((key) => {
+              if (quest[key] !== undefined && (!Number.isInteger(quest[key]) || quest[key] < 0)) {
+                fail(`${where} ${key} ${JSON.stringify(quest[key])} is not a non-negative integer`);
+              }
+            });
+            if (!isDay(quest.StartDate)) {
+              fail(`${where} StartDate ${JSON.stringify(quest.StartDate)} is not a real day (YYYY-MM-DD)`);
+              return;
+            }
+            const start = quest.StartDate.trim();
+            let expiration = null;
+            if (quest.ExpirationDate !== undefined) {
+              if (!isDay(quest.ExpirationDate)) {
+                fail(
+                  `${where} ExpirationDate ${JSON.stringify(quest.ExpirationDate)} is not a real day (YYYY-MM-DD)`
+                );
+              } else {
+                expiration = quest.ExpirationDate.trim();
+              }
+            }
+            // The expiration of the currency is the default of the quest, and its ceiling.
+            if (expiration === null) expiration = currencyExpiration;
+            if (currencyExpiration && start > currencyExpiration) {
+              fail(`${where} starts (${start}) after its currency expires (${currencyExpiration})`);
+            }
+            if (expiration && start > expiration) {
+              fail(`${where} starts (${start}) after it expires (${expiration})`);
+            }
+            if (expiration && currencyExpiration && expiration > currencyExpiration) {
+              fail(`${where} expires (${expiration}) after its currency (${currencyExpiration})`);
+            }
+          });
         });
       }
 

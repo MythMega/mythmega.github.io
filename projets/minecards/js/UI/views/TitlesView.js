@@ -27,6 +27,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import titleManager, { TITLE_SOURCES, TitleManager } from '../../business/TitleManager.js';
 import trophyManager from '../../business/TrophyManager.js';
 import profileManager, { getProfileErrorMessageKey } from '../../business/ProfileManager.js';
@@ -227,6 +228,7 @@ export class TitlesView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     // A trophy (and therefore a collection title) and a level (and therefore a level title) both
     // move the list: whichever unlocks them, the page repaints.
     this.unsubscribers.push(eventBus.on(EVENTS.TROPHY_UNLOCKED, () => this.handleProgressChanged()));
@@ -531,7 +533,7 @@ export class TitlesView {
     choose.dataset.titleChoose = title.id;
 
     const text = choose.querySelector('.titles__text');
-    text.textContent = TitleManager.titleText(title, i18n.getLang());
+    text.textContent = TitleManager.titleText(title, cardLanguage.getLang());
 
     const hint = document.createElement('span');
     hint.className = 'titles__hint';
@@ -632,7 +634,7 @@ export class TitlesView {
       return;
     }
 
-    this.modalTitle.textContent = TitleManager.titleText(title, i18n.getLang());
+    this.modalTitle.textContent = TitleManager.titleText(title, cardLanguage.getLang());
     this.modalBody.textContent = '';
 
     const intro = document.createElement('p');

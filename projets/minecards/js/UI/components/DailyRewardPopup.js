@@ -30,6 +30,7 @@ import dailyRewardManager, {
 import illagerShopManager from '../../business/IllagerShopManager.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { themeIcon } from '../../utils/ThemeIcons.js';
 import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
@@ -68,6 +69,7 @@ export class DailyRewardPopup {
     this.unsubscribers = [
       eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, (payload) => this.handleUpdated(payload?.snapshot)),
       eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()),
+      eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()),
       // The pack of the board is a single-ink PNG that ships in two inks (`ThemeIcons`): the board is
       // rebuilt on a theme change, exactly like it is on a language change.
       eventBus.on(EVENTS.THEME_CHANGED, () => this.handleThemeChanged()),
@@ -530,7 +532,7 @@ export class DailyRewardPopup {
    */
   buildDetailCard(day) {
     if (!day.card || day.reward?.kind !== DAILY_REWARD_KINDS.CARD) return null;
-    const name = day.card.getName(i18n.getLang());
+    const name = day.card.getName(cardLanguage.getLang());
 
     const button = document.createElement('button');
     button.type = 'button';
@@ -837,7 +839,7 @@ export class DailyRewardPopup {
   describeResult(result) {
     if (result.kind === DAILY_REWARD_KINDS.CARD && result.card) {
       return i18n.t('daily.gain.card', {
-        name: result.card.getName(i18n.getLang()),
+        name: result.card.getName(cardLanguage.getLang()),
         rarity: getRarityLabel(result.card.rarity, (key) => i18n.t(key)),
       });
     }
@@ -885,7 +887,7 @@ export class DailyRewardPopup {
       case DAILY_REWARD_KINDS.CARD:
         if (!day.card) return i18n.t('daily.reward.cardUnknown', { index: reward.cardId });
         return i18n.t('daily.reward.card', {
-          name: day.card.getName(i18n.getLang()),
+          name: day.card.getName(cardLanguage.getLang()),
           rarity: getRarityLabel(day.card.rarity, (key) => i18n.t(key)),
         });
       case DAILY_REWARD_KINDS.CUSTOM_CURRENCY: {

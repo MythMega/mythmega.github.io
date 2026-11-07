@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/icons/favicon-32.png">
+  <title>MineCards : booster partagé</title>
+  <meta name="description" content="Un booster partagé de MineCards : les cartes ouvertes, en lecture seule, avec l'animation et le lien à copier.">
+
+  <!-- The read-only page of a shared booster.
+
+       Deliberately tiny and standalone: it carries no account, no database and no game engine. The
+       pack is entirely described by the `code` query parameter (`minecards:<base64url>`, the same
+       code `overlay.html` takes and `js/utils/BoosterCode.js` writes), and the author by the
+       `username` and `profileiconurl` parameters the overlay already understands. The language of
+       the cards is the `lang` parameter, then the language of the visitor.
+
+       Two actions: copy the overlay link of this pack, or play the overlay animation in a new tab.
+       Nothing here is ever written back. -->
+
+  <link rel="stylesheet" href="css/themes.css">
+  <!-- `base.css` already carries the `.btn` component and its icon (there is no buttons.css). -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/views/booster-share.css">
+
+  <!-- The theme preferred on the device, read before the first paint so a shared page never
+       flashes the wrong palette (same snippet as `collection.html`). -->
+  <script>
+    document.documentElement.dataset.theme =
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark';
+  </script>
+</head>
+
+<body class="booster-share">
+  <main class="booster-share__panel">
+    <header class="booster-share__header">
+      <!-- The identity of the author, carried by the URL: the avatar and the pseudo the player has
+           in the game, and nothing else. The row stays `hidden` in the markup so the error page
+           (which has no author to show) never displays an empty pill; `js/booster-share.js`
+           reveals it once the code has been read. -->
+      <p class="booster-share__identity" data-booster-share-identity hidden>
+        <img class="booster-share__avatar" data-booster-share-avatar alt="" hidden>
+        <span class="booster-share__avatar-fallback" data-booster-share-avatar-fallback aria-hidden="true">?</span>
+        <span class="booster-share__author" data-booster-share-author></span>
+      </p>
+      <h1 class="booster-share__title" data-booster-share-title>Booster</h1>
+      <p class="booster-share__meta" data-booster-share-meta></p>
+    </header>
+
+    <ul class="booster-share__cards" data-booster-share-cards></ul>
+
+    <p class="booster-share__empty" data-booster-share-empty hidden></p>
+
+    <footer class="booster-share__actions" data-booster-share-actions hidden>
+      <button type="button" class="btn btn--ghost" data-booster-share-copy>Copier le lien du booster</button>
+      <button type="button" class="btn btn--primary" data-booster-share-play>Jouer l'animation booster</button>
+    </footer>
+
+    <p class="booster-share__feedback" data-booster-share-feedback role="status"></p>
+  </main>
+
+  <script type="module" src="js/booster-share.js"></script>
+</body>
+</html>

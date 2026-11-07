@@ -23,6 +23,7 @@
  */
 
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import {
@@ -53,18 +54,21 @@ export class CardComponent {
    * @param {Card} card - Card to display.
    * @param {object} [options] - Component options.
    * @param {boolean} [options.isNew=false] - True when the card entered the collection now.
+   * @param {boolean} [options.isUnowned=false] - True when the card is NOT in the collection (the
+   *   Mine Pick board shows the tag right away, since its cards are face up before a pick).
    * @param {(card: Card, component: CardComponent) => void|null} [options.onFlipped=null] - Called
    *   the first time the card is revealed.
    * @param {boolean} [options.flipOnClick=true] - False disables the built-in click-to-flip
    *   listener, so the parent view can drive the reveal (spotlight tap-to-reveal).
    */
-  constructor(card, { isNew = false, onFlipped = null, flipOnClick = true } = {}) {
+  constructor(card, { isNew = false, isUnowned = false, onFlipped = null, flipOnClick = true } = {}) {
     if (!card || typeof card.uniqueKey !== 'string') {
       throw new TypeError('CardComponent requires a Card instance.');
     }
 
     this.card = card;
     this.isNew = isNew;
+    this.isUnowned = isUnowned;
     this.onFlipped = onFlipped;
     this.flipOnClick = flipOnClick !== false;
     this.isFlipped = false;
@@ -126,10 +130,12 @@ export class CardComponent {
     front.className = 'card-reveal__face card-reveal__face--front';
     applyShine(front, this.card);
 
-    if (this.isNew) {
+    if (this.isNew || this.isUnowned) {
       const badge = document.createElement('span');
       badge.className = 'card-reveal__badge';
-      badge.hidden = true;
+      // "NEW" waits for the flip (it would spoil the pack); "NOT OWNED" does not, because the
+      // Mine Pick shows its cards face up before the player commits to a pick.
+      badge.hidden = !this.isUnowned;
       front.appendChild(badge);
       this.badge = badge;
     }
@@ -157,9 +163,12 @@ export class CardComponent {
     this.element = button;
     this.image = image;
     this.nameFallback = nameFallback;
-    this.applyLanguage(i18n.getLang());
+    this.applyLanguage(cardLanguage.getLang());
 
     this.unsubscribeLangChanged = eventBus.on(EVENTS.LANG_CHANGED, () => this.updateLanguage());
+    this.unsubscribeCardLangChanged = eventBus.on(EVENTS.CARD_LANG_CHANGED, () =>
+      this.updateLanguage()
+    );
     console.debug(
       `[CardComponent] Rendered "${this.card.uniqueKey}" (rarity ${this.card.rarity}, style ${this.card.style}, new: ${this.isNew}).`
     );
@@ -195,7 +204,7 @@ export class CardComponent {
    * @returns {void}
    */
   updateLanguage() {
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     this.applyLanguage(lang);
     console.debug(`[CardComponent] Language applied to "${this.card.uniqueKey}": ${lang}.`);
   }
@@ -218,7 +227,10 @@ export class CardComponent {
       this.nameFallback.textContent = name;
     }
     if (this.badge) {
-      this.badge.textContent = i18n.t('opening.card.new');
+      this.badge.textContent = i18n.t(
+        this.isUnowned ? 'opening.card.unowned' : 'opening.card.new'
+      );
+      this.badge.classList.toggle('card-reveal__badge--unowned', this.isUnowned);
     }
     if (this.element) {
       this.applyAriaLabel();
@@ -239,9 +251,13 @@ export class CardComponent {
       this.element.setAttribute('aria-label', i18n.t('opening.card.hidden'));
       return;
     }
-    const name = this.card.getName(i18n.getLang());
+    const name = this.card.getName(cardLanguage.getLang());
     const rarityLabel = getRarityLabel(this.card.rarity, (key) => i18n.t(key));
-    const suffix = this.isNew ? `, ${i18n.t('opening.card.new')}` : '';
+    const suffix = this.isNew
+      ? `, ${i18n.t('opening.card.new')}`
+      : this.isUnowned
+        ? `, ${i18n.t('opening.card.unowned')}`
+        : '';
     this.element.setAttribute('aria-label', `${name} (${rarityLabel})${suffix}`);
   }
 
@@ -285,6 +301,10 @@ export class CardComponent {
     if (typeof this.unsubscribeLangChanged === 'function') {
       this.unsubscribeLangChanged();
       this.unsubscribeLangChanged = null;
+    }
+    if (typeof this.unsubscribeCardLangChanged === 'function') {
+      this.unsubscribeCardLangChanged();
+      this.unsubscribeCardLangChanged = null;
     }
     this.element?.remove();
     this.element = null;

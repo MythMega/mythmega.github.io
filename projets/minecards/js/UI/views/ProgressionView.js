@@ -28,6 +28,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import collectionManager from '../../business/CollectionManager.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 
@@ -190,6 +191,7 @@ export class ProgressionView {
       })
     );
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(
       eventBus.on(EVENTS.BOOSTER_OPENED, () => {
         if (this.isActive) void this.reload();

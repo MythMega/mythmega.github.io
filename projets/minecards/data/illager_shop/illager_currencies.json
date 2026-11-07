@@ -5,6 +5,72 @@
         "Name": "Allay's Sparks",
         "ExpirationDate": "2026-12-06",
         "Texture": "./assets/img/currencies/allayssparks.webp",
-        "ConversionRate": 20
+        "ConversionRate": 20,
+        "Quests": [
+            {
+                "ID": "allays_A1_W1_01",
+                "StartDate": "2026-11-09",
+                "ExpirationDate": "2026-11-16",
+                "Type": "OpenBooster_Daily",
+                "RequirementsToUnlock": 6,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            },
+            {
+                "ID": "allays_A1_W1_02",
+                "StartDate": "2026-11-09",
+                "Type": "DailyRewardClaim",
+                "RequirementsToUnlock": 3,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            },
+            {
+                "ID": "allays_A1_W1_03",
+                "StartDate": "2026-11-09",
+                "Type": "SellCard",
+                "RequirementsToUnlock": 3,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            },
+            {
+                "ID": "allays_A1_W1_04",
+                "StartDate": "2026-11-09",
+                "Type": "MineBlock",
+                "RequirementsToUnlock": 250,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            },
+            {
+                "ID": "allays_A1_W1_05",
+                "StartDate": "2026-11-09",
+                "Type": "ShareBinder",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            },
+            {
+                "ID": "allays_A1_W1_06",
+                "StartDate": "2026-11-09",
+                "Type": "MinePickCards",
+                "RequirementsToUnlock": 5,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            },
+            {
+                "ID": "allays_A1_W1_07",
+                "StartDate": "2026-11-09",
+                "Type": "DownloadProfilCard",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 1,
+                "RewardXP": 3
+            }
+        ]
     }
 ]

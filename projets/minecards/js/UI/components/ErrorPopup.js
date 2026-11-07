@@ -51,6 +51,8 @@ const FALLBACK_TEXTS = Object.freeze({
   'error.popup.title': 'Une erreur est survenue',
   'error.popup.body':
     "Le jeu a rencontré un problème. Le rapport contient tout ce qu'il faut pour comprendre le souci : copie-le et envoie-le sur Discord ou sur GitHub.",
+  'error.popup.bodyReload':
+    "S'il apparaît juste après une mise à jour, il peut venir de fichiers pas encore à jour : recharge la page (Ctrl+F5), c'est souvent tout ce qu'il faut.",
   'error.popup.code': "Code d'erreur",
   'error.popup.copy': 'Copier le code',
   'error.popup.discord': 'Copier & report Discord',
@@ -267,7 +269,20 @@ export class ErrorPopup {
 
     if (badge) badge.textContent = this.translate('error.popup.badge');
     if (title) title.textContent = this.translate(report.titleKey ?? 'error.popup.title');
-    if (body) body.textContent = this.translate(report.bodyKey ?? 'error.popup.body');
+    if (body) {
+      const key = report.bodyKey ?? 'error.popup.body';
+      const text = this.translate(key);
+      // The reload advice is the one sentence worth reading twice: it stays bold, and only the
+      // default body carries it (the 3D, image and boot reports have their own message).
+      const advice = key === 'error.popup.body' ? this.translate('error.popup.bodyReload') : '';
+      if (advice && advice !== 'error.popup.bodyReload') {
+        const strong = document.createElement('strong');
+        strong.textContent = advice;
+        body.replaceChildren(`${text} `, strong);
+      } else {
+        body.textContent = text;
+      }
+    }
     if (codeLabel) codeLabel.textContent = this.translate('error.popup.code');
     if (code) code.textContent = report.code ?? '';
     if (details) details.open = false;

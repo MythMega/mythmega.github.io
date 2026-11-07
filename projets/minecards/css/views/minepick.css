@@ -216,6 +216,13 @@
   transition: opacity var(--duration-fast) var(--easing-standard);
 }
 
+/* The "NOT OWNED" ribbon of a thumbnail: the card is five times smaller than in the reveal, so
+   the shared badge is scaled down to stay on one line instead of being clipped by the card. */
+.minepick__mini .card-reveal__badge {
+  padding: 1px 0.2rem;
+  font-size: 0.5rem;
+}
+
 .minepick__mini-image {
   display: block;
   width: 100%;

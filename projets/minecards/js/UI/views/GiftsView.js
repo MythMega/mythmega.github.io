@@ -19,6 +19,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import { giftManager, GIFT_TYPES, GIFT_CATEGORIES } from '../../business/GiftManager.js';
@@ -165,6 +166,7 @@ export class GiftsView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.GIFTS_UPDATED, () => this.handleGiftsUpdated()));
     this.log('Event subscriptions registered.');
   }
@@ -299,7 +301,7 @@ export class GiftsView {
       image.className = 'gifts__image';
       image.loading = 'lazy';
       image.src = i18n.resolveImagePath(info.card.illustration);
-      image.alt = info.card.getName(i18n.getLang());
+      image.alt = info.card.getName(cardLanguage.getLang());
       image.addEventListener('error', () => {
         console.warn(`[GiftsView] Illustration not found for "${gift.key}": ${image.src}`);
         image.hidden = true;
@@ -317,7 +319,7 @@ export class GiftsView {
     title.className = 'gifts__title';
     title.textContent = isCard
       ? i18n.t('gifts.item.card', {
-          name: info.card ? info.card.getName(i18n.getLang()) : i18n.t('gifts.item.unknown', { key: gift.key }),
+          name: info.card ? info.card.getName(cardLanguage.getLang()) : i18n.t('gifts.item.unknown', { key: gift.key }),
           rarity: info.card ? getRarityLabel(info.card.rarity, (key) => i18n.t(key)) : '',
         })
       : isSparks

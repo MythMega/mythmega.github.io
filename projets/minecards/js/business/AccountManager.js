@@ -10,9 +10,9 @@
  *
  * Created state, all written in one atomic transaction:
  *   - `account`   : { uuid, createdAt }
- *   - `settings`  : { lang, theme, sound, soundCategories, animation, foilIntensity, glareIntensity,
- *                   glowTrophies, notificationDuration, notificationTypes, boosterRenderMode,
- *                   nativeScrollbars }
+ *   - `settings`  : { lang, cardLang, theme, sound, soundCategories, animation, foilIntensity,
+ *                   glareIntensity, glowTrophies, notificationDuration, notificationTypes,
+ *                   boosterRenderMode, nativeScrollbars }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, godpacksOpened, boostersOpenedBySet, drawsByRarity,
  *                   drawsByCard, soldByRarity, sparksEarned, sparksSpent,
@@ -31,6 +31,7 @@
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import i18n, { clearMirroredLang } from '../utils/I18n.js';
+import cardLanguage, { CARD_LANG_AUTO, clearMirroredCardLang } from '../utils/CardLanguage.js';
 import themeManager, { clearMirroredTheme } from '../utils/ThemeManager.js';
 import animationManager from '../utils/AnimationManager.js';
 import glowManager from '../utils/GlowManager.js';
@@ -47,6 +48,9 @@ export const USER_STATE_KEYS = Object.freeze({
   STATS: 'stats',
   GIFT_SYNC: 'giftSync',
   BOOSTER_HISTORY: 'boosterHistory',
+  // Openings the player pinned from the statistics screen to keep them forever (see
+  // `BoosterManager.saveOpening()`): at most `SAVED_OPENINGS_SIZE` slots, never reset.
+  SAVED_OPENINGS: 'savedOpenings',
   SPARKS: 'sparks',
   PROFILE: 'profile',
   TROPHIES: 'trophies',
@@ -78,6 +82,11 @@ export const USER_STATE_KEYS = Object.freeze({
   // Highest `Id` of `settings/changelog.json` the player has opened (see `ChangelogManager`): what
   // the "new version" badge of the settings button is measured against.
   CHANGELOG_SEEN: 'changelogSeen',
+  // Highest release announced by the startup popup (see `ChangelogManager` and
+  // `js/UI/components/ChangelogPopup.js`). Distinct from `CHANGELOG_SEEN` on purpose: the popup
+  // is shown ONCE per version, whether or not the player then opens the full notes, while the dot
+  // of the settings button keeps meaning "notes you have not opened yet".
+  CHANGELOG_ANNOUNCED: 'changelogAnnounced',
 });
 
 /** RFC 4122 version 4 UUID pattern, used to validate generated and imported identifiers. */
@@ -268,14 +277,14 @@ export class AccountManager {
    * languages, then the `config.json` default. The theme defaults to `dark` through the
    * `config.json` default.
    *
-   * @param {{lang?: string|null, theme?: string|null, sound?: boolean|null,
+   * @param {{lang?: string|null, cardLang?: string|null, theme?: string|null, sound?: boolean|null,
    *   soundCategories?: Record<string, {enabled: boolean, volume: number}>|null,
    *   animation?: string|null, foilIntensity?: number|null, glareIntensity?: number|null,
    *   glowTrophies?: number|null, notificationDuration?: number|null,
    *   notificationTypes?: Record<string, boolean>|null, devMode?: boolean|null,
    *   boosterRenderMode?: string|null}} [overrides] -
    *   Requested preferences.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean,
+   * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
@@ -290,6 +299,15 @@ export class AccountManager {
 
     const langCandidates = [overrides.lang, i18n.getLang(), i18n.detectBrowserLang(), defaultLang];
     const lang = langCandidates.find((candidate) => availableLangs.includes(candidate)) || defaultLang;
+
+    // The cards have their own language (see `js/utils/CardLanguage.js`): `auto` follows the
+    // browser, limited to the languages the catalogues are written in, and falls back to English.
+    // A new account keeps the preference already applied on this device (onboarding, previous
+    // session), so the cards never jump back to `auto` after a save export/import.
+    const cardLangCandidates = [overrides.cardLang, cardLanguage.getPreference(), CARD_LANG_AUTO];
+    const cardLang =
+      cardLangCandidates.map((candidate) => cardLanguage.normalizePreference(candidate)).find(Boolean) ??
+      CARD_LANG_AUTO;
 
     const themeCandidates = [overrides.theme, themeManager.getTheme(), defaultTheme];
     const theme = themeCandidates.find((candidate) => availableThemes.includes(candidate)) || defaultTheme;
@@ -356,6 +374,7 @@ export class AccountManager {
     // prefers the bar of the system asks for it from the settings screen.
     return {
       lang,
+      cardLang,
       theme,
       sound: overrides.sound !== false,
       soundCategories: SoundManager.normalizeCategories(
@@ -371,6 +390,9 @@ export class AccountManager {
       devMode: overrides.devMode === true,
       boosterRenderMode,
       nativeScrollbars: overrides.nativeScrollbars === true,
+      // The "new version" dialog is ON by default: a save that already exists should hear about what
+      // changed, and the switch of the release-notes tab is there to silence it (see `app.js`).
+      announceChangelog: overrides.announceChangelog !== false,
     };
   }
 
@@ -462,12 +484,12 @@ export class AccountManager {
   /**
    * Reads the account settings, completed with safe defaults.
    *
-   * @returns {Promise<{lang: string, theme: string, sound: boolean,
+   * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean, boosterRenderMode: string, nativeScrollbars: boolean}>} The stored
-   *   preferences.
+   *   devMode: boolean, boosterRenderMode: string, nativeScrollbars: boolean,
+ *   announceChangelog: boolean}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -479,6 +501,10 @@ export class AccountManager {
 
     return {
       lang: typeof stored.lang === 'string' && stored.lang !== '' ? stored.lang : defaults.lang,
+      // The card language is a preference of its own: `auto` (the default) follows the browser, a
+      // code pins the cards. An unknown code (a language removed from `config.json`) falls back to
+      // the default preference instead of leaving the cards in a language nothing can resolve.
+      cardLang: cardLanguage.normalizePreference(stored.cardLang) ?? defaults.cardLang,
       theme: typeof stored.theme === 'string' && stored.theme !== '' ? stored.theme : defaults.theme,
       // `false` is the only way to silence the app, so any other stored value (missing, legacy
       // save, garbage) falls back to the enabled default instead of muting by accident.
@@ -540,31 +566,39 @@ export class AccountManager {
         typeof stored.nativeScrollbars === 'boolean'
           ? stored.nativeScrollbars
           : defaults.nativeScrollbars,
+      // Same rule as the sounds: only an explicit `false` silences the release notes, so a save
+      // written before the switch existed keeps being announced the new versions.
+      announceChangelog:
+        typeof stored.announceChangelog === 'boolean'
+          ? stored.announceChangelog
+          : defaults.announceChangelog,
     };
   }
 
   /**
    * Merges and persists the account settings.
    *
-   * Only `lang`, `theme`, `sound`, `soundCategories`, `animation`, `foilIntensity`,
+   * Only `lang`, `cardLang`, `theme`, `sound`, `soundCategories`, `animation`, `foilIntensity`,
    * `glareIntensity`, `glowTrophies`, `notificationDuration`, `notificationTypes`, `devMode`,
-   * `boosterRenderMode` and `nativeScrollbars` are accepted;
+   * `boosterRenderMode`, `nativeScrollbars` and `announceChangelog` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
    * `AnimationManager.applyAnimation`, `FoilManager.applyIntensity` and
    * `FoilManager.applyGlareIntensity`) remains the caller's responsibility.
    *
-   * @param {{lang?: string, theme?: string, sound?: boolean,
+   * @param {{lang?: string, cardLang?: string, theme?: string, sound?: boolean,
    *   soundCategories?: Record<string, {enabled: boolean, volume: number}>, animation?: string,
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
    *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
-   *   devMode?: boolean, nativeScrollbars?: boolean}} partialSettings - Preferences to update.
-   * @returns {Promise<{lang: string, theme: string, sound: boolean,
+   *   devMode?: boolean, nativeScrollbars?: boolean, announceChangelog?: boolean}} partialSettings
+   *   - Preferences to update.
+   * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean, nativeScrollbars: boolean}>} The merged settings.
+   *   devMode: boolean, nativeScrollbars: boolean, announceChangelog: boolean}>} The merged
+   *   settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
    * @throws {Error} When the write fails.
@@ -576,6 +610,7 @@ export class AccountManager {
 
     const merged = await this.getSettings();
     const availableLangs = i18n.getAvailableLangs();
+    const availableCardLangs = await configLoader.getCardLanguages();
     const availableThemes = themeManager.getAvailableThemes();
     const availableAnimations = animationManager.getAvailableModes();
 
@@ -588,6 +623,22 @@ export class AccountManager {
         throw new RangeError(`Unknown language "${lang}". Available: [${availableLangs.join(', ')}].`);
       }
       merged.lang = lang;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'cardLang')) {
+      const { cardLang } = partialSettings;
+      if (typeof cardLang !== 'string' || cardLang.trim() === '') {
+        throw new TypeError(`settings.cardLang must be a non-empty string (received: ${JSON.stringify(cardLang)}).`);
+      }
+      // `auto` is a value of its own, not a language code: the two are normalized the same way so a
+      // save can never hold a preference the picker cannot show.
+      const normalizedCardLang = cardLanguage.normalizePreference(cardLang);
+      if (!normalizedCardLang) {
+        throw new RangeError(
+          `Unknown card language "${cardLang}". Available: [${CARD_LANG_AUTO}, ${availableCardLangs.join(', ')}].`
+        );
+      }
+      merged.cardLang = normalizedCardLang;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'theme')) {
@@ -648,6 +699,16 @@ export class AccountManager {
         );
       }
       merged.nativeScrollbars = nativeScrollbars;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'announceChangelog')) {
+      const { announceChangelog } = partialSettings;
+      if (typeof announceChangelog !== 'boolean') {
+        throw new TypeError(
+          `settings.announceChangelog must be a boolean (received: ${JSON.stringify(announceChangelog)}).`
+        );
+      }
+      merged.announceChangelog = announceChangelog;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'foilIntensity')) {
@@ -771,6 +832,7 @@ export class AccountManager {
   async resetAll() {
     await storageRepository.clearAll();
     clearMirroredLang();
+    clearMirroredCardLang();
     clearMirroredTheme();
     eventBus.emit(EVENTS.ACCOUNT_REMOVED, null);
   }

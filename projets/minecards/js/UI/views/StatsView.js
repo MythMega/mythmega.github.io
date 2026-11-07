@@ -22,8 +22,9 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import collectionManager from '../../business/CollectionManager.js';
-import boosterManager from '../../business/BoosterManager.js';
+import boosterManager, { SAVED_OPENINGS_SIZE } from '../../business/BoosterManager.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import minePickManager from '../../business/MinePickManager.js';
@@ -54,7 +55,7 @@ export class StatsView {
    * @param {(viewName: string) => void} [options.onNavigate] - Called by the back button to switch
    *   view: the router belongs to `app.js`, which passes its `show()`.
    */
-  constructor(rootElement, { onNavigate = null } = {}) {
+  constructor(rootElement, { onNavigate = null, onReplay = null } = {}) {
     if (!rootElement || typeof rootElement.querySelector !== 'function') {
       throw new TypeError('StatsView requires the stats section element.');
     }
@@ -62,6 +63,8 @@ export class StatsView {
     this.root = rootElement;
     /** @type {((viewName: string) => void)|null} */
     this.onNavigate = typeof onNavigate === 'function' ? onNavigate : null;
+    /** @type {((entry: object) => boolean)|null} Replays a saved opening in the opening view. */
+    this.onReplay = typeof onReplay === 'function' ? onReplay : null;
     this.backButton = this.root.querySelector('[data-stats-back]');
     this.feedbackElement = this.root.querySelector('[data-stats-feedback]');
     this.boostersElement = this.root.querySelector('[data-stats-boosters]');
@@ -77,6 +80,9 @@ export class StatsView {
     this.topElement = this.root.querySelector('[data-stats-top]');
     this.historyElement = this.root.querySelector('[data-stats-history]');
     this.historyEmptyElement = this.root.querySelector('[data-stats-history-empty]');
+    this.savedElement = this.root.querySelector('[data-stats-saved]');
+    this.savedEmptyElement = this.root.querySelector('[data-stats-saved-empty]');
+    this.savedCountElement = this.root.querySelector('[data-stats-saved-count]');
     this.cardModal = this.root.querySelector('[data-stats-modal]');
     this.cardModalTitle = this.root.querySelector('[data-stats-modal-title]');
     this.cardModalBody = this.root.querySelector('[data-stats-modal-body]');
@@ -91,6 +97,8 @@ export class StatsView {
 
     /** @type {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
     this.historyEntries = [];
+    /** @type {Array<{id: string, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
+    this.savedEntries = [];
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
 
@@ -138,6 +146,7 @@ export class StatsView {
       ['[data-stats-sparks-spent]', this.sparksSpentElement],
       ['[data-stats-top]', this.topElement],
       ['[data-stats-history]', this.historyElement],
+      ['[data-stats-saved]', this.savedElement],
       ['[data-stats-modal]', this.cardModal],
       ['[data-stats-modal-title]', this.cardModalTitle],
       ['[data-stats-modal-body]', this.cardModalBody],
@@ -194,6 +203,7 @@ export class StatsView {
   bindEvents() {
     this.listen(this.backButton, 'click', () => this.onNavigate?.(STATS_BACK_VIEW));
     this.listen(this.historyElement, 'click', (event) => this.handleHistoryClick(event));
+    this.listen(this.savedElement, 'click', (event) => this.handleSavedClick(event));
     this.listen(this.cardModal, 'click', (event) => this.handleModalBackdropClick(event));
     this.listen(this.cardModalClose, 'click', () => this.closeCardModal());
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
@@ -215,6 +225,7 @@ export class StatsView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     // An opening moves every counter of the page: it is only repainted while it is on screen, since
     // the activation of the view reloads it anyway.
     this.unsubscribers.push(
@@ -260,9 +271,10 @@ export class StatsView {
       const stats = (await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS)) ?? {};
       const view = await collectionManager.getCollectionView();
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
+      const saved = await boosterManager.getSavedOpenings();
       const minepick = await minePickManager.getState();
-      const mining = await miningManager.getState({ lang: i18n.getLang() });
-      const miningBlocks = await miningManager.listBlocks(i18n.getLang());
+      const mining = await miningManager.getState({ lang: cardLanguage.getLang() });
+      const miningBlocks = await miningManager.listBlocks(cardLanguage.getLang());
       const miningResources = await miningManager.listResources();
       this.renderBoosters(stats);
       this.renderCompletion(view);
@@ -273,6 +285,7 @@ export class StatsView {
       this.renderMinePick(minepick, view);
       this.renderMining(mining, miningBlocks, miningResources);
       this.renderHistory(history);
+      this.renderSaved(saved);
     } catch (error) {
       console.error('[StatsView] The statistics could not be loaded.', error);
       this.setFeedback('stats.error.load', 'error');
@@ -461,7 +474,7 @@ export class StatsView {
       image.className = 'stats__top-image';
       image.loading = 'lazy';
       image.src = i18n.resolveImagePath(entry.card.illustration);
-      image.alt = entry.card.getName(i18n.getLang());
+      image.alt = entry.card.getName(cardLanguage.getLang());
       image.addEventListener('error', () => {
         console.warn(`[StatsView] Top card illustration not found for "${key}": ${image.src}`);
         image.hidden = true;
@@ -471,7 +484,7 @@ export class StatsView {
 
     const name = document.createElement('p');
     name.className = 'stats__top-name';
-    name.textContent = entry?.card?.getName(i18n.getLang()) ?? key;
+    name.textContent = entry?.card?.getName(cardLanguage.getLang()) ?? key;
     wrapper.appendChild(name);
 
     const draws = document.createElement('p');
@@ -531,7 +544,7 @@ export class StatsView {
       const rarest = this.resolveRarestPick(state, view);
       this.minepickRarestElement.textContent = rarest
         ? i18n.t('stats.minepick.rarest', {
-            name: rarest.card.getName(i18n.getLang()),
+            name: rarest.card.getName(cardLanguage.getLang()),
             rarity: getRarityLabel(rarest.rarity, (key) => i18n.t(key)),
           })
         : i18n.t('stats.minepick.rarest.empty');
@@ -711,7 +724,7 @@ export class StatsView {
 
     const name = document.createElement('p');
     name.className = 'stats__minepick-name';
-    name.textContent = `${entry?.card?.getName(i18n.getLang()) ?? pick.key} · ${getRarityLabel(
+    name.textContent = `${entry?.card?.getName(cardLanguage.getLang()) ?? pick.key} · ${getRarityLabel(
       entry?.card?.rarity ?? pick.rarity,
       (key) => i18n.t(key)
     )}`;
@@ -824,7 +837,7 @@ export class StatsView {
     button.dataset.statsHistoryCard = String(index);
     button.dataset.cardIndex = String(cardIndex);
     applyCardGlow(button, card);
-    const name = card.getName(i18n.getLang());
+    const name = card.getName(cardLanguage.getLang());
     const rarityLabel = getRarityLabel(card.rarity, (key) => i18n.t(key));
     button.setAttribute('aria-label', `${name} (${rarityLabel})`);
 
@@ -840,6 +853,177 @@ export class StatsView {
     });
     button.appendChild(image);
     return button;
+  }
+
+  /**
+   * Renders the openings pinned by the player, one row per slot.
+   *
+   * @param {Array<object>} entries - Entries returned by `BoosterManager.getSavedOpenings()`.
+   * @returns {void}
+   */
+  renderSaved(entries) {
+    const list = Array.isArray(entries) ? entries : [];
+    this.savedEntries = list;
+    if (!this.savedElement) return;
+    this.savedElement.textContent = '';
+    if (this.savedCountElement) {
+      this.savedCountElement.textContent = i18n.t('stats.saved.count', {
+        count: list.length,
+        max: SAVED_OPENINGS_SIZE,
+      });
+    }
+    if (this.savedEmptyElement) this.savedEmptyElement.hidden = list.length > 0;
+    list.forEach((entry, index) => this.savedElement.appendChild(this.buildSavedRow(entry, index)));
+    this.log(`${list.length} saved opening(s) rendered.`);
+  }
+
+  /**
+   * Builds one saved-opening row: metadata, the five cards and the two actions.
+   *
+   * @param {object} entry - Resolved saved entry.
+   * @param {number} index - Index of the entry in `savedEntries`.
+   * @returns {HTMLElement} The `<li>` element.
+   */
+  buildSavedRow(entry, index) {
+    const item = document.createElement('li');
+    item.className = 'stats__history-entry stats__saved-entry';
+
+    const head = document.createElement('div');
+    head.className = 'stats__history-head';
+    const meta = document.createElement('p');
+    meta.className = 'stats__history-meta';
+    const setName = document.createElement('span');
+    setName.className = 'stats__history-set';
+    setName.textContent = entry.set?.name ?? entry.setId;
+    const date = document.createElement('time');
+    date.className = 'stats__history-date';
+    if (entry.openedAt) date.setAttribute('datetime', entry.openedAt);
+    date.textContent = StatsView.formatHistoryDate(entry.openedAt);
+    meta.append(setName, date);
+    head.appendChild(meta);
+    if (entry.godpack) {
+      const badge = document.createElement('span');
+      badge.className = 'stats__history-badge';
+      badge.textContent = i18n.t('stats.history.godpack');
+      head.appendChild(badge);
+    }
+    item.appendChild(head);
+
+    const cards = document.createElement('div');
+    cards.className = 'stats__history-cards';
+    (entry.cards ?? []).forEach((card) => cards.appendChild(this.buildSavedThumb(card)));
+    if (cards.childElementCount === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'stats__history-cards-empty';
+      empty.textContent = i18n.t('stats.history.cardsMissing');
+      cards.appendChild(empty);
+    }
+    item.appendChild(cards);
+
+    const actions = document.createElement('div');
+    actions.className = 'stats__saved-actions';
+    const replay = document.createElement('button');
+    replay.type = 'button';
+    replay.className = 'btn btn--primary btn--small';
+    replay.dataset.statsSavedReplay = String(index);
+    replay.textContent = i18n.t('stats.saved.replay');
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'btn btn--ghost btn--small';
+    remove.dataset.statsSavedDelete = String(index);
+    remove.textContent = i18n.t('stats.saved.delete');
+    actions.append(replay, remove);
+    item.appendChild(actions);
+
+    return item;
+  }
+
+  /**
+   * Builds one thumbnail of a saved opening (never a button: it opens no dialog).
+   *
+   * @param {object|null} card - Resolved card, or null when it left the extension file.
+   * @returns {HTMLElement} The thumbnail.
+   */
+  buildSavedThumb(card) {
+    if (!card) {
+      const missing = document.createElement('span');
+      missing.className = 'stats__history-card stats__history-card--missing';
+      missing.textContent = '?';
+      return missing;
+    }
+    const thumb = document.createElement('span');
+    thumb.className = `stats__history-card stats__history-card--r${card.rarity}`;
+    if (card.isFullArt) thumb.classList.add('stats__history-card--fullart');
+    applyCardGlow(thumb, card);
+    const image = document.createElement('img');
+    image.className = 'stats__history-image';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.src = i18n.resolveImagePath(card.illustration);
+    image.alt = card.getName(cardLanguage.getLang());
+    image.addEventListener('error', () => {
+      console.warn(`[StatsView] Saved-opening illustration not found for "${card.uniqueKey}": ${image.src}`);
+      image.hidden = true;
+    });
+    thumb.appendChild(image);
+    return thumb;
+  }
+
+  /**
+   * Handles a click on the saved openings: replay the pack or free its slot.
+   *
+   * @param {MouseEvent} event - Click event.
+   * @returns {void}
+   */
+  handleSavedClick(event) {
+    const target = event?.target;
+    if (!(target instanceof HTMLElement)) return;
+    const replay = target.closest('[data-stats-saved-replay]');
+    if (replay) {
+      this.replaySaved(Number(replay.dataset.statsSavedReplay));
+      return;
+    }
+    const remove = target.closest('[data-stats-saved-delete]');
+    if (remove) void this.deleteSaved(Number(remove.dataset.statsSavedDelete));
+  }
+
+  /**
+   * Asks the application to replay one saved opening in the opening view.
+   *
+   * The replay is visual only: the opening view rebuilds the same cards and shows the reveal, but
+   * nothing is drawn, granted or counted.
+   *
+   * @param {number} index - Index of the entry in `savedEntries`.
+   * @returns {void}
+   */
+  replaySaved(index) {
+    const entry = this.savedEntries[index];
+    if (!entry) return;
+    const started = this.onReplay?.(entry);
+    if (!started) {
+      Toast.error('stats.saved.busy');
+      return;
+    }
+    this.log(`Saved opening "${entry.id}" replayed.`);
+  }
+
+  /**
+   * Frees the slot of one saved opening.
+   *
+   * @param {number} index - Index of the entry in `savedEntries`.
+   * @returns {Promise<void>} Resolves once the list is reloaded.
+   */
+  async deleteSaved(index) {
+    const entry = this.savedEntries[index];
+    if (!entry) return;
+    try {
+      await boosterManager.deleteSavedOpening(entry.id);
+      Toast.success('stats.saved.deleted');
+      await this.reload();
+    } catch (error) {
+      console.error('[StatsView] The saved opening could not be removed.', error);
+      this.setFeedback('stats.saved.deleteError', 'error');
+    }
   }
 
   /**
@@ -895,7 +1079,7 @@ export class StatsView {
     const card = entry?.cards?.[cardIndex];
     if (!card || !this.cardModal) return;
 
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const name = card.getName(lang);
     this.cardModalTitle.textContent = name;
     this.cardModalBody.textContent = '';
@@ -1111,6 +1295,7 @@ export class StatsView {
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());
     this.unsubscribers = [];
     this.historyEntries = [];
+    this.savedEntries = [];
     this.isInitialized = false;
   }
 }

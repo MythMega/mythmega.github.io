@@ -1,0 +1,40 @@
+/*
+   changelog-popup.css - "What's new" dialog of the startup (js/UI/components/ChangelogPopup.js).
+
+   The dialog reuses the shared `.modal` frame and the note markup of the settings changelog
+   (`css/views/settings.css`), so a note reads the same in both places. Only the badge, the intro
+   and the scroll area of the list are specific to this popup.
+*/
+
+.changelog-popup__dialog {
+  width: 100%;
+  max-width: 34rem;
+}
+
+.changelog-popup__badge {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.changelog-popup__intro {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* The notes are the reason the dialog exists: on a phone the list scrolls instead of pushing the
+   two buttons out of the screen. */
+.changelog-popup__notes {
+  max-height: min(46vh, 22rem);
+  margin: 0;
+  padding-right: var(--space-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.changelog-popup__notes[hidden] {
+  display: none;
+}

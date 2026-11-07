@@ -15,6 +15,7 @@
  */
 
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { DEFAULT_TROPHY_ICON, resolveTrophyIcon } from '../../business/TrophyManager.js';
 import { TitleManager } from '../../business/TitleManager.js';
 import { applyCardGlow } from '../../utils/Shine.js';
@@ -49,7 +50,7 @@ export class TrophyDetail {
     // A trophy measured against one block of the mine carries the names of that block in the two
     // languages of the game (the mine files them in its own JSON, not in the dictionaries).
     if (trophy.blockNames) {
-      params.block = trophy.blockNames[i18n.getLang()] ?? trophy.blockNames.en ?? params.block ?? '';
+      params.block = trophy.blockNames[cardLanguage.getLang()] ?? trophy.blockNames.en ?? params.block ?? '';
     }
     // A Mine Pick trophy measured against one card rarity names it through the dictionaries
     // (`rarity.1` … `rarity.5`), never through a label frozen at build time: switching the language
@@ -348,7 +349,7 @@ export class TrophyDetail {
       item.style.setProperty('--tile-index', String(index));
 
       const card = entry.card;
-      const name = card ? card.getName(i18n.getLang()) : entry.index;
+      const name = card ? card.getName(cardLanguage.getLang()) : entry.index;
       if (card) {
         const image = document.createElement('img');
         image.className = 'trophy-card__image';
@@ -415,12 +416,12 @@ export class TrophyDetail {
 
       const text = document.createElement('span');
       text.className = 'trophy-title__text';
-      text.textContent = TitleManager.titleText(entry, i18n.getLang());
+      text.textContent = TitleManager.titleText(entry, cardLanguage.getLang());
       item.appendChild(text);
 
       item.setAttribute(
         'aria-label',
-        `${TitleManager.titleText(entry, i18n.getLang())}, ` +
+        `${TitleManager.titleText(entry, cardLanguage.getLang())}, ` +
           i18n.t(entry.unlocked ? 'trophy.titles.unlocked' : 'trophy.titles.locked')
       );
       grid.appendChild(item);

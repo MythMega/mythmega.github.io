@@ -45,6 +45,8 @@ export const NOTIFICATION_TYPES = Object.freeze({
   EXPERIENCE: 'experience',
   /** A player TITLE became selectable (a level reached, or a collection trophy unlocked). */
   TITLE: 'title',
+  /** An Illager quest reached its requirement and waits to be claimed. */
+  QUEST: 'quest',
 });
 
 /** Visual variants, exposed as `data-variant` (an extra accent on top of the type). */

@@ -69,6 +69,7 @@ export const SPARKS_SOURCES = Object.freeze({
   MINE_PICK: 'minepick',
   TRADER: 'trader',
   ILLAGER: 'illager',
+  QUEST: 'quest',
   OTHER: 'other',
 });
 
@@ -81,6 +82,7 @@ export const SPARKS_EARNED_SOURCES = Object.freeze([
   SPARKS_SOURCES.REDEEM,
   SPARKS_SOURCES.GIFT,
   SPARKS_SOURCES.ILLAGER,
+  SPARKS_SOURCES.QUEST,
   SPARKS_SOURCES.OTHER,
 ]);
 
@@ -389,6 +391,9 @@ export class SparksManager {
     );
 
     this.log(`Sold ${copies} copy(ies) of "${key}" for ${gained} Sparks (balance: ${result.balance}).`);
+    // The sale is announced for itself: the quests count the copies sold, which the balance alone
+    // cannot tell from a purchase or a gift.
+    eventBus.emit(EVENTS.CARD_SOLD, { key, rarity, copies });
     eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.balance });
     return result;
   }

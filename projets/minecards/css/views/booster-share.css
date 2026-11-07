@@ -1,0 +1,197 @@
+/* =============================================================================
+   booster-share.css - The read-only page of a shared booster (`booster.html`).
+
+   One column, centered: the identity of the author, the name of the pack, the cards and the two
+   actions. It reuses the design tokens of the game (`css/themes.css`, `css/base.css`) and nothing
+   else, so the page stays a single small document that opens on a device which never played.
+
+   Colors come exclusively from the theme variables; the two share pages
+   (`collection.html` and `booster.html`) draw the same pill, so a shared link looks the same
+   whichever page it opens.
+   ============================================================================= */
+
+.booster-share {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: var(--space-4) var(--space-3);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.booster-share__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: min(100%, 46rem);
+}
+
+/* --- The identity and the title ------------------------------------------- */
+
+.booster-share__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.booster-share__identity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-1);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+}
+
+/* `[hidden]` is not enough on an element with a `display` of its own. */
+.booster-share__identity[hidden],
+.booster-share__avatar[hidden],
+.booster-share__avatar-fallback[hidden],
+.booster-share__empty[hidden],
+.booster-share__actions[hidden] {
+  display: none;
+}
+
+.booster-share__avatar,
+.booster-share__avatar-fallback {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+}
+
+.booster-share__avatar {
+  object-fit: contain;
+  /* The avatars are pixel art: an interpolated 32px icon turns blurry once drawn at another size. */
+  image-rendering: pixelated;
+}
+
+.booster-share__avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--color-accent);
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.booster-share__author {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.booster-share__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+}
+
+.booster-share__meta {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* --- The cards ------------------------------------------------------------ */
+
+.booster-share__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.booster-share__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  text-align: center;
+}
+
+/* The artwork window keeps the ratio of a card, so a pack of five lines up whatever the size of
+   the illustrations stored in the booster JSON. */
+.booster-share__art {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  aspect-ratio: var(--card-ratio, 0.716);
+}
+
+.booster-share__art-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booster-share__art-image[hidden] {
+  display: none;
+}
+
+.booster-share__card-name {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.booster-share__card-rarity {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* The rarity tints the frame of the tile: the same ladder as the reveal badges of the game, so a
+   legendary card of a shared pack reads at a glance. */
+.booster-share__card--r4 {
+  border-color: var(--color-warning);
+}
+
+.booster-share__card--r5 {
+  border-color: var(--color-accent);
+}
+
+/* --- The actions and the messages ---------------------------------------- */
+
+.booster-share__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .booster-share__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.booster-share__empty {
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  text-align: center;
+}
+
+.booster-share__feedback {
+  margin: 0;
+  min-height: 1.25rem;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+}

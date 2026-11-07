@@ -8,6 +8,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
 import { getRarityLabel } from '../../classes/Card.js';
 
@@ -32,6 +33,7 @@ export class AutoClaimPopup {
     this.unsubscribers = [
       eventBus.on(EVENTS.AUTO_CLAIM_GRANTED, (payload) => this.enqueue(payload?.claims)),
       eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()),
+      eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()),
     ];
     /** @type {(event: KeyboardEvent) => void} Escape handler, bound once. */
     this.handleKeyDown = (event) => {
@@ -228,9 +230,9 @@ export class AutoClaimPopup {
       applyCardGlow(card, firstCard);
       image.hidden = false;
       image.src = i18n.resolveImagePath(firstCard.illustration);
-      image.alt = firstCard.getName(i18n.getLang());
+      image.alt = firstCard.getName(cardLanguage.getLang());
       name.textContent = i18n.t('redeem.reward.card', {
-        name: firstCard.getName(i18n.getLang()),
+        name: firstCard.getName(cardLanguage.getLang()),
         count: cardRewards.reduce((sum, reward) => sum + (Number(reward.quantity) || 1), 0),
         rarity: getRarityLabel(firstCard.rarity, (key) => i18n.t(key)),
       });

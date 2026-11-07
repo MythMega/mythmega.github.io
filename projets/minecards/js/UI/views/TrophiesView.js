@@ -29,6 +29,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import trophyManager, { TROPHY_CATEGORIES, TrophyManager } from '../../business/TrophyManager.js';
 import profileManager, {
   PROFILE_ERROR_CODES,
@@ -299,6 +300,7 @@ export class TrophiesView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.TROPHY_UNLOCKED, () => this.handleTrophyUnlocked()));
     this.unsubscribers.push(eventBus.on(EVENTS.BOOSTER_OPENED, () => {
       // An opening moves the progress of every family: refresh the list while it is on screen.
@@ -409,7 +411,7 @@ export class TrophiesView {
     const miningBlocks = new Map();
     trophies.forEach((trophy) => {
       if (typeof trophy.blockId !== 'string' || trophy.blockId === '') return;
-      const label = trophy.blockNames?.[i18n.getLang()] ?? trophy.blockNames?.en ?? trophy.blockId;
+      const label = trophy.blockNames?.[cardLanguage.getLang()] ?? trophy.blockNames?.en ?? trophy.blockId;
       if (!miningBlocks.has(trophy.blockId)) miningBlocks.set(trophy.blockId, label);
     });
     if (miningBlocks.size > 0 || trophies.some((trophy) => TrophyManager.isMiningTrophy(trophy))) {

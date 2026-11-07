@@ -40,6 +40,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { DEFAULT_BINDER_SETTINGS } from '../../utils/ConfigLoader.js';
 import collectionManager from '../../business/CollectionManager.js';
 import accountManager from '../../business/AccountManager.js';
@@ -991,6 +992,7 @@ export class CollectionView {
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(eventBus.on(EVENTS.BOOSTER_OPENED, () => this.handleBoosterOpened()));
     this.unsubscribers.push(eventBus.on(EVENTS.FAVORITES_UPDATED, (payload) => this.handleFavoritesUpdated(payload)));
     this.log('Event subscriptions registered.');
@@ -1229,7 +1231,7 @@ export class CollectionView {
    * @returns {object[]} The matching entries, in the requested order.
    */
   applyFilters(filters) {
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const kept = this.entries.filter((entry) => {
       // The aggregate promo family is not a set id: it matches the family instead of a group.
       if (filters.promoAll) {
@@ -1347,7 +1349,7 @@ export class CollectionView {
    * @returns {HTMLElement} The tile element.
    */
   buildTile(entry) {
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const cell = document.createElement('div');
     cell.className = 'collection__cell';
     const tile = document.createElement('button');
@@ -1419,7 +1421,7 @@ export class CollectionView {
     const entry = this.entries.find((candidate) => candidate.key === key);
     if (!entry || !this.modal || !this.modalTitle || !this.modalBody) return;
     const card = entry.card;
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const name = card?.getName(lang) ?? entry.cardId ?? key;
     this.modalTitle.textContent = name;
     this.modalBody.textContent = '';
@@ -2267,7 +2269,7 @@ export class CollectionView {
       image.src = i18n.resolveImagePath(cover.card.illustration);
       image.alt = '';
       const text = document.createElement('span');
-      text.textContent = cover.card.getName(i18n.getLang());
+      text.textContent = cover.card.getName(cardLanguage.getLang());
       coverButton.append(image, text);
     } else {
       coverButton.textContent = i18n.t('binders.coverChoose');
@@ -2297,7 +2299,7 @@ export class CollectionView {
       button.setAttribute(
         'aria-label',
         entry?.card
-          ? `${index + 1}. ${entry.card.getName(i18n.getLang())}`
+          ? `${index + 1}. ${entry.card.getName(cardLanguage.getLang())}`
           : i18n.t('binders.slotEmpty', { index: index + 1 })
       );
       if (entry?.card) {
@@ -2408,6 +2410,9 @@ export class CollectionView {
         photo: profile.photo,
       });
       await writeToClipboard(BinderManager.buildShareUrl(code));
+      // A copied link is the share the quests count: building the code or opening the binder is
+      // not. The id is null for the draft, which has none yet.
+      eventBus.emit(EVENTS.BINDER_SHARED, { id: target.id ?? null });
       Toast.success('binders.shared');
       this.setBinderFeedback('binders.sharedHelp', 'info');
       this.log(`Binder share link copied (${code.length} characters of code).`);
@@ -2522,7 +2527,7 @@ export class CollectionView {
     const target = this.binderPickerTarget;
     if (!this.binderPickerBody || !draft || !target) return;
 
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const search = (this.binderPickerSearch?.value ?? '').trim().toLowerCase();
     const placements = BinderManager.countPlacements(draft.slots);
     const currentKey = target.type === 'cover' ? draft.cover : draft.slots[target.index ?? -1];

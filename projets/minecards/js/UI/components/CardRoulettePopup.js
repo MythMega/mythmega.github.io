@@ -23,6 +23,7 @@
  */
 
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { applyCardGlow } from '../../utils/Shine.js';
@@ -67,6 +68,7 @@ export class CardRoulettePopup {
     /** @type {Function[]} */
     this.unsubscribers = [
       eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()),
+      eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()),
     ];
     /** @type {(event: KeyboardEvent) => void} Escape / Enter handler, bound once. */
     this.handleKeyDown = (event) => {
@@ -346,9 +348,9 @@ export class CardRoulettePopup {
     }
     if (image) {
       image.src = i18n.resolveImagePath(winner.illustration);
-      image.alt = winner.getName(i18n.getLang());
+      image.alt = winner.getName(cardLanguage.getLang());
     }
-    if (name) name.textContent = winner.getName(i18n.getLang());
+    if (name) name.textContent = winner.getName(cardLanguage.getLang());
     if (meta) {
       meta.textContent = getRarityLabel(winner.rarity, (key) => i18n.t(key));
     }

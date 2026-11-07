@@ -18,6 +18,10 @@
 export const EVENTS = Object.freeze({
   /** Payload: `{ lang, previousLang }`. Emitted by I18n after a successful language switch. */
   LANG_CHANGED: 'LANG_CHANGED',
+  /** Payload: `{ lang, previousLang, preference, previousPreference }`. Emitted by CardLanguage
+   * after a successful switch of the CARD language (independent from the interface language):
+   * every view showing card names, descriptions or artwork re-renders from it. */
+  CARD_LANG_CHANGED: 'CARD_LANG_CHANGED',
   /** Payload: `{ theme, previousTheme }`. Emitted by ThemeManager after a successful switch. */
   THEME_CHANGED: 'THEME_CHANGED',
   /** Payload: `{ mode, previousMode, parodic }`. Emitted by AnimationManager after a successful
@@ -110,6 +114,20 @@ export const EVENTS = Object.freeze({
   TRADER_UPDATED: 'TRADER_UPDATED',
   /** The Illager Shop changed: a purchase, or a currency that expired and was converted. */
   ILLAGER_SHOP_UPDATED: 'ILLAGER_SHOP_UPDATED',
+  /** Payload: `{ type, amount }` or `{ questId, claimed }`. Emitted by `IllagerQuestManager` once
+   * a counter moved or a quest was claimed: the quests dialog repaints from it. */
+  ILLAGER_QUESTS_UPDATED: 'ILLAGER_QUESTS_UPDATED',
+  /** Payload: `{ questId, typeKey, currencyId, currencyName, rewards }`. Emitted by
+   * `IllagerQuestManager` when a quest reaches its requirement, once: the notifier announces it. */
+  ILLAGER_QUEST_READY: 'ILLAGER_QUEST_READY',
+  /** Payload: `{ key, rarity, copies }`. Emitted by `SparksManager` once a sale is committed: the
+   * quests count the copies sold from it (the balance itself goes through `SPARKS_UPDATED`). */
+  CARD_SOLD: 'CARD_SOLD',
+  /** Payload: `{ id }`. Emitted by `CollectionView` once the share link of a binder was copied to
+   * the clipboard: a link that was only built (or a binder that was only opened) is not a share. */
+  BINDER_SHARED: 'BINDER_SHARED',
+  /** Payload: `{ file }`. Emitted by `ProfileView` once the profile card was written to a file. */
+  PROFILE_CARD_EXPORTED: 'PROFILE_CARD_EXPORTED',
   /** Payload: `{ binders }`. Emitted by BinderManager after a binder was created, edited, deleted or
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */

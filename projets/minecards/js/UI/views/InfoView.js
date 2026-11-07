@@ -24,6 +24,7 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { MIN_GODPACK_FULL_ART } from '../../business/GachaEngine.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
@@ -193,6 +194,13 @@ export class InfoView {
       void this.renderSelected();
       void this.renderSetsPanel();
       void this.renderExperience();
+    }));
+    // The card language only changes the card names of the drop rates, not the labels: the same
+    // re-render covers both, which is simpler than a second partial one.
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => {
+      if (!this.isInitialized) return;
+      void this.renderSelected();
+      void this.renderSetsPanel();
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.log('Event subscriptions registered.');
@@ -685,7 +693,7 @@ export class InfoView {
    */
   renderCardRates(set, tables) {
     const rates = InfoView.buildCardRates(set, tables);
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     this.cardsElement.textContent = '';
 
     const byRarity = new Map();

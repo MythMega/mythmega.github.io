@@ -25,9 +25,11 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
+import cardLanguage from '../../utils/CardLanguage.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import boosterManager from '../../business/BoosterManager.js';
 import collectionManager from '../../business/CollectionManager.js';
+import profileManager from '../../business/ProfileManager.js';
 import dateSyncManager, { BOOSTER_SOURCES } from '../../business/DateSyncManager.js';
 import sparksManager, { INSUFFICIENT_SPARKS } from '../../business/SparksManager.js';
 import CardComponent from '../components/CardComponent.js';
@@ -99,6 +101,32 @@ export class OpeningView {
     this.openButton = this.root.querySelector('[data-opening-open]');
     this.buyButton = this.root.querySelector('[data-opening-buy]');
     this.feedbackElement = this.root.querySelector('[data-opening-feedback]');
+    this.openTenButton = this.root.querySelector('[data-opening-open-ten]');
+    this.openManyButton = this.root.querySelector('[data-opening-open-many]');
+    this.batchCounterElement = this.root.querySelector('[data-opening-batch-counter]');
+
+    this.tenModal = this.root.querySelector('[data-opening-ten-modal]');
+    this.tenTitle = this.root.querySelector('[data-opening-ten-title]');
+    this.tenBody = this.root.querySelector('[data-opening-ten-body]');
+    this.tenClose = this.root.querySelector('[data-opening-ten-close]');
+    this.tenButtons = Array.from(this.root.querySelectorAll('[data-opening-ten-choice]'));
+
+    this.countModal = this.root.querySelector('[data-opening-count-modal]');
+    this.countTitle = this.root.querySelector('[data-opening-count-title]');
+    this.countBody = this.root.querySelector('[data-opening-count-body]');
+    this.countClose = this.root.querySelector('[data-opening-count-close]');
+    this.countCancel = this.root.querySelector('[data-opening-count-cancel]');
+    this.countConfirm = this.root.querySelector('[data-opening-count-confirm]');
+    this.countInputs = {
+      daily: this.root.querySelector('[data-opening-count-input="daily"]'),
+      bonus: this.root.querySelector('[data-opening-count-input="bonus"]'),
+    };
+    this.countLabels = {
+      daily: this.root.querySelector('[data-opening-count-label="daily"]'),
+      bonus: this.root.querySelector('[data-opening-count-label="bonus"]'),
+    };
+    this.countSteps = Array.from(this.root.querySelectorAll('[data-opening-count-step]'));
+    this.countAllButtons = Array.from(this.root.querySelectorAll('[data-opening-count-all]'));
 
     this.boosterContainer = this.root.querySelector('[data-booster-3d]');
     this.boosterViewport = this.root.querySelector('[data-booster-canvas]');
@@ -126,6 +154,14 @@ export class OpeningView {
     this.summaryElement = this.root.querySelector('[data-opening-summary]');
     this.actionsElement = this.root.querySelector('[data-opening-actions]');
     this.copyCodeButton = this.root.querySelector('[data-opening-copy-code]');
+    this.shareButton = this.root.querySelector('[data-opening-share]');
+    this.saveButton = this.root.querySelector('[data-opening-save]');
+    /** True while a saved opening is replayed: nothing is written, nothing is "new". */
+    this.isReplay = false;
+    /** True while a saved-opening slot is being written (guards a double click). */
+    this.isSaving = false;
+    /** Pack already pinned in a slot, so the same summary can never take two of them. */
+    this.savedResult = null;
     this.finishButton = this.root.querySelector('[data-opening-finish]');
     this.cardModal = this.root.querySelector('[data-card-modal]');
     this.cardModalTitle = this.root.querySelector('[data-card-modal-title]');
@@ -212,6 +248,16 @@ export class OpeningView {
     /** @type {Array<{setId: string, name: string, bonus: number}>|null} Sets offered by the store
      *  dialog while it is open. */
     this.storeChoices = null;
+    /** @type {Array<{result: object, components: CardComponent[]}>} Packs of a batch reveal. */
+    this.batchPacks = [];
+    /** @type {number} Index of the pack being revealed inside `batchPacks`. */
+    this.batchIndex = 0;
+    /** @type {{daily: number, bonus: number}|null} Counts offered by the ten-booster dialog. */
+    this.tenChoices = null;
+    /** @type {{daily: number, bonus: number}} Packs available while the count dialog is open. */
+    this.countLimits = { daily: 0, bonus: 0 };
+    /** @type {{daily: number, bonus: number}} Counts picked in the count dialog. */
+    this.countValues = { daily: 0, bonus: 0 };
 
     /** @type {Array<{target: EventTarget, type: string, handler: EventListener}>} */
     this.bindings = [];
@@ -264,6 +310,7 @@ export class OpeningView {
       ['[data-opening-store-body]', this.storeBody],
       ['[data-opening-store-sets]', this.storeSets],
       ['[data-opening-copy-code]', this.copyCodeButton],
+      ['[data-opening-share]', this.shareButton],
       ['[data-opening-finish]', this.finishButton],
       ['[data-booster-3d]', this.boosterContainer],
       ['[data-booster-fallback]', this.boosterFallback],
@@ -271,6 +318,14 @@ export class OpeningView {
       ['[data-booster-preview-canvas]', this.previewViewport],
       ['[data-booster-prev-set]', this.prevSetButton],
       ['[data-booster-next-set]', this.nextSetButton],
+      ['[data-opening-open-ten]', this.openTenButton],
+      ['[data-opening-open-many]', this.openManyButton],
+      ['[data-opening-batch-counter]', this.batchCounterElement],
+      ['[data-opening-ten-modal]', this.tenModal],
+      ['[data-opening-count-modal]', this.countModal],
+      ['[data-opening-count-input="daily"]', this.countInputs.daily],
+      ['[data-opening-count-input="bonus"]', this.countInputs.bonus],
+      ['[data-opening-count-confirm]', this.countConfirm],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -410,9 +465,43 @@ export class OpeningView {
       this.listen(this.nextSetButton, 'click', () => this.cycleSet(1));
     }
     this.listen(this.openButton, 'click', () => this.handleOpenClick());
+    this.listen(this.openTenButton, 'click', () => this.handleOpenTenClick());
+    this.listen(this.openManyButton, 'click', () => this.handleOpenManyClick());
+    if (this.saveButton) {
+      this.listen(this.saveButton, 'click', () => void this.saveCurrentOpening());
+    }
+    this.tenButtons.forEach((button) => {
+      this.listen(button, 'click', () => void this.handleTenChoice(button.dataset.openingTenChoice));
+    });
+    if (this.tenModal) {
+      this.listen(this.tenModal, 'click', (event) => {
+        if (event?.target === this.tenModal) this.closeTenModal();
+      });
+    }
+    if (this.tenClose) this.listen(this.tenClose, 'click', () => this.closeTenModal());
+    if (this.countModal) {
+      this.listen(this.countModal, 'click', (event) => {
+        if (event?.target === this.countModal) this.closeCountModal();
+      });
+    }
+    if (this.countClose) this.listen(this.countClose, 'click', () => this.closeCountModal());
+    if (this.countCancel) this.listen(this.countCancel, 'click', () => this.closeCountModal());
+    if (this.countConfirm) this.listen(this.countConfirm, 'click', () => this.confirmCount());
+    this.countSteps.forEach((button) => {
+      this.listen(button, 'click', () => {
+        this.stepCount(button.dataset.openingCountKind, Number(button.dataset.openingCountStep));
+      });
+    });
+    this.countAllButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.fillCount(button.dataset.openingCountAll));
+    });
+    Object.entries(this.countInputs).forEach(([kind, input]) => {
+      this.listen(input, 'input', (event) => this.setCountValue(kind, event.target.value));
+    });
     this.listen(this.buyButton, 'click', () => this.handleBuyExtraBooster());
     this.listen(this.boosterFallback, 'click', (event) => this.handleFallbackClick(event));
     this.listen(this.copyCodeButton, 'click', () => this.handleCopyBoosterCode());
+    this.listen(this.shareButton, 'click', () => this.handleShareOpening());
     this.listen(this.finishButton, 'click', () => this.finish());
     this.listen(this.prevButton, 'click', () => this.showPreviousCard());
     this.listen(this.nextButton, 'click', () => this.handleNextAction());
@@ -478,6 +567,7 @@ export class OpeningView {
     this.unsubscribers.push(eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.handleSparksUpdated(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload)));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()));
+    this.unsubscribers.push(eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()));
     this.unsubscribers.push(
       eventBus.on(EVENTS.BOOSTER_RENDER_CHANGED, (payload) => this.handleRenderModeChanged(payload))
     );
@@ -546,6 +636,7 @@ export class OpeningView {
     if (this.actionsElement) this.actionsElement.hidden = !showSummary;
     this.revealContainer.hidden = !showSummary;
     this.revealStage = subStage === 'booster' ? 'idle' : subStage;
+    this.updateBatchCounter();
     this.log(`Scene sub-stage displayed: ${subStage}.`);
   }
 
@@ -593,6 +684,7 @@ export class OpeningView {
       this.openButton.disabled = true;
       // Nothing can be looked at, so nothing can be chosen either: the store button has no target.
       this.renderStoreButton(0);
+      this.renderBatchButtons(null);
       // No visible extension at all (every set is still hidden before its preview window): this is
       // an announcement, not a failure, so the message is informational.
       if (this.setOrder.length === 0) {
@@ -613,6 +705,7 @@ export class OpeningView {
     const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
     this.lastQuota = quota;
     this.renderStoreButton(quota.daily);
+    this.renderBatchButtons(quota);
     const available = quota.availableForSet ?? 0;
     this.log(`Quota refreshed for "${this.selectedSetId}":`, quota);
 
@@ -810,6 +903,9 @@ export class OpeningView {
       this.setFeedback(this.feedbackKey, this.feedbackTone);
     }
     if (this.pendingResult) {
+      if (this.revealStage === 'summary' && this.batchPacks.length > 1) {
+        this.renderBatchSummary();
+      }
       this.renderSummary(this.pendingResult);
     } else {
       void this.refreshSetOptions().then(() => this.updatePreview());
@@ -830,9 +926,10 @@ export class OpeningView {
    *
    * @param {string|null} key - i18n key, or null to hide the message.
    * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @param {object|null} [params=null] - Interpolation values of the key.
    * @returns {void}
    */
-  setFeedback(key, tone = 'info') {
+  setFeedback(key, tone = 'info', params = null) {
     this.feedbackKey = key;
     this.feedbackTone = tone;
     if (!key) {
@@ -841,7 +938,7 @@ export class OpeningView {
       return;
     }
     this.feedbackElement.hidden = false;
-    this.feedbackElement.textContent = i18n.t(key);
+    this.feedbackElement.textContent = i18n.t(key, params ?? undefined);
     this.feedbackElement.dataset.tone = tone;
     if (tone === 'error') {
       console.warn(`[OpeningView] ${i18n.t(key)}`);
@@ -889,6 +986,285 @@ export class OpeningView {
       this.isBuying = false;
       this.refreshQuota();
     }
+  }
+
+  // __OPENING_BATCH__
+
+  /**
+   * Shows or hides the two batch buttons, and reflects what can be opened right now.
+   *
+   * The "10" button is only enabled when ONE bucket can pay for ten packs, so its dialog never has
+   * to explain that the count it promises is not there. The "X" button is the general case: it can
+   * always be used as soon as a single booster is available.
+   *
+   * @param {object|null} [quota] - Quota snapshot of the selected extension.
+   * @returns {void}
+   */
+  renderBatchButtons(quota = this.lastQuota) {
+    const released = Boolean(this.selectedSetId) && this.isSelectedSetReleased();
+    const daily = quota?.daily ?? 0;
+    const bonus = quota?.bonusBySet?.[this.selectedSetId] ?? 0;
+    // Only the two buckets this dialog can spend make the buttons worth showing: a stock that
+    // exists only as purchased boosters has no batch to offer (the single opening still has one).
+    const visible = released && daily + bonus > 0;
+
+    if (this.openTenButton) {
+      this.openTenButton.hidden = !visible;
+      this.openTenButton.disabled = !visible || this.isBusy || Math.max(daily, bonus) < 10;
+      this.openTenButton.title =
+        visible && Math.max(daily, bonus) < 10
+          ? i18n.t('opening.batch.notEnough', { daily, bonus })
+          : '';
+    }
+    if (this.openManyButton) {
+      this.openManyButton.hidden = !visible;
+      this.openManyButton.disabled = !visible || this.isBusy;
+    }
+  }
+
+  /**
+   * Opens the ten-booster dialog: which bucket pays for the ten packs.
+   *
+   * A choice is disabled when its bucket holds fewer than ten: the dialog only ever promises a
+   * count that is really available.
+   *
+   * @returns {void}
+   */
+  handleOpenTenClick() {
+    if (this.isBusy || !this.selectedSetId || !this.isSelectedSetReleased()) return;
+    const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
+    const daily = quota.daily;
+    const bonus = quota.bonusBySet[this.selectedSetId] ?? 0;
+    if (Math.max(daily, bonus) < 10) {
+      this.setFeedback('opening.batch.notEnough', 'error', { daily, bonus });
+      return;
+    }
+    if (!this.tenModal) return;
+
+    this.setFeedback(null);
+    this.tenChoices = { daily, bonus };
+    this.tenTitle.textContent = i18n.t('opening.batch.tenTitle');
+    this.tenBody.textContent = i18n.t('opening.batch.tenBody', { daily, bonus });
+    this.tenButtons.forEach((button) => {
+      const isDaily = button.dataset.openingTenChoice === 'daily';
+      const count = isDaily ? daily : bonus;
+      button.textContent = i18n.t(isDaily ? 'opening.batch.tenDaily' : 'opening.batch.tenBonus', {
+        count,
+      });
+      button.disabled = count < 10;
+    });
+    this.tenModal.hidden = false;
+    this.log(`Ten-booster dialog opened (daily ${daily}, bonus ${bonus}).`);
+  }
+
+  /**
+   * Handles a choice of the ten-booster dialog.
+   *
+   * @param {string} source - `daily` or `bonus`.
+   * @returns {Promise<void>} Resolves once the batch started.
+   */
+  async handleTenChoice(source) {
+    if (source !== 'daily' && source !== 'bonus') return;
+    this.closeTenModal();
+    await this.openBatch({ [source]: 10 });
+  }
+
+  /**
+   * Closes the ten-booster dialog.
+   *
+   * @returns {void}
+   */
+  closeTenModal() {
+    if (this.tenModal && !this.tenModal.hidden) {
+      this.tenModal.hidden = true;
+    }
+    this.tenChoices = null;
+  }
+
+  /**
+   * Opens the count dialog, bounded by the packs actually available.
+   *
+   * The daily counter starts at what the allowance holds (capped at ten, the usual batch), the
+   * bonus one at zero. Both are clamped on every change, so no count can exceed its bucket.
+   *
+   * @returns {void}
+   */
+  handleOpenManyClick() {
+    if (this.isBusy || !this.selectedSetId || !this.isSelectedSetReleased()) return;
+    const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
+    const daily = quota.daily;
+    const bonus = quota.bonusBySet[this.selectedSetId] ?? 0;
+    if (daily + bonus <= 0) {
+      this.setFeedback('opening.error.noBooster', 'error');
+      return;
+    }
+    if (!this.countModal) return;
+
+    this.setFeedback(null);
+    this.countLimits = { daily, bonus };
+    this.countTitle.textContent = i18n.t('opening.batch.countTitle');
+    this.countBody.textContent = i18n.t('opening.batch.countBody', {
+      set: this.resolveSetName(this.selectedSetId),
+    });
+    this.setCountValue('daily', Math.min(daily, 10));
+    this.setCountValue('bonus', 0);
+    this.countModal.hidden = false;
+    this.log(`Batch count dialog opened (daily ${daily}, bonus ${bonus}).`);
+  }
+
+  /**
+   * Writes one of the two counters, clamped to its bucket.
+   *
+   * The labels always show the AVAILABLE count (not the selected one): what the player needs to
+   * know while deciding is how much is left, and the "all" button writes exactly that value.
+   *
+   * @param {'daily'|'bonus'} kind - Counter to write.
+   * @param {unknown} value - Requested value.
+   * @returns {void}
+   */
+  setCountValue(kind, value) {
+    if (kind !== 'daily' && kind !== 'bonus') return;
+    const limit = this.countLimits[kind] ?? 0;
+    const parsed = Number(value);
+    const count = Number.isFinite(parsed) ? Math.min(Math.max(Math.round(parsed), 0), limit) : 0;
+    this.countValues = { ...this.countValues, [kind]: count };
+
+    const input = this.countInputs[kind];
+    if (input && input.value !== String(count)) input.value = String(count);
+    const label = this.countLabels[kind];
+    if (label) {
+      label.textContent = i18n.t(kind === 'daily' ? 'opening.batch.daily' : 'opening.batch.bonus', {
+        count: limit,
+        set: this.resolveSetName(this.selectedSetId),
+      });
+      input?.setAttribute('aria-label', label.textContent);
+    }
+    this.refreshCountConfirm();
+  }
+
+  /**
+   * Moves one counter by a number of packs.
+   *
+   * @param {string} kind - `daily` or `bonus`.
+   * @param {number} step - `-1` or `1`.
+   * @returns {void}
+   */
+  stepCount(kind, step) {
+    if (!Number.isFinite(step)) return;
+    this.setCountValue(kind, (this.countValues[kind] ?? 0) + step);
+  }
+
+  /**
+   * Fills one counter with everything its bucket holds.
+   *
+   * @param {string} kind - `daily` or `bonus`.
+   * @returns {void}
+   */
+  fillCount(kind) {
+    this.setCountValue(kind, this.countLimits[kind] ?? 0);
+  }
+
+  /**
+   * Refreshes the confirmation label and its state.
+   *
+   * @returns {void}
+   */
+  refreshCountConfirm() {
+    const total = (this.countValues.daily ?? 0) + (this.countValues.bonus ?? 0);
+    if (this.countConfirm) {
+      this.countConfirm.textContent = i18n.t('opening.batch.confirm', { count: total });
+      this.countConfirm.disabled = total <= 0;
+    }
+  }
+
+  /**
+   * Closes the count dialog.
+   *
+   * @returns {void}
+   */
+  closeCountModal() {
+    if (this.countModal && !this.countModal.hidden) {
+      this.countModal.hidden = true;
+    }
+  }
+
+  /**
+   * Starts the batch with the counts picked in the dialog.
+   *
+   * @returns {void}
+   */
+  confirmCount() {
+    const daily = this.countValues.daily ?? 0;
+    const bonus = this.countValues.bonus ?? 0;
+    this.closeCountModal();
+    void this.openBatch({ daily, bonus });
+  }
+
+  /**
+   * Opens several packs of the selected extension, then starts their reveal.
+   *
+   * Every pack goes through `openBooster()`, so the quota, the refund and the statistics rules are
+   * exactly the ones of a single opening. The loop stops at the first refusal (a bucket emptied by
+   * another tab, a write failure): the packs already persisted are still revealed instead of being
+   * thrown away, and the failure is announced afterwards.
+   *
+   * @param {{daily?: number, bonus?: number}} [counts] - Packs to spend in each bucket.
+   * @returns {Promise<void>} Resolves once the reveal started (or the failure is displayed).
+   */
+  async openBatch({ daily = 0, bonus = 0 } = {}) {
+    if (this.isBusy || !this.selectedSetId) return;
+    const total = daily + bonus;
+    if (total <= 0) {
+      this.setFeedback('opening.batch.none', 'error');
+      return;
+    }
+    if (!this.isSelectedSetReleased()) {
+      this.setFeedback('opening.error.notReleased', 'info');
+      return;
+    }
+
+    this.isBusy = true;
+    this.openButton.disabled = true;
+    this.renderBatchButtons();
+    this.setFeedback('opening.batch.running', 'info', { total });
+    const sources = [
+      ...Array.from({ length: daily }, () => BOOSTER_SOURCES.DAILY),
+      ...Array.from({ length: bonus }, () => BOOSTER_SOURCES.BONUS),
+    ];
+    const results = [];
+    let failure = null;
+
+    try {
+      for (const source of sources) {
+        try {
+          results.push(await boosterManager.openBooster(this.selectedSetId, { source }));
+        } catch (error) {
+          failure = error;
+          console.error('[OpeningView] A booster of the batch could not be opened.', error);
+          break;
+        }
+      }
+    } finally {
+      this.isBusy = false;
+      this.openButton.disabled = false;
+      this.renderBatchButtons();
+    }
+
+    if (results.length === 0) {
+      this.setFeedback(
+        failure?.code === 'NO_BOOSTER_AVAILABLE'
+          ? 'opening.error.noBooster'
+          : 'opening.batch.error',
+        'error'
+      );
+      this.refreshQuota();
+      return;
+    }
+    if (failure) Toast.error('opening.batch.error');
+
+    this.setFeedback(null);
+    this.startBatchReveal(results);
+    this.refreshQuota();
   }
 
   // __OPENING_OPEN__
@@ -1847,8 +2223,8 @@ export class OpeningView {
     }
     const isLast = this.spotlightIndex >= this.cardComponents.length - 1;
     if (isLast) {
-      this.log(`Spotlight card ${this.spotlightIndex + 1} tapped while revealed: summary.`);
-      this.showSummaryStage();
+      this.log(`Spotlight card ${this.spotlightIndex + 1} tapped while revealed: next pack.`);
+      this.advanceBatchOrSummarize();
       return;
     }
     this.log(`Spotlight card ${this.spotlightIndex + 1} tapped while revealed: next card.`);
@@ -1969,6 +2345,88 @@ export class OpeningView {
   }
 
   /**
+   * Moves to the next pack of a batch, or shows the summary on the last one.
+   *
+   * A single opening has one pack, so this is simply "show the summary": the batch header stays
+   * hidden and nothing else changes.
+   *
+   * @returns {void}
+   */
+  advanceBatchOrSummarize() {
+    if (this.batchPacks.length > 1 && this.batchIndex < this.batchPacks.length - 1) {
+      this.batchIndex += 1;
+      this.cardComponents = this.batchPacks[this.batchIndex].components;
+      this.pendingResult = this.batchPacks[this.batchIndex].result;
+      this.spotlightIndex = 0;
+      this.updateBatchCounter();
+      this.renderSpotlight('enter-next');
+      soundManager.play(SOUNDS.BOOSTER_OPENING);
+      this.log(`Batch: pack ${this.batchIndex + 1} of ${this.batchPacks.length}.`);
+      return;
+    }
+    this.showSummaryStage();
+  }
+
+  /**
+   * Writes the "opening booster n / X" line of a batch reveal.
+   *
+   * Hidden for a single opening: the card counter below it already says everything there is to say.
+   *
+   * @returns {void}
+   */
+  updateBatchCounter() {
+    if (!this.batchCounterElement) return;
+    const total = this.batchPacks.length;
+    const visible = total > 1 && this.revealStage === 'spotlight';
+    this.batchCounterElement.hidden = !visible;
+    if (visible) {
+      this.batchCounterElement.textContent = i18n.t('opening.batch.counter', {
+        current: this.batchIndex + 1,
+        total,
+      });
+    }
+  }
+
+  /**
+   * Builds and displays the reveal of a batch, pack by pack.
+   *
+   * The 3D booster is skipped on purpose: tearing ten packs open one after another would turn a
+   * single gesture into ten rituals. The cards of the first pack go face down on the spotlight
+   * straight away, and the header names the pack being revealed.
+   *
+   * @param {object[]} results - Persisted packs, in the order they were opened.
+   * @returns {void}
+   */
+  startBatchReveal(results) {
+    this.clearReveal();
+    this.batchPacks = results.map((result) => {
+      const newKeys = new Set(result.newKeys ?? []);
+      return {
+        result,
+        components: result.cards.map(
+          (card) =>
+            new CardComponent(card, {
+              isNew: newKeys.has(card.uniqueKey),
+              flipOnClick: false,
+            })
+        ),
+      };
+    });
+    this.batchIndex = 0;
+    this.cardComponents = this.batchPacks[0].components;
+    this.pendingResult = this.batchPacks[0].result;
+    this.warmupCardImages(this.batchPacks.flatMap((pack) => pack.result.cards));
+    this.batchPacks.forEach((pack) => {
+      if (typeof this.onBoosterOpened === 'function') this.onBoosterOpened(pack.result);
+    });
+    this.showStage('scene');
+    this.showSceneSubStage('spotlight');
+    soundManager.play(SOUNDS.BOOSTER_OPENING);
+    this.renderSpotlight('enter-next');
+    this.log(`Batch reveal started: ${this.batchPacks.length} pack(s).`);
+  }
+
+  /**
    * Shows the summary grid with the 5 cards and the summary line.
    *
    * @returns {void}
@@ -1979,10 +2437,23 @@ export class OpeningView {
       console.warn('[OpeningView] Summary ignored: no pack is waiting.');
       return;
     }
-    this.announceRevealFinished();
+    // A replay announces nothing: no pack was opened, so nothing that listens to the end of a
+    // reveal (rewards, follow-ups) must believe one just happened.
+    if (!this.isReplay) this.announceRevealFinished();
     this.closeCardModal();
-    this.renderSummaryGrid();
+    if (this.batchPacks.length > 1) {
+      this.renderBatchSummary();
+    } else {
+      this.renderSummaryGrid();
+    }
     this.renderSummary(this.pendingResult);
+    // A batch has no single pack to share (the code of one of the ten packs would be misleading),
+    // and a replay never wrote anything: neither can produce a share code, nor open the share page
+    // of a pack.
+    const canShare = this.batchPacks.length <= 1 && !this.isReplay;
+    if (this.copyCodeButton) this.copyCodeButton.hidden = !canShare;
+    if (this.shareButton) this.shareButton.hidden = !canShare;
+    void this.refreshSaveButton();
     this.showSceneSubStage('summary');
     this.log('Summary displayed: 5 cards, tap one for its detail.');
   }
@@ -1999,13 +2470,14 @@ export class OpeningView {
   renderSummaryGrid() {
     if (!this.summaryGrid) return;
     this.summaryGrid.textContent = '';
+    this.summaryGrid.classList.remove('is-recap');
     this.cardComponents.forEach((component, index) => {
       const tile = document.createElement('div');
       tile.className = 'card-reveal__summary-item';
       tile.dataset.key = component.card.uniqueKey;
       tile.setAttribute('role', 'button');
       tile.tabIndex = 0;
-      const name = component.card.getName(i18n.getLang());
+      const name = component.card.getName(cardLanguage.getLang());
       const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
       tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
       const thumbnail = component.render();
@@ -2024,12 +2496,88 @@ export class OpeningView {
   }
 
   /**
+   * Shows the recap of a batch: one scrollable section per pack, each with its five cards.
+   *
+   * The grid container of the single summary is reused (the `is-recap` class switches it to a
+   * scrollable column), so a thumbnail behaves the same way in both cases: tapping one opens the
+   * detail of that card, with the pack it came from.
+   *
+   * @returns {void}
+   */
+  renderBatchSummary() {
+    if (!this.summaryGrid) return;
+    this.summaryGrid.textContent = '';
+    this.summaryGrid.classList.add('is-recap');
+    const total = this.batchPacks.length;
+
+    this.batchPacks.forEach((pack, packIndex) => {
+      const section = document.createElement('section');
+      section.className = 'opening__recap-pack';
+      section.dataset.pack = String(packIndex);
+
+      const title = document.createElement('h3');
+      title.className = 'opening__recap-title';
+      title.textContent = i18n.t('opening.batch.pack', {
+        current: packIndex + 1,
+        total,
+        set: this.resolveSetName(pack.result.setId),
+      });
+
+      const cards = document.createElement('div');
+      cards.className = 'opening__recap-cards';
+      pack.components.forEach((component, index) => {
+        const tile = document.createElement('div');
+        tile.className = 'card-reveal__summary-item';
+        tile.dataset.key = component.card.uniqueKey;
+        tile.setAttribute('role', 'button');
+        tile.tabIndex = 0;
+        const name = component.card.getName(cardLanguage.getLang());
+        const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
+        tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
+        const thumbnail = component.render();
+        thumbnail.setAttribute('aria-hidden', 'true');
+        thumbnail.tabIndex = -1;
+        tile.appendChild(thumbnail);
+        tile.addEventListener('click', () => this.openCardModalFor(pack.components, index));
+        tile.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            this.openCardModalFor(pack.components, index);
+          }
+        });
+        cards.appendChild(tile);
+      });
+
+      section.append(title, cards);
+      this.summaryGrid.appendChild(section);
+    });
+    this.log(`Batch recap displayed: ${total} pack(s).`);
+  }
+
+  /**
    * Updates the summary line (source + card count).
    *
    * @param {{cards: Array, source: string}} result - Persisted pack.
    * @returns {void}
    */
   renderSummary(result) {
+    if (this.batchPacks.length > 1) {
+      const cards = this.batchPacks.reduce((count, pack) => count + pack.result.cards.length, 0);
+      this.summaryElement.hidden = false;
+      this.summaryElement.textContent = i18n.t('opening.batch.summary', {
+        packs: this.batchPacks.length,
+        cards,
+      });
+      return;
+    }
+    if (result?.source === 'replay') {
+      this.summaryElement.hidden = false;
+      this.summaryElement.textContent = i18n.t('opening.replay.summary', {
+        set: this.resolveSetName(result.setId),
+        cards: result.cards.length,
+      });
+      return;
+    }
     const sourceLabel = i18n.t(result.source === 'bonus' ? 'opening.source.bonus' : 'opening.source.daily');
     this.summaryElement.hidden = false;
     this.summaryElement.textContent = `${sourceLabel} : ${i18n.t('opening.summary', { count: result.cards.length })}`;
@@ -2046,10 +2594,24 @@ export class OpeningView {
    * @returns {void}
    */
   openCardModal(index) {
-    const component = this.cardComponents[index];
+    this.openCardModalFor(this.cardComponents, index);
+  }
+
+  /**
+   * Opens the card detail modal of one card of a given pack.
+   *
+   * The recap of a batch shows several packs at once, so a card is named by its pack and its
+   * position there, never by "the card on the spotlight".
+   *
+   * @param {CardComponent[]} components - Cards of the pack.
+   * @param {number} index - Position of the card in that pack.
+   * @returns {void}
+   */
+  openCardModalFor(components, index) {
+    const component = components[index];
     if (!component || !this.cardModal || !this.cardModalTitle || !this.cardModalBody) return;
     const card = component.card;
-    const lang = i18n.getLang();
+    const lang = cardLanguage.getLang();
     const name = card.getName(lang);
     this.cardModalTitle.textContent = name;
     this.cardModalBody.textContent = '';
@@ -2091,7 +2653,7 @@ export class OpeningView {
       ? i18n.t('opening.card.statusNew')
       : i18n.t('opening.card.statusOwned');
     const rows = [
-      [i18n.t('opening.card.count', { current: index + 1, total: this.cardComponents.length }), statusLabel],
+      [i18n.t('opening.card.count', { current: index + 1, total: components.length }), statusLabel],
       [i18n.t('opening.card.name'), name],
       // The index is the reference of the catalogue: what a player quotes about a card.
       [i18n.t('opening.card.index'), card.index || card.id],
@@ -2170,6 +2732,14 @@ export class OpeningView {
     // clicked, or "Suivante") must not swallow Space.
     const isTextControl = target instanceof HTMLElement
       && (target.closest('input, select, textarea, [contenteditable="true"]') !== null);
+    if (this.tenModal && !this.tenModal.hidden) {
+      if (event.key === 'Escape') this.closeTenModal();
+      return;
+    }
+    if (this.countModal && !this.countModal.hidden) {
+      if (event.key === 'Escape') this.closeCountModal();
+      return;
+    }
     if (this.sourceModal && !this.sourceModal.hidden) {
       if (event.key === 'Escape') {
         this.closeSourceModal();
@@ -2332,6 +2902,191 @@ export class OpeningView {
   }
 
   /**
+   * Opens the share page of the pack on screen (`booster.html`) in a new tab.
+   *
+   * The page is standalone: it receives the same code the copy button writes, the language of the
+   * cards, and the optional pseudo and avatar of the player, and it offers the overlay link in
+   * turn. The tab is opened BEFORE the extension is awaited, because a `window.open()` that only
+   * runs after an `await` no longer belongs to the click and every browser blocks it; the blank
+   * tab is pointed at the page once it is built, and closed again if the code cannot be written.
+   *
+   * @returns {Promise<void>} Resolves once the tab points at the share page (or the failure shown).
+   */
+  async handleShareOpening() {
+    if (!this.pendingResult) {
+      console.warn('[OpeningView] Share ignored: no booster is open.');
+      return;
+    }
+
+    const tab = window.open('about:blank', '_blank');
+    if (!tab) {
+      Toast.error('opening.share.error');
+      return;
+    }
+    // The page is same-origin and only ever read: it has no reason to keep a handle on the game.
+    tab.opener = null;
+
+    let set = null;
+    try {
+      set = await boosterManager.getBoosterSet(this.pendingResult.setId);
+    } catch (error) {
+      console.warn('[OpeningView] The extension could not be reloaded for the share page.', error);
+    }
+
+    try {
+      const url = new URL('booster.html', window.location.href);
+      url.searchParams.set('code', buildBoosterCode(this.pendingResult, set));
+      url.searchParams.set('lang', cardLanguage.getLang());
+
+      // The identity is optional: a player who never named themselves still shares the pack, and
+      // the share page shows its anonymous wording instead of an empty pill.
+      let profile = null;
+      try {
+        profile = await profileManager.getProfile();
+      } catch (error) {
+        console.warn('[OpeningView] The profile could not be read for the share page.', error);
+      }
+      const name = typeof profile?.name === 'string' ? profile.name.trim() : '';
+      if (name !== '') url.searchParams.set('username', name);
+      const picture = typeof profile?.icon === 'string' && profile.icon !== ''
+        ? profile.icon
+        : (typeof profile?.photo === 'string' ? profile.photo : '');
+      if (picture !== '') {
+        url.searchParams.set('profileiconurl', new URL(picture, window.location.href).href);
+      }
+
+      tab.location.replace(url.href);
+      this.log('Share page opened for the displayed pack.');
+    } catch (error) {
+      console.error('[OpeningView] The share page could not be opened.', error);
+      tab.close();
+      Toast.error('opening.share.error');
+    }
+  }
+
+  /**
+   * Shows, hides and arms the "save this opening" button of the summary.
+   *
+   * A batch and a replay have nothing to save as one pack: the first would need one slot per pack,
+   * the second never wrote anything. The button disappears for both, and stays disabled with an
+   * explanation once the ten slots are taken.
+   *
+   * @returns {Promise<void>} Resolves once the button is up to date.
+   */
+  async refreshSaveButton() {
+    if (!this.saveButton) return;
+    const result = this.pendingResult;
+    const single = Boolean(result) && this.batchPacks.length <= 1 && !this.isReplay;
+    if (!single) {
+      this.saveButton.hidden = true;
+      return;
+    }
+    this.saveButton.hidden = false;
+    this.saveButton.title = '';
+    this.saveButton.textContent = i18n.t('opening.save');
+    if (this.savedResult === result) {
+      this.saveButton.disabled = true;
+      this.saveButton.textContent = i18n.t('opening.save.done');
+      return;
+    }
+    this.saveButton.disabled = false;
+    try {
+      const state = await boosterManager.getSavedOpeningsState();
+      // The player may have left the summary (or started a replay) while the slots were read: the
+      // button must not come back on a screen that no longer shows this pack.
+      if (this.pendingResult !== result || this.isReplay) return;
+      this.saveButton.disabled = state.full;
+      if (state.full) this.saveButton.title = i18n.t('opening.save.full');
+    } catch (error) {
+      console.warn('[OpeningView] The saved-opening slots could not be read.', error);
+    }
+  }
+
+  /**
+   * Pins the pack of the summary in one of the ten saved slots.
+   *
+   * Nothing is written to the collection or to the statistics: the pack was persisted when it was
+   * drawn, and saving only keeps what the player is looking at. The button stays disabled once the
+   * slot is taken, so a double click cannot consume two slots.
+   *
+   * @returns {Promise<void>} Resolves once the slot is written (or the error shown).
+   */
+  async saveCurrentOpening() {
+    const result = this.pendingResult;
+    if (!result || this.isReplay || this.batchPacks.length > 1 || this.isSaving) return;
+    this.isSaving = true;
+    if (this.saveButton) this.saveButton.disabled = true;
+    try {
+      await boosterManager.saveOpening({
+        setId: result.setId,
+        cards: result.cards,
+        godpack: Boolean(result.godpack),
+      });
+      this.savedResult = result;
+      if (this.saveButton && this.pendingResult === result) {
+        this.saveButton.textContent = i18n.t('opening.save.done');
+      }
+      Toast.success('opening.save.toast');
+      this.log('Opening pinned in the saved slots.');
+    } catch (error) {
+      if (error?.code === 'SAVED_OPENINGS_FULL') {
+        this.setFeedback('opening.save.full', 'error');
+      } else {
+        console.error('[OpeningView] The opening could not be saved.', error);
+        this.setFeedback('opening.save.error', 'error');
+      }
+      if (this.saveButton) this.saveButton.disabled = false;
+    } finally {
+      this.isSaving = false;
+    }
+  }
+
+  /**
+   * Replays a saved opening: the same cards, in the same order, with no other effect.
+   *
+   * The reveal is the normal one — the spotlight, one card at a time, then the summary — but the
+   * pack is NOT drawn again: no booster is spent, no card enters the collection, no card is flagged
+   * as new, no Sparks and no experience move. The share code and the "save" button are hidden,
+   * because there is nothing to share and nothing to keep.
+   *
+   * @param {{setId: string, cards: (Card|null)[], godpack?: boolean}} entry - Resolved saved entry.
+   * @returns {boolean} True when the replay started, false when the view was busy.
+   */
+  replaySaved(entry) {
+    if (this.isBusy || this.revealStage !== 'idle') return false;
+    const cards = (Array.isArray(entry?.cards) ? entry.cards : []).filter(Boolean);
+    if (cards.length === 0 || typeof entry.setId !== 'string') return false;
+
+    this.isBusy = true;
+    try {
+      const result = {
+        setId: entry.setId,
+        cards,
+        newKeys: [],
+        source: 'replay',
+        godpack: Boolean(entry.godpack),
+        remaining: null,
+      };
+      this.isReplay = true;
+      this.pendingResult = result;
+      this.savedResult = null;
+      this.cancelIdleDispose();
+      this.disposePreview();
+      this.warmupCardImages(cards);
+      this.showStage('scene');
+      this.showSceneSubStage('booster');
+      this.buildReveal(result);
+      if (this.copyCodeButton) this.copyCodeButton.hidden = true;
+      if (this.shareButton) this.shareButton.hidden = true;
+      this.startSpotlightReveal();
+      this.log(`Replaying a saved opening of "${entry.setId}" (visual only).`);
+      return true;
+    } finally {
+      this.isBusy = false;
+    }
+  }
+
+  /**
    * Closes the scene and goes back to the extension picker. Performs NO write: the pack was
    * already persisted by `openBooster()` before the animation.
    *
@@ -2339,16 +3094,28 @@ export class OpeningView {
    */
   finish() {
     this.log('Finishing the reveal (no write, the pack was already persisted).');
-    this.announceRevealFinished();
+    if (!this.isReplay) this.announceRevealFinished();
     this.closeSourceModal();
     this.cancelIdleDispose();
     this.disposeRenderer();
     this.isFallbackMode = false;
     this.clearReveal();
     this.pendingResult = null;
+    this.isReplay = false;
+    this.savedResult = null;
     this.setFeedback(null);
     this.showStage('select');
     this.showSceneSubStage('booster');
+    if (this.saveButton) {
+      // The button is reset here (not only when the next summary arms it) so a finished pack never
+      // leaves a stale "Sauvegardée" label behind.
+      this.saveButton.hidden = true;
+      this.saveButton.disabled = false;
+      this.saveButton.title = '';
+      this.saveButton.textContent = i18n.t('opening.save');
+    }
+    if (this.copyCodeButton) this.copyCodeButton.hidden = false;
+    if (this.shareButton) this.shareButton.hidden = false;
     void this.refreshSetOptions().then(() => this.updatePreview());
     this.refreshQuota();
   }
@@ -2364,8 +3131,15 @@ export class OpeningView {
     this.stopSpaceAutoAdvance();
     this.clearBurst();
     this.clearSpotlightEntryGuard();
-    this.cardComponents.forEach((component) => component.destroy());
+    // Every pack of a batch owns its cards: they are released together, whichever pack is on screen.
+    const components = this.batchPacks.length > 0
+      ? this.batchPacks.flatMap((pack) => pack.components)
+      : this.cardComponents;
+    components.forEach((component) => component.destroy());
+    this.batchPacks = [];
+    this.batchIndex = 0;
     this.cardComponents = [];
+    if (this.batchCounterElement) this.batchCounterElement.hidden = true;
     this.spotlightIndex = 0;
     this.revealStage = 'idle';
     this.touchStart = null;
@@ -2374,6 +3148,7 @@ export class OpeningView {
     if (this.summaryGrid) {
       this.summaryGrid.textContent = '';
       this.summaryGrid.hidden = true;
+      this.summaryGrid.classList.remove('is-recap');
     }
     if (this.revealContainer) this.revealContainer.hidden = true;
     if (this.summaryElement) this.summaryElement.hidden = true;

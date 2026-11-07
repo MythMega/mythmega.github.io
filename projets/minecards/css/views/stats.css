@@ -287,3 +287,16 @@
     transition: none;
   }
 }
+
+/* --- Saved openings (ten slots kept forever) ------------------------------ */
+
+/* The row reuses the history layout; only the actions under the cards are new. */
+.stats__saved-entry .stats__history-cards {
+  margin-bottom: var(--space-2);
+}
+
+.stats__saved-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

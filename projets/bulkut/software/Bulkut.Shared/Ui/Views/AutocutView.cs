@@ -274,7 +274,6 @@ public sealed class AutocutView : FeatureView
         addContent.Children.Add(Ui.Icon(PlusIcon, 14, Ui.NavyBrush, 2.2));
         addContent.Children.Add(Loc.Text("common.addFiles", "label"));
         add.Content = addContent;
-        add.Click += async (_, _) => await AddFilesAsync(await FilePicker.PickVideosAsync(this, true, ImportFailed));
         var headActions = Ui.HStack(8);
         headActions.Children.Add(countPill);
         headActions.Children.Add(add);
@@ -285,6 +284,7 @@ public sealed class AutocutView : FeatureView
         head.Children.Add(headActions);
 
         var drop = new DropZone(Loc, true, AddFilesAsync);
+        add.Click += async (_, _) => await drop.PickAsync();
         var stack = Ui.VStack(12);
         stack.Children.Add(head);
         stack.Children.Add(drop);

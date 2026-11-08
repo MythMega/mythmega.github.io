@@ -643,6 +643,29 @@
   opacity: 0.85;
 }
 
+.bitrate-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bitrate-row .select-input {
+  flex: 1;
+  min-width: 150px;
+}
+
+.bitrate-row .text-input {
+  width: 104px;
+  flex: none;
+}
+
+.bitrate-unit {
+  font-size: 11.5px;
+  color: var(--muted);
+  flex: none;
+}
+
 /* ---------- Video list ---------- */
 
 .video-list {

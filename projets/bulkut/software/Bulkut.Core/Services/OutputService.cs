@@ -15,10 +15,11 @@ public sealed class OutputService(SettingsStore settings, Action<string>? reveal
         string originalName,
         string? suffix,
         double duration,
-        IReadOnlyList<Segment>? segments = null)
+        IReadOnlyList<Segment>? segments = null,
+        string extension = "mp4")
     {
         Directory.CreateDirectory(Folder);
-        var fileName = Naming.BuildOutputName(originalName, suffix);
+        var fileName = Naming.BuildOutputName(originalName, suffix, extension);
         var destination = Naming.UniquePath(Folder, fileName);
         Move(temporaryPath, destination);
         return new RenderResult(destination, Path.GetFileName(destination), duration, segments);

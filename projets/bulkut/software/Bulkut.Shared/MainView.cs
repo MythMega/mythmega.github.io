@@ -26,6 +26,7 @@ public sealed class MainView : UserControl
         ("collage", "M3 7.5a2.2 2.2 0 0 1 2.2-2.2h7.6A2.2 2.2 0 0 1 15 7.5v3.8a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 11.3V7.5Z M9 12.7a2.2 2.2 0 0 1 2.2-2.2h7.6a2.2 2.2 0 0 1 2.2 2.2v3.8a2.2 2.2 0 0 1-2.2 2.2h-7.6A2.2 2.2 0 0 1 9 16.5v-3.8Z"),
         ("introoutro", "M8.5 4.5H4v15h4.5 M15.5 4.5H20v15h-4.5 M9.5 9l4.5 3-4.5 3v-6Z"),
         ("splitter", "M4 5v14 M20 5v14 M8 8h3v8H8V8Z M13 8h3v8h-3V8Z"),
+        ("convert", "M4 9h13l-3.5-3.5 M20 15H7l3.5 3.5"),
     ];
 
     private static readonly IBrush TabInk = new SolidColorBrush(Color.Parse("#1B356E"));
@@ -344,6 +345,7 @@ public sealed class MainView : UserControl
         AddView("introoutro", new IntroOutroView(_services));
         AddView("collage", new CollageView(_services));
         AddView("splitter", new SplitterView(_services));
+        AddView("convert", new ConvertView(_services));
     }
 
     private void AddView(string key, FeatureView view)

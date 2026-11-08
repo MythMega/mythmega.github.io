@@ -230,6 +230,14 @@
       </span>
       <span data-i18n="nav.splitter">Splitter</span>
     </button>
+    <button class="tab" type="button" role="tab" id="tab-convert" aria-controls="panel-convert" aria-selected="false" tabindex="-1" data-tab="convert">
+      <span class="tab-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 8h11l-3-3"/><path d="M20 16H9l3 3"/><path d="M15 5v6M9 13v6"/>
+        </svg>
+      </span>
+      <span data-i18n="nav.convert">Convert</span>
+    </button>
   </nav>
 
   <main id="main" class="app-main">
@@ -685,6 +693,112 @@
           </div>
 
           <div class="stage" id="splitter-stage"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ CONVERT ============ -->
+    <section class="tab-panel" id="panel-convert" role="tabpanel" aria-labelledby="tab-convert" data-panel="convert" hidden>
+      <div class="panel-grid">
+        <aside class="card glass settings-card">
+          <div class="card-head">
+            <h2 data-i18n="convert.settings.title">Conversion settings</h2>
+            <p data-i18n="convert.settings.hint">Re-encode every video into the chosen container, with the bitrate you set or FFmpeg's default.</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="convert-format" data-i18n="convert.format">Output format</label>
+            <select class="select-input" id="convert-format"></select>
+            <p class="field-hint" data-i18n="convert.formatHint">Formats this FFmpeg build cannot write are hidden.</p>
+            <p class="field-hint" id="convert-support" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="convert-video-mode" data-i18n="convert.videoBitrate">Video bitrate</label>
+            <div class="bitrate-row">
+              <select class="select-input" id="convert-video-mode">
+                <option value="auto" data-i18n="convert.bitrate.auto">Auto (FFmpeg chooses)</option>
+                <option value="custom" data-i18n="convert.bitrate.custom">Custom</option>
+              </select>
+              <input class="text-input" id="convert-video-bitrate" type="number" min="100" max="100000" step="50" inputmode="numeric" placeholder="2500" hidden disabled>
+              <span class="bitrate-unit" data-i18n="convert.bitrateUnit">kbps</span>
+            </div>
+            <p class="field-hint" data-i18n="convert.videoBitrateHint">Auto lets FFmpeg pick the bitrate.</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="convert-audio-mode" data-i18n="convert.audioBitrate">Audio bitrate</label>
+            <div class="bitrate-row">
+              <select class="select-input" id="convert-audio-mode">
+                <option value="auto" data-i18n="convert.bitrate.auto">Auto (FFmpeg chooses)</option>
+                <option value="custom" data-i18n="convert.bitrate.custom">Custom</option>
+              </select>
+              <input class="text-input" id="convert-audio-bitrate" type="number" min="100" max="100000" step="50" inputmode="numeric" placeholder="128" hidden disabled>
+              <span class="bitrate-unit" data-i18n="convert.bitrateUnit">kbps</span>
+            </div>
+            <p class="field-hint" data-i18n="convert.audioBitrateHint">Auto keeps FFmpeg's default for the chosen audio codec.</p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="convert-suffix" data-i18n="common.suffix.label">Output suffix</label>
+            <input class="text-input" id="convert-suffix" type="text" autocomplete="off" spellcheck="false" maxlength="40" data-i18n-placeholder="common.suffix.placeholder" placeholder="-converted">
+            <p class="field-hint" data-i18n="common.suffix.hint">Appended to the file name before download.</p>
+          </div>
+
+          <button class="btn btn-primary btn-block" id="convert-run" type="button" disabled>
+            <span class="btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h11l-3-3"/><path d="M20 16H9l3 3"/><path d="M15 5v6M9 13v6"/></svg>
+            </span>
+            <span data-role="label">Convert all</span>
+          </button>
+          <button class="btn btn-danger btn-block" id="convert-stop" type="button" hidden data-i18n="convert.stop">Stop</button>
+
+          <section class="job-progress" id="convert-job" hidden aria-live="polite">
+            <div class="job-progress-meta">
+              <span id="convert-job-text"></span>
+              <span class="video-status-right">
+                <span class="video-eta" id="convert-job-eta" hidden></span>
+                <span class="video-percent" id="convert-job-percent"></span>
+              </span>
+            </div>
+            <div class="progress"><div class="progress-bar" id="convert-job-bar"></div></div>
+          </section>
+
+          <p class="card-note" data-i18n="convert.note">Each video is converted separately: allow multiple downloads in your browser when asked.</p>
+          <p class="card-note" data-i18n="common.oneAtATime">One video at a time, in launch order.</p>
+        </aside>
+
+        <section class="card glass list-card">
+          <div class="card-head row">
+            <div>
+              <h2 data-i18n="convert.list.title">Videos</h2>
+              <p data-i18n="convert.list.hint">Each video is converted and downloaded separately.</p>
+            </div>
+            <div class="head-actions">
+              <span class="count-pill" id="convert-count" aria-live="polite">0</span>
+              <button class="btn btn-secondary btn-compact" id="convert-add" type="button">
+                <span class="btn-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                </span>
+                <span data-i18n="common.addFiles">Add videos</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="dropzone" id="convert-dropzone" role="button" tabindex="0">
+            <input id="convert-input" class="visually-hidden" type="file" accept="video/*,.mkv,.mov,.m4v,.webm,.avi,.mp4" multiple tabindex="-1" aria-hidden="true">
+            <span class="dropzone-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m10 9.5 5 2.5-5 2.5v-5Z"/>
+              </svg>
+            </span>
+            <p class="dropzone-title" data-i18n="common.dropTitle">Drag &amp; drop your videos here</p>
+            <p class="dropzone-sub"><span class="dropzone-link" data-i18n="common.browse">Browse files</span></p>
+            <p class="dropzone-note" data-i18n="common.localOnly">Everything stays on this device.</p>
+          </div>
+
+          <ul class="video-list" id="convert-list"></ul>
+          <p class="empty-state" id="convert-empty" data-i18n="convert.empty">No videos yet. Add clips to convert them.</p>
         </section>
       </div>
     </section>

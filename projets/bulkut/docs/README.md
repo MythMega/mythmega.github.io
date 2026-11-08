@@ -5,7 +5,7 @@ navigateur grâce à [ffmpeg.wasm](https://ffmpegwasm.netlify.app/). Aucun
 fichier n'est envoyé à un serveur : les vidéos sont lues, découpées et
 réencodées dans le worker WebAssembly local, puis téléchargées.
 
-Trois pages partagent le même code et les mêmes six outils :
+Trois pages partagent le même code et les mêmes sept outils :
 
 - [`index.html`](../index.html) : import classique, la vidéo est copiée dans le
   système de fichiers en mémoire de ffmpeg.wasm (limite
@@ -18,7 +18,7 @@ Trois pages partagent le même code et les mêmes six outils :
 
 Voir [pro-opfs.md](pro-opfs.md) pour le détail du mode Pro.
 
-## Les six outils
+## Les sept outils
 
 | Onglet | Rôle | Documentation |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ npm test
 ## Arborescence
 
 ```
-index.html                 page standard, les six onglets
+index.html                 page standard, les sept onglets
 pro.html                   même page avec import OPFS
 download.html              téléchargement des applications natives
 settings/config.json       configuration de l'application (chemins, limites, codecs)

@@ -169,6 +169,26 @@ public sealed class AutocutParameters
     }
 }
 
+/// <summary>Target container and render parameters of the Convert tab.</summary>
+public sealed class ConvertSettings
+{
+    /// <summary><c>mp4</c>, <c>mov</c>, <c>mkv</c>, <c>avi</c> or <c>webm</c>.</summary>
+    public string Format { get; set; } = "mp4";
+
+    /// <summary><c>auto</c> (FFmpeg chooses) or a bitrate in kbps.</summary>
+    public string VideoBitrate { get; set; } = "auto";
+    public string AudioBitrate { get; set; } = "auto";
+    public string Suffix { get; set; } = "-converted";
+
+    public ConvertSettings Clone() => new()
+    {
+        Format = Format,
+        VideoBitrate = VideoBitrate,
+        AudioBitrate = AudioBitrate,
+        Suffix = Suffix,
+    };
+}
+
 /// <summary>Suffix-only settings for the features that have no numeric options.</summary>
 public sealed class SuffixSettings
 {
@@ -187,6 +207,7 @@ public sealed class Parameters
     public SuffixSettings Collage { get; set; } = new() { Suffix = "-collage" };
     public SuffixSettings IntroOutro { get; set; } = new() { Suffix = "-intro-outro" };
     public SuffixSettings Splitter { get; set; } = new() { Suffix = "-split" };
+    public ConvertSettings Convert { get; set; } = new();
 
     public Parameters Clone() => new()
     {
@@ -196,6 +217,7 @@ public sealed class Parameters
         Collage = Collage.Clone(),
         IntroOutro = IntroOutro.Clone(),
         Splitter = Splitter.Clone(),
+        Convert = Convert.Clone(),
     };
 }
 
@@ -208,6 +230,7 @@ public sealed class DefaultsFile
     public SuffixSettings? Collage { get; set; }
     public SuffixSettings? IntroOutro { get; set; }
     public SuffixSettings? Splitter { get; set; }
+    public ConvertSettings? Convert { get; set; }
 }
 
 public sealed class FfmpegOptions

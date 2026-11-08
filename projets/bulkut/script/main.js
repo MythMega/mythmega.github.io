@@ -11,6 +11,7 @@ import { loadSettings } from './core/settings.js';
 import { TaskQueue } from './core/task-queue.js';
 import { createAutocutFeature } from './features/autocut/autocut-feature.js';
 import { createCollageFeature } from './features/collage/collage-feature.js';
+import { createConvertFeature } from './features/convert/convert-feature.js';
 import { createFastcutFeature } from './features/fastcut/fastcut-feature.js';
 import { createIntroOutroFeature } from './features/introoutro/introoutro-feature.js';
 import { createReverseFeature } from './features/reverse/reverse-feature.js';
@@ -102,6 +103,7 @@ async function boot() {
     collage: createCollageFeature(ctx, $('#panel-collage')),
     introoutro: createIntroOutroFeature(ctx, $('#panel-introoutro')),
     splitter: createSplitterFeature(ctx, $('#panel-splitter')),
+    convert: createConvertFeature(ctx, $('#panel-convert')),
   };
 
   // Dynamic labels built by the features (slider fields, etc.).
@@ -142,6 +144,8 @@ async function boot() {
       panel.hidden = !active;
       panel.classList.toggle('is-active', active);
     }
+
+    features[name]?.onActivate?.();
   }
 
   for (const tab of tabs) {

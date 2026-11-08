@@ -18,7 +18,8 @@
     "reverse": "Invertir",
     "collage": "Collage",
     "introoutro": "Intro / Outro",
-    "splitter": "Divisor"
+    "splitter": "Divisor",
+    "convert": "Convertir"
   },
   "engine": {
     "idle": "Motor inactivo",
@@ -141,6 +142,37 @@
     "params": {
       "title": "Umbral · margen previo · margen posterior · duración mínima del clip"
     }
+  },
+  "convert": {
+    "settings": {
+      "title": "Ajustes de conversión",
+      "hint": "Recodifica cada vídeo en el contenedor elegido, con el bitrate que fijes o el que use FFmpeg por defecto."
+    },
+    "list": {
+      "title": "Vídeos",
+      "hint": "Cada vídeo se convierte y se descarga por separado."
+    },
+    "empty": "Aún no hay vídeos. Añade clips para convertirlos.",
+    "format": "Formato de salida",
+    "formatHint": "Los formatos que esta compilación de FFmpeg no puede escribir se ocultan.",
+    "videoBitrate": "Bitrate de vídeo",
+    "videoBitrateHint": "Auto deja que FFmpeg elija el bitrate.",
+    "audioBitrate": "Bitrate de audio",
+    "audioBitrateHint": "Auto mantiene el valor por defecto de FFmpeg para el códec de audio elegido.",
+    "bitrate": {
+      "auto": "Auto (FFmpeg elige)",
+      "custom": "Personalizado"
+    },
+    "bitrateUnit": "kbps",
+    "support": "Formatos disponibles: {formats}",
+    "run": "Convertir todo ({count})",
+    "stop": "Detener",
+    "note": "Cada vídeo se convierte por separado: permite las descargas múltiples en el navegador.",
+    "probing": "Leyendo el vídeo…",
+    "converting": "Convirtiendo {name}",
+    "done": "{count} vídeo(s) convertido(s)",
+    "resultDone": "{name} descargado.",
+    "stopped": "Conversión detenida."
   },
   "fastcut": {
     "settings": {
@@ -333,7 +365,7 @@
       "body": "Bulkut Pro guarda las importaciones en OPFS, el almacenamiento privado del navegador, y las transmite desde ahí a FFmpeg. El límite de importación de una página normal ya no se aplica y no se sube nada.",
       "points": {
         "free": "Gratis, sin publicidad, sin cuenta.",
-        "tools": "Las mismas seis herramientas que la página estándar.",
+        "tools": "Las mismas siete herramientas que la página estándar.",
         "storage": "Guardado en tu navegador y eliminable en cualquier momento.",
         "desktop": "¿Necesitas más? La versión de escritorio lee directamente del disco sin límite de tamaño."
       }
@@ -435,6 +467,7 @@
     "openPro": "Abrir la página Pro"
   },
   "mobile": {
+    "importingCount": "{index} de {count}",
     "dropTitle": "Toca para elegir tus vídeos",
     "dropFileTitle": "Toca para elegir un vídeo",
     "storageNote": "Los archivos elegidos se copian en el almacenamiento privado de la aplicación."

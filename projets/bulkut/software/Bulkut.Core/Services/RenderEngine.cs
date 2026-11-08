@@ -315,6 +315,65 @@ public sealed class RenderEngine(SettingsStore settings, FfmpegService ffmpeg, O
         return results;
     }
 
+    /// <summary>
+    /// Asks FFmpeg which containers and encoders it has, so the Convert tab
+    /// only offers formats this build can actually write.
+    /// </summary>
+    public async Task<IReadOnlyList<ConvertTarget>> DetectConvertTargetsAsync(CancellationToken cancellationToken)
+    {
+        var muxers = await ffmpeg.RunAsync(["-hide_banner", "-muxers"], 0, null, cancellationToken, allowFailure: true)
+            .ConfigureAwait(false);
+        var encoders = await ffmpeg.RunAsync(["-hide_banner", "-encoders"], 0, null, cancellationToken, allowFailure: true)
+            .ConfigureAwait(false);
+
+        var (video, audio) = ConvertOps.ParseEncoders(encoders.Logs);
+        var targets = ConvertOps.Supported(ConvertOps.ParseMuxers(muxers.Logs), video, audio);
+        return targets.Count > 0 ? targets : ConvertOps.DefaultTargets();
+    }
+
+    /// <summary>Re-encodes one video into another container.</summary>
+    public async Task<RenderResult> RenderConvertAsync(
+        string path,
+        MediaInfo? known,
+        ConvertTarget target,
+        string? videoBitrate,
+        string? audioBitrate,
+        string? suffix,
+        IProgress<JobProgress>? progress,
+        CancellationToken cancellationToken)
+    {
+        progress?.Report(new JobProgress(JobPhase.Preparing, 0.01));
+        var info = known ?? await ffmpeg.ProbeAsync(path, cancellationToken).ConfigureAwait(false);
+        if (!info.HasVideo) throw new AppException(AppErrorCodes.NoVideoStream);
+        var duration = ResolveDuration(info);
+
+        var temp = TempOutput(target.Extension);
+        try
+        {
+            progress?.Report(new JobProgress(JobPhase.Rendering, 0.04));
+            await ffmpeg.RunAsync(
+                    ConvertOps.BuildArgs(path, temp, target, videoBitrate, audioBitrate, Processing),
+                    duration,
+                    Wrap(progress, JobPhase.Rendering, 0.04, 0.94),
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            progress?.Report(new JobProgress(JobPhase.Rendering, 0.96));
+            var result = output.Save(
+                temp,
+                Path.GetFileName(path),
+                suffix,
+                duration,
+                extension: target.Extension);
+            progress?.Report(new JobProgress(JobPhase.Done, 1));
+            return result;
+        }
+        finally
+        {
+            SafeDelete(temp);
+        }
+    }
+
     private async Task<RenderResult> RenderConcatCoreAsync(
         IReadOnlyList<string> inputs,
         IReadOnlyList<ConcatClip> clips,
@@ -420,11 +479,11 @@ public sealed class RenderEngine(SettingsStore settings, FfmpegService ffmpeg, O
         });
     }
 
-    private static string TempOutput()
+    private static string TempOutput(string extension = "mp4")
     {
         var folder = Path.Combine(Path.GetTempPath(), "bulkut");
         Directory.CreateDirectory(folder);
-        return Path.Combine(folder, $"bulkut-{Guid.NewGuid():N}.mp4");
+        return Path.Combine(folder, $"bulkut-{Guid.NewGuid():N}.{extension}");
     }
 
     private static void SafeDelete(string path)

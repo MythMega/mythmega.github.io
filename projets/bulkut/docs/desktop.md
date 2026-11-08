@@ -1,7 +1,7 @@
 # Application desktop
 
 `software/` contient **Bulkut Desktop**, une application native qui reprend les
-six outils de [`pro.html`](../pro.html) avec FFmpeg natif. Elle lit les
+sept outils de [`pro.html`](../pro.html) avec FFmpeg natif. Elle lit les
 fichiers directement sur le disque : aucune limite d'import, aucun navigateur,
 aucun envoi réseau.
 

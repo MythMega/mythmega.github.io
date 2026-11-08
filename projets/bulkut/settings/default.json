@@ -52,5 +52,11 @@
       "video": "none",
       "duration": 1
     }
+  },
+  "convert": {
+    "format": "mp4",
+    "videoBitrate": "auto",
+    "audioBitrate": "auto",
+    "suffix": "-converted"
   }
 }

@@ -5,6 +5,9 @@ using Avalonia.Platform.Storage;
 
 namespace Bulkut.Ui;
 
+/// <summary>Progress of one file being copied into the app (content:// URIs on Android).</summary>
+public sealed record ImportProgress(string FileName, int Index, int Count, double Ratio);
+
 public static class FilePicker
 {
     private const int CopyBufferSize = 1024 * 1024;
@@ -23,10 +26,15 @@ public static class FilePicker
     /// <param name="onImportError">
     /// Called with the file name when a platform URI cannot be copied locally.
     /// </param>
+    /// <param name="progress">
+    /// Reports the file being copied and its percentage. Android copies every
+    /// picked URI into the app cache, which can take a while for long videos.
+    /// </param>
     public static async Task<IReadOnlyList<string>> PickVideosAsync(
         Visual visual,
         bool multiple,
-        Action<string>? onImportError = null)
+        Action<string>? onImportError = null,
+        IProgress<ImportProgress>? progress = null)
     {
         var top = TopLevel.GetTopLevel(visual);
         if (top is null) return [];
@@ -39,9 +47,9 @@ public static class FilePicker
         });
 
         var paths = new List<string>(files.Count);
-        foreach (var file in files)
+        for (var index = 0; index < files.Count; index++)
         {
-            var path = await LocalPathAsync(file, onImportError);
+            var path = await LocalPathAsync(files[index], onImportError, progress, index, files.Count);
             if (!string.IsNullOrWhiteSpace(path)) paths.Add(path!);
         }
 
@@ -72,7 +80,12 @@ public static class FilePicker
     /// Desktop pickers hand back a real path. Android hands back a <c>content://</c>
     /// URI that FFmpeg cannot open, so it is copied into the app cache first.
     /// </summary>
-    private static async Task<string?> LocalPathAsync(IStorageFile file, Action<string>? onImportError)
+    private static async Task<string?> LocalPathAsync(
+        IStorageFile file,
+        Action<string>? onImportError,
+        IProgress<ImportProgress>? progress,
+        int index,
+        int count)
     {
         var local = file.TryGetLocalPath();
         if (!string.IsNullOrWhiteSpace(local)) return local;
@@ -81,6 +94,16 @@ public static class FilePicker
         // displays and the output name is built from.
         var folder = Path.Combine(Path.GetTempPath(), "bulkut-input", Guid.NewGuid().ToString("N")[..8]);
         var target = Path.Combine(folder, Sanitize(file.Name));
+
+        long total = 0;
+        try
+        {
+            total = (long)((await file.GetBasicPropertiesAsync()).Size ?? 0);
+        }
+        catch (Exception)
+        {
+            // Some providers cannot answer; the copy still works without a total.
+        }
 
         try
         {
@@ -99,7 +122,31 @@ public static class FilePicker
                     FileShare.None,
                     CopyBufferSize,
                     useAsync: true);
-                await source.CopyToAsync(destination, CopyBufferSize).ConfigureAwait(false);
+
+                var buffer = new byte[CopyBufferSize];
+                long copied = 0;
+                var lastReport = -1000L;
+                var clock = System.Diagnostics.Stopwatch.StartNew();
+
+                int read;
+                while ((read = await source.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+                {
+                    await destination.WriteAsync(buffer, 0, read).ConfigureAwait(false);
+                    copied += read;
+
+                    if (progress is null) continue;
+                    // Roughly one update every 80 ms keeps the bar moving
+                    // without flooding the UI thread.
+                    if (clock.ElapsedMilliseconds - lastReport < 80 && copied != total) continue;
+                    lastReport = clock.ElapsedMilliseconds;
+                    progress.Report(new ImportProgress(
+                        file.Name,
+                        index + 1,
+                        count,
+                        total > 0 ? Math.Clamp((double)copied / total, 0, 1) : 0));
+                }
+
+                progress?.Report(new ImportProgress(file.Name, index + 1, count, 1));
             }).ConfigureAwait(false);
 
             return target;

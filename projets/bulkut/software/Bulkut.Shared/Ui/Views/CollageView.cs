@@ -141,7 +141,7 @@ public sealed class CollageView : FeatureView
         addContent.Children.Add(Ui.Icon("M12 5v14 M5 12h14", 14, Ui.NavyBrush, 2.2));
         addContent.Children.Add(Loc.Text("common.addFiles", "label"));
         _add.Content = addContent;
-        _add.Click += async (_, _) => await AddAsync(await FilePicker.PickVideosAsync(this, true, ImportFailed));
+        _add.Click += async (_, _) => await _drop.PickAsync();
 
         var title = Ui.VStack(2);
         title.Children.Add(Loc.Text("collage.list.title", "h2"));

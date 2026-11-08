@@ -115,6 +115,13 @@ public sealed class SettingsStore
                 Suffix = Naming.SanitizeSuffix(FirstNonEmpty(source.Splitter.Suffix, defaults.Splitter?.Suffix, "-split")),
                 Fade = Fades.Normalize(source.Splitter.Fade, Config.Fade, defaults.Splitter?.Fade),
             },
+            Convert = new ConvertSettings
+            {
+                Format = ConvertOps.NormalizeFormat(source.Convert.Format),
+                VideoBitrate = ConvertOps.NormalizeBitrate(source.Convert.VideoBitrate),
+                AudioBitrate = ConvertOps.NormalizeBitrate(source.Convert.AudioBitrate),
+                Suffix = Naming.SanitizeSuffix(FirstNonEmpty(source.Convert.Suffix, defaults.Convert?.Suffix, "-converted")),
+            },
         };
 
         foreach (var spec in AutocutFields.Specs(Config))

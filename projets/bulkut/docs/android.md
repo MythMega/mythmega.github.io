@@ -1,7 +1,7 @@
 # Application Android
 
 `software/Bulkut.Android` est le portage mobile de l'application native. Il
-partage **toute** l'interface Avalonia avec la version desktop : mêmes six
+partage **toute** l'interface Avalonia avec la version desktop : mêmes sept
 onglets, mêmes réglages, mêmes presets, mêmes fichiers `settings/*.json` et
 `translations/*.json`. Seule la couche qui parle à FFmpeg et au système change.
 

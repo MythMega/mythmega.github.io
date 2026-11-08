@@ -18,7 +18,8 @@
     "reverse": "Reverser",
     "collage": "Collage",
     "introoutro": "Intro / Outro",
-    "splitter": "Découpe"
+    "splitter": "Découpe",
+    "convert": "Convertir"
   },
   "engine": {
     "idle": "Moteur inactif",
@@ -141,6 +142,37 @@
     "params": {
       "title": "Seuil · marge avant · marge après · durée minimale des clips"
     }
+  },
+  "convert": {
+    "settings": {
+      "title": "Réglages de conversion",
+      "hint": "Ré-encode chaque vidéo dans le conteneur choisi, avec le débit que vous fixez ou celui par défaut de FFmpeg."
+    },
+    "list": {
+      "title": "Vidéos",
+      "hint": "Chaque vidéo est convertie et téléchargée séparément."
+    },
+    "empty": "Aucune vidéo. Ajoutez des clips à convertir.",
+    "format": "Format de sortie",
+    "formatHint": "Les formats que ce build de FFmpeg ne sait pas écrire sont masqués.",
+    "videoBitrate": "Débit vidéo",
+    "videoBitrateHint": "Auto laisse FFmpeg choisir le débit.",
+    "audioBitrate": "Débit audio",
+    "audioBitrateHint": "Auto conserve la valeur par défaut de FFmpeg pour le codec audio choisi.",
+    "bitrate": {
+      "auto": "Auto (FFmpeg choisit)",
+      "custom": "Personnalisé"
+    },
+    "bitrateUnit": "kbps",
+    "support": "Formats disponibles : {formats}",
+    "run": "Tout convertir ({count})",
+    "stop": "Arrêter",
+    "note": "Chaque vidéo est convertie séparément : autorisez les téléchargements multiples dans le navigateur.",
+    "probing": "Lecture de la vidéo…",
+    "converting": "Conversion de {name}",
+    "done": "{count} vidéo(s) convertie(s)",
+    "resultDone": "{name} téléchargé.",
+    "stopped": "Conversion arrêtée."
   },
   "fastcut": {
     "settings": {
@@ -333,7 +365,7 @@
       "body": "Bulkut Pro conserve les imports dans l'OPFS, le stockage privé du navigateur, et les diffuse de là vers FFmpeg. La limite d'import d'une page classique ne s'applique plus, et rien n'est envoyé.",
       "points": {
         "free": "Gratuit, sans publicité, sans compte.",
-        "tools": "Les six mêmes outils que la page standard.",
+        "tools": "Les sept mêmes outils que la page standard.",
         "storage": "Stocké dans votre navigateur, supprimable à tout moment.",
         "desktop": "Besoin de plus ? La version logicielle lit directement le disque, sans limite de taille."
       }
@@ -435,6 +467,7 @@
     "openPro": "Ouvrir la page Pro"
   },
   "mobile": {
+    "importingCount": "{index} sur {count}",
     "dropTitle": "Touchez pour choisir vos vidéos",
     "dropFileTitle": "Touchez pour choisir une vidéo",
     "storageNote": "Les fichiers choisis sont copiés dans le stockage privé de l'application."

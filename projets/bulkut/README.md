@@ -4,7 +4,7 @@ Application web statique de montage vidéo **100 % locale** : les fichiers sont
 traités dans le navigateur par ffmpeg.wasm et ne sont jamais envoyés à un
 serveur.
 
-Six outils, six onglets :
+Sept outils, sept onglets :
 
 - **Autocut** — retire les silences d'une liste de vidéos, avec un seuil, des
   marges avant/après et une durée minimale de clip réglables globalement ou
@@ -26,6 +26,10 @@ Six outils, six onglets :
   téléchargée séparément.
 - **Splitter** — découpe une vidéo en autant de segments que voulu, avec un
   début et une fin par segment ; chaque segment est exporté séparément.
+- **Convertir** — ré-encode une liste de vidéos dans un autre conteneur (MP4,
+  MOV, MKV, AVI ou WEBM), avec un débit vidéo et audio fixé en kbps ou laissé
+  en automatique à FFmpeg. Les formats que le build de FFmpeg ne sait pas
+  écrire sont masqués.
 
 Chaque onglet propose un fondu audio et/ou vidéo (entrée, sortie, les deux),
 appliqué une fois sur le fichier final.

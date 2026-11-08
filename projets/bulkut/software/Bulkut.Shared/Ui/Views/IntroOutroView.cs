@@ -155,7 +155,6 @@ public sealed class IntroOutroView : FeatureView
         addContent.Children.Add(Ui.Icon("M12 5v14 M5 12h14", 14, Ui.NavyBrush, 2.2));
         addContent.Children.Add(Loc.Text("common.addFiles", "label"));
         add.Content = addContent;
-        add.Click += async (_, _) => await AddAsync(await FilePicker.PickVideosAsync(this, true, ImportFailed));
 
         var headActions = Ui.HStack(8);
         headActions.Children.Add(new Border { Classes = { "pill" }, Child = _count });
@@ -173,6 +172,7 @@ public sealed class IntroOutroView : FeatureView
         slots.Children.Add(_outroSlot);
 
         var drop = new DropZone(Loc, true, AddAsync, noteKey: "common.localOnly");
+        add.Click += async (_, _) => await drop.PickAsync();
 
         var listStack = Ui.VStack(12);
         listStack.Children.Add(head);

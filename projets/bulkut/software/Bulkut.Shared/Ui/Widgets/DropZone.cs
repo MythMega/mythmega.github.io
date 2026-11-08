@@ -18,6 +18,12 @@ public sealed class DropZone : Border
 
     private readonly bool _multiple;
     private readonly Func<IReadOnlyList<string>, Task> _onFiles;
+    private readonly LocScope _loc;
+    private readonly Border _importPanel;
+    private readonly TextBlock _importName;
+    private readonly TextBlock _importCount;
+    private readonly TextBlock _importPercent;
+    private readonly ProgressBar _importBar;
 
     public DropZone(
         LocScope loc,
@@ -28,6 +34,7 @@ public sealed class DropZone : Border
     {
         _multiple = multiple;
         _onFiles = onFiles;
+        _loc = loc;
 
         // A phone has no drag and drop, and picks files through a document
         // picker that copies them into the app first.
@@ -64,9 +71,52 @@ public sealed class DropZone : Border
             IsHitTestVisible = true,
         };
 
+        // The import panel replaces the idle copy while a picked file is being
+        // copied into the app, with its name and a real percentage.
+        _importName = new TextBlock
+        {
+            FontSize = 12.5,
+            FontWeight = FontWeight.SemiBold,
+            TextTrimming = TextTrimming.CharacterEllipsis,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            MaxWidth = 260,
+        };
+        _importCount = Ui.Text("", "muted", 10.5);
+        _importPercent = Ui.Text("", "mono", 12, FontWeight.Bold);
+        _importBar = Ui.Progress();
+        _importBar.Width = 220;
+        _importBar.Height = 5;
+
+        var barRow = new Grid { ColumnDefinitions = new ColumnDefinitions("Auto,Auto") };
+        _importBar.HorizontalAlignment = HorizontalAlignment.Center;
+        barRow.Children.Add(_importBar);
+        Grid.SetColumn(_importPercent, 1);
+        _importPercent.Margin = new Thickness(10, 0, 0, 0);
+        _importPercent.VerticalAlignment = VerticalAlignment.Center;
+        barRow.Children.Add(_importPercent);
+        barRow.HorizontalAlignment = HorizontalAlignment.Center;
+
+        var importStack = Ui.VStack(7);
+        importStack.HorizontalAlignment = HorizontalAlignment.Center;
+        importStack.VerticalAlignment = VerticalAlignment.Center;
+        importStack.Children.Add(loc.Text("common.importing", "h3"));
+        importStack.Children.Add(_importName);
+        importStack.Children.Add(_importCount);
+        importStack.Children.Add(barRow);
+
+        _importPanel = new Border
+        {
+            IsVisible = false,
+            Background = new SolidColorBrush(Color.Parse("#F2F7FF")),
+            CornerRadius = new CornerRadius(14),
+            Padding = new Thickness(16, 12),
+            Child = importStack,
+        };
+
         var grid = new Grid();
         grid.Children.Add(stack);
         grid.Children.Add(overlay);
+        grid.Children.Add(_importPanel);
         Child = grid;
 
         Wire(overlay);
@@ -105,6 +155,9 @@ public sealed class DropZone : Border
         };
     }
 
+    /// <summary>Opens the picker from an external "add" button, with the same progress UI.</summary>
+    public Task PickAsync() => BrowseAsync();
+
     private static bool HasFiles(IDataTransfer data)
     {
         try
@@ -121,8 +174,25 @@ public sealed class DropZone : Border
 
     private async Task BrowseAsync()
     {
-        var paths = await FilePicker.PickVideosAsync(this, _multiple);
-        if (paths.Count == 0) return;
-        await _onFiles(_multiple ? paths : [paths[0]]);
+        var progress = new Progress<ImportProgress>(update =>
+        {
+            _importPanel.IsVisible = true;
+            _importName.Text = update.FileName;
+            _importCount.Text = _loc.T("mobile.importingCount", ("index", update.Index), ("count", update.Count));
+            _importPercent.Text = $"{Math.Round(update.Ratio * 100)}%";
+            _importBar.Value = Math.Clamp(update.Ratio, 0, 1);
+        });
+
+        try
+        {
+            var paths = await FilePicker.PickVideosAsync(this, _multiple, null, progress);
+            if (paths.Count == 0) return;
+            await _onFiles(_multiple ? paths : [paths[0]]);
+        }
+        finally
+        {
+            _importPanel.IsVisible = false;
+            _importBar.Value = 0;
+        }
     }
 }

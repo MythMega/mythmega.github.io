@@ -37,7 +37,7 @@
 | `script/ui/dropzone.js` | Import par clic, clavier, glisser-déposer. |
 | `script/ui/dialog.js` | Ouverture/fermeture du `<dialog>` natif. |
 | `script/ui/fade-control.js` | Sélecteurs de fondu audio/vidéo et durée partagée. |
-| `script/ui/preset-manager.js` | Boutons, popups de sauvegarde/chargement et suppression des presets, partagés par les six onglets. |
+| `script/ui/preset-manager.js` | Boutons, popups de sauvegarde/chargement et suppression des presets, partagés par les sept onglets. |
 | `script/ui/toasts.js` | Notifications. |
 | `script/features/shared/concat.js` | Normalisation et concaténation : graphe de filtres et arguments FFmpeg (fonctions pures). |
 | `script/features/shared/concat-processor.js` | Pipeline commun à Collage et Intro/Outro : attache, probe, rendu, résultat. |
@@ -126,7 +126,7 @@ Le rééquilibrage des phases Autocut est décrit dans [autocut.md](autocut.md).
 
 `TaskQueue` accepte des tâches `{ id, label, run }` et n'en exécute qu'une à la
 fois. `enqueue()` renvoie une promesse résolue/rejetée à la fin de la tâche.
-Les six onglets partagent la même instance : lancer un rendu Autocut pendant
+Les sept onglets partagent la même instance : lancer un rendu Autocut pendant
 un Fastcut met la tâche en attente.
 
 Les boutons « Lancer » se désactivent tant que la queue est occupée, et la

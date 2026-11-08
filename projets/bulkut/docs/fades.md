@@ -29,7 +29,7 @@ Les valeurs par défaut de chaque onglet sont dans `settings/default.json`
 | Fichier | Rôle |
 | --- | --- |
 | `script/core/fade.js` | Normalisation des modes et construction des filtres `fade` / `afade`. |
-| `script/ui/fade-control.js` | Sélecteurs audio/vidéo et slider de durée, réutilisés par les six onglets. |
+| `script/ui/fade-control.js` | Sélecteurs audio/vidéo et slider de durée, réutilisés par les sept onglets. |
 | `software/Bulkut.Core/Features/Fades.cs` | Même logique côté desktop, plus l'encodage des presets. |
 | `software/Bulkut/Ui/Widgets/FadeField.cs` | Contrôle Avalonia (deux listes + durée). |
 | `software/Bulkut.Core/Features/{VideoOps,Concat,Silence}.cs` | Insertion des filtres sur la sortie finale. |

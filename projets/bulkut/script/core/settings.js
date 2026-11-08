@@ -7,6 +7,7 @@
  * @module core/settings
  */
 
+import { normalizeBitrateChoice, normalizeConvertFormat } from './convert.js';
 import { normalizeFade } from './fade.js';
 import { sanitizeSuffix } from './media.js';
 import { normalizeOutputFormat } from './output-format.js';
@@ -108,6 +109,15 @@ function normalizeParams(params, config, defaults) {
     return value;
   };
 
+  const convert = {
+    ...defaults.convert,
+    ...(isPlainObject(params.convert) ? params.convert : {}),
+  };
+  convert.suffix = sanitizeSuffix(convert.suffix ?? defaults.convert?.suffix ?? '');
+  convert.format = normalizeConvertFormat(convert.format ?? defaults.convert?.format);
+  convert.videoBitrate = normalizeBitrateChoice(convert.videoBitrate ?? defaults.convert?.videoBitrate);
+  convert.audioBitrate = normalizeBitrateChoice(convert.audioBitrate ?? defaults.convert?.audioBitrate);
+
   return {
     autocut,
     fastcut: simple('fastcut'),
@@ -115,6 +125,7 @@ function normalizeParams(params, config, defaults) {
     collage: simple('collage'),
     introoutro: simple('introoutro'),
     splitter: simple('splitter'),
+    convert,
   };
 }
 

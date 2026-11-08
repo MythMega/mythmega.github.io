@@ -18,7 +18,8 @@
     "reverse": "Reverse",
     "collage": "Collage",
     "introoutro": "Intro / Outro",
-    "splitter": "Splitter"
+    "splitter": "Splitter",
+    "convert": "Convert"
   },
   "engine": {
     "idle": "Engine idle",
@@ -141,6 +142,37 @@
     "params": {
       "title": "Threshold · pre-cut · post-cut · minimum clip duration"
     }
+  },
+  "convert": {
+    "settings": {
+      "title": "Conversion settings",
+      "hint": "Re-encode every video into the chosen container, with the bitrate you set or FFmpeg's default."
+    },
+    "list": {
+      "title": "Videos",
+      "hint": "Each video is converted and downloaded separately."
+    },
+    "empty": "No videos yet. Add clips to convert them.",
+    "format": "Output format",
+    "formatHint": "Formats this FFmpeg build cannot write are hidden.",
+    "videoBitrate": "Video bitrate",
+    "videoBitrateHint": "Auto lets FFmpeg pick the bitrate.",
+    "audioBitrate": "Audio bitrate",
+    "audioBitrateHint": "Auto keeps FFmpeg's default for the chosen audio codec.",
+    "bitrate": {
+      "auto": "Auto (FFmpeg chooses)",
+      "custom": "Custom"
+    },
+    "bitrateUnit": "kbps",
+    "support": "Available formats: {formats}",
+    "run": "Convert all ({count})",
+    "stop": "Stop",
+    "note": "Each video is converted separately: allow multiple downloads in your browser when asked.",
+    "probing": "Reading the video…",
+    "converting": "Converting {name}",
+    "done": "{count} video(s) converted",
+    "resultDone": "{name} downloaded.",
+    "stopped": "Conversion stopped."
   },
   "fastcut": {
     "settings": {
@@ -333,7 +365,7 @@
       "body": "Bulkut Pro keeps imports in OPFS, the browser's private storage, and streams them from there into FFmpeg. The import size limit of a normal page no longer applies, and nothing is uploaded.",
       "points": {
         "free": "Free, no ads, no account.",
-        "tools": "The same six tools as the standard page.",
+        "tools": "The same seven tools as the standard page.",
         "storage": "Stored in your browser and deletable at any time.",
         "desktop": "Need more? The desktop build reads straight from disk with no size limit."
       }
@@ -435,6 +467,7 @@
     "openPro": "Open the Pro page"
   },
   "mobile": {
+    "importingCount": "{index} of {count}",
     "dropTitle": "Tap to choose your videos",
     "dropFileTitle": "Tap to choose a video",
     "storageNote": "Picked files are copied into the app's private storage."

@@ -24,6 +24,9 @@
  *                   ItemId is ignored);
  *   - `PreferedLayout`: optional `classic`/`fullart`; when set, the FIRST matching card with that
  *                   layout is preferred, otherwise the first card with that `Index`;
+ *   - a personal (`useritem`) code may also advance the daily-reward run: its canonical item is
+ *                   `dailyreward` and its quantity is the number of days skipped (see
+ *                   `DailyRewardManager.advanceRun`);
  *   - a reward may also use the spelling of a daily chapter (`Type`, `Qte`, `Data`), which is how
  *                   a "random card" is declared: `RandomCard-List` (card keys) and
  *                   `RandomCard-Filter` (`Rarities`, `layouts`, `Sets`, `BePromo`) are resolved by
@@ -75,7 +78,14 @@
  *   transaction. The code itself is never written to the history nor logged.
  */
 
-import { canonicalBooster, canonicalCard, canonicalSparks, userItemCode, UserItemCode } from './UserItemCode.js';
+import {
+  canonicalBooster,
+  canonicalCard,
+  canonicalDailyReward,
+  canonicalSparks,
+  userItemCode,
+  UserItemCode,
+} from './UserItemCode.js';
 
 import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
@@ -85,6 +95,7 @@ import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager from './IllagerShopManager.js';
+import dailyRewardManager from './DailyRewardManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import {
@@ -846,6 +857,9 @@ export class RedeemManager {
       // Sparks rewards share one canonical item: the amount lives in the code `quantity`, not in
       // the item hash, so a single descriptor covers every amount (see `UserItemCode.canonicalSparks`).
       descriptors.push({ canonical: canonicalSparks(), target: { type: 'sparks' } });
+      // Same shape for the daily-reward advance: the item is fixed and the quantity is the number of
+      // days the run moves forward (see `UserItemCode.canonicalDailyReward`).
+      descriptors.push({ canonical: canonicalDailyReward(), target: { type: 'dailyreward' } });
       const sets = await boosterManager.listBoosterSets();
 
       // The raw entries keep the exact `Index` and `Layout` of the generator, while `cards` is the
@@ -1112,6 +1126,13 @@ export class RedeemManager {
       await dateSyncManager.ensureDailyReset();
     }
 
+    const hasDailyAdvance = rewards.some((reward) => reward.type === 'dailyreward');
+    if (hasDailyAdvance) {
+      // The chapter file is fetched BEFORE the transaction opens: an awaited fetch inside an
+      // IndexedDB transaction would commit it (see `DailyRewardManager.advanceRun`).
+      await dailyRewardManager.load();
+    }
+
     const uuid = await accountManager.getUuid();
     const redeemId = RedeemManager.buildRedeemId();
     const receivedAt = buildCollectionTimestamp();
@@ -1143,6 +1164,8 @@ export class RedeemManager {
             await illagerShopManager.grantCurrency(reward.key, reward.quantity, context);
           } else if (reward.type === 'sparks') {
             await sparksManager.addSparks(reward.quantity, context, SPARKS_SOURCES.REDEEM);
+          } else if (reward.type === 'dailyreward') {
+            await dailyRewardManager.advanceRun(reward.quantity, context);
           } else {
             const granted = await boosterManager.addCardToCollection(
               reward.card,
@@ -1156,6 +1179,9 @@ export class RedeemManager {
             grantedNewKeys.push(...granted.newKeys);
           }
 
+          // A daily-reward advance is a run position, not an object received: it has no line in
+          // the gift history.
+          if (reward.type === 'dailyreward') continue;
           await context.put(STORES.GIFTS_RECEIVED, {
             line: `${CODE_HISTORY_PREFIX}${redeemId}:${index}`,
             category: GIFT_CATEGORIES.CODES,
@@ -1168,6 +1194,13 @@ export class RedeemManager {
         }
       }
     );
+
+    if (hasDailyAdvance) {
+      // The popup and the header badge repaint from the committed run. `source: 'code'` tells the
+      // Illager quests that this is not a claim: the `DailyRewardClaim` counter must not move.
+      const snapshot = await dailyRewardManager.getSnapshot();
+      eventBus.emit(EVENTS.DAILY_REWARDS_UPDATED, { snapshot, source: 'code' });
+    }
 
     if (hasBooster) {
       // `DateSyncManager` mirrors the quota in memory: read the committed value back before
@@ -1191,7 +1224,10 @@ export class RedeemManager {
       });
     }
 
-    eventBus.emit(EVENTS.GIFTS_UPDATED, { count: rewards.length, source: GIFT_CATEGORIES.CODES });
+    const giftCount = rewards.filter((reward) => reward.type !== 'dailyreward').length;
+    if (giftCount > 0) {
+      eventBus.emit(EVENTS.GIFTS_UPDATED, { count: giftCount, source: GIFT_CATEGORIES.CODES });
+    }
     this.log(`A code was claimed (${rewards.length} reward(s)).`);
 
     return { kind: resolved.kind, rewards, redeemedAt: receivedAt, repeatable };

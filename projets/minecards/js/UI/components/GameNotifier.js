@@ -31,6 +31,9 @@
  *   6. `PROFILE_UPDATED` — the player chose their own display name (the experience is granted once,
  *      when the name stops being the default one).
  *   7. `EXPERIENCE_UPDATED` — a level was reached.
+ *   8. `ILLAGER_QUEST_AVAILABLE` / `ILLAGER_QUEST_READY` — an Illager quest opened, or reached the
+ *      requirement that lets it be claimed. The two moments are distinct on purpose: one says there
+ *      is something new to do, the other that something is waiting to be paid.
  *
  * NO NOTIFICATION AT BOOT
  *   The experience and the trophies are evaluated once when the application starts, and a save can
@@ -57,6 +60,7 @@ import trophyManager, {
 import profileManager from '../../business/ProfileManager.js';
 import { isPromoSetId } from '../../business/PromoSet.js';
 import { TitleManager } from '../../business/TitleManager.js';
+import illagerQuestManager from '../../business/IllagerQuestManager.js';
 import TrophyDetail from './TrophyDetail.js';
 import notificationCenter, {
   NOTIFICATION_TYPES,
@@ -70,12 +74,14 @@ export class GameNotifier {
    * @param {object} [options.boosters=boosterManager] - Extension loader (cached after the boot).
    * @param {object} [options.trophies=trophyManager] - Trophy catalogue and level source.
    * @param {object} [options.profile=profileManager] - Display name source.
+   * @param {object} [options.quests=illagerQuestManager] - Illager quest manager (availability).
    */
   constructor({
     center = notificationCenter,
     boosters = boosterManager,
     trophies = trophyManager,
     profile = profileManager,
+    quests = illagerQuestManager,
   } = {}) {
     /** @type {object} Queue displaying the notifications. */
     this.center = center;
@@ -85,6 +91,8 @@ export class GameNotifier {
     this.trophies = trophies;
     /** @type {object} Profile manager. */
     this.profile = profile;
+    /** @type {object} Illager quest manager. */
+    this.quests = quests;
     /** @type {boolean} True while the event subscriptions are registered. */
     this.isBound = false;
     /** @type {boolean} True once the settings and the baseline are known. */
@@ -178,7 +186,18 @@ export class GameNotifier {
       this.unsubscribers.push(
         eventBus.on(EVENTS.ILLAGER_QUEST_READY, (payload) => this.handleQuestReady(payload))
       );
+      this.unsubscribers.push(
+        eventBus.on(EVENTS.ILLAGER_QUEST_AVAILABLE, (payload) => this.handleQuestAvailable(payload))
+      );
       this.log('Event subscriptions registered.');
+    }
+
+    // A quest that opened while the application was closed is announced NOW: the subscriptions
+    // above are already in place, so the message cannot be emitted before anyone listens.
+    if (typeof this.quests?.announceAvailable === 'function') {
+      this.quests.announceAvailable().catch((error) => {
+        console.warn('[GameNotifier] The available quests could not be announced.', error);
+      });
     }
 
     this.log(
@@ -394,7 +413,29 @@ export class GameNotifier {
     this.center.push({
       type: NOTIFICATION_TYPES.QUEST,
       badge: i18n.t('notif.quest.badge'),
-      title: i18n.t('notif.quest.ready', {
+      title: i18n.t('notif.quest.completed', {
+        quest: i18n.t(typeof typeKey === 'string' ? typeKey : 'notif.quest.fallback'),
+      }),
+    });
+  }
+
+  /**
+   * Announces an Illager quest that just became available.
+   *
+   * A quest is a dated objective: the player must be told when it OPENS (there is something new to
+   * do) as well as when it is DONE (there is something to claim). Both share the quest type; only
+   * their badge and their sentence differ.
+   *
+   * @param {object} payload - `ILLAGER_QUEST_AVAILABLE` payload.
+   * @param {string} [payload.typeKey] - Translation key of the objective.
+   * @returns {void}
+   */
+  handleQuestAvailable({ typeKey } = {}) {
+    if (!this.isReady) return;
+    this.center.push({
+      type: NOTIFICATION_TYPES.QUEST,
+      badge: i18n.t('notif.quest.availableBadge'),
+      title: i18n.t('notif.quest.available', {
         quest: i18n.t(typeof typeKey === 'string' ? typeKey : 'notif.quest.fallback'),
       }),
     });

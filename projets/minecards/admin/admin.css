@@ -164,7 +164,7 @@ h2 { font-size: 1.05rem; }
 
 .reward {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-3);
   padding: var(--space-3);
   background-color: var(--surface-alt);
@@ -172,8 +172,36 @@ h2 { font-size: 1.05rem; }
   border-radius: var(--radius);
 }
 
+.reward__fields,
+.reward__remove { grid-column: 1 / -1; }
+
 @media (min-width: 720px) {
-  .reward { grid-template-columns: repeat(2, minmax(0, 1fr)) auto; align-items: end; }
+  .reward { grid-template-columns: auto repeat(2, minmax(0, 1fr)) auto; align-items: end; }
+  .reward__fields,
+  .reward__remove { grid-column: auto; }
+}
+
+/* Preview of the reward, left of the type selector: the exact asset the player receives. */
+.reward__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 96px;
+  padding: var(--space-1);
+  overflow: hidden;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-align: center;
+  background-color: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+.reward__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .reward__remove {

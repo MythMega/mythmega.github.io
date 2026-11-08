@@ -120,6 +120,10 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ questId, typeKey, currencyId, currencyName, rewards }`. Emitted by
    * `IllagerQuestManager` when a quest reaches its requirement, once: the notifier announces it. */
   ILLAGER_QUEST_READY: 'ILLAGER_QUEST_READY',
+  /** Payload: `{ questId, typeKey, currencyId, currencyName, rewards }`. Emitted by
+   * `IllagerQuestManager` when a quest becomes available and was never announced, once per quest:
+   * the notifier announces the opening (the completion keeps `ILLAGER_QUEST_READY`). */
+  ILLAGER_QUEST_AVAILABLE: 'ILLAGER_QUEST_AVAILABLE',
   /** Payload: `{ key, rarity, copies }`. Emitted by `SparksManager` once a sale is committed: the
    * quests count the copies sold from it (the balance itself goes through `SPARKS_UPDATED`). */
   CARD_SOLD: 'CARD_SOLD',

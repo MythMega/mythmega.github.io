@@ -107,6 +107,8 @@ export class IllagerQuestManager {
     this.started = false;
     /** @type {Array<Function>} Unsubscribers of the progress listeners. */
     this.unsubscribers = [];
+    /** @type {string|null} Last UTC day the availability check ran on. */
+    this.lastCheckedDay = null;
   }
 
   /**
@@ -595,9 +597,11 @@ export class IllagerQuestManager {
         if (payload?.source !== 'daily') return;
         safely(this.record(ILLAGER_QUEST_TYPES.OPEN_BOOSTER_DAILY, 1));
       }),
-      eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, () =>
-        safely(this.record(ILLAGER_QUEST_TYPES.DAILY_REWARD_CLAIM, 1))
-      ),
+      eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, (payload) => {
+        // A personal code that advances the run is not a claim: only a real claim counts.
+        if (payload?.source === 'code') return;
+        safely(this.record(ILLAGER_QUEST_TYPES.DAILY_REWARD_CLAIM, 1));
+      }),
       eventBus.on(EVENTS.CARD_SOLD, (payload) =>
         safely(this.record(ILLAGER_QUEST_TYPES.SELL_CARD, payload?.copies ?? 1))
       ),
@@ -615,8 +619,13 @@ export class IllagerQuestManager {
       eventBus.on(EVENTS.MINING_UPDATED, (payload) => {
         if (!Number.isInteger(payload?.totalMined)) return;
         safely(this.trackMinedBlocks(payload.totalMined));
-      })
+      }),
+      // The quests are dated: the day change is what opens the next ones, and `CLOCK_TICK` is the
+      // only clock of the application.
+      eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload))
     );
+
+    this.lastCheckedDay = dateSyncManager.getCurrentUtcDay();
 
     // The mine counter is absolute: the first block of a fresh save must be counted, so the
     // baseline is taken NOW (before any tap) instead of on the first MINING_UPDATED, which would
@@ -662,6 +671,73 @@ export class IllagerQuestManager {
   }
 
   /**
+   * Announces the quests that are available and were never announced.
+   *
+   * Called once the notifications are armed (`GameNotifier.start()`) and again on every day change:
+   * a quest that just opened is told once, and a reload never repeats it. The `announced` list of
+   * the save is what remembers it, so the rule survives a reload and a save import.
+   *
+   * @returns {Promise<Array<object>>} The quests that were announced by this call.
+   * @throws {Error} When the save cannot be read or written.
+   */
+  async announceAvailable() {
+    await this.init();
+    const day = dateSyncManager.getCurrentUtcDay();
+    if (!day) return [];
+
+    const available = (this.quests ?? []).filter((quest) => this.isActive(quest, day));
+    if (available.length === 0) return [];
+
+    const outcome = await storageRepository.transaction(
+      STORES.USER_STATE,
+      'readwrite',
+      async (context) => {
+        const state = normalizeQuestState(
+          await context.get(STORES.USER_STATE, ILLAGER_QUESTS_STATE_KEY)
+        );
+        const fresh = available.filter((quest) => !state.announced.includes(quest.id));
+        if (fresh.length === 0) return { fresh: [] };
+        await context.put(
+          STORES.USER_STATE,
+          { ...state, announced: [...state.announced, ...fresh.map((quest) => quest.id)] },
+          ILLAGER_QUESTS_STATE_KEY
+        );
+        return { fresh };
+      }
+    );
+
+    outcome.fresh.forEach((quest) => {
+      this.log(`Quest "${quest.id}" is available.`);
+      eventBus.emit(EVENTS.ILLAGER_QUEST_AVAILABLE, {
+        questId: quest.id,
+        typeKey: quest.typeKey,
+        currencyId: quest.currencyId,
+        currencyName: quest.currencyName,
+        rewards: quest.rewards,
+      });
+    });
+    return outcome.fresh;
+  }
+
+  /**
+   * Runs the availability check when the UTC day changes.
+   *
+   * @param {{utc?: Date}} [payload] - `CLOCK_TICK` payload.
+   * @returns {void}
+   */
+  handleClockTick(payload) {
+    const day =
+      payload?.utc instanceof Date
+        ? payload.utc.toISOString().slice(0, 10)
+        : dateSyncManager.getCurrentUtcDay();
+    if (!day || day === this.lastCheckedDay) return;
+    this.lastCheckedDay = day;
+    this.announceAvailable().catch((error) => {
+      console.warn('[IllagerQuestManager] The available quests could not be announced.', error);
+    });
+  }
+
+  /**
    * Detaches the progress listeners (used by the tests and the save reset).
    *
    * @returns {void}
@@ -670,6 +746,7 @@ export class IllagerQuestManager {
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());
     this.unsubscribers = [];
     this.started = false;
+    this.lastCheckedDay = null;
   }
 
   /**

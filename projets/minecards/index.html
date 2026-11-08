@@ -235,10 +235,10 @@
   <link rel="stylesheet" href="css/themes.css?v=b675d6fa31">
   <link rel="stylesheet" href="css/base.css?v=83d0151ff6">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
-  <link rel="stylesheet" href="css/views/opening.css?v=aad5bae071">
+  <link rel="stylesheet" href="css/views/opening.css?v=b4cfa2a70f">
   <link rel="stylesheet" href="css/views/collection.css?v=25f89ebf80">
   <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
-  <link rel="stylesheet" href="css/views/stats.css?v=b97f391afd">
+  <link rel="stylesheet" href="css/views/stats.css?v=17d5afb6b1">
   <link rel="stylesheet" href="css/views/minepick.css?v=39df37dbf6">
   <link rel="stylesheet" href="css/views/mineblock.css?v=43ba5f9015">
   <link rel="stylesheet" href="css/views/profile.css?v=2a60b79361">
@@ -561,15 +561,12 @@
                instead of the quota and the countdown (`OpeningView.refreshQuota`). -->
           <p class="opening__release" data-opening-release hidden></p>
 
-          <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
-
-          <!-- Batch opening: ten packs at once (the dialog then asks which bucket pays), or any
-               number of daily and bonus packs through two counters. Both are shown only while the
-               selected extension has something to open; the view decides that in
-               `renderBatchButtons()`. -->
-          <div class="opening__batch-actions">
-            <button type="button" class="btn btn--ghost btn--block" data-opening-open-ten data-i18n="opening.openTen" hidden>Ouvrir 10 boosters</button>
-            <button type="button" class="btn btn--ghost btn--block" data-opening-open-many data-i18n="opening.openMany" hidden>Ouvrir X boosters</button>
+          <!-- One pack, and the "+" that opens the count dialog for any number of daily and bonus
+               packs. The control is shown only while the selected extension has something to open;
+               the view decides that in `renderBatchButton()`. -->
+          <div class="opening__open-row">
+            <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
+            <button type="button" class="btn btn--ghost opening__open-more" data-opening-open-many data-i18n-aria-label="opening.openMany" aria-label="Ouvrir plusieurs boosters" hidden>+</button>
           </div>
 
           <!-- Buy an extra booster with Sparks. Only offered once the free daily boosters are all
@@ -655,20 +652,6 @@
         </div>
       </div>
 
-      <!-- "Open 10 boosters": which bucket pays for the ten packs of the batch. A choice is
-           disabled when its bucket holds fewer than ten, so the promised count is always real.
-           The labels and the counts are written by `OpeningView.handleOpenTenClick()`. -->
-      <div class="modal" data-opening-ten-modal hidden>
-        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="opening-ten-title">
-          <button type="button" class="modal__close" data-opening-ten-close aria-label="×">×</button>
-          <h2 class="modal__title" id="opening-ten-title" data-opening-ten-title></h2>
-          <div class="modal__body" data-opening-ten-body></div>
-          <div class="modal__actions">
-            <button type="button" class="btn btn--ghost" data-opening-ten-choice="daily"></button>
-            <button type="button" class="btn btn--primary" data-opening-ten-choice="bonus"></button>
-          </div>
-        </div>
-      </div>
 
       <!-- "Open X boosters": two counters (daily and bonus), each with -, + and "all", so any
            number of packs can be opened in one gesture. The bounds are the packs actually
@@ -1246,15 +1229,6 @@
           <p class="stats__line" data-stats-saved-count></p>
           <p class="stats__line stats__line--muted" data-stats-saved-empty hidden data-i18n="stats.saved.empty">Aucune ouverture sauvegardée : ouvrez un booster, puis « Sauvegarder cette ouverture » sur son résumé.</p>
           <ol class="stats__history" data-stats-saved></ol>
-        </div>
-      </div>
-
-      <!-- Card detail popup of the history -->
-      <div class="modal" data-stats-modal hidden>
-        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="stats-card-modal-title">
-          <button type="button" class="modal__close" data-stats-modal-close aria-label="×">×</button>
-          <h2 class="modal__title" id="stats-card-modal-title" data-stats-modal-title></h2>
-          <div class="modal__body" data-stats-modal-body></div>
         </div>
       </div>
     </section>

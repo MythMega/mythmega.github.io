@@ -23,7 +23,7 @@ La vérification se fait dans le navigateur, donc la clé secrète `K` est prés
 | Clé `K` | 32 octets aléatoires, base64 dans `config.json` (`useritemCode.key`) |
 | Alphabet | Crockford Base32 : `0123456789ABCDEFGHJKMNPQRSTVWXYZ` (pas de `I L O U`) |
 | Longueur | 20 octets = 160 bits = **32 caractères**, affichés en 8 groupes de 4 séparés par `-` |
-| Item canonique | `booster:<setId>` (ex. `booster:A1`) ou `card:<Index>\|<Layout>` (ex. `card:SERIE-A1 / P004\|fullart`, `Layout` tel que dans le JSON, en minuscules) |
+| Item canonique | `booster:<setId>` (ex. `booster:A1`), `card:<Index>\|<Layout>` (ex. `card:SERIE-A1 / P004\|fullart`, `Layout` tel que dans le JSON, en minuscules), `sparks` (montant dans la quantité) ou `dailyreward` (jours à avancer dans la série des récompenses de connexion) |
 | Quantité | entier 1 à 65535 |
 
 ## 4. Format binaire (20 octets)
@@ -42,7 +42,7 @@ Le tout est encodé en Crockford Base32 (5 bits par caractère, sans padding : 1
 
 ## 5. Génération (côté game master)
 ```
-entrées : uuid, item (booster:<setId> | card:<Index>|<Layout>), qty
+entrées : uuid, item (booster:<setId> | card:<Index>|<Layout> | sparks | dailyreward), qty
 1. valider uuid (format UUID), item (existe dans le catalogue), 1 ≤ qty ≤ 65535
 2. calculer itemHash ; vérifier qu'AUCUN autre item du catalogue n'a le même
    itemHash (3 octets). Si collision : refuser (voir §8).

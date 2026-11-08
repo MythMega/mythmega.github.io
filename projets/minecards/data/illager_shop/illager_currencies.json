@@ -14,8 +14,28 @@
                 "Type": "OpenBooster_Daily",
                 "RequirementsToUnlock": 6,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_01",
+                "StartDate": "2026-11-17",
+                "ExpirationDate": "2026-11-24",
+                "Type": "OpenBooster_Daily",
+                "RequirementsToUnlock": 6,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W3_01",
+                "StartDate": "2026-11-25",
+                "ExpirationDate": "2026-12-02",
+                "Type": "OpenBooster_Daily",
+                "RequirementsToUnlock": 6,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
             },
             {
                 "ID": "allays_A1_W1_02",
@@ -23,8 +43,8 @@
                 "Type": "DailyRewardClaim",
                 "RequirementsToUnlock": 3,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
             },
             {
                 "ID": "allays_A1_W1_03",
@@ -32,8 +52,8 @@
                 "Type": "SellCard",
                 "RequirementsToUnlock": 3,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
             },
             {
                 "ID": "allays_A1_W1_04",
@@ -41,8 +61,8 @@
                 "Type": "MineBlock",
                 "RequirementsToUnlock": 250,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
             },
             {
                 "ID": "allays_A1_W1_05",
@@ -50,8 +70,8 @@
                 "Type": "ShareBinder",
                 "RequirementsToUnlock": 1,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
             },
             {
                 "ID": "allays_A1_W1_06",
@@ -59,8 +79,8 @@
                 "Type": "MinePickCards",
                 "RequirementsToUnlock": 5,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
             },
             {
                 "ID": "allays_A1_W1_07",
@@ -68,8 +88,8 @@
                 "Type": "DownloadProfilCard",
                 "RequirementsToUnlock": 1,
                 "RewardCurrency": 1,
-                "RewardSparks": 1,
-                "RewardXP": 3
+                "RewardSparks": 3,
+                "RewardXP": 10
             }
         ]
     }

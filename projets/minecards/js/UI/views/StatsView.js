@@ -17,7 +17,8 @@
  *
  * The history panel shows the last `boosters.historySize` (10) openings with their shareable
  * `minecards:` code, the trusted UTC date of the opening and the 5 cards: each thumbnail opens the
- * same kind of detail modal as the opening summary, and the code is copied on click.
+ * shared card detail popup (effects on), exactly like a pick of the Mine Pick history, and the code
+ * is copied on click.
  */
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
@@ -37,7 +38,7 @@ import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
 import { applyCardGlow } from '../../utils/Shine.js';
-import { attachCardTilt } from '../../utils/CardTilt.js';
+import cardDetailPopup from '../components/CardDetailPopup.js';
 
 /** View name, matching `data-view="stats"` in `index.html`. */
 export const STATS_VIEW_NAME = 'stats';
@@ -83,10 +84,6 @@ export class StatsView {
     this.savedElement = this.root.querySelector('[data-stats-saved]');
     this.savedEmptyElement = this.root.querySelector('[data-stats-saved-empty]');
     this.savedCountElement = this.root.querySelector('[data-stats-saved-count]');
-    this.cardModal = this.root.querySelector('[data-stats-modal]');
-    this.cardModalTitle = this.root.querySelector('[data-stats-modal-title]');
-    this.cardModalBody = this.root.querySelector('[data-stats-modal-body]');
-    this.cardModalClose = this.root.querySelector('[data-stats-modal-close]');
     this.minepickSummaryElement = this.root.querySelector('[data-stats-minepick-summary]');
     this.minepickRarityElement = this.root.querySelector('[data-stats-minepick-rarity]');
     this.minepickRarestElement = this.root.querySelector('[data-stats-minepick-rarest]');
@@ -147,10 +144,6 @@ export class StatsView {
       ['[data-stats-top]', this.topElement],
       ['[data-stats-history]', this.historyElement],
       ['[data-stats-saved]', this.savedElement],
-      ['[data-stats-modal]', this.cardModal],
-      ['[data-stats-modal-title]', this.cardModalTitle],
-      ['[data-stats-modal-body]', this.cardModalBody],
-      ['[data-stats-modal-close]', this.cardModalClose],
       ['[data-stats-minepick-summary]', this.minepickSummaryElement],
       ['[data-stats-minepick-rarity]', this.minepickRarityElement],
       ['[data-stats-minepick-history]', this.minepickHistoryElement],
@@ -204,9 +197,6 @@ export class StatsView {
     this.listen(this.backButton, 'click', () => this.onNavigate?.(STATS_BACK_VIEW));
     this.listen(this.historyElement, 'click', (event) => this.handleHistoryClick(event));
     this.listen(this.savedElement, 'click', (event) => this.handleSavedClick(event));
-    this.listen(this.cardModal, 'click', (event) => this.handleModalBackdropClick(event));
-    this.listen(this.cardModalClose, 'click', () => this.closeCardModal());
-    this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.log('DOM listeners bound.');
   }
 
@@ -668,8 +658,8 @@ export class StatsView {
    * Builds one entry of the Mine Pick history: the day, the extension, the kept card and its
    * illustration.
    *
-   * Unlike the opening history these entries are not clickable (a pick has no shareable code and
-   * only one card): the kept card is shown as a thumbnail next to the pack it came from.
+   * A pick has no shareable code and only one card: the thumbnail is the entry point to the large
+   * card detail, which already carries the name, the index, the rarity and the extension.
    *
    * @param {{day: string|null, setId: string, setName: string|null, key: string, rarity: number,
    *   godpack: boolean}} pick - History entry written by `MinePickManager`.
@@ -708,17 +698,21 @@ export class StatsView {
     wrapper.className = 'stats__minepick-pick';
 
     if (entry?.card) {
-      const thumbnail = document.createElement('span');
-      thumbnail.className = `stats__history-card stats__history-card--r${entry.card.rarity}`;
-      if (entry.card.isFullArt) thumbnail.classList.add('stats__history-card--fullart');
-      applyCardGlow(thumbnail, entry.card);
+      const card = entry.card;
+      const thumbnail = document.createElement('button');
+      thumbnail.type = 'button';
+      thumbnail.className = `stats__history-card stats__history-card--r${card.rarity}`;
+      if (card.isFullArt) thumbnail.classList.add('stats__history-card--fullart');
+      thumbnail.setAttribute('aria-label', card.getName(cardLanguage.getLang()));
+      applyCardGlow(thumbnail, card);
       const image = document.createElement('img');
       image.className = 'stats__history-image';
       image.loading = 'lazy';
       image.decoding = 'async';
-      image.src = i18n.resolveImagePath(entry.card.illustration);
+      image.src = i18n.resolveImagePath(card.illustration);
       image.alt = '';
       thumbnail.appendChild(image);
+      thumbnail.addEventListener('click', () => void cardDetailPopup.open(card, { effects: true }));
       wrapper.appendChild(thumbnail);
     }
 
@@ -745,7 +739,7 @@ export class StatsView {
   renderHistory(entries) {
     const list = Array.isArray(entries) ? entries : [];
     this.historyEntries = list;
-    this.closeCardModal();
+    cardDetailPopup.close();
     this.historyElement.textContent = '';
     if (this.historyEmptyElement) this.historyEmptyElement.hidden = list.length > 0;
 
@@ -1044,7 +1038,10 @@ export class StatsView {
 
     const cardButton = target.closest('[data-stats-history-card]');
     if (cardButton) {
-      this.openCardModal(Number(cardButton.dataset.statsHistoryCard), Number(cardButton.dataset.cardIndex));
+      this.openHistoryCardDetail(
+        Number(cardButton.dataset.statsHistoryCard),
+        Number(cardButton.dataset.cardIndex)
+      );
     }
   }
 
@@ -1068,89 +1065,25 @@ export class StatsView {
   }
 
   /**
-   * Opens the card detail modal of one card of a past opening.
+   * Opens the large card detail of one card of a past opening.
+   *
+   * Same popup as the Mine Pick history (and the rest of the game), effects on: the two histories
+   * of the page must not preview a card differently. The opening date is the only extra row, since
+   * the popup already carries the name, the index, the rarity and the extension.
    *
    * @param {number} index - Index of the entry.
    * @param {number} cardIndex - Index of the card inside the pack.
    * @returns {void}
    */
-  openCardModal(index, cardIndex) {
+  openHistoryCardDetail(index, cardIndex) {
     const entry = this.historyEntries[index];
     const card = entry?.cards?.[cardIndex];
-    if (!card || !this.cardModal) return;
-
-    const lang = cardLanguage.getLang();
-    const name = card.getName(lang);
-    this.cardModalTitle.textContent = name;
-    this.cardModalBody.textContent = '';
-
-    const image = document.createElement('img');
-    image.className = 'card-modal__image';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
-    image.addEventListener('error', () => {
-      console.warn(`[StatsView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
-      image.hidden = true;
+    if (!card) return;
+    void cardDetailPopup.open(card, {
+      effects: true,
+      rows: [[i18n.t('stats.history.openedAt'), StatsView.formatHistoryDate(entry.openedAt)]],
     });
-    applyCardGlow(image, card);
-    attachCardTilt(image);
-
-    const list = document.createElement('dl');
-    list.className = 'card-modal__details';
-    const rows = [
-      [i18n.t('opening.card.rarity'), getRarityLabel(card.rarity, (key) => i18n.t(key))],
-      [i18n.t('opening.card.set'), entry.set?.name ?? entry.setId],
-      [i18n.t('collection.filter.style'), i18n.t(card.isFullArt ? 'collection.filter.styleFullart' : 'collection.filter.styleClassic')],
-      [i18n.t('stats.history.openedAt'), StatsView.formatHistoryDate(entry.openedAt)],
-    ];
-    rows.forEach(([term, value]) => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'card-modal__row';
-      const key = document.createElement('dt');
-      key.textContent = term;
-      const text = document.createElement('dd');
-      text.textContent = value;
-      wrapper.append(key, text);
-      list.appendChild(wrapper);
-    });
-
-    this.cardModalBody.append(image, list);
-    this.cardModal.hidden = false;
     this.log(`History card detail opened for "${card.uniqueKey}".`);
-  }
-
-  /**
-   * Closes the card detail modal.
-   *
-   * @returns {void}
-   */
-  closeCardModal() {
-    if (!this.cardModal || this.cardModal.hidden) return;
-    this.cardModal.hidden = true;
-  }
-
-  /**
-   * Closes the modal when the backdrop itself is clicked.
-   *
-   * @param {MouseEvent} event - Click event on the modal overlay.
-   * @returns {void}
-   */
-  handleModalBackdropClick(event) {
-    if (event?.target === this.cardModal) {
-      this.closeCardModal();
-    }
-  }
-
-  /**
-   * Closes the modal on Escape.
-   *
-   * @param {KeyboardEvent} event - Key event.
-   * @returns {void}
-   */
-  handleDocumentKeyDown(event) {
-    if (event?.key === 'Escape' && this.cardModal && !this.cardModal.hidden) {
-      this.closeCardModal();
-    }
   }
 
   /**
@@ -1240,7 +1173,7 @@ export class StatsView {
    */
   handleLanguageChanged() {
     this.log(`Language changed, re-rendering (${i18n.getLang()}).`);
-    this.closeCardModal();
+    cardDetailPopup.close();
     if (this.isInitialized && !this.isLoading) {
       void this.reload();
     }
@@ -1279,7 +1212,7 @@ export class StatsView {
     this.isActive = false;
     // The page is left through its back button: a card detail left open must not come back with
     // the next visit (the section is merely hidden, so the dialog would still be displayed).
-    this.closeCardModal();
+    cardDetailPopup.close();
     this.log('View deactivated.');
   }
 

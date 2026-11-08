@@ -132,6 +132,11 @@ La série est portée par `progress` (nombre de récompenses déjà récupérée
 | Nouveau chapitre | `chapterId` change → `progress` repart à 0 |
 | Deuxième claim le même jour UTC | refusé (`ALREADY_CLAIMED`) : `lastClaimDay` |
 
+Un code personnel (`useritem`, voir `.docs/gamemaster/useritemcode.md`) peut avancer la série sans
+rien créditer : le type `dailyreward` déplace `progress` du nombre de jours porté par la quantité du
+code. Les récompenses des jours sautés sont perdues, `lastClaimDay` n'est pas touché (la récompense
+de la nouvelle position est donc réclamable tout de suite) et le code reste à usage unique.
+
 Ce que la popup annonce « encore X récompenses » correspond aux jours restants du chapitre **à
 partir d'aujourd'hui** : tant que le chapitre est ouvert et que le joueur revient chaque jour, c'est
 le nombre de récompenses qu'il peut encore prendre (l'entrée par défaut garantit qu'il y a toujours

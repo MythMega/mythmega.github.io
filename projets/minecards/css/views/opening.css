@@ -387,30 +387,27 @@
   }
 }
 
-/* The two batch openings share ONE line, on a phone too: they answer the same question (how many
-   packs to open) and stacking them pushed the single opening out of the screen. */
-.opening__batch-actions {
+/* The single opening and its "+" share one line: the "+" is the way into the count dialog
+   ("open several boosters"), the primary button still opens one pack. */
+.opening__open-row {
   display: flex;
   gap: var(--space-2);
+  align-items: stretch;
 }
 
-.opening__batch-actions .btn {
-  flex: 1 1 0;
+.opening__open-row [data-opening-open] {
+  flex: 1 1 auto;
+  width: auto;
   min-width: 0;
-  padding-inline: var(--space-2);
-  font-size: var(--font-size-xs);
 }
 
-@media (min-width: 768px) {
-  .opening__batch-actions {
-    justify-content: center;
-  }
-
-  .opening__batch-actions .btn {
-    flex: 0 1 auto;
-    padding-inline: var(--space-4);
-    font-size: inherit;
-  }
+.opening__open-more {
+  flex: 0 0 auto;
+  min-width: 3rem;
+  padding-inline: var(--space-2);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1;
 }
 
 /* --- Batch opening --------------------------------------------------------------

@@ -16,8 +16,8 @@
  *   bytes 11-12   uuidTag            = SHA-256(uuidBytes)[0..2]
  *   bytes 13-19   mac                = HMAC-SHA256(K, "UIC1" ‖ uuidBytes ‖ bytes[0..12])[0..7]
  *
- *   canonicalItem = `booster:<setId>` or `card:<Index>|<Layout>` (`Layout` lower-cased, exactly as
- *   written in the booster JSON).
+ *   canonicalItem = `booster:<setId>`, `card:<Index>|<Layout>` (`Layout` lower-cased, exactly as
+ *   written in the booster JSON), `sparks` or `dailyreward`.
  *
  * SECURITY MODEL (see the document; do not overclaim)
  *   `K` is served to the browser, so anyone able to read the sources can forge codes for any UUID.
@@ -124,6 +124,17 @@ export function canonicalCard(index, layout) {
  */
 export function canonicalSparks() {
   return 'sparks';
+}
+
+/**
+ * Canonical item string of a daily-reward advance.
+ *
+ * Like Sparks, the item is fixed and the amount lives in the code `quantity`: here it is the number
+ * of days the run of `settings/daily_connect_rewards.json` is pushed forward. The game resolves it
+ * through the catalogue entry added by `RedeemManager.buildUserItemCatalog()`.
+ */
+export function canonicalDailyReward() {
+  return 'dailyreward';
 }
 
 /**
@@ -504,7 +515,9 @@ export class UserItemCode {
         ? { type: 'booster', key: target.setId, quantity, card: null }
         : target.type === 'sparks'
           ? { type: 'sparks', key: 'sparks', quantity, card: null }
-          : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
+          : target.type === 'dailyreward'
+            ? { type: 'dailyreward', key: 'dailyreward', quantity, card: null }
+            : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
 
     return { status: USER_ITEM_STATUSES.OK, rewards: [reward], storeKey: normalized };
   }
@@ -529,7 +542,8 @@ export class UserItemCode {
    *
    * @param {object} payload - Generation payload.
    * @param {string} payload.uuid - Target account UUID (the code only works for it).
-   * @param {string} payload.canonical - Canonical item (`booster:A1`, `card:<Index>|<layout>`, `sparks`).
+   * @param {string} payload.canonical - Canonical item (`booster:A1`, `card:<Index>|<layout>`,
+   *   `sparks`, `dailyreward`).
    * @param {number} payload.quantity - Quantity (1-65535, uint16).
    * @param {Uint8Array|null} [payload.nonce=null] - 5 explicit bytes (tests); random otherwise.
    * @param {Uint8Array|null} [payload.key=null] - Shared key override; the configured key by default.

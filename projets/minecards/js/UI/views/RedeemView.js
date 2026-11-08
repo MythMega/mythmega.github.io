@@ -472,6 +472,14 @@ export class RedeemView {
       return item;
     }
 
+    if (reward.type === 'dailyreward') {
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.dailyReward', { count: reward.quantity });
+      item.appendChild(line);
+      return item;
+    }
+
     const line = document.createElement('p');
     line.className = 'redeem__reward-line';
     line.textContent = i18n.t('redeem.reward.booster', {

@@ -127,11 +127,14 @@ export class CardDetailPopup {
    * @param {object} [options] - Opening options.
    * @param {Array<[string, string]>} [options.rows=[]] - Extra rows of the caller (a price, a day),
    *   appended after the ones every card detail shows.
+   * @param {boolean} [options.effects=false] - Turns the effects back on for this opening, instead
+   *   of reusing the state left by the switch of a previous visit.
    * @returns {Promise<void>} Resolves once the dialog is displayed.
    */
-  async open(card, { rows = [] } = {}) {
+  async open(card, { rows = [], effects = false } = {}) {
     if (!card) return;
     this.ensureMarkup();
+    if (effects) this.shineEnabled = true;
     this.previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     const lang = cardLanguage.getLang();

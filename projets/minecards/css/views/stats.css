@@ -251,8 +251,20 @@
 
 /* --- Mine Pick history ---------------------------------------------------- */
 
-/* A pick is ONE card, not a pack: its history is a list of compact rows whose card is a miniature.
-   Displayed at the size of a card of the openings, ten picks would take the whole page. */
+/* The picks are laid out as a row of tiles across the whole page, like the openings history:
+   inside a half-width panel the one-card rows of the Mine Pick left a large empty space on a
+   wide screen. */
+.stats__panel--minepick {
+  grid-column: 1 / -1;
+}
+
+.stats__history--minepick {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-2);
+  align-items: start;
+}
+
 .stats__minepick-pick {
   display: flex;
   align-items: center;
@@ -260,10 +272,11 @@
   min-width: 0;
 }
 
+/* The miniature is the way into the large card detail: the tile stays compact, the card itself
+   keeps a real touch target. */
 .stats__minepick-pick .stats__history-card {
   flex: 0 0 auto;
   width: 2.75rem;
-  cursor: default;
 }
 
 .stats__minepick-name {

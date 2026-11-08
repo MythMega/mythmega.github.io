@@ -28,6 +28,7 @@ import userItemCode, {
   UserItemCode,
   canonicalBooster,
   canonicalCard,
+  canonicalDailyReward,
   canonicalSparks,
 } from '../js/business/UserItemCode.js';
 
@@ -60,7 +61,16 @@ const PROMO_SET_SUFFIX = '-Promo';
 const PLACEHOLDER_KEY = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
 
 /** Reward kinds offered by the editor. */
-const REWARD_KINDS = Object.freeze({ SPARKS: 'sparks', BOOSTER: 'booster', CARD: 'card' });
+const REWARD_KINDS = Object.freeze({
+  SPARKS: 'sparks',
+  BOOSTER: 'booster',
+  CARD: 'card',
+  DAILY_REWARD: 'dailyreward',
+  SKIP_DAY: 'skipday',
+});
+
+/** Pack drawn when an extension declares no texture of its own (the shared pack of the game). */
+const DEFAULT_BOOSTER_TEXTURE = './assets/img/booster.png';
 
 /** Maximum quantity representable by the `useritem` format (uint16). */
 const MAX_QUANTITY = 65535;
@@ -299,7 +309,8 @@ async function fetchCatalogFile(directory, fileName) {
  * entry missing either one is dropped rather than offered as a reward that could never match.
  *
  * @param {object} raw - Parsed catalog payload.
- * @returns {Array<{index: string, layout: string, name: string|null}>} The card options.
+ * @returns {Array<{index: string, layout: string, name: string|null, path: string|null}>} The card
+ *   options, with the illustration the game displays.
  */
 function collectCardRows(raw) {
   const entries = Array.isArray(raw?.Cards)
@@ -316,7 +327,25 @@ function collectCardRows(raw) {
       index: entry.Index,
       layout: entry.Layout,
       name: typeof entry.Name_FR === 'string' ? entry.Name_FR : null,
+      path: typeof entry.Path === 'string' && entry.Path.trim() !== '' ? entry.Path.trim() : null,
     }));
+}
+
+/**
+ * Resolves a catalogue path from the `admin/` page.
+ *
+ * The catalogues are written for the game root (`./assets/...`) and the illustrations point at the
+ * asset CDN (`<lang>` is a placeholder of the card renderer). The preview therefore prefixes a
+ * local path with `../` and pins the language to `en`, the default card language of the game.
+ *
+ * @param {string|null|undefined} value - Path read from a catalogue.
+ * @returns {string|null} The URL usable by the page, or null when there is no path.
+ */
+function resolveAdminAsset(value) {
+  if (typeof value !== 'string' || value.trim() === '') return null;
+  const path = value.trim().replaceAll('<lang>', 'en');
+  if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(path)) return path;
+  return `../${path.replace(/^\.\//, '')}`;
 }
 
 /**
@@ -329,7 +358,7 @@ function collectCardRows(raw) {
  * file is simply skipped: a missing promo is the normal case, never an error.
  *
  * @param {object} config - Parsed configuration (directories only).
- * @returns {Promise<Array<{setId: string, name: string, promo: boolean, cards: Array<{index: string, layout: string, name: string|null}>}>>}
+ * @returns {Promise<Array<{setId: string, name: string, promo: boolean, texture: string|null, cards: Array<{index: string, layout: string, name: string|null, path: string|null}>}>>}
  *   The catalog.
  * @throws {Error} When the catalogue cannot be read or a declared extension file is missing.
  */
@@ -354,6 +383,9 @@ async function loadCatalog(config) {
       setId,
       name: typeof raw?.Name === 'string' && raw.Name !== '' ? raw.Name : setId,
       promo: false,
+      texture: typeof raw?.BoosterTexture === 'string' && raw.BoosterTexture.trim() !== ''
+        ? raw.BoosterTexture.trim()
+        : null,
       cards: collectCardRows(raw),
     });
   }
@@ -391,6 +423,8 @@ async function loadCatalog(config) {
       setId,
       name: declaredName ?? declaredLabel ?? setId,
       promo: true,
+      // A promo group is never a drawable pack: there is no pack art to preview.
+      texture: null,
       cards,
     });
   }
@@ -433,6 +467,8 @@ function buildKindSelect(value) {
     { value: REWARD_KINDS.SPARKS, label: 'Sparks' },
     { value: REWARD_KINDS.BOOSTER, label: 'Booster' },
     { value: REWARD_KINDS.CARD, label: 'Carte' },
+    { value: REWARD_KINDS.DAILY_REWARD, label: 'Récompense de connexion' },
+    { value: REWARD_KINDS.SKIP_DAY, label: 'Skip 1 jour' },
   ].forEach(({ value: optionValue, label }) => {
     const option = document.createElement('option');
     option.value = optionValue;
@@ -519,6 +555,11 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
   const row = document.createElement('div');
   row.className = 'reward';
 
+  const preview = document.createElement('div');
+  preview.className = 'reward__preview';
+  preview.dataset.role = 'preview';
+  preview.setAttribute('aria-hidden', 'true');
+
   const kindSelect = buildKindSelect(kind);
   const fields = document.createElement('div');
   fields.className = 'reward__fields';
@@ -528,6 +569,61 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
   remove.className = 'reward__remove';
   remove.textContent = 'Retirer';
   remove.addEventListener('click', () => row.remove());
+
+  /**
+   * Shows what the selected reward looks like in the game.
+   *
+   * The page only knows the catalogue, so the preview is the EXACT asset the player receives: the
+   * pack of the extension, or the illustration of the chosen printing. Sparks, the daily-reward
+   * advance and the "skip one day" preset have no picture of their own: the slot stays empty.
+   *
+   * @returns {void}
+   */
+  const renderPreview = () => {
+    preview.textContent = '';
+    preview.removeAttribute('title');
+    const selected = kindSelect.value;
+    const wantsSet = selected === REWARD_KINDS.BOOSTER || selected === REWARD_KINDS.CARD;
+    const set = wantsSet
+      ? (catalog ?? []).find(
+          (candidate) => candidate.setId === fields.querySelector('[data-role="set"]')?.value
+        ) ?? null
+      : null;
+
+    let source = null;
+    let caption = '';
+    if (selected === REWARD_KINDS.BOOSTER) {
+      source = resolveAdminAsset(set?.texture ?? DEFAULT_BOOSTER_TEXTURE);
+      caption = set ? `${set.name} (${set.setId})` : '';
+    } else if (selected === REWARD_KINDS.CARD) {
+      const [index, layout] = (fields.querySelector('[data-role="card"]')?.value ?? '').split(CARD_SEPARATOR);
+      const card =
+        (set?.cards ?? []).find(
+          (candidate) => candidate.index === index && candidate.layout === layout
+        ) ?? null;
+      source = resolveAdminAsset(card?.path ?? null);
+      caption = card ? `${card.index} · ${card.layout}` : '';
+    }
+
+    if (!source) {
+      preview.dataset.empty = 'true';
+      preview.textContent = 'Aperçu';
+      return;
+    }
+
+    delete preview.dataset.empty;
+    const image = document.createElement('img');
+    image.alt = caption;
+    image.loading = 'lazy';
+    image.src = source;
+    image.addEventListener('error', () => {
+      image.remove();
+      preview.dataset.empty = 'true';
+      preview.textContent = 'Aperçu indisponible';
+    });
+    preview.append(image);
+    if (caption) preview.title = caption;
+  };
 
   /**
    * Rebuilds the fields for the selected kind.
@@ -546,18 +642,19 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
         buildField('Extension', setSelect),
         buildField('Boosters', quantity)
       );
+      setSelect.addEventListener('change', renderPreview);
       fields.appendChild(wrapper);
-      return;
-    }
-
-    if (selected === REWARD_KINDS.CARD) {
+    } else if (selected === REWARD_KINDS.CARD) {
       const setSelect = buildSetSelect();
       const cardSelect = buildCardSelect(setSelect.value);
       setSelect.addEventListener('change', () => {
         const next = buildCardSelect(setSelect.value);
         cardSelect.replaceWith(next);
         cardSelect.disabled = next.disabled;
+        next.addEventListener('change', renderPreview);
+        renderPreview();
       });
+      cardSelect.addEventListener('change', renderPreview);
       const quantity = buildQuantityInput(1, 'Nombre de cartes');
       const wrapper = document.createElement('div');
       wrapper.append(
@@ -566,16 +663,29 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
         buildField('Cartes', quantity)
       );
       fields.appendChild(wrapper);
-      return;
+    } else if (selected === REWARD_KINDS.DAILY_REWARD) {
+      fields.appendChild(
+        buildField(
+          'Jours à avancer',
+          buildQuantityInput(1, 'Jours de récompense de connexion à avancer')
+        )
+      );
+    } else if (selected === REWARD_KINDS.SKIP_DAY) {
+      const hint = document.createElement('p');
+      hint.className = 'hint';
+      hint.textContent = 'Avance la série des récompenses de connexion d’un jour.';
+      fields.appendChild(hint);
+    } else {
+      fields.appendChild(buildField('Sparks à créditer', buildQuantityInput(100, 'Montant en Sparks')));
     }
 
-    fields.appendChild(buildField('Sparks à créditer', buildQuantityInput(100, 'Montant en Sparks')));
+    renderPreview();
   };
 
   kindSelect.addEventListener('change', renderFields);
   renderFields();
 
-  row.append(buildField('Type', kindSelect), fields, remove);
+  row.append(preview, buildField('Type', kindSelect), fields, remove);
   return row;
 }
 
@@ -592,6 +702,16 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
  */
 function readReward(row) {
   const kind = row.querySelector('[data-role="kind"]')?.value;
+
+  // The "skip one day" preset carries its own quantity: it has no input to read.
+  if (kind === REWARD_KINDS.SKIP_DAY) {
+    return {
+      canonical: canonicalDailyReward(),
+      quantity: 1,
+      label: 'skip 1 jour des récompenses de connexion',
+    };
+  }
+
   const quantity = Number(row.querySelector('[data-role="quantity"]')?.value);
   if (!Number.isInteger(quantity) || quantity < 1 || quantity > MAX_QUANTITY) {
     throw new Error(`Quantité invalide (entier entre 1 et ${MAX_QUANTITY}).`);
@@ -599,6 +719,14 @@ function readReward(row) {
 
   if (kind === REWARD_KINDS.SPARKS) {
     return { canonical: canonicalSparks(), quantity, label: `${quantity} Sparks` };
+  }
+
+  if (kind === REWARD_KINDS.DAILY_REWARD) {
+    return {
+      canonical: canonicalDailyReward(),
+      quantity,
+      label: `avance de ${quantity} jour(s) les récompenses de connexion`,
+    };
   }
 
   const setId = row.querySelector('[data-role="set"]')?.value ?? '';

@@ -774,6 +774,64 @@ export class DailyRewardManager {
   }
 
   /**
+   * Advances the run without granting the rewards it skips.
+   *
+   * This is what a personal code ("advance the daily reward") applies: the position moves forward
+   * by `steps`, so the next reward the player may claim is the one after the skipped days.
+   * `lastClaimDay` is deliberately left untouched - the code moves the run, it does not consume the
+   * day - which lets the reward of the new position be claimed right away.
+   *
+   * The chapter file must ALREADY be loaded (`load()`): a fetch inside the caller's IndexedDB
+   * transaction would commit it (see `RedeemManager.grantResolved`).
+   *
+   * @param {number} steps - Number of days to skip (positive integer).
+   * @param {object} context - Open write context of `storageRepository.transaction`.
+   * @returns {Promise<{chapterId: string, progress: number}>} The new run position.
+   * @throws {DailyRewardError} Without a trusted day (`NOT_TRUSTED`) or without an open chapter
+   *   (`NO_CHAPTER`).
+   * @throws {Error} When the write fails.
+   */
+  async advanceRun(steps, context) {
+    const quantity = Math.trunc(Number(steps));
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new DailyRewardError(
+        DAILY_REWARD_ERRORS.NO_REWARD,
+        'The number of days to advance is not a positive integer.'
+      );
+    }
+
+    const chapters = await this.load();
+    const today = this.getToday();
+    if (!today) {
+      throw new DailyRewardError(
+        DAILY_REWARD_ERRORS.NOT_TRUSTED,
+        'The trusted UTC day is unavailable: the run cannot be advanced.'
+      );
+    }
+
+    const { chapter, status } = DailyRewardManager.pickChapter(chapters, today);
+    if (!chapter || status !== 'active') {
+      throw new DailyRewardError(
+        DAILY_REWARD_ERRORS.NO_CHAPTER,
+        `No chapter is open on ${today} (status: ${status}).`
+      );
+    }
+
+    const stored = DailyRewardManager.normalizeState(
+      await context.get(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS)
+    );
+    const base = DailyRewardManager.alignToChapter(stored, chapter);
+    const progress = base.progress + quantity;
+    await context.put(
+      STORES.USER_STATE,
+      { ...base, chapterId: chapter.id, progress },
+      USER_STATE_KEYS.DAILY_REWARDS
+    );
+    this.log(`Run advanced by ${quantity}: position ${base.progress} -> ${progress}.`);
+    return { chapterId: chapter.id, progress };
+  }
+
+  /**
    * Claims the reward of today.
    *
    * Everything is written in ONE transaction: the reward, the run position, the day of the claim and

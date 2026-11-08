@@ -101,15 +101,8 @@ export class OpeningView {
     this.openButton = this.root.querySelector('[data-opening-open]');
     this.buyButton = this.root.querySelector('[data-opening-buy]');
     this.feedbackElement = this.root.querySelector('[data-opening-feedback]');
-    this.openTenButton = this.root.querySelector('[data-opening-open-ten]');
     this.openManyButton = this.root.querySelector('[data-opening-open-many]');
     this.batchCounterElement = this.root.querySelector('[data-opening-batch-counter]');
-
-    this.tenModal = this.root.querySelector('[data-opening-ten-modal]');
-    this.tenTitle = this.root.querySelector('[data-opening-ten-title]');
-    this.tenBody = this.root.querySelector('[data-opening-ten-body]');
-    this.tenClose = this.root.querySelector('[data-opening-ten-close]');
-    this.tenButtons = Array.from(this.root.querySelectorAll('[data-opening-ten-choice]'));
 
     this.countModal = this.root.querySelector('[data-opening-count-modal]');
     this.countTitle = this.root.querySelector('[data-opening-count-title]');
@@ -252,8 +245,6 @@ export class OpeningView {
     this.batchPacks = [];
     /** @type {number} Index of the pack being revealed inside `batchPacks`. */
     this.batchIndex = 0;
-    /** @type {{daily: number, bonus: number}|null} Counts offered by the ten-booster dialog. */
-    this.tenChoices = null;
     /** @type {{daily: number, bonus: number}} Packs available while the count dialog is open. */
     this.countLimits = { daily: 0, bonus: 0 };
     /** @type {{daily: number, bonus: number}} Counts picked in the count dialog. */
@@ -318,10 +309,8 @@ export class OpeningView {
       ['[data-booster-preview-canvas]', this.previewViewport],
       ['[data-booster-prev-set]', this.prevSetButton],
       ['[data-booster-next-set]', this.nextSetButton],
-      ['[data-opening-open-ten]', this.openTenButton],
       ['[data-opening-open-many]', this.openManyButton],
       ['[data-opening-batch-counter]', this.batchCounterElement],
-      ['[data-opening-ten-modal]', this.tenModal],
       ['[data-opening-count-modal]', this.countModal],
       ['[data-opening-count-input="daily"]', this.countInputs.daily],
       ['[data-opening-count-input="bonus"]', this.countInputs.bonus],
@@ -465,20 +454,10 @@ export class OpeningView {
       this.listen(this.nextSetButton, 'click', () => this.cycleSet(1));
     }
     this.listen(this.openButton, 'click', () => this.handleOpenClick());
-    this.listen(this.openTenButton, 'click', () => this.handleOpenTenClick());
     this.listen(this.openManyButton, 'click', () => this.handleOpenManyClick());
     if (this.saveButton) {
       this.listen(this.saveButton, 'click', () => void this.saveCurrentOpening());
     }
-    this.tenButtons.forEach((button) => {
-      this.listen(button, 'click', () => void this.handleTenChoice(button.dataset.openingTenChoice));
-    });
-    if (this.tenModal) {
-      this.listen(this.tenModal, 'click', (event) => {
-        if (event?.target === this.tenModal) this.closeTenModal();
-      });
-    }
-    if (this.tenClose) this.listen(this.tenClose, 'click', () => this.closeTenModal());
     if (this.countModal) {
       this.listen(this.countModal, 'click', (event) => {
         if (event?.target === this.countModal) this.closeCountModal();
@@ -684,7 +663,7 @@ export class OpeningView {
       this.openButton.disabled = true;
       // Nothing can be looked at, so nothing can be chosen either: the store button has no target.
       this.renderStoreButton(0);
-      this.renderBatchButtons(null);
+      this.renderBatchButton(null);
       // No visible extension at all (every set is still hidden before its preview window): this is
       // an announcement, not a failure, so the message is informational.
       if (this.setOrder.length === 0) {
@@ -705,7 +684,7 @@ export class OpeningView {
     const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
     this.lastQuota = quota;
     this.renderStoreButton(quota.daily);
-    this.renderBatchButtons(quota);
+    this.renderBatchButton(quota);
     const available = quota.availableForSet ?? 0;
     this.log(`Quota refreshed for "${this.selectedSetId}":`, quota);
 
@@ -991,94 +970,25 @@ export class OpeningView {
   // __OPENING_BATCH__
 
   /**
-   * Shows or hides the two batch buttons, and reflects what can be opened right now.
+   * Shows or hides the "+" control of the single opening, and reflects what can be opened now.
    *
-   * The "10" button is only enabled when ONE bucket can pay for ten packs, so its dialog never has
-   * to explain that the count it promises is not there. The "X" button is the general case: it can
-   * always be used as soon as a single booster is available.
+   * The "+" opens the count dialog (`handleOpenManyClick`) as soon as one booster is available:
+   * the dialog bounds each counter to the packs actually in its bucket, so it never promises a
+   * count that is not there.
    *
    * @param {object|null} [quota] - Quota snapshot of the selected extension.
    * @returns {void}
    */
-  renderBatchButtons(quota = this.lastQuota) {
+  renderBatchButton(quota = this.lastQuota) {
+    if (!this.openManyButton) return;
     const released = Boolean(this.selectedSetId) && this.isSelectedSetReleased();
     const daily = quota?.daily ?? 0;
     const bonus = quota?.bonusBySet?.[this.selectedSetId] ?? 0;
-    // Only the two buckets this dialog can spend make the buttons worth showing: a stock that
+    // Only the two buckets the count dialog can spend make the control worth showing: a stock that
     // exists only as purchased boosters has no batch to offer (the single opening still has one).
     const visible = released && daily + bonus > 0;
-
-    if (this.openTenButton) {
-      this.openTenButton.hidden = !visible;
-      this.openTenButton.disabled = !visible || this.isBusy || Math.max(daily, bonus) < 10;
-      this.openTenButton.title =
-        visible && Math.max(daily, bonus) < 10
-          ? i18n.t('opening.batch.notEnough', { daily, bonus })
-          : '';
-    }
-    if (this.openManyButton) {
-      this.openManyButton.hidden = !visible;
-      this.openManyButton.disabled = !visible || this.isBusy;
-    }
-  }
-
-  /**
-   * Opens the ten-booster dialog: which bucket pays for the ten packs.
-   *
-   * A choice is disabled when its bucket holds fewer than ten: the dialog only ever promises a
-   * count that is really available.
-   *
-   * @returns {void}
-   */
-  handleOpenTenClick() {
-    if (this.isBusy || !this.selectedSetId || !this.isSelectedSetReleased()) return;
-    const quota = dateSyncManager.getQuotaSnapshot(this.selectedSetId);
-    const daily = quota.daily;
-    const bonus = quota.bonusBySet[this.selectedSetId] ?? 0;
-    if (Math.max(daily, bonus) < 10) {
-      this.setFeedback('opening.batch.notEnough', 'error', { daily, bonus });
-      return;
-    }
-    if (!this.tenModal) return;
-
-    this.setFeedback(null);
-    this.tenChoices = { daily, bonus };
-    this.tenTitle.textContent = i18n.t('opening.batch.tenTitle');
-    this.tenBody.textContent = i18n.t('opening.batch.tenBody', { daily, bonus });
-    this.tenButtons.forEach((button) => {
-      const isDaily = button.dataset.openingTenChoice === 'daily';
-      const count = isDaily ? daily : bonus;
-      button.textContent = i18n.t(isDaily ? 'opening.batch.tenDaily' : 'opening.batch.tenBonus', {
-        count,
-      });
-      button.disabled = count < 10;
-    });
-    this.tenModal.hidden = false;
-    this.log(`Ten-booster dialog opened (daily ${daily}, bonus ${bonus}).`);
-  }
-
-  /**
-   * Handles a choice of the ten-booster dialog.
-   *
-   * @param {string} source - `daily` or `bonus`.
-   * @returns {Promise<void>} Resolves once the batch started.
-   */
-  async handleTenChoice(source) {
-    if (source !== 'daily' && source !== 'bonus') return;
-    this.closeTenModal();
-    await this.openBatch({ [source]: 10 });
-  }
-
-  /**
-   * Closes the ten-booster dialog.
-   *
-   * @returns {void}
-   */
-  closeTenModal() {
-    if (this.tenModal && !this.tenModal.hidden) {
-      this.tenModal.hidden = true;
-    }
-    this.tenChoices = null;
+    this.openManyButton.hidden = !visible;
+    this.openManyButton.disabled = !visible || this.isBusy;
   }
 
   /**
@@ -1133,7 +1043,10 @@ export class OpeningView {
     if (input && input.value !== String(count)) input.value = String(count);
     const label = this.countLabels[kind];
     if (label) {
-      label.textContent = i18n.t(kind === 'daily' ? 'opening.batch.daily' : 'opening.batch.bonus', {
+      const baseKey = kind === 'daily' ? 'opening.batch.daily' : 'opening.batch.bonus';
+      // A single pack must not read "1 disponibles": the agreement follows the AVAILABLE count,
+      // which is the number the label shows (the selected count is in the input next to it).
+      label.textContent = i18n.t(limit === 1 ? `${baseKey}One` : baseKey, {
         count: limit,
         set: this.resolveSetName(this.selectedSetId),
       });
@@ -1172,7 +1085,14 @@ export class OpeningView {
   refreshCountConfirm() {
     const total = (this.countValues.daily ?? 0) + (this.countValues.bonus ?? 0);
     if (this.countConfirm) {
-      this.countConfirm.textContent = i18n.t('opening.batch.confirm', { count: total });
+      // French treats zero as a singular ("0 booster") while English uses the plural ("0 boosters"),
+      // so zero has its own key; the singular starts at one and the plural at the second pack.
+      const key = total === 0
+        ? 'opening.batch.confirmZero'
+        : total === 1
+          ? 'opening.batch.confirmOne'
+          : 'opening.batch.confirm';
+      this.countConfirm.textContent = i18n.t(key, { count: total });
       this.countConfirm.disabled = total <= 0;
     }
   }
@@ -1225,7 +1145,7 @@ export class OpeningView {
 
     this.isBusy = true;
     this.openButton.disabled = true;
-    this.renderBatchButtons();
+    this.renderBatchButton();
     this.setFeedback('opening.batch.running', 'info', { total });
     const sources = [
       ...Array.from({ length: daily }, () => BOOSTER_SOURCES.DAILY),
@@ -1247,7 +1167,7 @@ export class OpeningView {
     } finally {
       this.isBusy = false;
       this.openButton.disabled = false;
-      this.renderBatchButtons();
+      this.renderBatchButton();
     }
 
     if (results.length === 0) {
@@ -2732,10 +2652,6 @@ export class OpeningView {
     // clicked, or "Suivante") must not swallow Space.
     const isTextControl = target instanceof HTMLElement
       && (target.closest('input, select, textarea, [contenteditable="true"]') !== null);
-    if (this.tenModal && !this.tenModal.hidden) {
-      if (event.key === 'Escape') this.closeTenModal();
-      return;
-    }
     if (this.countModal && !this.countModal.hidden) {
       if (event.key === 'Escape') this.closeCountModal();
       return;

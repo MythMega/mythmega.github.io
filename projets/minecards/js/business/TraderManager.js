@@ -135,14 +135,14 @@ export function getTraderErrorMessageKey(code) {
  *
  *   `quantity[0] * value[0] + quantity[1] * value[1] + quantity[2] * value[2] === target`
  *
- * HOW THE QUANTITIES ARE CHOSEN. The three resources are drawn first (distinct, from the ones the
- * configuration gives a value to), then EVERY combination of quantities that pays the target
- * exactly is enumerated (the third line absorbs the remainder, so it must divide it). The
- * combinations asking for the smallest piles are kept, and the seeded generator picks one of them:
- * the price is therefore always exact, never absurd (asking for 400 times the same dust), and still
- * different from one card to the next. A draw that has no solution at all (a resource worth more
- * than the whole target, for instance) is replaced by another draw, which is why the enumeration is
- * wrapped in a few attempts.
+ * HOW THE QUANTITIES ARE CHOSEN. Every trio of the resources the configuration gives a value to is
+ * tried, and every combination of quantities paying the target exactly is enumerated (the cheapest
+ * line absorbs the remainder, so it must divide it). A trio that cannot pay the target in whole
+ * units is skipped instead of being drawn again at random: the search is exhaustive, so a price
+ * always exists as soon as the configuration allows one (a resource worth more than the target can
+ * never be part of a price, and is left out of the trios). The combinations asking for the smallest
+ * piles are kept, and the seeded generator picks one of them: the price is therefore always exact,
+ * never absurd (asking for 400 times the same dust), and still different from one card to the next.
  */
 export class TraderPrice {
   /**
@@ -167,50 +167,62 @@ export class TraderPrice {
     }
     dateSyncManager.assertPositiveInteger(target);
 
-    for (let attempt = 0; attempt < DRAW_ATTEMPTS * 3; attempt += 1) {
-      // Dearest first: `enumerate()` reads its quantities in that order, and so does the display.
-      const picks = TraderPrice.pickItems(usable, random).sort((left, right) => right.value - left.value);
-      const candidates = TraderPrice.enumerate(picks, target);
-      if (candidates.length === 0) continue;
-
-      // The cheapest pile wins: a price is read at a glance, so no line may ask for a mountain of
-      // one dust to pay for a card. Among the three best combinations, the seed still chooses.
-      const shortlist = candidates.slice(0, 3);
-      const chosen = shortlist[Math.min(shortlist.length - 1, Math.floor(random() * shortlist.length))];
-
-      return picks.map((item, index) => ({
-        slug: item.slug,
-        type: item.type,
-        nameKey: item.nameKey,
-        texture: item.texture,
-        value: item.value,
-        quantity: chosen.quantities[index],
-        total: chosen.quantities[index] * item.value,
-      }));
+    // Every line counts at least one unit, so a resource worth `target - 1` or more can never be
+    // paid alongside the two other lines (`Void Dust` at 50 cannot pay a card worth 50): it is left
+    // out of the trios instead of making the search fail on it.
+    const payable = usable.filter((item) => item.value <= target - 2);
+    const solutions = TraderPrice.solutions(payable, target);
+    if (solutions.length === 0) {
+      throw new TraderError(
+        TRADER_ERRORS.NO_PRICE,
+        `No combination of resources pays exactly ${target} with the configured values.`
+      );
     }
 
-    throw new TraderError(
-      TRADER_ERRORS.NO_PRICE,
-      `No combination of resources pays exactly ${target} with the configured values.`
-    );
+    // The cheapest pile wins: a price is read at a glance, so no line may ask for a mountain of
+    // one dust to pay for a card. Among the three best combinations, the seed still chooses.
+    const shortlist = solutions.slice(0, 3);
+    const chosen = shortlist[Math.min(shortlist.length - 1, Math.floor(random() * shortlist.length))];
+
+    return chosen.picks.map((item, index) => ({
+      slug: item.slug,
+      type: item.type,
+      nameKey: item.nameKey,
+      texture: item.texture,
+      value: item.value,
+      quantity: chosen.quantities[index],
+      total: chosen.quantities[index] * item.value,
+    }));
   }
 
   /**
-   * Draws `PRICE_ITEM_COUNT` distinct resources.
+   * Lists every trio of resources that pays the target, cheapest pile first.
    *
-   * @param {Array<object>} pool - Resources carrying a value.
-   * @param {() => number} random - Seeded generator.
-   * @returns {Array<object>} The drawn resources, in draw order.
+   * The search is exhaustive and never random, which is what guarantees a price: a trio that cannot
+   * pay the target in whole units is skipped, and another one is read. The result is ordered by the
+   * largest quantity it asks for, so the first entry is the cheapest price to read.
+   *
+   * @param {Array<object>} pool - Resources able to pay at least one unit (`value <= target - 2`).
+   * @param {number} target - Total value to pay.
+   * @returns {Array<{picks: Array<object>, quantities: number[], max: number}>} The solutions,
+   *   cheapest pile first, each trio reading its resources dearest first.
    */
-  static pickItems(pool, random) {
-    const remaining = pool.slice();
-    const picks = [];
-    while (picks.length < PRICE_ITEM_COUNT && remaining.length > 0) {
-      const index = Math.min(remaining.length - 1, Math.floor(random() * remaining.length));
-      picks.push(remaining[index]);
-      remaining.splice(index, 1);
+  static solutions(pool, target) {
+    const found = [];
+    for (let first = 0; first < pool.length - 2; first += 1) {
+      for (let second = first + 1; second < pool.length - 1; second += 1) {
+        for (let third = second + 1; third < pool.length; third += 1) {
+          // Dearest first: `enumerate()` reads its quantities in that order, and so does the display.
+          const picks = [pool[first], pool[second], pool[third]].sort(
+            (left, right) => right.value - left.value
+          );
+          const candidates = TraderPrice.enumerate(picks, target);
+          if (candidates.length === 0) continue;
+          found.push({ picks, quantities: candidates[0].quantities, max: candidates[0].max });
+        }
+      }
     }
-    return picks;
+    return found.sort((left, right) => left.max - right.max);
   }
 
   /**

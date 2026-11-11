@@ -289,6 +289,7 @@ export class GiftsView {
     const info = await giftManager.describeGift(gift);
     const isCard = info.type === GIFT_TYPES.CARD;
     const isSparks = info.type === GIFT_TYPES.SPARKS;
+    const isBundle = info.type === 'bundle';
 
     const item = document.createElement('li');
     item.className = 'gifts__item';
@@ -324,9 +325,11 @@ export class GiftsView {
         })
       : isSparks
         ? i18n.t('gifts.item.sparks', { count: gift.quantity })
-        : i18n.t('gifts.item.booster', {
-            set: info.setName ?? i18n.t('gifts.item.unknown', { key: gift.key }),
-          });
+        : isBundle
+          ? i18n.t('gifts.item.bundle', { count: gift.quantity })
+          : i18n.t('gifts.item.booster', {
+              set: info.setName ?? i18n.t('gifts.item.unknown', { key: gift.key }),
+            });
     head.appendChild(title);
 
     const badge = document.createElement('span');

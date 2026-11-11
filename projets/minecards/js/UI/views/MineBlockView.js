@@ -150,6 +150,10 @@ export class MineBlockView {
     this.burstElement = this.root.querySelector('[data-mineblock-burst]');
     this.hintElement = this.root.querySelector('[data-mineblock-hint]');
     this.emptyElement = this.root.querySelector('[data-mineblock-empty]');
+    this.bundleSection = this.root.querySelector('[data-mineblock-bundle]');
+    this.bundleDescription = this.root.querySelector('[data-mineblock-bundle-description]');
+    this.bundleOwned = this.root.querySelector('[data-mineblock-bundle-owned]');
+    this.bundleUseButton = this.root.querySelector('[data-mineblock-bundle-use]');
     this.resourcesElement = this.root.querySelector('[data-mineblock-resources]');
     this.inventoryButton = this.root.querySelector('[data-mineblock-inventory]');
     this.inventoryIcon = this.root.querySelector('[data-mineblock-inventory-icon]');
@@ -225,6 +229,8 @@ export class MineBlockView {
 
     /** @type {object|null} Last state returned by `MiningManager.getState()`. */
     this.state = null;
+    /** @type {boolean} True while a bundle is being consumed. */
+    this.isUsingBundle = false;
     /** @type {Array<{slug: string, type: string, nameKey: string, texture: string}>} Harvested kinds. */
     this.resources = [];
     /** @type {number} Delay before the next block lands, in milliseconds (from the configuration). */
@@ -329,6 +335,10 @@ export class MineBlockView {
       ['[data-mineblock-burst]', this.burstElement],
       ['[data-mineblock-hint]', this.hintElement],
       ['[data-mineblock-empty]', this.emptyElement],
+      ['[data-mineblock-bundle]', this.bundleSection],
+      ['[data-mineblock-bundle-description]', this.bundleDescription],
+      ['[data-mineblock-bundle-owned]', this.bundleOwned],
+      ['[data-mineblock-bundle-use]', this.bundleUseButton],
       ['[data-mineblock-resources]', this.resourcesElement],
       ['[data-mineblock-inventory]', this.inventoryButton],
       ['[data-mineblock-inventory-icon]', this.inventoryIcon],
@@ -447,6 +457,7 @@ export class MineBlockView {
     this.listen(this.inventoryButton, 'click', () => {
       this.openModal(this.inventoryModal, this.inventoryButton);
     });
+    this.listen(this.bundleUseButton, 'click', () => void this.useBundle());
     this.listen(this.inventoryClose, 'click', () => this.closeModal(this.inventoryModal));
     this.listen(this.inventoryDismiss, 'click', () => this.closeModal(this.inventoryModal));
     this.listen(this.inventoryModal, 'click', (event) => {
@@ -813,6 +824,7 @@ export class MineBlockView {
     if (!this.state) return;
     this.renderQuota(this.state);
     this.renderBlock(this.state);
+    this.renderBundle(this.state);
     this.renderResources();
   }
 
@@ -832,6 +844,54 @@ export class MineBlockView {
     this.countdownElement.hidden = !exhausted;
     if (exhausted) {
       this.countdownValue.textContent = dateSyncManager.getFormattedTimeUntilReset();
+    }
+  }
+
+  /**
+   * Writes the recharge panel shown once every block of the day is mined.
+   *
+   * @param {object} state - State returned by `MiningManager.getState()`.
+   * @returns {void}
+   */
+  renderBundle(state) {
+    const exhausted = state.remaining <= 0;
+    const hasRules = miningManager.blocks.length > 0;
+    this.bundleSection.hidden = !exhausted || !hasRules;
+    if (this.bundleSection.hidden) return;
+
+    this.bundleDescription.textContent = i18n.t('mineblock.bundle.description', {
+      blocks: miningManager.settings.blocksPerBundle,
+    });
+    this.bundleOwned.textContent = i18n.t('mineblock.bundle.owned', { count: state.bundles });
+    this.bundleUseButton.disabled = this.isUsingBundle || state.bundles <= 0;
+    this.bundleUseButton.textContent =
+      state.bundles > 0
+        ? i18n.t('mineblock.bundle.useCount', { count: state.bundles })
+        : i18n.t('mineblock.bundle.none');
+  }
+
+  /**
+   * Consumes one bundle at the end of the day and reloads the mine.
+   *
+   * @returns {Promise<void>} Resolves once the recharge was applied (or refused).
+   */
+  async useBundle() {
+    if (this.isUsingBundle) return;
+    this.isUsingBundle = true;
+    this.setFeedback(null);
+    this.renderBundle(this.state);
+
+    try {
+      const result = await miningManager.useBundle();
+      this.state = await miningManager.getState({ lang: cardLanguage.getLang() });
+      this.render();
+      Toast.success('mineblock.bundle.used', { params: { count: result.blocksAdded } });
+    } catch (error) {
+      console.error('[MineBlockView] The bundle could not be used.', error);
+      this.setFeedback(getMiningErrorMessageKey(error?.code), 'error');
+    } finally {
+      this.isUsingBundle = false;
+      if (this.state) this.renderBundle(this.state);
     }
   }
 

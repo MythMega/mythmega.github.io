@@ -27,8 +27,10 @@
 import userItemCode, {
   UserItemCode,
   canonicalBooster,
+  canonicalBundle,
   canonicalCard,
   canonicalDailyReward,
+  canonicalMiningResource,
   canonicalSparks,
 } from '../js/business/UserItemCode.js';
 
@@ -64,9 +66,11 @@ const PLACEHOLDER_KEY = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=';
 const REWARD_KINDS = Object.freeze({
   SPARKS: 'sparks',
   BOOSTER: 'booster',
+  BUNDLE: 'bundle',
   CARD: 'card',
   DAILY_REWARD: 'dailyreward',
   SKIP_DAY: 'skipday',
+  RESOURCE: 'resource',
 });
 
 /** Pack drawn when an extension declares no texture of its own (the shared pack of the game). */
@@ -83,6 +87,8 @@ const CARD_SEPARATOR = '\t';
 
 /** @type {{sets: Array<{setId: string, name: string, cards: Array<{index: string, layout: string, name: string|null}>}>}|null} */
 let catalog = null;
+/** @type {Array<{slug: string, name: string, texture: string|null}>} */
+let miningResources = [];
 /** @type {Uint8Array|null} */
 let keyBytes = null;
 
@@ -332,6 +338,20 @@ function collectCardRows(raw) {
 }
 
 /**
+ * Normalises a declared reward type into the slug used by the game.
+ *
+ * @param {unknown} type - `Type` of a reward in `settings/mining.json`.
+ * @returns {string} The lowercase underscore slug.
+ */
+function resourceSlugOf(type) {
+  return String(type ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+/**
  * Resolves a catalogue path from the `admin/` page.
  *
  * The catalogues are written for the game root (`./assets/...`) and the illustrations point at the
@@ -346,6 +366,37 @@ function resolveAdminAsset(value) {
   const path = value.trim().replaceAll('<lang>', 'en');
   if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(path)) return path;
   return `../${path.replace(/^\.\//, '')}`;
+}
+
+/**
+ * Loads the five resources of the mine, in declaration order.
+ *
+ * The slugs are derived exactly like `MiningManager.normalizeBlocks()` does, because that is the key
+ * `user_state.mining.resources` and `canonicalMiningResource()` use. A failure only disables the
+ * resource kind; the other rewards stay usable.
+ *
+ * @param {object} config - Parsed configuration.
+ * @returns {Promise<Array<{slug: string, name: string, texture: string|null}>>} The resources.
+ */
+async function loadMiningResources(config) {
+  const path = String(config?.mining?.configPath ?? 'settings/mining.json').replace(/^\.\//, '');
+  const slash = path.lastIndexOf('/');
+  const directory = slash >= 0 ? path.slice(0, slash) : '.';
+  const fileName = path.slice(slash + 1).replace(/\.json$/i, '');
+  const raw = await fetchCatalogFile(directory, fileName);
+  const resources = [];
+  (Array.isArray(raw?.Blocks) ? raw.Blocks : []).forEach((block) => {
+    (Array.isArray(block?.Rewards) ? block.Rewards : []).forEach((reward) => {
+      const slug = resourceSlugOf(reward?.Type);
+      if (slug === '' || slug === 'sparks' || resources.some((entry) => entry.slug === slug)) return;
+      resources.push({
+        slug,
+        name: String(reward?.Type ?? slug),
+        texture: resolveAdminAsset(reward?.Texture ?? null),
+      });
+    });
+  });
+  return resources;
 }
 
 /**
@@ -466,10 +517,13 @@ function buildKindSelect(value) {
   [
     { value: REWARD_KINDS.SPARKS, label: 'Sparks' },
     { value: REWARD_KINDS.BOOSTER, label: 'Booster' },
+    { value: REWARD_KINDS.BUNDLE, label: 'Bundle de blocs' },
     { value: REWARD_KINDS.CARD, label: 'Carte' },
     { value: REWARD_KINDS.DAILY_REWARD, label: 'Récompense de connexion' },
     { value: REWARD_KINDS.SKIP_DAY, label: 'Skip 1 jour' },
+    { value: REWARD_KINDS.RESOURCE, label: 'Ressource minière' },
   ].forEach(({ value: optionValue, label }) => {
+    if (optionValue === REWARD_KINDS.RESOURCE && miningResources.length === 0) return;
     const option = document.createElement('option');
     option.value = optionValue;
     option.textContent = label;
@@ -526,6 +580,29 @@ function buildCardSelect(setId) {
 }
 
 /**
+ * Builds the `<select>` of the mining resources.
+ *
+ * @param {string|null} selected - Initially selected slug.
+ * @returns {HTMLSelectElement} The select element.
+ */
+function buildResourceSelect(selected = null) {
+  const select = document.createElement('select');
+  select.className = 'field__select';
+  select.dataset.role = 'resource';
+  miningResources.forEach((resource) => {
+    const option = document.createElement('option');
+    option.value = resource.slug;
+    option.textContent = `${resource.name} (${resource.slug})`;
+    select.appendChild(option);
+  });
+  select.disabled = miningResources.length === 0;
+  if (selected && miningResources.some((resource) => resource.slug === selected)) {
+    select.value = selected;
+  }
+  return select;
+}
+
+/**
  * Builds the quantity input.
  *
  * @param {number} [value=1] - Initial value.
@@ -549,9 +626,10 @@ function buildQuantityInput(value = 1, label = 'Quantité') {
  * Creates one reward row (kind select + its dynamic fields + a remove button).
  *
  * @param {string} [kind=REWARD_KINDS.SPARKS] - Initially selected kind.
+ * @param {string|null} [resourceSlug=null] - Initially selected resource.
  * @returns {HTMLElement} The row element.
  */
-function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
+function buildRewardRow(kind = REWARD_KINDS.SPARKS, resourceSlug = null) {
   const row = document.createElement('div');
   row.className = 'reward';
 
@@ -595,6 +673,14 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
     if (selected === REWARD_KINDS.BOOSTER) {
       source = resolveAdminAsset(set?.texture ?? DEFAULT_BOOSTER_TEXTURE);
       caption = set ? `${set.name} (${set.setId})` : '';
+    } else if (selected === REWARD_KINDS.BUNDLE) {
+      source = resolveAdminAsset('assets/img/bundle.png');
+      caption = 'Bundle de blocs';
+    } else if (selected === REWARD_KINDS.RESOURCE) {
+      const slug = fields.querySelector('[data-role="resource"]')?.value ?? '';
+      const resource = miningResources.find((entry) => entry.slug === slug) ?? null;
+      source = resource?.texture ?? null;
+      caption = resource ? `${resource.name} (${resource.slug})` : '';
     } else if (selected === REWARD_KINDS.CARD) {
       const [index, layout] = (fields.querySelector('[data-role="card"]')?.value ?? '').split(CARD_SEPARATOR);
       const card =
@@ -644,6 +730,18 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS) {
       );
       setSelect.addEventListener('change', renderPreview);
       fields.appendChild(wrapper);
+    } else if (selected === REWARD_KINDS.BUNDLE) {
+      fields.appendChild(
+        buildField('Bundles de blocs', buildQuantityInput(1, 'Nombre de bundles de blocs'))
+      );
+    } else if (selected === REWARD_KINDS.RESOURCE) {
+      const resourceSelect = buildResourceSelect(resourceSlug);
+      resourceSelect.addEventListener('change', renderPreview);
+      const quantity = buildQuantityInput(1, 'Quantité de ressource');
+      fields.appendChild(
+        document.createDocumentFragment()
+      );
+      fields.append(buildField('Ressource', resourceSelect), buildField('Quantité', quantity));
     } else if (selected === REWARD_KINDS.CARD) {
       const setSelect = buildSetSelect();
       const cardSelect = buildCardSelect(setSelect.value);
@@ -729,6 +827,25 @@ function readReward(row) {
     };
   }
 
+  if (kind === REWARD_KINDS.BUNDLE) {
+    return {
+      canonical: canonicalBundle(),
+      quantity,
+      label: `${quantity} × bundle(s) de blocs`,
+    };
+  }
+
+  if (kind === REWARD_KINDS.RESOURCE) {
+    const slug = row.querySelector('[data-role="resource"]')?.value ?? '';
+    if (!slug) throw new Error('Sélectionnez une ressource minière.');
+    const resource = miningResources.find((entry) => entry.slug === slug);
+    return {
+      canonical: canonicalMiningResource(slug),
+      quantity,
+      label: `${quantity} × ${resource?.name ?? slug}`,
+    };
+  }
+
   const setId = row.querySelector('[data-role="set"]')?.value ?? '';
   if (!setId) throw new Error('Sélectionnez une extension.');
 
@@ -806,6 +923,7 @@ const keyStatus = document.getElementById('key-status');
 const uuidInput = document.getElementById('uuid');
 const rewards = document.getElementById('rewards');
 const addReward = document.getElementById('add-reward');
+const byId = (id) => document.getElementById(id);
 const generate = document.getElementById('generate');
 const feedback = document.getElementById('feedback');
 const resultsCard = document.getElementById('results-card');
@@ -831,8 +949,9 @@ function lockApp() {
  * @returns {Promise<void>} Resolves once the interface is ready.
  */
 async function unlockApp() {
-  lock.hidden = true;
-  app.hidden = false;
+  // `admin/codes.html` has no lock section: both references are optional there.
+  if (lock) lock.hidden = true;
+  if (app) app.hidden = false;
 
   if (!globalThis.crypto?.subtle) {
     setFeedback(feedback, 'crypto.subtle est indisponible : servez la page en HTTPS ou sur localhost.', 'error');
@@ -846,6 +965,12 @@ async function unlockApp() {
     keyBytes = key;
     setFeedback(keyStatus, status.text, status.tone);
     catalog = await loadCatalog(config);
+    try {
+      miningResources = await loadMiningResources(config);
+    } catch (error) {
+      console.warn('[Admin] The mining resources could not be loaded.', error);
+      miningResources = [];
+    }
   } catch (error) {
     console.error('[Admin] Configuration load failed.', error);
     setFeedback(keyStatus, error.message, 'error');
@@ -855,38 +980,64 @@ async function unlockApp() {
 
   if (!catalog || catalog.length === 0) {
     setFeedback(keyStatus, 'Aucune extension chargée : seuls les Sparks sont disponibles.', 'warning');
+  } else if (miningResources.length === 0) {
+    setFeedback(keyStatus, 'Aucune ressource minière chargée : le type « Ressource minière » est masqué.', 'warning');
   }
   if (!keyBytes) {
     generate.disabled = true;
   }
 }
 
-lockForm.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const typed = lockInput.value;
-  if (typed === '') {
-    setFeedback(lockFeedback, 'Saisissez le mot de passe.', 'error');
-    return;
-  }
-  try {
-    const digest = await sha256Hex(typed);
-    if (!constantTimeEqual(digest, PASSWORD_HASH)) {
-      setFeedback(lockFeedback, 'Mot de passe incorrect.', 'error');
-      lockInput.value = '';
+// `admin/codes.html` is the local-only copy of the page: it has no gate at all, so every lock
+// binding is optional and the generator opens immediately when they are absent.
+const hasLockGate = Boolean(lock && lockForm && lockInput && lockFeedback);
+
+if (hasLockGate) {
+  lockForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const typed = lockInput.value;
+    if (typed === '') {
+      setFeedback(lockFeedback, 'Saisissez le mot de passe.', 'error');
       return;
     }
-  } catch (error) {
-    setFeedback(lockFeedback, error.message, 'error');
-    return;
-  }
-  lockInput.value = '';
-  await unlockApp();
-});
+    try {
+      const digest = await sha256Hex(typed);
+      if (!constantTimeEqual(digest, PASSWORD_HASH)) {
+        setFeedback(lockFeedback, 'Mot de passe incorrect.', 'error');
+        lockInput.value = '';
+        return;
+      }
+    } catch (error) {
+      setFeedback(lockFeedback, error.message, 'error');
+      return;
+    }
+    lockInput.value = '';
+    await unlockApp();
+  });
+}
 
-lockAgain.addEventListener('click', () => lockApp());
+if (lockAgain) {
+  lockAgain.addEventListener('click', () => lockApp());
+}
 
 addReward.addEventListener('click', () => {
   rewards.appendChild(buildRewardRow());
+});
+
+// Dedicated shortcut for the block-bundle hand-out: the quantity field accepts several bundles.
+byId('add-bundle').addEventListener('click', () => {
+  rewards.appendChild(buildRewardRow(REWARD_KINDS.BUNDLE));
+});
+
+// One click creates the five lines (one code each), which is the usual hand-out for the mine.
+byId('add-resources').addEventListener('click', () => {
+  if (miningResources.length === 0) {
+    setFeedback(feedback, 'Aucune ressource minière chargée (settings/mining.json).', 'error');
+    return;
+  }
+  miningResources.forEach((resource) => {
+    rewards.appendChild(buildRewardRow(REWARD_KINDS.RESOURCE, resource.slug));
+  });
 });
 
 uuidInput.addEventListener('input', () => {
@@ -956,4 +1107,10 @@ function resultCardReset() {
 
 /* First row: the operator always has at least one reward to edit. */
 rewards.appendChild(buildRewardRow());
-lockInput.focus();
+
+if (hasLockGate) {
+  lockInput.focus();
+} else {
+  if (app) app.hidden = false;
+  void unlockApp();
+}

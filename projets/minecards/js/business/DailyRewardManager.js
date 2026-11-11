@@ -42,7 +42,11 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager from './BoosterManager.js';
 import promoManager from './PromoManager.js';
-import miningManager, { RESOURCE_TEXTURE_DIRECTORY, SPARKS_TEXTURE } from './MiningManager.js';
+import miningManager, {
+  BUNDLE_TEXTURE,
+  RESOURCE_TEXTURE_DIRECTORY,
+  SPARKS_TEXTURE,
+} from './MiningManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager, { ILLAGER_SHOP_EVENT } from './IllagerShopManager.js';
 import {
@@ -81,6 +85,7 @@ export const DAILY_REWARD_KINDS = Object.freeze({
   SPARKS: 'sparks',
   RESOURCE: 'resource',
   BOOSTER: 'booster',
+  BUNDLE: 'bundle',
   CARD: 'card',
   // A card drawn at claim time and revealed by the roulette (`RandomCard-List`, `RandomCard-Filter`).
   RANDOM_CARD: 'randomcard',
@@ -369,6 +374,9 @@ export class DailyRewardManager {
     if (type.toLowerCase() === 'booster') {
       return { kind: DAILY_REWARD_KINDS.BOOSTER, type, quantity, slug: null, cardId: null };
     }
+    if (type.toLowerCase() === 'bundle') {
+      return { kind: DAILY_REWARD_KINDS.BUNDLE, type, quantity, slug: null, cardId: null };
+    }
     if (type.toLowerCase() === 'card') {
       const cardId = typeof raw.CardID === 'string' ? raw.CardID.trim() : '';
       if (cardId === '') return null;
@@ -645,6 +653,8 @@ export class DailyRewardManager {
         return `${RESOURCE_TEXTURE_DIRECTORY}/${reward.slug}.png`;
       case DAILY_REWARD_KINDS.BOOSTER:
         return BOOSTER_REWARD_TEXTURE;
+      case DAILY_REWARD_KINDS.BUNDLE:
+        return BUNDLE_TEXTURE;
       case DAILY_REWARD_KINDS.CARD:
         // A card the catalogue cannot resolve still reads as a card: the back is honest about it
         // (the tile and the preview both say the day is unavailable), where an empty box said nothing.
@@ -667,6 +677,7 @@ export class DailyRewardManager {
   static auraOf(reward) {
     if (!reward) return null;
     if (reward.kind === DAILY_REWARD_KINDS.BOOSTER) return DAILY_REWARD_AURAS.GOLD;
+    if (reward.kind === DAILY_REWARD_KINDS.BUNDLE) return DAILY_REWARD_AURAS.GOLD;
     if (reward.kind === DAILY_REWARD_KINDS.CARD) return DAILY_REWARD_AURAS.PINK;
     if (reward.kind === DAILY_REWARD_KINDS.RANDOM_CARD) return DAILY_REWARD_AURAS.PINK;
     if (reward.kind === DAILY_REWARD_KINDS.RESOURCE) {
@@ -919,6 +930,8 @@ export class DailyRewardManager {
           await illagerShopManager.grantCurrency(plan.reward.currencyId, plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
           await dateSyncManager.addBonusBoosters(plan.setId, plan.quantity, context);
+        } else if (plan.kind === DAILY_REWARD_KINDS.BUNDLE) {
+          await miningManager.grantBundles(plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.CARD || plan.kind === DAILY_REWARD_KINDS.RANDOM_CARD) {
           const existing = await context.get(STORES.COLLECTION, plan.card.uniqueKey);
           const quantity = (existing?.quantity ?? 0) + plan.quantity;
@@ -975,7 +988,10 @@ export class DailyRewardManager {
       eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: committed.balance });
     } else if (plan.kind === DAILY_REWARD_KINDS.CUSTOM_CURRENCY) {
       eventBus.emit(ILLAGER_SHOP_EVENT, { currencyId: plan.reward.currencyId });
-    } else if (plan.kind === DAILY_REWARD_KINDS.RESOURCE) {
+    } else if (
+      plan.kind === DAILY_REWARD_KINDS.RESOURCE ||
+      plan.kind === DAILY_REWARD_KINDS.BUNDLE
+    ) {
       const state = await miningManager.getState();
       eventBus.emit(EVENTS.MINING_UPDATED, {
         day: state.day,
@@ -983,6 +999,7 @@ export class DailyRewardManager {
         remaining: state.remaining,
         blocksPerDay: state.blocksPerDay,
         totalMined: state.totalMined,
+        bundles: state.bundles,
       });
     } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
       await dateSyncManager.getRemainingBoosters(plan.setId);

@@ -520,6 +520,11 @@ svg.app-header__stat-icon {
   mask-image: url("../assets/img/settings.svg");
 }
 
+.app-header__stat-icon--shop {
+  -webkit-mask-image: url("../assets/img/shop.svg");
+  mask-image: url("../assets/img/shop.svg");
+}
+
 /* A wide screen drops the tagline, so the brand and the three actions share one line even when a
    long player name is written in front of the name of the game. */
 @media (min-width: 1024px) {

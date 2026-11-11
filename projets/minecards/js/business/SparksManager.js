@@ -30,12 +30,12 @@
  * BUY RULE: buying one copy of any catalog card is always possible while the balance covers
  * `buyPrice[rarity]`. The balance check is inside the transaction, next to the write.
  *
- * PROMO RULE (absolute): a promo card (`data/promo_cards/*`, a set id ending in `-Promo`) is
- * neither sellable nor buyable, whatever the caller does. It only ever enters the collection
- * through a redeem code or a distribution, so allowing a sale would turn a reward that cannot be
- * drawn into free Sparks, and allowing a purchase would turn Sparks into a reward that is supposed
- * to be earned. The check is the LAST one before the write, so no reloaded page, stale view or
- * hand-crafted call can bypass it.
+ * PROMO RULE: a promo card (`data/promo_cards/*`, a set id ending in `-Promo`) is never buyable.
+ * It only ever enters the collection through a redeem code or a distribution, so a purchase would
+ * turn Sparks into a reward that is supposed to be earned. A DUPLICATE promo may be sold for the
+ * fixed `PROMO_SELL_PRICE` (10 Sparks, whatever its rarity); the last copy stays protected exactly
+ * like any other card. The stored row decides whether a card is a promo, so no caller can make a
+ * promo look like a drawn card.
  *
  * After every change the balance is published through `EVENTS.SPARKS_UPDATED` so the header and
  * the collection view refresh without a direct dependency on this module.
@@ -59,6 +59,7 @@ import { isPromoSetId } from './PromoSet.js';
  */
 export const SPARKS_SOURCES = Object.freeze({
   BOOSTER: 'booster',
+  BUNDLE: 'bundle',
   SALE: 'sale',
   DAILY: 'daily',
   MINING: 'mining',
@@ -90,6 +91,7 @@ export const SPARKS_EARNED_SOURCES = Object.freeze([
 export const SPARKS_SPENT_SOURCES = Object.freeze([
   SPARKS_SOURCES.CARD,
   SPARKS_SOURCES.BOOSTER,
+  SPARKS_SOURCES.BUNDLE,
   SPARKS_SOURCES.FEATURE,
   SPARKS_SOURCES.MINE_PICK,
   SPARKS_SOURCES.TRADER,
@@ -102,8 +104,11 @@ export const INSUFFICIENT_SPARKS = 'INSUFFICIENT_SPARKS';
 /** Error code thrown when a sale would remove the last copy of a card. */
 export const LAST_COPY_PROTECTED = 'LAST_COPY_PROTECTED';
 
-/** Error code thrown when a promo card is bought or sold, which is never allowed. */
+/** Error code thrown when a promo card is bought, which is never allowed. */
 export const PROMO_PROTECTED = 'PROMO_PROTECTED';
+
+/** Sparks credited for one duplicate promo card, whatever its rarity. */
+export const PROMO_SELL_PRICE = 10;
 
 /**
  * Error raised by the currency subsystem.
@@ -345,7 +350,7 @@ export class SparksManager {
    *   remaining quantity of the card and the Sparks credited.
    * @throws {TypeError} When the payload is invalid.
    * @throws {SparksError} With `LAST_COPY_PROTECTED` when the sale would remove the last copy, or
-   *   when the card is not owned; with `PROMO_PROTECTED` when the card belongs to a promo group.
+   *   when the card is not owned.
    * @throws {Error} When the write fails.
    */
   async sellCard({ key, rarity, copies = 1 } = {}) {
@@ -355,11 +360,10 @@ export class SparksManager {
     if (!Number.isInteger(copies) || copies <= 0) {
       throw new TypeError(`SparksManager.sellCard expects a positive copy count (received: ${JSON.stringify(copies)}).`);
     }
-    const price = await this.getSellPrice(rarity);
-    if (price <= 0) {
+    const catalogPrice = await this.getSellPrice(rarity);
+    if (catalogPrice <= 0) {
       throw new SparksError(LAST_COPY_PROTECTED, `No sell price is configured for rarity ${rarity}.`);
     }
-    const gained = price * copies;
 
     const result = await storageRepository.transaction(
       [STORES.COLLECTION, STORES.USER_STATE],
@@ -367,13 +371,9 @@ export class SparksManager {
       async (context) => {
         const entry = await context.get(STORES.COLLECTION, key);
         // The stored row is the authority on the group of the card: nothing the caller says can
-        // make a promo card look like a drawn one.
-        if (isPromoSetId(entry?.set)) {
-          throw new SparksError(
-            PROMO_PROTECTED,
-            `"${key}" belongs to the promo group "${entry.set}": it can never be sold.`
-          );
-        }
+        // make a promo card look like a drawn one. A promo keeps its fixed duplicate price.
+        const price = isPromoSetId(entry?.set) ? PROMO_SELL_PRICE : catalogPrice;
+        const gained = price * copies;
         const quantity = Number.isFinite(entry?.quantity) ? entry.quantity : 0;
         if (quantity - copies < 1) {
           throw new SparksError(
@@ -390,7 +390,7 @@ export class SparksManager {
       }
     );
 
-    this.log(`Sold ${copies} copy(ies) of "${key}" for ${gained} Sparks (balance: ${result.balance}).`);
+    this.log(`Sold ${copies} copy(ies) of "${key}" for ${result.gained} Sparks (balance: ${result.balance}).`);
     // The sale is announced for itself: the quests count the copies sold, which the balance alone
     // cannot tell from a purchase or a gift.
     eventBus.emit(EVENTS.CARD_SOLD, { key, rarity, copies });

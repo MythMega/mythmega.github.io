@@ -58,6 +58,7 @@ import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
 import { RedeemView } from './UI/views/RedeemView.js';
 import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
+import { ShopView, SHOP_VIEW_NAME } from './UI/views/ShopView.js';
 import titleManager from './business/TitleManager.js';
 import minePickManager from './business/MinePickManager.js';
 import { miningManager } from './business/MiningManager.js';
@@ -100,7 +101,8 @@ const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 /**
  * Selectors of the inventory dialog: the one button of the header that still carries numbers, and
- * the dialog it opens (boosters left, blocks and picks of the day, Sparks, bonus boosters).
+ * the dialog it opens (boosters left, blocks and picks of the day, bonus boosters, block bundles,
+ * Sparks).
  */
 export const INVENTORY_SELECTORS = Object.freeze({
   BUTTON: '[data-header-inventory]',
@@ -155,6 +157,7 @@ const DAILY_REWARD_OFFER_DELAY_MS = 900;
 export const VIEW_NAMES = Object.freeze({
   ONBOARDING: 'onboarding',
   OPENING: 'opening',
+  SHOP: 'shop',
   COLLECTION: 'collection',
   // Progression: a page of its own, opened from the header of the collection.
   PROGRESSION: 'progression',
@@ -563,6 +566,7 @@ export class App {
     await this.startRedeemView();
     await this.startGiftsView();
     await this.startInfoView();
+    await this.startShopView();
     // The deep link is handled LAST: the account exists, the views are ready and the trusted clock
     // is initialized, which is exactly what `?Redeem=` needs (step 10).
     await this.handlePendingRedeem();
@@ -1438,6 +1442,32 @@ export class App {
   }
 
   /**
+   * Starts the monthly booster shop: allowance, price, quantity and purchase.
+   *
+   * A load failure must not break the whole boot: the view shows its own error message and the
+   * other screens keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startShopView() {
+    const root = document.querySelector(`[data-view="${SHOP_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The shop view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the shop view…');
+    this.shopView = new ShopView(root);
+    try {
+      await this.shopView.init();
+    } catch (error) {
+      console.error('[App] The shop view could not be loaded.', error);
+      this.shopView.setFeedback('shop.error.load', 'error');
+      return;
+    }
+    console.info('[App] Shop view ready.');
+  }
+
+  /**
    * Mounts the "how does it work?" popup on every view.
    *
    * The markup is static (one `.view__header` per section), so the popups are built once, right
@@ -2027,15 +2057,17 @@ export class App {
     const quota = dateSyncManager.getQuotaSnapshot();
     const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
     const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
-    const [blocks, picks, sparks] = await Promise.all([
+    const [blocks, picks, bundles, sparks] = await Promise.all([
       this.readBlocksLeft(),
       this.readPicksLeft(),
+      this.readOwnedBundles(),
       this.readSparksBalance(),
     ]);
 
     body.textContent = '';
-    // Two sections: what the day still grants (boosters, blocks, picks), then the wallet. Sparks
-    // are a balance, not a daily allowance, so they never share a list with the three counters.
+    // Three sections: what the day still grants (boosters, blocks, picks), what the player owns
+    // outside the daily allowance (bonus boosters, block bundles), then the wallet. Sparks are a
+    // balance, not a stock, so they never share a list with the counters and the owned items.
     body.appendChild(App.buildInventoryHeading('inventory.today'));
     const dailyList = document.createElement('ul');
     dailyList.className = 'inventory__list';
@@ -2046,6 +2078,20 @@ export class App {
     );
     body.appendChild(dailyList);
 
+    await this.appendBonusBoosters(body, quota, bonusTotal);
+
+    body.appendChild(App.buildInventoryHeading('inventory.bundles'));
+    const bundlesList = document.createElement('ul');
+    bundlesList.className = 'inventory__list';
+    bundlesList.append(
+      App.buildInventoryRow({
+        icon: 'bundle',
+        labelKey: 'inventory.bundleStock',
+        value: bundles,
+      })
+    );
+    body.appendChild(bundlesList);
+
     body.appendChild(App.buildInventoryHeading('inventory.wallet'));
     const wallet = document.createElement('ul');
     wallet.className = 'inventory__list';
@@ -2053,7 +2099,6 @@ export class App {
       App.buildInventoryRow({ icon: 'sparks', labelKey: 'inventory.sparks', value: sparks })
     );
     body.appendChild(wallet);
-    await this.appendBonusBoosters(body, quota, bonusTotal);
 
     applyThemeIcons(body);
     modal.hidden = false;
@@ -2088,17 +2133,28 @@ export class App {
   /**
    * Reads the Mine Pick packs the player can still open today.
    *
-   * The free picks and the ones bought with Sparks both count: the row says how many packs are
-   * still playable today, not how much of the free allowance is left.
-   *
    * @returns {Promise<number>} Remaining picks (0 when the state cannot be read).
    */
   async readPicksLeft() {
     try {
       const state = await minePickManager.getState();
-      return Math.max(0, state.remaining + (state.bonusPicks ?? 0));
+      return Math.max(0, state.remaining);
     } catch (error) {
       console.warn('[App] The picks left today could not be read.', error);
+      return 0;
+    }
+  }
+
+  /**
+   * Reads the block bundles owned by the player.
+   *
+   * @returns {Promise<number>} The bundle count (0 when the mine state cannot be read).
+   */
+  async readOwnedBundles() {
+    try {
+      return (await miningManager.getState()).bundles;
+    } catch (error) {
+      console.warn('[App] The block bundles could not be read.', error);
       return 0;
     }
   }
@@ -2205,8 +2261,8 @@ export class App {
   /**
    * Builds one row of the inventory dialog.
    *
-   * @param {{icon: 'daily'|'blocks'|'picks'|'sparks', labelKey: string, value: number}} row - Icon
-   *   kind, translation key of the label and number to print.
+   * @param {{icon: 'daily'|'blocks'|'picks'|'bundle'|'sparks', labelKey: string, value: number}}
+   *   row - Icon kind, translation key of the label and number to print.
    * @returns {HTMLLIElement} The row.
    */
   static buildInventoryRow({ icon, labelKey, value }) {
@@ -2225,6 +2281,8 @@ export class App {
       image.className = 'inventory__icon-image';
       if (icon === 'sparks') {
         image.src = 'assets/img/sparks.png';
+      } else if (icon === 'bundle') {
+        image.src = 'assets/img/bundle.png';
       } else {
         // The daily boosters ship in two inks; `applyThemeIcons` paints the one of the palette.
         image.dataset.icon = 'daily_boosters';

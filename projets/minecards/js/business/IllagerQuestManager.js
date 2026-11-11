@@ -34,6 +34,7 @@ import dateSyncManager from './DateSyncManager.js';
 import miningManager from './MiningManager.js';
 import illagerShopManager, { ILLAGER_SHOP_EVENT } from './IllagerShopManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
+import { USER_STATE_KEYS } from './AccountManager.js';
 import trophyManager from './TrophyManager.js';
 import { ILLAGER_QUESTS_STATE_KEY, normalizeQuestState } from './IllagerQuestState.js';
 

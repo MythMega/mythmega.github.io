@@ -80,8 +80,10 @@
 
 import {
   canonicalBooster,
+  canonicalBundle,
   canonicalCard,
   canonicalDailyReward,
+  canonicalMiningResource,
   canonicalSparks,
   userItemCode,
   UserItemCode,
@@ -96,6 +98,7 @@ import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js'
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager from './IllagerShopManager.js';
 import dailyRewardManager from './DailyRewardManager.js';
+import miningManager from './MiningManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import {
@@ -110,6 +113,7 @@ export const CODES_PATH = 'settings/codes.json';
 /** Reward types declared in `settings/codes.json`. */
 export const REDEEM_REWARD_TYPES = Object.freeze({
   BOOSTER: 'Booster',
+  BUNDLE: 'Bundle',
   CARD: 'Card',
   SPARKS: 'Sparks',
   // A currency of the Illager Shop, named by its id alone (`AllaysCurrency`). Both spellings are
@@ -744,6 +748,12 @@ export class RedeemManager {
         continue;
       }
 
+      if (String(rewardType).trim().toLowerCase() === 'bundle') {
+        // The amount of blocks inside a bundle comes from the configuration, never from the code.
+        rewards.push({ type: 'bundle', key: 'bundle', quantity, card: null });
+        continue;
+      }
+
       // `Currency` is how the code files spell it, `CustomCurrency` the long form: both name the
       // same reward, and the id is the only thing that identifies a currency.
       if (
@@ -860,6 +870,18 @@ export class RedeemManager {
       // Same shape for the daily-reward advance: the item is fixed and the quantity is the number of
       // days the run moves forward (see `UserItemCode.canonicalDailyReward`).
       descriptors.push({ canonical: canonicalDailyReward(), target: { type: 'dailyreward' } });
+      // A block bundle is fixed too: the code quantity is the number of bundles granted.
+      descriptors.push({ canonical: canonicalBundle(), target: { type: 'bundle' } });
+      // Every harvestable resource shares one canonical prefix: the code quantity is the amount and
+      // the slug is the line of `mining.resources` it credits. Sparks are excluded (they already have
+      // their own canonical item) and so is any duplicate declared by several blocks.
+      const resources = await miningManager.listResources();
+      resources.forEach((resource) => {
+        descriptors.push({
+          canonical: canonicalMiningResource(resource.slug),
+          target: { type: 'resource', slug: resource.slug },
+        });
+      });
       const sets = await boosterManager.listBoosterSets();
 
       // The raw entries keep the exact `Index` and `Layout` of the generator, while `cards` is the
@@ -1121,6 +1143,7 @@ export class RedeemManager {
   async grantResolved(resolved) {
     const { rewards, repeatable, storeKey } = resolved;
     const hasBooster = rewards.some((reward) => reward.type === 'booster');
+    const hasBundle = rewards.some((reward) => reward.type === 'bundle');
     if (hasBooster) {
       // The daily allowance must be part of the quota record rewritten in the transaction.
       await dateSyncManager.ensureDailyReset();
@@ -1166,6 +1189,10 @@ export class RedeemManager {
             await sparksManager.addSparks(reward.quantity, context, SPARKS_SOURCES.REDEEM);
           } else if (reward.type === 'dailyreward') {
             await dailyRewardManager.advanceRun(reward.quantity, context);
+          } else if (reward.type === 'resource') {
+            await miningManager.grantResources({ [reward.key]: reward.quantity }, context);
+          } else if (reward.type === 'bundle') {
+            await miningManager.grantBundles(reward.quantity, context);
           } else {
             const granted = await boosterManager.addCardToCollection(
               reward.card,
@@ -1214,6 +1241,10 @@ export class RedeemManager {
     if (rewards.some((reward) => reward.type === 'sparks')) {
       // In-transaction grants do not publish: read the committed balance back and emit it.
       await sparksManager.publishBalance();
+    }
+    if (hasBundle || rewards.some((reward) => reward.type === 'resource')) {
+      // The Mine view reloads its inventory from this event; the transaction already committed.
+      eventBus.emit(EVENTS.MINING_UPDATED, { source: 'redeem' });
     }
 
     if (grantedCards.length > 0) {

@@ -71,6 +71,35 @@ export const BOOSTER_HISTORY_SIZE = 10;
  */
 export const SAVED_OPENINGS_SIZE = 10;
 
+/** Error codes of the monthly booster shop. */
+export const BOOSTER_SHOP_ERRORS = Object.freeze({
+  MONTHLY_LIMIT_REACHED: 'MONTHLY_LIMIT_REACHED',
+  CLOCK_UNAVAILABLE: 'CLOCK_UNAVAILABLE',
+});
+
+/** Raised by the monthly shop when a purchase cannot be made, with a stable `code`. */
+export class BoosterShopError extends Error {
+  /**
+   * @param {string} code - One of `BOOSTER_SHOP_ERRORS`.
+   * @param {string} message - Technical message (the UI shows a translated one).
+   */
+  constructor(code, message) {
+    super(message);
+    this.name = 'BoosterShopError';
+    this.code = code;
+  }
+}
+
+/** A trusted UTC day.
+ *
+ * The monthly allowance is derived from the trusted clock, never from the system clock: shifting
+ * the computer date must not reset a paid allowance.
+ */
+const TRUSTED_DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+/** A stored shop month, written `YYYY-MM`. */
+const SHOP_MONTH_PATTERN = /^\d{4}-\d{2}$/;
+
 /**
  * Builds the timestamp stored in `collection`.
  *
@@ -493,7 +522,7 @@ export class BoosterManager {
         : source === BOOSTER_SOURCES.BONUS
           ? bonusBefore > 0
           : source === BOOSTER_SOURCES.PURCHASED
-            ? (quotaBefore.purchased ?? 0) > 0
+            ? (quotaBefore.purchasedForSet ?? 0) > 0
             : quotaBefore.availableForSet > 0;
     if (!available) {
       throw BoosterManager.buildNoBoosterError(key);
@@ -580,40 +609,136 @@ export class BoosterManager {
   }
 
   /**
-   * Buys one extra booster with Sparks (`boosters.extraBoosterPriceSparks`).
+   * Normalizes the stored monthly shop state for a given month.
    *
-   * Offered once the free daily boosters are all spent: the bought booster lands in its own quota
-   * bucket, is spent after the daily allowance and the redeem/gift bonuses of the extension, and
-   * survives the daily reset (it was paid for). The player can therefore keep opening without
-   * waiting for midnight UTC.
+   * A record from another month is reset on read: the allowance belongs to the current UTC month,
+   * so a new month starts at zero without a scheduled reset pass.
    *
-   * The debit and the credit run in ONE transaction over `user_state`: a failure can never charge
-   * the balance without granting the booster, or grant the booster without charging it.
+   * @param {unknown} raw - Value read from `user_state["boosterShop"]`.
+   * @param {string|null} [month=null] - Current `YYYY-MM` month, when known.
+   * @returns {{month: string|null, purchased: number}} A usable shop state.
+   */
+  normalizeShopState(raw, month = null) {
+    const source = raw && typeof raw === 'object' ? raw : {};
+    const storedMonth =
+      typeof source.month === 'string' && SHOP_MONTH_PATTERN.test(source.month) ? source.month : null;
+    const purchased =
+      Number.isInteger(source.purchased) && source.purchased >= 0 ? source.purchased : 0;
+    const currentMonth = typeof month === 'string' && SHOP_MONTH_PATTERN.test(month) ? month : null;
+
+    if (currentMonth && storedMonth !== currentMonth) {
+      return { month: currentMonth, purchased: 0 };
+    }
+    return { month: storedMonth, purchased: storedMonth ? purchased : 0 };
+  }
+
+  /**
+   * Reads the state of the monthly booster shop.
    *
-   * @returns {Promise<{price: number, balance: number, quota: object}>} The price charged, the
-   *   resulting Sparks balance and the quota after the purchase.
-   * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the balance does not cover the price.
+   * @returns {Promise<{month: string|null, purchased: number, remaining: number, limit: number,
+   *   unitPrice: number, balance: number, canBuy: boolean}>} The allowance, its price and the
+   *   player's balance. `canBuy` is false while the trusted clock is unknown: the month cannot be
+   *   enforced, so no purchase is offered.
+   * @throws {Error} When the configuration, the save or the balance cannot be read.
+   */
+  async getBoosterShopState() {
+    const { extraBoosterPriceSparks, monthlyBoosterLimit } = await configLoader.getBoosterSettings();
+    const day = dateSyncManager.getCurrentUtcDay();
+    const month = TRUSTED_DAY_PATTERN.test(day ?? '') ? day.slice(0, 7) : null;
+    const stored = this.normalizeShopState(
+      await storageRepository.getUserState(USER_STATE_KEYS.BOOSTER_SHOP),
+      month
+    );
+    const purchased = stored.purchased;
+    const balance = await sparksManager.getBalance();
+
+    return {
+      month: month ?? stored.month,
+      purchased,
+      remaining: Math.max(0, monthlyBoosterLimit - purchased),
+      limit: monthlyBoosterLimit,
+      unitPrice: extraBoosterPriceSparks,
+      balance,
+      canBuy: Boolean(month),
+    };
+  }
+
+  /**
+   * Buys several boosters from the monthly shop in ONE transaction.
+   *
+   * The monthly limit is enforced INSIDE the transaction, from the trusted UTC month, so two
+   * concurrent purchases can never exceed it. The Sparks debit, the monthly counter and every
+   * credited booster are written together: a failure leaves the allowance, the balance and the
+   * storage untouched.
+   *
+   * @param {number} [quantity=1] - Number of boosters to buy (strictly positive integer).
+   * @param {string|null} [setId=null] - Extension the boosters are bought for. They are then
+   *   available from the opening screen for that extension only.
+   * @returns {Promise<{quantity: number, unitPrice: number, total: number, balance: number,
+   *   month: string, purchased: number, remaining: number, setId: string|null, quota: object}>} The
+   *   purchase, the remaining monthly allowance and the quota after the credit.
+   * @throws {TypeError} When the quantity is not a positive integer.
+   * @throws {RangeError} When `setId` is not a released extension.
+   * @throws {BoosterShopError} With `MONTHLY_LIMIT_REACHED` when the allowance cannot cover the
+   *   request, or `CLOCK_UNAVAILABLE` when the trusted clock never gave a day.
+   * @throws {SparksError} With `INSUFFICIENT_SPARKS` when the balance does not cover the total.
    * @throws {Error} When the transaction fails.
    */
-  async buyExtraBooster() {
-    const { extraBoosterPriceSparks } = await configLoader.getBoosterSettings();
+  async buyMonthlyBoosters(quantity = 1, setId = null) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new TypeError(`buyMonthlyBoosters expects a positive integer (received: ${JSON.stringify(quantity)}).`);
+    }
+
+    let selectedSetId = null;
+    if (setId !== null) {
+      selectedSetId = dateSyncManager.assertKnownSet(setId);
+      await this.init();
+      const availability = this.getSetAvailability(selectedSetId);
+      if (!availability.released) {
+        throw BoosterManager.buildNotReleasedError(selectedSetId, availability.releaseDate);
+      }
+    }
+
+    const day = dateSyncManager.getCurrentUtcDay();
+    if (!TRUSTED_DAY_PATTERN.test(day ?? '')) {
+      throw new BoosterShopError(
+        BOOSTER_SHOP_ERRORS.CLOCK_UNAVAILABLE,
+        'The monthly shop cannot run until the trusted clock is anchored.'
+      );
+    }
+    const month = day.slice(0, 7);
+    const { extraBoosterPriceSparks, monthlyBoosterLimit } = await configLoader.getBoosterSettings();
+    const total = extraBoosterPriceSparks * quantity;
 
     const result = await storageRepository.transaction(
       STORES.USER_STATE,
       'readwrite',
       async (context) => {
-        const balance = await sparksManager.applyDelta(
-          context,
-          -extraBoosterPriceSparks,
-          SPARKS_SOURCES.BOOSTER
+        const shop = this.normalizeShopState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.BOOSTER_SHOP),
+          month
         );
-        await dateSyncManager.addPurchasedBoosters(1, context);
-        return { balance };
+        if (shop.purchased + quantity > monthlyBoosterLimit) {
+          throw new BoosterShopError(
+            BOOSTER_SHOP_ERRORS.MONTHLY_LIMIT_REACHED,
+            `The monthly shop allowance is ${monthlyBoosterLimit}; ${shop.purchased} already bought in ${month}.`
+          );
+        }
+
+        const balance = await sparksManager.applyDelta(context, -total, SPARKS_SOURCES.BOOSTER);
+        await dateSyncManager.addPurchasedBoosters(quantity, context, selectedSetId);
+        const purchased = shop.purchased + quantity;
+        await context.put(
+          STORES.USER_STATE,
+          { month, purchased },
+          USER_STATE_KEYS.BOOSTER_SHOP
+        );
+        return { balance, purchased };
       }
     );
 
     console.info(
-      `[BoosterManager] Extra booster bought for ${extraBoosterPriceSparks} Sparks (balance: ${result.balance}).`
+      `[BoosterManager] ${quantity} shop booster(s) bought for ${total} Sparks (${result.purchased}/${monthlyBoosterLimit} in ${month}, balance: ${result.balance}).`
     );
 
     // THE PURCHASE IS COMMITTED from here on. Refreshing the mirrors is best effort on purpose: a
@@ -621,9 +746,6 @@ export class BoosterManager {
     // be told nothing happened while having been charged.
     let quota = dateSyncManager.getQuotaSnapshot(null);
     try {
-      // `addPurchasedBoosters` wrote the record inside the shared transaction and left the
-      // in-memory mirror alone on purpose: re-reading the quota refreshes it (and applies a pending
-      // daily reset, which never clears the boosters that were bought).
       quota = await dateSyncManager.getRemainingBoosters();
       await sparksManager.publishBalance();
     } catch (error) {
@@ -631,7 +753,17 @@ export class BoosterManager {
     }
     dateSyncManager.emitQuotaUpdated(null);
 
-    return { price: extraBoosterPriceSparks, balance: result.balance, quota };
+    return {
+      quantity,
+      unitPrice: extraBoosterPriceSparks,
+      total,
+      balance: result.balance,
+      month,
+      purchased: result.purchased,
+      remaining: Math.max(0, monthlyBoosterLimit - result.purchased),
+      setId: selectedSetId,
+      quota,
+    };
   }
 
   /**
@@ -1035,7 +1167,15 @@ export class BoosterManager {
 
         if (source === BOOSTER_SOURCES.PURCHASED) {
           const purchasedBoosters = (quota.purchasedBoosters ?? 0) + 1;
-          await context.put(STORES.USER_STATE, { ...quota, purchasedBoosters }, USER_STATE_KEYS.QUOTA);
+          const purchasedBySet = {
+            ...quota.purchasedBySet,
+            [setId]: (quota.purchasedBySet?.[setId] ?? 0) + 1,
+          };
+          await context.put(
+            STORES.USER_STATE,
+            { ...quota, purchasedBoosters, purchasedBySet },
+            USER_STATE_KEYS.QUOTA
+          );
           restored = true;
           return;
         }

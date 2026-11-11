@@ -21,6 +21,10 @@ const QUEST_TYPES = new Set([
   'ShareBinder',
   'MinePickCards',
   'DownloadProfilCard',
+  'OpenChangelog',
+  'ChangeSelectedTitle',
+  'DownloadCurrentSaveBackup',
+  'CustomWebsiteOpen',
 ]);
 
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;

@@ -18,7 +18,10 @@ import miningManager, { getMiningErrorMessageKey } from '../../business/MiningMa
 import accountManager from '../../business/AccountManager.js';
 import traderManager, { getTraderErrorMessageKey } from '../../business/TraderManager.js';
 import illagerShopManager, { getIllagerErrorMessageKey } from '../../business/IllagerShopManager.js';
-import illagerQuestManager, { getIllagerQuestErrorMessageKey } from '../../business/IllagerQuestManager.js';
+import illagerQuestManager, {
+  getIllagerQuestErrorMessageKey,
+  ILLAGER_QUEST_TYPES,
+} from '../../business/IllagerQuestManager.js';
 import dateSyncManager from '../../business/DateSyncManager.js';
 import soundManager, { RARITY_SOUNDS } from '../../utils/SoundManager.js';
 import Toast from '../components/Toast.js';
@@ -2194,6 +2197,8 @@ export class MineBlockView {
     picture.dataset.kind = reward.type.toLowerCase();
     if (reward.texture) {
       picture.src = i18n.resolveImagePath(reward.texture);
+      // The artwork of a pack is stored upside down (see `css/base.css`).
+      if (picture.dataset.kind === 'booster') picture.classList.add('booster-art');
       picture.addEventListener('error', () => {
         // A missing picture must not leave a broken image in the line: the name still says it.
         picture.hidden = true;
@@ -2438,7 +2443,8 @@ export class MineBlockView {
     head.className = 'illager-quest__head';
     const name = document.createElement('span');
     name.className = 'illager-quest__name';
-    name.textContent = i18n.t(quest.typeKey);
+    // A quest names its objective by type, unless the data file wrote a `Label` for this language.
+    name.textContent = quest.labels?.[cardLanguage.getLang()] ?? i18n.t(quest.typeKey);
     const count = document.createElement('span');
     count.className = 'illager-quest__count';
     count.textContent = i18n.t('mineblock.quests.progress', {
@@ -2483,6 +2489,42 @@ export class MineBlockView {
       ? i18n.t('mineblock.quests.claimed')
       : i18n.t('mineblock.quests.claim');
     footer.appendChild(claim);
+
+    // Every other quest happens somewhere in the game: the button closes this dialog and lets the
+    // application walk there (or jump straight there when the walkthrough is disabled).
+    if (quest.type !== ILLAGER_QUEST_TYPES.CUSTOM_WEBSITE_OPEN && !quest.claimed) {
+      const go = document.createElement('button');
+      go.type = 'button';
+      go.className = 'btn btn--ghost btn--small illager-quest__link';
+      go.dataset.questGo = quest.id;
+      go.textContent = i18n.t('mineblock.quests.goThere');
+      go.addEventListener('click', () => {
+        this.closeModal(this.questsModal);
+        eventBus.emit(EVENTS.QUEST_GUIDE_REQUESTED, { questId: quest.id, type: quest.type });
+      });
+      footer.appendChild(go);
+    }
+
+    // Some quests ask for a visit rather than a game action: their data file gives the page, and
+    // the click is the progress. The link stays a real link (middle click and copy work), but it
+    // records the step once before opening the page in a new tab.
+    if (quest.url) {
+      const open = document.createElement('a');
+      open.className = 'btn btn--ghost btn--small illager-quest__link';
+      open.href = quest.url;
+      open.target = '_blank';
+      open.rel = 'noopener noreferrer';
+      open.dataset.questOpen = quest.id;
+      open.textContent = i18n.t('mineblock.quests.customWebsite.open');
+      open.addEventListener('click', () => {
+        illagerQuestManager
+          .record(ILLAGER_QUEST_TYPES.CUSTOM_WEBSITE_OPEN, 1)
+          .catch((error) => {
+            console.warn('[MineBlockView] The quest counter could not be written.', error);
+          });
+      });
+      footer.appendChild(open);
+    }
 
     item.append(head, bar, footer);
     return item;

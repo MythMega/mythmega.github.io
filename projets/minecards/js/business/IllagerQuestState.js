@@ -87,3 +87,17 @@ export function normalizeQuestState(raw) {
 export function readQuestExperience(raw) {
   return normalizeQuestState(raw).experience;
 }
+
+/**
+ * Counts the quests the player already claimed.
+ *
+ * A quest is counted once its `claimedAt` is written: this is the only completion mark a save
+ * keeps, and it lets an old save seed `stats.questsCompleted` retroactively.
+ *
+ * @param {unknown} raw - Value read from `user_state["illagerQuests"]`.
+ * @returns {number} The number of completed quests.
+ */
+export function countClaimedQuests(raw) {
+  return Object.values(normalizeQuestState(raw).progress)
+    .filter((entry) => typeof entry.claimedAt === 'string' && entry.claimedAt !== '').length;
+}

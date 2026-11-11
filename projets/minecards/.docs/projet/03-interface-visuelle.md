@@ -115,15 +115,16 @@ Cinq modes, déclarés dans `animations.list` de `config.json` et portés par `d
 
 ## 3.5 Structure de l'écran
 
-- **En-tête** (`banner`) : marque « MineCards », slogan (masqué sur petit écran), compteurs et
-  horloge UTC. Sur écran large, chaque compteur affiche son nom court à côté de son icône ; le
-  libellé long reste dans un `.sr-only` (nom accessible) et le libellé visible est `aria-hidden`.
-  Les cinq compteurs tiennent sur une ligne (`flex: 1 1 0`, `nowrap`) ; `App.setCount` plafonne à
-  `9999+`.
-- **Compteurs** : boosters quotidiens, boosters bonus (bouton → inventaire des bonus réparti par
-  extension), pioches Mine Pick, binders (bouton → liste), Sparks.
-- **Barre de navigation du bas** (`nav.app-nav`) : Profil, Collection, Mine, Ouvrir (bouton
-  principal surélevé), Pick, Info, Réglages. Une colonne par destination, sur une seule ligne.
+- **En-tête** (`banner`) : à gauche l'avatar du joueur (bouton vers le profil, anneau de niveau),
+  à droite trois actions alignées : **Inventaire**, **récompenses de connexion** et **Réglages**
+  (l'engrenage, avec le point de note de version). La marque « MineCards » et son slogan occupent le
+  milieu sur écran large ; l'heure UTC n'est plus dans la barre, elle est lue dans les Paramètres.
+- **Inventaire** (bouton → popup) : boosters du jour, blocs restants à miner aujourd'hui, pioches
+  Mine Pick restantes, Sparks, puis les boosters bonus possédés **par extension**, chacun avec
+  l'illustration de son booster, et un total. Les nombres sont relus à chaque ouverture.
+- **Barre de navigation du bas** (`nav.app-nav`) : Collection, Mine, Ouvrir (bouton principal
+  surélevé), Pick, Info. Une colonne par destination, sur une seule ligne. Le profil est ouvert par
+  l'avatar de l'en-tête et les Réglages par l'engrenage, ce qui libère une place de chaque côté.
   - **Largeur des colonnes** : égales au-dessus de 480 px (le rythme régulier de la barre) ; en
     dessous, chaque colonne prend la largeur de **son libellé** (`grid-auto-columns: max-content`
     + `justify-content: space-evenly`) — sept parts égales donnent 45 px par colonne à 360 px, soit
@@ -134,7 +135,8 @@ Cinq modes, déclarés dans `animations.list` de `config.json` et portés par `d
     lecteur d'écran) et la barre repasse en colonnes égales, icônes seules.
 - **Vue** : titre, sous-titre, **pastille « Comment ça marche ? »** (`ViewHelp`) qui ouvre une
   mini-popup (titre, deux phrases, bouton « Plus d'infos »), puis le contenu.
-- **Barre du bas sur écran vertical** : cinq compteurs sur une ligne, icône et nombre réduits.
+- **Barre du bas sur écran vertical** : cinq destinations, libellés réduits ; l'en-tête garde
+  l'avatar à gauche et les trois actions à droite.
 - **Mode focus** (`body.is-focus`, `js/utils/FocusMode.js`) : pendant l'ouverture d'un booster et la
   pioche de la Mine Pick, la marque, les compteurs, la nav, l'aide de page et le titre de la vue
   disparaissent ; `--nav-height` passe à 0 pour que les toasts suivent.
@@ -180,8 +182,8 @@ Cinq modes, déclarés dans `animations.list` de `config.json` et portés par `d
   compteurs, slogan masqué, colonne élargie).
 - **Grilles** : collection 2–3 colonnes puis 5 ; sélecteur de binder 3 puis 5 ; résumé d'ouverture
   5 colonnes ; Mine Pick 3 + 2 centré puis 5.
-- **En-tête vertical (< 768 px)** : marque + compteurs seulement ; slogan et horloge masqués (l'heure
-  reste dans les Paramètres) ; « MineCards » centré une taille en dessous.
+- **En-tête vertical (< 768 px)** : avatar à gauche, inventaire + récompense du jour + réglages à
+  droite ; marque, slogan et heure masqués (l'heure reste dans les Paramètres).
 - **Overlay et binder partagé** ont leur propre feuille (`css/overlay.css`) et ne partagent aucune
   feuille avec l'application, sauf `css/components/modal.css` et `css/components/card-shine.css`
   pour la page de binder.
@@ -245,7 +247,9 @@ empilée, qu'un champ de saisie a le focus ou qu'une action est en cours.
   profil avec ses réglages (rareté, disposition, couleur, agrandir, télécharger).
 - **Statistiques** : panneaux de compteurs, barres par rareté/extension, panneaux Mine Pick et Mine.
 - **Trophées** : deux combos (famille, statut), grille de médailles avec halo selon la rareté,
-  bouton d'épingle sur les débloquées, modale de détail avec cartes requises et récompenses.
+  bouton d'épingle sur les débloquées, modale de détail avec cartes requises et récompenses. Les
+  médailles sont rendues sans interpolation sur toutes les surfaces, y compris exportées dans la
+  carte de profil.
 - **Titre** : liste « Aucun titre » puis titres par source, chacun écrit dans la police où il sera
   porté ; titres verrouillés grisés avec leur condition.
 - **Mine Pick** : liste des dix boosters (texture, nom, cinq cartes), ligne d'état, bouton d'achat si
@@ -254,9 +258,9 @@ empilée, qu'un champ de saisie a le focus ou qu'une action est en cours.
   bloc cassé), bouton marchand, popup d'inventaire, popup boutique + détail d'offre.
 - **Annonce d'extension** : popup globale (au-dessus de toute vue) avec badge, texture du booster,
   nom, date de sortie et bouton « Compris » ; une seule fois par extension et par compte.
-- **Paramètres** : une pile de panneaux (Langue, Thème, Animations + aperçu, Foil, Illumination,
-  Notifications, Son, Mode développeur, Compte, Heure UTC, Sauvegarde, Distributions, Codes,
-  Cadeaux).
+- **Paramètres** : des onglets (Apparence, Jeu, Compte, Cadeau, Premium, Notes de mise à jour,
+  Rapport d'erreurs). « Jeu » porte notamment l'heure UTC de référence ; « Cadeau » regroupe les
+  distributions, les codes promo et l'historique des cadeaux reçus.
 - **Informations** : texte explicatif, sommaire cliquable, panneaux « Contrôles clavier », « Mine »,
   « Marchand itinérant », « Extensions et sorties » (dates de sortie + relecture de l'annonce) et
   « Expérience et niveaux ».

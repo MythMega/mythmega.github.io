@@ -66,7 +66,8 @@ export class ChangelogPopup {
    * The callback of the "full changelog" button runs AFTER the dialog closed, so the settings
    * screen it opens is not covered by the dialog that asked for it.
    *
-   * @param {{version: string, notes: Array<object>}} version - Newest version of the changelog.
+   * @param {{version: string, title: Record<string, string>, notes: Array<object>}} version -
+   *   Newest version of the changelog.
    * @param {object} [options] - Behaviour options.
    * @param {(() => void)|null} [options.onOpenChangelog] - Action of the "full changelog" button.
    * @returns {Promise<void>} Resolves once the dialog closed.
@@ -197,14 +198,21 @@ export class ChangelogPopup {
    * The labels are rewritten on every opening: the interface language may have changed since the
    * last time, and the notes themselves are picked per language with a fallback chain.
    *
-   * @param {{version: string, notes: Array<object>}} version - Version to announce.
+   * @param {{version: string, title: Record<string, string>, notes: Array<object>}} version -
+   *   Version to announce.
    * @returns {void}
    */
   render(version) {
     if (!this.root) return;
 
+    const title =
+      version.title?.[i18n.getLang()] ??
+      version.title?.[i18n.defaultLang] ??
+      Object.values(version.title ?? {})[0] ??
+      '';
     this.badgeElement.textContent = i18n.t('changelogpopup.badge');
     this.titleElement.textContent = i18n.t('changelogpopup.title', { version: version.version });
+    if (title !== '') this.titleElement.textContent += ` · ${title}`;
     this.introElement.textContent = i18n.t('changelogpopup.intro');
     this.moreButton.textContent = i18n.t('changelogpopup.more');
     this.okButton.textContent = i18n.t('changelogpopup.close');

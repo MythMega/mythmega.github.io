@@ -382,7 +382,7 @@ export class DailyRewardPopup {
           icon.classList.add(`${DAILY_REWARD_CLASS}__day-icon--card`);
         }
         if (day.reward?.kind === DAILY_REWARD_KINDS.BOOSTER) {
-          icon.classList.add(`${DAILY_REWARD_CLASS}__day-icon--booster`);
+          icon.classList.add(`${DAILY_REWARD_CLASS}__day-icon--booster`, 'booster-art');
         }
         // The icon of a reward is an interface glyph (white on the dark palettes for the pack), and a
         // card illustration still carries the `<lang>` placeholder of the catalogue.
@@ -805,6 +805,8 @@ export class DailyRewardPopup {
       gain.dataset.dailyRewardGain = '';
       if (result.card) applyCardGlow(gain, result.card);
       image.src = icon === '' ? '' : i18n.resolveImagePath(themeIcon(icon));
+      // The gain animation reuses one image: only a pack wears the upside-down correction.
+      image.classList.toggle('booster-art', result.kind === DAILY_REWARD_KINDS.BOOSTER);
       image.alt = '';
       image.hidden = icon === '';
       label.textContent = this.describeResult(result);

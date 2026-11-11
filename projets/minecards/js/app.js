@@ -15,10 +15,10 @@
  * The statistics are NOT wired here anymore: they are a block of the profile page, hosted (and
  * lifecycled) by `ProfileView`.
  *
- * The header booster counters and the UTC clock are fed by `DateSyncManager` (step 2) through
- * `EVENTS.QUOTA_UPDATED`, `EVENTS.CONNECTION_STATUS` and `EVENTS.CLOCK_TICK`. `Date.now()` is
- * never used to display a time, so a cheater cannot shift the displayed reset by changing the
- * system clock.
+ * The header identity is fed by `DateSyncManager` (step 2) through `EVENTS.CLOCK_TICK` and by the
+ * profile through `EVENTS.PROFILE_UPDATED`; the numbers of the inventory dialog are read when it
+ * opens. `Date.now()` is never used to display a time, so a cheater cannot shift the displayed
+ * reset by changing the system clock.
  */
 
 import storageRepository from './models/StorageRepository.js';
@@ -60,7 +60,7 @@ import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
 import titleManager from './business/TitleManager.js';
 import minePickManager from './business/MinePickManager.js';
-import binderManager from './business/BinderManager.js';
+import { miningManager } from './business/MiningManager.js';
 import gameNotifier from './UI/components/GameNotifier.js';
 import autoClaimPopup from './UI/components/AutoClaimPopup.js';
 import dailyRewardPopup from './UI/components/DailyRewardPopup.js';
@@ -68,7 +68,7 @@ import setAnnouncementPopup from './UI/components/SetAnnouncementPopup.js';
 import changelogPopup from './UI/components/ChangelogPopup.js';
 import currencyExpiryPopup from './UI/components/CurrencyExpiryPopup.js';
 import illagerShopManager from './business/IllagerShopManager.js';
-import illagerQuestManager from './business/IllagerQuestManager.js';
+import illagerQuestManager, { ILLAGER_QUEST_TYPES } from './business/IllagerQuestManager.js';
 import autoClaimManager from './business/AutoClaimManager.js';
 import dailyRewardManager from './business/DailyRewardManager.js';
 import changelogManager from './business/ChangelogManager.js';
@@ -95,24 +95,19 @@ export const FATAL_ERROR_ID = 'app-fatal';
  */
 const BOOT_REPAIR_KEY = 'minecards:bootRepair';
 
-/** Ids of the header elements updated through events. */
-export const HEADER_IDS = Object.freeze({
-  DAILY: 'header-daily-boosters',
-  BONUS: 'header-bonus-boosters',
-  MINE_PICK: 'header-minepick',
-  CLOCK: 'header-utc-clock',
-  SPARKS: 'header-sparks',
-  BINDERS: 'header-binders',
-});
+/** Namespace of the inline SVG glyphs built at run time (the meter and the sparkle). */
+const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 /**
- * Selector of the header counter of the binders.
- *
- * A selector of its own (rather than one more entry of `HEADER_IDS`) because the button carries the
- * click while the id only carries the value: `renderHeaderBinders` writes into `HEADER_IDS.BINDERS`,
- * `bindBindersCounter` listens on this one.
+ * Selectors of the inventory dialog: the one button of the header that still carries numbers, and
+ * the dialog it opens (boosters left, blocks and picks of the day, Sparks, bonus boosters).
  */
-export const BINDERS_COUNTER_SELECTOR = '[data-header-binders]';
+export const INVENTORY_SELECTORS = Object.freeze({
+  BUTTON: '[data-header-inventory]',
+  MODAL: '[data-inventory-modal]',
+  BODY: '[data-inventory-modal-body]',
+  CLOSE: '[data-inventory-modal-close]',
+});
 
 /** Selectors of the daily reward button of the header and of its "something to claim" dot. */
 export const DAILY_REWARDS_SELECTORS = Object.freeze({
@@ -145,8 +140,8 @@ export const HEADER_IDENTITY_SELECTORS = Object.freeze({
 });
 
 /**
- * Selector of the settings destination of the bottom bar, and of the dot that announces an unread
- * release note on it.
+ * Selector of the settings button of the header, and of the dot that announces an unread release
+ * note on it.
  */
 export const SETTINGS_NAV_SELECTOR = '[data-nav-target="settings"]';
 
@@ -155,39 +150,6 @@ export const SETTINGS_BADGE_SELECTOR = '[data-settings-badge]';
 
 /** Wait between the end of a reveal and the daily reward offer, in milliseconds. */
 const DAILY_REWARD_OFFER_DELAY_MS = 900;
-
-/**
- * Largest value a header counter displays before it switches to the "9999+" form.
- *
- * The five counters share ONE row on a phone (see the mobile block of `css/base.css`), and five
- * glyphs is the widest a fifth of a 360 px screen holds next to its icon. Nothing is lost: the exact
- * balance is on the Sparks page and the per-extension split is in the bonus inventory, which the
- * counter opens.
- */
-const HEADER_COUNT_MAX = 9999;
-
-/**
- * Formats a header counter for its chip.
- *
- * @param {number} value - Raw value (the daily boosters, the bonus total, the Sparks balance…).
- * @returns {string} The value as text, or `"9999+"` past {@link HEADER_COUNT_MAX}.
- */
-function formatHeaderCount(value) {
-  const count = Number.isFinite(value) ? Math.trunc(value) : 0;
-  return count > HEADER_COUNT_MAX ? `${HEADER_COUNT_MAX}+` : String(count);
-}
-
-/**
- * Selectors of the bonus inventory (the header count is the total, the modal splits it per set).
- * It is a dialog of the header, not a router view.
- */
-export const BONUS_INVENTORY_SELECTORS = Object.freeze({
-  BUTTON: '[data-header-bonus]',
-  MODAL: '[data-bonus-modal]',
-  TITLE: '[data-bonus-modal-title]',
-  BODY: '[data-bonus-modal-body]',
-  CLOSE: '[data-bonus-modal-close]',
-});
 
 /** Views managed by `index.html`, used by the router and by the reset flow. */
 export const VIEW_NAMES = Object.freeze({
@@ -221,9 +183,6 @@ export const SETTINGS_PANELS = Object.freeze({
 
 /** View activated after the onboarding (the booster opening screen). */
 export const DEFAULT_VIEW = VIEW_NAMES.OPENING;
-
-/** Refresh interval of the UTC clock, in milliseconds. */
-const CLOCK_INTERVAL_MS = 1000;
 
 export class App {
   constructor() {
@@ -276,12 +235,14 @@ export class App {
     this.expiredCurrencies = null;
     /** @type {number|null} Level evaluated by the boot trophy pass, reused by the auto-claims. */
     this.currentLevel = null;
-    /** @type {boolean} True once the bonus inventory dialog is wired. */
-    this.bonusInventoryBound = false;
+    /** @type {boolean} True once the inventory dialog is wired. */
+    this.inventoryBound = false;
     /** @type {boolean} True once the daily reward button and its events are wired. */
     this.dailyRewardsBound = false;
     /** @type {number|null} Pending offer of the daily reward after a reveal. */
     this.dailyRewardOfferTimer = null;
+    /** @type {number|null} Pending removal of the guided quest destination highlight. */
+    this.guideHighlightTimer = null;
     /** @type {string|null} UTC day the daily reward badge was last refreshed for. */
     this.dailyRewardDay = null;
     /** @type {boolean} True once the identity of the header follows the level and the profile. */
@@ -294,14 +255,7 @@ export class App {
     this.changelogBadgeBound = false;
     /** @type {Function|null} Unsubscribe function of the VIEW_CHANGED subscription. */
     this.unsubscribeViewChanged = null;
-    /** @type {(() => (Date|string|number))|null} Trusted UTC provider injected by step 2. */
-    this.utcTimeProvider = null;
-    /** @type {number|null} */
-    this.clockTimer = null;
-    /** @type {{utc: Date, formatted: string, timeUntilReset: string}|null} Last published tick. */
-    this.lastTick = null;
-    /** @type {string|null} UTC day the header Mine Pick counter was last refreshed for. */
-    this.headerMinePickDay = null;
+
     /** @type {boolean} */
     this.isStarted = false;
   }
@@ -578,13 +532,12 @@ export class App {
     }
     this.router.start(DEFAULT_VIEW);
 
-    // The header listens before the time synchronization so the very first QUOTA_UPDATED and
-    // CLOCK_TICK emissions are already displayed.
+    // The header listens before the time synchronization so the very first CLOCK_TICK emission is
+    // already displayed.
     this.bindHeader();
     this.bindHeaderIdentity();
     this.bindChangelogBadge();
-    this.bindBonusInventory();
-    this.bindBindersCounter();
+    this.bindInventory();
     this.bindDailyRewards();
     this.bindViewLifecycle();
     this.startViewHelp();
@@ -593,9 +546,6 @@ export class App {
     // The quests listen to the events of the other features: they must be attached before the
     // first screen lets the player act, not when the quests dialog is first opened.
     illagerQuestManager.start();
-    this.renderHeaderCounters(dateSyncManager.getQuotaSnapshot());
-    await this.refreshHeaderSparks();
-    await this.refreshHeaderBinders();
     await this.refreshDailyRewardBadge();
     await this.startOpeningView();
     await this.startCollectionView();
@@ -637,11 +587,6 @@ export class App {
     // It still waits for a quiet moment of its own (`InstallPrompt`), so a dialog of the boot is
     // never covered by an offer to install a game the player is already playing.
     installPrompt.arm();
-    if (!this.utcTimeProvider) {
-      // Fallback used only when the time synchronization is unusable: the clock then shows the
-      // "unknown time" placeholder instead of an untrusted system time.
-      this.startUtcClock();
-    }
 
     console.info(
       `[App] Ready (lang: ${i18n.getLang()}, card lang: ${cardLanguage.getLang()} [${cardLanguage.getPreference()}], theme: ${themeManager.getTheme()}).`
@@ -663,9 +608,7 @@ export class App {
       return;
     }
     console.info('[App] Starting the opening view…');
-    this.openingView = new OpeningView(root, {
-      onBoosterOpened: (result) => this.renderHeaderCounters(result.remaining),
-    });
+    this.openingView = new OpeningView(root);
     try {
       await this.openingView.init();
     } catch (error) {
@@ -744,7 +687,8 @@ export class App {
   }
 
   /**
-   * Creates the `profile` and `trophies` states when the account does not have them yet.
+   * Creates the `profile` and `trophies` states when the account does not have them yet, and the
+   * account-wide counters added after the first saves (quests, connection days, cards sold).
    *
    * A failure is not fatal: both managers normalize a missing state on read, so the application
    * still works (the save simply does not carry them until the first write).
@@ -753,7 +697,11 @@ export class App {
    */
   async ensureAccountStates() {
     try {
-      await Promise.all([profileManager.ensureState(), trophyManager.ensureState()]);
+      await Promise.all([
+        profileManager.ensureState(),
+        trophyManager.ensureState(),
+        accountManager.ensureStatistics(),
+      ]);
     } catch (error) {
       console.warn('[App] The profile and trophy states could not be created.', error);
     }
@@ -1105,6 +1053,134 @@ export class App {
   }
 
   /**
+   * Walks the player to the screen where an Illager quest happens.
+   *
+   * The walkthrough is a SETTING (`settings.questNavigationTutorial`, on by default): when it is
+   * on, the route is played step by step - the profile first, then the titles; the settings first,
+   * then the save panel - so the button teaches where things live instead of teleporting. When it
+   * is off, the destination is reached directly.
+   *
+   * The last step only REVEALS the place and rings it briefly: nothing is claimed, bought or
+   * downloaded for the player (the quest still progresses from their own action, as every quest
+   * counter does). The pause between two steps is `questGuide.stepDelayMs` of
+   * `settings/config.json` (250 ms by default), so the pace is tuned without touching the route.
+   *
+   * @param {{questId?: string, type?: string}} [payload] - `QUEST_GUIDE_REQUESTED` payload.
+   * @returns {Promise<void>} Resolves once the destination is displayed.
+   */
+  async guideToQuest({ type } = {}) {
+    if (!this.router || typeof type !== 'string') return;
+
+    let tutorial = true;
+    try {
+      tutorial = (await accountManager.getSettings()).questNavigationTutorial !== false;
+    } catch (error) {
+      console.warn('[App] The quest guidance preference could not be read; keeping the walkthrough.', error);
+    }
+
+    let stepDelayMs = 250;
+    try {
+      stepDelayMs = await configLoader.getQuestGuideStepDelay();
+    } catch (error) {
+      console.warn('[App] The quest walkthrough delay could not be read; keeping the default.', error);
+    }
+
+    const pause = () => new Promise((resolve) => window.setTimeout(resolve, tutorial ? stepDelayMs : 0));
+    const show = (viewName) => this.router?.show(viewName);
+    const reveal = (selector) => {
+      const element = document.querySelector(selector);
+      element?.scrollIntoView({ block: 'center', behavior: tutorial ? 'smooth' : 'auto' });
+    };
+    const highlight = (selector) => this.highlightGuideTarget(selector);
+
+    switch (type) {
+      case ILLAGER_QUEST_TYPES.OPEN_BOOSTER_DAILY:
+        show(OPENING_VIEW_NAME);
+        highlight('[data-opening-open]');
+        return;
+      case ILLAGER_QUEST_TYPES.DAILY_REWARD_CLAIM:
+        await dailyRewardPopup.open();
+        highlight('.daily-reward__dialog');
+        return;
+      case ILLAGER_QUEST_TYPES.SELL_CARD:
+        show(COLLECTION_VIEW_NAME);
+        highlight('[data-collection-grid]');
+        return;
+      case ILLAGER_QUEST_TYPES.SHARE_BINDER:
+        show(COLLECTION_VIEW_NAME);
+        if (tutorial) await pause();
+        await this.collectionView?.openBinders();
+        highlight('[data-collection-binders-modal] .modal__dialog');
+        return;
+      case ILLAGER_QUEST_TYPES.MINE_BLOCK:
+        show(MINE_BLOCK_VIEW_NAME);
+        highlight('[data-mineblock-rock]');
+        return;
+      case ILLAGER_QUEST_TYPES.MINE_PICK_CARDS:
+        show(MINE_PICK_VIEW_NAME);
+        highlight('[data-minepick-board]');
+        return;
+      case ILLAGER_QUEST_TYPES.DOWNLOAD_PROFILE_CARD:
+        show(PROFILE_VIEW_NAME);
+        if (tutorial) await pause();
+        reveal('[data-profile-card-stage]');
+        highlight('[data-profile-card-stage]');
+        return;
+      case ILLAGER_QUEST_TYPES.OPEN_CHANGELOG:
+        show(SETTINGS_VIEW_NAME);
+        if (tutorial) await pause();
+        this.settingsView?.showTab('more');
+        highlight('[data-settings-tab="more"]');
+        return;
+      case ILLAGER_QUEST_TYPES.CHANGE_SELECTED_TITLE:
+        if (tutorial) {
+          show(PROFILE_VIEW_NAME);
+          await pause();
+        }
+        show(TITLES_VIEW_NAME);
+        highlight('[data-titles-panels]');
+        return;
+      case ILLAGER_QUEST_TYPES.DOWNLOAD_SAVE_BACKUP:
+        show(SETTINGS_VIEW_NAME);
+        if (tutorial) await pause();
+        this.settingsView?.showTab('account');
+        if (tutorial) await pause();
+        reveal('[data-settings-export]');
+        highlight('[data-settings-export]');
+        return;
+      default:
+        return;
+    }
+  }
+
+  /**
+   * Briefly rings the destination of a quest walkthrough.
+   *
+   * The class owns the outline through `guide-highlight` (see `css/base.css`), so the element keeps
+   * its own border and shadow: only a temporary ring is added. The previous ring is dropped first
+   * and the animation is restarted (`offsetWidth`), so reaching the same place twice in a row still
+   * shows the pulse. The timer removes the class once the animation is over.
+   *
+   * @param {string} selector - Element that must be highlighted.
+   * @returns {void}
+   */
+  highlightGuideTarget(selector) {
+    const target = document.querySelector(selector);
+    if (!(target instanceof Element)) return;
+    window.clearTimeout(this.guideHighlightTimer);
+    document.querySelectorAll('.is-guide-highlight').forEach((element) => {
+      element.classList.remove('is-guide-highlight');
+    });
+    // Restart the animation even when the same element is highlighted twice in a row.
+    void target.offsetWidth;
+    target.classList.add('is-guide-highlight');
+    this.guideHighlightTimer = window.setTimeout(() => {
+      target.classList.remove('is-guide-highlight');
+      this.guideHighlightTimer = null;
+    }, 1600);
+  }
+
+  /**
    * Converts the balances of the currencies that expired while the player was away.
    *
    * The conversion belongs to `IllagerShopManager.convertExpired()`, which is idempotent (an empty
@@ -1417,28 +1493,26 @@ export class App {
   /**
    * Starts the trusted UTC clock and the booster quota (step 2).
    *
-   * `DateSyncManager` owns the single one-second timer of the application and publishes every
-   * tick through `CLOCK_TICK`; this method only exposes its UTC date to the header clock.
+   * `DateSyncManager` owns the single one-second timer of the application and publishes every tick
+   * through `CLOCK_TICK`; the views read the trusted date from it.
    *
    * @returns {Promise<boolean>} True when the trusted clock is available.
    */
   async startTimeSync() {
     try {
       await dateSyncManager.init();
-      this.setUtcTimeProvider(() => dateSyncManager.getUtcDate());
       return dateSyncManager.isTimeTrusted();
     } catch (error) {
-      console.error('[App] Time synchronization failed, the clock stays in placeholder mode.', error);
-      this.utcTimeProvider = null;
+      console.error('[App] Time synchronization failed.', error);
       return false;
     }
   }
 
   /**
-   * Subscribes the header to the quota and connection events.
+   * Subscribes the header to the events it follows.
    *
-   * Called once; step 2 emits `QUOTA_UPDATED` and `CONNECTION_STATUS` so the header stays
-   * in sync without any direct dependency between `DateSyncManager` and this module.
+   * Called once; step 2 emits `CONNECTION_STATUS` and `CLOCK_TICK` so the header stays in sync
+   * without any direct dependency between `DateSyncManager` and this module.
    *
    * @returns {void}
    */
@@ -1450,16 +1524,11 @@ export class App {
     // runs, so the first pass already has its answer - no black icon flashes on a dark header.
     applyThemeIcons();
     eventBus.on(EVENTS.THEME_CHANGED, () => applyThemeIcons());
-    eventBus.on(EVENTS.QUOTA_UPDATED, (payload) => this.renderHeaderCounters(payload));
-    eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload));
-    eventBus.on(EVENTS.MINE_PICK_UPDATED, (payload) => this.renderHeaderMinePick(payload));
-    // The binder counter follows every write of `BinderManager` (create, delete, share): the number
-    // of the header is the length of the stored list, and nothing else announces a change of it.
-    eventBus.on(EVENTS.BINDERS_UPDATED, (payload) => this.renderHeaderBinders(payload));
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
     eventBus.on(EVENTS.SAVE_IMPORTED, (payload) => this.handleSaveImported(payload));
+    eventBus.on(EVENTS.QUEST_GUIDE_REQUESTED, (payload) => void this.guideToQuest(payload));
   }
 
   /**
@@ -1501,12 +1570,12 @@ export class App {
   }
 
   /**
-   * Writes the pseudo of the player in front of the name of the game, in the header.
+   * Writes the pseudo of the player in the header, first after the avatar.
    *
-   * The brand reads `"<pseudo> - MineCards"` (the separator belongs to the stylesheet, see
-   * `css/base.css`): the header names the player as soon as the game is open. A player who never
-   * chose a name is `Steve`, and an account that is leaving (reset, imported save) falls back to it,
-   * so the header never keeps the name of a save that is gone.
+   * The wide bar reads `avatar, pseudo, clock, MineCards, tagline` (see `css/base.css`): the pseudo
+   * names the player as soon as the game is open, and the clock follows it. A player who never chose
+   * a name is `Steve`, and an account that is leaving (reset, imported save) falls back to it, so
+   * the header never keeps the name of a save that is gone.
    *
    * @param {object|null} profile - Stored profile (`{name}`), or null after a reset.
    * @returns {void}
@@ -1595,41 +1664,45 @@ export class App {
   }
 
   /**
-   * Writes one trusted clock tick into the header.
+   * Follows one trusted clock tick.
    *
-   * The first external tick releases the fallback interval started by `startUtcClock()`:
-   * `DateSyncManager` becomes the single one-second timer of the application.
+   * `DateSyncManager` is the single one-second timer of the application: the header only watches
+   * the day the tick carries, so the daily reward dot is renewed at midnight UTC.
    *
    * @param {{utc: Date, formatted: string, timeUntilReset: string}|null} payload - Tick payload.
    * @returns {void}
    */
   handleClockTick(payload) {
+    this.renderHeaderClock(payload);
     if (!payload || typeof payload.formatted !== 'string') return;
-    this.lastTick = payload;
-    this.setText(HEADER_IDS.CLOCK, payload.formatted);
-    this.stopUtcClock();
-    this.refreshHeaderMinePickOnNewDay(payload);
     this.refreshDailyRewardsOnNewDay(payload);
   }
 
   /**
-   * Refreshes the Mine Pick counter when the UTC day changes while the page stays open.
+   * Writes the trusted UTC time in the clock of the header.
    *
-   * The free picks roll over at midnight UTC, exactly like the daily boosters, but nothing else
-   * announces it to the header: the day carried by the clock is the trigger (and it is also the
-   * first refresh after the boot, since no day was known yet).
+   * The time comes from `DateSyncManager` only: the header runs no timer of its own, so a device
+   * clock moved by the player can never change what is displayed. The seconds live in their own
+   * span, which the stylesheet drops on a portrait screen (`hh:mm` there, `hh:mm:ss` on a wide
+   * one). A tick without a usable time (never anchored, offline) resets the pill to `--:--`.
    *
-   * @param {{utc?: Date, formatted?: string}} payload - `CLOCK_TICK` payload.
+   * @param {{utc?: Date, formatted?: string}|null} payload - `CLOCK_TICK` payload.
    * @returns {void}
    */
-  refreshHeaderMinePickOnNewDay(payload) {
-    // A placeholder tick (before the first trusted synchronization) carries an estimated date: it
-    // must not be mistaken for a real day change.
-    if (!(payload.utc instanceof Date) || payload.formatted === '--:--:--') return;
-    const day = payload.utc.toISOString().slice(0, 10);
-    if (day === this.headerMinePickDay) return;
-    this.headerMinePickDay = day;
-    void this.refreshHeaderMinePick();
+  renderHeaderClock(payload) {
+    const clock = document.querySelector('[data-header-clock]');
+    if (!clock) return;
+    const time = clock.querySelector('[data-header-clock-time]');
+    const seconds = clock.querySelector('[data-header-clock-seconds]');
+    const formatted = typeof payload?.formatted === 'string' ? payload.formatted : '';
+    const valid = /^\d{2}:\d{2}:\d{2}$/.test(formatted);
+    if (time) time.textContent = valid ? formatted.slice(0, 5) : '--:--';
+    if (seconds) seconds.textContent = valid ? formatted.slice(5) : ':--';
+    if (valid && payload.utc instanceof Date) {
+      clock.setAttribute('datetime', payload.utc.toISOString());
+    } else {
+      clock.removeAttribute('datetime');
+    }
   }
 
   /**
@@ -1768,116 +1841,9 @@ export class App {
     this.renderHeaderAvatar(null);
     this.renderHeaderPlayer(null);
     this.renderHeaderLevel(null);
-    this.stopUtcClock();
-    this.utcTimeProvider = null;
-    this.lastTick = null;
-    this.renderHeaderCounters(null);
-    this.closeBonusInventory();
-    this.renderHeaderSparks(null);
-    this.renderHeaderMinePick(null);
-    this.renderHeaderBinders(null);
-    this.headerMinePickDay = null;
-    this.setText(HEADER_IDS.CLOCK, '--:--:--');
+    this.renderHeaderClock(null);
+    this.closeInventory();
     this.setConnectionState(undefined);
-  }
-
-  /**
-   * Renders the daily and bonus booster counters.
-   *
-   * @param {{daily?: number, bonusTotal?: number}|null} quota - Quota snapshot, or null to
-   *   display the placeholder values used before step 2.
-   * @returns {void}
-   */
-  renderHeaderCounters(quota) {
-    const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
-    const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
-    this.setCount(HEADER_IDS.DAILY, daily);
-    this.setCount(HEADER_IDS.BONUS, bonusTotal);
-  }
-
-  /**
-   * Renders the Sparks balance in the header.
-   *
-   * @param {{balance?: number}|null} payload - `SPARKS_UPDATED` payload, or null to reset.
-   * @returns {void}
-   */
-  renderHeaderSparks(payload) {
-    const balance = Number.isFinite(payload?.balance) ? payload.balance : 0;
-    this.setCount(HEADER_IDS.SPARKS, balance);
-  }
-
-  /**
-   * Reads the current Sparks balance from storage and displays it.
-   *
-   * @returns {Promise<void>} Resolves once the header is refreshed.
-   */
-  async refreshHeaderSparks() {
-    try {
-      this.renderHeaderSparks({ balance: await sparksManager.getBalance() });
-    } catch (error) {
-      console.warn('[App] The Sparks balance could not be read.', error);
-    }
-  }
-
-  /**
-   * Renders the daily Mine Pick allowance in the header.
-   *
-   * The counter shows the FREE picks plus the ones bought with Sparks: what it announces is how
-   * many packs the player can still open today, not how much of the free allowance is left.
-   *
-   * @param {{remaining?: number, bonusPicks?: number, picksPerDay?: number}|null} payload -
-   *   `MINE_PICK_UPDATED` payload, or null to reset.
-   * @returns {void}
-   */
-  renderHeaderMinePick(payload) {
-    const remaining = Number.isFinite(payload?.remaining) ? payload.remaining : 0;
-    const bonusPicks = Number.isFinite(payload?.bonusPicks) ? payload.bonusPicks : 0;
-    this.setCount(HEADER_IDS.MINE_PICK, Math.max(0, remaining + bonusPicks));
-  }
-
-  /**
-   * Reads the free picks left today from the Mine Pick state and displays them.
-   *
-   * @returns {Promise<void>} Resolves once the header is refreshed.
-   */
-  async refreshHeaderMinePick() {
-    try {
-      const state = await minePickManager.getState();
-      this.renderHeaderMinePick({
-        remaining: state.remaining,
-        bonusPicks: state.bonusPicks ?? 0,
-        picksPerDay: state.picksPerDay,
-      });
-    } catch (error) {
-      console.warn('[App] The Mine Pick allowance could not be read.', error);
-    }
-  }
-
-  /**
-   * Renders the number of binders the player owns in the header.
-   *
-   * @param {{binders?: Array}|null} payload - `BINDERS_UPDATED` payload, or null to reset.
-   * @returns {void}
-   */
-  renderHeaderBinders(payload) {
-    const count = Array.isArray(payload?.binders) ? payload.binders.length : 0;
-    this.setCount(HEADER_IDS.BINDERS, count);
-  }
-
-  /**
-   * Reads the stored binders and displays how many exist.
-   *
-   * Called once at boot: the header must not wait for the first binder of the session to show the
-   * pages the player already had.
-   *
-   * @returns {Promise<void>} Resolves once the header is refreshed.
-   */
-  async refreshHeaderBinders() {
-    try {
-      this.renderHeaderBinders({ binders: await binderManager.listBinders() });
-    } catch (error) {
-      console.warn('[App] The binders could not be counted.', error);
-    }
   }
 
   /**
@@ -1994,8 +1960,8 @@ export class App {
     }
 
     badge.hidden = !unread;
-    // The visible label of the button stays "Réglages" (seven destinations share one row): the
-    // "new version" part only exists as a dot, so it is spelled out in the accessible name.
+    // The button is the gear of the header: the "new version" part only exists as a dot, so it is
+    // spelled out in the accessible name.
     if (unread) {
       button.setAttribute('aria-label', i18n.t('nav.settings.newVersion'));
     } else {
@@ -2021,135 +1987,299 @@ export class App {
   }
 
   /**
-   * Wires the header binder counter: a click opens the list of the binders.
-   *
-   * The list is a dialog of the COLLECTION view (the binder editor fills a page from the catalogue
-   * the collection has already loaded), so the click switches to that view first and only then asks
-   * it to open the list. `show()` is synchronous for the routing, the dialog opens a tick later.
+   * Wires the inventory button of the header and its dialog.
    *
    * @returns {void}
    */
-  bindBindersCounter() {
-    if (this.bindersCounterBound) return;
-    const button = document.querySelector(BINDERS_COUNTER_SELECTOR);
-    if (!button) {
-      console.warn('[App] The binder counter is missing from index.html.');
-      return;
-    }
-    this.bindersCounterBound = true;
-    button.addEventListener('click', () => void this.openBinders());
-  }
-
-  /**
-   * Opens the binder list of the collection from the header.
-   *
-   * @returns {Promise<void>} Resolves once the list is displayed (or the view is unavailable).
-   */
-  async openBinders() {
-    this.router?.show(COLLECTION_VIEW_NAME);
-    if (!this.collectionView) {
-      console.warn('[App] The collection view is not ready: the binders cannot be listed.');
-      return;
-    }
-    await this.collectionView.openBinders();
-  }
-
-  /**
-   * Wires the header bonus counter and its inventory dialog.
-   *
-   * @returns {void}
-   */
-  bindBonusInventory() {
-    if (this.bonusInventoryBound) return;
-    const button = document.querySelector(BONUS_INVENTORY_SELECTORS.BUTTON);
-    const modal = document.querySelector(BONUS_INVENTORY_SELECTORS.MODAL);
-    const close = document.querySelector(BONUS_INVENTORY_SELECTORS.CLOSE);
+  bindInventory() {
+    if (this.inventoryBound) return;
+    const button = document.querySelector(INVENTORY_SELECTORS.BUTTON);
+    const modal = document.querySelector(INVENTORY_SELECTORS.MODAL);
+    const close = document.querySelector(INVENTORY_SELECTORS.CLOSE);
     if (!button || !modal) {
-      console.warn('[App] The bonus inventory markup is missing from index.html.');
+      console.warn('[App] The inventory markup is missing from index.html.');
       return;
     }
-    this.bonusInventoryBound = true;
-    button.addEventListener('click', () => void this.openBonusInventory());
-    close?.addEventListener('click', () => this.closeBonusInventory());
+    this.inventoryBound = true;
+    button.addEventListener('click', () => void this.openInventory());
+    close?.addEventListener('click', () => this.closeInventory());
     modal.addEventListener('click', (event) => {
-      if (event.target === modal) this.closeBonusInventory();
+      if (event.target === modal) this.closeInventory();
     });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !modal.hidden) this.closeBonusInventory();
+      if (event.key === 'Escape' && !modal.hidden) this.closeInventory();
     });
   }
 
   /**
-   * Opens the bonus inventory: the number of bonus boosters of every extension.
+   * Opens the inventory: what the day still grants and what the player owns.
    *
-   * The header only shows the TOTAL (it has no room for the split), so the per-extension detail
-   * lives in this dialog, opened by clicking the counter.
+   * The numbers are read when the dialog opens rather than mirrored in the bar, so a pack opened, a
+   * pick spent or a bonus claimed while the page stays open can never leave it stale.
    *
    * @returns {Promise<void>} Resolves once the dialog is displayed.
    */
-  async openBonusInventory() {
-    const modal = document.querySelector(BONUS_INVENTORY_SELECTORS.MODAL);
-    const title = document.querySelector(BONUS_INVENTORY_SELECTORS.TITLE);
-    const body = document.querySelector(BONUS_INVENTORY_SELECTORS.BODY);
-    if (!modal || !title || !body) return;
+  async openInventory() {
+    const modal = document.querySelector(INVENTORY_SELECTORS.MODAL);
+    const body = document.querySelector(INVENTORY_SELECTORS.BODY);
+    if (!modal || !body) return;
 
     const quota = dateSyncManager.getQuotaSnapshot();
-    title.textContent = i18n.t('header.bonus.title');
+    const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
+    const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
+    const [blocks, picks, sparks] = await Promise.all([
+      this.readBlocksLeft(),
+      this.readPicksLeft(),
+      this.readSparksBalance(),
+    ]);
+
     body.textContent = '';
+    // Two sections: what the day still grants (boosters, blocks, picks), then the wallet. Sparks
+    // are a balance, not a daily allowance, so they never share a list with the three counters.
+    body.appendChild(App.buildInventoryHeading('inventory.today'));
+    const dailyList = document.createElement('ul');
+    dailyList.className = 'inventory__list';
+    dailyList.append(
+      App.buildInventoryRow({ icon: 'daily', labelKey: 'inventory.daily', value: daily }),
+      App.buildInventoryRow({ icon: 'blocks', labelKey: 'inventory.blocks', value: blocks }),
+      App.buildInventoryRow({ icon: 'picks', labelKey: 'inventory.picks', value: picks })
+    );
+    body.appendChild(dailyList);
 
-    let listed = [];
-    try {
-      // The set names of an upcoming bonus are needed here too, even if it cannot be opened yet.
-      listed = await boosterManager.listBoosterSets({ includeUpcoming: true });
-    } catch (error) {
-      console.warn('[App] The extensions could not be listed for the bonus inventory.', error);
-    }
-    const names = new Map(listed.map((set) => [set.setId, set.name ?? set.setId]));
-    const rows = Object.entries(quota.bonusBySet)
-      .filter(([, count]) => count > 0)
-      .map(([setId, count]) => ({ label: names.get(setId) ?? setId, count }))
-      .sort((left, right) => left.label.localeCompare(right.label));
+    body.appendChild(App.buildInventoryHeading('inventory.wallet'));
+    const wallet = document.createElement('ul');
+    wallet.className = 'inventory__list';
+    wallet.append(
+      App.buildInventoryRow({ icon: 'sparks', labelKey: 'inventory.sparks', value: sparks })
+    );
+    body.appendChild(wallet);
+    await this.appendBonusBoosters(body, quota, bonusTotal);
 
-    if (rows.length === 0) {
-      const empty = document.createElement('p');
-      empty.className = 'bonus-inventory__empty';
-      empty.textContent = i18n.t('header.bonus.empty');
-      body.appendChild(empty);
-    } else {
-      const list = document.createElement('ul');
-      list.className = 'bonus-inventory__list';
-      rows.forEach((row) => {
-        const item = document.createElement('li');
-        item.className = 'bonus-inventory__item';
-        const label = document.createElement('span');
-        label.className = 'bonus-inventory__name';
-        label.textContent = row.label;
-        const value = document.createElement('span');
-        value.className = 'bonus-inventory__count';
-        value.textContent = `×${row.count}`;
-        item.append(label, value);
-        list.appendChild(item);
-      });
-      body.appendChild(list);
-      const total = document.createElement('p');
-      total.className = 'bonus-inventory__total';
-      total.textContent = i18n.t('header.bonus.total', { count: quota.bonusTotal });
-      body.appendChild(total);
-    }
-
+    applyThemeIcons(body);
     modal.hidden = false;
   }
 
   /**
-   * Closes the bonus inventory dialog.
+   * Closes the inventory dialog.
    *
    * @returns {void}
    */
-  closeBonusInventory() {
-    const modal = document.querySelector(BONUS_INVENTORY_SELECTORS.MODAL);
+  closeInventory() {
+    const modal = document.querySelector(INVENTORY_SELECTORS.MODAL);
     if (modal && !modal.hidden) {
       modal.hidden = true;
     }
+  }
+
+  /**
+   * Reads the blocks the player can still mine today.
+   *
+   * @returns {Promise<number>} Remaining blocks (0 when the state cannot be read).
+   */
+  async readBlocksLeft() {
+    try {
+      return (await miningManager.getState()).remaining;
+    } catch (error) {
+      console.warn('[App] The blocks left today could not be read.', error);
+      return 0;
+    }
+  }
+
+  /**
+   * Reads the Mine Pick packs the player can still open today.
+   *
+   * The free picks and the ones bought with Sparks both count: the row says how many packs are
+   * still playable today, not how much of the free allowance is left.
+   *
+   * @returns {Promise<number>} Remaining picks (0 when the state cannot be read).
+   */
+  async readPicksLeft() {
+    try {
+      const state = await minePickManager.getState();
+      return Math.max(0, state.remaining + (state.bonusPicks ?? 0));
+    } catch (error) {
+      console.warn('[App] The picks left today could not be read.', error);
+      return 0;
+    }
+  }
+
+  /**
+   * Reads the Sparks balance of the player.
+   *
+   * @returns {Promise<number>} The balance (0 when it cannot be read).
+   */
+  async readSparksBalance() {
+    try {
+      return await sparksManager.getBalance();
+    } catch (error) {
+      console.warn('[App] The Sparks balance could not be read.', error);
+      return 0;
+    }
+  }
+
+  /**
+   * Appends the bonus boosters owned per extension, each with the artwork of its booster.
+   *
+   * @param {HTMLElement} body - Body of the inventory dialog.
+   * @param {{bonusBySet?: object}|null} quota - Quota snapshot.
+   * @param {number} bonusTotal - Total of bonus boosters.
+   * @returns {Promise<void>} Resolves once the section is appended.
+   */
+  async appendBonusBoosters(body, quota, bonusTotal) {
+    const heading = document.createElement('h3');
+    heading.className = 'inventory__heading';
+    heading.textContent = i18n.t('inventory.bonus');
+    body.appendChild(heading);
+
+    let listed = [];
+    try {
+      // The set names and booster artworks of an upcoming bonus are needed here too, even if the
+      // extension cannot be opened yet.
+      listed = await boosterManager.listBoosterSets({ includeUpcoming: true });
+    } catch (error) {
+      console.warn('[App] The extensions could not be listed for the inventory.', error);
+    }
+    const sets = new Map(listed.map((set) => [set.setId, set]));
+    const owned = Object.entries(quota?.bonusBySet ?? {})
+      .filter(([, count]) => Number.isFinite(count) && count > 0)
+      .sort(([left], [right]) =>
+        (sets.get(left)?.name ?? left).localeCompare(sets.get(right)?.name ?? right)
+      );
+
+    if (owned.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'inventory__empty';
+      empty.textContent = i18n.t('inventory.bonusEmpty');
+      body.appendChild(empty);
+      return;
+    }
+
+    const list = document.createElement('ul');
+    list.className = 'inventory__list';
+    owned.forEach(([setId, count]) => {
+      const set = sets.get(setId);
+      const item = document.createElement('li');
+      item.className = 'inventory__item';
+
+      const icon = document.createElement('span');
+      icon.className = 'inventory__icon inventory__icon--booster';
+      icon.setAttribute('aria-hidden', 'true');
+      if (set?.texture) {
+        const artwork = document.createElement('img');
+        artwork.className = 'inventory__booster booster-art';
+        artwork.src = i18n.resolveImagePath(set.texture);
+        artwork.alt = '';
+        icon.appendChild(artwork);
+      }
+
+      const label = document.createElement('span');
+      label.className = 'inventory__label';
+      label.textContent = set?.name ?? setId;
+      const value = document.createElement('span');
+      value.className = 'inventory__value';
+      value.textContent = `×${count}`;
+      item.append(icon, label, value);
+      list.appendChild(item);
+    });
+    body.appendChild(list);
+
+    const total = document.createElement('p');
+    total.className = 'inventory__total';
+    total.textContent = i18n.t('inventory.bonusTotal', { count: bonusTotal });
+    body.appendChild(total);
+  }
+
+  /**
+   * Builds one section title of the inventory dialog.
+   *
+   * @param {string} labelKey - Translation key of the title.
+   * @returns {HTMLHeadingElement} The heading.
+   */
+  static buildInventoryHeading(labelKey) {
+    const heading = document.createElement('h3');
+    heading.className = 'inventory__heading';
+    heading.textContent = i18n.t(labelKey);
+    return heading;
+  }
+
+  /**
+   * Builds one row of the inventory dialog.
+   *
+   * @param {{icon: 'daily'|'blocks'|'picks'|'sparks', labelKey: string, value: number}} row - Icon
+   *   kind, translation key of the label and number to print.
+   * @returns {HTMLLIElement} The row.
+   */
+  static buildInventoryRow({ icon, labelKey, value }) {
+    const item = document.createElement('li');
+    item.className = 'inventory__item';
+
+    const badge = document.createElement('span');
+    badge.className = `inventory__icon inventory__icon--${icon}`;
+    badge.setAttribute('aria-hidden', 'true');
+    if (icon === 'blocks') {
+      badge.appendChild(App.buildPickaxeIcon());
+    } else if (icon === 'picks') {
+      badge.appendChild(App.buildSparkleIcon());
+    } else {
+      const image = document.createElement('img');
+      image.className = 'inventory__icon-image';
+      if (icon === 'sparks') {
+        image.src = 'assets/img/sparks.png';
+      } else {
+        // The daily boosters ship in two inks; `applyThemeIcons` paints the one of the palette.
+        image.dataset.icon = 'daily_boosters';
+      }
+      image.alt = '';
+      badge.appendChild(image);
+    }
+
+    const label = document.createElement('span');
+    label.className = 'inventory__label';
+    label.textContent = i18n.t(labelKey);
+    const amount = document.createElement('span');
+    amount.className = 'inventory__value';
+    amount.textContent = String(Math.max(0, Number.isFinite(value) ? value : 0));
+    item.append(badge, label, amount);
+    return item;
+  }
+
+  /**
+   * Builds the pickaxe glyph of the "blocks left" row (the one of the Mine destination).
+   *
+   * @returns {SVGElement} The icon.
+   */
+  static buildPickaxeIcon() {
+    const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const group = document.createElementNS(SVG_NAMESPACE, 'g');
+    group.setAttribute('transform', 'rotate(-45 12 12)');
+    const head = document.createElementNS(SVG_NAMESPACE, 'path');
+    head.setAttribute('d', 'M3 9C8 4 16 4 21 9 16 6.5 8 6.5 3 9Z');
+    const handle = document.createElementNS(SVG_NAMESPACE, 'path');
+    handle.setAttribute('d', 'M12 7v14');
+    group.append(head, handle);
+    svg.appendChild(group);
+    return svg;
+  }
+
+  /**
+   * Builds the sparkle glyph of the "picks left" row (the one of the Mine Pick destination).
+   *
+   * @returns {SVGElement} The icon.
+   */
+  static buildSparkleIcon() {
+    const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const core = document.createElementNS(SVG_NAMESPACE, 'path');
+    core.setAttribute('d', 'M12 3.5 14 9.5 20 12 14 14.5 12 20.5 10 14.5 4 12 10 9.5Z');
+    const glint = document.createElementNS(SVG_NAMESPACE, 'path');
+    glint.setAttribute('d', 'M18.5 4.5v3M17 6h3');
+    svg.append(core, glint);
+    return svg;
   }
 
   /**
@@ -2165,114 +2295,6 @@ export class App {
       return;
     }
     document.body.setAttribute('data-connection', online ? 'online' : 'offline');
-  }
-
-  /**
-   * Injects the trusted UTC time provider (implemented by `DateSyncManager` in step 2).
-   *
-   * @param {(() => (Date|string|number))|null} provider - Function returning the estimated UTC
-   *   time, or null to go back to the placeholder.
-   * @returns {void}
-   * @throws {TypeError} When the provider is neither a function nor null.
-   */
-  setUtcTimeProvider(provider) {
-    if (provider !== null && typeof provider !== 'function') {
-      throw new TypeError('App.setUtcTimeProvider expects a function or null.');
-    }
-    this.utcTimeProvider = provider;
-    this.renderUtcClock();
-  }
-
-  /**
-   * Starts the one-second UTC clock.
-   *
-   * @returns {void}
-   */
-  startUtcClock() {
-    if (this.clockTimer !== null) return;
-    this.renderUtcClock();
-    this.clockTimer = window.setInterval(() => this.renderUtcClock(), CLOCK_INTERVAL_MS);
-  }
-
-  /**
-   * Stops the UTC clock (used before a full reset).
-   *
-   * @returns {void}
-   */
-  stopUtcClock() {
-    if (this.clockTimer === null) return;
-    window.clearInterval(this.clockTimer);
-    this.clockTimer = null;
-  }
-
-  /**
-   * Writes the current UTC time in the header.
-   *
-   * Without a provider (before step 2) the placeholder `--:--:--` is displayed instead of a
-   * system-clock based value: showing an untrusted time would defeat the anti-cheat design.
-   *
-   * @returns {void}
-   */
-  renderUtcClock() {
-    const element = document.getElementById(HEADER_IDS.CLOCK);
-    if (!element) return;
-
-    if (!this.utcTimeProvider) {
-      element.textContent = '--:--:--';
-      return;
-    }
-
-    try {
-      element.textContent = this.formatUtcTime(this.utcTimeProvider());
-    } catch (error) {
-      console.warn('[App] The UTC time provider failed.', error);
-      element.textContent = '--:--:--';
-    }
-  }
-
-  /**
-   * Formats a UTC value as `HH:MM:SS`.
-   *
-   * @param {Date|string|number} value - Trusted UTC value.
-   * @returns {string} The formatted time.
-   * @throws {RangeError} When the value cannot be converted to a valid date.
-   */
-  formatUtcTime(value) {
-    const date = value instanceof Date ? value : new Date(value);
-    if (Number.isNaN(date.getTime())) {
-      throw new RangeError('App.formatUtcTime received an invalid date value.');
-    }
-    return [date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()]
-      .map((part) => String(part).padStart(2, '0'))
-      .join(':');
-  }
-
-  /**
-   * Sets the text of an element by id (no-op when the element is absent).
-   *
-   * @param {string} id - Target element id.
-   * @param {string} text - Text to display.
-   * @returns {void}
-   */
-  setText(id, text) {
-    const element = document.getElementById(id);
-    if (element) {
-      element.textContent = text;
-    }
-  }
-
-  /**
-   * Writes one of the header counters, capped for the narrow chips of a phone.
-   *
-   * Every counter of the header goes through here; the UTC clock does NOT (it is not a counter, it
-   * has its own width and its own meaning, and it goes through `setText` directly).
-   *
-   * @param {string} id - Element id of the counter (`HEADER_IDS`).
-   * @param {number} value - Raw value to display.
-   * @returns {void}
-   */
-  setCount(id, value) {
-    this.setText(id, formatHeaderCount(value));
   }
 
   /**

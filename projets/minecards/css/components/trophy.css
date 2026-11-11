@@ -307,6 +307,19 @@
 
 /* --- Medals ----------------------------------------------------------------- */
 
+/* A medal is ALWAYS pixel art: every size below is a multiple of the source pixels, so the browser
+   must repeat them instead of interpolating them. `pixelated` is the standard value; the two
+   `crisp-edges` spellings keep the same hard pixels on engines that predate it. The rule covers
+   the catalogue, the profile strip and the detail modal, including any future surface reusing one
+   of these classes. */
+.trophy-tile__icon,
+.trophy__icon,
+.trophy-modal__medal {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
 /* Only the recurring tiers ship an image today; a missing file is hidden by the view. */
 .trophy__icon {
   flex: 0 0 auto;

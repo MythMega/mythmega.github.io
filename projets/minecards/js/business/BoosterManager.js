@@ -1154,7 +1154,7 @@ export class BoosterManager {
    * Normalizes a raw `stats` payload read from `user_state["stats"]`.
    *
    * @param {unknown} raw - Stored statistics.
-   * @returns {{boostersOpened: number, boostersOpenedBySet: Record<string, number>, drawsByRarity: Record<string, number>, drawsByCard: Record<string, number>}}
+   * @returns {{boostersOpened: number, boostersOpenedBySet: Record<string, number>, drawsByRarity: Record<string, number>, drawsByCard: Record<string, number>, soldByRarity: Record<string, number>, questsCompleted: number, daysConnected: number, cardsSold: number}}
    *   Statistics guaranteed to be writable, with every rarity initialized to zero.
    */
   normalizeStats(raw) {
@@ -1171,6 +1171,18 @@ export class BoosterManager {
       // movement. Carried here because this normalizer rebuilds the record from scratch:
       // dropping them would erase the sales and the ledger on the next pack.
       soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      // Account-wide counters of the global trophies, incremented by the quest claim, the daily
+      // reward claim and the sale. Rebuilt here for the same reason as the sales above.
+      questsCompleted:
+        Number.isInteger(source.questsCompleted) && source.questsCompleted >= 0
+          ? source.questsCompleted
+          : 0,
+      daysConnected:
+        Number.isInteger(source.daysConnected) && source.daysConnected >= 0
+          ? source.daysConnected
+          : 0,
+      cardsSold:
+        Number.isInteger(source.cardsSold) && source.cardsSold >= 0 ? source.cardsSold : 0,
       sparksEarned:
         Number.isInteger(source.sparksEarned) && source.sparksEarned >= 0 ? source.sparksEarned : 0,
       sparksSpent:

@@ -54,25 +54,27 @@ Deux règles valent pour tout le fichier :
 
 ### 4.1.1 Catalogue de couleurs (`settings/colors.json`)
 
-Une seule palette sert **deux usages distincts** : la couleur du pseudo et celle du titre de la
-carte de profil. Chaque entrée porte un `id` stable (ce qu'une sauvegarde stocke), un `name`
-`{ fr, en }`, un `hex` CSS et **deux prix indépendants** : `titlePrice` et `usernamePrice`.
-Acheter une couleur pour l'un ne débloque jamais l'autre.
+Une seule palette sert **trois usages distincts** : la couleur du pseudo, celle du titre et le
+contour de la carte de profil. Chaque entrée porte un `id` stable (ce qu'une sauvegarde stocke), un
+`name` `{ fr, en }`, un `hex` CSS et **trois prix indépendants** : `titlePrice`, `usernamePrice` et
+`borderPrice`. Acheter une couleur pour l'un ne débloque jamais les autres.
 
 ```jsonc
 {
   "colors": [
     { "id": "gold", "name": { "fr": "Or", "en": "Gold" },
-      "hex": "#ffd54a", "titlePrice": 125, "usernamePrice": 125 }
+      "hex": "#ffd54a", "titlePrice": 125, "usernamePrice": 125, "borderPrice": 500 }
   ]
 }
 ```
 
-`ColorManager` valide le fichier une fois : un `id` en double est ignoré, un `hex` invalide fait
-abandonner l'entrée (plutôt que peindre une couleur devinée), un prix absent ou négatif retombe sur
-le prix livré de la même couleur puis sur 125. Une palette entièrement illisible retombe sur la
-palette livrée en dur dans `ColorManager.DEFAULT_COLOR_CATALOG`. L'ordre du tableau est celui des
-sélecteurs.
+Un `hex` peut aussi être une liste de couleurs : l'entrée peint alors un dégradé orienté par
+`direction` (en degrés, 90 par défaut) et vendu au prix d'un dégradé. `ColorManager` valide le
+fichier une fois : un `id` en double est ignoré, un `hex` invalide fait abandonner l'entrée (plutôt
+que peindre une couleur devinée), un prix absent ou négatif retombe sur le prix livré de la même
+couleur puis sur celui de son type (125/125/500 pour une couleur unie, 300/300/800 pour un
+dégradé). Une palette entièrement illisible retombe sur la palette livrée en dur dans
+`ColorManager.DEFAULT_COLOR_CATALOG`. L'ordre du tableau est celui des sélecteurs.
 
 Les achats sont écrits dans `user_state["purchases"]` sous deux préfixes distincts
 (`cardTitleColor.<id>` et `usernameColor.<id>`) ; le pseudo choisi vit dans
@@ -168,6 +170,10 @@ publiée, **dans l'ordre des sorties** :
   {
     "Id": 2,
     "Version": "1.0.1",
+    "Titles": {
+      "Fr": "Update de stockage",
+      "En": "Storage Update"
+    },
     "Notes": [
       {
         "Type": "Feature",
@@ -185,6 +191,8 @@ publiée, **dans l'ordre des sorties** :
 - `Id` : entier positif, ordonne les versions. `ConfigLoader.getChangelog()` trie **du plus récent au
   plus ancien**, quel que soit l'ordre du fichier ; un `Id` en double est refusé par le linter.
 - `Version` : le numéro affiché tel quel (`1.0.1`). Une entrée sans `Version` est ignorée.
+- `Titles` : titre de la mise à jour par langue (`Fr`, `En`), affiché à côté du numéro de version.
+  Il est facultatif pour les anciennes entrées ; le linter avertit quand une langue du jeu manque.
 - `Notes` : liste de `{ Type, IsImportant, Text }`. `Type` est libre (`Feature`, `Fix`, `QoL` sont
   ceux que le jeu traduit ; tout autre garde son mot d'origine à l'écran), `IsImportant` met la note
   en avant (bordure et étoile), `Text` porte la phrase par langue (`Fr`, `En`).
@@ -220,7 +228,7 @@ publiée, **dans l'ordre des sorties** :
 | `settings/changelog.json` | liste de versions `{ Id, Version, Notes: [ { Type, IsImportant, Text: { Fr, En } } ] }` : les notes de mise à jour, triées par `Id` décroissant à la lecture (§4.2 ter) | `ConfigLoader`, `SettingsView` |
 | `settings/daily_connect_rewards.json` | liste de chapitres `{ ID, RewardListName, Dates: { Start, End }, Days: [ { Day, Reward, Unique?, UniqueID?, ReplacementRewardIfClaimed? } ] }` : les récompenses de connexion, un jour par entrée, `Day: null` pour l'entrée par défaut. Schéma complet et règles dans [05-daily-rewards.md](05-daily-rewards.md) | `DailyRewardManager` |
 | `settings/boosters_trophy.json` | paliers récurrents par extension (complétion, boosters ouverts) | `TrophyManager` |
-| `settings/global_trophy.json` | paliers globaux (cartes, boosters, cartes différentes, blocs minés, pioches) | `TrophyManager` |
+| `settings/global_trophy.json` | paliers globaux (cartes, boosters, cartes différentes, blocs minés, pioches, quêtes terminées, jours de connexion, cartes vendues, niveau) | `TrophyManager` |
 | `settings/ui` | pas de fichier : toute la copie passe par `settings/i18n/` | — |
 
 **Aucun de ces fichiers n'est possédé par le joueur** : ils sont en lecture seule et servis par le
@@ -299,9 +307,9 @@ serveur.Un fichier absent n'est jamais une erreur bloquante (une médaille retom
   fichier qui nomme un trophée, une icône ou un titre doit nommer quelque chose qui existe.
 - **Catalogues** : un set est déclaré une fois, possède son `data/boosters/<setId>.json`, sa date de
   sortie est un jour réel, et son drapeau `promo` correspond à `data/promo_cards/`.
-- **Notes de mise à jour** : chaque version a un `Id` positif unique, un numéro unique, et chaque
-  note un `Type` et un texte dans chaque langue du jeu (avertissement pour une langue manquante,
-  erreur pour un doublon).
+- **Notes de mise à jour** : chaque version a un `Id` positif unique, un numéro unique, et un titre
+  traduit dans chaque langue du jeu quand `Titles` est présent ; chaque note a un `Type` et un texte
+  dans chaque langue du jeu (avertissement pour une langue manquante, erreur pour un doublon).
 - **Économie** : les prix en Sparks couvrent les cinq raretés, `shop.itemsValues` ne nomme que des
   ressources réellement minées, une offre épinglée n'est payée qu'en ressources connues et sur une
   fenêtre non vide, et les blocs de la mine ont un poids, une dureté et des récompenses valides ;

@@ -370,6 +370,88 @@
   margin-top: var(--space-4);
 }
 
+/* The secondary actions (save, copy, share) are folded behind the small "+": the summary ends on
+   two controls, and the menu only exists while it is opened. */
+.opening__actions-more {
+  position: relative;
+  display: flex;
+}
+
+.opening__actions-toggle {
+  width: 100%;
+  min-width: 0;
+  padding-inline: var(--space-2);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.opening__actions-toggle-glyph {
+  display: block;
+  transition: transform 150ms var(--easing-standard);
+}
+
+.opening__actions-toggle[aria-expanded="true"] .opening__actions-toggle-glyph {
+  transform: rotate(45deg);
+}
+
+.opening__actions-menu {
+  position: absolute;
+  z-index: 5;
+  /* Opens upwards, away from the finish button and from the bottom edge of the screen. */
+  bottom: calc(100% + var(--space-2));
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  /* Fades and rises from the "+", anchored on its bottom edge: the menu reads as growing out of
+     the button instead of being painted on top of the summary between two frames. */
+  transform-origin: bottom center;
+  animation: opening-actions-menu-in 180ms var(--easing-standard) both;
+}
+
+@keyframes opening-actions-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Leaving the screen is the same movement, replayed backwards: the menu sinks toward its "+" and
+   fades instead of vanishing between two frames. `pointer-events: none` makes the half-gone menu
+   inert, so a click cannot land on a button that is already leaving. */
+.opening__actions-menu.is-closing {
+  animation: opening-actions-menu-out 160ms var(--easing-standard) both;
+  pointer-events: none;
+}
+
+@keyframes opening-actions-menu-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(0.35rem) scale(0.98);
+  }
+}
+
+.opening__actions-menu .btn {
+  width: 100%;
+  min-width: 0;
+  justify-content: flex-start;
+}
+
 @media (min-width: 768px) {
   .opening__panel {
     width: 100%;
@@ -384,6 +466,26 @@
 
   .opening__actions .btn {
     min-width: 12rem;
+  }
+
+  .opening__actions-more {
+    flex: 0 0 auto;
+  }
+
+  /* The "+" stays a small square next to the finish button instead of taking a 12rem slot. */
+  .opening__actions .opening__actions-toggle {
+    width: 3rem;
+    min-width: 3rem;
+  }
+
+  .opening__actions-menu {
+    left: auto;
+    right: 0;
+    min-width: 16rem;
+  }
+
+  .opening__actions-menu .btn {
+    min-width: 0;
   }
 }
 

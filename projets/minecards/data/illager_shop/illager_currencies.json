@@ -90,6 +90,65 @@
                 "RewardCurrency": 1,
                 "RewardSparks": 3,
                 "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_02",
+                "StartDate": "2026-11-16",
+                "Type": "DailyRewardClaim",
+                "RequirementsToUnlock": 3,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_03",
+                "StartDate": "2026-11-16",
+                "Type": "SellCard",
+                "RequirementsToUnlock": 3,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_04",
+                "StartDate": "2026-11-16",
+                "Type": "OpenChangelog",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_05",
+                "StartDate": "2026-11-16",
+                "Type": "ChangeSelectedTitle",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_06",
+                "StartDate": "2026-11-16",
+                "Type": "DownloadCurrentSaveBackup",
+                "RequirementsToUnlock": 5,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W2_07",
+                "StartDate": "2026-11-16",
+                "Type": "CustomWebsiteOpen",
+                "Label": {
+                    "Fr": "1 clic pour soutenir la palestine",
+                    "En": "1 click to support palestine"
+                },
+                "UrlButtonGo": "https://arab.org/click-to-help/palestine/",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
             }
         ]
     }

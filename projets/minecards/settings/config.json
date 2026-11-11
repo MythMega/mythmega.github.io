@@ -3,7 +3,7 @@
     { "code": "fr", "label": "Français" },
     { "code": "en", "label": "English" }
   ],
-  "defaultLang": "fr",
+  "defaultLang": "en",
   "cardLanguages": [
     { "code": "fr", "label": "Français" },
     { "code": "en", "label": "English" }
@@ -178,6 +178,11 @@
     "keyHoldIntervalMs": 250,
     "seedSalt": "minecards-mining-v1"
   },
+  "questGuide": {
+    "_comment": "Guided navigation of the Illager quests (the \"Y aller\" button of the quest dialog, `App.guideToQuest()`). 'stepDelayMs' is the pause, in milliseconds, between two steps of a walkthrough (for example the profile, then the titles): it is what makes the route readable instead of a jump cut. It is only used while the \"Quête en tant que Tuto navigation\" account setting is on; the direct transfer ignores it. A missing, negative or non-numeric value falls back to the shipped default, so a bad edit can only change the pace, never break the route.",
+    "stepDelayMs": 250
+  },
+
   "promos": {
     "_comment": "Promo cards. 'directory' holds one file per series ('A1.json' -> the 'A1-Promo' group), an entry being a card built exactly like a booster card ('Index', 'Name_XX', 'Desc_XX', 'Rarity', 'Style', 'Layout', 'Path'). Promo cards are NEVER drawn from a booster: they only enter the collection through a redeem code or a gift, only appear in the collection when they are owned, and never count in a completion ratio. Which series have promo cards is declared by the 'promo' flag of each set in 'settings/cardsets.json' (a file is only read when the game actually needs its cards). A series without a promo file simply has no promo.",
     "directory": "data/promo_cards"
@@ -280,7 +285,7 @@
 
   "profileCard": {
     "_comment": "Profile card (section 3.G octies): the trading card the profile page draws from the account with the card maker of 'external/cardmakerz/'. 'rarityThresholds' maps a card rarity (1 = Commune ... 5 = Mythique, the rarity scale of the card data) to the NUMBER OF UNLOCKED TROPHIES it takes to reach it; the card takes the highest rarity whose threshold the account reaches, so a brand new account is Commune. A threshold that is missing, malformed or LOWER than the previous one falls back to the shipped value (the sequence can never make a rarer card easier). 'defaultArtPath' is the illustration used as the card background when the player has no favourite card to borrow one from. 'seriesDigits' is how many last characters of the account UUID the series line prints after the player title.",
-    "rarityThresholds": { "1": 0, "2": 5, "3": 15, "4": 30, "5": 50 },
+    "rarityThresholds": { "1": 0, "2": 5, "3": 20, "4": 50, "5": 100 },
     "defaultArtPath": "assets/img/card_back.png",
     "seriesDigits": 4
   },

@@ -399,9 +399,9 @@ export class SparksManager {
   }
 
   /**
-   * Adds sold copies to `user_state["stats"].soldByRarity`.
+   * Adds sold copies to `user_state["stats"].soldByRarity` and `stats.cardsSold`.
    *
-   * Joined to the sale transaction: the counter and the cards move together or not at all. The
+   * Joined to the sale transaction: the counters and the cards move together or not at all. The
    * rest of the record is copied untouched, since the opening counters belong to `BoosterManager`
    * and a sale has no business rewriting them.
    *
@@ -426,6 +426,11 @@ export class SparksManager {
     const previous = Number.isInteger(sold[rarity]) ? sold[rarity] : 0;
     sold[rarity] = previous + copies;
     stats.soldByRarity = sold;
+    // The global trophy reads a single total; the per-rarity map stays the source of the bars.
+    const soldTotal = Number.isInteger(stats.cardsSold) && stats.cardsSold >= 0
+      ? stats.cardsSold
+      : Object.values(sold).reduce((sum, count) => sum + count, 0) - copies;
+    stats.cardsSold = soldTotal + copies;
     await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
   }
 

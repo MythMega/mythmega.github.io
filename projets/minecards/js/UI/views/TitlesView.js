@@ -606,6 +606,7 @@ export class TitlesView {
       this.setFeedback(id === NO_TITLE_ID ? 'titles.cleared' : 'titles.saved', 'info');
       Toast.success(id === NO_TITLE_ID ? 'titles.cleared' : 'titles.saved');
       this.log(`Title selected: ${id === NO_TITLE_ID ? 'none' : id}.`);
+      eventBus.emit(EVENTS.TITLE_SELECTED, { id });
     } catch (error) {
       console.error('[TitlesView] The title could not be stored.', error);
       const key = getProfileErrorMessageKey(error);

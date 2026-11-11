@@ -65,8 +65,7 @@ directement.
      trophées, durée et familles de notifications ;
    - garantit l'existence des états `profile`, `trophies` et `binders` ;
    - détruit l'écran d'accueil, démarre le routeur sur la vue par défaut (`opening`) ;
-   - branche les compteurs d'en-tête, l'inventaire des bonus, le compteur de binders et le cycle de
-     vie des vues ;
+   - branche l'inventaire de l'en-tête, la récompense de connexion et le cycle de vie des vues ;
    - synchronise l'heure UTC (`DateSyncManager`) ;
    - construit les vues **dans l'ordre** : ouverture, collection, profil, statistiques, trophées,
      titres, mine pick, mine, paramètres, redeem, cadeaux, informations ;

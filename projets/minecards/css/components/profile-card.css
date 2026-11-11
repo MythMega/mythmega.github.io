@@ -470,7 +470,10 @@
   /* Twice the size the card maker draws a medal at (24px): on the profile card the three trophies
      are a headline, not a footnote, so they read without zooming. */
   height: 48px;
-  /* The medals are pixel art, like every icon of the game. */
+  /* The medals are pixel art, like every icon of the game: neither the preview nor the exported
+     copy may interpolate them. The two `crisp-edges` spellings are fallbacks for older engines. */
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   image-rendering: pixelated;
   /* No halo here: the profile page and the trophy catalogue own the glow, and a glowing line of
      medals on the card would compete with the title and the counters. */

@@ -208,6 +208,9 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
   "drawsByRarity": { "1": 40, "2": 15, "3": 6, "4": 3, "5": 1 },
   "drawsByCard": { "SERIE-A1 _ W001_classic": 4 },
   "soldByRarity": { "1": 12, "2": 3, "3": 0, "4": 0, "5": 0 },
+  "questsCompleted": 7,
+  "daysConnected": 18,
+  "cardsSold": 15,
   "sparksEarned": 320,
   "sparksSpent": 1500,
   "sparksEarnedBySource": { "booster": 65, "sale": 12, "daily": 243, "mining": 0, "redeem": 0, "gift": 0, "other": 0 },
@@ -222,6 +225,12 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 - `soldByRarity` (rareté → nombre d'exemplaires **vendus**) est écrit par `SparksManager` dans la
   transaction de la vente. Un compteur absent (sauvegarde antérieure) est lu comme zéro, jamais
   réparé de force.
+- `questsCompleted`, `daysConnected` et `cardsSold` alimentent les trophées globaux. Une
+  sauvegarde antérieure les reçoit une seule fois au démarrage : `AccountManager.ensureStatistics()`
+  compte les quêtes déjà réclamées (`claimedAt`), la progression des récompenses de connexion et la
+  somme de `soldByRarity`. Seul un compteur **absent** est créé : un zéro existant reste un zéro.
+  Les deux premiers sont ensuite incrémentés dans la transaction de la récompense quotidienne et de
+  la réclamation de quête ; `cardsSold` suit la transaction de vente.
 - `sparksEarned` / `sparksSpent` et leurs cartes par origine forment le **grand livre** de la
   monnaie. Il est tenu par `SparksManager.applyDelta()`, le point de passage unique de tout
   mouvement de solde : un flux qui oublie de nommer son origine est quand même compté (`other`),

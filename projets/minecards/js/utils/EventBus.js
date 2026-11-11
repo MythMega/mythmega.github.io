@@ -117,10 +117,10 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ type, amount }` or `{ questId, claimed }`. Emitted by `IllagerQuestManager` once
    * a counter moved or a quest was claimed: the quests dialog repaints from it. */
   ILLAGER_QUESTS_UPDATED: 'ILLAGER_QUESTS_UPDATED',
-  /** Payload: `{ questId, typeKey, currencyId, currencyName, rewards }`. Emitted by
+  /** Payload: `{ questId, typeKey, labels, currencyId, currencyName, rewards }`. Emitted by
    * `IllagerQuestManager` when a quest reaches its requirement, once: the notifier announces it. */
   ILLAGER_QUEST_READY: 'ILLAGER_QUEST_READY',
-  /** Payload: `{ questId, typeKey, currencyId, currencyName, rewards }`. Emitted by
+  /** Payload: `{ questId, typeKey, labels, currencyId, currencyName, rewards }`. Emitted by
    * `IllagerQuestManager` when a quest becomes available and was never announced, once per quest:
    * the notifier announces the opening (the completion keeps `ILLAGER_QUEST_READY`). */
   ILLAGER_QUEST_AVAILABLE: 'ILLAGER_QUEST_AVAILABLE',
@@ -132,6 +132,19 @@ export const EVENTS = Object.freeze({
   BINDER_SHARED: 'BINDER_SHARED',
   /** Payload: `{ file }`. Emitted by `ProfileView` once the profile card was written to a file. */
   PROFILE_CARD_EXPORTED: 'PROFILE_CARD_EXPORTED',
+  /** Payload: `null`. Emitted by `SettingsView` when the changelog panel of the settings is
+   * displayed: this is the visit the `OpenChangelog` quest counts. */
+  CHANGELOG_OPENED: 'CHANGELOG_OPENED',
+  /** Payload: `{ id }`. Emitted by `TitlesView` once a title was stored on the profile (the empty
+   * id included, when the player chose no title): the `ChangeSelectedTitle` quest counts it. */
+  TITLE_SELECTED: 'TITLE_SELECTED',
+  /** Payload: `{ filename }`. Emitted by `SaveFile` once a save backup was written to a file: the
+   * `DownloadCurrentSaveBackup` quest counts the download. */
+  SAVE_EXPORTED: 'SAVE_EXPORTED',
+  /** Payload: `{ questId, type }`. Emitted by `MineBlockView` when the player clicks "Y aller" on
+   * an Illager quest: the application walks to the screen where that quest happens (or jumps
+   * straight there when `settings.questNavigationTutorial` is off). */
+  QUEST_GUIDE_REQUESTED: 'QUEST_GUIDE_REQUESTED',
   /** Payload: `{ binders }`. Emitted by BinderManager after a binder was created, edited, deleted or
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */

@@ -126,6 +126,33 @@ export const DEFAULT_COLOR_CATALOG = Object.freeze([
     usernamePrice: 300,
     borderPrice: 800,
   }),
+  Object.freeze({
+    id: 'snowy',
+    name: Object.freeze({ fr: 'Snowy', en: 'Snowy' }),
+    hex: Object.freeze(['#ffffff', '#b8c0cc', '#ffffff']),
+    direction: 135,
+    titlePrice: 300,
+    usernamePrice: 300,
+    borderPrice: 800,
+  }),
+  Object.freeze({
+    id: 'jungle',
+    name: Object.freeze({ fr: 'Jungle', en: 'Jungle' }),
+    hex: Object.freeze(['#2f7d32', '#6b4a2b', '#215e28']),
+    direction: 180,
+    titlePrice: 300,
+    usernamePrice: 300,
+    borderPrice: 800,
+  }),
+  Object.freeze({
+    id: 'overworld',
+    name: Object.freeze({ fr: 'Overworld', en: 'Overworld' }),
+    hex: Object.freeze(['#7ec8f5', '#58a45a', '#7b5a3a', '#9aa3ab']),
+    direction: 180,
+    titlePrice: 300,
+    usernamePrice: 300,
+    borderPrice: 800,
+  }),
 ]);
 
 /** Pattern of a colour id accepted from a save or from the catalogue. */

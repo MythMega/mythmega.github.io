@@ -27,6 +27,9 @@
 
 .modal__dialog {
   position: relative;
+  /* Ten pixels under the optical centre, so a tall dialog on a phone does not touch the avatar
+     that hangs below the sticky header. `top` composes with the entrance transform below. */
+  top: 10px;
   width: min(100%, 32rem);
   max-height: 85vh;
   overflow-y: auto;

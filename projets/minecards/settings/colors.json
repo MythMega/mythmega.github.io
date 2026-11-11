@@ -83,6 +83,33 @@
       "titlePrice": 300,
       "usernamePrice": 300,
       "borderPrice": 800
+    },
+    {
+      "id": "snowy",
+      "name": { "fr": "Snowy", "en": "Snowy" },
+      "hex": ["#ffffff", "#b8c0cc", "#ffffff"],
+      "direction": 135,
+      "titlePrice": 300,
+      "usernamePrice": 300,
+      "borderPrice": 800
+    },
+    {
+      "id": "jungle",
+      "name": { "fr": "Jungle", "en": "Jungle" },
+      "hex": ["#2f7d32", "#6b4a2b", "#215e28"],
+      "direction": 180,
+      "titlePrice": 300,
+      "usernamePrice": 300,
+      "borderPrice": 800
+    },
+    {
+      "id": "overworld",
+      "name": { "fr": "Overworld", "en": "Overworld" },
+      "hex": ["#7ec8f5", "#58a45a", "#7b5a3a", "#9aa3ab"],
+      "direction": 180,
+      "titlePrice": 300,
+      "usernamePrice": 300,
+      "borderPrice": 800
     }
   ]
 }

@@ -2,11 +2,19 @@
     {
         "Id": 1,
         "Version": "1.0.",
+        "Titles": {
+            "Fr": "Release",
+            "En": "Release"
+        },
         "Notes": []
     },
     {
         "Id": 2,
         "Version": "1.0.1",
+        "Titles": {
+            "Fr": "Update de stockage",
+            "En": "Storage Update"
+        },
         "Notes": [
             {
                 "Type": "Feature",
@@ -61,6 +69,10 @@
     {
         "Id": 3,
         "Version": "1.0.2",
+        "Titles": {
+            "Fr": "Mise à jour Rock'n'Roulette",
+            "En": "Rock'n'Roulette Update"
+        },
         "Notes": [
             {
                 "Type": "Feature",
@@ -179,6 +191,10 @@
     {
         "Id": 4,
         "Version": "1.0.3",
+        "Titles": {
+            "Fr": "Mise à jour Rock'n'Roulette P2",
+            "En": "Rock'n'Roulette Update Part. 2"
+        },
         "Notes": [
             {
                 "Type": "Feature",
@@ -201,6 +217,10 @@
     {
         "Id": 5,
         "Version": "1.0.4",
+        "Titles": {
+            "Fr": "Mise à jour des Illageois",
+            "En": "Illagers Update"
+        },
         "Notes": [
             {
                 "Type": "Feature",
@@ -310,6 +330,10 @@
     {
         "Id": 6,
         "Version": "1.0.5",
+        "Titles": {
+            "Fr": "Mise à jour de correction Nettoyage de Rouille",
+            "En": "Rust cleaning Update Fix"
+        },
         "Notes": [
             {
                 "Type": "QoL",
@@ -356,6 +380,10 @@
     {
         "Id": 7,
         "Version": "1.0.6",
+        "Titles": {
+            "Fr": "Mise à jour Des Quêtes des Illageois",
+            "En": "Illager's Quests Update"
+        },
         "Notes": [
             {
                 "Type": "Feature",
@@ -475,6 +503,88 @@
                 "Text": {
                     "Fr": "Test automatisé des quêtes : identifiants uniques, dates réelles et cohérentes, objectifs et récompenses valides.",
                     "En": "Automated quest test: unique ids, real and consistent dates, valid objectives and rewards."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
+            }
+        ]
+    },
+    {
+        "Id": 8,
+        "Version": "1.0.7",
+        "Titles": {
+            "Fr": "La Spyglass Update",
+            "En": "The Spyglass Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Changements d'interface expérimentaux pour les barres du haut et du bas.",
+                    "En": "Experimental interface changes to the top and bottom bars."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Onglets de paramètres améliorés.",
+                    "En": "Improved settings tabs."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Guide de quête.",
+                    "En": "Quest guide."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Rééquilibrage des raretés de la carte de profil.",
+                    "En": "Rebalanced profile card rarities."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouveaux trophées pour l'XP, la vente de cartes, les jours de connexion et les quêtes.",
+                    "En": "New trophies for XP, card sales, connection days and quests."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Nouvelles statistiques pour ces trophées.",
+                    "En": "New statistics for these trophies."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Aperçu avant achat des couleurs de carte, de titre et de pseudo.",
+                    "En": "Preview before buying card, title and nickname colours."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Trois nouveaux dégradés pour le titre, le pseudo et la carte : Snowy, Jungle et Overworld.",
+                    "En": "Three new gradients for the title, the nickname and the card: Snowy, Jungle and Overworld."
                 }
             },
             {

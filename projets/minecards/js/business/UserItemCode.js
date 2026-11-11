@@ -17,7 +17,7 @@
  *   bytes 13-19   mac                = HMAC-SHA256(K, "UIC1" ‖ uuidBytes ‖ bytes[0..12])[0..7]
  *
  *   canonicalItem = `booster:<setId>`, `card:<Index>|<Layout>` (`Layout` lower-cased, exactly as
- *   written in the booster JSON), `sparks` or `dailyreward`.
+ *   written in the booster JSON), `sparks`, `dailyreward`, `bundle` or `mining:<resourceSlug>`.
  *
  * SECURITY MODEL (see the document; do not overclaim)
  *   `K` is served to the browser, so anyone able to read the sources can forge codes for any UUID.
@@ -135,6 +135,36 @@ export function canonicalSparks() {
  */
 export function canonicalDailyReward() {
   return 'dailyreward';
+}
+
+/**
+ * Canonical item string of a block bundle.
+ *
+ * The item is fixed and the quantity is the number of bundles, exactly like Sparks: the game
+ * resolves it through the catalogue entry added by `RedeemManager.buildUserItemCatalog()`.
+ *
+ * @returns {string} The canonical item (`bundle`).
+ */
+export function canonicalBundle() {
+  return 'bundle';
+}
+
+/**
+ * Canonical item string of one harvested mining resource.
+ *
+ * The quantity is carried by the code itself, exactly like Sparks; the slug identifies the line of
+ * `user_state.mining.resources` the code credits (`stone_dust`, `ultima`, …).
+ *
+ * @param {string} slug - Resource slug of `settings/mining.json`.
+ * @returns {string} The canonical item (`mining:<slug>`).
+ * @throws {TypeError} When the slug is empty.
+ */
+export function canonicalMiningResource(slug) {
+  const normalized = String(slug ?? '').trim();
+  if (normalized === '') {
+    throw new TypeError('canonicalMiningResource expects a non-empty resource slug.');
+  }
+  return `mining:${normalized}`;
 }
 
 /**
@@ -517,7 +547,11 @@ export class UserItemCode {
           ? { type: 'sparks', key: 'sparks', quantity, card: null }
           : target.type === 'dailyreward'
             ? { type: 'dailyreward', key: 'dailyreward', quantity, card: null }
-            : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
+            : target.type === 'bundle'
+              ? { type: 'bundle', key: 'bundle', quantity, card: null }
+              : target.type === 'resource'
+                ? { type: 'resource', key: target.slug, quantity, card: null }
+                : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
 
     return { status: USER_ITEM_STATUSES.OK, rewards: [reward], storeKey: normalized };
   }
@@ -543,7 +577,7 @@ export class UserItemCode {
    * @param {object} payload - Generation payload.
    * @param {string} payload.uuid - Target account UUID (the code only works for it).
    * @param {string} payload.canonical - Canonical item (`booster:A1`, `card:<Index>|<layout>`,
-   *   `sparks`, `dailyreward`).
+   *   `sparks`, `dailyreward`, `mining:<slug>`).
    * @param {number} payload.quantity - Quantity (1-65535, uint16).
    * @param {Uint8Array|null} [payload.nonce=null] - 5 explicit bytes (tests); random otherwise.
    * @param {Uint8Array|null} [payload.key=null] - Shared key override; the configured key by default.

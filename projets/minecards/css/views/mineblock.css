@@ -290,6 +290,73 @@
   color: var(--color-text);
 }
 
+/* --- Bundle recharge, shown once the daily allowance is empty ------------ */
+
+.mineblock__bundle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 18% 30%, var(--color-accent-soft), transparent 62%),
+    var(--color-surface-alt);
+}
+
+.mineblock__bundle[hidden] {
+  display: none;
+}
+
+.mineblock__bundle-art {
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 5px 8px rgb(0 0 0 / 35%));
+}
+
+.mineblock__bundle-copy {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mineblock__bundle-title {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.mineblock__bundle-description,
+.mineblock__bundle-owned {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.mineblock__bundle-owned {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.mineblock__bundle-use {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+@media (min-width: 560px) {
+  .mineblock__bundle {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .mineblock__bundle-use {
+    grid-column: auto;
+    width: auto;
+  }
+}
+
 /* --- The inventory (a chest, and nothing else) --------------------------- */
 
 /* The chest IS the button: no border, no background, nothing but the picture. Its size is decided

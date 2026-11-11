@@ -236,11 +236,12 @@
   <link rel="stylesheet" href="css/base.css?v=32c9356be9">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=2a7719d47d">
+  <link rel="stylesheet" href="css/views/shop.css?v=5">
   <link rel="stylesheet" href="css/views/collection.css?v=25f89ebf80">
   <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
   <link rel="stylesheet" href="css/views/stats.css?v=17d5afb6b1">
   <link rel="stylesheet" href="css/views/minepick.css?v=39df37dbf6">
-  <link rel="stylesheet" href="css/views/mineblock.css?v=43ba5f9015">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=5e1a7c3d92">
   <link rel="stylesheet" href="css/views/profile.css?v=2a60b79361">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
@@ -417,6 +418,10 @@
       <!-- The header keeps ACTIONS only. What the day still grants and what the player owns lives
            in the inventory dialog: one button, one place, instead of five counters competing with
            the identity for the width of the bar. -->
+      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-nav-target="shop" data-i18n-title="header.shop.title" data-i18n-aria-label="header.shop.title" title="Boutique">
+        <span class="app-header__stat-icon app-header__stat-icon--mask app-header__stat-icon--shop" aria-hidden="true"></span>
+        <span class="sr-only" data-i18n="header.shop.title">Boutique</span>
+      </button>
       <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-header-inventory aria-haspopup="dialog" data-i18n-title="header.inventory.title" data-i18n-aria-label="header.inventory.title" title="Inventaire">
         <!-- The shipped `assets/img/inventory.svg`, painted as a mask so it follows the ink of the
              palette like the inline glyphs next to it (see `css/base.css`). -->
@@ -543,11 +548,6 @@
             <button type="button" class="btn btn--primary btn--block" data-opening-open data-i18n="opening.open">Ouvrir un booster</button>
             <button type="button" class="btn btn--ghost opening__open-more" data-opening-open-many data-i18n-aria-label="opening.openMany" aria-label="Ouvrir plusieurs boosters" hidden>+</button>
           </div>
-
-          <!-- Buy an extra booster with Sparks. Only offered once the free daily boosters are all
-               spent; the label carries the price read from `settings/config.json`, so it is
-               written by the view (`renderBuyButton`). -->
-          <button type="button" class="btn btn--ghost btn--block" data-opening-buy hidden></button>
 
           <!-- Park a leftover daily booster into the bonus bucket of an extension: the daily
                allowance expires at the next UTC day, a bonus booster does not. Shown while the
@@ -697,6 +697,126 @@
           <div class="modal__body" data-opening-store-body></div>
           <div class="modal__actions" data-opening-store-sets></div>
         </div>
+      </div>
+    </section>
+
+    <!-- 1bis. Monthly booster shop: a page of its own, reached from the header. -->
+    <section class="view shop" id="view-shop" data-view="shop" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.shop.title">Boutique</h2>
+      </div>
+
+      <section class="panel shop__refill-panel">
+        <div class="shop__refill-main">
+          <span data-i18n="shop.refill.label">Renouvellement du stock dans</span>
+          <time data-shop-refill>-- j --:--:--</time>
+        </div>
+        <p class="shop__refill-note" data-i18n="shop.refill.note">Les boosters et les bundles sont rechargés en même temps, au début de chaque mois UTC.</p>
+        <p class="shop__refill-balance">
+          <span data-i18n="shop.balance.label">Solde :</span>
+          <strong data-shop-balance>0</strong>
+          <span>Sparks</span>
+        </p>
+      </section>
+
+      <div class="shop__layout">
+        <section class="panel shop__product" data-shop-booster-section>
+          <div class="shop__product-head">
+            <img class="shop__product-art shop__product-art--flipped" src="assets/img/booster.png" alt="" aria-hidden="true" decoding="async">
+            <div class="shop__product-copy">
+              <h3 class="shop__title" data-i18n="shop.booster.title">Booster mensuel</h3>
+              <p class="shop__stock">
+                <span data-i18n="shop.fact.stock">En stock</span>
+                <strong><span data-shop-remaining>10</span> / <span data-shop-limit>10</span></strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="shop__meter" role="progressbar" aria-valuemin="0" data-i18n-aria-label="shop.progress.label" aria-label="Boosters achetés ce mois">
+            <span class="shop__meter-fill" data-shop-progress></span>
+          </div>
+
+          <dl class="shop__facts">
+            <div class="shop__fact">
+              <dt data-i18n="shop.fact.unitPrice">Prix unitaire</dt>
+              <dd><span data-shop-unit-price>125</span> Sparks</dd>
+            </div>
+            <div class="shop__fact">
+              <dt data-i18n="shop.fact.purchased">Achetés ce mois</dt>
+              <dd><span data-shop-purchased>0</span></dd>
+            </div>
+          </dl>
+
+          <label class="field" for="shop-set">
+            <span class="field__label" data-i18n="shop.purchase.booster">Booster</span>
+            <div class="shop__booster-picker">
+              <span class="shop__booster-art">
+                <img data-shop-set-icon alt="" aria-hidden="true" hidden>
+              </span>
+              <select class="field__select" id="shop-set" data-shop-set></select>
+            </div>
+          </label>
+
+          <label class="field" for="shop-quantity">
+            <span class="field__label" data-i18n="shop.purchase.quantity">Nombre de boosters</span>
+            <div class="shop__quantity">
+              <button type="button" class="btn btn--ghost btn--small" data-shop-step="-1" data-i18n-aria-label="shop.purchase.less" aria-label="Moins">−</button>
+              <input class="shop__quantity-input" id="shop-quantity" type="number" min="1" max="10" step="1" inputmode="numeric" value="1" data-shop-quantity>
+              <button type="button" class="btn btn--ghost btn--small" data-shop-step="1" data-i18n-aria-label="shop.purchase.more" aria-label="Plus">+</button>
+            </div>
+          </label>
+
+          <p class="shop__total"><span data-shop-total>1 booster × 125 Sparks = 125 Sparks</span></p>
+          <p class="feedback" data-shop-feedback role="status" hidden></p>
+          <button type="button" class="btn btn--primary btn--block" data-shop-buy></button>
+        </section>
+
+        <section class="panel shop__product" data-shop-bundle-section>
+          <div class="shop__product-head">
+            <img class="shop__product-art" src="assets/img/bundle.png" alt="" aria-hidden="true" decoding="async">
+            <div class="shop__product-copy">
+              <h3 class="shop__title" data-i18n="shop.bundle.title">Bundles de blocs</h3>
+              <p class="shop__stock">
+                <span data-i18n="shop.fact.stock">En stock</span>
+                <strong><span data-shop-bundle-remaining>10</span> / <span data-shop-bundle-limit>10</span></strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="shop__meter" role="progressbar" aria-valuemin="0" data-i18n-aria-label="shop.bundle.progress.label" aria-label="Bundles achetés ce mois">
+            <span class="shop__meter-fill" data-shop-bundle-progress></span>
+          </div>
+
+          <p class="shop__description" data-shop-bundle-description></p>
+
+          <dl class="shop__facts">
+            <div class="shop__fact">
+              <dt data-i18n="shop.fact.unitPrice">Prix unitaire</dt>
+              <dd><span data-shop-bundle-price>50</span> Sparks</dd>
+            </div>
+            <div class="shop__fact">
+              <dt data-i18n="shop.bundle.blocks">Blocs par bundle</dt>
+              <dd><span data-shop-bundle-blocks>10</span></dd>
+            </div>
+            <div class="shop__fact">
+              <dt data-i18n="shop.fact.purchased">Achetés ce mois</dt>
+              <dd><span data-shop-bundle-purchased>0</span></dd>
+            </div>
+          </dl>
+
+          <label class="field" for="shop-bundle-quantity">
+            <span class="field__label" data-i18n="shop.bundle.quantity">Nombre de bundles</span>
+            <div class="shop__quantity">
+              <button type="button" class="btn btn--ghost btn--small" data-shop-bundle-step="-1" data-i18n-aria-label="shop.purchase.less" aria-label="Moins">−</button>
+              <input class="shop__quantity-input" id="shop-bundle-quantity" type="number" min="1" max="10" step="1" inputmode="numeric" value="1" data-shop-bundle-quantity>
+              <button type="button" class="btn btn--ghost btn--small" data-shop-bundle-step="1" data-i18n-aria-label="shop.purchase.more" aria-label="Plus">+</button>
+            </div>
+          </label>
+
+          <p class="shop__total"><span data-shop-bundle-total></span></p>
+          <p class="feedback" data-shop-bundle-feedback role="status" hidden></p>
+          <button type="button" class="btn btn--primary btn--block" data-shop-bundle-buy></button>
+        </section>
       </div>
     </section>
 
@@ -1342,11 +1462,6 @@
             <time class="minepick__countdown-value" data-minepick-countdown-value>--:--:--</time>
           </p>
 
-          <!-- Buy an extra pick with Sparks. Only offered once the daily allowance AND the bought
-               picks are spent; the label carries the price read from `settings/config.json`, so it
-               is written by the view (`renderBuyButton`). -->
-          <button type="button" class="btn btn--ghost btn--block" data-minepick-buy hidden></button>
-
           <ul class="minepick__board" data-minepick-board></ul>
         </section>
       </div>
@@ -1424,6 +1539,16 @@
           </div>
 
           <p class="mineblock__empty" data-mineblock-empty hidden data-i18n="mineblock.empty">Tous les blocs du jour sont minés : revenez après minuit UTC.</p>
+
+          <div class="mineblock__bundle" data-mineblock-bundle hidden>
+            <img class="mineblock__bundle-art" src="assets/img/bundle.png" alt="" aria-hidden="true" decoding="async">
+            <div class="mineblock__bundle-copy">
+              <h3 class="mineblock__bundle-title" data-i18n="mineblock.bundle.title">Recharger la mine</h3>
+              <p class="mineblock__bundle-description" data-mineblock-bundle-description></p>
+              <p class="mineblock__bundle-owned" data-mineblock-bundle-owned></p>
+            </div>
+            <button type="button" class="btn btn--primary mineblock__bundle-use" data-mineblock-bundle-use></button>
+          </div>
 
           <h3 class="stats__title" data-i18n="mineblock.resources.title">Ressources</h3>
           <ul class="mineblock__resources" data-mineblock-resources></ul>

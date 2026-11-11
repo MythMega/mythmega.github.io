@@ -596,5 +596,79 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 9,
+        "Version": "1.0.8",
+        "Titles": {
+            "Fr": "La Bundle Update",
+            "En": "The Bundle Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Boutique : accès à la boutique de boosters et de bundles de blocs depuis le bouton en haut de l'écran.",
+                    "En": "Shop: access the booster and block-bundle shop from the button at the top of the screen."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Achat de boosters : le prix passe à 125 Sparks, avec une limite de 10 achats par mois.",
+                    "En": "Booster purchases: the price is now 125 Sparks, limited to 10 purchases per month."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouvel item : le Bundle de blocs, qui recharge 10 blocs à miner.",
+                    "En": "New item: the Block Bundle, which refills 10 blocks to mine."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Boutique : le bundle de blocs est achetable 10 fois par mois, à 50 Sparks.",
+                    "En": "Shop: the block bundle can be bought 10 times per month for 50 Sparks."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Daily reward : le jour 22 offre désormais un bundle de blocs.",
+                    "En": "Daily reward: day 22 now grants a block bundle."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Suppression de la possibilité d'acheter une pioche supplémentaire ; la fonctionnalité reviendra plus tard.",
+                    "En": "The ability to buy an extra pick has been removed; the feature will return later."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Correction d'un bug sur la validation d'une quête.",
+                    "En": "Fixed a bug in quest validation."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
+            }
+        ]
     }
 ]

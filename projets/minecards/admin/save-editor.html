@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>MineCards : éditeur de sauvegarde</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="save-editor.css">
+</head>
+<body>
+  <main class="admin editor">
+
+    <!-- Password gate. Same digest as index.html; the password is never stored. -->
+    <section class="lock" id="lock">
+      <h1 class="lock__title">Éditeur de sauvegarde</h1>
+      <p class="muted">Accès réservé. Saisissez le mot de passe administrateur.</p>
+      <form id="lock-form" autocomplete="off">
+        <label class="field">
+          <span class="field__label">Mot de passe</span>
+          <input class="field__input" type="password" id="lock-input" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn--primary" id="lock-submit">Déverrouiller</button>
+        <p class="feedback" id="lock-feedback" role="status" hidden></p>
+      </form>
+    </section>
+
+    <section class="app" id="app" hidden>
+      <header class="app__head">
+        <div>
+          <h1 class="app__title">Éditeur de sauvegarde <span class="badge">admin</span></h1>
+          <p class="muted" id="key-status">Chargement des catalogues…</p>
+        </div>
+        <div class="app__actions">
+          <button type="button" class="btn btn--ghost" id="change-file" hidden>Changer de sauvegarde</button>
+          <button type="button" class="btn btn--primary" id="download" disabled>Télécharger le .save</button>
+          <button type="button" class="btn btn--ghost" id="lock-again">Verrouiller</button>
+        </div>
+      </header>
+
+      <section class="dropzone" id="dropzone" tabindex="0" role="button" aria-describedby="drop-hint">
+        <input type="file" id="file-input" accept=".save,application/octet-stream" hidden>
+        <div class="dropzone__icon" aria-hidden="true">↓</div>
+        <h2 class="dropzone__title">Glissez une sauvegarde <code>.save</code> ici</h2>
+        <p class="muted" id="drop-hint">ou cliquez pour choisir un fichier. Tout reste dans votre navigateur.</p>
+        <p class="feedback" id="file-feedback" role="status" hidden></p>
+      </section>
+
+      <div class="workspace" id="workspace" hidden>
+        <section class="save-summary" aria-label="Résumé de la sauvegarde">
+          <div class="save-summary__identity">
+            <span class="save-summary__label">Compte</span>
+            <strong id="summary-uuid">Non chargé</strong>
+            <span class="muted" id="summary-metadata">Aucune sauvegarde</span>
+          </div>
+          <dl class="save-summary__stats">
+            <div><dt>Cartes</dt><dd id="summary-cards">0</dd></div>
+            <div><dt>Exemplaires</dt><dd id="summary-copies">0</dd></div>
+            <div><dt>Sparks</dt><dd id="summary-sparks">0</dd></div>
+            <div><dt>Trophées</dt><dd id="summary-trophies">0</dd></div>
+          </dl>
+        </section>
+
+        <div class="editor-layout">
+          <nav class="editor-tabs" aria-label="Sections de la sauvegarde" role="tablist">
+            <button type="button" class="editor-tab is-active" role="tab" aria-selected="true" data-tab="overview">Aperçu</button>
+            <button type="button" class="editor-tab" role="tab" aria-selected="false" data-tab="cards">Cartes</button>
+            <button type="button" class="editor-tab" role="tab" aria-selected="false" data-tab="profile">Profil</button>
+            <button type="button" class="editor-tab" role="tab" aria-selected="false" data-tab="binders">Classeurs</button>
+            <button type="button" class="editor-tab" role="tab" aria-selected="false" data-tab="progress">Progression</button>
+            <button type="button" class="editor-tab" role="tab" aria-selected="false" data-tab="purchases">Achats</button>
+            <button type="button" class="editor-tab" role="tab" aria-selected="false" data-tab="advanced">Avancé</button>
+          </nav>
+
+          <div class="editor-panels">
+            <section class="panel" id="panel-overview" role="tabpanel" data-panel="overview">
+              <h2 class="panel__title">Vue d’ensemble</h2>
+              <p class="muted">Les valeurs se modifient directement : le fichier n’est réécrit qu’au téléchargement.</p>
+              <div id="overview-content"></div>
+            </section>
+
+            <section class="panel" id="panel-cards" role="tabpanel" data-panel="cards" hidden>
+              <div class="panel__head">
+                <div>
+                  <h2 class="panel__title">Cartes possédées</h2>
+                  <p class="muted" id="collection-count">Aucune carte</p>
+                </div>
+                <button type="button" class="btn btn--primary" id="add-card">+ Ajouter une carte</button>
+              </div>
+              <div class="filters">
+                <label class="search">
+                  <span class="sr-only">Rechercher une carte</span>
+                  <span class="search__icon" aria-hidden="true">⌕</span>
+                  <input type="search" id="collection-search" placeholder="Nom, code, extension…" autocomplete="off">
+                </label>
+                <label class="field field--inline">
+                  <span class="field__label">Extension</span>
+                  <select class="field__select" id="collection-set"><option value="">Toutes</option></select>
+                </label>
+                <label class="field field--inline">
+                  <span class="field__label">Rareté</span>
+                  <select class="field__select" id="collection-rarity">
+                    <option value="">Toutes</option>
+                    <option value="1">Commune</option>
+                    <option value="2">Peu commune</option>
+                    <option value="3">Rare</option>
+                    <option value="4">Épique</option>
+                    <option value="5">Mythique</option>
+                  </select>
+                </label>
+              </div>
+              <div class="card-grid" id="collection-grid"></div>
+              <p class="empty" id="collection-empty" hidden>Aucune carte ne correspond à ces filtres.</p>
+            </section>
+
+            <section class="panel" id="panel-profile" role="tabpanel" data-panel="profile" hidden>
+              <h2 class="panel__title">Profil</h2>
+              <div id="profile-content"></div>
+            </section>
+
+            <section class="panel" id="panel-binders" role="tabpanel" data-panel="binders" hidden>
+              <h2 class="panel__title">Classeurs</h2>
+              <p class="muted">Chaque classeur contient 30 slots et une couverture choisie parmi les cartes possédées. Une carte ne peut pas être placée plus de fois que son nombre d’exemplaires.</p>
+              <div id="binders-content"></div>
+            </section>
+
+            <section class="panel" id="panel-progress" role="tabpanel" data-panel="progress" hidden>
+              <h2 class="panel__title">Progression</h2>
+              <div id="progress-content"></div>
+            </section>
+
+            <section class="panel" id="panel-purchases" role="tabpanel" data-panel="purchases" hidden>
+              <h2 class="panel__title">Achats et déblocages</h2>
+              <p class="muted">Cliquez sur un élément pour l’ajouter ou le retirer. Rien n’est débité : le fichier est édité directement.</p>
+              <div id="purchases-content"></div>
+            </section>
+
+            <section class="panel" id="panel-advanced" role="tabpanel" data-panel="advanced" hidden>
+              <h2 class="panel__title">Données avancées</h2>
+              <p class="warning">À utiliser avec précaution. Le JSON est validé avant d’être appliqué à la sauvegarde.</p>
+              <div id="advanced-content"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <p class="footnote">
+        Le `.save` est un JSON compressé, pas un fichier chiffré. Cette page ne contourne aucune
+        validation du jeu : elle modifie une copie locale, que vous réimportez ensuite depuis les réglages.
+      </p>
+    </section>
+  </main>
+
+  <dialog class="picker" id="card-picker">
+    <div class="picker__head">
+      <div>
+        <h2 class="picker__title" id="picker-title">Ajouter une carte</h2>
+        <p class="muted" id="picker-subtitle">Choisissez une carte illustrée.</p>
+      </div>
+      <button type="button" class="picker__close" id="picker-close" aria-label="Fermer">×</button>
+    </div>
+    <div class="filters filters--picker">
+      <label class="search">
+        <span class="sr-only">Rechercher dans le catalogue</span>
+        <span class="search__icon" aria-hidden="true">⌕</span>
+        <input type="search" id="picker-search" placeholder="Rechercher une carte…" autocomplete="off">
+      </label>
+      <label class="field field--inline">
+        <span class="field__label">Extension</span>
+        <select class="field__select" id="picker-set"><option value="">Toutes</option></select>
+      </label>
+    </div>
+    <p class="muted" id="picker-count">Chargement du catalogue…</p>
+    <div class="picker__grid" id="picker-grid"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="save-editor.js"></script>
+</body>
+</html>

@@ -212,9 +212,8 @@
             {
                 "Day": 22,
                 "Reward": {
-                    "Type": "Currency",
-                    "Qte": 3,
-                    "Data": "AllaysCurrency"
+                    "Type": "Bundle",
+                    "Qte": 1
                 }
             },
             {
@@ -284,7 +283,7 @@
                 "Day": 29,
                 "Reward": {
                     "Type": "Ultima",
-                    "Qte": 3
+                    "Qte": 1
                 }
             },
             {
@@ -294,12 +293,6 @@
                     "Type": "Card",
                     "Qte": 1,
                     "CardID": "PROMO-A1 / D01"
-                },
-                "Unique": true,
-                "UniqueID": "CardRewardConnectionA1GenesisBlock",
-                "ReplacementRewardIfClaimed": {
-                    "Type": "Ultima",
-                    "Qte": 1
                 }
             },
             {

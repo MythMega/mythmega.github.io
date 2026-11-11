@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v103';
+const VERSION = 'v109';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -294,6 +294,7 @@ const PRECACHE_URLS = [
   /* The 41 frames of the mine chest, packed into one 1050 × 900 sheet (7 columns): one request of
      65 KB instead of an animated webp whose frames the view could not address one by one. */
   './assets/img/chest-sprite.webp',
+  './assets/img/bundle.png',
   './assets/boostermodel.glb',
   './assets/sound/booster_opening.mp3',
   './assets/sound/card_return.mp3',

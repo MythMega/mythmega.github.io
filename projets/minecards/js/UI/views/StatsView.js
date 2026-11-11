@@ -537,11 +537,7 @@ export class StatsView {
         remaining: state?.remaining ?? 0,
         picksPerDay: state?.picksPerDay ?? 0,
       });
-      // The bought picks are announced on top of the daily allowance: `picksPerDay` describes the
-      // FREE ones, so adding them to the first number would read as "5 / 3".
-      const bonusPicks = Number.isFinite(state?.bonusPicks) ? state.bonusPicks : 0;
-      this.minepickSummaryElement.textContent =
-        bonusPicks > 0 ? `${summary}${i18n.t('stats.minepick.purchased', { count: bonusPicks })}` : summary;
+      this.minepickSummaryElement.textContent = summary;
     }
 
     if (this.minepickRarityElement) {
@@ -586,10 +582,7 @@ export class StatsView {
       }
     }
 
-    this.log(
-      `Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} free and ` +
-        `${state?.bonusPicks ?? 0} bought left today.`
-    );
+    this.log(`Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} left today.`);
   }
 
   /**

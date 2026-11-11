@@ -225,7 +225,6 @@ export const DEFAULT_PROMO_SETTINGS = Object.freeze({
 export const DEFAULT_MINE_PICK_SETTINGS = Object.freeze({
   boosterCount: 10,
   picksPerDay: 3,
-  extraPickPriceSparks: 1000,
   historySize: 10,
   seedSalt: 'minecards-mine-pick-v1',
   setWeightExponent: 2,
@@ -245,6 +244,9 @@ export const DEFAULT_MINING_SETTINGS = Object.freeze({
   blocksPerDay: 10,
   nextBlockDelayMs: 100,
   seedSalt: 'minecards-mining-v1',
+  blocksPerBundle: 10,
+  bundlePriceSparks: 50,
+  monthlyBundleLimit: 10,
 });
 
 /**
@@ -291,12 +293,15 @@ export const DEFAULT_SHOP_SETTINGS = Object.freeze({
 });
 
 /**
- * Price of one extra booster, bought with Sparks once the free daily boosters are spent.
+ * Price of one booster bought from the monthly shop.
  *
  * A bought booster lands in its own quota bucket: it survives the daily reset and is only spent
  * after the daily allowance and the bonuses of the selected extension.
  */
-export const DEFAULT_EXTRA_BOOSTER_PRICE_SPARKS = 1500;
+export const DEFAULT_EXTRA_BOOSTER_PRICE_SPARKS = 125;
+
+/** Default number of boosters the shop sells per UTC month, shared by every extension. */
+export const DEFAULT_MONTHLY_BOOSTER_LIMIT = 10;
 
 /**
  * Default durations (milliseconds) of the opening animation, used whenever an entry of the
@@ -1171,8 +1176,8 @@ export class ConfigLoader {
    * Every value falls back to its default when the section is missing or a value is unusable: a
    * partially edited configuration must never break the daily board.
    *
-   * @returns {Promise<{boosterCount: number, picksPerDay: number, extraPickPriceSparks: number,
-   *   historySize: number, seedSalt: string, setWeightExponent: number}>} The Mine Pick settings.
+   * @returns {Promise<{boosterCount: number, picksPerDay: number, historySize: number,
+   *   seedSalt: string, setWeightExponent: number}>} The Mine Pick settings.
    * @throws {Error} See `load()`.
    */
   async getMinePickSettings() {
@@ -1192,10 +1197,6 @@ export class ConfigLoader {
         minePick.historySize,
         DEFAULT_MINE_PICK_SETTINGS.historySize
       ),
-      extraPickPriceSparks: ConfigLoader.normalizePrice(
-        minePick.extraPickPriceSparks,
-        DEFAULT_MINE_PICK_SETTINGS.extraPickPriceSparks
-      ),
       seedSalt:
         typeof minePick.seedSalt === 'string' && minePick.seedSalt.trim() !== ''
           ? minePick.seedSalt.trim()
@@ -1212,10 +1213,12 @@ export class ConfigLoader {
    *
    * The daily allowance of blocks, the path of the block rules and the seed salt fall back to
    * their shipped defaults when the section is missing or a value is unusable: a partially edited
-   * configuration must never leave the mine without a block to mine.
+   * configuration must never leave the mine without a block to mine. The bundle values are read
+   * from the same section, so the item, its price and its monthly allowance are tuned together.
    *
    * @returns {Promise<{configPath: string, blocksPerDay: number, nextBlockDelayMs: number,
-   *   seedSalt: string}>} The mine settings.
+   *   seedSalt: string, blocksPerBundle: number, bundlePriceSparks: number,
+   *   monthlyBundleLimit: number}>} The mine settings.
    * @throws {Error} See `load()`.
    */
   async getMiningSettings() {
@@ -1235,6 +1238,18 @@ export class ConfigLoader {
         typeof mining.seedSalt === 'string' && mining.seedSalt.trim() !== ''
           ? mining.seedSalt.trim()
           : DEFAULT_MINING_SETTINGS.seedSalt,
+      blocksPerBundle: ConfigLoader.normalizePositiveInteger(
+        mining.blocksPerBundle,
+        DEFAULT_MINING_SETTINGS.blocksPerBundle
+      ),
+      bundlePriceSparks: ConfigLoader.normalizePrice(
+        mining.bundlePriceSparks,
+        DEFAULT_MINING_SETTINGS.bundlePriceSparks
+      ),
+      monthlyBundleLimit: ConfigLoader.normalizePositiveInteger(
+        mining.monthlyBundleLimit,
+        DEFAULT_MINING_SETTINGS.monthlyBundleLimit
+      ),
     };
   }
 
@@ -1447,16 +1462,18 @@ export class ConfigLoader {
   /**
    * Booster-related global settings.
    *
-   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, extraBoosterPriceSparks: number, godpackChancePercent: number, historySize: number, upcomingPreviewDays: number, releaseAnnouncementDays: number}>}
+   * @returns {Promise<{sets: string[], directory: string, rarityConfigPath: string, model: string, cardsPerBooster: number, dailyFreeBoosters: number, extraBoosterPriceSparks: number, monthlyBoosterLimit: number, godpackChancePercent: number, historySize: number, upcomingPreviewDays: number, releaseAnnouncementDays: number}>}
    *   Booster settings completed with safe defaults. `sets` are the ids of `settings/cardsets.json`
    *   (in the order of the file, including the sets that are not released yet: the data layer loads
    *   them all, the availability check is what hides or blocks them). `directory` locates the
    *   extension JSONs (`data/boosters`), `rarityConfigPath` the default rarity table
    *   (`settings/defaultRarity.json`) and `model` the 3D booster model used in step 4.
-   *   `godpackChancePercent` is the probability (0-100) of a "god pack": a booster made only of
-   *   full art printings. `historySize` is the number of past openings kept for the stats view, and
-   *   `upcomingPreviewDays` how many days before its release a set may be previewed, and
-   *   `releaseAnnouncementDays` how long after its release a set is still announced once.
+   *   `extraBoosterPriceSparks` is the price of one shop booster and `monthlyBoosterLimit` how many
+   *   may be bought per UTC month across every extension. `godpackChancePercent` is the probability
+   *   (0-100) of a "god pack": a booster made only of full art printings. `historySize` is the number
+   *   of past openings kept for the stats view, `upcomingPreviewDays` how many days before its release
+   *   a set may be previewed, and `releaseAnnouncementDays` how long after its release a set is still
+   *   announced once.
    * @throws {Error} See `load()`.
    */
   async getBoosterSettings() {
@@ -1482,6 +1499,10 @@ export class ConfigLoader {
         boosters.extraBoosterPriceSparks,
         DEFAULT_EXTRA_BOOSTER_PRICE_SPARKS
       ),
+      monthlyBoosterLimit:
+        Number.isInteger(boosters.monthlyBoosterLimit) && boosters.monthlyBoosterLimit > 0
+          ? boosters.monthlyBoosterLimit
+          : DEFAULT_MONTHLY_BOOSTER_LIMIT,
       // A percentage (0.5 = 0.5 %, 5 = 5 %), clamped to the documented 0-100 range.
       godpackChancePercent:
         typeof boosters.godpackChancePercent === 'number' && Number.isFinite(boosters.godpackChancePercent)

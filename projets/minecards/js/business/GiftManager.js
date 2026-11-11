@@ -442,6 +442,10 @@ export class GiftManager {
     if (type === GIFT_TYPES.SPARKS) {
       return { type, key, setName: null, card: null, unknown: false };
     }
+    // Block bundles enter the history through a code; the sheet does not distribute them yet.
+    if (type === 'bundle') {
+      return { type, key, setName: null, card: null, unknown: false };
+    }
     return { type, key, setName: null, card: null, unknown: true };
   }
 

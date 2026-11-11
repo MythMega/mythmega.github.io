@@ -480,6 +480,39 @@ export class RedeemView {
       return item;
     }
 
+    if (reward.type === 'bundle') {
+      const image = document.createElement('img');
+      image.className = 'redeem__reward-image';
+      image.loading = 'lazy';
+      image.alt = '';
+      image.src = 'assets/img/bundle.png';
+      image.addEventListener('error', () => image.remove());
+      item.appendChild(image);
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.bundle', { count: reward.quantity });
+      item.appendChild(line);
+      return item;
+    }
+
+    if (reward.type === 'resource') {
+      const image = document.createElement('img');
+      image.className = 'redeem__reward-image';
+      image.loading = 'lazy';
+      image.alt = '';
+      image.src = `assets/img/dusts/${reward.key}.png`;
+      image.addEventListener('error', () => image.remove());
+      item.appendChild(image);
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.resource', {
+        count: reward.quantity,
+        resource: i18n.t(`mineblock.resource.${reward.key}`),
+      });
+      item.appendChild(line);
+      return item;
+    }
+
     const line = document.createElement('p');
     line.className = 'redeem__reward-line';
     line.textContent = i18n.t('redeem.reward.booster', {

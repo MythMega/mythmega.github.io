@@ -68,13 +68,14 @@
   },
 
   "boosters": {
-    "_comment": "'extraBoosterPriceSparks' is the price of ONE extra daily booster, bought with Sparks once the free daily boosters ('dailyFreeBoosters') are all spent. A bought booster is kept in the quota under its own bucket, is spent AFTER the daily quota and the redeem/gift bonuses of an extension (so a free booster is never wasted by a purchase), and - unlike the daily allowance - is NOT cleared by the daily reset: it was paid for. The SETS themselves - their identifier, their release date and whether they have promo cards - are declared in 'settings/cardsets.json'. 'upcomingPreviewDays' is how many days before its release date a set becomes visible: it then appears in the booster picker (with its 3D model) but can never be opened and its cards never reach the collection; 0 hides an upcoming set completely until its release day. 'releaseAnnouncementDays' is how long after its release date a set is still announced to a player who has not loaded the game since: the popup is shown once per account, at the first load inside that window; 0 disables the announcement.",
+    "_comment": "The shop sells boosters with Sparks. 'extraBoosterPriceSparks' is the price of ONE booster, and 'monthlyBoosterLimit' is the maximum number that can be bought per UTC month across every extension. A bought booster is kept in the quota under its own bucket, is spent AFTER the daily quota and the redeem/gift bonuses of an extension (so a free booster is never wasted by a purchase), and - unlike the daily allowance - is NOT cleared by the daily reset: it was paid for. The SETS themselves - their identifier, their release date and whether they have promo cards - are declared in 'settings/cardsets.json'. 'upcomingPreviewDays' is how many days before its release date a set becomes visible: it then appears in the booster picker (with its 3D model) but can never be opened and its cards never reach the collection; 0 hides an upcoming set completely until its release day. 'releaseAnnouncementDays' is how long after its release date a set is still announced to a player who has not loaded the game since: the popup is shown once per account, at the first load inside that window; 0 disables the announcement.",
     "directory": "data/boosters",
     "rarityConfigPath": "settings/defaultRarity.json",
     "model": "assets/boostermodel.glb",
     "cardsPerBooster": 5,
     "dailyFreeBoosters": 3,
-    "extraBoosterPriceSparks": 1500,
+    "extraBoosterPriceSparks": 125,
+    "monthlyBoosterLimit": 10,
 
     "godpackChancePercent": 0.5,
     "historySize": 10,
@@ -162,10 +163,9 @@
   },
 
   "minePick": {
-    "_comment": "Mine Pick. The daily board holds 'boosterCount' SIMULATED openings, built from the real booster parameters: 'boosters.cardsPerBooster', the rarity table of each extension (which may override 'defaultRarity.json') and 'boosters.godpackChancePercent'. A simulated pack is therefore drawn exactly like an opened one. 'picksPerDay' free picks per UTC day (reset at midnight UTC, like the daily boosters), 'historySize' picks kept for the statistics. The board is deterministic: it is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload shows the same board, it changes at the next UTC day, and two accounts never share one (changing 'seedSalt' rebuilds the board of the CURRENT day, and the boosters already picked become stale). The extension of each booster is drawn at random with a weight of (rank + 1) ** 'setWeightExponent': the extension whose id ranks highest is the most likely.",
+    "_comment": "Mine Pick. The daily board holds 'boosterCount' SIMULATED openings, built from the real booster parameters: 'boosters.cardsPerBooster', the rarity table of each extension (which may override 'defaultRarity.json') and 'boosters.godpackChancePercent'. A simulated pack is therefore drawn exactly like an opened one. 'picksPerDay' free picks per UTC day (reset at midnight UTC, like the daily boosters), 'historySize' picks kept for the statistics. Extra picks cannot be bought: the purchase is disabled until the feature returns. The board is deterministic: it is seeded with 'seedSalt' + the UTC day + the account UUID, so a reload shows the same board, it changes at the next UTC day, and two accounts never share one (changing 'seedSalt' rebuilds the board of the CURRENT day, and the boosters already picked become stale). The extension of each booster is drawn at random with a weight of (rank + 1) ** 'setWeightExponent': the extension whose id ranks highest is the most likely.",
     "boosterCount": 10,
     "picksPerDay": 3,
-    "extraPickPriceSparks": 1000,
     "historySize": 10,
     "seedSalt": "minecards-mine-pick-v1",
     "setWeightExponent": 2
@@ -176,7 +176,10 @@
     "blocksPerDay": 50,
     "nextBlockDelayMs": 100,
     "keyHoldIntervalMs": 250,
-    "seedSalt": "minecards-mining-v1"
+    "seedSalt": "minecards-mining-v1",
+    "blocksPerBundle": 10,
+    "bundlePriceSparks": 50,
+    "monthlyBundleLimit": 10
   },
   "questGuide": {
     "_comment": "Guided navigation of the Illager quests (the \"Y aller\" button of the quest dialog, `App.guideToQuest()`). 'stepDelayMs' is the pause, in milliseconds, between two steps of a walkthrough (for example the profile, then the titles): it is what makes the route readable instead of a jump cut. It is only used while the \"Quête en tant que Tuto navigation\" account setting is on; the direct transfer ignores it. A missing, negative or non-numeric value falls back to the shipped default, so a bad edit can only change the pace, never break the route.",

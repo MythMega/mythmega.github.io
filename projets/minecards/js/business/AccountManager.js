@@ -66,6 +66,12 @@ export const USER_STATE_KEYS = Object.freeze({
   // each offer was bought (see `TraderManager`).
   TRADER: 'trader',
   ILLAGER_SHOP: 'illagerShop',
+  // Monthly allowance of the booster shop: the `YYYY-MM` month it belongs to and how many packs
+  // were bought in it (see `BoosterManager`). Kept in `user_state` so a `.save` carries it.
+  BOOSTER_SHOP: 'boosterShop',
+  // Monthly allowance of the block-bundle shop (see `MiningManager`): its own month and count, so
+  // buying boosters can never consume a bundle purchase or the other way round.
+  BUNDLE_SHOP: 'bundleShop',
   // Personal binders (see `BinderManager`). A single value: the array of binders, in creation
   // order. It lives in `user_state` rather than in a store of its own so that a `.save` export
   // carries it with no change to the save format.

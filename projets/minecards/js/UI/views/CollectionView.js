@@ -28,8 +28,9 @@
  *   other filter: the bar of the page carries no filter of its own any more.
  *
  * TRADING AND PROMOS
- *   A promo card is neither sellable nor buyable: the detail modal offers no trade button for one
- *   (it explains why instead), and `SparksManager` refuses the operation whatever the caller does.
+ *   A promo card is never BUYABLE, but its DUPLICATES are sellable for the fixed
+ *   `PROMO_SELL_PRICE` (10 Sparks, whatever the rarity); the last copy stays protected like any
+ *   other card. `SparksManager` enforces both rules whatever the caller does.
  *
  * DEVELOPER MODE
  *   When `settings["devMode"]` is on (`SettingsView`), the detail modal shows the collection key of
@@ -44,7 +45,7 @@ import cardLanguage from '../../utils/CardLanguage.js';
 import { DEFAULT_BINDER_SETTINGS } from '../../utils/ConfigLoader.js';
 import collectionManager from '../../business/CollectionManager.js';
 import accountManager from '../../business/AccountManager.js';
-import sparksManager, { PROMO_PROTECTED } from '../../business/SparksManager.js';
+import sparksManager, { PROMO_PROTECTED, PROMO_SELL_PRICE } from '../../business/SparksManager.js';
 import profileManager, {
   PROFILE_ERROR_CODES,
   getProfileErrorMessageKey,
@@ -1679,27 +1680,30 @@ export class CollectionView {
    * Selling is only offered from two owned copies (the last copy is never sellable); buying is
    * always offered for a catalog card. Prices come from `settings/config.json` (`sparks`).
    *
-   * A promo card is NOT part of the economy at all (it is neither sellable nor buyable): it gets
-   * the explanation note instead of the buttons, and `SparksManager` would refuse the trade anyway.
+   * A promo card cannot be bought. Its duplicates may be sold for the fixed `PROMO_SELL_PRICE`,
+   * so a promo with at least two copies gets the sale buttons and no purchase button; a promo owned
+   * once keeps the explanation note. `SparksManager` enforces both rules whatever the caller does.
    *
    * @param {object} entry - Collection entry.
    * @returns {Promise<HTMLElement|null>} The block, or null when the rarity/economy is unavailable.
    */
   async buildTradeActions(entry) {
-    // A promo card is out of the economy entirely: no wallet, no price, no button.
-    if (entry.promo) return this.buildPromoLockNote();
-
+    const promo = Boolean(entry.promo);
     const rarity = entry.rarity ?? entry.card?.rarity ?? null;
-    if (rarity === null) return null;
+    if (!promo && rarity === null) return null;
+    const quantity = entry.owned && Number.isFinite(entry.quantity) ? entry.quantity : 0;
+    if (promo && quantity < 2) return this.buildPromoLockNote();
 
     let balance = 0;
-    let sellPrice = 0;
+    let sellPrice = promo ? PROMO_SELL_PRICE : 0;
     let buyPrice = 0;
     try {
-      const prices = await sparksManager.getPrices();
-      sellPrice = prices.sellPrice[String(rarity)] ?? 0;
-      buyPrice = prices.buyPrice[String(rarity)] ?? 0;
       balance = await sparksManager.getBalance();
+      if (!promo) {
+        const prices = await sparksManager.getPrices();
+        sellPrice = prices.sellPrice[String(rarity)] ?? 0;
+        buyPrice = prices.buyPrice[String(rarity)] ?? 0;
+      }
     } catch (error) {
       console.warn('[CollectionView] The Sparks economy could not be read.', error);
       return null;
@@ -1726,7 +1730,6 @@ export class CollectionView {
     const actions = document.createElement('div');
     actions.className = 'collection-trade__actions';
 
-    const quantity = entry.owned && Number.isFinite(entry.quantity) ? entry.quantity : 0;
     if (quantity >= 2) {
       actions.appendChild(
         this.buildTradeButton({
@@ -1754,19 +1757,27 @@ export class CollectionView {
       );
     }
 
-    actions.appendChild(
-      this.buildTradeButton({
-        label: i18n.t('collection.trade.buyOne'),
-        ariaLabel: i18n.t('collection.trade.buyAria', { count: 1, sparks: buyPrice }),
-        amount: buyPrice,
-        tone: 'cost',
-        variant: 'primary',
-        disabled: !entry.card || balance < buyPrice,
-        onClick: () => void this.handleBuy(entry),
-      })
-    );
+    if (!promo) {
+      actions.appendChild(
+        this.buildTradeButton({
+          label: i18n.t('collection.trade.buyOne'),
+          ariaLabel: i18n.t('collection.trade.buyAria', { count: 1, sparks: buyPrice }),
+          amount: buyPrice,
+          tone: 'cost',
+          variant: 'primary',
+          disabled: !entry.card || balance < buyPrice,
+          onClick: () => void this.handleBuy(entry),
+        })
+      );
+    }
 
     container.append(wallet, actions);
+    if (promo) {
+      const note = document.createElement('p');
+      note.className = 'collection-trade__locked';
+      note.textContent = i18n.t('collection.trade.promoRule', { sparks: PROMO_SELL_PRICE });
+      container.appendChild(note);
+    }
     return container;
   }
 

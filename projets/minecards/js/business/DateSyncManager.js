@@ -20,7 +20,7 @@
  *
  * Storage (`user_state`):
  *   - `quota`      : { lastResetDay: "YYYY-MM-DD", dailyRemaining, bonusBoosters: { [setId]: n },
- *                    purchasedBoosters }
+ *                    purchasedBoosters, purchasedBySet: { [setId]: n } }
  *   - `timeAnchor` : { sessionId, apiUtcMs, perfNow, lastKnownUtcMs }
  *
  * TIME PROVIDERS (CORS)
@@ -34,11 +34,13 @@
  *   same-origin responses.
  *
  * Bonus boosters are granted per extension and are NEVER overwritten by the daily reset;
- * boosters bought with Sparks (`purchasedBoosters`) are global and survive the reset too - they
- * were paid for. `consumeBooster()` spends `dailyRemaining` first, then `bonusBoosters[setId]`,
- * then `purchasedBoosters`, so a free booster is never wasted on a purchase. `storeDailyBooster()`
- * goes the other way: it parks an expiring daily booster into the bonus bucket of one extension,
- * which is the only way to keep a pack the player cannot open before the next reset.
+ * boosters bought with Sparks survive the reset too - they were paid for. `purchasedBoosters` is
+ * the total, `purchasedBySet` the share attached to each extension by the shop. The difference is
+ * legacy, unassigned stock, still usable on every extension. `consumeBooster()` spends
+ * `dailyRemaining` first, then `bonusBoosters[setId]`, then the purchased stock available for that
+ * extension, so a free booster is never wasted on a purchase. `storeDailyBooster()` goes the other
+ * way: it parks an expiring daily booster into the bonus bucket of one extension, which is the only
+ * way to keep a pack the player cannot open before the next reset.
  */
 
 import { storageRepository, STORES } from '../models/StorageRepository.js';
@@ -158,7 +160,7 @@ export class DateSyncManager {
     this.timeTrusted = false;
 
     /**
-     * @type {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>, purchasedBoosters: number}|null}
+     * @type {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>, purchasedBoosters: number, purchasedBySet: Record<string, number>}|null}
      * In-memory mirror of `user_state["quota"]`, kept in sync with every write.
      */
     this.quota = null;
@@ -211,10 +213,10 @@ export class DateSyncManager {
    * Synchronous snapshot of the quota, for the header and the booster button.
    *
    * @param {string|null} [setId=null] - Extension to compute `availableForSet` for.
-   * @returns {{daily: number, bonusBySet: Record<string, number>, bonusTotal: number, purchased: number, availableForSet: number|null}}
-   *   The current quota (zeroes before the first `init()`). `purchased` counts the boosters bought
-   *   with Sparks, which are not attached to an extension and are therefore added to every
-   *   `availableForSet`.
+   * @returns {{daily: number, bonusBySet: Record<string, number>, bonusTotal: number, purchased: number, purchasedBySet: Record<string, number>, purchasedForSet: number|null, availableForSet: number|null}}
+   *   The current quota (zeroes before the first `init()`). `purchased` is the total bought with
+   *   Sparks, `purchasedBySet` the share attached to each extension. The difference is legacy,
+   *   unassigned stock and remains available on every extension.
    */
   getQuotaSnapshot(setId = null) {
     const quota = this.quota ?? {
@@ -222,18 +224,49 @@ export class DateSyncManager {
       dailyRemaining: 0,
       bonusBoosters: {},
       purchasedBoosters: 0,
+      purchasedBySet: {},
     };
     const bonusBoosters = { ...(quota.bonusBoosters ?? {}) };
+    const purchasedBySet = { ...(quota.purchasedBySet ?? {}) };
     const purchased = quota.purchasedBoosters ?? 0;
     const bonusTotal = Object.values(bonusBoosters).reduce((sum, value) => sum + value, 0);
+    const purchasedForSet = setId ? DateSyncManager.countPurchasedForSet(quota, setId) : null;
 
     return {
       daily: quota.dailyRemaining,
       bonusBySet: bonusBoosters,
       bonusTotal,
       purchased,
-      availableForSet: setId ? quota.dailyRemaining + (bonusBoosters[setId] ?? 0) + purchased : null,
+      purchasedBySet,
+      purchasedForSet,
+      availableForSet: setId
+        ? quota.dailyRemaining + (bonusBoosters[setId] ?? 0) + purchasedForSet
+        : null,
     };
+  }
+
+  /**
+   * Counts the purchased boosters a given extension may spend.
+   *
+   * It is the stock attached to that extension plus the legacy stock that was bought before the
+   * shop attached purchases to an extension (the difference between the total and the sum of the
+   * per-extension counts).
+   *
+   * @param {object|null} quota - Normalized quota.
+   * @param {string} setId - Extension id.
+   * @returns {number} The purchased boosters available for that extension.
+   */
+  static countPurchasedForSet(quota, setId) {
+    const total = Number.isInteger(quota?.purchasedBoosters) ? quota.purchasedBoosters : 0;
+    const bySet = quota?.purchasedBySet && typeof quota.purchasedBySet === 'object'
+      ? quota.purchasedBySet
+      : {};
+    const assigned = Object.values(bySet).reduce(
+      (sum, value) => sum + (Number.isInteger(value) && value > 0 ? value : 0),
+      0
+    );
+    const unassigned = Math.max(0, total - assigned);
+    return (bySet[setId] ?? 0) + unassigned;
   }
 
   /**
@@ -660,12 +693,13 @@ export class DateSyncManager {
    * Normalizes a raw quota payload, dropping corrupted values.
    *
    * @param {unknown} raw - Value read from `user_state["quota"]`.
-   * @returns {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>, purchasedBoosters: number}}
+   * @returns {{lastResetDay: string|null, dailyRemaining: number, bonusBoosters: Record<string, number>, purchasedBoosters: number, purchasedBySet: Record<string, number>}}
    *   A quota guaranteed to be usable by the rest of the application.
    */
   normalizeQuota(raw) {
     const source = raw && typeof raw === 'object' ? raw : {};
     const bonusBoosters = {};
+    const purchasedBySet = {};
 
     if (source.bonusBoosters && typeof source.bonusBoosters === 'object') {
       Object.entries(source.bonusBoosters).forEach(([setId, quantity]) => {
@@ -674,16 +708,27 @@ export class DateSyncManager {
         }
       });
     }
+    if (source.purchasedBySet && typeof source.purchasedBySet === 'object') {
+      Object.entries(source.purchasedBySet).forEach(([setId, quantity]) => {
+        if (Number.isInteger(quantity) && quantity > 0) {
+          purchasedBySet[setId] = quantity;
+        }
+      });
+    }
+
+    const assigned = Object.values(purchasedBySet).reduce((sum, quantity) => sum + quantity, 0);
+    const purchasedBoosters =
+      Number.isInteger(source.purchasedBoosters) && source.purchasedBoosters >= 0
+        ? Math.max(source.purchasedBoosters, assigned)
+        : assigned;
 
     return {
       lastResetDay: typeof source.lastResetDay === 'string' ? source.lastResetDay : null,
       dailyRemaining:
         Number.isInteger(source.dailyRemaining) && source.dailyRemaining >= 0 ? source.dailyRemaining : 0,
       bonusBoosters,
-      purchasedBoosters:
-        Number.isInteger(source.purchasedBoosters) && source.purchasedBoosters >= 0
-          ? source.purchasedBoosters
-          : 0,
+      purchasedBoosters,
+      purchasedBySet,
     };
   }
 
@@ -706,8 +751,8 @@ export class DateSyncManager {
    *   - `dailyRemaining` is set back to the configured allowance (3 by default);
    *   - `bonusBoosters` is spread as-is: bonuses granted by redeem codes and gifts are never
    *     overwritten by the reset;
-   *   - `purchasedBoosters` is spread as-is too: a booster bought with Sparks was paid for and is
-   *     not swallowed by the reset;
+   *   - `purchasedBoosters` and `purchasedBySet` are spread as-is too: a booster bought with Sparks
+   *     was paid for and is not swallowed by the reset;
    *   - a stored day located in the future (tampered state) is left untouched and logged once.
    *
    * @returns {Promise<boolean>} True when a reset was applied.
@@ -839,7 +884,13 @@ export class DateSyncManager {
       };
       const spendPurchased = () => {
         if ((quota.purchasedBoosters ?? 0) <= 0) return false;
+        const available = DateSyncManager.countPurchasedForSet(quota, key);
+        if (available <= 0) return false;
         quota.purchasedBoosters -= 1;
+        if ((quota.purchasedBySet[key] ?? 0) > 0) {
+          quota.purchasedBySet[key] -= 1;
+          if (quota.purchasedBySet[key] === 0) delete quota.purchasedBySet[key];
+        }
         return true;
       };
 
@@ -968,20 +1019,41 @@ export class DateSyncManager {
    *
    * @param {number} quantity - Number of boosters to credit (strictly positive integer).
    * @param {object} [context=null] - Optional `StorageRepository.transaction` context to join
-   *   instead of opening a new transaction. Used by `BoosterManager.buyExtraBooster()`, which
+   *   instead of opening a new transaction. Used by `BoosterManager.buyMonthlyBoosters()`, which
    *   debits the Sparks and credits the booster in ONE transaction: the caller owns the
    *   transaction and is responsible for refreshing the in-memory mirror afterwards.
+   * @param {string|null} [setId=null] - Extension the boosters are bought for, or null to leave
+   *   them in the legacy unassigned stock usable on every extension.
    * @returns {Promise<object>} The quota after the credit (a snapshot on the standalone path, the
    *   stored record on the shared-context path).
    * @throws {TypeError|RangeError} When `quantity` is not a strictly positive integer.
+   * @throws {RangeError} When `setId` is not a declared extension.
    * @throws {Error} When the transaction fails.
    */
-  async addPurchasedBoosters(quantity, context = null) {
+  async addPurchasedBoosters(quantity, context = null, setId = null) {
     const amount = this.assertPositiveInteger(quantity);
+    const key = setId === null ? null : this.assertKnownSet(setId);
+
+    /**
+     * Adds the amount to the total and, when a set was chosen, to that extension's stock.
+     *
+     * @param {object} quota - Normalized quota.
+     * @returns {object} The updated quota.
+     */
+    const credit = (quota) => {
+      const next = { ...quota, purchasedBoosters: (quota.purchasedBoosters ?? 0) + amount };
+      if (key) {
+        next.purchasedBySet = {
+          ...quota.purchasedBySet,
+          [key]: (quota.purchasedBySet?.[key] ?? 0) + amount,
+        };
+      }
+      return next;
+    };
 
     if (context) {
       const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
-      const next = { ...quota, purchasedBoosters: (quota.purchasedBoosters ?? 0) + amount };
+      const next = credit(quota);
       await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
       return next;
     }
@@ -992,14 +1064,14 @@ export class DateSyncManager {
       const quota = this.normalizeQuota(
         await transactionContext.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA)
       );
-      const next = { ...quota, purchasedBoosters: (quota.purchasedBoosters ?? 0) + amount };
+      const next = credit(quota);
       await transactionContext.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
       return next;
     });
 
     this.quota = updated;
-    this.emitQuotaUpdated(null);
-    return this.getQuotaSnapshot(null);
+    this.emitQuotaUpdated(key);
+    return this.getQuotaSnapshot(key);
   }
 
   /**

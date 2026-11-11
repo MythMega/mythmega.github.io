@@ -2,6 +2,9 @@
 useritem_codes.csv
 generate_useritem_code.py
 
+# Local-only admin pages: they must never be published.
+admin/codes.html
+
 # Python caches
 __pycache__/
 *.pyc

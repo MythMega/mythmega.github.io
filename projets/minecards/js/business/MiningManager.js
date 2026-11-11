@@ -10,8 +10,10 @@
  *   and breaking it takes as many taps as its `Hardness`. Every tap cracks the block a little more
  *   (the `Cracks` table maps a break percentage to a crack texture), and the tap that breaks it
  *   yields the loot of the block: ALWAYS its own dust (or its ultima), and sometimes Sparks.
- *   `blocksPerDay` (10) blocks per UTC day, reset at midnight UTC exactly like the daily boosters
- *   and the Mine Pick.
+ *   `blocksPerDay` blocks per UTC day, reset at midnight UTC exactly like the daily boosters and
+ *   the Mine Pick. A block bundle is a consumable that adds `blocksPerBundle` extra blocks once
+ *   the daily allowance is empty. Those paid blocks survive the daily reset and are mined after the
+ *   daily ones.
  *
  * THE ORDER OF THE DAY IS DETERMINISTIC
  *   The nth block of the day comes from `seedSalt` + the UTC day + the account UUID + n, through the
@@ -29,7 +31,10 @@
  *   `resources`                   : how much of each resource was harvested (`stone_dust`, …);
  *   `blocksMined`                 : the dedicated statistics block - one counter PER BLOCK KIND;
  *   `totalMined` / `sparksFound`  : how many blocks were broken and how many Sparks they gave since
- *                                   the account was created.
+ *                                   the account was created;
+ *   `bundles`                     : block bundles owned and not used yet;
+ *   `bundleBlocks`                : blocks already paid for by a used bundle, spent after the daily
+ *                                   allowance and preserved across the daily reset.
  *
  * A broken block is committed in ONE transaction (the mining state and the Sparks balance, both in
  * `user_state`), so a failure can never consume the tap without granting the loot. The daily
@@ -63,6 +68,9 @@ export const RESOURCE_TEXTURE_DIRECTORY = 'assets/img/dusts';
 /** Texture of the Sparks. */
 export const SPARKS_TEXTURE = 'assets/img/sparks.png';
 
+/** Texture of a block bundle, shared by the mine, the shop and the reward readers. */
+export const BUNDLE_TEXTURE = 'assets/img/bundle.png';
+
 /** Directory of the mining sounds (`<blockId>.mine.mp3` / `<blockId>.break.mp3`). */
 export const BLOCK_SOUND_DIRECTORY = 'assets/sound/blocks';
 
@@ -71,6 +79,14 @@ export const MINING_ERRORS = Object.freeze({
   NO_BLOCK: 'NO_BLOCK',
   NO_BLOCK_CONFIGURED: 'NO_BLOCK_CONFIGURED',
   INSUFFICIENT_RESOURCES: 'INSUFFICIENT_RESOURCES',
+  NO_BUNDLE: 'NO_BUNDLE',
+  BLOCKS_REMAINING: 'BLOCKS_REMAINING',
+});
+
+/** Error codes of the monthly block-bundle shop. */
+export const BUNDLE_SHOP_ERRORS = Object.freeze({
+  MONTHLY_LIMIT_REACHED: 'MONTHLY_LIMIT_REACHED',
+  CLOCK_UNAVAILABLE: 'CLOCK_UNAVAILABLE',
 });
 
 /** i18n keys of the error codes, so a view never invents its own message. */
@@ -78,6 +94,8 @@ const ERROR_MESSAGE_KEYS = Object.freeze({
   [MINING_ERRORS.NO_BLOCK]: 'mineblock.error.empty',
   [MINING_ERRORS.NO_BLOCK_CONFIGURED]: 'mineblock.error.load',
   [MINING_ERRORS.INSUFFICIENT_RESOURCES]: 'mineblock.error.resources',
+  [MINING_ERRORS.NO_BUNDLE]: 'mineblock.bundle.none',
+  [MINING_ERRORS.BLOCKS_REMAINING]: 'mineblock.bundle.blocksRemaining',
 });
 
 /**
@@ -135,6 +153,19 @@ export class MiningError extends Error {
   constructor(code, message) {
     super(message);
     this.name = 'MiningError';
+    this.code = code;
+  }
+}
+
+/** Raised by the bundle shop when a purchase cannot be made, with a stable `code`. */
+export class BundleShopError extends Error {
+  /**
+   * @param {string} code - One of `BUNDLE_SHOP_ERRORS`.
+   * @param {string} message - Technical message (the UI shows a translated one).
+   */
+  constructor(code, message) {
+    super(message);
+    this.name = 'BundleShopError';
     this.code = code;
   }
 }
@@ -431,10 +462,11 @@ export class MiningManager {
    * @param {object} [options] - Read options.
    * @param {string} [options.lang='fr'] - Language used to resolve the name of the block.
    * @returns {Promise<{day: string|null, blocksPerDay: number, lastResetDay: string|null,
-   *   minedToday: number, remaining: number, clicks: number, progress: number,
-   *   block: object|null, resources: Record<string, number>, blocksMined: Record<string, number>,
-   *   totalMined: number, sparksFound: number}>} The effective state. `block` is null once every
-   *   block of the day was mined.
+   *   minedToday: number, dailyRemaining: number, bundleBlocks: number, bundles: number,
+   *   remaining: number, clicks: number, progress: number, block: object|null,
+   *   resources: Record<string, number>, blocksMined: Record<string, number>, totalMined: number,
+   *   sparksFound: number}>} The effective state. `block` is null once every daily and bonus block
+   *   was mined.
    * @throws {Error} When the read or the rules fail.
    */
   async getState({ lang = 'fr' } = {}) {
@@ -445,17 +477,9 @@ export class MiningManager {
     );
 
     const day = this.getDay();
-    const rolledOver =
-      Boolean(day) &&
-      dateSyncManager.isTimeTrusted() &&
-      stored.lastResetDay !== day &&
-      !(stored.lastResetDay && stored.lastResetDay > day);
-
-    const current = rolledOver
-      ? { ...stored, lastResetDay: day, minedToday: 0, clicks: 0 }
-      : stored;
-
-    const remaining = Math.max(0, blocksPerDay - current.minedToday);
+    const current = this.resolveCurrentState(stored);
+    const dailyRemaining = Math.max(0, blocksPerDay - current.minedToday);
+    const remaining = dailyRemaining + current.bundleBlocks;
     const block = remaining > 0 ? this.getBlockForIndex(current.minedToday) : null;
     // The number of taps landed is clamped to one short of the hardness: a hand-edited save can make
     // a block easier to break, never a block that breaks without being touched.
@@ -466,6 +490,9 @@ export class MiningManager {
       blocksPerDay,
       lastResetDay: current.lastResetDay,
       minedToday: current.minedToday,
+      dailyRemaining,
+      bundleBlocks: current.bundleBlocks,
+      bundles: current.bundles,
       remaining,
       clicks,
       progress: block ? MiningManager.percentOf(clicks, block.hardness) : 0,
@@ -478,6 +505,22 @@ export class MiningManager {
   }
 
   /**
+   * Applies the daily rollover to a stored state, without writing anything.
+   *
+   * @param {object} stored - Normalized stored state.
+   * @returns {object} The state of the current day.
+   */
+  resolveCurrentState(stored) {
+    const day = this.getDay();
+    const rolledOver =
+      Boolean(day) &&
+      dateSyncManager.isTimeTrusted() &&
+      stored.lastResetDay !== day &&
+      !(stored.lastResetDay && stored.lastResetDay > day);
+    return rolledOver ? { ...stored, lastResetDay: day, minedToday: 0, clicks: 0 } : stored;
+  }
+
+  /**
    * Normalizes a raw stored state.
    *
    * Anything absent, negative or malformed is read as its default, so an imported save from a
@@ -486,7 +529,7 @@ export class MiningManager {
    * @param {unknown} raw - Value read from `user_state["mining"]`.
    * @returns {{lastResetDay: string|null, minedToday: number, clicks: number,
    *   resources: Record<string, number>, blocksMined: Record<string, number>, totalMined: number,
-   *   sparksFound: number}} The normalized state.
+   *   sparksFound: number, bundles: number, bundleBlocks: number}} The normalized state.
    */
   normalizeState(raw) {
     const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -498,6 +541,8 @@ export class MiningManager {
       blocksMined: MiningManager.normalizeCounters(source.blocksMined),
       totalMined: MiningManager.normalizeCounter(source.totalMined),
       sparksFound: MiningManager.normalizeCounter(source.sparksFound),
+      bundles: MiningManager.normalizeCounter(source.bundles),
+      bundleBlocks: MiningManager.normalizeCounter(source.bundleBlocks),
     };
   }
 
@@ -650,8 +695,15 @@ export class MiningManager {
     const hardness = source.hardness;
     const clicks = state.clicks + 1;
     const percent = MiningManager.percentOf(clicks, hardness);
+    // The daily allowance is spent first. Once it is empty, the block comes from the paid bundle
+    // blocks, which are consumed one by one and survive the daily reset until they are used.
+    const usesBundleBlock = state.dailyRemaining <= 0;
+    const bundleBlocks = usesBundleBlock
+      ? Math.max(0, state.bundleBlocks - 1)
+      : state.bundleBlocks;
+    const remaining = Math.max(0, state.blocksPerDay - (state.minedToday + 1)) + bundleBlocks;
     const nextBlock =
-      state.minedToday + 1 < state.blocksPerDay
+      remaining > 0
         ? this.describe(this.getBlockForIndex(state.minedToday + 1), lang)
         : null;
 
@@ -680,6 +732,7 @@ export class MiningManager {
         nextBlock,
         minedToday: state.minedToday,
         remaining: state.remaining,
+        bundleBlocks: state.bundleBlocks,
         resources: state.resources,
         blocksMined: state.blocksMined,
         totalMined: state.totalMined,
@@ -713,6 +766,8 @@ export class MiningManager {
       blocksMined,
       totalMined,
       sparksFound,
+      bundles: state.bundles,
+      bundleBlocks,
     };
 
     let balance = null;
@@ -726,13 +781,13 @@ export class MiningManager {
     if (sparks > 0) {
       eventBus.emit(EVENTS.SPARKS_UPDATED, { balance });
     }
-    const remaining = Math.max(0, state.blocksPerDay - minedToday);
     eventBus.emit(EVENTS.MINING_UPDATED, {
       day: state.day,
       minedToday,
       remaining,
       blocksPerDay: state.blocksPerDay,
       totalMined,
+      bundles: state.bundles,
     });
     this.log(
       `"${source.id}" broken: ${rewards.map((reward) => `${reward.amount} ${reward.type}`).join(', ') || 'no reward'} (block ${minedToday}/${state.blocksPerDay}).`
@@ -751,6 +806,7 @@ export class MiningManager {
       nextBlock,
       minedToday,
       remaining,
+      bundleBlocks,
       resources,
       blocksMined,
       totalMined,
@@ -867,6 +923,258 @@ export class MiningManager {
   }
 
   /**
+   * Normalizes the stored monthly bundle-shop allowance.
+   *
+   * @param {unknown} raw - Value read from `user_state["bundleShop"]`.
+   * @returns {{month: string|null, purchased: number}} A state safe to use.
+   */
+  static normalizeBundleShopState(raw) {
+    const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+    return {
+      month: typeof source.month === 'string' && /^\d{4}-\d{2}$/.test(source.month)
+        ? source.month
+        : null,
+      purchased: MiningManager.normalizeCounter(source.purchased),
+    };
+  }
+
+  /**
+   * Reads the monthly bundle shop, the owned bundles and the Sparks balance.
+   *
+   * @returns {Promise<{month: string|null, purchased: number, remaining: number, limit: number,
+   *   unitPrice: number, blocksPerBundle: number, owned: number, balance: number,
+   *   canBuy: boolean}>} The shop state.
+   * @throws {Error} When the settings or the save cannot be read.
+   */
+  async getBundleShopState() {
+    await this.init();
+    const [balance, rawShop, rawMining] = await Promise.all([
+      sparksManager.getBalance(),
+      storageRepository.getUserState(USER_STATE_KEYS.BUNDLE_SHOP),
+      storageRepository.getUserState(USER_STATE_KEYS.MINING),
+    ]);
+    const month = dateSyncManager.getCurrentUtcDay()?.slice(0, 7) ?? null;
+    const shop = MiningManager.normalizeBundleShopState(rawShop);
+    const limit = this.settings.monthlyBundleLimit;
+    const purchased = month && shop.month === month ? Math.min(shop.purchased, limit) : 0;
+    const remaining = Math.max(0, limit - purchased);
+
+    return {
+      month,
+      purchased,
+      remaining,
+      limit,
+      unitPrice: this.settings.bundlePriceSparks,
+      blocksPerBundle: this.settings.blocksPerBundle,
+      owned: this.normalizeState(rawMining).bundles,
+      balance,
+      canBuy: Boolean(month) && remaining > 0,
+    };
+  }
+
+  /**
+   * Buys block bundles with Sparks, within the monthly allowance.
+   *
+   * The allowance, the debit and the bundle credit are written in ONE transaction, so a refused
+   * purchase can never take Sparks without giving the bundles. The monthly counter is stored in
+   * `user_state["bundleShop"]`, separate from the booster shop: the two allowances never consume
+   * each other.
+   *
+   * @param {number} [quantity=1] - Number of bundles to buy (strictly positive integer).
+   * @returns {Promise<{quantity: number, unitPrice: number, total: number, balance: number,
+   *   purchased: number, remaining: number, owned: number, month: string}>} The purchase.
+   * @throws {TypeError} When the quantity is not a positive integer.
+   * @throws {BundleShopError} With `MONTHLY_LIMIT_REACHED` or `CLOCK_UNAVAILABLE`.
+   * @throws {Error} When the transaction fails, including an insufficient Sparks balance.
+   */
+  async buyMonthlyBundles(quantity = 1) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new TypeError(
+        `buyMonthlyBundles expects a positive integer (received: ${JSON.stringify(quantity)}).`
+      );
+    }
+
+    await this.init();
+    const day = dateSyncManager.getCurrentUtcDay();
+    if (!day) {
+      throw new BundleShopError(
+        BUNDLE_SHOP_ERRORS.CLOCK_UNAVAILABLE,
+        'The trusted UTC day is unavailable: the bundle allowance cannot be read.'
+      );
+    }
+
+    const month = day.slice(0, 7);
+    const limit = this.settings.monthlyBundleLimit;
+    const unitPrice = this.settings.bundlePriceSparks;
+    const total = unitPrice * quantity;
+    let balance = 0;
+
+    const purchased = await storageRepository.transaction(
+      STORES.USER_STATE,
+      'readwrite',
+      async (context) => {
+        const shop = MiningManager.normalizeBundleShopState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.BUNDLE_SHOP)
+        );
+        const currentPurchased = shop.month === month ? shop.purchased : 0;
+        if (currentPurchased + quantity > limit) {
+          throw new BundleShopError(
+            BUNDLE_SHOP_ERRORS.MONTHLY_LIMIT_REACHED,
+            `The monthly bundle allowance (${limit}) cannot cover ${currentPurchased + quantity}.`
+          );
+        }
+
+        balance = await sparksManager.applyDelta(context, -total, SPARKS_SOURCES.BUNDLE);
+        const mining = this.normalizeState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+        );
+        await context.put(
+          STORES.USER_STATE,
+          { ...mining, bundles: mining.bundles + quantity },
+          USER_STATE_KEYS.MINING
+        );
+        await context.put(
+          STORES.USER_STATE,
+          { month, purchased: currentPurchased + quantity },
+          USER_STATE_KEYS.BUNDLE_SHOP
+        );
+        return currentPurchased + quantity;
+      }
+    );
+
+    eventBus.emit(EVENTS.SPARKS_UPDATED, { balance });
+    const state = await this.getState();
+    eventBus.emit(EVENTS.MINING_UPDATED, {
+      day: state.day,
+      minedToday: state.minedToday,
+      remaining: state.remaining,
+      blocksPerDay: state.blocksPerDay,
+      totalMined: state.totalMined,
+      bundles: state.bundles,
+    });
+    this.log(
+      `${quantity} block bundle(s) bought for ${total} Sparks (${purchased}/${limit} in ${month}, balance: ${balance}).`
+    );
+
+    return {
+      quantity,
+      unitPrice,
+      total,
+      balance,
+      purchased,
+      remaining: Math.max(0, limit - purchased),
+      owned: state.bundles,
+      month,
+    };
+  }
+
+  /**
+   * Adds block bundles to the inventory, in ONE read-modify-write.
+   *
+   * @param {number} quantity - Number of bundles to grant (strictly positive integer).
+   * @param {object|null} [context=null] - Transaction context to join.
+   * @returns {Promise<number>} The number of bundles owned after the grant.
+   * @throws {TypeError} When the quantity is not a positive integer.
+   * @throws {Error} When the write fails.
+   */
+  async grantBundles(quantity, context = null) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new TypeError(`grantBundles expects a positive integer (received: ${JSON.stringify(quantity)}).`);
+    }
+
+    /**
+     * Applies the grant inside a transaction.
+     *
+     * @param {object} activeContext - Open transaction context.
+     * @returns {Promise<number>} The owned bundles.
+     */
+    const apply = async (activeContext) => {
+      const stored = this.normalizeState(
+        await activeContext.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+      );
+      const bundles = stored.bundles + quantity;
+      await activeContext.put(
+        STORES.USER_STATE,
+        { ...stored, bundles },
+        USER_STATE_KEYS.MINING
+      );
+      return bundles;
+    };
+
+    if (context) return apply(context);
+
+    const bundles = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', apply);
+    const state = await this.getState();
+    eventBus.emit(EVENTS.MINING_UPDATED, {
+      day: state.day,
+      minedToday: state.minedToday,
+      remaining: state.remaining,
+      blocksPerDay: state.blocksPerDay,
+      totalMined: state.totalMined,
+      bundles: state.bundles,
+    });
+    return bundles;
+  }
+
+  /**
+   * Uses one block bundle when the mine has no block left.
+   *
+   * The bundle is consumed and its blocks are added to `bundleBlocks` in one transaction. Those
+   * blocks are spent after the daily allowance and survive the daily reset: a bundle already paid
+   * for is never lost. Using one while a block is still available is refused.
+   *
+   * @returns {Promise<{blocksAdded: number, bundles: number, state: object}>} The recharge result.
+   * @throws {MiningError} With `BLOCKS_REMAINING` or `NO_BUNDLE`.
+   * @throws {Error} When the write fails.
+   */
+  async useBundle() {
+    await this.init();
+    const { blocksPerBundle } = this.settings;
+
+    const result = await storageRepository.transaction(
+      STORES.USER_STATE,
+      'readwrite',
+      async (context) => {
+        const stored = this.normalizeState(
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
+        );
+        const current = this.resolveCurrentState(stored);
+        const dailyRemaining = Math.max(0, this.settings.blocksPerDay - current.minedToday);
+        if (dailyRemaining + current.bundleBlocks > 0) {
+          throw new MiningError(
+            MINING_ERRORS.BLOCKS_REMAINING,
+            'A bundle can only be used once every available block was mined.'
+          );
+        }
+        if (current.bundles <= 0) {
+          throw new MiningError(MINING_ERRORS.NO_BUNDLE, 'The account owns no block bundle.');
+        }
+
+        const next = {
+          ...current,
+          bundles: current.bundles - 1,
+          bundleBlocks: current.bundleBlocks + blocksPerBundle,
+        };
+        await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.MINING);
+        return { bundles: next.bundles, bundleBlocks: next.bundleBlocks };
+      }
+    );
+
+    const state = await this.getState();
+    eventBus.emit(EVENTS.MINING_UPDATED, {
+      day: state.day,
+      minedToday: state.minedToday,
+      remaining: state.remaining,
+      blocksPerDay: state.blocksPerDay,
+      totalMined: state.totalMined,
+      bundles: state.bundles,
+    });
+    this.log(`Bundle used: +${blocksPerBundle} block(s), ${result.bundles} bundle(s) left.`);
+
+    return { blocksAdded: blocksPerBundle, bundles: result.bundles, state };
+  }
+
+  /**
    * Exchanges one harvested resource for another, in ONE read-modify-write.
    *
    * This is what the daily trades of the Wandering Trader are made of (`TraderManager.trades`): the
@@ -951,6 +1259,8 @@ export class MiningManager {
           blocksMined: state.blocksMined,
           totalMined: state.totalMined,
           sparksFound: state.sparksFound,
+          bundles: state.bundles ?? 0,
+          bundleBlocks: state.bundleBlocks ?? 0,
         },
         USER_STATE_KEYS.MINING
       );

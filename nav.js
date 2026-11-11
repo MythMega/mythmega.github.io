@@ -230,7 +230,7 @@
           <a class="nav-link dropdown-toggle" href="#" role="button"
              data-bs-toggle="dropdown" aria-expanded="false">Jeux</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="./projets/minecard/index.html">Minecards</a></li>
+            <li><a class="dropdown-item" href="./projets/minecards/index.html">Minecards</a></li>
             <li><a class="dropdown-item" href="./pokedexLive/main.html">Streamdex</a></li>
             <li><a class="dropdown-item" href="./projets/sudomew/index.html">Sudomeow</a></li>
             <li><hr class="dropdown-divider"></li>

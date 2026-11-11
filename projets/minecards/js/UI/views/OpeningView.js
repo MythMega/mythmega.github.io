@@ -146,6 +146,11 @@ export class OpeningView {
     this.summaryGrid = this.root.querySelector('[data-card-summary]');
     this.summaryElement = this.root.querySelector('[data-opening-summary]');
     this.actionsElement = this.root.querySelector('[data-opening-actions]');
+    this.actionsMore = this.root.querySelector('[data-opening-actions-more]');
+    this.actionsToggle = this.root.querySelector('[data-opening-actions-toggle]');
+    this.actionsMenu = this.root.querySelector('[data-opening-actions-menu]');
+    /** @type {number|null} Pending end of the closing animation of the "+" menu. */
+    this.actionsMenuCloseTimer = null;
     this.copyCodeButton = this.root.querySelector('[data-opening-copy-code]');
     this.shareButton = this.root.querySelector('[data-opening-share]');
     this.saveButton = this.root.querySelector('[data-opening-save]');
@@ -302,6 +307,9 @@ export class OpeningView {
       ['[data-opening-store-sets]', this.storeSets],
       ['[data-opening-copy-code]', this.copyCodeButton],
       ['[data-opening-share]', this.shareButton],
+      ['[data-opening-actions-more]', this.actionsMore],
+      ['[data-opening-actions-toggle]', this.actionsToggle],
+      ['[data-opening-actions-menu]', this.actionsMenu],
       ['[data-opening-finish]', this.finishButton],
       ['[data-booster-3d]', this.boosterContainer],
       ['[data-booster-fallback]', this.boosterFallback],
@@ -456,7 +464,29 @@ export class OpeningView {
     this.listen(this.openButton, 'click', () => this.handleOpenClick());
     this.listen(this.openManyButton, 'click', () => this.handleOpenManyClick());
     if (this.saveButton) {
-      this.listen(this.saveButton, 'click', () => void this.saveCurrentOpening());
+      this.listen(this.saveButton, 'click', () => {
+        this.closeActionsMenu();
+        void this.saveCurrentOpening();
+      });
+    }
+    if (this.actionsToggle) {
+      this.listen(this.actionsToggle, 'click', () => this.toggleActionsMenu());
+      // A click anywhere else closes the menu; a click inside it is left to the button itself (the
+      // menu is above the toggle, so it cannot be mistaken for the toggle).
+      this.listen(document, 'pointerdown', (event) => {
+        if (this.actionsMenu.hidden) return;
+        if (this.actionsMore.contains(event.target)) return;
+        this.closeActionsMenu();
+      });
+      this.listen(document, 'keydown', (event) => {
+        if (event.key !== 'Escape' || this.actionsMenu.hidden) return;
+        event.preventDefault();
+        this.closeActionsMenu(true);
+      });
+      // Scrolling the summary slides the menu away from its "+": close it rather than leave it
+      // floating over the cards. The focus of the first action is taken without scrolling (see
+      // `toggleActionsMenu`), so this listener only ever sees a real scroll of the page.
+      this.listen(window, 'scroll', () => this.closeActionsMenu(), { passive: true });
     }
     if (this.countModal) {
       this.listen(this.countModal, 'click', (event) => {
@@ -479,8 +509,14 @@ export class OpeningView {
     });
     this.listen(this.buyButton, 'click', () => this.handleBuyExtraBooster());
     this.listen(this.boosterFallback, 'click', (event) => this.handleFallbackClick(event));
-    this.listen(this.copyCodeButton, 'click', () => this.handleCopyBoosterCode());
-    this.listen(this.shareButton, 'click', () => this.handleShareOpening());
+    this.listen(this.copyCodeButton, 'click', () => {
+      this.closeActionsMenu();
+      this.handleCopyBoosterCode();
+    });
+    this.listen(this.shareButton, 'click', () => {
+      this.closeActionsMenu();
+      this.handleShareOpening();
+    });
     this.listen(this.finishButton, 'click', () => this.finish());
     this.listen(this.prevButton, 'click', () => this.showPreviousCard());
     this.listen(this.nextButton, 'click', () => this.handleNextAction());
@@ -613,6 +649,7 @@ export class OpeningView {
     if (this.summaryGrid) this.summaryGrid.hidden = !showSummary;
     if (this.revealHint) this.revealHint.hidden = !showSpotlight;
     if (this.actionsElement) this.actionsElement.hidden = !showSummary;
+    if (!showSummary) this.closeActionsMenu();
     this.revealContainer.hidden = !showSummary;
     this.revealStage = subStage === 'booster' ? 'idle' : subStage;
     this.updateBatchCounter();
@@ -2374,6 +2411,7 @@ export class OpeningView {
     if (this.copyCodeButton) this.copyCodeButton.hidden = !canShare;
     if (this.shareButton) this.shareButton.hidden = !canShare;
     void this.refreshSaveButton();
+    this.updateActionsToggle();
     this.showSceneSubStage('summary');
     this.log('Summary displayed: 5 cards, tap one for its detail.');
   }
@@ -2881,6 +2919,106 @@ export class OpeningView {
   }
 
   /**
+   * Opens or closes the "+" menu of the summary actions.
+   *
+   * The menu is only worth opening when at least one of its three buttons can act: a replay and a
+   * batch hide save, copy and share, so the toggle is hidden instead (see `updateActionsToggle`).
+   * Opening moves the focus to the first available action, which keeps the menu usable with the
+   * keyboard; closing is left to `closeActionsMenu`.
+   *
+   * @returns {void}
+   */
+  toggleActionsMenu() {
+    if (!this.actionsMenu || !this.actionsToggle) return;
+    if (!this.actionsMenu.hidden && !this.actionsMenu.classList.contains('is-closing')) {
+      this.closeActionsMenu(true);
+      return;
+    }
+    if (!this.hasVisibleActions()) return;
+    // A click during the closing animation simply reopens the menu: cancel the pending hide and
+    // restart the entrance, instead of leaving a half-faded menu on screen.
+    if (this.actionsMenuCloseTimer !== null) {
+      window.clearTimeout(this.actionsMenuCloseTimer);
+      this.actionsMenuCloseTimer = null;
+    }
+    this.actionsMenu.classList.remove('is-closing');
+    this.actionsMenu.hidden = false;
+    this.actionsToggle.setAttribute('aria-expanded', 'true');
+    const first = Array.from(this.actionsMenu.querySelectorAll('.btn')).find((button) => !button.hidden);
+    // `preventScroll`: focusing the first action must not scroll the summary, which would close the
+    // menu on its own through the scroll listener.
+    first?.focus({ preventScroll: true });
+  }
+
+  /**
+   * Closes the "+" menu without touching the actions it contains.
+   *
+   * The menu is faded out first and hidden once the animation is over, so it does not blink away.
+   * A player who asked for reduced motion gets the immediate hide instead. Calling this while the
+   * menu is already leaving only updates the state, never starts a second timer.
+   *
+   * @param {boolean} [restoreFocus=false] - Whether the toggle must take the focus back (Escape).
+   * @returns {void}
+   */
+  closeActionsMenu(restoreFocus = false) {
+    if (!this.actionsMenu || this.actionsMenu.hidden) return;
+    this.actionsToggle?.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) this.actionsToggle?.focus();
+    if (this.actionsMenu.classList.contains('is-closing')) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      this.finishCloseActionsMenu();
+      return;
+    }
+    this.actionsMenu.classList.add('is-closing');
+    // A touch over the animation duration: even if `animationend` is throttled or skipped, the menu
+    // never stays on screen without its toggle.
+    this.actionsMenuCloseTimer = window.setTimeout(() => this.finishCloseActionsMenu(), 180);
+  }
+
+  /**
+   * Hides the "+" menu once its closing animation is over.
+   *
+   * @returns {void}
+   */
+  finishCloseActionsMenu() {
+    if (this.actionsMenuCloseTimer !== null) {
+      window.clearTimeout(this.actionsMenuCloseTimer);
+      this.actionsMenuCloseTimer = null;
+    }
+    if (!this.actionsMenu) return;
+    this.actionsMenu.hidden = true;
+    this.actionsMenu.classList.remove('is-closing');
+    this.actionsToggle?.setAttribute('aria-expanded', 'false');
+  }
+
+  /**
+   * Whether the summary has at least one secondary action to offer.
+   *
+   * @returns {boolean} True when save, copy or share is visible.
+   */
+  hasVisibleActions() {
+    return [this.saveButton, this.copyCodeButton, this.shareButton].some(
+      (button) => button && !button.hidden,
+    );
+  }
+
+  /**
+   * Shows the "+" only when it has something to open.
+   *
+   * Called wherever one of the three buttons appears or disappears: a replay or a batch hides them
+   * all, and a lone finish button is clearer than an empty menu.
+   *
+   * @returns {void}
+   */
+  updateActionsToggle() {
+    if (!this.actionsMore) return;
+    const hasActions = this.hasVisibleActions();
+    this.actionsMore.hidden = !hasActions;
+    // The toggle is gone with its group: there is nothing left to animate out.
+    if (!hasActions) this.finishCloseActionsMenu();
+  }
+
+  /**
    * Shows, hides and arms the "save this opening" button of the summary.
    *
    * A batch and a replay have nothing to save as one pack: the first would need one slot per pack,
@@ -2890,14 +3028,19 @@ export class OpeningView {
    * @returns {Promise<void>} Resolves once the button is up to date.
    */
   async refreshSaveButton() {
-    if (!this.saveButton) return;
+    if (!this.saveButton) {
+      this.updateActionsToggle();
+      return;
+    }
     const result = this.pendingResult;
     const single = Boolean(result) && this.batchPacks.length <= 1 && !this.isReplay;
     if (!single) {
       this.saveButton.hidden = true;
+      this.updateActionsToggle();
       return;
     }
     this.saveButton.hidden = false;
+    this.updateActionsToggle();
     this.saveButton.title = '';
     this.saveButton.textContent = i18n.t('opening.save');
     if (this.savedResult === result) {
@@ -3009,6 +3152,7 @@ export class OpeningView {
    * @returns {void}
    */
   finish() {
+    this.closeActionsMenu();
     this.log('Finishing the reveal (no write, the pack was already persisted).');
     if (!this.isReplay) this.announceRevealFinished();
     this.closeSourceModal();
@@ -3169,6 +3313,7 @@ export class OpeningView {
    */
   destroy() {
     this.log('Destroying the view.');
+    this.finishCloseActionsMenu();
     setFocusMode(false);
     this.cancelIdleDispose();
     this.disposeRenderer();

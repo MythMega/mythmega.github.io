@@ -939,6 +939,16 @@ export class DailyRewardManager {
           );
         }
 
+        // One claim is one day of connection: the counter of the global trophy lives with the
+        // claim, so it can never be incremented twice for the same day.
+        const storedStats = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+        const stats = storedStats && typeof storedStats === 'object' ? { ...storedStats } : {};
+        stats.daysConnected =
+          (Number.isInteger(stats.daysConnected) && stats.daysConnected >= 0
+            ? stats.daysConnected
+            : 0) + 1;
+        await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
+
         const claimedUniques = entry.unique && entry.uniqueId && !uniqueConsumed
           ? [...base.claimedUniques, entry.uniqueId]
           : base.claimedUniques;

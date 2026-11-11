@@ -15,8 +15,11 @@
  *                   boosterRenderMode, nativeScrollbars }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, godpacksOpened, boostersOpenedBySet, drawsByRarity,
- *                   drawsByCard, soldByRarity, sparksEarned, sparksSpent,
- *                   sparksEarnedBySource, sparksSpentBySource }
+ *                   drawsByCard, soldByRarity, questsCompleted, daysConnected, cardsSold,
+ *                   sparksEarned, sparksSpent, sparksEarnedBySource, sparksSpentBySource }
+ *     `questsCompleted`, `daysConnected` and `cardsSold` are created retroactively on boot from
+ *     `illagerQuests`, `dailyRewards` and `soldByRarity` for a save written before they existed
+ *     (see `ensureStatistics()`).
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
  *   - `sparks`    : number (starting balance of the Sparks currency)
  *   - `profile`   : { name, photo, favorites, featured } (created at the first boot, see
@@ -38,6 +41,7 @@ import glowManager from '../utils/GlowManager.js';
 import foilManager from '../utils/FoilManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import { DEFAULT_SOUND_CATEGORIES, SoundManager } from '../utils/SoundManager.js';
+import { ILLAGER_QUESTS_STATE_KEY, countClaimedQuests } from './IllagerQuestState.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
 export const USER_STATE_KEYS = Object.freeze({
@@ -156,7 +160,8 @@ export function buildDefaultQuota(dailyFreeBoosters = 3) {
  * copies obtained: the two counters answer different questions and must not be merged.
  *
  * @returns {{boostersOpened: number, godpacksOpened: number, drawsByRarity: Record<string, number>,
- *   drawsByCard: Record<string, number>, soldByRarity: Record<string, number>, sparksEarned: number,
+ *   drawsByCard: Record<string, number>, soldByRarity: Record<string, number>, questsCompleted: number,
+ *   daysConnected: number, cardsSold: number, sparksEarned: number,
  *   sparksSpent: number, sparksEarnedBySource: Record<string, number>,
  *   sparksSpentBySource: Record<string, number>}}
  *   A fresh statistics state with every rarity initialized to zero.
@@ -168,6 +173,11 @@ export function buildDefaultStats() {
     drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
     drawsByCard: {},
     soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+    // Account-wide counters added after the first saves: `ensureStatistics()` fills them once
+    // from the quests, the daily rewards and the sales already recorded.
+    questsCompleted: 0,
+    daysConnected: 0,
+    cardsSold: 0,
     sparksEarned: 0,
     sparksSpent: 0,
     sparksEarnedBySource: {},
@@ -390,6 +400,9 @@ export class AccountManager {
       devMode: overrides.devMode === true,
       boosterRenderMode,
       nativeScrollbars: overrides.nativeScrollbars === true,
+      // Quest guidance is ON by default: "Y aller" walks the player through the screens instead of
+      // teleporting them, which is what makes the button teach the interface.
+      questNavigationTutorial: overrides.questNavigationTutorial !== false,
       // The "new version" dialog is ON by default: a save that already exists should hear about what
       // changed, and the switch of the release-notes tab is there to silence it (see `app.js`).
       announceChangelog: overrides.announceChangelog !== false,
@@ -454,6 +467,64 @@ export class AccountManager {
   async getDailyFreeBoosters() {
     const { dailyFreeBoosters } = await configLoader.getBoosterSettings();
     return { dailyFreeBoosters };
+  }
+
+  /**
+   * Creates the account-wide statistics added after the first saves.
+   *
+   * The three counters are derived from data that already exists, so importing an old save adopts
+   * its history instead of starting the medals at zero:
+   *   - `questsCompleted` counts the Illager quests whose `claimedAt` is set;
+   *   - `daysConnected` reads the run position of the daily rewards (the only connection history
+   *     the save keeps);
+   *   - `cardsSold` sums `soldByRarity`.
+   *
+   * Only a MISSING counter is filled: an existing zero is a real value and is never replaced.
+   *
+   * @returns {Promise<boolean>} True when a counter was written.
+   * @throws {Error} When the state cannot be read or written.
+   */
+  async ensureStatistics() {
+    return storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
+      const rawStats = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+      if (!rawStats || typeof rawStats !== 'object' || Array.isArray(rawStats)) return false;
+      const stats = { ...rawStats };
+      let changed = false;
+
+      if (!Number.isInteger(stats.questsCompleted) || stats.questsCompleted < 0) {
+        const questState = await context.get(STORES.USER_STATE, ILLAGER_QUESTS_STATE_KEY);
+        stats.questsCompleted = countClaimedQuests(questState);
+        changed = true;
+      }
+      if (!Number.isInteger(stats.daysConnected) || stats.daysConnected < 0) {
+        const daily = await context.get(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS);
+        stats.daysConnected =
+          Number.isInteger(daily?.progress) && daily.progress >= 0 ? daily.progress : 0;
+        changed = true;
+      }
+      if (!Number.isInteger(stats.cardsSold) || stats.cardsSold < 0) {
+        stats.cardsSold = AccountManager.sumSoldByRarity(stats.soldByRarity);
+        changed = true;
+      }
+
+      if (!changed) return false;
+      await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
+      return true;
+    });
+  }
+
+  /**
+   * Sums the per-rarity sale counters.
+   *
+   * @param {unknown} soldByRarity - Stored `soldByRarity` map.
+   * @returns {number} The total number of copies sold.
+   */
+  static sumSoldByRarity(soldByRarity) {
+    if (!soldByRarity || typeof soldByRarity !== 'object') return 0;
+    return Object.values(soldByRarity).reduce(
+      (sum, count) => sum + (Number.isInteger(count) && count > 0 ? count : 0),
+      0
+    );
   }
 
   /**
@@ -566,6 +637,12 @@ export class AccountManager {
         typeof stored.nativeScrollbars === 'boolean'
           ? stored.nativeScrollbars
           : defaults.nativeScrollbars,
+      // Same rule as the sounds: only an explicit `false` turns the guidance off, so a save written
+      // before the switch existed keeps the tutorial walkthrough.
+      questNavigationTutorial:
+        typeof stored.questNavigationTutorial === 'boolean'
+          ? stored.questNavigationTutorial
+          : defaults.questNavigationTutorial,
       // Same rule as the sounds: only an explicit `false` silences the release notes, so a save
       // written before the switch existed keeps being announced the new versions.
       announceChangelog:
@@ -799,6 +876,16 @@ export class AccountManager {
         }
         merged.notificationTypes[type] = enabled;
       });
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'questNavigationTutorial')) {
+      const { questNavigationTutorial } = partialSettings;
+      if (typeof questNavigationTutorial !== 'boolean') {
+        throw new TypeError(
+          `settings.questNavigationTutorial must be a boolean (received: ${JSON.stringify(questNavigationTutorial)}).`
+        );
+      }
+      merged.questNavigationTutorial = questNavigationTutorial;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'mineSpeed')) {

@@ -14,8 +14,8 @@
  *          (`stats.boostersOpenedBySet`, written by `BoosterManager`).
  *   2. `global`  — account-wide, declared in `settings/global_trophy.json`: total cards owned,
  *      boosters opened, distinct cards of the collection, the blocks mined (all of them, or one
- *      block at a time) and the cards kept in the Mine Pick (all of them, or one card rarity at a
- *      time).
+ *      block at a time), the cards kept in the Mine Pick (all of them, or one card rarity at a
+ *      time), completed quests, connection days, cards sold and the player level.
  *   3. `collection` — declared in `data/trophies/<setId>.json`: a list of card indexes to own
  *      (`RequirementType: "CardList"`), optionally restricted to one layout (`classic` / `fullart`).
  *      `MusthaveAllRequirementsCompleted` tells whether every listed index is required or one is
@@ -44,7 +44,11 @@ import miningManager from './MiningManager.js';
 import minePickManager from './MinePickManager.js';
 import profileManager from './ProfileManager.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
-import { ILLAGER_QUESTS_STATE_KEY, readQuestExperience } from './IllagerQuestState.js';
+import {
+  ILLAGER_QUESTS_STATE_KEY,
+  countClaimedQuests,
+  readQuestExperience,
+} from './IllagerQuestState.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** `user_state` key holding the unlocked trophies. */
@@ -171,6 +175,14 @@ export const GLOBAL_TROPHY_STATS = Object.freeze({
   MINEPICK_TOTAL_PICKS: 'minepicktotalpicks',
   /** One tier table applied to the picks of EVERY card rarity (see `buildMinePickRarityTrophies`). */
   MINEPICK_SPECIFIC_PICKS: 'minepickspecificpicks',
+  /** Illager quests claimed by the player. */
+  QUESTS_COMPLETED: 'quest',
+  /** Daily reward claims, i.e. days the player came back. */
+  DAYS_CONNECTED: 'dailyconnect',
+  /** Copies sold back to the shop. */
+  CARDS_SOLD: 'cardsold',
+  /** Player level, which is derived from the experience (see `buildLevelTrophies`). */
+  PLAYER_LEVEL: 'xp',
 });
 
 /**
@@ -405,17 +417,27 @@ export class TrophyManager {
    */
   async buildContext() {
     await boosterManager.init();
-    const [listed, ownedRows, stats, profile, limits, levelling, experiencePerTrophy, questState] =
-      await Promise.all([
-        boosterManager.listBoosterSets(),
-        storageRepository.getAll(STORES.COLLECTION),
-        storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS),
-        profileManager.getProfile(),
-        profileManager.getLimits(),
-        configLoader.getLevellingSettings(),
-        configLoader.getExperiencePerTrophy(),
-        storageRepository.getItem(STORES.USER_STATE, ILLAGER_QUESTS_STATE_KEY),
-      ]);
+    const [
+      listed,
+      ownedRows,
+      stats,
+      profile,
+      limits,
+      levelling,
+      experiencePerTrophy,
+      questState,
+      dailyState,
+    ] = await Promise.all([
+      boosterManager.listBoosterSets(),
+      storageRepository.getAll(STORES.COLLECTION),
+      storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS),
+      profileManager.getProfile(),
+      profileManager.getLimits(),
+      configLoader.getLevellingSettings(),
+      configLoader.getExperiencePerTrophy(),
+      storageRepository.getItem(STORES.USER_STATE, ILLAGER_QUESTS_STATE_KEY),
+      storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS),
+    ]);
     // The mine keeps its counters apart from `stats` (a mined block is not an opened booster): the
     // two mining families read them here, once, instead of each trophy re-reading the save. A mine
     // whose files cannot be read leaves the two families at zero instead of taking the whole
@@ -472,6 +494,27 @@ export class TrophyManager {
         ? stats.boostersOpenedBySet
         : {};
 
+    // The three counters added after the first saves. `ensureStatistics()` writes them at boot,
+    // but every reader also derives the value here: a save imported mid-session or a direct call
+    // to `evaluate()` must show its history instead of a zero.
+    const questsCompleted =
+      Number.isInteger(stats?.questsCompleted) && stats.questsCompleted >= 0
+        ? stats.questsCompleted
+        : countClaimedQuests(questState);
+    const daysConnected =
+      Number.isInteger(stats?.daysConnected) && stats.daysConnected >= 0
+        ? stats.daysConnected
+        : Number.isInteger(dailyState?.progress) && dailyState.progress >= 0
+          ? dailyState.progress
+          : 0;
+    const cardsSold =
+      Number.isInteger(stats?.cardsSold) && stats.cardsSold >= 0
+        ? stats.cardsSold
+        : Object.values(stats?.soldByRarity ?? {}).reduce(
+            (sum, count) => sum + (Number.isInteger(count) && count > 0 ? count : 0),
+            0
+          );
+
     return {
       sets,
       ownedKeys,
@@ -479,6 +522,9 @@ export class TrophyManager {
       totalCards,
       boostersOpened,
       boostersOpenedBySet,
+      questsCompleted,
+      daysConnected,
+      cardsSold,
       // Mining counters, shared by the two mining families.
       totalMined: mining.totalMined,
       blocksMined: mining.blocksMined,
@@ -507,11 +553,7 @@ export class TrophyManager {
     // An unlock is permanent: a trophy already stored stays unlocked even when the current
     // collection no longer satisfies it (cards sold, extension rebalanced).
     const unlock = new Set(Object.keys(persisted ?? {}));
-    return [
-      ...this.buildBoosterTrophies(catalog.boosters, context),
-      ...this.buildGlobalTrophies(catalog.global, context),
-      ...this.buildCollectionTrophies(catalog, context),
-    ].map((trophy) => {
+    const applyState = (trophy) => {
       const record = persisted?.[trophy.id];
       return {
         ...trophy,
@@ -525,7 +567,18 @@ export class TrophyManager {
           ? record.experience
           : TrophyManager.resolveExperience(trophy, context.experiencePerTrophy),
       };
-    });
+    };
+
+    // The level trophies are built AFTER the other families: their counter is the level, which is
+    // derived from the experience those families grant. `buildLevelTrophies` therefore works on
+    // the already evaluated trophies so a newly unlocked medal counts in the same pass.
+    const base = [
+      ...this.buildBoosterTrophies(catalog.boosters, context),
+      ...this.buildGlobalTrophies(catalog.global, context),
+      ...this.buildCollectionTrophies(catalog, context),
+    ].map(applyState);
+
+    return [...base, ...this.buildLevelTrophies(catalog.global, context, base, persisted).map(applyState)];
   }
 
   /**
@@ -627,6 +680,9 @@ export class TrophyManager {
         trophies.push(...this.buildMinePickRarityTrophies(statKey, tiers, context));
         return;
       }
+      // The level family reads the experience, which is itself derived from the trophies: it is
+      // built in a second pass, after every other family (see `buildLevelTrophies`).
+      if (TrophyManager.isLevelCounter(statKey)) return;
       const current = TrophyManager.readGlobalCounter(statKey, context);
       if (current === null) {
         console.warn(`[TrophyManager] The global counter \"${statKey}\" is not implemented, its trophies are ignored.`);
@@ -658,6 +714,84 @@ export class TrophyManager {
     });
 
     return trophies;
+  }
+
+  /**
+   * Builds the player-level trophies.
+   *
+   * The counter is the level, and the level is derived from the experience the trophies grant: a
+   * direct read would therefore be circular. The method starts from the experience of every OTHER
+   * family (already evaluated, with its persisted unlocks) plus the level trophies already earned,
+   * resolves the level, unlocks the tiers it reaches, adds their XP and resolves again until no
+   * tier is left behind. The loop always terminates: the level only grows and the tier list is
+   * finite.
+   *
+   * @param {object} config - Content of `settings/global_trophy.json`.
+   * @param {object} context - Reading context (needs `levelling` and `experiencePerTrophy`).
+   * @param {object[]} baseTrophies - Every other trophy, already evaluated.
+   * @param {Record<string, object>} [persisted] - Trophies already unlocked by the player.
+   * @returns {object[]} The level trophies, one per declared rarity.
+   */
+  buildLevelTrophies(config = {}, context, baseTrophies, persisted = {}) {
+    const source = config && typeof config === 'object' ? config : {};
+    const entry = Object.entries(source).find(
+      ([key]) => String(key).trim().toLowerCase() === GLOBAL_TROPHY_STATS.PLAYER_LEVEL
+    );
+    if (!entry) return [];
+    const tiers = TrophyManager.readTiers(entry[1]);
+    if (tiers.length === 0) return [];
+
+    const trophies = tiers.map((tier) => ({
+      id: buildTrophyId(TROPHY_CATEGORIES.GLOBAL, [GLOBAL_TROPHY_STATS.PLAYER_LEVEL, tier.rarity]),
+      category: TROPHY_CATEGORIES.GLOBAL,
+      group: GLOBAL_TROPHY_STATS.PLAYER_LEVEL,
+      groupKey: 'trophy.group.xp',
+      rarity: tier.rarity,
+      setId: null,
+      setName: null,
+      titleKey: 'trophy.global.xp.title',
+      descriptionKey: 'trophy.global.xp.desc',
+      icon: TrophyManager.globalTrophyIcon(GLOBAL_TROPHY_STATS.PLAYER_LEVEL, tier.rarity),
+      params: { rarityKey: `trophy.rarity.${tier.rarity}`, current: 0, target: tier.target },
+      progress: 0,
+      unlocked: false,
+      experience: null,
+    }));
+
+    const baseUnlocked = baseTrophies.filter((trophy) => trophy.unlocked).map((trophy) => trophy.id);
+    const earned = new Set(
+      trophies.filter((trophy) => Object.prototype.hasOwnProperty.call(persisted, trophy.id)).map((trophy) => trophy.id)
+    );
+
+    const resolveCurrentLevel = () => {
+      const experience = TrophyManager.computeExperience(
+        [...baseTrophies, ...trophies],
+        [...baseUnlocked, ...earned],
+        persisted,
+        context
+      );
+      return TrophyManager.resolveLevel(experience, context.levelling).level;
+    };
+
+    let level = resolveCurrentLevel();
+    for (let guard = 0; guard < 20; guard += 1) {
+      const newly = trophies.filter(
+        (trophy) => trophy.params.target <= level && !earned.has(trophy.id)
+      );
+      if (newly.length === 0) break;
+      newly.forEach((trophy) => earned.add(trophy.id));
+      level = resolveCurrentLevel();
+    }
+
+    return trophies.map((trophy) => {
+      const target = trophy.params.target;
+      return {
+        ...trophy,
+        params: { ...trophy.params, current: level },
+        progress: target > 0 ? Math.min(level / target, 1) : 1,
+        unlocked: earned.has(trophy.id) || level >= target,
+      };
+    });
   }
 
   /**
@@ -973,9 +1107,25 @@ export class TrophyManager {
         return context.totalMined ?? 0;
       case GLOBAL_TROPHY_STATS.MINEPICK_TOTAL_PICKS:
         return context.minePickTotalPicks ?? 0;
+      case GLOBAL_TROPHY_STATS.QUESTS_COMPLETED:
+        return context.questsCompleted ?? 0;
+      case GLOBAL_TROPHY_STATS.DAYS_CONNECTED:
+        return context.daysConnected ?? 0;
+      case GLOBAL_TROPHY_STATS.CARDS_SOLD:
+        return context.cardsSold ?? 0;
       default:
         return null;
     }
+  }
+
+  /**
+   * Tells whether a global counter is the player-level one.
+   *
+   * @param {string} statKey - Key of `settings/global_trophy.json`.
+   * @returns {boolean} True for `xp` (case-insensitive).
+   */
+  static isLevelCounter(statKey) {
+    return String(statKey ?? '').trim().toLowerCase() === GLOBAL_TROPHY_STATS.PLAYER_LEVEL;
   }
 
   /**

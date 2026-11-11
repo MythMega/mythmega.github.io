@@ -406,15 +406,16 @@ export class GameNotifier {
    *
    * @param {object} payload - `ILLAGER_QUEST_READY` payload.
    * @param {string} [payload.typeKey] - Translation key of the objective.
+   * @param {object} [payload.labels] - Per-language names written by the quest (`Label`).
    * @returns {void}
    */
-  handleQuestReady({ typeKey } = {}) {
+  handleQuestReady({ typeKey, labels } = {}) {
     if (!this.isReady) return;
     this.center.push({
       type: NOTIFICATION_TYPES.QUEST,
       badge: i18n.t('notif.quest.badge'),
       title: i18n.t('notif.quest.completed', {
-        quest: i18n.t(typeof typeKey === 'string' ? typeKey : 'notif.quest.fallback'),
+        quest: GameNotifier.questName(typeKey, labels),
       }),
     });
   }
@@ -428,17 +429,34 @@ export class GameNotifier {
    *
    * @param {object} payload - `ILLAGER_QUEST_AVAILABLE` payload.
    * @param {string} [payload.typeKey] - Translation key of the objective.
+   * @param {object} [payload.labels] - Per-language names written by the quest (`Label`).
    * @returns {void}
    */
-  handleQuestAvailable({ typeKey } = {}) {
+  handleQuestAvailable({ typeKey, labels } = {}) {
     if (!this.isReady) return;
     this.center.push({
       type: NOTIFICATION_TYPES.QUEST,
       badge: i18n.t('notif.quest.availableBadge'),
       title: i18n.t('notif.quest.available', {
-        quest: i18n.t(typeof typeKey === 'string' ? typeKey : 'notif.quest.fallback'),
+        quest: GameNotifier.questName(typeKey, labels),
       }),
     });
+  }
+
+  /**
+   * Names a quest in the language of the player.
+   *
+   * The `Label` of the quest wins over its objective type, exactly as in the quests dialog: a data
+   * file may write its own sentence without adding a translation key.
+   *
+   * @param {string} [typeKey] - Translation key of the objective.
+   * @param {object} [labels] - Names written per language, keyed by lower-case code.
+   * @returns {string} The name to show.
+   */
+  static questName(typeKey, labels) {
+    const override = labels?.[i18n.getLang()];
+    if (typeof override === 'string' && override !== '') return override;
+    return i18n.t(typeof typeKey === 'string' ? typeKey : 'notif.quest.fallback');
   }
 
   /**

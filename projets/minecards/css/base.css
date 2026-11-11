@@ -199,6 +199,45 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* The trusted UTC clock. On a wide screen it follows the pseudo, right of it; on a phone the player
+   and the brand are hidden, so it keeps the place right of the avatar. It reads as one of the chips
+   of the bar, but it is not a target: nothing opens when it is clicked. The seconds are dropped on
+   a portrait screen, where the bar is tight and the minute is enough (see the media query below). */
+.app-header__clock {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  min-height: calc(var(--touch-target) - 12px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.app-header__clock-seconds {
+  color: var(--color-text-muted);
+}
+
+/* An untrusted time (no provider answered) is flagged like the settings clock. */
+body[data-connection="offline"] .app-header__clock {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+/* Portrait and phone screens keep the hour and the minute only: the seconds are noise there, and
+   the bar has to leave room to the actions. The full time stays available in the settings. */
+@media (max-width: 767px), (orientation: portrait) {
+  .app-header__clock-seconds {
+    display: none;
+  }
+}
+
 .app-header__brand {
   display: flex;
   align-items: baseline;
@@ -212,26 +251,24 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* The pseudo of the player, in front of the name of the game (`"<pseudo> - MineCards"`). It shares
-   the header line with the tagline and the counters, so a long name is cut instead of pushing them:
-   the title of the game stays readable, which is the one thing this corner is for. The separator is
-   drawn here rather than written in the markup, so a header without a pseudo (no account yet) does
-   not start with a dangling dash. */
+/* The pseudo of the player, first after the avatar. It shares the header line with the clock, the
+   title and the counters, so a long name shrinks and is cut instead of pushing them: the clock
+   stays next to it and the title of the game stays readable. It carries the typography of the
+   title it used to live in, now that it is a direct child of the bar. */
 .app-header__player {
-  display: inline-block;
+  flex: 0 1 auto;
+  min-width: 0;
   max-width: 12rem;
-  vertical-align: bottom;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .app-header__player[hidden] {
   display: none;
-}
-
-.app-header__player:not([hidden]) + .app-header__brand-name::before {
-  content: " - ";
 }
 
 .app-header__tagline {
@@ -376,19 +413,10 @@ body {
   color: var(--color-text-muted);
 }
 
-.app-header__stat-value {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-/* The bonus counter is a button: it opens the per-extension inventory dialog.
-
-   `font-family` alone, never the `font: inherit` shorthand: the shorthand resets `font-size` too, and
-   that is what made the two CLICKABLE counters (bonus and binders) render bigger than the `<span>`
-   ones - their label at the body size instead of `--font-size-xs`, on a box three pixels taller.
-   A `<button>` does not inherit the typography of its container the way a `<span>` does, so the
-   family always comes from here (and from the `button` rule of this file). */
+/* A header action is a button: it opens a dialog or a page. `font-family` alone, never the
+   `font: inherit` shorthand: the shorthand resets `font-size` too, and a `<button>` does not inherit
+   the typography of its container the way a `<span>` does, so the family always comes from here (and
+   from the `button` rule of this file). */
 .app-header__stat--action {
   font-family: inherit;
   color: inherit;
@@ -403,9 +431,8 @@ body {
   color: var(--color-text);
 }
 
-/* The one counter of the header that carries no number (the daily rewards): it keeps the height and
-   the shape of the others but takes the width of its icon alone, so the five read numbers keep the
-   row to themselves. */
+/* An icon-only action (the inventory, the daily rewards, the settings): it keeps the height and the
+   shape of the chips but takes the width of its icon alone, so the bar stays a row of targets. */
 .app-header__stat.app-header__stat--icon {
   position: relative;
   flex: 0 0 auto;
@@ -447,15 +474,13 @@ body {
   object-fit: contain;
 }
 
-/* One counter (the Mine Pick picks) draws its icon INLINE, with the very same sparkle as the
-   bottom bar: it then follows the text colour like `.app-nav__item svg`, instead of carrying the
-   baked colours of a PNG. */
+/* The daily reward draws its icon INLINE (the gift), so it follows the text colour like
+   `.app-nav__item svg` instead of carrying the baked colours of a PNG. */
 svg.app-header__stat-icon {
   fill: none;
-  /* The other counters of the header are drawn glyphs; the Mine Pick sparkle and the gift follow
-     them, so the row reads as one set of icons instead of mixing a drawing with a tinted one.
-     `--icon-ink` is what the palette says that ink is: black on the three light themes, white on
-     the two dark ones, where a black stroke would simply disappear (`css/themes.css`). */
+  /* The gift and the meter of the mine are drawn glyphs: `--icon-ink` is what the palette says that
+     ink is - black on the three light themes, white on the two dark ones, where a black stroke
+     would simply disappear (`css/themes.css`). */
   color: var(--icon-ink);
   stroke: currentColor;
   stroke-width: 1.8;
@@ -463,27 +488,41 @@ svg.app-header__stat-icon {
   stroke-linejoin: round;
 }
 
-/* A wide screen shows the NAME of each counter next to its icon: four icons and four numbers ask the
-   player to memorise a legend, and there is room for a word once the header leaves the phone layout.
-   Only a short label appears ("Quotidiens", "Pioches"): the whole label lives in the `.sr-only`
-   span above, which stays the accessible name - this one is `aria-hidden`, so a screen reader never
-   hears a truncated version of it.
-   The breakpoint is the one where the counters and the brand stop fitting on the same row: the
-   tagline (pure decoration, already hidden on a phone) then steps aside instead of wrapping the
-   header onto a second line. */
-.app-header__stat-label {
-  display: none;
-  color: var(--color-text-muted);
-  /* Spelled out rather than inherited: the label is the one part of a counter whose size can be
-     stolen by the element around it (a `<button>` resets the font, see `.app-header__stat--action`). */
-  font-size: var(--font-size-xs);
+/* Two glyphs of the bar ship as SVG FILES (`assets/img/inventory.svg`, `assets/img/settings.svg`),
+   each with a colour baked into its path (the gear is green). They are painted as a MASK filled
+   with the same `--icon-ink` as the drawn glyphs, so a single file follows every palette. */
+.app-header__stat-icon--mask {
+  background-color: var(--icon-ink);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
-@media (min-width: 1024px) {
-  .app-header__stat-label {
-    display: inline;
-  }
+.app-header__stat-icon--inventory {
+  -webkit-mask-image: url("../assets/img/inventory.svg");
+  mask-image: url("../assets/img/inventory.svg");
+}
 
+/* The chest of the inventory fills its 72x72 viewBox edge to edge, while the drawn glyphs next to
+   it keep a few units of breathing room: at the shared size it reads a touch bigger than them. A
+   slightly smaller box restores the optical balance without shrinking the others. The doubled
+   class keeps the rule above the mobile `1rem` shorthand, whatever the order of the blocks. */
+.app-header__stat-icon.app-header__stat-icon--inventory {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.app-header__stat-icon--settings {
+  -webkit-mask-image: url("../assets/img/settings.svg");
+  mask-image: url("../assets/img/settings.svg");
+}
+
+/* A wide screen drops the tagline, so the brand and the three actions share one line even when a
+   long player name is written in front of the name of the game. */
+@media (min-width: 1024px) {
   .app-header__tagline {
     display: none;
   }
@@ -503,8 +542,9 @@ svg.app-header__stat-icon {
 }
 
 
-/* Bonus inventory dialog (opened from the header counter). */
-.bonus-inventory__list {
+/* Inventory dialog (opened from the inventory button of the header). One row per number, plus the
+   bonus boosters owned per extension, each with the artwork of its booster. */
+.inventory__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -513,10 +553,9 @@ svg.app-header__stat-icon {
   list-style: none;
 }
 
-.bonus-inventory__item {
+.inventory__item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
   background-color: var(--color-surface-alt);
@@ -524,63 +563,121 @@ svg.app-header__stat-icon {
   border-radius: var(--radius-md);
 }
 
-.bonus-inventory__name {
+/* THE BOOSTER ARTWORKS ARE STORED UPSIDE DOWN (see `css/components/booster-3d.css`): every flat
+   display of one turns it back. `rotate` instead of `transform`, so the floating and pop
+   animations that animate `transform` keep working and compose with it. The 3D model reads the
+   texture directly and never wears this class. */
+.booster-art {
+  rotate: 180deg;
+}
+
+/* The glyph of a row: a themed PNG, a drawn glyph or the artwork of a booster. */
+.inventory__icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--icon-ink);
+}
+
+.inventory__icon--booster {
+  width: 2rem;
+  height: 2.75rem;
+}
+
+.inventory__icon-image,
+.inventory__booster {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.inventory__icon-image {
+  image-rendering: pixelated;
+}
+
+.inventory__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.inventory__label {
+  flex: 1 1 auto;
   color: var(--color-text);
 }
 
-.bonus-inventory__count {
+.inventory__value {
+  font-weight: 700;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.inventory__heading {
+  margin: var(--space-3) 0 0;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   color: var(--color-text);
 }
 
-.bonus-inventory__total {
-  margin: var(--space-3) 0 0;
+.inventory__total {
+  margin: 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   text-align: center;
 }
 
-.bonus-inventory__empty {
+.inventory__empty {
   margin: 0;
   color: var(--color-text-muted);
   text-align: center;
 }
 
-.app-header__clock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-3);
-  min-height: calc(var(--touch-target) - 12px);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  font-variant-numeric: tabular-nums;
+/* The offline mark `DateSyncManager` writes on `<body>` is carried by the bar itself, and the clock
+   pill follows it: a time that could not be anchored is never shown as a trusted one. */
+body[data-connection="offline"] .app-header {
+  border-bottom-color: var(--color-warning);
 }
 
-body[data-connection="offline"] .app-header__clock {
-  color: var(--color-warning);
-  border-style: solid;
+/* --- Guided quest: destination highlight --------------------------------- */
+
+/* A short ring around the place an Illager quest happens, painted when `App.guideToQuest()` has
+   finished its walkthrough: the player sees where the last step landed instead of only noticing
+   that the page changed under their finger. The animation owns the outline, so no element has to
+   be restyled; it fades out by itself and the class is removed by the same timer. */
+.is-guide-highlight {
+  animation: guide-highlight 1.6s var(--easing-standard);
 }
 
-/* Mobile header: only the brand and the counters are kept. The tagline and the UTC clock are
-   dropped (the clock is still readable in the settings, where it is not on the way), the title
-   sits on its own centered row and is one step smaller, which leaves the counters the whole width
-   of the header. */
+@keyframes guide-highlight {
+  0% {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  55% {
+    outline: 3px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+    outline-offset: 8px;
+  }
+  100% {
+    outline: 3px solid transparent;
+    outline-offset: 8px;
+  }
+}
+
+/* Mobile header: the pseudo and the whole brand are hidden, which leaves the avatar, the clock and
+   the counters on one row. The clock keeps its place right of the avatar and drops its seconds
+   (see the orientation query above). */
 @media (max-width: 767px) {
   /* A phone shows no brand at all: the name of the game is in the browser tab and in the installed
      app, and the bar is worth more to the counters and to the identity than to a title repeated on
      every screen. */
-  .app-header__brand {
-    display: none;
-  }
-
-  /* Two counters step aside on a phone so the row holds the avatar as well: the binders are one tap
-     away in the collection, and the Mine Pick picks are on the Mine page. The numbers are not lost,
-     they are simply not competing with the identity for the width of the bar. */
-  .app-header__stat--desktop-only {
+  .app-header__brand,
+  .app-header__player {
     display: none;
   }
 
@@ -597,45 +694,29 @@ body[data-connection="offline"] .app-header__clock {
     font-size: 0.5625rem;
   }
 
-  .app-header__tagline,
-  .app-header__clock {
+  .app-header__tagline {
     display: none;
   }
 
-  /* The five counters of a phone, ALL ON ONE ROW under the title: three chips on the first row and
-     two on the second used to eat the whole first screenful, and the header of the game is read at
-     a glance or not at all. The clock is hidden here, so the row holds the counters only.
-
-     Each chip is a fifth of the width (`flex: 1 1 0`, never a fixed `calc()`: the five share exactly
-     what is left, whatever the padding of the header), and `nowrap` forbids the row from ever
-     splitting again at an in-between width. The icon and the value shrink with the chip, and the
-     value is capped at "9999+" by `App.setCount` - five glyphs is what a fifth of a 360 px phone
-     can hold. */
+  /* The three actions of a phone stay pinned to the RIGHT edge, next to the avatar anchored on the
+     left: the row is what is left of the bar, not a second title. `nowrap` forbids it from ever
+     splitting at an in-between width. */
   .app-header__stats {
-    width: 100%;
-    margin-left: 0;
-    justify-content: center;
+    margin-left: auto;
+    justify-content: flex-end;
     flex-wrap: nowrap;
     gap: var(--space-1);
   }
 
   .app-header__stat {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 0 auto;
     padding: var(--space-1);
     gap: var(--space-1);
-    /* A number that could not fit is clipped inside its pill rather than pushed over the next one.
-       It only ever happens with five digits, which `setCount` already caps. */
-    overflow: hidden;
   }
 
   .app-header__stat-icon {
-    width: 0.9rem;
-    height: 0.9rem;
-  }
-
-  .app-header__stat-value {
-    font-size: var(--font-size-xs);
+    width: 1rem;
+    height: 1rem;
   }
 }
 
@@ -655,10 +736,9 @@ body[data-connection="offline"] .app-header__clock {
   right: 0;
   z-index: var(--z-nav);
   display: grid;
-  /* One column per button, whatever their number: the bottom bar must never wrap onto a second row
-     (the info page added a 7th destination). On a wide screen the columns share the row equally,
-     which is what gives the bar its regular rhythm; on a phone they are sized by their own label
-     instead, see the `480px` block below. */
+  /* One column per button, whatever their number: the bottom bar must never wrap onto a second row.
+     On a wide screen the columns share the row equally, which is what gives the bar its regular
+     rhythm; on a phone they are sized by their own label instead, see the `480px` block below. */
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   gap: var(--space-1);
@@ -774,14 +854,11 @@ body.is-focus {
   white-space: nowrap;
 }
 
-/* PHONE: seven destinations in ~360 px. The equal split of the wide screen gives each column 45 px,
-   which is less than the 50 px of "Collection" - and a label wider than its column is not clipped by
-   default, it simply overflows and lands on the label next to it. So on a phone the columns are sized
-   by their CONTENT and the leftover space is spread around them: "Collection" takes the 50 px it
-   needs, "Pick" the 20 px, and every label stays whole. The columns keep the thumb-sized height of
-   `.app-nav__item`, and the gaps between them are the usual 4 px plus the share of `space-evenly`.
-   The same rule names the breakpoint: the sum of the seven labels at `--font-size-xs` is ~220 px, so
-   from 480 px down there is no reason to squeeze them into equal columns. */
+/* PHONE: five destinations in ~360 px. The equal split of the wide screen squeezes each column, and
+   a label wider than its column is not clipped by default: it simply overflows and lands on the
+   label next to it. So on a phone the columns are sized by their CONTENT and the leftover space is
+   spread around them, so every label stays whole. The columns keep the thumb-sized height of
+   `.app-nav__item`, and the gaps between them are the usual 4 px plus the share of `space-evenly`. */
 @media (max-width: 480px) {
   .app-nav {
     grid-auto-columns: max-content;
@@ -793,9 +870,9 @@ body.is-focus {
   }
 }
 
-/* Very narrow (a 320 px phone, the outer screen of a foldable): the seven labels in a row need ~322
-   px, and there is no smaller type that stays readable - so the labels step aside and the icons keep
-   the bar. The text is not removed: it is clipped the way `.sr-only` does it, so a screen reader still
+/* Very narrow (a 320 px phone, the outer screen of a foldable): five labels in a row still need more
+   width than the bar has at a readable size, so the labels step aside and the icons keep the bar.
+   The text is not removed: it is clipped the way `.sr-only` does it, so a screen reader still
    announces "Collection" and still hears it as the name of the button. Tap targets are back to an
    equal share of the row. */
 @media (max-width: 339px) {
@@ -808,9 +885,8 @@ body.is-focus {
     position: relative;
   }
 
-  /* Every label of the bar, but not the badge of the settings: that one is a dot, not a word, and
-     clipping it would hide the only sign that a version is waiting. */
-  .app-nav__item span:not(.app-nav__badge) {
+  /* Every label of the bar. */
+  .app-nav__item span {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -821,26 +897,6 @@ body.is-focus {
     clip-path: inset(50%);
     white-space: nowrap;
   }
-}
-
-/* "A version you have not read is waiting in the settings": the same dot as the daily reward one of
-   the header, on the corner of the icon. Positioned against the button, so it follows the bar's
-   padding whatever the width of the label is. */
-.app-nav__item {
-  position: relative;
-}
-
-.app-nav__badge {
-  position: absolute;
-  top: 0.25rem;
-  /* The icon is 22 px wide and centred in the button: its upper right corner is 11 px right of the
-     middle, which is where the dot is pinned - whatever the width of the label under it. */
-  right: calc(50% - 0.7rem);
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background-color: var(--color-accent);
-  box-shadow: 0 0 0 2px var(--color-surface);
 }
 
 .app-nav__item svg {

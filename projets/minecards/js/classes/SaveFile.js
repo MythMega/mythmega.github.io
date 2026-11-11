@@ -184,6 +184,7 @@ export class SaveFile {
   async export({ day = null } = {}) {
     const file = await this.createSaveFile({ day });
     this.triggerDownload(file.filename, file.content);
+    eventBus.emit(EVENTS.SAVE_EXPORTED, { filename: file.filename });
     console.info(`[SaveFile] Exported "${file.filename}" (${file.byteLength} characters).`);
     return { filename: file.filename, byteLength: file.byteLength };
   }

@@ -22,13 +22,15 @@
  *   - sound     : one switch ("Sons") driving `SoundManager.setEnabled`, persisted in `settings`;
  *   - display   : one switch handing the scrollbars back to the system ("Affichage"), persisted in
  *                 `settings.nativeScrollbars` and applied by `ScrollHint.setNativeBars()`;
- *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone);
+ *   - clock     : the trusted UTC time of the game (the header clock is hidden on a phone); it
+ *                 lives in the "Game" section, next to the daily reset it explains;
  *   - account   : the immutable UUID (read-only) with a copy button;
  *   - save      : export, import (with a confirmation modal, because the current data is
  *                 replaced) and full reset (confirmation modal, UUID included);
  *   - distributions : "check the distributions" (reads the public Google Sheet through
  *                 `GiftManager.checkGifts()`, reports the outcome in an information modal and
- *                 links to the gift history);
+ *                 links to the gift history), inside the "Gift" section with the promo codes and
+ *                 the received gifts;
  *   - changelog : the release notes, drawn from `settings/changelog.json` (newest version first,
  *                 one note per line with its kind). The file is the only source: publishing a
  *                 version never touches this view.
@@ -38,11 +40,12 @@
  *                 opened a dialog, so this panel is the only place it can be read.
  *
  * SECTIONS
- * The panels above are grouped into six sections (appearance, game, account, premium, more and the
- * error report) and only one is displayed at a time, from the tab strip of the markup: the page used
- * to be a single column of a dozen panels, which nobody could scan. The selection is a display concern only — every panel is
- * rendered once, whether it is shown or not — and `app.js` selects the section of a panel it has to
- * reveal (the promo codes and the gift history live in the last one).
+ * The panels above are grouped into seven sections (appearance, game, account, gift, premium, more
+ * and the error report) and only one is displayed at a time, from the tab strip of the markup: the
+ * page used to be a single column of a dozen panels, which nobody could scan. The selection is a
+ * display concern only — every panel is rendered once, whether it is shown or not — and `app.js`
+ * selects the section of a panel it has to reveal (the promo codes and the gift history live in the
+ * gift one).
  *
  * The modal is shared by the confirmations (import, reset) and by the distribution report: a
  * confirmation shows Cancel + Confirm, an information message only shows a Close button.
@@ -166,6 +169,8 @@ export class SettingsView {
     this.notificationDurationValue = query('[data-settings-notification-duration-value]');
     this.mineSpeedSlider = query('[data-settings-mine-speed]');
     this.mineSpeedValue = query('[data-settings-mine-speed-value]');
+    this.questTutorialToggle = query('[data-settings-quest-tutorial]');
+    this.questTutorialStateElement = query('[data-settings-quest-tutorial-state]');
     this.notificationToggles = {
       collection: query('[data-settings-notification-collection]'),
       experience: query('[data-settings-notification-experience]'),
@@ -249,6 +254,8 @@ export class SettingsView {
     this.notificationTypes = { collection: true, experience: true, title: true, quest: true };
     /** @type {string} Speed of the automatic mining (`normal`, `fast` or `veryFast`). */
     this.mineSpeed = DEFAULT_MINE_SPEED;
+    /** @type {boolean} Walk the player through the screens on "Y aller" (the store is the source). */
+    this.questTutorial = true;
     /** @type {string|null} UUID of the current account (read-only display). */
     this.uuid = null;
     /** @type {{key: string, tone: string, params: object|null}|null} Last feedback message. */
@@ -302,6 +309,7 @@ export class SettingsView {
       ['[data-settings-tabpanel="appearance"]', this.tabPanels.get('appearance')],
       ['[data-settings-tabpanel="game"]', this.tabPanels.get('game')],
       ['[data-settings-tabpanel="account"]', this.tabPanels.get('account')],
+      ['[data-settings-tabpanel="gift"]', this.tabPanels.get('gift')],
       ['[data-settings-tabpanel="premium"]', this.tabPanels.get('premium')],
       ['[data-settings-tabpanel="more"]', this.tabPanels.get('more')],
       ['[data-settings-tabpanel="errors"]', this.tabPanels.get('errors')],
@@ -322,6 +330,8 @@ export class SettingsView {
       ['[data-settings-notification-duration-value]', this.notificationDurationValue],
       ['[data-settings-mine-speed]', this.mineSpeedSlider],
       ['[data-settings-mine-speed-value]', this.mineSpeedValue],
+      ['[data-settings-quest-tutorial]', this.questTutorialToggle],
+      ['[data-settings-quest-tutorial-state]', this.questTutorialStateElement],
       ['[data-settings-notification-collection]', this.notificationToggles.collection],
       ['[data-settings-notification-experience]', this.notificationToggles.experience],
       ['[data-settings-notification-title]', this.notificationToggles.title],
@@ -394,6 +404,7 @@ export class SettingsView {
     this.renderGlowSlider();
     await this.renderNotificationSettings();
     await this.renderMineSpeed();
+    await this.renderQuestTutorial();
     this.syncSoundToggle();
     this.renderSoundCategories();
     await this.syncDevToggle();
@@ -465,6 +476,8 @@ export class SettingsView {
     });
 
     if (silent) return;
+    // The changelog has a quest of its own: showing the panel is the visit it counts.
+    if (name === 'more') eventBus.emit(EVENTS.CHANGELOG_OPENED);
     soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
     this.log(`Section "${name}" displayed.`);
   }
@@ -865,7 +878,8 @@ export class SettingsView {
   /**
    * Builds one folded version of the changelog, with its notes.
    *
-   * @param {{version: string, notes: Array<object>}} version - Version to draw.
+   * @param {{version: string, title: Record<string, string>, notes: Array<object>}} version -
+   *   Version to draw.
    * @param {boolean} open - Whether the block starts unfolded (the newest one does).
    * @param {string} lang - Active language.
    * @returns {HTMLElement} The `<details>` block.
@@ -875,9 +889,15 @@ export class SettingsView {
     block.className = 'changelog__version';
     block.open = open;
 
+    const title =
+      version.title?.[lang] ??
+      version.title?.[i18n.defaultLang] ??
+      Object.values(version.title ?? {})[0] ??
+      '';
     const summary = document.createElement('summary');
     summary.className = 'changelog__summary';
     summary.textContent = i18n.t('settings.changelog.version', { version: version.version });
+    if (title !== '') summary.textContent += ` · ${title}`;
     block.append(summary);
 
     if (version.notes.length === 0) {
@@ -2026,6 +2046,65 @@ export class SettingsView {
   }
 
   /**
+   * Fills the quest walkthrough switch from the stored preference.
+   *
+   * The preference is read on every "Y aller" click by `app.js`; this switch only shows it.
+   *
+   * @returns {Promise<void>} Resolves once the switch is painted.
+   */
+  async renderQuestTutorial() {
+    if (!this.questTutorialToggle) return;
+    try {
+      const settings = await accountManager.getSettings();
+      this.questTutorial = settings.questNavigationTutorial !== false;
+    } catch (error) {
+      console.warn('[SettingsView] The quest tutorial preference could not be read.', error);
+      this.questTutorial = true;
+    }
+    this.syncQuestTutorialToggle();
+  }
+
+  /**
+   * Reflects the quest walkthrough preference on its switch and caption.
+   *
+   * @returns {void}
+   */
+  syncQuestTutorialToggle() {
+    if (!this.questTutorialToggle) return;
+    this.questTutorialToggle.setAttribute('aria-checked', this.questTutorial ? 'true' : 'false');
+    if (this.questTutorialStateElement) {
+      this.questTutorialStateElement.textContent = i18n.t(
+        this.questTutorial ? 'settings.dev.on' : 'settings.dev.off'
+      );
+    }
+  }
+
+  /**
+   * Flips the quest walkthrough and persists it.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleQuestTutorialToggle() {
+    if (this.isBusy) return;
+    const previous = this.questTutorial;
+    this.questTutorial = !previous;
+    this.syncQuestTutorialToggle();
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ questNavigationTutorial: this.questTutorial });
+      this.log(
+        `Quest navigation tutorial ${this.questTutorial ? 'enabled' : 'disabled'} and saved.`
+      );
+    } catch (error) {
+      console.error('[SettingsView] The quest tutorial preference could not be saved.', error);
+      this.questTutorial = previous;
+      this.syncQuestTutorialToggle();
+      this.setFeedback('settings.questTutorial.error', 'error');
+    }
+  }
+
+  /**
    * Flips one notification kind and persists it.
    *
    * The switch applies live first, exactly like the sound preference: a kind switched off stops
@@ -2148,6 +2227,7 @@ export class SettingsView {
     });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
     this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());
+    this.listen(this.questTutorialToggle, 'click', () => void this.handleQuestTutorialToggle());
     this.listen(this.changelogAnnounceToggle, 'click', () => void this.handleChangelogAnnounceToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.errorLogCopyButton, 'click', () => void this.handleCopyErrorLog());

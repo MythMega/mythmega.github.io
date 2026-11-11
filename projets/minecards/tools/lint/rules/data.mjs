@@ -51,6 +51,10 @@ const ILLAGER_QUEST_TYPES = new Set([
   'ShareBinder',
   'MinePickCards',
   'DownloadProfilCard',
+  'OpenChangelog',
+  'ChangeSelectedTitle',
+  'DownloadCurrentSaveBackup',
+  'CustomWebsiteOpen',
 ]);
 
 /** Reward kinds that draw their card at claim time, with a list or a filter of printings. */
@@ -1735,6 +1739,25 @@ export default [
           fail(`version "${label}" is declared twice (first on line ${seenVersions.get(label)})`);
         } else {
           seenVersions.set(label, versionLine);
+        }
+
+        // The title is shown beside the version number. It is optional for old entries, but when
+        // present every language of the game must be able to read it.
+        if (version.Titles !== undefined) {
+          const titles = isRecord(version.Titles) ? version.Titles : null;
+          if (titles === null) {
+            fail(`version "${label}" has Titles that are not an object`);
+          } else {
+            const written = Object.entries(titles)
+              .filter(([, value]) => isFilled(value))
+              .map(([lang]) => lang.trim().toLowerCase());
+            if (written.length === 0) {
+              fail(`version "${label}": Titles has no readable title`);
+            }
+            languages
+              .filter((code) => !written.includes(code))
+              .forEach((code) => fail(`version "${label}": the title is not translated in "${code}"`, 'warning'));
+          }
         }
 
         if (version.Notes !== undefined && !Array.isArray(version.Notes)) {

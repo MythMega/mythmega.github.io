@@ -55,5 +55,37 @@
         "gold": 50,
         "diamond": 100,
         "emerald": 250
+    },
+    "quest": {
+        "_comment": "number of Illager quests completed (claimed); medals in 'assets/img/trophy/Global/quest/'",
+        "bronze": 5,
+        "silver": 15,
+        "gold": 25,
+        "diamond": 50,
+        "emerald": 100
+    },
+    "dailyconnect": {
+        "_comment": "number of days connected (daily reward claims); medals in 'assets/img/trophy/Global/dailyconnect/'",
+        "bronze": 3,
+        "silver": 31,
+        "gold": 90,
+        "diamond": 180,
+        "emerald": 360
+    },
+    "cardsold": {
+        "_comment": "number of cards sold to the shop; medals in 'assets/img/trophy/Global/cardsold/'",
+        "bronze": 10,
+        "silver": 25,
+        "gold": 100,
+        "diamond": 250,
+        "emerald": 500
+    },
+    "xp": {
+        "_comment": "player level; medals in 'assets/img/trophy/Global/xp/'",
+        "bronze": 3,
+        "silver": 15,
+        "gold": 25,
+        "diamond": 50,
+        "emerald": 100
     }
 }

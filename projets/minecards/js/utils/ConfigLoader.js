@@ -313,6 +313,15 @@ export const DEFAULT_ANIMATION_TIMING = Object.freeze({
 });
 
 /**
+ * Default pause between two steps of the Illager quest walkthrough, in milliseconds.
+ *
+ * Read from `questGuide.stepDelayMs` of `settings/config.json`; a value that is absent, negative
+ * or not a number falls back to this one. It is a pace, never a rule: the walkthrough can be made
+ * instant (0) or deliberately slow without touching the route itself.
+ */
+export const DEFAULT_QUEST_GUIDE_STEP_DELAY_MS = 250;
+
+/**
  * Default range of the foil intensity setting (`settings.foil` of `config.json`).
  *
  * The values are PERCENTAGES, not the 0-1 factor the stylesheet reads: a percentage is what the
@@ -693,6 +702,23 @@ export class ConfigLoader {
   }
 
   /**
+   * Pause between two steps of the guided navigation of the Illager quests.
+   *
+   * Declared in `questGuide.stepDelayMs` of `settings/config.json`. A missing, negative or
+   * non-numeric value keeps the shipped default; a valid value is rounded to a whole number of
+   * milliseconds, so a hand-edited 250.7 can only change the pace by half a millisecond.
+   *
+   * @returns {Promise<number>} The delay in milliseconds (0 allowed).
+   * @throws {Error} See `load()`.
+   */
+  async getQuestGuideStepDelay() {
+    const config = await this.getConfig();
+    const delay = Number(config.questGuide?.stepDelayMs);
+    if (!Number.isFinite(delay) || delay < 0) return DEFAULT_QUEST_GUIDE_STEP_DELAY_MS;
+    return Math.round(delay);
+  }
+
+  /**
    * Foil rendering settings: the range of the intensity slider.
    *
    * The four values are made consistent here rather than trusted: `min` stays under `max`, `step`
@@ -983,8 +1009,9 @@ export class ConfigLoader {
    *
    * @param {object} [options] - Load options.
    * @param {boolean} [options.force=false] - Re-fetch the file even when a cached copy exists.
-   * @returns {Promise<Array<{id: number, version: string, notes: Array<{type: string, label: string,
-   *   important: boolean, text: Record<string, string>}>}>>} The versions, newest first.
+   * @returns {Promise<Array<{id: number, version: string, title: Record<string, string>,
+   *   notes: Array<{type: string, label: string, important: boolean,
+   *   text: Record<string, string>}>}>>} The versions, newest first.
    * @throws {Error} When the file cannot be fetched or is not valid JSON.
    */
   async getChangelog({ force = false } = {}) {
@@ -1033,7 +1060,8 @@ export class ConfigLoader {
    * Cleans a raw release-note payload and orders it from the newest version to the oldest.
    *
    * @param {unknown} payload - Parsed content of `settings/changelog.json`.
-   * @returns {Array<{id: number, version: string, notes: Array<object>}>} The versions.
+   * @returns {Array<{id: number, version: string, title: Record<string, string>,
+   *   notes: Array<object>}>} The versions.
    */
   static normalizeChangelog(payload) {
     const entries = Array.isArray(payload) ? payload : [];
@@ -1052,11 +1080,34 @@ export class ConfigLoader {
         // `Id` orders the versions; a file that forgets one still keeps its declaration order.
         id: Number.isInteger(entry.Id) ? entry.Id : position + 1,
         version,
+        title: ConfigLoader.normalizeChangelogTitle(entry.Titles),
         notes: rawNotes.map((note) => ConfigLoader.normalizeChangelogNote(note)).filter(Boolean),
       });
     });
 
     return versions.sort((left, right) => right.id - left.id);
+  }
+
+  /**
+   * Cleans the display title of one changelog version.
+   *
+   * The title is optional: a version without one still shows its number. Languages are keyed in
+   * lowercase so the active language can be looked up directly, and a blank translation is dropped
+   * rather than replacing the fallback with an empty line.
+   *
+   * @param {unknown} titles - Raw `Titles` object of the file.
+   * @returns {Record<string, string>} The title per language.
+   */
+  static normalizeChangelogTitle(titles) {
+    const localized = {};
+    if (!titles || typeof titles !== 'object' || Array.isArray(titles)) return localized;
+
+    Object.entries(titles).forEach(([lang, value]) => {
+      const key = lang.trim().toLowerCase();
+      if (key === '' || typeof value !== 'string' || value.trim() === '') return;
+      localized[key] = value.trim();
+    });
+    return localized;
   }
 
   /**

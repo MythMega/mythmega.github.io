@@ -69,4 +69,10 @@
   body[data-animation="explosive"] .opening__burst-confetti {
     display: none;
   }
+
+  /* The "+" menu appears and leaves without its rise and fade: its buttons are usable at once. */
+  .opening__actions-menu,
+  .opening__actions-menu.is-closing {
+    animation: none;
+  }
 }

@@ -628,6 +628,10 @@ export class ProfileCard {
     featured.forEach((trophy) => {
       const medal = document.createElement('img');
       medal.className = 'card-text__medal';
+      // The medal is a 4x4-to-512px pixel-art sprite shown at 48px: an interpolated resize turns it
+      // into a blur. The stylesheet already carries the rule; the inline property makes the card
+      // immune to a future cascade change and is serialized with the exported copy as well.
+      medal.style.imageRendering = 'pixelated';
       // The rarity stays on the medal as data, even though the card paints no halo: a profile could
       // one day style its trophies by rarity without rebuilding the component.
       if (typeof trophy.rarity === 'string' && trophy.rarity !== '') {
@@ -729,6 +733,30 @@ export class ProfileCard {
       console.warn(`[ProfileCard] Asset could not be read: ${path}`, error);
       return '';
     }
+  }
+
+  /**
+   * Paints the trophy medals over the rasterized card, without interpolation.
+   *
+   * @param {CanvasRenderingContext2D} context - Canvas holding the exported card.
+   * @returns {Promise<void>} Resolves once every medal has been drawn.
+   */
+  async paintExportedMedals(context) {
+    if (!Array.isArray(this.exportMedals) || this.exportMedals.length === 0) return;
+    context.save();
+    context.imageSmoothingEnabled = false;
+    for (const medal of this.exportMedals) {
+      const image = await ProfileCard.loadImage(medal.src);
+      if (!image) continue;
+      context.drawImage(
+        image,
+        Math.round(medal.x * PROFILE_CARD_EXPORT_SCALE),
+        Math.round(medal.y * PROFILE_CARD_EXPORT_SCALE),
+        Math.round(medal.width * PROFILE_CARD_EXPORT_SCALE),
+        Math.round(medal.height * PROFILE_CARD_EXPORT_SCALE)
+      );
+    }
+    context.restore();
   }
 
   /**
@@ -879,6 +907,12 @@ export class ProfileCard {
       paint(reloaded, scaled);
     }
 
+    // The medals are DELIBERATELY absent from the SVG rasterization: a background image inside a
+    // `foreignObject` was smoothed again by the browser, whatever `image-rendering` said. They are
+    // painted last, directly on the canvas, with interpolation off - the only way the PNG keeps
+    // the exact pixels of a 4x4 medal.
+    await this.paintExportedMedals(context);
+
     const blob = await new Promise((resolve) => {
       try {
         canvas.toBlob((result) => resolve(result ?? null), 'image/png');
@@ -936,6 +970,9 @@ export class ProfileCard {
     // cannot be read is dropped, so the PNG never shows a broken image icon.
     const rendered = [...this.root.querySelectorAll('.card-text__medal')];
     const images = [...clone.querySelectorAll('img')];
+    this.exportMedals = [];
+    const liveRoot = this.rootElement.getBoundingClientRect();
+    const liveScale = liveRoot.width > 0 ? liveRoot.width / PROFILE_CARD_WIDTH : 1;
     for (const [index, image] of images.entries()) {
       const source = image.getAttribute('src') ?? '';
       const embedded = await ProfileCard.readDataUrl(source, 'index.html');
@@ -948,12 +985,20 @@ export class ProfileCard {
       const icon = await ProfileCard.loadImage(embedded);
       const height = rendered[index]?.offsetHeight > 0 ? rendered[index].offsetHeight : 40;
       const ratio = icon && icon.naturalHeight > 0 ? icon.naturalWidth / icon.naturalHeight : 1;
-      const badge = document.createElement('span');
-      badge.className = image.className;
-      badge.style.width = `${Math.round(height * ratio)}px`;
-      badge.style.height = `${height}px`;
-      badge.style.backgroundImage = ProfileCard.cssUrl(embedded);
-      image.replaceWith(badge);
+      const width = Math.round(height * ratio);
+      const box = rendered[index]?.getBoundingClientRect();
+      if (box && box.width > 0 && liveRoot.width > 0) {
+        this.exportMedals.push({
+          x: (box.left - liveRoot.left) / liveScale,
+          y: (box.top - liveRoot.top) / liveScale,
+          width,
+          height,
+          src: embedded,
+        });
+      }
+      // The medal keeps its box so the line stays laid out, but paints nothing: the canvas overlays
+      // the exact pixels after the card has been rasterized.
+      image.style.visibility = 'hidden';
     }
 
     const style = document.createElement('style');

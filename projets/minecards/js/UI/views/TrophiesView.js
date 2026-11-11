@@ -29,7 +29,6 @@
 
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
-import cardLanguage from '../../utils/CardLanguage.js';
 import trophyManager, { TROPHY_CATEGORIES, TrophyManager } from '../../business/TrophyManager.js';
 import profileManager, {
   PROFILE_ERROR_CODES,
@@ -77,9 +76,6 @@ export const TROPHY_FAMILY_MINING = 'mining';
 
 /** Value of the "every Mine Pick trophy" option of the family combo. */
 export const TROPHY_FAMILY_MINEPICK = 'minepick';
-
-/** Prefix of the per-block options of the family combo (`block:<blockId>`). */
-export const TROPHY_FAMILY_BLOCK_PREFIX = 'block:';
 
 /** Prefix of the per-extension collection options of the family combo (`collection:<setId>`). */
 export const TROPHY_FAMILY_COLLECTION_PREFIX = 'collection:';
@@ -343,7 +339,8 @@ export class TrophiesView {
    *
    * The family combo offers every family NOT present in the current catalogue as a single option,
    * plus one option per extension, so the player can isolate the ten trophies of an extension
-   * instead of facing the whole catalogue.
+   * instead of facing the whole catalogue. The mine is offered as one family only: its individual
+   * block tiers stay grouped in the list, but they are not separate filter options.
    *
    * @returns {void}
    */
@@ -406,15 +403,10 @@ export class TrophiesView {
       label: i18n.t('trophy.category.global'),
     });
 
-    // The mining families are account-wide too, and they are the two only ones a player may want
-    // to isolate block by block: the per-block tiers are twenty-five trophies on their own.
-    const miningBlocks = new Map();
-    trophies.forEach((trophy) => {
-      if (typeof trophy.blockId !== 'string' || trophy.blockId === '') return;
-      const label = trophy.blockNames?.[cardLanguage.getLang()] ?? trophy.blockNames?.en ?? trophy.blockId;
-      if (!miningBlocks.has(trophy.blockId)) miningBlocks.set(trophy.blockId, label);
-    });
-    if (miningBlocks.size > 0 || trophies.some((trophy) => TrophyManager.isMiningTrophy(trophy))) {
+    // The mine is one family on its own. Its block tiers are grouped inside that list, but the
+    // filter deliberately exposes no per-block entry: five near-identical options buried the other
+    // families without helping the player find a trophy.
+    if (trophies.some((trophy) => TrophyManager.isMiningTrophy(trophy))) {
       options.push({ value: TROPHY_FAMILY_MINING, label: i18n.t('trophies.familyMining') });
     }
     // The Mine Pick families also hold thirty trophies on their own: they get their own entry, so
@@ -422,13 +414,6 @@ export class TrophiesView {
     if (trophies.some((trophy) => TrophyManager.isMinePickTrophy(trophy))) {
       options.push({ value: TROPHY_FAMILY_MINEPICK, label: i18n.t('trophies.familyMinePick') });
     }
-    miningBlocks.forEach((label, blockId) => {
-      options.push({
-        value: `${TROPHY_FAMILY_BLOCK_PREFIX}${blockId}`,
-        label: i18n.t('trophies.familyMiningBlock', { block: label }),
-      });
-    });
-
     const collectionSets = new Map();
     trophies.forEach((trophy) => {
       if (trophy.category !== TROPHY_CATEGORIES.COLLECTION) return;
@@ -550,9 +535,6 @@ export class TrophiesView {
     }
     if (this.family === TROPHY_FAMILY_MINEPICK) {
       return TrophyManager.isMinePickTrophy(trophy);
-    }
-    if (this.family.startsWith(TROPHY_FAMILY_BLOCK_PREFIX)) {
-      return trophy.blockId === this.family.slice(TROPHY_FAMILY_BLOCK_PREFIX.length);
     }
     if (this.family.startsWith(TROPHY_FAMILY_SET_PREFIX)) {
       return trophy.setId === this.family.slice(TROPHY_FAMILY_SET_PREFIX.length);

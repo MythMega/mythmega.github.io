@@ -34,6 +34,7 @@ import {
   SPARKS_SPENT_SOURCES,
 } from '../../business/SparksManager.js';
 import miningManager from '../../business/MiningManager.js';
+import trophyManager from '../../business/TrophyManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
@@ -70,6 +71,9 @@ export class StatsView {
     this.feedbackElement = this.root.querySelector('[data-stats-feedback]');
     this.boostersElement = this.root.querySelector('[data-stats-boosters]');
     this.godpacksElement = this.root.querySelector('[data-stats-godpacks]');
+    this.levelElement = this.root.querySelector('[data-stats-level]');
+    this.questsElement = this.root.querySelector('[data-stats-quests]');
+    this.connectionsElement = this.root.querySelector('[data-stats-connections]');
     this.completionGlobalElement = this.root.querySelector('[data-stats-completion-global]');
     this.completionSetsElement = this.root.querySelector('[data-stats-completion-sets]');
     this.rarityElement = this.root.querySelector('[data-stats-rarity]');
@@ -133,6 +137,9 @@ export class StatsView {
       ['[data-stats-back]', this.backButton],
       ['[data-stats-boosters]', this.boostersElement],
       ['[data-stats-godpacks]', this.godpacksElement],
+      ['[data-stats-level]', this.levelElement],
+      ['[data-stats-quests]', this.questsElement],
+      ['[data-stats-connections]', this.connectionsElement],
       ['[data-stats-completion-global]', this.completionGlobalElement],
       ['[data-stats-completion-sets]', this.completionSetsElement],
       ['[data-stats-rarity]', this.rarityElement],
@@ -259,6 +266,10 @@ export class StatsView {
     this.log('Loading the statistics…');
     try {
       const stats = (await storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.STATS)) ?? {};
+      // The level is derived from the experience and the unlocked trophies, so it is read from the
+      // trophy evaluation rather than copied into `stats`: the panel and the profile can never show
+      // two different levels.
+      const trophyState = await trophyManager.getSummary();
       const view = await collectionManager.getCollectionView();
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
       const saved = await boosterManager.getSavedOpenings();
@@ -267,6 +278,7 @@ export class StatsView {
       const miningBlocks = await miningManager.listBlocks(cardLanguage.getLang());
       const miningResources = await miningManager.listResources();
       this.renderBoosters(stats);
+      this.renderProgress(stats, trophyState.level?.level);
       this.renderCompletion(view);
       this.renderRarity(stats);
       this.renderSold(stats);
@@ -295,6 +307,25 @@ export class StatsView {
     this.boostersElement.textContent = String(Math.max(0, count));
     const godpacks = Number.isFinite(stats?.godpacksOpened) ? stats.godpacksOpened : 0;
     this.godpacksElement.textContent = i18n.t('stats.godpacks', { count: Math.max(0, godpacks) });
+  }
+
+  /**
+   * Renders the account-wide progression counters (level, completed quests and connection days).
+   *
+   * @param {object} stats - Raw `user_state["stats"]` value.
+   * @param {unknown} level - Level returned by the trophy evaluation.
+   * @returns {void}
+   */
+  renderProgress(stats, level) {
+    const safeLevel = Number.isInteger(level) && level > 0 ? level : 1;
+    const quests = Number.isInteger(stats?.questsCompleted) && stats.questsCompleted >= 0
+      ? stats.questsCompleted
+      : 0;
+    const connections =
+      Number.isInteger(stats?.daysConnected) && stats.daysConnected >= 0 ? stats.daysConnected : 0;
+    this.levelElement.textContent = String(safeLevel);
+    this.questsElement.textContent = String(quests);
+    this.connectionsElement.textContent = String(connections);
   }
 
   /**

@@ -16,8 +16,10 @@
  *   A counter starts on the first day of the quest and belongs to the quest id: a quest of a later
  *   week is a different id, so its counter starts at zero without any reset pass. The events that
  *   move a counter are the ones the rest of the app already publishes (`MINING_UPDATED`,
- *   `BOOSTER_OPENED`, `DAILY_REWARDS_UPDATED`, `CARDS_OBTAINED` from the Mine Pick) plus the four
- *   flows that had no event of their own (`CARD_SOLD`, `BINDER_SHARED`, `PROFILE_CARD_EXPORTED`).
+ *   `BOOSTER_OPENED`, `DAILY_REWARDS_UPDATED`, `CARDS_OBTAINED` from the Mine Pick) plus the flows
+ *   that had no event of their own (`CARD_SOLD`, `BINDER_SHARED`, `PROFILE_CARD_EXPORTED`,
+ *   `CHANGELOG_OPENED`, `TITLE_SELECTED`, `SAVE_EXPORTED`) and the button of a `CustomWebsiteOpen`
+ *   quest, which records its own visit.
  *   The mine counter is absolute (`totalMined`): the manager keeps the last value it saw and adds
  *   only the difference, so a reload never counts a block twice.
  *
@@ -44,6 +46,10 @@ export const ILLAGER_QUEST_TYPES = Object.freeze({
   SHARE_BINDER: 'ShareBinder',
   MINE_PICK_CARDS: 'MinePickCards',
   DOWNLOAD_PROFILE_CARD: 'DownloadProfilCard',
+  OPEN_CHANGELOG: 'OpenChangelog',
+  CHANGE_SELECTED_TITLE: 'ChangeSelectedTitle',
+  DOWNLOAD_SAVE_BACKUP: 'DownloadCurrentSaveBackup',
+  CUSTOM_WEBSITE_OPEN: 'CustomWebsiteOpen',
 });
 
 /** Name of the event published when a quest progresses or is claimed. */
@@ -256,10 +262,27 @@ export class IllagerQuestManager {
       return null;
     }
 
+    // The default name of a quest is its type; `Label` overrides it per language, so a data file
+    // can write its own sentence without a translation key. Only the declared languages are kept.
+    const labels = {};
+    if (isRecord(raw.Label)) {
+      Object.entries(raw.Label).forEach(([language, value]) => {
+        const code = typeof language === 'string' ? language.trim().toLowerCase() : '';
+        const text = typeof value === 'string' ? value.trim() : '';
+        if (code !== '' && text !== '') labels[code] = text;
+      });
+    }
+    // Only a web page is accepted: a `javascript:` or `data:` URL written in a data file would
+    // turn the quest button into an arbitrary code runner.
+    const rawUrl = typeof raw.UrlButtonGo === 'string' ? raw.UrlButtonGo.trim() : '';
+    const url = /^https?:\/\//i.test(rawUrl) ? rawUrl : '';
+
     return {
       id,
       type,
       typeKey: `mineblock.quests.type.${type}`,
+      labels,
+      url,
       currencyId: currency.id,
       currencyName: currency.name,
       currencyTexture: currency.texture,
@@ -315,6 +338,8 @@ export class IllagerQuestManager {
           id: quest.id,
           type: quest.type,
           typeKey: quest.typeKey,
+          labels: quest.labels,
+          url: quest.url,
           requirement: quest.requirement,
           count,
           percent: Math.round((count / quest.requirement) * 100),
@@ -464,6 +489,7 @@ export class IllagerQuestManager {
       eventBus.emit(EVENTS.ILLAGER_QUEST_READY, {
         questId: quest.id,
         typeKey: quest.typeKey,
+        labels: quest.labels,
         currencyId: quest.currencyId,
         currencyName: quest.currencyName,
         rewards: quest.rewards,
@@ -532,6 +558,16 @@ export class IllagerQuestManager {
         if (quest.rewards.sparks > 0) {
           await sparksManager.addSparks(quest.rewards.sparks, context, SPARKS_SOURCES.QUEST);
         }
+
+        // One account-wide counter for the global trophy, written with the claim itself: a claimed
+        // quest can never pay out without being counted.
+        const storedStats = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+        const stats = storedStats && typeof storedStats === 'object' ? { ...storedStats } : {};
+        stats.questsCompleted =
+          (Number.isInteger(stats.questsCompleted) && stats.questsCompleted >= 0
+            ? stats.questsCompleted
+            : 0) + 1;
+        await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
 
         const experience = state.experience + quest.rewards.xp;
         await context.put(
@@ -615,6 +651,15 @@ export class IllagerQuestManager {
       }),
       eventBus.on(EVENTS.PROFILE_CARD_EXPORTED, () =>
         safely(this.record(ILLAGER_QUEST_TYPES.DOWNLOAD_PROFILE_CARD, 1))
+      ),
+      eventBus.on(EVENTS.CHANGELOG_OPENED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.OPEN_CHANGELOG, 1))
+      ),
+      eventBus.on(EVENTS.TITLE_SELECTED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.CHANGE_SELECTED_TITLE, 1))
+      ),
+      eventBus.on(EVENTS.SAVE_EXPORTED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.DOWNLOAD_SAVE_BACKUP, 1))
       ),
       eventBus.on(EVENTS.MINING_UPDATED, (payload) => {
         if (!Number.isInteger(payload?.totalMined)) return;
@@ -711,6 +756,7 @@ export class IllagerQuestManager {
       eventBus.emit(EVENTS.ILLAGER_QUEST_AVAILABLE, {
         questId: quest.id,
         typeKey: quest.typeKey,
+        labels: quest.labels,
         currencyId: quest.currencyId,
         currencyName: quest.currencyName,
         rewards: quest.rewards,

@@ -2628,13 +2628,14 @@ export class ProfileView {
   /**
    * Shows, in the purchase dialog, what the option would look like on the worn layout.
    *
-   * Only a size or an anchor gets this: those two options are judged on the card itself, and a
-   * price alone says nothing about a 1.52x avatar pushed to the bottom of its band.
+   * Every purchasable thing of the card gets one: a size or an anchor (the avatar moved or
+   * scaled), the Full Art layout, a title, pseudo or frame colour worn by the sample, and a paid
+   * avatar worn as its underlay. Nothing is stored: the sample shows a colour the player does not
+   * own yet, exactly like the avatar nobody can wear until the confirmation.
    *
    * ONE sample, on the layout the player already wears: showing the two layouts side by side made
    * each of them too narrow to read, and neither fits a dialog that also carries the price and the
-   * confirmation. Full Art is bought on its own button, so a sample of it would answer a question
-   * nobody asked here.
+   * confirmation. A full-art sample is drawn only when Full Art itself is what is bought.
    *
    * The sample is a SEPARATE `ProfileCard` (the player's card is never rebuilt or moved), wears the
    * pending value even though it is not owned yet, and shows a placeholder pseudo with fixed
@@ -2647,15 +2648,23 @@ export class ProfileView {
   async renderBuyPreviews(id, type) {
     const element = this.buyPreviewsElement;
     if (!element) return;
-    // The id here is a FEATURE id (`profileIconTiny`), not an option id (`tiny`): the tables are
-    // keyed by option, so the entry carrying that feature is what tells the two apart.
+    // The id here is a FEATURE id (`profileIconTiny`) for a size, an anchor or the Full Art layout,
+    // and an OPTION id for a colour or an avatar: each table is keyed accordingly.
     const sizeEntry = type === 'feature'
       ? Object.entries(PROFILE_CARD_ICON_SIZES).find(([, option]) => option.featureId === id)
       : undefined;
     const alignEntry = type === 'feature'
       ? Object.entries(PROFILE_CARD_ICON_ALIGNS).find(([, option]) => option.featureId === id)
       : undefined;
-    if (!sizeEntry && !alignEntry) {
+    const isLayout = type === 'feature' && id === FEATURES.CARD_LAYOUT_FULL_ART;
+    const colorEntry = type === 'titleColor' || type === 'usernameColor' || type === 'borderColor'
+      ? this.colorCatalog.find((candidate) => candidate.id === id) ?? null
+      : null;
+    const iconEntry = type === 'icon'
+      ? [...(this.icons?.default ?? []), ...(this.icons?.unlockable ?? [])]
+        .find((candidate) => candidate.file === id) ?? null
+      : null;
+    if (!sizeEntry && !alignEntry && !isLayout && !colorEntry && !iconEntry) {
       element.hidden = true;
       return;
     }
@@ -2670,13 +2679,17 @@ export class ProfileView {
 
     const host = this.buyPreviewHost;
     if (!host) return;
-    const layout = Object.values(PROFILE_CARD_LAYOUTS).includes(base.layout)
+    let layout = Object.values(PROFILE_CARD_LAYOUTS).includes(base.layout)
       ? base.layout
       : PROFILE_CARD_DEFAULT_LAYOUT;
+    if (isLayout) layout = PROFILE_CARD_LAYOUTS.FULL_ART;
     if (this.buyPreviewLabel) {
-      this.buyPreviewLabel.textContent = layout === 'fullart'
+      let previewLabel = layout === PROFILE_CARD_LAYOUTS.FULL_ART
         ? i18n.t('profile.card.layout.fullart')
         : i18n.t('profile.card.layout.normal');
+      if (colorEntry) previewLabel = colorName(colorEntry, cardLanguage.getLang());
+      else if (iconEntry) previewLabel = iconEntry.name;
+      this.buyPreviewLabel.textContent = previewLabel;
     }
     if (!this.buyPreviewCard) this.buyPreviewCard = new ProfileCard(host);
     const model = {
@@ -2695,6 +2708,24 @@ export class ProfileView {
       picksMade: ICON_PREVIEW_STATS.picksMade,
       firstObtainedAt: ICON_PREVIEW_STATS.firstObtainedAt,
     };
+    // The colour being bought dresses the sample, never the stored preferences: the purchase is
+    // still a question, and cancelling must leave the card exactly as it was.
+    if (colorEntry) {
+      if (type === 'titleColor') {
+        model.titleColor = id;
+        model.titleColorValue = colorEntry.css;
+        model.titleColorGradient = colorEntry.gradient === true;
+      } else if (type === 'usernameColor') {
+        model.nameColor = id;
+        model.nameColorValue = colorEntry.css;
+        model.nameColorGradient = colorEntry.gradient === true;
+      } else {
+        model.borderColor = id;
+        model.borderColorValue = colorEntry.css;
+        model.borderColorLine = colorEntry.colors?.[0] ?? null;
+      }
+    }
+    if (iconEntry) model.underlay = iconEntry.file;
     this.buyPreviewCard.setLayout(layout);
     await this.buyPreviewCard.render(model);
     // The sample is created once and reused, so its stage would keep the scale of the width it had

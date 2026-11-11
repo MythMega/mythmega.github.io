@@ -165,8 +165,8 @@ Vue : `js/UI/views/CollectionView.js`, catalogue via `CollectionManager`.
   (`W2` avant `W10`).
 - **Promos** : une promo non possédée n'apparaît pas ; le groupe n'apparaît qu'à la première copie
   obtenue ; aucune promo ne compte dans la complétion.
-- **Binders** : bouton dans l'en-tête de la page ; un compteur de binders vit dans l'en-tête
-  global.
+- **Binders** : bouton dans l'en-tête de la page de collection ; ils ne figurent plus dans
+  l'en-tête global, où l'inventaire a remplacé les compteurs.
 - Toute vente retire les placements excédentaires des binders (`BinderManager.reconcile()`), en
   commençant par les emplacements les plus lointains.
 
@@ -359,7 +359,8 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
     ouverts ;
   - paliers globaux (`settings/global_trophy.json`) : cartes possédées, boosters ouverts, cartes
     différentes, **blocs minés au total** et **par sorte**, **pioches Mine Pick** et **par rareté de
-    carte** ;
+    carte**, **quêtes terminées**, **jours de connexion**, **cartes vendues** et **niveau de
+    joueur** (ce dernier calculé après les autres familles, puisque le niveau dépend de leur XP) ;
   - trophées de collection par extension (`data/trophies/<setId>.json`), avec des listes d'index
     (`RequirementType: "CardList"`) et un layout (`classic`/`fullart`/`any`).
 - **Raretés** : `bronze`, `silver`, `gold`, `diamond`, `emerald` ; XP par défaut dans
@@ -376,7 +377,8 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
   l'XP des trophées. Aucun compteur d'XP n'est stocké : seuls les déblocages le sont.
 - **Niveau** : `defaultLevel` (1), `baseRequiredExpToLevelUp` (100), `incrementRequiredXpBy` (25).
 - Le catalogue des trophées est filtrable par famille et statut, et ne montre jamais les trente
-  trophées d'un coup.
+  trophées d'un coup. La Mine forme une seule famille : ses paliers par bloc restent groupés dans
+  la liste, mais ne sont pas proposés comme filtres séparés.
 - **Bon goût des données** : une médaille absente retombe sur `assets/img/trophy/default.png` ; un
   palier malformé retombe sur la valeur livrée.
 
@@ -558,7 +560,8 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
 - **Codes** : panneau de saisie des codes.
 - **Notes de mise à jour** : la page est entièrement construite à partir de `settings/changelog.json`
   (`ConfigLoader.getChangelog()`), de la version la plus récente à la plus ancienne. Chaque version
-  est un bloc repliable, la plus récente ouverte ; chaque note porte sa nature (`Feature`, `Fix`,
+  est un bloc repliable, la plus récente ouverte, dont le résumé affiche le numéro et le titre de la
+  mise à jour ; chaque note porte sa nature (`Feature`, `Fix`,
   `QoL`, ou le mot du fichier si le jeu ne la connaît pas) et les notes marquées `IsImportant` sont
   bordées et étoilées. Le texte suit la langue active, avec repli sur la langue par défaut ; un
   fichier illisible affiche une phrase au lieu d'un bloc vide. Schema et règles :

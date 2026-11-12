@@ -27,6 +27,7 @@
 import i18n from '../../utils/I18n.js';
 import cardLanguage from '../../utils/CardLanguage.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
+import { formatAccountValue } from '../../business/AccountValueManager.js';
 import { resolveTrophyIcon } from '../../business/TrophyManager.js';
 import TrophyDetail from './TrophyDetail.js';
 
@@ -611,7 +612,8 @@ export class ProfileCard {
   }
 
   /**
-   * Writes the description: the pinned trophies as medals on one line, then the counters.
+   * Writes the description: the pinned trophies as medals on one line, then the counters (the
+   * player level replaces the old Sparks line, and the account value closes the list).
    *
    * The medals are IMAGES, not names: three names on a 360 pixel card would be three ellipsised
    * lines, while the three medals are exactly what the Trophies page shows and what the player
@@ -650,15 +652,17 @@ export class ProfileCard {
     this.featuredElement.hidden = featured.length === 0;
     this.featuredElement.title = names.join(' · ');
 
+    const accountValueText = formatAccountValue(model.accountValue, i18n.getLang());
     const lines = [
       i18n.t('profile.card.stats.boosters', { count: model.boostersOpened ?? 0 }),
       i18n.t('profile.card.stats.cards', { count: model.distinctCards ?? 0 }),
       model.firstObtainedAt
         ? i18n.t('profile.card.stats.first', { date: TrophyDetail.formatDate(model.firstObtainedAt) })
         : i18n.t('profile.card.stats.none'),
-      i18n.t('profile.card.stats.sparks', { count: model.sparks ?? 0 }),
+      i18n.t('profile.card.stats.level', { level: model.level ?? 1 }),
       i18n.t('profile.card.stats.blocks', { count: model.blocksMined ?? 0 }),
       i18n.t('profile.card.stats.picks', { count: model.picksMade ?? 0 }),
+      i18n.t('profile.card.stats.accountValue', { value: accountValueText }),
     ];
     this.statsElement.textContent = '';
     lines.forEach((line) => {

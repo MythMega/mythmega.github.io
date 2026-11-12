@@ -2216,6 +2216,7 @@
             <li><a class="info__toc-link" href="#info-mining" data-info-toc-link="info-mining" data-i18n="info.mining.title">Mine</a></li>
             <li><a class="info__toc-link" href="#info-trader" data-info-toc-link="info-trader" data-i18n="info.trader.title">Marchand itinérant</a></li>
             <li><a class="info__toc-link" href="#info-experience" data-info-toc-link="info-experience" data-i18n="info.experience.title">Expérience et niveaux</a></li>
+            <li><a class="info__toc-link" href="#info-account-value" data-info-toc-link="info-account-value" data-i18n="info.accountValue.title">Valeur de compte</a></li>
             <li><a class="info__toc-link" href="#info-about" data-info-toc-link="info-about" data-i18n="info.about.title">À propos de MineCards</a></li>
             <li><a class="info__toc-link" href="#info-faq" data-info-toc-link="info-faq" data-i18n="info.faq.title">Questions fréquentes</a></li>
             <li><a class="info__toc-link" href="#info-rates" data-info-toc-link="info-rates" data-i18n="info.rates.title">Taux de drop</a></li>
@@ -2413,6 +2414,24 @@
           <h4 class="info__subtitle" data-i18n="info.experience.levels">Passer un niveau</h4>
           <p class="info__text" data-info-experience-level></p>
           <p class="info__note" data-i18n="info.experience.help">Les valeurs ci-dessus sont lues directement dans la configuration du jeu : elles correspondent exactement à l'expérience réellement accordée.</p>
+        </section>
+
+        <!-- Account value: the formula used by the last line of the profile card. It is documented
+             here, never on the profile page itself. -->
+        <section class="panel info__panel" id="info-account-value">
+          <h3 class="stats__title" data-i18n="info.accountValue.title">Valeur de compte</h3>
+          <p class="info__text" data-i18n="info.accountValue.intro">La valeur de compte est un indicateur de progression, exprimé en Sparks théoriques. Elle ne peut être ni dépensée ni retirée.</p>
+          <ul class="info__steps">
+            <li data-i18n="info.accountValue.sparks">Le solde de Sparks actuel.</li>
+            <li data-i18n="info.accountValue.cards">La valeur de revente de chaque copie possédée dans la collection, selon sa rareté (10 Sparks pour une carte promo).</li>
+            <li data-i18n="info.accountValue.distinct">Pour chaque carte différente possédée, le carré de sa rareté : une Mythique (rareté 5) ajoute 25.</li>
+            <li data-i18n="info.accountValue.level">Le niveau du joueur multiplié par 10.</li>
+            <li data-i18n="info.accountValue.resources">La quantité de chaque ressource minée multipliée par sa valeur au Marchand itinérant.</li>
+            <li data-i18n="info.accountValue.currencies">La quantité de chaque monnaie personnalisée possédée multipliée par 25.</li>
+            <li data-i18n="info.accountValue.boosters">Chaque booster bonus multiplié par le prix d'un booster en boutique.</li>
+            <li data-i18n="info.accountValue.bundles">Chaque bundle de blocs multiplié par son prix en boutique.</li>
+          </ul>
+          <p class="info__note" data-i18n="info.accountValue.help">Les prix et les valeurs sont lus dans la configuration du jeu. La valeur de compte est recalculée depuis le compte et n'est jamais stockée comme un solde.</p>
         </section>
 
         <!-- About + FAQ: the long-form prose of the site, and the visible counterpart of the

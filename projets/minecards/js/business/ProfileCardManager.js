@@ -20,8 +20,9 @@
  *   - `background`      : the artwork of the favourite card the player picked (the first one by
  *                         default), or the configured fallback;
  *   - `underlay`        : the avatar icon of the profile, drawn over the illustration;
- *   - the counters      : pinned trophies, boosters opened, distinct cards, oldest card, Sparks,
- *                         blocks mined and Mine Picks made.
+ *   - the counters      : pinned trophies, boosters opened, distinct cards, oldest card, level,
+ *                         blocks mined, Mine Picks made and the account value (the documented
+ *                         Spark-equivalent total built by `AccountValueManager`).
  *
  * WHAT THE PLAYER PAID FOR IS CHECKED HERE, NOT ONLY BY THE PAGE
  *   The title colour is filtered against `FeatureManager.getPurchases()`: a preference alone is
@@ -39,6 +40,7 @@ import featureManager, { FEATURES, FeatureManager } from './FeatureManager.js';
 import minePickManager from './MinePickManager.js';
 import miningManager from './MiningManager.js';
 import sparksManager from './SparksManager.js';
+import accountValueManager from './AccountValueManager.js';
 
 /** Lowest and highest rarity of a card (`1` = Commune … `5` = Mythique). */
 export const PROFILE_CARD_RARITY_MIN = 1;
@@ -692,6 +694,8 @@ export class ProfileCardManager {
     const trophyCount = Number.isInteger(trophyState?.counters?.unlocked)
       ? trophyState.counters.unlocked
       : 0;
+    const level = Number.isInteger(trophyState?.level?.level) ? trophyState.level.level : 1;
+    const accountValue = await accountValueManager.build({ entries, level });
     const chosenRarity = stored.rarity;
     const titleColor = ProfileCardManager.resolveColor(
       stored.titleColor,
@@ -762,6 +766,9 @@ export class ProfileCardManager {
       boostersOpened,
       distinctCards: ProfileCardManager.countDistinctCards(entries),
       firstObtainedAt: ProfileCardManager.findFirstObtainedAt(entries),
+      level,
+      accountValue: accountValue.total,
+      accountValueBreakdown: accountValue,
       sparks: counters.sparks,
       blocksMined: counters.blocksMined,
       picksMade: counters.picksMade,
@@ -770,7 +777,7 @@ export class ProfileCardManager {
     this.log(
       `Card built: rarity ${model.rarity} (${model.trophyCount} trophies), ` +
         `${model.distinctCards} card(s), ${model.boostersOpened} booster(s), ` +
-        `${model.sparks} Sparks.`
+        `level ${model.level}, account value ${model.accountValue}.`
     );
     return model;
   }

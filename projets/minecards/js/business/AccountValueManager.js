@@ -5,25 +5,28 @@
  * CollectionManager.js` (collection entries), `js/business/SparksManager.js` (Sparks and card
  * sale prices), `js/business/MiningManager.js` (mined resources and block bundles),
  * `js/business/IllagerShopManager.js` (custom currencies), `js/business/DateSyncManager.js`
- * (bonus boosters) and `settings/config.json` (shop prices and resource values).
+ * (bonus boosters), `js/business/FeatureManager.js` (bought profile customisations) and
+ * `settings/config.json` (shop prices, feature prices and resource values).
  *
  * THE FORMULA (always in Spark-equivalent units)
  *   total = Sparks
  *         + Σ owned copy × its sale price (promo cards use their fixed 10-Spark sale price)
- *         + Σ distinct owned card × rarity²
+ *         + Σ distinct owned card × rarity³ × 10
  *         + level × 10
  *         + Σ mined resource quantity × its Wandering Trader value
  *         + Σ custom currency balance × 25
  *         + Σ bonus booster × the booster shop price
  *         + block bundles × the block-bundle shop price
+ *         + Σ purchased profile customisation × its current price in Sparks
  *
  * WHY EACH TERM
  *   - Sparks are already the unit of the result.
  *   - Every COPY in the collection is worth what selling it would credit, not what buying it
  *     costs: the value describes the collection's liquidation value. A promo is worth its fixed
  *     duplicate price, exactly as `SparksManager.sellCard()` charges.
- *   - Every DISTINCT card adds its rarity squared (1 → 1, 5 → 25): rarity is the collection's
- *     progression axis, while the sale value above already covers duplicate copies.
+ *   - Every DISTINCT card adds its rarity cubed, multiplied by 10 (1 → 10, 5 → 250): rarity is
+ *     the collection's progression axis, while the sale value above already covers duplicate
+ *     copies.
  *   - The player level is progression that cannot be bought, hence a flat 10 per level.
  *   - Mined resources use the same `shop.itemsValues` map as the Wandering Trader, so their
  *     value here is the value the game already gives them.
@@ -31,6 +34,10 @@
  *     exchange rate for this indicator, so the same weight is used for all of them.
  *   - Bonus boosters and block bundles are valued at their CURRENT shop price, not at a price
  *     remembered at purchase time.
+ *   - Bought profile customisations (Full Art, title/pseudo/frame colours, paid avatars, avatar
+ *     sizes and anchors, extra favourite and featured slots) are part of the account: each one is
+ *     worth its price in Sparks, one Spark for one point. The purchase record does not store the
+ *     price, so the CURRENT catalogue price is used, like the boosters and the bundles above.
  *
  * The result is an INDICATOR, never a balance: nothing is credited, spent or persisted. A
  * missing or malformed source contributes zero rather than failing the profile card.
@@ -46,11 +53,22 @@ import sparksManager, { PROMO_SELL_PRICE } from './SparksManager.js';
 import miningManager from './MiningManager.js';
 import illagerShopManager from './IllagerShopManager.js';
 import dateSyncManager from './DateSyncManager.js';
+import { colorManager } from './ColorManager.js';
+import profileIconManager from './ProfileIconManager.js';
+import featureManager, {
+  BORDER_COLOR_FEATURE_PREFIX,
+  FAVORITE_SLOT_FEATURE_PREFIX,
+  FEATURED_SLOT_FEATURE_PREFIX,
+  PROFILE_ICON_FEATURE_PREFIX,
+  TITLE_COLOR_FEATURE_PREFIX,
+  USERNAME_COLOR_FEATURE_PREFIX,
+} from './FeatureManager.js';
 
 /** Flat weights of the parts of the formula that are not read from a price table. */
 export const ACCOUNT_VALUE_RULES = Object.freeze({
   level: 10,
   customCurrency: 25,
+  distinctCard: 10,
   maxRarity: 5,
 });
 
@@ -94,13 +112,13 @@ export class AccountValueManager {
   }
 
   /**
-   * Adds the rarity squared of every DISTINCT owned card.
+   * Adds the rarity cubed × 10 of every DISTINCT owned card.
    *
    * The collection view holds one entry per printing, so this is one term per distinct card. A
    * missing or out-of-range rarity contributes nothing.
    *
    * @param {object[]} entries - Collection entries.
-   * @returns {number} The rarity-squared total.
+   * @returns {number} The rarity-cubed total, multiplied by 10.
    */
   static distinctRarityValue(entries) {
     if (!Array.isArray(entries)) return 0;
@@ -110,7 +128,7 @@ export class AccountValueManager {
       if (!Number.isInteger(rarity) || rarity < 1 || rarity > ACCOUNT_VALUE_RULES.maxRarity) {
         return total;
       }
-      return total + rarity * rarity;
+      return total + rarity * rarity * rarity * ACCOUNT_VALUE_RULES.distinctCard;
     }, 0);
   }
 
@@ -154,6 +172,72 @@ export class AccountValueManager {
   }
 
   /**
+   * Values every profile customisation the account bought, at its price in Sparks (1:1).
+   *
+   * The purchases map only records WHAT was bought (with a date), never what it cost, so the
+   * current catalogues are the source of truth. Every family of purchase is resolved by its id:
+   *   - a plain feature id (`cardLayoutFullArt`, `profileIconLarge`...) -> `features[id]`;
+   *   - `cardTitleColor.<id>` -> the colour's `titlePrice`;
+   *   - `usernameColor.<id>` -> the colour's `usernamePrice`;
+   *   - `cardBorderColor.<id>` -> the colour's `borderPrice`;
+   *   - `profileIcon.<file>` -> the paid avatar's `price`;
+   *   - `profileFavoriteSlot.<n>` / `profileFeaturedSlot.<n>` -> the slot price.
+   *
+   * An unknown or malformed purchase contributes zero, so an old or hand-edited save can never
+   * invent points.
+   *
+   * @param {Record<string, {boughtAt: string}>} purchases - `FeatureManager.getPurchases()`.
+   * @param {object} [catalogs] - Current price catalogues.
+   * @param {Record<string, {priceSparks: number}>} [catalogs.features={}] - Feature prices.
+   * @param {object[]} [catalogs.colors=[]] - `ColorManager.listColors()`.
+   * @param {object[]} [catalogs.profileIcons=[]] - Default avatar entries of `ProfileIconManager`.
+   * @param {Record<string, number>} [catalogs.favoriteSlotPrices={}] - Extra favourite slot prices.
+   * @param {Record<string, number>} [catalogs.featuredSlotPrices={}] - Extra featured slot prices.
+   * @returns {number} The total value of the bought customisations, in points.
+   */
+  static profileCustomizationValue(purchases, {
+    features = {},
+    colors = [],
+    profileIcons = [],
+    favoriteSlotPrices = {},
+    featuredSlotPrices = {},
+  } = {}) {
+    if (!purchases || typeof purchases !== 'object' || Array.isArray(purchases)) return 0;
+    const colorsById = new Map(
+      (Array.isArray(colors) ? colors : []).map((entry) => [entry.id, entry])
+    );
+    const iconsByFile = new Map(
+      (Array.isArray(profileIcons) ? profileIcons : []).map((entry) => [entry.file, entry])
+    );
+
+    return Object.keys(purchases).reduce((total, id) => {
+      let price = 0;
+      if (Object.prototype.hasOwnProperty.call(features, id)) {
+        price = amountOf(features[id]?.priceSparks);
+      } else if (id.startsWith(TITLE_COLOR_FEATURE_PREFIX)) {
+        const color = colorsById.get(id.slice(TITLE_COLOR_FEATURE_PREFIX.length));
+        price = amountOf(color?.titlePrice);
+      } else if (id.startsWith(USERNAME_COLOR_FEATURE_PREFIX)) {
+        const color = colorsById.get(id.slice(USERNAME_COLOR_FEATURE_PREFIX.length));
+        price = amountOf(color?.usernamePrice);
+      } else if (id.startsWith(BORDER_COLOR_FEATURE_PREFIX)) {
+        const color = colorsById.get(id.slice(BORDER_COLOR_FEATURE_PREFIX.length));
+        price = amountOf(color?.borderPrice);
+      } else if (id.startsWith(PROFILE_ICON_FEATURE_PREFIX)) {
+        const icon = iconsByFile.get(id.slice(PROFILE_ICON_FEATURE_PREFIX.length));
+        price = amountOf(icon?.price);
+      } else if (id.startsWith(FAVORITE_SLOT_FEATURE_PREFIX)) {
+        const slot = id.slice(FAVORITE_SLOT_FEATURE_PREFIX.length);
+        price = amountOf(favoriteSlotPrices?.[slot]);
+      } else if (id.startsWith(FEATURED_SLOT_FEATURE_PREFIX)) {
+        const slot = id.slice(FEATURED_SLOT_FEATURE_PREFIX.length);
+        price = amountOf(featuredSlotPrices?.[slot]);
+      }
+      return total + price;
+    }, 0);
+  }
+
+  /**
    * Builds the complete account value and its breakdown.
    *
    * The level is read from the caller's trophy state through `ProfileCardManager.build()`, which
@@ -166,21 +250,40 @@ export class AccountValueManager {
    * @returns {Promise<{total: number, sparks: number, cardSaleValue: number,
    *   distinctRarityValue: number, levelValue: number, resourceValue: number,
    *   customCurrencyValue: number, bonusBoosterValue: number, bundleValue: number,
-   *   bonusBoosters: number, bundles: number}>} The value and every term of the formula.
+   *   profileCustomizationValue: number, bonusBoosters: number, bundles: number}>}
+   *   The value and every term of the formula.
    * @throws {Error} When one of the account sources cannot be read.
    */
   async build({ entries = [], level = 1 } = {}) {
-    const [sparks, prices, mining, resources, shop, boosters, miningSettings, shopState] =
-      await Promise.all([
-        sparksManager.getBalance(),
-        sparksManager.getPrices(),
-        miningManager.getState(),
-        miningManager.listResources(),
-        configLoader.getShopSettings(),
-        configLoader.getBoosterSettings(),
-        configLoader.getMiningSettings(),
-        illagerShopManager.readState(),
-      ]);
+    const [
+      sparks,
+      prices,
+      mining,
+      resources,
+      shop,
+      boosters,
+      miningSettings,
+      shopState,
+      purchases,
+      featureSettings,
+      profileSettings,
+      colorCatalog,
+      iconCatalog,
+    ] = await Promise.all([
+      sparksManager.getBalance(),
+      sparksManager.getPrices(),
+      miningManager.getState(),
+      miningManager.listResources(),
+      configLoader.getShopSettings(),
+      configLoader.getBoosterSettings(),
+      configLoader.getMiningSettings(),
+      illagerShopManager.readState(),
+      featureManager.getPurchases(),
+      configLoader.getFeatureSettings(),
+      configLoader.getProfileSettings(),
+      colorManager.listColors(),
+      profileIconManager.loadCatalog(),
+    ]);
 
     const resourceTypes = new Map(
       (Array.isArray(resources) ? resources : []).map((resource) => [resource.slug, resource.type])
@@ -204,6 +307,13 @@ export class AccountValueManager {
       customCurrencyValue: AccountValueManager.customCurrencyValue(shopState?.balances),
       bonusBoosterValue: bonusBoosters * boosterPrice,
       bundleValue: bundles * bundlePrice,
+      profileCustomizationValue: AccountValueManager.profileCustomizationValue(purchases, {
+        features: featureSettings?.items,
+        colors: colorCatalog,
+        profileIcons: iconCatalog?.default,
+        favoriteSlotPrices: profileSettings?.favoriteSlotPrices,
+        featuredSlotPrices: profileSettings?.featuredSlotPrices,
+      }),
       bonusBoosters,
       bundles,
     };

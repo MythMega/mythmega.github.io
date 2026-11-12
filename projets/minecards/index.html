@@ -415,9 +415,15 @@
     </div>
 
     <div class="app-header__stats">
-      <!-- The header keeps ACTIONS only. What the day still grants and what the player owns lives
-           in the inventory dialog: one button, one place, instead of five counters competing with
-           the identity for the width of the bar. -->
+      <!-- The header keeps the actions and the Sparks balance. What the day still grants and what
+           the player owns lives in the inventory dialog: one button, one place, instead of five
+           counters competing with the identity for the width of the bar. The balance sits first,
+           on the left of the actions, in the group that stays pinned to the right edge. -->
+      <div class="app-header__stat app-header__stat--sparks" data-header-sparks data-i18n-title="header.sparks.title" title="Solde de Sparks">
+        <img class="app-header__stat-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
+        <span class="sr-only" data-i18n="header.sparks.short">Sparks</span>
+        <span class="app-header__sparks-value" data-header-sparks-value>0</span>
+      </div>
       <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-nav-target="shop" data-i18n-title="header.shop.title" data-i18n-aria-label="header.shop.title" title="Boutique">
         <span class="app-header__stat-icon app-header__stat-icon--mask app-header__stat-icon--shop" aria-hidden="true"></span>
         <span class="sr-only" data-i18n="header.shop.title">Boutique</span>

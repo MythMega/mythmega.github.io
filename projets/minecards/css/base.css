@@ -439,6 +439,15 @@ body[data-connection="offline"] .app-header__clock {
   padding: var(--space-1) var(--space-2);
 }
 
+/* The Sparks balance is a counter, not an action: it keeps the pill of the bar but stays a plain
+   readout, and its number carries the emphasis. */
+.app-header__stat--sparks {
+  flex: 0 0 auto;
+  color: var(--color-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 /* "Something is waiting for you today": a dot on the corner of the button, never a number (the
    chapter has one reward a day, so a counter would always say "1"). */
 .app-header__stat-dot {

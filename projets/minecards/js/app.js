@@ -111,6 +111,11 @@ export const INVENTORY_SELECTORS = Object.freeze({
   CLOSE: '[data-inventory-modal-close]',
 });
 
+/** Selector of the Sparks balance of the header. */
+export const HEADER_SPARKS_SELECTORS = Object.freeze({
+  VALUE: '[data-header-sparks-value]',
+});
+
 /** Selectors of the daily reward button of the header and of its "something to claim" dot. */
 export const DAILY_REWARDS_SELECTORS = Object.freeze({
   BUTTON: '[data-header-daily-rewards]',
@@ -539,6 +544,7 @@ export class App {
     // already displayed.
     this.bindHeader();
     this.bindHeaderIdentity();
+    await this.refreshHeaderSparks();
     this.bindChangelogBadge();
     this.bindInventory();
     this.bindDailyRewards();
@@ -1556,6 +1562,7 @@ export class App {
     eventBus.on(EVENTS.THEME_CHANGED, () => applyThemeIcons());
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
+    eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload?.balance));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
     eventBus.on(EVENTS.SAVE_IMPORTED, (payload) => this.handleSaveImported(payload));
     eventBus.on(EVENTS.QUEST_GUIDE_REQUESTED, (payload) => void this.guideToQuest(payload));
@@ -1736,6 +1743,35 @@ export class App {
   }
 
   /**
+   * Reads the Sparks balance and writes it in the header.
+   *
+   * The value is read once at boot, then every change goes through `SPARKS_UPDATED`, which every
+   * credit and debit already publishes. The header therefore never polls the database.
+   *
+   * @returns {Promise<void>} Resolves once the balance was drawn (a failure only logs).
+   */
+  async refreshHeaderSparks() {
+    try {
+      this.renderHeaderSparks(await sparksManager.getBalance());
+    } catch (error) {
+      console.warn('[App] The Sparks balance of the header could not be read.', error);
+    }
+  }
+
+  /**
+   * Writes the Sparks balance in the header.
+   *
+   * @param {number|null|undefined} balance - Current balance, or null to clear it.
+   * @returns {void}
+   */
+  renderHeaderSparks(balance) {
+    const value = document.querySelector(HEADER_SPARKS_SELECTORS.VALUE);
+    if (!value) return;
+    const amount = Number.isFinite(balance) ? Math.max(0, balance) : 0;
+    value.textContent = String(amount);
+  }
+
+  /**
    * Releases the trusted clock and resets the header after a full reset.
    *
    * The account is gone: the quota, the time anchor and the counters must not survive in memory
@@ -1872,6 +1908,7 @@ export class App {
     this.renderHeaderPlayer(null);
     this.renderHeaderLevel(null);
     this.renderHeaderClock(null);
+    this.renderHeaderSparks(0);
     this.closeInventory();
     this.setConnectionState(undefined);
   }

@@ -662,6 +662,14 @@
                 }
             },
             {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Retour du solde de Sparks dans la barre d'état de l'application.",
+                    "En": "The Sparks balance is back in the app status bar."
+                }
+            },
+            {
                 "Type": "Fix",
                 "IsImportant": false,
                 "Text": {

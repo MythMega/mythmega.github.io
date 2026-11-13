@@ -1019,9 +1019,12 @@ export class TrophyManager {
    * Expands the per-rarity Mine Pick tiers: one trophy per card rarity AND per tier.
    *
    * `minepickSpecificPicks` counts the cards KEPT per rarity of the card (1 = common … 5 =
-   * mythic), so its single tier table applies to each of the five rarities. Every rarity gets its
-   * own group (`minepickSpecificPicks:<rarity>`), otherwise the twenty-five trophies would pile up
-   * in one grid with five identical headings.
+   * mythic), so its single tier table applies to each of the five SHIPPED trophy rarities. Every
+   * rarity gets its own group (`minepickSpecificPicks:<rarity>`), otherwise the twenty-five
+   * trophies would pile up in one grid with five identical headings.
+   *
+   * Unique (6) deliberately stays out of this family: the paid trophy catalogue only ships the
+   * five historic rarity folders, and inventing a sixth would point at icons that do not exist.
    *
    * @param {string} statKey - Key of the file (`minepickSpecificPicks`).
    * @param {unknown} tiers - Raw tier table.
@@ -1032,7 +1035,7 @@ export class TrophyManager {
     const trophies = [];
     const slug = slugify(statKey);
 
-    for (let cardRarity = CARD_RARITY.MIN; cardRarity <= CARD_RARITY.MAX; cardRarity += 1) {
+    for (let cardRarity = CARD_RARITY.MIN; cardRarity <= Math.min(CARD_RARITY.MAX, 5); cardRarity += 1) {
       const current = Number.isInteger(context.minePickPicksByRarity?.[String(cardRarity)])
         ? context.minePickPicksByRarity[String(cardRarity)]
         : 0;

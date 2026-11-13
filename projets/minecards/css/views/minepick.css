@@ -265,6 +265,12 @@
   box-shadow: 0 0 14px var(--color-rarity-mythic);
 }
 
+.minepick__mini.is-revealed.minepick__mini--r6 {
+  border-color: var(--color-rarity-unique);
+  border-width: 3px;
+  box-shadow: 0 0 16px var(--color-rarity-unique);
+}
+
 /* A card that was kept is the one the pack gave away: the thickest ring of the board, in green -
    on top of the rarity ring, and the others fade. */
 .minepick__mini.is-kept {
@@ -485,6 +491,12 @@
 
 .minepick__cards.is-summary .minepick__card--r5 {
   outline: 3px solid var(--color-rarity-mythic);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+.minepick__cards.is-summary .minepick__card--r6 {
+  outline: 3px solid var(--color-rarity-unique);
   outline-offset: 3px;
   border-radius: var(--radius-md);
 }

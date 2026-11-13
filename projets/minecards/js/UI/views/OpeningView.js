@@ -731,6 +731,11 @@ export class OpeningView {
       set: this.resolveSetName(this.selectedSetId),
       bonus: quota.bonusBySet[this.selectedSetId] ?? 0,
     });
+    // Bought boosters now live in the bonus bucket, so the breakdown already shows them. The total
+    // adds the daily allowance to that bucket, which is the number the player can actually open.
+    this.quotaElement.textContent += i18n.t('opening.quota.sum', {
+      count: quota.availableForSet ?? 0,
+    });
 
     if (available > 0) {
       this.openButton.disabled = false;

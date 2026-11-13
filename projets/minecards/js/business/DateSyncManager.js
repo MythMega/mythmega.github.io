@@ -302,6 +302,13 @@ export class DateSyncManager {
 
     const online = await this.syncTime('init');
     const reset = await this.ensureDailyReset();
+    // Older versions stored bought boosters in a separate `purchased` bucket. They are now kept in
+    // the bonus bucket of their extension, so migrate them before any view reads the quota.
+    try {
+      await this.transferPurchasedBoostersToBonus();
+    } catch (error) {
+      console.warn('[DateSyncManager] The purchased boosters could not be migrated to bonus.', error);
+    }
 
     this.startClock();
     this.bindNetworkEvents();
@@ -1011,11 +1018,66 @@ export class DateSyncManager {
   }
 
   /**
+   * Moves every booster of the legacy `purchased` bucket into the bonus bucket of its extension.
+   *
+   * The monthly shop now credits bonus boosters directly, but a save written before that change
+   * still carries `purchasedBoosters` and `purchasedBySet`. Migrating them at boot keeps the stock
+   * visible under the extension it was bought for and lets it survive the daily reset exactly like
+   * every other bonus booster. Legacy stock with no set attached (or attached to an extension that
+   * no longer exists) is assigned to the first declared set, or left untouched when none is known.
+   *
+   * The migration is idempotent: a quota without purchased boosters is left untouched.
+   *
+   * @returns {Promise<boolean>} True when a write moved something.
+   * @throws {Error} When the read or write fails.
+   */
+  async transferPurchasedBoostersToBonus() {
+    const quota = await this.readQuota();
+    if (quota.purchasedBoosters <= 0) return false;
+
+    const fallbackSetId = this.knownSets[0] ?? null;
+    const bonusBoosters = { ...quota.bonusBoosters };
+    let assigned = 0;
+
+    Object.entries(quota.purchasedBySet).forEach(([setId, quantity]) => {
+      if (!Number.isInteger(quantity) || quantity <= 0) return;
+      const target = this.knownSets.includes(setId) ? setId : fallbackSetId;
+      if (!target) return;
+      bonusBoosters[target] = (bonusBoosters[target] ?? 0) + quantity;
+      assigned += quantity;
+    });
+
+    const unassigned = Math.max(0, quota.purchasedBoosters - assigned);
+    if (unassigned > 0) {
+      if (!fallbackSetId) {
+        console.warn(
+          '[DateSyncManager] Purchased boosters cannot be migrated: no booster set is declared.'
+        );
+        return false;
+      }
+      bonusBoosters[fallbackSetId] = (bonusBoosters[fallbackSetId] ?? 0) + unassigned;
+    }
+
+    const next = {
+      ...quota,
+      bonusBoosters,
+      purchasedBoosters: 0,
+      purchasedBySet: {},
+    };
+    await storageRepository.setUserState(USER_STATE_KEYS.QUOTA, next);
+    this.quota = next;
+    this.emitQuotaUpdated(fallbackSetId);
+    console.info(
+      `[DateSyncManager] Migrated ${quota.purchasedBoosters} purchased booster(s) to bonus stock.`
+    );
+    return true;
+  }
+
+  /**
    * Credits boosters bought with Sparks.
    *
-   * The global counterpart of `addBonusBoosters()`: a bought booster is NOT attached to an
-   * extension (neither is the daily allowance, which can be spent on any of them) and it is NOT
-   * cleared by the daily reset - it was paid for, so it keeps until it is opened.
+   * Kept for older callers and for the refund path: bought boosters are now credited directly to
+   * the bonus bucket of their extension by `addBonusBoosters()`.
    *
    * @param {number} quantity - Number of boosters to credit (strictly positive integer).
    * @param {object} [context=null] - Optional `StorageRepository.transaction` context to join

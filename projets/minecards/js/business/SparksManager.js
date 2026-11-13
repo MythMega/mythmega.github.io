@@ -195,7 +195,7 @@ export class SparksManager {
   /**
    * Sell price of a card, by rarity.
    *
-   * @param {number} rarity - Card rarity (1-5).
+   * @param {number} rarity - Card rarity (1-6).
    * @returns {Promise<number>} Sparks credited per copy (0 when the rarity is unknown).
    * @throws {Error} When the configuration cannot be read.
    */
@@ -207,7 +207,7 @@ export class SparksManager {
   /**
    * Buy price of a card, by rarity.
    *
-   * @param {number} rarity - Card rarity (1-5).
+   * @param {number} rarity - Card rarity (1-6).
    * @returns {Promise<number>} Sparks charged per copy (0 when the rarity is unknown).
    * @throws {Error} When the configuration cannot be read.
    */
@@ -344,7 +344,7 @@ export class SparksManager {
    *
    * @param {object} payload - Sale payload.
    * @param {string} payload.key - Collection key (`${id}_${style}`).
-   * @param {number} payload.rarity - Card rarity (1-5), used to resolve the price.
+   * @param {number} payload.rarity - Card rarity (1-6), used to resolve the price.
    * @param {number} [payload.copies=1] - Number of copies to sell (strictly positive integer).
    * @returns {Promise<{balance: number, quantity: number, gained: number}>} The new balance, the
    *   remaining quantity of the card and the Sparks credited.
@@ -406,18 +406,18 @@ export class SparksManager {
    * and a sale has no business rewriting them.
    *
    * @param {object} context - Transaction context.
-   * @param {number} rarity - Card rarity (1-5). An unknown rarity is not counted at all.
+   * @param {number} rarity - Card rarity (1-6). An unknown rarity is not counted at all.
    * @param {number} copies - Number of copies sold (strictly positive).
    * @returns {Promise<void>} Resolves once the counter is written.
    */
   async recordSale(context, rarity, copies) {
-    if (!Number.isInteger(rarity) || rarity < 1 || rarity > 5) return;
+    if (!Number.isInteger(rarity) || rarity < 1 || rarity > 6) return;
 
     const stored = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
     const stats = stored && typeof stored === 'object' ? { ...stored } : {};
-    // Always the full 1..5 grid, like `buildDefaultStats()`: a save written before this counter
+    // Always the full 1..6 grid, like `buildDefaultStats()`: a save written before this counter
     // existed starts at zero everywhere instead of carrying a half-filled map.
-    const sold = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    const sold = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
     if (stats.soldByRarity && typeof stats.soldByRarity === 'object') {
       Object.entries(stats.soldByRarity).forEach(([key, count]) => {
         if (Number.isInteger(count) && count >= 0) sold[key] = count;

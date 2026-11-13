@@ -34,11 +34,13 @@ export const SOUNDS = Object.freeze({
   CARD_RARITY_5: 'assets/sound/card_rarity_5.mp3',
 });
 
-/** Sound played when a card of the given rarity is revealed (only 3, 4 and 5 have one). */
+/** Sound played when a card of the given rarity is revealed (3, 4, 5 and 6 have one). */
 export const RARITY_SOUNDS = Object.freeze({
   3: SOUNDS.CARD_RARITY_3,
   4: SOUNDS.CARD_RARITY_4,
   5: SOUNDS.CARD_RARITY_5,
+  // Unique keeps the mythic sting: the rarity adds no new audio asset.
+  6: SOUNDS.CARD_RARITY_5,
 });
 
 /** Families of sounds, as stored in the account settings. */
@@ -489,9 +491,10 @@ export class SoundManager {
   /**
    * Plays the two sounds of one card reveal: the flip, then the rarity sting.
    *
-   * Rarities 4 and 5 each have their own sound; the other rarities only play the flip.
+   * Rarities 4, 5 and 6 each have their own sting (6 reuses the mythic one); the other
+   * rarities only play the flip.
    *
-   * @param {number} rarity - Rarity of the revealed card (1-5).
+   * @param {number} rarity - Rarity of the revealed card (1-6).
    * @returns {boolean} True when the flip sound was started.
    */
   playCardReveal(rarity) {

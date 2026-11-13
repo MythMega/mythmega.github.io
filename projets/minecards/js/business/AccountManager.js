@@ -176,9 +176,9 @@ export function buildDefaultStats() {
   return {
     boostersOpened: 0,
     godpacksOpened: 0,
-    drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+    drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
     drawsByCard: {},
-    soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+    soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
     // Account-wide counters added after the first saves: `ensureStatistics()` fills them once
     // from the quests, the daily rewards and the sales already recorded.
     questsCompleted: 0,

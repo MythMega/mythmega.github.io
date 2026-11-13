@@ -57,9 +57,10 @@ function applyCardBackground(url) {
  * Pilote les variables CSS --foil-bg-strength / --foil-underlay-strength ; posées en
  * style en ligne sur la carte, elles sont donc aussi reprises par le rendu exporté. */
 function applyFoilStrength() {
-  // La rareté Mythique (foil pleine surface, très coloré) a ses propres curseurs.
+  // Les raretés Mythique et Unique (foil pleine surface, très coloré) ont leurs propres curseurs.
   const rarityOption = inputRarity.options[inputRarity.selectedIndex];
-  const isMythic = rarityOption.getAttribute('data-class') === 'rarity-mythic';
+  const rarityClass = rarityOption.getAttribute('data-class');
+  const isMythic = rarityClass === 'rarity-mythic' || rarityClass === 'rarity-unique';
   const bg = isMythic ? inputFoilMythicBg.value : inputFoilBg.value;
   const underlay = isMythic ? inputFoilMythicUnderlay.value : inputFoilUnderlay.value;
 
@@ -277,9 +278,9 @@ document.getElementById('download-btn').addEventListener('click', async () => {
  * reste explicitement null, il n'est rempli qu'une fois l'image webp publiée.
  * ------------------------------------------------------------------------ */
 
-/* Échelle du champ « Rarity » des fichiers JSON : 1 = Commune … 5 = Mythique
+/* Échelle du champ « Rarity » des fichiers JSON : 1 = Commune … 6 = Unique
  * (les options du sélecteur suivent le même ordre, cf. RarityDef du Bulk Generator). */
-const RARITY_JSON_VALUES = [1, 2, 3, 4, 5];
+const RARITY_JSON_VALUES = [1, 2, 3, 4, 5, 6];
 
 /* Objet JSON de la carte affichée, prêt à coller dans le fichier du booster. */
 function buildCardJson() {

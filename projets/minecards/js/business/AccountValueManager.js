@@ -24,9 +24,9 @@
  *   - Every COPY in the collection is worth what selling it would credit, not what buying it
  *     costs: the value describes the collection's liquidation value. A promo is worth its fixed
  *     duplicate price, exactly as `SparksManager.sellCard()` charges.
- *   - Every DISTINCT card adds its rarity cubed, multiplied by 10 (1 → 10, 5 → 250): rarity is
- *     the collection's progression axis, while the sale value above already covers duplicate
- *     copies.
+ *   - Every DISTINCT card adds its rarity cubed, multiplied by 10 (1 → 10, 5 → 1,250,
+ *     6 → 2,160): rarity is the collection's progression axis, while the sale value above already
+ *     covers duplicate copies.
  *   - The player level is progression that cannot be bought, hence a flat 10 per level.
  *   - Mined resources use the same `shop.itemsValues` map as the Wandering Trader, so their
  *     value here is the value the game already gives them.
@@ -69,7 +69,7 @@ export const ACCOUNT_VALUE_RULES = Object.freeze({
   level: 10,
   customCurrency: 25,
   distinctCard: 10,
-  maxRarity: 5,
+  maxRarity: 6,
 });
 
 /**

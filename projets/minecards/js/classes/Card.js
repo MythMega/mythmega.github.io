@@ -36,16 +36,16 @@ export const CARD_STYLE = Object.freeze({
 export const LEGACY_STYLE_NORMAL = 'normal';
 
 /** Rarity bounds accepted in the rarity tables and in the booster data. */
-export const CARD_RARITY = Object.freeze({ MIN: 1, MAX: 5 });
+export const CARD_RARITY = Object.freeze({ MIN: 1, MAX: 6 });
 
 /**
- * Resolves the translated display name of a rarity (`rarity.1` … `rarity.5`).
+ * Resolves the translated display name of a rarity (`rarity.1` … `rarity.6`).
  *
  * The translation lives in the `settings/i18n/*.json` dictionaries, NOT in this module
  * (which must stay dependency-free): the caller passes a translate function, typically
  * `(key) => i18n.t(key)`.
  *
- * @param {number|string} rarity - Rarity value (1-5).
+ * @param {number|string} rarity - Rarity value (1-6).
  * @param {(key: string) => string} translate - Translation function.
  * @returns {string} The translated rarity name, or the raw number when unresolvable.
  */
@@ -81,7 +81,7 @@ function assertNonEmptyString(value, fieldName) {
  * @param {unknown} value - Value to validate.
  * @returns {number} The validated rarity.
  * @throws {TypeError} When the value is not a number.
- * @throws {RangeError} When the value is not an integer inside [1, 5].
+ * @throws {RangeError} When the value is not an integer inside [1, 6].
  */
 function assertRarity(value) {
   if (typeof value !== 'number' || Number.isNaN(value)) {
@@ -109,7 +109,7 @@ export class Card {
    * @param {string} payload.id - Unique-in-all-extensions card id (e.g. "SERIE-A1 _ W001").
    * @param {Record<string, string>} payload.names - Display names keyed by language code.
    * @param {Record<string, string>} payload.descriptions - Descriptions keyed by language code.
-   * @param {number} payload.rarity - Integer from 1 (common) to 5 (mythic).
+   * @param {number} payload.rarity - Integer from 1 (common) to 6 (unique).
    * @param {string} payload.style - "classic" or "fullart" ("normal" is normalized to classic).
    * @param {string} payload.illustration - Illustration path, `<lang>` placeholder or `/fr/`.
    * @param {string} payload.set - Owning extension id (e.g. "A1").

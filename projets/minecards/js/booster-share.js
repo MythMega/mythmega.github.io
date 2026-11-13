@@ -60,7 +60,7 @@ const STRINGS = {
     missingCode: 'Ce lien ne contient aucun booster. Le paramètre « code » est manquant.',
     damaged: 'Ce booster est illisible : le lien est incomplet ou a été abîmé.',
     unknown: 'Inconnu',
-    rarities: { 1: 'Commune', 2: 'Rare', 3: 'Super rare', 4: 'Légendaire', 5: 'Mythique' },
+    rarities: { 1: 'Commune', 2: 'Rare', 3: 'Super rare', 4: 'Légendaire', 5: 'Mythique', 6: 'Unique' },
   },
   en: {
     pageTitle: 'MineCards: {name}',
@@ -75,7 +75,7 @@ const STRINGS = {
     missingCode: 'This link carries no booster: the "code" parameter is missing.',
     damaged: 'This booster cannot be read: the link is incomplete or has been damaged.',
     unknown: 'Unknown',
-    rarities: { 1: 'Common', 2: 'Rare', 3: 'Super rare', 4: 'Legendary', 5: 'Mythic' },
+    rarities: { 1: 'Common', 2: 'Rare', 3: 'Super rare', 4: 'Legendary', 5: 'Mythic', 6: 'Unique' },
   },
 };
 

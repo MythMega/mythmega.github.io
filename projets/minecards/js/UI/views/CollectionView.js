@@ -5,7 +5,7 @@
  *
  * Renders EVERY card declared by the extension JSONs (`CollectionManager.getCollectionView()`):
  * owned cards in color with a `xN` badge, missing cards as grey silhouettes
- * (`filter: grayscale(100%) opacity(0.4)`). Filters: extension, rarity (1-5), style
+ * (`filter: grayscale(100%) opacity(0.4)`). Filters: extension, rarity (1-6), style
  * (classic / fullart), status (owned / missing), plus a name search. A tap opens the large
  * modal (illustration, first obtained date, quantity).
  *

@@ -69,12 +69,12 @@ export const TIME_FORMATS = Object.freeze(['json', 'trace', 'headers']);
 
 /**
  * Default Sparks economy (currency), used whenever `settings/config.json` omits a value.
- * `sellPrice` / `buyPrice` map a card rarity (1-5) to its value in Sparks; `boosterReward`
+ * `sellPrice` / `buyPrice` map a card rarity (1-6) to its value in Sparks; `boosterReward`
  * is credited on every booster opening.
  */
 export const DEFAULT_SPARKS_SETTINGS = Object.freeze({
-  sellPrice: Object.freeze({ 1: 1, 2: 3, 3: 10, 4: 25, 5: 100 }),
-  buyPrice: Object.freeze({ 1: 10, 2: 25, 3: 100, 4: 500, 5: 2500 }),
+  sellPrice: Object.freeze({ 1: 1, 2: 3, 3: 10, 4: 25, 5: 100, 6: 250 }),
+  buyPrice: Object.freeze({ 1: 10, 2: 25, 3: 100, 4: 500, 5: 2500, 6: 10000 }),
   boosterReward: 5,
 });
 
@@ -140,13 +140,13 @@ export const DEFAULT_FEATURE_SETTINGS = Object.freeze({
 /**
  * Default settings of the profile card, used whenever `settings/config.json` omits a value.
  *
- * `rarityThresholds` maps a card rarity (1 = Commune … 5 = Mythique) to the number of unlocked
+ * `rarityThresholds` maps a card rarity (1 = Commune … 6 = Unique) to the number of unlocked
  * trophies it takes to reach it, `defaultArtPath` is the illustration used as the card background
  * when the account has no favourite card to borrow one from, and `seriesDigits` is how many last
  * characters of the account UUID the series line prints.
  */
 export const DEFAULT_PROFILE_CARD_SETTINGS = Object.freeze({
-  rarityThresholds: Object.freeze({ 1: 0, 2: 5, 3: 15, 4: 30, 5: 50 }),
+  rarityThresholds: Object.freeze({ 1: 0, 2: 5, 3: 15, 4: 30, 5: 50, 6: 150 }),
   defaultArtPath: 'assets/img/card_back.png',
   seriesDigits: 4,
 });
@@ -1765,7 +1765,7 @@ export class ConfigLoader {
   /**
    * Settings of the profile card (`profileCard` section of `settings/config.json`).
    *
-   * The thresholds are read for the five card rarities only, a malformed one falls back to its
+   * The thresholds are read for the six card rarities only, a malformed one falls back to its
    * shipped value, and the sequence is kept ascending so a typo can never make a rarer card
    * easier to reach than the one below it.
    *
@@ -1779,7 +1779,7 @@ export class ConfigLoader {
     const raw = card.rarityThresholds && typeof card.rarityThresholds === 'object' ? card.rarityThresholds : {};
     const rarityThresholds = {};
     let previous = 0;
-    for (let rarity = 1; rarity <= 5; rarity += 1) {
+    for (let rarity = 1; rarity <= 6; rarity += 1) {
       const value = raw[rarity];
       const fallback = DEFAULT_PROFILE_CARD_SETTINGS.rarityThresholds[rarity];
       const threshold = Number.isInteger(value) && value >= 0 ? value : fallback;

@@ -42,7 +42,13 @@ import miningManager from './MiningManager.js';
 import sparksManager from './SparksManager.js';
 import accountValueManager from './AccountValueManager.js';
 
-/** Lowest and highest rarity of a card (`1` = Commune … `5` = Mythique). */
+/**
+ * Lowest and highest rarity OFFERED BY THE PROFILE CARD (`1` = Commune … `5` = Mythique).
+ *
+ * Unique (rarity 6) remains a card rarity, but it is deliberately hidden from the profile: it is
+ * neither listed by the picker nor accepted from a stored preference, so the profile card can
+ * never wear it even if an older save selected it.
+ */
 export const PROFILE_CARD_RARITY_MIN = 1;
 export const PROFILE_CARD_RARITY_MAX = 5;
 
@@ -210,7 +216,7 @@ export class ProfileCardManager {
   }
 
   /**
-   * Lists the five rarities with their unlock state, for the picker of the profile page.
+   * Lists the five profile rarities with their unlock state, for the picker of the profile page.
    *
    * @param {Record<number, number>} thresholds - Minimum trophy count per rarity.
    * @param {number} trophyCount - Unlocked trophies of the account.
@@ -308,7 +314,7 @@ export class ProfileCardManager {
    *
    * @param {object} payload - Fields to update.
    * @param {unknown} [payload.layout] - `'classic'` or `'fullart'`.
-   * @param {unknown} [payload.rarity] - Rarity 1-5, or null to go back to the highest reached.
+   * @param {unknown} [payload.rarity] - Profile rarity 1-5, or null to go back to the highest reached.
    * @param {unknown} [payload.titleColor] - `'auto'` or the id of a palette colour.
    * @param {unknown} [payload.background] - Collection key of a favourite card, or null for "the
    *   first favourite".
@@ -385,7 +391,7 @@ export class ProfileCardManager {
    * @param {number} rarity - Rarity currently reached.
    * @param {number} trophyCount - Unlocked trophies of the account.
    * @returns {{rarity: number, count: number}|null} The next rarity and the missing trophies, or null
-   *   when the card already is Mythique.
+   *   when the card already wears the highest profile rarity (Mythique).
    */
   static findNextRarity(thresholds, rarity, trophyCount) {
     const count = Number.isFinite(trophyCount) ? Math.max(0, Math.trunc(trophyCount)) : 0;

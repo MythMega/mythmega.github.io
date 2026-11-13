@@ -672,10 +672,10 @@ export class BoosterManager {
    * storage untouched.
    *
    * @param {number} [quantity=1] - Number of boosters to buy (strictly positive integer).
-   * @param {string|null} [setId=null] - Extension the boosters are bought for. They are then
-   *   available from the opening screen for that extension only.
+   * @param {string|null} [setId=null] - Extension the boosters are bought for. They are credited
+   *   directly to that extension's bonus bucket, so the opening screen shows them in its total.
    * @returns {Promise<{quantity: number, unitPrice: number, total: number, balance: number,
-   *   month: string, purchased: number, remaining: number, setId: string|null, quota: object}>} The
+   *   month: string, purchased: number, remaining: number, setId: string, quota: object}>} The
    *   purchase, the remaining monthly allowance and the quota after the credit.
    * @throws {TypeError} When the quantity is not a positive integer.
    * @throws {RangeError} When `setId` is not a released extension.
@@ -692,11 +692,16 @@ export class BoosterManager {
     let selectedSetId = null;
     if (setId !== null) {
       selectedSetId = dateSyncManager.assertKnownSet(setId);
-      await this.init();
-      const availability = this.getSetAvailability(selectedSetId);
-      if (!availability.released) {
-        throw BoosterManager.buildNotReleasedError(selectedSetId, availability.releaseDate);
-      }
+    } else {
+      selectedSetId = dateSyncManager.knownSets[0] ?? null;
+    }
+    if (!selectedSetId) {
+      throw new RangeError('buyMonthlyBoosters requires at least one declared booster set.');
+    }
+    await this.init();
+    const availability = this.getSetAvailability(selectedSetId);
+    if (!availability.released) {
+      throw BoosterManager.buildNotReleasedError(selectedSetId, availability.releaseDate);
     }
 
     const day = dateSyncManager.getCurrentUtcDay();
@@ -726,7 +731,7 @@ export class BoosterManager {
         }
 
         const balance = await sparksManager.applyDelta(context, -total, SPARKS_SOURCES.BOOSTER);
-        await dateSyncManager.addPurchasedBoosters(quantity, context, selectedSetId);
+        await dateSyncManager.addBonusBoosters(selectedSetId, quantity, context);
         const purchased = shop.purchased + quantity;
         await context.put(
           STORES.USER_STATE,
@@ -1305,12 +1310,12 @@ export class BoosterManager {
       godpacksOpened:
         Number.isInteger(source.godpacksOpened) && source.godpacksOpened >= 0 ? source.godpacksOpened : 0,
       boostersOpenedBySet: {},
-      drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      drawsByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
       drawsByCard: {},
       // Written by `SparksManager` when a copy is sold, and its ledger of every balance
       // movement. Carried here because this normalizer rebuilds the record from scratch:
       // dropping them would erase the sales and the ledger on the next pack.
-      soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      soldByRarity: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
       // Account-wide counters of the global trophies, incremented by the quest claim, the daily
       // reward claim and the sale. Rebuilt here for the same reason as the sales above.
       questsCompleted:

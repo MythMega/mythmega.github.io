@@ -1073,6 +1073,9 @@ export class MineBlockView {
         sparksFound: result.sparksFound,
       };
       this.renderQuota(this.state);
+      // The last block of the day must reveal the bundle panel in the same tap that broke it. It was
+      // previously rendered only by `reload()`, so the prompt appeared after a manual refresh.
+      this.renderBundle(this.state);
 
       if (result.broke) {
         this.animateBreak(result);

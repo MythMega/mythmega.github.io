@@ -209,9 +209,9 @@
   },
 
   "sparks": {
-    "_comment": "Sparks currency. 'sellPrice'/'buyPrice' map a rarity (1-5) to its value in Sparks; 'boosterReward' is credited on every booster opening. Every key falls back to its built-in default when absent.",
-    "sellPrice": { "1": 1, "2": 3, "3": 10, "4": 25, "5": 100 },
-    "buyPrice": { "1": 10, "2": 25, "3": 100, "4": 500, "5": 2500 },
+    "_comment": "Sparks currency. 'sellPrice'/'buyPrice' map a rarity (1-6, 6 = Unique) to its value in Sparks; 'boosterReward' is credited on every booster opening. Every key falls back to its built-in default when absent.",
+    "sellPrice": { "1": 1, "2": 3, "3": 10, "4": 25, "5": 100, "6": 250 },
+    "buyPrice": { "1": 10, "2": 25, "3": 100, "4": 500, "5": 2500, "6": 10000 },
     "boosterReward": 5
   },
 
@@ -287,8 +287,8 @@
   },
 
   "profileCard": {
-    "_comment": "Profile card (section 3.G octies): the trading card the profile page draws from the account with the card maker of 'external/cardmakerz/'. 'rarityThresholds' maps a card rarity (1 = Commune ... 5 = Mythique, the rarity scale of the card data) to the NUMBER OF UNLOCKED TROPHIES it takes to reach it; the card takes the highest rarity whose threshold the account reaches, so a brand new account is Commune. A threshold that is missing, malformed or LOWER than the previous one falls back to the shipped value (the sequence can never make a rarer card easier). 'defaultArtPath' is the illustration used as the card background when the player has no favourite card to borrow one from. 'seriesDigits' is how many last characters of the account UUID the series line prints after the player title.",
-    "rarityThresholds": { "1": 0, "2": 5, "3": 20, "4": 50, "5": 100 },
+    "_comment": "Profile card (section 3.G octies): the trading card the profile page draws from the account with the card maker of 'external/cardmakerz/'. 'rarityThresholds' maps a card rarity (1 = Commune ... 6 = Unique, the rarity scale of the card data) to the NUMBER OF UNLOCKED TROPHIES it takes to reach it; the card takes the highest rarity whose threshold the account reaches, so a brand new account is Commune. A threshold that is missing, malformed or LOWER than the previous one falls back to the shipped value (the sequence can never make a rarer card easier). 'defaultArtPath' is the illustration used as the card background when the player has no favourite card to borrow one from. 'seriesDigits' is how many last characters of the account UUID the series line prints after the player title.",
+    "rarityThresholds": { "1": 0, "2": 5, "3": 20, "4": 50, "5": 100, "6": 150 },
     "defaultArtPath": "assets/img/card_back.png",
     "seriesDigits": 4
   },

@@ -164,6 +164,10 @@
   border-color: var(--color-accent);
 }
 
+.booster-share__card--r6 {
+  border-color: var(--color-rarity-unique);
+}
+
 /* --- The actions and the messages ---------------------------------------- */
 
 .booster-share__actions {

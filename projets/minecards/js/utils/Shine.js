@@ -18,15 +18,17 @@
  */
 
 /**
- * Foil of the three high rarities, from the lightest to the heaviest: rarity 3 (super rare) gets the
+ * Foil of the high rarities, from the lightest to the heaviest: rarity 3 (super rare) gets the
  * fine diagonal weave, rarity 4 (legendary) the light version of the shape vocabulary (bloom,
- * embossed grid), rarity 5 (mythic) the full treatment (honeycomb, two crossing glints, 3D tilt).
+ * embossed grid), rarity 5 (mythic) the full treatment (honeycomb, two crossing glints, 3D tilt),
+ * and rarity 6 (unique) the same full treatment over a dark-orange repeating diamond-flower lattice.
  * See `css/components/card-shine.css`.
  */
 export const SHINE_MODIFIER_BY_RARITY = Object.freeze({
   3: 'card-shine--super-rare',
   4: 'card-shine--legendary',
   5: 'card-shine--mythic',
+  6: 'card-shine--unique',
 });
 
 /** Class of the layer drawing the sweeping line (the "brillance") inside a shine window. */
@@ -34,7 +36,7 @@ export const SHINE_GLEAM_CLASS = 'card-shine__gleam';
 
 /**
  * Subtle halo of the high rarities, from the lightest to the heaviest: violet for a super rare, gold
- * for a legendary, orange for a mythic. It is NOT the foil: the foil is the print of the card, the
+ * for a legendary, orange for a mythic and a deeper burnt orange for a unique. It is NOT the foil: the foil is the print of the card, the
  * halo only says "this card is rare" from across a grid, and it is deliberately much weaker than
  * the glow of a trophy. See `css/components/card-shine.css`.
  */
@@ -42,6 +44,7 @@ export const CARD_GLOW_MODIFIER_BY_RARITY = Object.freeze({
   3: 'card-glow--super-rare',
   4: 'card-glow--legendary',
   5: 'card-glow--mythic',
+  6: 'card-glow--unique',
 });
 
 /**

@@ -28,6 +28,7 @@
   body[data-animation="epic"] .opening__stage .card-reveal__card.is-entering-prev,
   body[data-animation="epic"] .card-reveal__card.is-flipped,
   body[data-animation="epic"] .opening__stage .card-reveal__card--r5.is-flipped,
+  body[data-animation="epic"] .opening__stage .card-reveal__card--r6.is-flipped,
   body[data-animation="epic"] .card-reveal__card.is-flipped::after,
   body[data-animation="epic"] .card-reveal--summary::after,
   body[data-animation="epic"] .card-reveal__summary-item,

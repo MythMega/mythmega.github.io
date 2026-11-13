@@ -591,7 +591,7 @@ class BoosterOverlay {
     this.playSound(SOUNDS.CARD_RETURN);
     if (card?.rarity === 4) {
       this.playSound(SOUNDS.CARD_RARITY_4);
-    } else if (card?.rarity === 5) {
+    } else if (card?.rarity === 5 || card?.rarity === 6) {
       this.playSound(SOUNDS.CARD_RARITY_5);
     } else if (card?.rarity === 3) {
       this.playSound(SOUNDS.CARD_RARITY_3);

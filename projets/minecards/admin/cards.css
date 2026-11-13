@@ -1,0 +1,394 @@
+/* =============================================================================
+   cards.css - Card catalogue browser (admin back-office).
+
+   Loaded after admin.css: the tokens, password gate, fields and buttons come
+   from there. This file only adds the wide table, the thumbnail grid and the
+   full-size preview. It loads no game stylesheet, so the tool cannot drift
+   with a theme change.
+   ============================================================================= */
+
+[hidden] { display: none !important; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cards-admin {
+  max-width: 1440px;
+}
+
+/* --- Filters --------------------------------------------------------------- */
+
+.browser-card {
+  padding: var(--space-4);
+}
+
+.browser-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.control {
+  display: flex;
+  flex: 0 1 165px;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.control--source {
+  flex: 1 1 275px;
+}
+
+.control--search {
+  flex: 2 1 280px;
+}
+
+.control--page-size {
+  flex: 0 1 105px;
+}
+
+.control__label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.control .field__input,
+.control .field__select {
+  width: 100%;
+  min-height: 42px;
+}
+
+.sort-direction {
+  min-width: 136px;
+}
+
+/* --- Table ----------------------------------------------------------------- */
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-card__head .card__title {
+  margin-bottom: var(--space-1);
+}
+
+.table-card__head .muted {
+  margin-top: 0;
+}
+
+.table-scroll {
+  max-height: 70vh;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+#cards-table {
+  width: 100%;
+  min-width: 1160px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+}
+
+#cards-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: var(--space-3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--muted);
+  background-color: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+#cards-table tbody td {
+  padding: var(--space-3);
+  vertical-align: middle;
+  border-bottom: 1px solid rgb(42 52 70 / 70%);
+}
+
+#cards-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+#cards-table tbody tr:hover {
+  background-color: rgb(108 140 255 / 4%);
+}
+
+.cell-num {
+  width: 58px;
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.card-index {
+  display: inline-block;
+  max-width: 190px;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.8rem;
+  color: #bac6dd;
+  overflow-wrap: anywhere;
+}
+
+.card-name {
+  display: block;
+  min-width: 150px;
+  max-width: 220px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.rarity-badge {
+  display: inline-block;
+  padding: 0.18rem 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.rarity-badge--1 { color: #c3ccdb; background-color: rgb(148 162 188 / 12%); }
+.rarity-badge--2 { color: #78e0a4; background-color: rgb(61 220 132 / 11%); border-color: rgb(61 220 132 / 30%); }
+.rarity-badge--3 { color: #82b8ff; background-color: rgb(108 140 255 / 12%); border-color: rgb(108 140 255 / 34%); }
+.rarity-badge--4 { color: #c9a2ff; background-color: rgb(174 120 255 / 12%); border-color: rgb(174 120 255 / 34%); }
+.rarity-badge--5 { color: #ffd36a; background-color: rgb(255 200 87 / 12%); border-color: rgb(255 200 87 / 34%); }
+.rarity-badge--6 { color: #ffad5c; background-color: rgb(229 138 46 / 13%); border-color: rgb(229 138 46 / 42%); }
+
+.image-cell {
+  width: 154px;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  width: 124px;
+  height: 173px;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: zoom-in;
+  transition: border-color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+
+.thumb:hover {
+  border-color: var(--accent);
+  box-shadow: 0 5px 18px rgb(0 0 0 / 32%);
+  transform: translateY(-1px);
+}
+
+.thumb:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.thumb__lang {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #f2f5fb;
+  background-color: rgb(11 14 20 / 82%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 4px;
+}
+
+.thumb--missing {
+  display: grid;
+  place-items: center;
+  padding: var(--space-2);
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: center;
+  cursor: default;
+}
+
+#cards-table tbody td.table-placeholder,
+#cards-table tbody td.table-empty {
+  padding: var(--space-5);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- Pagination ------------------------------------------------------------ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.pagination__info {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pagination__buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.pagination__page {
+  min-width: 100px;
+  padding: 0 var(--space-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pagination__buttons .btn {
+  min-width: 40px;
+  min-height: 38px;
+  padding: var(--space-1) var(--space-2);
+}
+
+/* --- Lightbox -------------------------------------------------------------- */
+
+.lightbox {
+  width: min(960px, 94vw);
+  max-width: 94vw;
+  max-height: 92vh;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: var(--text);
+  background-color: #10151f;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 60%);
+}
+
+.lightbox::backdrop {
+  background-color: rgb(4 7 12 / 84%);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.lightbox__caption {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.lightbox__close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text);
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.lightbox__close:hover {
+  background-color: var(--surface-alt);
+  border-color: var(--border);
+}
+
+.lightbox__close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.lightbox__image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(92vh - 54px);
+  margin: 0 auto;
+  background-color: var(--bg);
+  object-fit: contain;
+}
+
+@media (max-width: 760px) {
+  .app__head {
+    flex-direction: column;
+  }
+
+  .app__actions {
+    justify-content: flex-start;
+  }
+
+  .browser-controls {
+    align-items: stretch;
+  }
+
+  .control,
+  .control--source,
+  .control--search,
+  .control--page-size,
+  .sort-direction {
+    flex: 1 1 100%;
+  }
+
+  .table-card__head {
+    padding: var(--space-3);
+  }
+
+  .pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

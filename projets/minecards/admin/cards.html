@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>MineCards : navigateur de cartes</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="cards.css">
+</head>
+<body>
+  <main class="admin cards-admin">
+
+    <!-- Password gate. Same digest as index.html; the password is never stored. -->
+    <section class="lock" id="lock">
+      <h1 class="lock__title">Navigateur de cartes</h1>
+      <p class="muted">Accès réservé. Saisissez le mot de passe administrateur.</p>
+      <form id="lock-form" autocomplete="off">
+        <label class="field">
+          <span class="field__label">Mot de passe</span>
+          <input class="field__input" type="password" id="lock-input" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn--primary" id="lock-submit">Déverrouiller</button>
+        <p class="feedback" id="lock-feedback" role="status" hidden></p>
+      </form>
+    </section>
+
+    <section class="app" id="app" hidden>
+      <header class="app__head">
+        <div>
+          <h1 class="app__title">Navigateur de cartes <span class="badge">admin</span></h1>
+          <p class="muted" id="source-status">Chargement des catalogues…</p>
+        </div>
+        <div class="app__actions">
+          <a class="btn btn--ghost" href="index.html">Codes</a>
+          <button type="button" class="btn btn--ghost" id="lock-again">Verrouiller</button>
+        </div>
+      </header>
+
+      <section class="card browser-card" aria-label="Choix du set et des filtres">
+        <div class="browser-controls">
+          <label class="control control--source">
+            <span class="control__label">Booster ou collection promo</span>
+            <select class="field__select" id="source-select" disabled>
+              <option>Chargement…</option>
+            </select>
+          </label>
+          <label class="control control--search">
+            <span class="control__label">Rechercher</span>
+            <input class="field__input" type="search" id="search-input" placeholder="Nom, nom anglais, index, rareté…" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="control">
+            <span class="control__label">Rareté</span>
+            <select class="field__select" id="rarity-filter">
+              <option value="all">Toutes</option>
+            </select>
+          </label>
+          <label class="control">
+            <span class="control__label">Trier par</span>
+            <select class="field__select" id="sort-select">
+              <option value="num">Numéro</option>
+              <option value="index">Index</option>
+              <option value="nameFr">Nom FR</option>
+              <option value="nameEn">Nom EN</option>
+              <option value="rarity">Rareté</option>
+            </select>
+          </label>
+          <button type="button" class="btn btn--ghost sort-direction" id="sort-direction" aria-label="Trier par ordre croissant">Croissant ↑</button>
+          <label class="control control--page-size">
+            <span class="control__label">Par page</span>
+            <select class="field__select" id="page-size">
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="all">Tout</option>
+            </select>
+          </label>
+          <button type="button" class="btn btn--ghost" id="reset-filters">Réinitialiser</button>
+        </div>
+        <p class="feedback" id="catalog-feedback" role="status" hidden></p>
+        <p class="hint">Lecture directe des fichiers de données : un set encore non sorti, comme A2, reste consultable ici.</p>
+      </section>
+
+      <section class="card table-card" aria-labelledby="table-title">
+        <div class="table-card__head">
+          <div>
+            <h2 class="card__title" id="table-title">Cartes du set</h2>
+            <p class="muted" id="table-summary" aria-live="polite">Aucune carte chargée.</p>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table id="cards-table">
+            <caption class="visually-hidden">Cartes du booster ou de la collection promo sélectionné</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="cell-num">N°</th>
+                <th scope="col">Index</th>
+                <th scope="col">Nom FR</th>
+                <th scope="col">Nom EN</th>
+                <th scope="col">Rareté</th>
+                <th scope="col">Image FR</th>
+                <th scope="col">Image EN</th>
+              </tr>
+            </thead>
+            <tbody id="cards-body">
+              <tr>
+                <td class="table-placeholder" colspan="7">Chargement…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination" id="pagination" hidden>
+          <p class="pagination__info" id="pagination-info"></p>
+          <div class="pagination__buttons">
+            <button type="button" class="btn btn--ghost" id="page-first" aria-label="Première page">«</button>
+            <button type="button" class="btn btn--ghost" id="page-prev" aria-label="Page précédente">‹</button>
+            <span class="pagination__page" id="page-label"></span>
+            <button type="button" class="btn btn--ghost" id="page-next" aria-label="Page suivante">›</button>
+            <button type="button" class="btn btn--ghost" id="page-last" aria-label="Dernière page">»</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Aperçu de la carte">
+    <div class="lightbox__bar">
+      <p class="lightbox__caption" id="lightbox-caption"></p>
+      <form method="dialog">
+        <button type="submit" class="lightbox__close" aria-label="Fermer l’aperçu">×</button>
+      </form>
+    </div>
+    <img class="lightbox__image" id="lightbox-image" alt="">
+  </dialog>
+
+  <script type="module" src="cards.js"></script>
+</body>
+</html>

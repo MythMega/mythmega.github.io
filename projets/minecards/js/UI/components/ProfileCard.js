@@ -125,7 +125,7 @@ const EXPORT_RESET = [
 const WASH_CACHE = new Map();
 
 /**
- * Card rarities, mirroring `external/cardmakerz/js/bulk/RarityDef.js` (1 = Commune … 5 = Mythique).
+ * Card rarities, mirroring `external/cardmakerz/js/bulk/RarityDef.js` (1 = Commune … 6 = Unique).
  *
  * The card maker is a classic script (`class RarityDef`), not a module: it cannot be imported, so
  * the three fields the card actually needs (symbol, CSS class, translation key) are copied here.
@@ -136,6 +136,7 @@ export const PROFILE_CARD_RARITIES = Object.freeze({
   3: Object.freeze({ symbol: '★★★', className: 'rarity-super-rare', labelKey: 'rarity.3' }),
   4: Object.freeze({ symbol: '✦', className: 'rarity-legendary', labelKey: 'rarity.4' }),
   5: Object.freeze({ symbol: '💎', className: 'rarity-mythic', labelKey: 'rarity.5' }),
+  6: Object.freeze({ symbol: '🔶', className: 'rarity-unique', labelKey: 'rarity.6' }),
 });
 
 export class ProfileCard {

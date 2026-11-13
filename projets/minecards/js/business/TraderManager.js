@@ -1445,11 +1445,12 @@ export class TraderManager {
           await context.get(STORES.USER_STATE, USER_STATE_KEYS.MINING)
         ).resources;
         const resources = await miningManager.swapResources({ give: cost, receive: gains }, context);
+        // The WHOLE state is written back: a trade must not erase the permanent pinned-offer
+        // counts or the daily Sparks-offer flag, which the shop reads on its next render.
         await context.put(
           STORES.USER_STATE,
           {
-            week: state.week,
-            purchases: state.purchases,
+            ...state,
             tradeDay: day,
             tradeUses: { ...uses, [trade.key]: taken + 1 },
           },

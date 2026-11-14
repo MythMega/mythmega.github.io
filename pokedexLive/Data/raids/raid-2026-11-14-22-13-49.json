@@ -1,0 +1,120 @@
+{
+  "bossName": "Tarinor",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nosepass_normal.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Nosepass_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": false,
+  "pvMax": 60000,
+  "date": "2026-11-14 22:13:49",
+  "durationSec": 881,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 30000,
+      "countAtk": 2,
+      "baseDmg": 45198,
+      "level": 20,
+      "raidCount": 1170,
+      "luck": 0.3318731
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "SawanCyberpotes",
+      "damage": 30000,
+      "countAtk": 2,
+      "baseDmg": 15915,
+      "level": 18,
+      "raidCount": 545,
+      "luck": 0.9425071
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 60000
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 1
+    },
+    {
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-14 22:16:51",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 45000,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    },
+    {
+      "at": "2026-11-14 22:18:43",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 30000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-14 22:23:33",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 15000,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Confus, tu as super attaqu\u00E9 le boss."
+    },
+    {
+      "at": "2026-11-14 22:28:31",
+      "pseudo": "SawanCyberpotes",
+      "platform": "twitch",
+      "damages": 15000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

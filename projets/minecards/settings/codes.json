@@ -13,6 +13,21 @@
         "Repeatable": false
     },
     {
+        "Code": "SATURDAWX",
+        "Rewards": [
+            {
+                "RewardType": "Booster",
+                "Quantity": 2,
+                "ItemId": "A1"
+            }
+        ],
+        "Availabilities" : {
+            "StartDate": null,
+            "EndDate": "2026-11-15"
+        },
+        "Repeatable": false
+    },
+    {
         "_comment": "Code à usage infini, permet d'obtenir 30 boosters A1, 30 booster A2, et la carte d'index SERIE-A1 / Z001 + 1M sparks. Prendre la premiere avec cet index. Disponibilité : avant le 15 octobre 2026, mais code répétable a l'infini",
         "Code": "IM.A.CHEAT3R.",
         "Rewards": [

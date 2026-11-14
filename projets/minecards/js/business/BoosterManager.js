@@ -22,7 +22,7 @@
  * Fields written to `collection` (see `main.md` section 2):
  *   `{ key, cardId, style, set, quantity, firstObtainedAt, lastObtainedAt }`
  * Fields written to `stats`:
- *   `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: { "1".."5" },
+ *   `{ boostersOpened, boostersOpenedBySet: { [setId]: count }, drawsByRarity: { "1".."6" },
  *      drawsByCard: { [key]: count } }`
  *
  * `boostersOpenedBySet` is what the per-extension trophy tiers read (`settings/boosters_trophy.json`

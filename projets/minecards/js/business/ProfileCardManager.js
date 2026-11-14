@@ -12,9 +12,10 @@
  *   - `name`            : the pseudo (`profile.name`), empty when the player has not chosen one;
  *   - `titleId`         : the worn title, resolved to a sentence by the component;
  *   - `seriesNumber`    : the last characters of the account UUID (the "Origines #001" slot);
- *   - `rarity`          : 1..5, from the NUMBER OF UNLOCKED TROPHIES and the configured
+ *   - `rarity`          : 1..6, from the NUMBER OF UNLOCKED TROPHIES and the configured
  *                         thresholds (the highest rarity the account reaches), or the rarity the
- *                         player picked among the unlocked ones;
+ *                         player picked among the unlocked ones. A rarity marked false in
+ *                         `showRarityBeforeUnlock` is not offered before it is unlocked;
  *   - `titleColor`      : `auto` (the rarity colour, free) or an OWNED colour of the palette, with
  *                         the CSS value the component applies inline (`titleColorValue`);
  *   - `background`      : the artwork of the favourite card the player picked (the first one by
@@ -43,14 +44,14 @@ import sparksManager from './SparksManager.js';
 import accountValueManager from './AccountValueManager.js';
 
 /**
- * Lowest and highest rarity OFFERED BY THE PROFILE CARD (`1` = Commune … `5` = Mythique).
+ * Lowest and highest rarity OFFERED BY THE PROFILE CARD (`1` = Commune … `6` = Unique).
  *
- * Unique (rarity 6) remains a card rarity, but it is deliberately hidden from the profile: it is
- * neither listed by the picker nor accepted from a stored preference, so the profile card can
- * never wear it even if an older save selected it.
+ * A locked rarity whose `showRarityBeforeUnlock` entry is false is omitted from the picker until
+ * its threshold is reached. The shipped configuration applies this to Unique only, so it appears
+ * once the account has earned it.
  */
 export const PROFILE_CARD_RARITY_MIN = 1;
-export const PROFILE_CARD_RARITY_MAX = 5;
+export const PROFILE_CARD_RARITY_MAX = 6;
 
 /** The two layouts of the card, as stored in `user_state["profileCard"].layout`. */
 export const PROFILE_CARD_LAYOUTS = Object.freeze(['classic', 'fullart']);
@@ -146,7 +147,9 @@ export class ProfileCardManager {
   /**
    * Reads the validated `profileCard` section of `settings/config.json`.
    *
-   * @returns {Promise<{rarityThresholds: Record<number, number>, defaultArtPath: string, seriesDigits: number}>}
+   * @returns {Promise<{rarityThresholds: Record<number, number>,
+   *   showRarityBeforeUnlock: Record<number, boolean>, defaultArtPath: string,
+   *   seriesDigits: number}>}
    *   The settings, with the thresholds already clamped to a non-decreasing sequence.
    * @throws {Error} When `settings/config.json` cannot be loaded.
    */
@@ -216,23 +219,30 @@ export class ProfileCardManager {
   }
 
   /**
-   * Lists the five profile rarities with their unlock state, for the picker of the profile page.
+   * Lists the profile rarities with their unlock state, for the picker of the profile page.
+   *
+   * A locked rarity is omitted when `showRarityBeforeUnlock` marks it false; any other entry is
+   * listed, so a locked rarity still shows the trophy count it needs.
    *
    * @param {Record<number, number>} thresholds - Minimum trophy count per rarity.
    * @param {number} trophyCount - Unlocked trophies of the account.
    * @param {number|null} [chosen=null] - Rarity currently worn.
+   * @param {Record<number, boolean>|null} [showRarityBeforeUnlock=null] - Per-rarity visibility
+   *   before unlock; a missing entry keeps the locked option visible.
    * @returns {Array<{rarity: number, unlocked: boolean, required: number, count: number, worn: boolean}>}
    *   One entry per rarity, in ascending order.
    */
-  static listRarities(thresholds, trophyCount, chosen = null) {
+  static listRarities(thresholds, trophyCount, chosen = null, showRarityBeforeUnlock = null) {
     const count = Number.isFinite(trophyCount) ? Math.max(0, Math.trunc(trophyCount)) : 0;
     const worn = ProfileCardManager.resolveWornRarity(thresholds, count, chosen);
     const rarities = [];
     for (let rarity = PROFILE_CARD_RARITY_MIN; rarity <= PROFILE_CARD_RARITY_MAX; rarity += 1) {
       const required = Number(thresholds?.[rarity]);
+      const unlocked = ProfileCardManager.isRarityUnlocked(thresholds, rarity, count);
+      if (!unlocked && showRarityBeforeUnlock?.[rarity] === false) continue;
       rarities.push({
         rarity,
-        unlocked: ProfileCardManager.isRarityUnlocked(thresholds, rarity, count),
+        unlocked,
         required: Number.isFinite(required) ? required : 0,
         count,
         worn: rarity === worn,
@@ -314,7 +324,7 @@ export class ProfileCardManager {
    *
    * @param {object} payload - Fields to update.
    * @param {unknown} [payload.layout] - `'classic'` or `'fullart'`.
-   * @param {unknown} [payload.rarity] - Profile rarity 1-5, or null to go back to the highest reached.
+   * @param {unknown} [payload.rarity] - Profile rarity 1-6, or null to go back to the highest reached.
    * @param {unknown} [payload.titleColor] - `'auto'` or the id of a palette colour.
    * @param {unknown} [payload.background] - Collection key of a favourite card, or null for "the
    *   first favourite".
@@ -390,14 +400,17 @@ export class ProfileCardManager {
    * @param {Record<number, number>} thresholds - Minimum trophy count per rarity.
    * @param {number} rarity - Rarity currently reached.
    * @param {number} trophyCount - Unlocked trophies of the account.
+   * @param {Record<number, boolean>|null} [showRarityBeforeUnlock=null] - Per-rarity visibility
+   *   before unlock; a false entry hides the goal as well as the picker option.
    * @returns {{rarity: number, count: number}|null} The next rarity and the missing trophies, or null
-   *   when the card already wears the highest profile rarity (Mythique).
+   *   when no visible higher rarity remains.
    */
-  static findNextRarity(thresholds, rarity, trophyCount) {
+  static findNextRarity(thresholds, rarity, trophyCount, showRarityBeforeUnlock = null) {
     const count = Number.isFinite(trophyCount) ? Math.max(0, Math.trunc(trophyCount)) : 0;
     for (let next = rarity + 1; next <= PROFILE_CARD_RARITY_MAX; next += 1) {
       const threshold = Number(thresholds?.[next]);
       if (!Number.isFinite(threshold) || threshold <= count) continue;
+      if (showRarityBeforeUnlock?.[next] === false) continue;
       return { rarity: next, count: threshold - count };
     }
     return null;
@@ -759,7 +772,13 @@ export class ProfileCardManager {
       iconShape: stored.iconShape,
       trophyCount,
       thresholds: settings.rarityThresholds,
-      rarities: ProfileCardManager.listRarities(settings.rarityThresholds, trophyCount, chosenRarity),
+      showRarityBeforeUnlock: settings.showRarityBeforeUnlock,
+      rarities: ProfileCardManager.listRarities(
+        settings.rarityThresholds,
+        trophyCount,
+        chosenRarity,
+        settings.showRarityBeforeUnlock
+      ),
       backgroundKey: ProfileCardManager.resolveBackgroundKey(profile, byKey, stored.background),
       background: ProfileCardManager.findBackground(
         profile,

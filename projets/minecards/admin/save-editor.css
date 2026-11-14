@@ -552,6 +552,7 @@
 .rarity[data-rarity="3"] { color: #5bc8ff; }
 .rarity[data-rarity="4"] { color: #b98cff; }
 .rarity[data-rarity="5"] { color: #ffc857; }
+.rarity[data-rarity="6"] { color: #e58a2e; }
 
 .empty {
   padding: var(--space-5);

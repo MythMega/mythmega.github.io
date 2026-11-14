@@ -2056,7 +2056,12 @@ export class ProfileView {
       i18n.t('profile.card.trophies', { count: model.trophyCount }),
     ].join(' · ');
 
-    const next = ProfileCardManager.findNextRarity(model.thresholds, model.rarity, model.trophyCount);
+    const next = ProfileCardManager.findNextRarity(
+      model.thresholds,
+      model.rarity,
+      model.trophyCount,
+      model.showRarityBeforeUnlock
+    );
     const goal = document.createElement('span');
     goal.className = 'profile-card-panel__goal';
     goal.textContent = next
@@ -2156,10 +2161,11 @@ export class ProfileView {
   /**
    * Builds the rarity picker of the card.
    *
-   * One option per card rarity: the unlocked ones are selectable and show their symbol and name, the
-   * locked ones are disabled and show the trophy medal with the count the account has against the
-   * count the threshold asks for, in the colour of a refusal. The picker is therefore also the list
-   * of the rarities the card can still grow into.
+   * One option per VISIBLE card rarity: the unlocked ones are selectable and show their symbol and
+   * name, the locked ones are disabled and show the trophy medal with the count the account has
+   * against the count the threshold asks for, in the colour of a refusal. A locked rarity marked
+   * `showRarityBeforeUnlock: false` is absent until it is unlocked. The picker is therefore also
+   * the list of the rarities the card can still grow into.
    *
    * @param {object} model - Card model built by `ProfileCardManager`.
    * @returns {void}

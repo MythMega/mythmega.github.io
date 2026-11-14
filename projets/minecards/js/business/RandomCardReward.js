@@ -39,6 +39,7 @@
 import boosterManager from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import { isPromoSetId, PROMO_SET_SUFFIX } from './PromoSet.js';
+import { CARD_RARITY } from '../classes/Card.js';
 
 /** Reward `Type` values handled here, as the data files spell them. */
 export const RANDOM_CARD_REWARD_TYPES = Object.freeze({
@@ -64,6 +65,7 @@ export const RANDOM_CARD_TINTS = Object.freeze({
   SUPER: 'super',
   LEGENDARY: 'legendary',
   MYTHIC: 'mythic',
+  UNIQUE: 'unique',
 });
 
 /** True for a plain object (not null, not an array). */
@@ -179,7 +181,9 @@ export function parseRandomCardSpec(raw) {
   const layouts = readStringList(data.layouts ?? data.Layouts)
     .map(normalizeLayout)
     .filter((layout) => layout !== null);
-  const rarities = readNumberList(data.Rarities).filter((value) => value >= 1 && value <= 5);
+  const rarities = readNumberList(data.Rarities).filter(
+    (value) => value >= CARD_RARITY.MIN && value <= CARD_RARITY.MAX,
+  );
   const sets = readStringList(data.Sets)
     .map(normalizeSet)
     .filter((entry) => entry !== null);
@@ -367,10 +371,11 @@ export function buildRandomCardReel(pool, winner, { random = Math.random } = {})
  * tile takes the colour of that rarity, so the board says "there is a legendary behind this".
  *
  * @param {object|null} spec - Normalized spec.
- * @returns {'ink'|'super'|'legendary'|'mythic'} The tint.
+ * @returns {'ink'|'super'|'legendary'|'mythic'|'unique'} The tint.
  */
 export function randomCardTint(spec) {
   if (!isRecord(spec) || spec.mode !== RANDOM_CARD_MODES.FILTER) return RANDOM_CARD_TINTS.INK;
+  if (spec.maxRarity >= CARD_RARITY.MAX) return RANDOM_CARD_TINTS.UNIQUE;
   if (spec.maxRarity >= 5) return RANDOM_CARD_TINTS.MYTHIC;
   if (spec.maxRarity === 4) return RANDOM_CARD_TINTS.LEGENDARY;
   if (spec.maxRarity === 3) return RANDOM_CARD_TINTS.SUPER;

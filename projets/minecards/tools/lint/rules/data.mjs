@@ -228,8 +228,8 @@ function checkRandomCardData(data, keys, fail) {
   if (data.Rarities !== undefined) {
     const rarities = Array.isArray(data.Rarities) ? data.Rarities : [data.Rarities];
     rarities.forEach((rarity) => {
-      if (!isIntegerBetween(rarity, 1, 5)) {
-        fail(`Data.Rarities holds ${JSON.stringify(rarity)}, expected an integer from 1 to 5`);
+      if (!isIntegerBetween(rarity, 1, 6)) {
+        fail(`Data.Rarities holds ${JSON.stringify(rarity)}, expected an integer from 1 to 6`);
       }
     });
   }
@@ -395,8 +395,8 @@ export default [
             fail(`${label} layout ${JSON.stringify(layout)} is not "classic" or "fullart"`);
           }
 
-          if (!isIntegerBetween(card.Rarity, 1, 5)) {
-            fail(`${label} rarity ${JSON.stringify(card.Rarity)} is not an integer from 1 to 5`);
+          if (!isIntegerBetween(card.Rarity, 1, 6)) {
+            fail(`${label} rarity ${JSON.stringify(card.Rarity)} is not an integer from 1 to 6`);
           }
           if (!isFilled(card.Style)) fail(`${label} has no Style`);
 
@@ -1092,11 +1092,11 @@ export default [
             file: CONFIG_FILE,
             line,
             column: 1,
-            message: `sparks.${field} must map a rarity (1-5) to a price`,
+            message: `sparks.${field} must map a rarity (1-6) to a price`,
           });
           return;
         }
-        for (let rarity = 1; rarity <= 5; rarity += 1) {
+        for (let rarity = 1; rarity <= 6; rarity += 1) {
           if (!Number.isInteger(prices[rarity]) || prices[rarity] < 0) {
             context.report({
               file: CONFIG_FILE,
@@ -1168,12 +1168,12 @@ export default [
       const rarityLine = lineAt(configText, '"rarityValues"');
 
       Object.keys(shopOffers).forEach((rarity) => {
-        if (!isIntegerBetween(Number(rarity), 1, 5)) {
+        if (!isIntegerBetween(Number(rarity), 1, 6)) {
           context.report({
             file: CONFIG_FILE,
             line: offersLine,
             column: 1,
-            message: `shop.offers["${rarity}"] must be a card rarity (1-5)`,
+            message: `shop.offers["${rarity}"] must be a card rarity (1-6)`,
           });
         }
         if (!Number.isInteger(shopOffers[rarity]) || shopOffers[rarity] <= 0) {
@@ -1195,12 +1195,12 @@ export default [
       });
 
       Object.keys(rarityValues).forEach((rarity) => {
-        if (!isIntegerBetween(Number(rarity), 1, 5)) {
+        if (!isIntegerBetween(Number(rarity), 1, 6)) {
           context.report({
             file: CONFIG_FILE,
             line: rarityLine,
             column: 1,
-            message: `shop.rarityValues["${rarity}"] must be a card rarity (1-5)`,
+            message: `shop.rarityValues["${rarity}"] must be a card rarity (1-6)`,
           });
         }
         if (!Number.isInteger(rarityValues[rarity]) || rarityValues[rarity] <= 0) {
@@ -1411,8 +1411,8 @@ export default [
             fail(`"${key}" holds an entry that is not an object`);
             return;
           }
-          if (!isIntegerBetween(bucket.rarity, 1, 5)) {
-            fail(`"${key}" draws rarity ${JSON.stringify(bucket.rarity)}, expected an integer from 1 to 5`);
+          if (!isIntegerBetween(bucket.rarity, 1, 6)) {
+            fail(`"${key}" draws rarity ${JSON.stringify(bucket.rarity)}, expected an integer from 1 to 6`);
           }
           if (!Number.isFinite(bucket.weight) || bucket.weight <= 0 || bucket.weight > 1) {
             fail(

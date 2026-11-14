@@ -154,6 +154,13 @@
       gap: 6px;
     }
 
+    .form-hint {
+      margin: -2px 0 0;
+      color: #8f92a4;
+      font-size: 0.76rem;
+      line-height: 1.4;
+    }
+
     label { font-size: 0.85rem; color: #a0a0b0; font-weight: 600; }
     input, textarea, select {
       background: #2a2a35;
@@ -238,6 +245,11 @@
       background-size: cover;
       background-position: center;
       z-index: 1;
+      /* Aucun ré-échantillonnage : le fond est agrandi au plus proche voisin,
+         comme l'underlay, à l'aperçu comme dans le rendu exporté. */
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
     }
 
     /* Overlay Foil sur l'image de fond (entre le fond et l'underlay) : intensité renforcée. */
@@ -450,6 +462,9 @@
       background-image: var(--card-background-image, none);
       background-size: cover;
       background-position: center;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
       /* Flou très prononcé : l'image devient une simple nappe de couleurs. */
       filter: blur(28px) saturate(1.15);
       /* Légère mise à l'échelle : masque les bords adoucis créés par le flou. */

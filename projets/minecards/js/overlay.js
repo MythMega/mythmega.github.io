@@ -582,7 +582,7 @@ class BoosterOverlay {
   }
 
   /**
-   * Plays the sounds of one card reveal: the flip, then the rarity sting (4 and 5 only).
+   * Plays the sounds of one card reveal: the flip, then the rarity sting (4, 5 and 6 only).
    *
    * @param {object} card - Revealed card.
    * @returns {void}

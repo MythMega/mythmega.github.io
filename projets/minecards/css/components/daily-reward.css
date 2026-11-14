@@ -139,6 +139,10 @@
   color: var(--color-rarity-mythic);
 }
 
+.daily-reward__day-icon--random[data-tint="unique"] {
+  color: var(--color-rarity-unique);
+}
+
 .daily-reward__day-icon--card {
   width: auto;
   height: 2.3rem;

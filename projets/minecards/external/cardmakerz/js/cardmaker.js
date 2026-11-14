@@ -5,6 +5,12 @@ const inputRarity = document.getElementById('input-rarity');
 const inputImage = document.getElementById('input-image');
 const inputUnderlay = document.getElementById('input-underlay');
 const inputText = document.getElementById('input-text');
+const inputTranslationLang = document.getElementById('input-translation-lang');
+const inputTitleTranslated = document.getElementById('input-title-translated');
+const inputTextTranslated = document.getElementById('input-text-translated');
+const labelTitleTranslated = document.getElementById('label-title-translated');
+const labelTextTranslated = document.getElementById('label-text-translated');
+const translationHint = document.getElementById('translation-hint');
 const inputLayout = document.getElementById('input-layout');
 const inputFoilBg = document.getElementById('input-foil-bg');
 const inputFoilUnderlay = document.getElementById('input-foil-underlay');
@@ -26,6 +32,46 @@ const cardText = document.getElementById('card-text');
 /* Mises en page disponibles (mêmes valeurs que celles utilisées par le Bulk Generator). */
 const LAYOUT_FULLART = 'fullart';
 const LAYOUT_CLASSIC = 'classic';
+
+/* Langues acceptées par les champs traduits. La langue principale est toujours
+ * l'autre : les deux rendus couvrent donc exactement FR et EN. */
+const TRANSLATION_LANGS = ['FR', 'EN'];
+const LANGUAGE_NAMES = Object.freeze({ FR: 'français', EN: 'anglais' });
+
+function otherLanguage(lang) {
+  return lang === 'FR' ? 'EN' : 'FR';
+}
+
+/* Lit les champs traduits et déduit la langue des champs principaux.
+ * `hasTranslation` est faux tant que le nom et la description traduits sont vides,
+ * ce qui conserve exactement l'export d'une seule carte. */
+function getTranslationState() {
+  const translatedLang = TRANSLATION_LANGS.includes(inputTranslationLang.value)
+    ? inputTranslationLang.value
+    : 'EN';
+  const baseLang = otherLanguage(translatedLang);
+  const translatedName = inputTitleTranslated.value.trim();
+  const translatedDescription = inputTextTranslated.value.trim();
+  return {
+    baseLang,
+    translatedLang,
+    translatedName,
+    translatedDescription,
+    hasTranslation: translatedName !== '' || translatedDescription !== '',
+  };
+}
+
+/* Met les libellés et l'aide en accord avec la langue choisie. */
+function updateTranslationLabels() {
+  const state = getTranslationState();
+  const translatedName = LANGUAGE_NAMES[state.translatedLang];
+  const baseName = LANGUAGE_NAMES[state.baseLang];
+  labelTitleTranslated.textContent = `Nom en ${translatedName} (optionnel)`;
+  labelTextTranslated.textContent = `Description en ${translatedName} (optionnelle)`;
+  translationHint.textContent =
+    `Les champs principaux sont considérés comme étant en ${baseName}. ` +
+    'Renseignez au moins un champ traduit pour télécharger deux cartes.';
+}
 
 /* Applique la classe de mise en page au conteneur de la carte.
  * « classic » -> bandeau du nom en haut (7 %), bloc de description en bas (60 %).
@@ -101,12 +147,14 @@ inputRarity.addEventListener('change', updateCard);
 inputImage.addEventListener('input', updateCard);
 inputUnderlay.addEventListener('input', updateCard);
 inputText.addEventListener('input', updateCard);
+inputTranslationLang.addEventListener('change', updateTranslationLabels);
 inputLayout.addEventListener('change', updateCard);
 inputFoilBg.addEventListener('input', updateCard);
 inputFoilUnderlay.addEventListener('input', updateCard);
 inputFoilMythicBg.addEventListener('input', updateCard);
 inputFoilMythicUnderlay.addEventListener('input', updateCard);
 
+updateTranslationLabels();
 updateCard();
 
 function getPixelArtDataUrl(url) {
@@ -144,7 +192,7 @@ function getPixelArtDataUrl(url) {
   });
 }
 
-/* Incorpore une image de fond (non pixelisée) en Data URL.
+/* Incorpore une image de fond en Data URL, sans interpolation.
  * Nécessaire pour le rendu SVG <foreignObject> : comme pour l'underlay,
  * une image cross-origin chargée telle quelle « teinterait » le canvas final. */
 function getBackgroundDataUrl(url) {
@@ -157,6 +205,10 @@ function getBackgroundDataUrl(url) {
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
       const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      ctx.webkitImageSmoothingEnabled = false;
+      ctx.mozImageSmoothingEnabled = false;
+      ctx.msImageSmoothingEnabled = false;
       ctx.drawImage(img, 0, 0);
       try {
         resolve(canvas.toDataURL('image/png'));
@@ -232,8 +284,27 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   const originalUnderlay = inputUnderlay.value;
   const originalBackground = inputImage.value;
   const baseName = inputTitle.value || 'carte';
+  const translation = getTranslationState();
+  const baseDisplayName = inputTitle.value || 'Nom de la carte';
+  const baseDescription = inputText.value;
+  // Sans traduction : une seule carte, comme avant. Avec traduction : la version
+  // traduite puis la version principale dans l'autre langue. Chaque fichier porte
+  // le code de sa langue pour ne jamais écraser l'autre rendu.
+  const renders = translation.hasTranslation
+    ? [
+        {
+          lang: translation.translatedLang,
+          name: translation.translatedName || baseDisplayName,
+          description: translation.translatedDescription || baseDescription,
+        },
+        {
+          lang: translation.baseLang,
+          name: baseDisplayName,
+          description: baseDescription,
+        },
+      ]
+    : [{ lang: null, name: baseDisplayName, description: baseDescription }];
 
-  // Une seule carte : le fichier produit porte la mise en page choisie.
   const layout = previewLayout();
 
   downloadBtn.disabled = true;
@@ -254,15 +325,20 @@ document.getElementById('download-btn').addEventListener('click', async () => {
     }
 
     applyLayoutClass(layout);
-    const blob = await renderCardBlob();
-    downloadBlob(blob, `${baseName}_${layout}.png`);
+
+    for (const render of renders) {
+      cardTitle.textContent = render.name;
+      cardText.textContent = render.description;
+      const blob = await renderCardBlob();
+      const languageSuffix = render.lang ? `_${render.lang.toLowerCase()}` : '';
+      downloadBlob(blob, `${baseName}_${layout}${languageSuffix}.png`);
+    }
   } catch (e) {
     console.error('Erreur lors du téléchargement de la carte :', e);
     alert('Erreur lors de la génération de la carte : ' + (e.message || e));
   } finally {
-    // Restaure l'état d'aperçu initial (URLs d'origine, pas les Data URLs incorporées).
-    applyCardBackground(originalBackground);
-    if (originalUnderlay) cardUnderlay.style.backgroundImage = `url('${originalUnderlay}')`;
+    // Restaure l'aperçu complet (textes, URLs d'origine, pas les Data URLs incorporées).
+    updateCard();
     downloadBtn.disabled = false;
     downloadBtn.textContent = originalLabel;
   }
@@ -273,28 +349,51 @@ document.getElementById('download-btn').addEventListener('click', async () => {
  *
  * Le bloc copié est celui qu'on colle dans la liste « Cards » du fichier d'un
  * booster (`data/boosters/<Serie>.json`) : mêmes champs, même ordre et même
- * échelle de rareté que les cartes du jeu. Le Card Maker ne gère qu'une seule
- * langue, donc le nom et la description saisis alimentent FR et EN ; « Path »
- * reste explicitement null, il n'est rempli qu'une fois l'image webp publiée.
+ * échelle de rareté que les cartes du jeu. Sans traduction, le nom et la
+ * description principaux alimentent FR et EN ; avec une traduction, chaque
+ * langue reçoit ses champs, et un champ traduit vide retombe sur le principal.
+ * « Path » reste explicitement null, il n'est rempli qu'une fois l'image webp publiée.
  * ------------------------------------------------------------------------ */
 
 /* Échelle du champ « Rarity » des fichiers JSON : 1 = Commune … 6 = Unique
  * (les options du sélecteur suivent le même ordre, cf. RarityDef du Bulk Generator). */
 const RARITY_JSON_VALUES = [1, 2, 3, 4, 5, 6];
 
+/* Champs localisés du JSON : la langue principale est celle qui reste après
+ * avoir choisi la langue de la traduction. Un champ traduit vide ne doit jamais
+ * effacer la valeur principale dans le fichier du booster. */
+function localizedCardFields(title, description) {
+  const translation = getTranslationState();
+  if (!translation.hasTranslation) {
+    return {
+      FR: { name: title, description },
+      EN: { name: title, description },
+    };
+  }
+
+  return {
+    [translation.baseLang]: { name: title, description },
+    [translation.translatedLang]: {
+      name: translation.translatedName || title,
+      description: translation.translatedDescription || description,
+    },
+  };
+}
+
 /* Objet JSON de la carte affichée, prêt à coller dans le fichier du booster. */
 function buildCardJson() {
   const title = inputTitle.value.trim();
   const description = inputText.value.trim();
+  const localized = localizedCardFields(title, description);
   const style = inputFont.options[inputFont.selectedIndex].textContent.trim();
   const rarity = RARITY_JSON_VALUES[inputRarity.selectedIndex] || RARITY_JSON_VALUES[0];
 
   return {
     Index: inputSeries.value.trim(),
-    Name_FR: title,
-    Name_EN: title,
-    Desc_FR: description,
-    Desc_EN: description,
+    Name_FR: localized.FR.name,
+    Name_EN: localized.EN.name,
+    Desc_FR: localized.FR.description,
+    Desc_EN: localized.EN.description,
     Rarity: rarity,
     Style: style,
     Background: inputImage.value.trim(),
@@ -343,10 +442,13 @@ const jsonOutput = document.getElementById('json-output');
 copyJsonBtn.addEventListener('click', async () => {
   // 4 espaces : même indentation que les cartes déjà présentes dans les fichiers.
   const json = JSON.stringify(buildCardJson(), null, 4);
+  const hasTranslation = getTranslationState().hasTranslation;
   const copied = await copyText(json);
 
   copyJsonStatus.textContent = copied
-    ? 'JSON copié : collez-le dans la liste « Cards » du fichier du booster.'
+    ? (hasTranslation
+        ? 'JSON copié avec les champs FR et EN issus des deux langues : collez-le dans la liste « Cards ».'
+        : 'JSON copié : collez-le dans la liste « Cards » du fichier du booster.')
     : 'Copie refusée par le navigateur : le JSON est affiché ci-dessous, à sélectionner à la main.';
   copyJsonStatus.dataset.state = copied ? 'ok' : 'error';
   copyJsonStatus.hidden = false;

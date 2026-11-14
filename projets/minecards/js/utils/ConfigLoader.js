@@ -141,12 +141,15 @@ export const DEFAULT_FEATURE_SETTINGS = Object.freeze({
  * Default settings of the profile card, used whenever `settings/config.json` omits a value.
  *
  * `rarityThresholds` maps a card rarity (1 = Commune … 6 = Unique) to the number of unlocked
- * trophies it takes to reach it, `defaultArtPath` is the illustration used as the card background
- * when the account has no favourite card to borrow one from, and `seriesDigits` is how many last
- * characters of the account UUID the series line prints.
+ * trophies it takes to reach it. `showRarityBeforeUnlock` maps the same rarities to whether their
+ * choice stays listed before that threshold is reached: a missing entry is `true`, which keeps the
+ * locked option visible with its trophy count. `defaultArtPath` is the illustration used as the
+ * card background when the account has no favourite card to borrow one from, and `seriesDigits` is
+ * how many last characters of the account UUID the series line prints.
  */
 export const DEFAULT_PROFILE_CARD_SETTINGS = Object.freeze({
   rarityThresholds: Object.freeze({ 1: 0, 2: 5, 3: 15, 4: 30, 5: 50, 6: 150 }),
+  showRarityBeforeUnlock: Object.freeze({ 1: true, 2: true, 3: true, 4: true, 5: true, 6: true }),
   defaultArtPath: 'assets/img/card_back.png',
   seriesDigits: 4,
 });
@@ -1769,7 +1772,8 @@ export class ConfigLoader {
    * shipped value, and the sequence is kept ascending so a typo can never make a rarer card
    * easier to reach than the one below it.
    *
-   * @returns {Promise<{rarityThresholds: Record<number, number>, defaultArtPath: string, seriesDigits: number}>}
+   * @returns {Promise<{rarityThresholds: Record<number, number>,
+   *   showRarityBeforeUnlock: Record<number, boolean>, defaultArtPath: string, seriesDigits: number}>}
    *   The validated profile card settings.
    * @throws {Error} See `load()`.
    */
@@ -1786,8 +1790,21 @@ export class ConfigLoader {
       previous = Math.max(previous, threshold);
       rarityThresholds[rarity] = previous;
     }
+    const rawVisibility = card.showRarityBeforeUnlock
+      && typeof card.showRarityBeforeUnlock === 'object'
+      && !Array.isArray(card.showRarityBeforeUnlock)
+      ? card.showRarityBeforeUnlock
+      : {};
+    const showRarityBeforeUnlock = {};
+    for (let rarity = 1; rarity <= 6; rarity += 1) {
+      const value = rawVisibility[rarity];
+      showRarityBeforeUnlock[rarity] = typeof value === 'boolean'
+        ? value
+        : DEFAULT_PROFILE_CARD_SETTINGS.showRarityBeforeUnlock[rarity];
+    }
     return {
       rarityThresholds,
+      showRarityBeforeUnlock,
       defaultArtPath: ConfigLoader.normalizePath(
         card.defaultArtPath,
         DEFAULT_PROFILE_CARD_SETTINGS.defaultArtPath

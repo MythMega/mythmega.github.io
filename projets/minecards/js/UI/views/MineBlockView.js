@@ -1073,6 +1073,9 @@ export class MineBlockView {
         sparksFound: result.sparksFound,
       };
       this.renderQuota(this.state);
+      // The last block of the day must reveal the bundle panel in the same tap that broke it. It was
+      // previously rendered only by `reload()`, so the prompt appeared after a manual refresh.
+      this.renderBundle(this.state);
 
       if (result.broke) {
         this.animateBreak(result);
@@ -2809,8 +2812,8 @@ export class MineBlockView {
         ? Toast.success('mineblock.trader.boughtNew', { params: { card: name } })
         : Toast.info('mineblock.trader.bought', { params: { card: name } });
       if (toast) toast.dataset.card = result.card.uniqueKey;
-      // The card is what was bought: it is announced with the sound of its rarity (only 3, 4 and 5
-      // ship one, a more ordinary card simply arrives in silence).
+      // The card is what was bought: it is announced with the sound of its rarity (only 3, 4, 5
+      // and 6 ship one, a more ordinary card simply arrives in silence).
       const sound = RARITY_SOUNDS[result.card.rarity];
       if (sound) soundManager.play(sound);
     } catch (error) {

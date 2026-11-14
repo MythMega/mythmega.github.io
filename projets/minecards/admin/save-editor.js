@@ -36,10 +36,11 @@ const REQUIRED_STATES = Object.freeze(['account', 'settings', 'quota', 'stats', 
 /** Rarity labels shown by the editor. */
 const RARITY_LABELS = Object.freeze({
   1: 'Commune',
-  2: 'Peu commune',
-  3: 'Rare',
-  4: 'Épique',
+  2: 'Rare',
+  3: 'Super rare',
+  4: 'Légendaire',
   5: 'Mythique',
+  6: 'Unique',
 });
 
 /** Prefixes of the purchase ids, mirrored from `FeatureManager.js`. */
@@ -291,7 +292,7 @@ function buildCatalogCard(entry, setId, promo) {
     style,
     set: setId,
     promo,
-    rarity: Number.isInteger(rarity) && rarity >= 1 && rarity <= 5 ? rarity : 1,
+    rarity: Number.isInteger(rarity) && rarity >= 1 && rarity <= 6 ? rarity : 1,
     name:
       (typeof entry.Name_FR === 'string' && entry.Name_FR) ||
       (typeof entry.Name_EN === 'string' && entry.Name_EN) ||
@@ -1807,9 +1808,9 @@ function renderProfile() {
  */
 function rarityCounters(label, key) {
   const stats = ensureState('stats');
-  if (!stats[key] || typeof stats[key] !== 'object') stats[key] = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  if (!stats[key] || typeof stats[key] !== 'object') stats[key] = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
   const grid = h('div', { class: 'field-grid' });
-  for (let rarity = 1; rarity <= 5; rarity += 1) {
+  for (let rarity = 1; rarity <= 6; rarity += 1) {
     const current = Number(stats[key][String(rarity)]);
     grid.append(numberField(
       RARITY_LABELS[rarity],

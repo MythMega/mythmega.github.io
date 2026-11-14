@@ -47,6 +47,7 @@
         <option value="★★★" data-class="rarity-super-rare">Super Rare (★★★)</option>
         <option value="✦" data-class="rarity-legendary">Légendaire (✦)</option>
         <option value="💎" data-class="rarity-mythic">Mythique (💎)</option>
+        <option value="🔶" data-class="rarity-unique">Unique (🔶)</option>
       </select>
     </div>
 
@@ -61,12 +62,12 @@
     </div>
 
     <div class="form-group">
-      <label for="input-foil-mythic-bg">Foil Mythique 💎 — image de fond : <span id="foil-mythic-bg-value">115%</span></label>
+      <label for="input-foil-mythic-bg">Foil Mythique 💎 / Unique 🔶 — image de fond : <span id="foil-mythic-bg-value">115%</span></label>
       <input type="range" id="input-foil-mythic-bg" min="0" max="300" step="5" value="115" style="width:100%;">
     </div>
 
     <div class="form-group">
-      <label for="input-foil-mythic-underlay">Foil Mythique 💎 — underlay : <span id="foil-mythic-underlay-value">60%</span></label>
+      <label for="input-foil-mythic-underlay">Foil Mythique 💎 / Unique 🔶 — underlay : <span id="foil-mythic-underlay-value">60%</span></label>
       <input type="range" id="input-foil-mythic-underlay" min="0" max="300" step="5" value="60" style="width:100%;">
     </div>
 
@@ -92,6 +93,26 @@
       <label for="input-text">Description / Effet</label>
       <textarea id="input-text" rows="3" placeholder="Description de la carte...">Invoque une tempête cosmique lorsqu'il entre sur le terrain. Inflige 50 points de dégâts aux unités adverses.</textarea>
     </div>
+
+    <div class="form-group">
+      <label for="input-translation-lang">Langue du nom et de la description traduits (optionnel)</label>
+      <select id="input-translation-lang">
+        <option value="EN" selected>Anglais</option>
+        <option value="FR">Français</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="input-title-translated" id="label-title-translated">Nom en anglais (optionnel)</label>
+      <input type="text" id="input-title-translated" value="" placeholder="Ex: Celestial Dragon">
+    </div>
+
+    <div class="form-group">
+      <label for="input-text-translated" id="label-text-translated">Description en anglais (optionnelle)</label>
+      <textarea id="input-text-translated" rows="3" placeholder="Description dans la seconde langue..."></textarea>
+    </div>
+
+    <p class="form-hint" id="translation-hint">Les champs principaux sont considérés comme étant en français. Renseignez au moins un champ traduit pour télécharger deux cartes.</p>
 
     <div class="form-group" style="margin-top: 6px;">
       <a href="./bulkgenerate.html" style="color: #7289da; font-size: 0.85rem; font-weight: 600; text-decoration: none;">🚀 Passer au Bulk Generator (Génération en lot) →</a>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>MineCards : navigateur de cartes</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="cards.css">
+</head>
+<body>
+  <main class="admin cards-admin">
+
+    <!-- Password gate. Same digest as index.html; the password is never stored. -->
+    <section class="lock" id="lock">
+      <h1 class="lock__title">Navigateur de cartes</h1>
+      <p class="muted">Accès réservé. Saisissez le mot de passe administrateur.</p>
+      <form id="lock-form" autocomplete="off">
+        <label class="field">
+          <span class="field__label">Mot de passe</span>
+          <input class="field__input" type="password" id="lock-input" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn--primary" id="lock-submit">Déverrouiller</button>
+        <p class="feedback" id="lock-feedback" role="status" hidden></p>
+      </form>
+    </section>
+
+    <section class="app" id="app" hidden>
+      <header class="app__head">
+        <div>
+          <h1 class="app__title">Navigateur de cartes <span class="badge">admin</span></h1>
+          <p class="muted" id="source-status">Chargement des catalogues…</p>
+        </div>
+        <div class="app__actions">
+          <a class="btn btn--ghost" href="index.html">Codes</a>
+          <button type="button" class="btn btn--ghost" id="lock-again">Verrouiller</button>
+        </div>
+      </header>
+
+      <section class="card source-card" aria-label="Choix du booster ou de la collection promo">
+        <div class="browser-controls">
+          <label class="control control--source">
+            <span class="control__label">Booster ou collection promo</span>
+            <select class="field__select" id="source-select" disabled>
+              <option>Chargement…</option>
+            </select>
+          </label>
+          <p class="hint source-card__hint">Lecture directe des fichiers de données : un set encore non sorti, comme A2, reste consultable ici.</p>
+        </div>
+        <p class="feedback" id="catalog-feedback" role="status" hidden></p>
+      </section>
+
+      <div class="view-tabs" role="tablist" aria-label="Vues du navigateur de cartes">
+        <button type="button" class="tab is-active" id="tab-cards" role="tab" aria-selected="true" aria-controls="panel-cards" tabindex="0">
+          Cartes <span class="tab__count" id="cards-tab-count">0</span>
+        </button>
+        <button type="button" class="tab" id="tab-analysis" role="tab" aria-selected="false" aria-controls="panel-analysis" tabindex="-1">
+          Analyse du booster
+        </button>
+      </div>
+
+      <div class="tab-panel" id="panel-cards" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
+        <section class="card browser-card" aria-label="Filtres et tri des cartes">
+          <div class="browser-controls">
+            <label class="control control--search">
+              <span class="control__label">Rechercher</span>
+              <input class="field__input" type="search" id="search-input" placeholder="Nom, nom anglais, index, rareté…" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="control">
+              <span class="control__label">Rareté</span>
+              <select class="field__select" id="rarity-filter">
+                <option value="all">Toutes</option>
+              </select>
+            </label>
+            <label class="control">
+              <span class="control__label">Trier par</span>
+              <select class="field__select" id="sort-select">
+                <option value="num">Numéro</option>
+                <option value="index">Index</option>
+                <option value="nameFr">Nom FR</option>
+                <option value="nameEn">Nom EN</option>
+                <option value="rarity">Rareté</option>
+              </select>
+            </label>
+            <button type="button" class="btn btn--ghost sort-direction" id="sort-direction" aria-label="Trier par ordre croissant">Croissant ↑</button>
+            <label class="control control--page-size">
+              <span class="control__label">Par page</span>
+              <select class="field__select" id="page-size">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="all">Tout</option>
+              </select>
+            </label>
+            <button type="button" class="btn btn--ghost" id="reset-filters">Réinitialiser</button>
+          </div>
+        </section>
+
+        <section class="card table-card" aria-labelledby="table-title">
+          <div class="table-card__head">
+            <div>
+              <h2 class="card__title" id="table-title">Cartes du set</h2>
+              <p class="muted" id="table-summary" aria-live="polite">Aucune carte chargée.</p>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table id="cards-table">
+              <caption class="visually-hidden">Cartes du booster ou de la collection promo sélectionné</caption>
+              <thead>
+                <tr>
+                  <th scope="col" class="cell-num">N°</th>
+                  <th scope="col">Index</th>
+                  <th scope="col">Nom FR</th>
+                  <th scope="col">Nom EN</th>
+                  <th scope="col">Rareté</th>
+                  <th scope="col">Image FR</th>
+                  <th scope="col">Image EN</th>
+                </tr>
+              </thead>
+              <tbody id="cards-body">
+                <tr>
+                  <td class="table-placeholder" colspan="7">Chargement…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination" id="pagination" hidden>
+            <p class="pagination__info" id="pagination-info"></p>
+            <div class="pagination__buttons">
+              <button type="button" class="btn btn--ghost" id="page-first" aria-label="Première page">«</button>
+              <button type="button" class="btn btn--ghost" id="page-prev" aria-label="Page précédente">‹</button>
+              <span class="pagination__page" id="page-label"></span>
+              <button type="button" class="btn btn--ghost" id="page-next" aria-label="Page suivante">›</button>
+              <button type="button" class="btn btn--ghost" id="page-last" aria-label="Dernière page">»</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="tab-panel" id="panel-analysis" role="tabpanel" aria-labelledby="tab-analysis" tabindex="0" hidden>
+        <section class="card analysis-card" aria-labelledby="analysis-title">
+          <div class="section-head">
+            <div>
+              <h2 class="card__title" id="analysis-title">Analyse du booster</h2>
+              <p class="muted" id="analysis-summary">Aucune carte chargée.</p>
+            </div>
+            <span class="analysis-kind" id="analysis-kind">-</span>
+          </div>
+
+          <p class="feedback" id="analysis-feedback" role="status" hidden></p>
+
+          <div class="stat-grid">
+            <article class="stat">
+              <span class="stat__label">Cartes du set</span>
+              <strong class="stat__value" id="analysis-total">-</strong>
+            </article>
+            <article class="stat">
+              <span class="stat__label">Raretés représentées</span>
+              <strong class="stat__value" id="analysis-rarity-count">-</strong>
+            </article>
+            <article class="stat">
+              <span class="stat__label">Cartes classiques</span>
+              <strong class="stat__value" id="analysis-classic">-</strong>
+            </article>
+            <article class="stat">
+              <span class="stat__label">Cartes full art</span>
+              <strong class="stat__value" id="analysis-fullart">-</strong>
+            </article>
+          </div>
+        </section>
+
+        <div class="analysis-grid">
+          <section class="card chart-card" aria-labelledby="rarity-chart-title">
+            <h2 class="card__title" id="rarity-chart-title">Répartition par rareté</h2>
+            <p class="muted" id="rarity-chart-summary">Aucune donnée.</p>
+            <div class="chart" id="rarity-chart" role="list" aria-label="Répartition des cartes par rareté"></div>
+          </section>
+
+          <section class="card chart-card" aria-labelledby="layout-chart-title">
+            <h2 class="card__title" id="layout-chart-title">Répartition par layout</h2>
+            <p class="muted" id="layout-chart-summary">Aucune donnée.</p>
+            <div class="chart" id="layout-chart" role="list" aria-label="Répartition des cartes par layout"></div>
+          </section>
+        </div>
+
+        <section class="card simulation-card" id="simulation-card" aria-labelledby="simulation-title">
+          <div class="section-head">
+            <div>
+              <h2 class="card__title" id="simulation-title">Espérance de complétion</h2>
+              <p class="muted" id="simulation-summary">Aucune simulation disponible.</p>
+            </div>
+            <span class="analysis-kind" id="simulation-source">-</span>
+          </div>
+
+          <div class="rarity-picker" id="rarity-picker" hidden>
+            <div class="rarity-picker__head">
+              <span class="rarity-picker__title" id="rarity-picker-title">Raretés prises en compte</span>
+              <span class="rarity-picker__summary" id="rarity-selection-summary"></span>
+            </div>
+            <div class="rarity-picker__options" id="rarity-options" role="group" aria-labelledby="rarity-picker-title"></div>
+          </div>
+
+          <div class="simulation-grid">
+            <article class="simulation-stat simulation-stat--main">
+              <span class="simulation-stat__label">Boosters nécessaires en moyenne</span>
+              <strong class="simulation-stat__value" id="simulation-mean">N/A</strong>
+              <span class="simulation-stat__suffix" id="simulation-mean-suffix">boosters</span>
+            </article>
+            <article class="simulation-stat">
+              <span class="simulation-stat__label">Médiane</span>
+              <strong class="simulation-stat__value" id="simulation-median">N/A</strong>
+              <span class="simulation-stat__suffix">boosters</span>
+            </article>
+            <article class="simulation-stat">
+              <span class="simulation-stat__label">90 % des simulations</span>
+              <strong class="simulation-stat__value" id="simulation-p90">N/A</strong>
+              <span class="simulation-stat__suffix">boosters ou moins</span>
+            </article>
+            <article class="simulation-stat">
+              <span class="simulation-stat__label">Tirages simulés</span>
+              <strong class="simulation-stat__value" id="simulation-trials">N/A</strong>
+              <span class="simulation-stat__suffix">ouvertures</span>
+            </article>
+          </div>
+
+          <p class="hint" id="simulation-note">La simulation se base sur les cartes, la table de rareté et la taille de booster du set.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Aperçu de la carte">
+    <div class="lightbox__bar">
+      <p class="lightbox__caption" id="lightbox-caption"></p>
+      <form method="dialog">
+        <button type="submit" class="lightbox__close" aria-label="Fermer l’aperçu">×</button>
+      </form>
+    </div>
+    <img class="lightbox__image" id="lightbox-image" alt="">
+  </dialog>
+
+  <script type="module" src="cards.js"></script>
+</body>
+</html>

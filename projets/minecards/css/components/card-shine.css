@@ -75,6 +75,7 @@
      `card-shine--super-rare` : rarity 3, the fine diagonal weave, the lightest of the three;
      `card-shine--legendary`  : rarity 4, the light version of the vocabulary above;
      `card-shine--mythic`     : rarity 5, the full treatment (extra shapes, 3D tilt, brighter);
+     `card-shine--unique`     : rarity 6, the same full treatment over a repeating diamond-flower lattice;
      `.is-off`                : the player switched the effect off (collection detail); nothing is
                                painted at all.
 
@@ -261,7 +262,7 @@
     );
   background-size: 100% 100%, 100% 100%, 42px 24.25px, 24px 24px, 24px 24px;
   background-repeat: no-repeat, no-repeat, repeat, repeat, repeat;
-  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+  background-position: 0 0, 0 0, 0 0, 0 0;
   --foil-strength: 1;
   opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
   mix-blend-mode: soft-light;
@@ -287,6 +288,51 @@
   opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
   mix-blend-mode: overlay;
   animation: card-shine-light-mythic 8.6s var(--easing-standard) infinite alternate;
+}
+
+/* =============================================================================
+   UNIQUE - a repeating diamond-flower lattice
+   ============================================================================= */
+
+/* The foil mechanics of the mythic (full-surface relief, bloom, two glints and the same 3D
+   tilt) with a DIFFERENT pattern: a full-card field of marbled veins, swollen around three
+   off-centre knots and cut by branching cross-veins. Nothing is built from a triangle, a
+   diamond or a hexagon: every line is a free curve, and the doubled stroke (dark under the
+   bright copper line) keeps it readable over dense artwork. */
+.card-shine--unique {
+  --gleam-angle: 45deg;
+  --gleam-strength: 0.82;
+  --gleam-duration: 9.4s;
+}
+
+.card-shine--unique::before {
+  background-image:
+    linear-gradient(135deg, rgba(255, 166, 72, 0.58) 0%, transparent 12%),
+    linear-gradient(315deg, rgba(82, 28, 0, 0.55) 0%, transparent 16%),
+    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+PGRlZnM+PGcgaWQ9InJvc2V0dGUiIGZpbGw9Im5vbmUiPjxwb2x5Z29uIHBvaW50cz0iMTIzLjQsMTAwIDEyMC4zLDExMS43IDExMS43LDEyMC4zIDEwMCwxMjMuNCA4OC4zLDEyMC4zIDc5LjcsMTExLjcgNzYuNiwxMDAgNzkuNyw4OC4zIDg4LjMsNzkuNyAxMDAsNzYuNiAxMTEuNyw3OS43IDEyMC4zLDg4LjMiLz48cG9seWdvbiBwb2ludHM9IjEyNi42LDEwMCAxNDkuNSw5MC44IDE3NCwxMDAgMTQ5LjUsMTA5LjIiLz48cG9seWdvbiBwb2ludHM9IjEyMy4xLDExMy4zIDE0Ny40LDExNi44IDE2NC4xLDEzNyAxMzguMywxMzIuNyIvPjxwb2x5Z29uIHBvaW50cz0iMTEzLjMsMTIzLjEgMTMyLjcsMTM4LjMgMTM3LDE2NC4xIDExNi44LDE0Ny40Ii8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTI2LjYgMTA5LjIsMTQ5LjUgMTAwLDE3NCA5MC44LDE0OS41Ii8+PHBvbHlnb24gcG9pbnRzPSI4Ni43LDEyMy4xIDgzLjIsMTQ3LjQgNjMsMTY0LjEgNjcuMywxMzguMyIvPjxwb2x5Z29uIHBvaW50cz0iNzYuOSwxMTMuMyA2MS43LDEzMi43IDM1LjksMTM3IDUyLjYsMTE2LjgiLz48cG9seWdvbiBwb2ludHM9IjczLjQsMTAwIDUwLjUsMTA5LjIgMjYsMTAwIDUwLjUsOTAuOCIvPjxwb2x5Z29uIHBvaW50cz0iNzYuOSw4Ni43IDUyLjYsODMuMiAzNS45LDYzIDYxLjcsNjcuMyIvPjxwb2x5Z29uIHBvaW50cz0iODYuNyw3Ni45IDY3LjMsNjEuNyA2MywzNS45IDgzLjIsNTIuNiIvPjxwb2x5Z29uIHBvaW50cz0iMTAwLDczLjQgOTAuOCw1MC41IDEwMCwyNiAxMDkuMiw1MC41Ii8+PHBvbHlnb24gcG9pbnRzPSIxMTMuMyw3Ni45IDExNi44LDUyLjYgMTM3LDM1LjkgMTMyLjcsNjEuNyIvPjxwb2x5Z29uIHBvaW50cz0iMTIzLjEsODYuNyAxMzguMyw2Ny4zIDE2NC4xLDYzIDE0Ny40LDgzLjIiLz48cG9seWdvbiBwb2ludHM9IjE0LDAgOS45LDkuOSAwLDE0IC05LjksOS45IC0xNCwwIC05LjksLTkuOSAwLC0xNCA5LjksLTkuOSIvPjxwb2x5Z29uIHBvaW50cz0iMTYsMCAyOC4zLC02IDQyLDAgMjguMyw2Ii8+PHBvbHlnb24gcG9pbnRzPSIxMS4zLDExLjMgMjQuMywxNS44IDI5LjcsMjkuNyAxNS44LDI0LjMiLz48cG9seWdvbiBwb2ludHM9IjAsMTYgNiwyOC4zIDAsNDIgLTYsMjguMyIvPjxwb2x5Z29uIHBvaW50cz0iLTExLjMsMTEuMyAtMTUuOCwyNC4zIC0yOS43LDI5LjcgLTI0LjMsMTUuOCIvPjxwb2x5Z29uIHBvaW50cz0iLTE2LDAgLTI4LjMsNiAtNDIsMCAtMjguMywtNiIvPjxwb2x5Z29uIHBvaW50cz0iLTExLjMsLTExLjMgLTI0LjMsLTE1LjggLTI5LjcsLTI5LjcgLTE1LjgsLTI0LjMiLz48cG9seWdvbiBwb2ludHM9IjAsLTE2IC02LC0yOC4zIDAsLTQyIDYsLTI4LjMiLz48cG9seWdvbiBwb2ludHM9IjExLjMsLTExLjMgMTUuOCwtMjQuMyAyOS43LC0yOS43IDI0LjMsLTE1LjgiLz48cG9seWdvbiBwb2ludHM9IjIxNCwwIDIwOS45LDkuOSAyMDAsMTQgMTkwLjEsOS45IDE4NiwwIDE5MC4xLC05LjkgMjAwLC0xNCAyMDkuOSwtOS45Ii8+PHBvbHlnb24gcG9pbnRzPSIyMTYsMCAyMjguMywtNiAyNDIsMCAyMjguMyw2Ii8+PHBvbHlnb24gcG9pbnRzPSIyMTEuMywxMS4zIDIyNC4zLDE1LjggMjI5LjcsMjkuNyAyMTUuOCwyNC4zIi8+PHBvbHlnb24gcG9pbnRzPSIyMDAsMTYgMjA2LDI4LjMgMjAwLDQyIDE5NCwyOC4zIi8+PHBvbHlnb24gcG9pbnRzPSIxODguNywxMS4zIDE4NC4yLDI0LjMgMTcwLjMsMjkuNyAxNzUuNywxNS44Ii8+PHBvbHlnb24gcG9pbnRzPSIxODQsMCAxNzEuNyw2IDE1OCwwIDE3MS43LC02Ii8+PHBvbHlnb24gcG9pbnRzPSIxODguNywtMTEuMyAxNzUuNywtMTUuOCAxNzAuMywtMjkuNyAxODQuMiwtMjQuMyIvPjxwb2x5Z29uIHBvaW50cz0iMjAwLC0xNiAxOTQsLTI4LjMgMjAwLC00MiAyMDYsLTI4LjMiLz48cG9seWdvbiBwb2ludHM9IjIxMS4zLC0xMS4zIDIxNS44LC0yNC4zIDIyOS43LC0yOS43IDIyNC4zLC0xNS44Ii8+PHBvbHlnb24gcG9pbnRzPSIxNCwyMDAgOS45LDIwOS45IDAsMjE0IC05LjksMjA5LjkgLTE0LDIwMCAtOS45LDE5MC4xIDAsMTg2IDkuOSwxOTAuMSIvPjxwb2x5Z29uIHBvaW50cz0iMTYsMjAwIDI4LjMsMTk0IDQyLDIwMCAyOC4zLDIwNiIvPjxwb2x5Z29uIHBvaW50cz0iMTEuMywyMTEuMyAyNC4zLDIxNS44IDI5LjcsMjI5LjcgMTUuOCwyMjQuMyIvPjxwb2x5Z29uIHBvaW50cz0iMCwyMTYgNiwyMjguMyAwLDI0MiAtNiwyMjguMyIvPjxwb2x5Z29uIHBvaW50cz0iLTExLjMsMjExLjMgLTE1LjgsMjI0LjMgLTI5LjcsMjI5LjcgLTI0LjMsMjE1LjgiLz48cG9seWdvbiBwb2ludHM9Ii0xNiwyMDAgLTI4LjMsMjA2IC00MiwyMDAgLTI4LjMsMTk0Ii8+PHBvbHlnb24gcG9pbnRzPSItMTEuMywxODguNyAtMjQuMywxODQuMiAtMjkuNywxNzAuMyAtMTUuOCwxNzUuNyIvPjxwb2x5Z29uIHBvaW50cz0iMCwxODQgLTYsMTcxLjcgMCwxNTggNiwxNzEuNyIvPjxwb2x5Z29uIHBvaW50cz0iMTEuMywxODguNyAxNS44LDE3NS43IDI5LjcsMTcwLjMgMjQuMywxODQuMiIvPjxwb2x5Z29uIHBvaW50cz0iMjE0LDIwMCAyMDkuOSwyMDkuOSAyMDAsMjE0IDE5MC4xLDIwOS45IDE4NiwyMDAgMTkwLjEsMTkwLjEgMjAwLDE4NiAyMDkuOSwxOTAuMSIvPjxwb2x5Z29uIHBvaW50cz0iMjE2LDIwMCAyMjguMywxOTQgMjQyLDIwMCAyMjguMywyMDYiLz48cG9seWdvbiBwb2ludHM9IjIxMS4zLDIxMS4zIDIyNC4zLDIxNS44IDIyOS43LDIyOS43IDIxNS44LDIyNC4zIi8+PHBvbHlnb24gcG9pbnRzPSIyMDAsMjE2IDIwNiwyMjguMyAyMDAsMjQyIDE5NCwyMjguMyIvPjxwb2x5Z29uIHBvaW50cz0iMTg4LjcsMjExLjMgMTg0LjIsMjI0LjMgMTcwLjMsMjI5LjcgMTc1LjcsMjE1LjgiLz48cG9seWdvbiBwb2ludHM9IjE4NCwyMDAgMTcxLjcsMjA2IDE1OCwyMDAgMTcxLjcsMTk0Ii8+PHBvbHlnb24gcG9pbnRzPSIxODguNywxODguNyAxNzUuNywxODQuMiAxNzAuMywxNzAuMyAxODQuMiwxNzUuNyIvPjxwb2x5Z29uIHBvaW50cz0iMjAwLDE4NCAxOTQsMTcxLjcgMjAwLDE1OCAyMDYsMTcxLjciLz48cG9seWdvbiBwb2ludHM9IjIxMS4zLDE4OC43IDIxNS44LDE3NS43IDIyOS43LDE3MC4zIDIyNC4zLDE4NC4yIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsLTIwIDExMSwwIDEwMCwyMCA4OSwwIi8+PHBvbHlnb24gcG9pbnRzPSIxMDAsMTgwIDExMSwyMDAgMTAwLDIyMCA4OSwyMDAiLz48cG9seWdvbiBwb2ludHM9IjAsODkgMjAsMTAwIDAsMTExIC0yMCwxMDAiLz48cG9seWdvbiBwb2ludHM9IjIwMCw4OSAyMjAsMTAwIDIwMCwxMTEgMTgwLDEwMCIvPjxwb2x5Z29uIHBvaW50cz0iNTAsMzcgNTgsNTAgNTAsNjMgNDIsNTAiLz48cG9seWdvbiBwb2ludHM9IjE1MCwzNyAxNTgsNTAgMTUwLDYzIDE0Miw1MCIvPjxwb2x5Z29uIHBvaW50cz0iNTAsMTM3IDU4LDE1MCA1MCwxNjMgNDIsMTUwIi8+PHBvbHlnb24gcG9pbnRzPSIxNTAsMTM3IDE1OCwxNTAgMTUwLDE2MyAxNDIsMTUwIi8+PC9nPjwvZGVmcz48dXNlIGhyZWY9IiNyb3NldHRlIiBzdHJva2U9InJnYmEoNDAsMTAsMCwwLjY0KSIgc3Ryb2tlLXdpZHRoPSI0LjQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiLz48dXNlIGhyZWY9IiNyb3NldHRlIiBzdHJva2U9InJnYmEoMjU1LDE3Niw4OCwwLjk2KSIgc3Ryb2tlLXdpZHRoPSIxLjY1IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIi8+PC9zdmc+"),
+    radial-gradient(circle at 11px 13px, rgba(255, 196, 120, 0.5) 1.1px, transparent 1.8px);
+  background-size: 100% 100%, 100% 100%, 200px 200px, 24px 24px;
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  /* The third layer is the rosette: align one tile's centre with the card centre. */
+  background-position: 0 0, 0 0, 50% 50%, 0 0;
+  --foil-strength: 1;
+  opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
+  mix-blend-mode: color-dodge;
+  animation: card-shine-relief 10.2s var(--easing-standard) infinite alternate;
+}
+
+.card-shine--unique::after {
+  background-image:
+    radial-gradient(ellipse 38% 26% at 73% 32%, rgba(255, 196, 118, 0.72) 0%, transparent 70%),
+    radial-gradient(20% 24% at 73% 32%, rgba(194, 82, 0, 0.82) 0%, transparent 72%),
+    radial-gradient(15% 20% at 21% 74%, rgba(255, 144, 40, 0.58) 0%, transparent 78%);
+  background-size: 130% 130%, 200% 200%, 200% 200%;
+  background-position: 50% 50%, 0% 0%, 100% 100%;
+  transform: perspective(800px) rotateX(-8deg) rotateY(-7deg) rotate(-3deg) scale(1.08);
+  --foil-strength: 0.8;
+  opacity: calc(var(--foil-strength) * var(--foil-intensity, 1));
+  mix-blend-mode: overlay;
+  animation: card-shine-light-mythic 9.4s var(--easing-standard) infinite alternate;
 }
 
 /* =============================================================================
@@ -346,6 +392,8 @@
   .card-shine--legendary::after,
   .card-shine--mythic::before,
   .card-shine--mythic::after,
+  .card-shine--unique::before,
+  .card-shine--unique::after,
   .card-shine__gleam {
     animation: none;
   }
@@ -465,6 +513,12 @@ img.card-glow {
 .card-glow--mythic {
   --card-glow-color: rgba(255, 138, 61, 0.55);
   --card-glow-radius: 8px;
+}
+
+/* Unique: a deeper burnt orange than the mythic, above every other halo. */
+.card-glow--unique {
+  --card-glow-color: rgba(194, 87, 0, 0.82);
+  --card-glow-radius: 10px;
 }
 
 /* "Effets" switched off in a card detail: the halo is an effect like the others, so it goes with

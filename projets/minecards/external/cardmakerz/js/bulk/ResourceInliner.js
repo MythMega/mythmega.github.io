@@ -34,8 +34,8 @@ class ResourceInliner {
   }
 
   /* Convertit une URL en Data URL.
-   * `options.pixelated` agrandit l'image (pixel art) avec un rééchantillonnage
-   * au plus proche voisin, sans lissage — cf. underlay.
+   * `options.pixelated` agrandit l'image (pixel art) ; dans tous les cas, le
+   * rééchantillonnage reste au plus proche voisin, sans lissage — fond comme underlay.
    * Renvoie '' pour une URL vide, ou null si l'incorporation a échoué. */
   async inline(url, options = {}) {
     if (!url) return '';
@@ -120,12 +120,12 @@ class ResourceInliner {
     canvas.height = h;
 
     const ctx = canvas.getContext('2d');
-    if (pixelated) {
-      ctx.imageSmoothingEnabled = false;
-      ctx.webkitImageSmoothingEnabled = false;
-      ctx.mozImageSmoothingEnabled = false;
-      ctx.msImageSmoothingEnabled = false;
-    }
+    // Fond comme underlay : jamais d'interpolation, même lorsque l'image est
+    // seulement réencodée à sa taille d'origine.
+    ctx.imageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.mozImageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
 
     ctx.drawImage(img, 0, 0, w, h);
     return canvas.toDataURL('image/png'); // lève une exception si le canvas est teinté

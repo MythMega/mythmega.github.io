@@ -609,6 +609,14 @@
                 "Type": "Feature",
                 "IsImportant": true,
                 "Text": {
+                    "Fr": "Système de points pour les cartes de profil.",
+                    "En": "Points system for profile cards."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
                     "Fr": "Boutique : accès à la boutique de boosters et de bundles de blocs depuis le bouton en haut de l'écran.",
                     "En": "Shop: access the booster and block-bundle shop from the button at the top of the screen."
                 }

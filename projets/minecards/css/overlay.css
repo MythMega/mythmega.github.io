@@ -19,6 +19,7 @@
   --ov-accent: #6c8cff;
   --ov-glow-4: 0 0 22px rgba(120, 200, 255, 0.65);
   --ov-glow-5: 0 0 26px rgba(255, 200, 90, 0.75);
+  --ov-glow-6: 0 0 28px rgba(194, 87, 0, 0.82);
   --ov-card-radius: 14px;
 
   /* The ratio of every card illustration of the game (720x1000 PNGs). `css/base.css` declares the
@@ -227,6 +228,10 @@ body {
   box-shadow: var(--ov-glow-5), 0 14px 34px rgba(0, 0, 0, 0.55);
 }
 
+.overlay__card--r6 .overlay__face--front {
+  box-shadow: var(--ov-glow-6), 0 14px 34px rgba(0, 0, 0, 0.55);
+}
+
 /* --- Stage 3: summary ----------------------------------------------------- */
 
 .overlay__grid {
@@ -261,6 +266,10 @@ body {
 
 .overlay__grid .overlay__tile--r5 {
   box-shadow: var(--ov-glow-5), 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.overlay__grid .overlay__tile--r6 {
+  box-shadow: var(--ov-glow-6), 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
 .overlay__grid .overlay__image,

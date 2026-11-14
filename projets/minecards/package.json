@@ -12,6 +12,8 @@
     "lint:fix": "node tools/lint.mjs --fix",
     "lint:strict": "node tools/lint.mjs --strict",
     "lint:list": "node tools/lint.mjs --list",
+    "test": "node --test \"tools/tests/*.test.mjs\"",
+    "test:resources": "node --test \"tools/tests/resource_safety_*.test.mjs\"",
     "test:quests": "node --test tools/tests/illager_quests.test.mjs"
   }
 }

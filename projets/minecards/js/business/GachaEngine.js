@@ -188,7 +188,7 @@ export class GachaEngine {
    *
    * @param {Array<{rarity: number, weight: number}>} slotEntries - Raw slot table.
    * @param {string} [label='slot'] - Label used in error messages.
-   * @returns {number} The drawn rarity (integer from 1 to 5).
+   * @returns {number} The drawn rarity (integer from 1 to 6).
    * @throws {TypeError|RangeError} When the slot table is malformed.
    */
   drawRarity(slotEntries, label = 'slot') {

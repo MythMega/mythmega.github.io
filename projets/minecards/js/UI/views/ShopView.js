@@ -4,9 +4,9 @@
  * Reference: `BoosterManager.getBoosterShopState()` and `BoosterManager.buyMonthlyBoosters()`.
  *
  * The shop sells at most `boosters.monthlyBoosterLimit` packs per UTC month, shared by every
- * extension, at `boosters.extraBoosterPriceSparks` each. Bought packs land directly in the
- * purchased bucket of the storage, where they survive the daily reset and can be opened from the
- * opening screen.
+ * extension, at `boosters.extraBoosterPriceSparks` each. Bought packs land directly in the BONUS
+ * bucket of the selected extension, where they survive the daily reset, count in the opening
+ * screen's total and can be opened from there.
  *
  * The allowance is authoritative on the data layer: the screen only mirrors it. A quantity is
  * clamped to what is left, the button is disabled when nothing is left or the balance is short,

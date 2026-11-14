@@ -37,7 +37,7 @@ class CardRenderer {
     // Intensité du foil sur l'image de fond et sur l'underlay (réglée par l'UI).
     this.foilBgStrength = CardRenderer.DEFAULT_FOIL_BG_STRENGTH;
     this.foilUnderlayStrength = CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH;
-    // Jeu de curseurs distinct pour la rareté Mythique (foil pleine surface).
+    // Jeu de curseurs distinct pour les raretés Mythique et Unique (foil pleine surface).
     this.foilMythicBgStrength = CardRenderer.DEFAULT_FOIL_BG_STRENGTH;
     this.foilMythicUnderlayStrength = CardRenderer.DEFAULT_FOIL_UNDERLAY_STRENGTH;
 
@@ -130,7 +130,7 @@ class CardRenderer {
 
     // Intensité du foil par couche : variables CSS lues par .card-foil-bg et
     // .card-foil-underlay (style en ligne, donc repris par le rendu SVG exporté).
-    const isMythic = rarity.cssClass === 'rarity-mythic';
+    const isMythic = rarity.cssClass === 'rarity-mythic' || rarity.cssClass === 'rarity-unique';
     this.cardElement.style.setProperty('--foil-bg-strength',
       String(isMythic ? this.foilMythicBgStrength : this.foilBgStrength));
     this.cardElement.style.setProperty('--foil-underlay-strength',

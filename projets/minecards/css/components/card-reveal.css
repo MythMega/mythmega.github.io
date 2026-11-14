@@ -216,10 +216,21 @@
   animation: card-holo 5.2s ease-in-out infinite alternate;
 }
 
+/* Rarity 6 (Unique): the mythic treatment with its own marked orange glow. */
+.card-reveal__card--r6 .card-reveal__face--front {
+  box-shadow: var(--glow-rarity-6), 0 0 8px var(--overlay);
+  animation: card-glow-unique 1.8s ease-in-out infinite alternate;
+}
+
+.card-reveal__card--r6 .card-reveal__face--front .card-reveal__image {
+  animation: card-holo 5.2s ease-in-out infinite alternate;
+}
+
 /* The halo: a ring of light that leaves the card the moment it is revealed. Rarities 4 and 5
    only - a common card does not deserve fireworks. */
 .card-reveal__card--r4.is-flipped::after,
-.card-reveal__card--r5.is-flipped::after {
+.card-reveal__card--r5.is-flipped::after,
+.card-reveal__card--r6.is-flipped::after {
   content: '';
   position: absolute;
   inset: -8%;
@@ -236,6 +247,10 @@
 
 .card-reveal__card--r5.is-flipped::after {
   animation-duration: 1300ms;
+}
+
+.card-reveal__card--r6.is-flipped::after {
+  animation-duration: 1450ms;
 }
 
 @keyframes card-halo {
@@ -289,6 +304,15 @@
   }
 }
 
+@keyframes card-glow-unique {
+  from {
+    box-shadow: var(--glow-rarity-6), 0 0 8px var(--overlay);
+  }
+  to {
+    box-shadow: var(--glow-rarity-6), 0 0 36px var(--overlay);
+  }
+}
+
 /* Full art: the artwork drifts a hair, like a lenticular print. */
 .card-reveal__card--fullart .card-reveal__face--front .card-reveal__image {
   animation: card-float 7s ease-in-out infinite alternate;
@@ -324,7 +348,8 @@
    legendary and mythic blue and hid the green of the kept card. The `:not()` also raises the
    specificity, so the exclusion is not a cascade accident. */
 .card-reveal__card.is-flipped.card-reveal__card--r4:not(.minepick__card),
-.card-reveal__card.is-flipped.card-reveal__card--r5:not(.minepick__card) {
+.card-reveal__card.is-flipped.card-reveal__card--r5:not(.minepick__card),
+.card-reveal__card.is-flipped.card-reveal__card--r6:not(.minepick__card) {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: var(--radius-md);
@@ -337,10 +362,13 @@
   .card-reveal__card.is-flipped,
   .card-reveal__card--r4.is-flipped::after,
   .card-reveal__card--r5.is-flipped::after,
+  .card-reveal__card--r6.is-flipped::after,
   .card-reveal__card.is-flipped .card-reveal__face--front,
   .card-reveal__card--r4 .card-reveal__face--front,
   .card-reveal__card--r5 .card-reveal__face--front,
+  .card-reveal__card--r6 .card-reveal__face--front,
   .card-reveal__card--r5 .card-reveal__face--front .card-reveal__image,
+  .card-reveal__card--r6 .card-reveal__face--front .card-reveal__image,
   .card-reveal__card--fullart .card-reveal__face--front .card-reveal__image {
     animation: none;
   }

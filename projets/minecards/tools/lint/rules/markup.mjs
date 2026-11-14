@@ -113,6 +113,8 @@ function listExpectedMedals(context) {
       return;
     }
     if (key.toLowerCase() === 'minepickspecificpicks') {
+      // Rarity 6 is a card rarity without a Mine Pick trophy family: only the five shipped
+      // folders exist, so the rule must not ask for a sixth icon set.
       for (let rarity = 1; rarity <= 5; rarity += 1) {
         folders.push({
           settings: globalFile,

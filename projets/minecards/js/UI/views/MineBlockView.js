@@ -29,6 +29,7 @@ import infoHint from '../components/InfoHint.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 import cardDetailPopup from '../components/CardDetailPopup.js';
+import traderPurchaseModal from '../components/TraderPurchaseModal.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
 
 /** View name, matching `data-view="mineblock"` in `index.html`. */
@@ -560,6 +561,8 @@ export class MineBlockView {
     if (event.key === 'Escape') {
       this.stopTouchHold();
       this.stopMineHold();
+      // The purchase confirmation sits on top of the shop and owns its own Escape.
+      if (traderPurchaseModal.isOpen) return;
       // The detail is the topmost dialog: Escape closes it before the shop behind it.
       if (this.offerDialog) this.closeOfferDetail();
       else this.closeModal();
@@ -1699,6 +1702,21 @@ export class MineBlockView {
    */
   async buySparkOffer() {
     if (this.isBuyingSpark) return;
+    const offer = this.traderState?.sparkOffer;
+    if (!offer) {
+      this.setTraderFeedback('mineblock.trader.error.spark', 'error');
+      return;
+    }
+    const confirmed = await traderPurchaseModal.open({
+      title: i18n.t('mineblock.trader.confirm.buyTitle'),
+      message: i18n.t('mineblock.trader.confirm.buySpark', {
+        count: offer.quantity,
+        resource: this.resolveResourceLabel(offer.item),
+        price: offer.priceSparks,
+      }),
+      details: i18n.t('mineblock.trader.confirm.sparkOnce'),
+    });
+    if (!confirmed) return;
     this.isBuyingSpark = true;
     this.setTraderFeedback(null);
     this.sparkBody.classList.add('is-busy');
@@ -2801,6 +2819,27 @@ export class MineBlockView {
    */
   async buyOffer(offerKey) {
     if (!offerKey || this.isBuying) return;
+    const offer = (this.traderState?.offers ?? []).find((candidate) => candidate.key === offerKey);
+    if (!offer) {
+      this.setTraderFeedback('mineblock.trader.error.offer', 'error');
+      return;
+    }
+    const price = offer.price
+      .map((line) =>
+        i18n.t('mineblock.trader.trades.amount', {
+          count: line.quantity,
+          resource: this.resolveResourceLabel(line),
+        })
+      )
+      .join(', ');
+    const confirmed = await traderPurchaseModal.open({
+      title: i18n.t('mineblock.trader.confirm.buyTitle'),
+      message: i18n.t('mineblock.trader.confirm.buyCard', {
+        card: offer.card.getName(cardLanguage.getLang()),
+      }),
+      details: i18n.t('mineblock.trader.confirm.price', { price }),
+    });
+    if (!confirmed) return;
     this.isBuying = true;
     this.setTraderFeedback(null);
     this.traderList.classList.add('is-busy');
@@ -2837,9 +2876,12 @@ export class MineBlockView {
    */
   async swapTrade(tradeKey, fromSlug) {
     if (!tradeKey || !fromSlug || this.isTrading) return;
-    this.isTrading = true;
-    this.setTraderFeedback(null);
-    this.tradeList.classList.add('is-busy');
+    const trade = (this.traderState?.trades ?? []).find((candidate) => candidate.key === tradeKey);
+    const move = trade?.moves.find((candidate) => candidate.fromSlug === fromSlug);
+    if (!trade || !move) {
+      this.setTraderFeedback('mineblock.trader.error.trade', 'error');
+      return;
+    }
 
     /**
      * Reads a side of the exchange as `"2 Poussière du vide"`.
@@ -2852,6 +2894,26 @@ export class MineBlockView {
         count: side.quantity,
         resource: this.resolveResourceLabel(side),
       });
+    const from = trade.left.slug === fromSlug ? trade.left : trade.right;
+    const to = trade.left.slug === move.toSlug ? trade.left : trade.right;
+    const confirmed = await traderPurchaseModal.open({
+      title: i18n.t('mineblock.trader.confirm.tradeTitle'),
+      message: i18n.t('mineblock.trader.confirm.swap', {
+        give: i18n.t('mineblock.trader.trades.amount', {
+          count: move.give,
+          resource: this.resolveResourceLabel(from),
+        }),
+        receive: i18n.t('mineblock.trader.trades.amount', {
+          count: move.receive,
+          resource: this.resolveResourceLabel(to),
+        }),
+      }),
+      details: i18n.t('mineblock.trader.confirm.swapOnce'),
+    });
+    if (!confirmed) return;
+    this.isTrading = true;
+    this.setTraderFeedback(null);
+    this.tradeList.classList.add('is-busy');
 
     try {
       const result = await traderManager.swap(tradeKey, fromSlug);

@@ -205,6 +205,25 @@
   color: var(--color-text);
 }
 
+/* --- Trader purchase confirmation (`TraderPurchaseModal.js`) -------------- */
+
+/* A question, not a gallery: the sentence and its price stay readable without a wide dialog. */
+.trader-confirm__dialog {
+  width: min(100%, 28rem);
+}
+
+.trader-confirm__message {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.trader-confirm__details {
+  margin: 0;
+}
+
 @keyframes modal-fade {
   from {
     opacity: 0;

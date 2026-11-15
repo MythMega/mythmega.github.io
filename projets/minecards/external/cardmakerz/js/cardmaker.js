@@ -43,8 +43,8 @@ function otherLanguage(lang) {
 }
 
 /* Lit les champs traduits et déduit la langue des champs principaux.
- * `hasTranslation` est faux tant que le nom et la description traduits sont vides,
- * ce qui conserve exactement l'export d'une seule carte. */
+ * `hasTranslation` n'est vrai que lorsque le nom ET la description traduits sont remplis,
+ * ce qui conserve exactement l'export d'une seule carte dès qu'un des deux manque. */
 function getTranslationState() {
   const translatedLang = TRANSLATION_LANGS.includes(inputTranslationLang.value)
     ? inputTranslationLang.value
@@ -57,7 +57,7 @@ function getTranslationState() {
     translatedLang,
     translatedName,
     translatedDescription,
-    hasTranslation: translatedName !== '' || translatedDescription !== '',
+    hasTranslation: translatedName !== '' && translatedDescription !== '',
   };
 }
 
@@ -70,7 +70,7 @@ function updateTranslationLabels() {
   labelTextTranslated.textContent = `Description en ${translatedName} (optionnelle)`;
   translationHint.textContent =
     `Les champs principaux sont considérés comme étant en ${baseName}. ` +
-    'Renseignez au moins un champ traduit pour télécharger deux cartes.';
+    'Renseignez le nom et la description traduits pour télécharger deux cartes.';
 }
 
 /* Applique la classe de mise en page au conteneur de la carte.
@@ -287,9 +287,9 @@ document.getElementById('download-btn').addEventListener('click', async () => {
   const translation = getTranslationState();
   const baseDisplayName = inputTitle.value || 'Nom de la carte';
   const baseDescription = inputText.value;
-  // Sans traduction : une seule carte, comme avant. Avec traduction : la version
-  // traduite puis la version principale dans l'autre langue. Chaque fichier porte
-  // le code de sa langue pour ne jamais écraser l'autre rendu.
+  // Sans les deux champs traduits : une seule carte, comme avant. Avec les deux : la
+  // version traduite puis la version principale dans l'autre langue. Chaque fichier
+  // porte le code de sa langue pour ne jamais écraser l'autre rendu.
   const renders = translation.hasTranslation
     ? [
         {
@@ -349,9 +349,9 @@ document.getElementById('download-btn').addEventListener('click', async () => {
  *
  * Le bloc copié est celui qu'on colle dans la liste « Cards » du fichier d'un
  * booster (`data/boosters/<Serie>.json`) : mêmes champs, même ordre et même
- * échelle de rareté que les cartes du jeu. Sans traduction, le nom et la
- * description principaux alimentent FR et EN ; avec une traduction, chaque
- * langue reçoit ses champs, et un champ traduit vide retombe sur le principal.
+ * échelle de rareté que les cartes du jeu. Sans les deux champs traduits, le nom
+ * et la description principaux alimentent FR et EN ; avec les deux, chaque langue
+ * reçoit ses champs.
  * « Path » reste explicitement null, il n'est rempli qu'une fois l'image webp publiée.
  * ------------------------------------------------------------------------ */
 
@@ -360,8 +360,8 @@ document.getElementById('download-btn').addEventListener('click', async () => {
 const RARITY_JSON_VALUES = [1, 2, 3, 4, 5, 6];
 
 /* Champs localisés du JSON : la langue principale est celle qui reste après
- * avoir choisi la langue de la traduction. Un champ traduit vide ne doit jamais
- * effacer la valeur principale dans le fichier du booster. */
+ * avoir choisi la langue de la traduction. Le double rendu (et donc les champs
+ * séparés) n'existe que lorsque le nom et la description traduits sont remplis. */
 function localizedCardFields(title, description) {
   const translation = getTranslationState();
   if (!translation.hasTranslation) {

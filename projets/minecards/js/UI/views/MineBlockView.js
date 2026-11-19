@@ -31,6 +31,7 @@ import { attachCardTilt } from '../../utils/CardTilt.js';
 import cardDetailPopup from '../components/CardDetailPopup.js';
 import traderPurchaseModal from '../components/TraderPurchaseModal.js';
 import { storageRepository, STORES } from '../../models/StorageRepository.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /** View name, matching `data-view="mineblock"` in `index.html`. */
 export const MINE_BLOCK_VIEW_NAME = 'mineblock';
@@ -1413,12 +1414,17 @@ export class MineBlockView {
 
     const figure = document.createElement('figure');
     figure.className = 'mineblock__detail-figure';
-    const picture = document.createElement('img');
-    picture.className = 'mineblock__detail-image';
-    picture.src = i18n.resolveImagePath(offer.card.illustration);
-    picture.alt = `${offer.card.getName(lang)}, ${rarityLabel}`;
-    picture.decoding = 'async';
-    picture.addEventListener('error', () => picture.classList.add('is-missing'));
+    const picture = createCardVisual(offer.card, {
+      className: 'mineblock__detail-image',
+      alt: `${offer.card.getName(lang)}, ${rarityLabel}`,
+      mini: false,
+      animatedLayers: true,
+      loading: 'eager',
+      decoding: 'async',
+    });
+    if (picture instanceof HTMLImageElement) {
+      picture.addEventListener('error', () => picture.classList.add('is-missing'));
+    }
     attachCardTilt(picture);
     figure.appendChild(picture);
     fragment.appendChild(figure);
@@ -1908,14 +1914,18 @@ export class MineBlockView {
       item.dataset.state = 'expensive';
     }
 
-    const picture = document.createElement('img');
-    picture.className = 'mineblock__offer-image';
-    picture.src = i18n.resolveImagePath(offer.card.illustration);
     // The picture is decorative inside the button below: the button is what is announced.
-    picture.alt = '';
-    picture.loading = 'lazy';
-    picture.decoding = 'async';
-    picture.addEventListener('error', () => picture.classList.add('is-missing'));
+    const picture = createCardVisual(offer.card, {
+      className: 'mineblock__offer-image',
+      alt: '',
+      ariaHidden: true,
+      mini: true,
+      loading: 'lazy',
+      decoding: 'async',
+    });
+    if (picture instanceof HTMLImageElement) {
+      picture.addEventListener('error', () => picture.classList.add('is-missing'));
+    }
 
     // The picture is a button: the shop only shows a thumbnail, so a tap on it opens the card
     // itself (artwork, description, whole price).

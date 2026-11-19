@@ -28,7 +28,12 @@ import { getRarityLabel } from '../../classes/Card.js';
 import boosterManager from '../../business/BoosterManager.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
 import { applyShine, applyCardGlow, getShineClasses } from '../../utils/Shine.js';
-import { buildCardEffectsToggle, syncCardEffectsToggle } from './CardEffectsToggle.js';
+import {
+  buildCardEffectsToggle,
+  syncCardEffectsToggle,
+  syncCardPrintEffects,
+} from './CardEffectsToggle.js';
+import cardSourceManager, { createCardVisual } from '../../utils/CardSourceManager.js';
 
 export class CardDetailPopup {
   constructor() {
@@ -143,7 +148,7 @@ export class CardDetailPopup {
     this.body.textContent = '';
 
     this.body.append(this.buildArtwork(card, name));
-    if (getShineClasses(card).length > 0) {
+    if (getShineClasses(card).length > 0 || cardSourceManager.isAnimatedLayersActive()) {
       this.body.append(buildCardEffectsToggle(this.shineEnabled));
     }
 
@@ -176,29 +181,36 @@ export class CardDetailPopup {
     const art = document.createElement('div');
     art.className = 'card-modal__art';
 
-    const image = document.createElement('img');
-    image.className = 'card-modal__image';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
-    image.decoding = 'async';
-    image.addEventListener('load', () => {
-      if (image.naturalWidth > 0 && image.naturalHeight > 0) {
-        art.style.setProperty(
-          '--card-reveal-art-ratio',
-          String(image.naturalWidth / image.naturalHeight)
-        );
-      }
+    const alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
+    const image = createCardVisual(card, {
+      className: 'card-modal__image',
+      alt,
+      mini: false,
+      animatedLayers: true,
+      loading: 'eager',
+      decoding: 'async',
     });
-    image.addEventListener('error', () => {
-      console.warn(`[CardDetailPopup] The illustration of "${card.uniqueKey ?? name}" is missing.`);
-      image.hidden = true;
-    });
+    if (image instanceof HTMLImageElement) {
+      image.addEventListener('load', () => {
+        if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+          art.style.setProperty(
+            '--card-reveal-art-ratio',
+            String(image.naturalWidth / image.naturalHeight)
+          );
+        }
+      });
+      image.addEventListener('error', () => {
+        console.warn(`[CardDetailPopup] The illustration of "${card.uniqueKey ?? name}" is missing.`);
+        image.hidden = true;
+      });
+    }
     art.appendChild(image);
     attachCardTilt(art);
 
     applyShine(art, card);
     applyCardGlow(art, card);
     art.classList.toggle('is-off', !this.shineEnabled);
+    syncCardPrintEffects(art, this.shineEnabled);
     this.shineWindow = art;
     return art;
   }
@@ -271,6 +283,7 @@ export class CardDetailPopup {
   toggleShine() {
     this.shineEnabled = !this.shineEnabled;
     this.shineWindow?.classList.toggle('is-off', !this.shineEnabled);
+    syncCardPrintEffects(this.shineWindow, this.shineEnabled);
     syncCardEffectsToggle(this.body, this.shineEnabled);
   }
 

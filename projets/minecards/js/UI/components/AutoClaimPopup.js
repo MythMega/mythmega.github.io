@@ -11,6 +11,7 @@ import i18n from '../../utils/I18n.js';
 import cardLanguage from '../../utils/CardLanguage.js';
 import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { replaceCardVisual } from '../../utils/CardSourceManager.js';
 
 /** Class of the overlay. */
 export const AUTO_CLAIM_CLASS = 'auto-claim';
@@ -229,8 +230,13 @@ export class AutoClaimPopup {
       card.hidden = false;
       applyCardGlow(card, firstCard);
       image.hidden = false;
-      image.src = i18n.resolveImagePath(firstCard.illustration);
-      image.alt = firstCard.getName(cardLanguage.getLang());
+      replaceCardVisual(image, firstCard, {
+        className: image.className,
+        alt: firstCard.getName(cardLanguage.getLang()),
+        mini: true,
+        loading: 'eager',
+        decoding: 'async',
+      });
       name.textContent = i18n.t('redeem.reward.card', {
         name: firstCard.getName(cardLanguage.getLang()),
         count: cardRewards.reduce((sum, reward) => sum + (Number(reward.quantity) || 1), 0),

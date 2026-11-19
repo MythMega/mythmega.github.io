@@ -6,6 +6,8 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="no-referrer">
   <title>MineCards : navigateur de cartes</title>
+  <!-- The generated cards need the pixel face the game ships. -->
+  <link rel="stylesheet" href="../css/fonts.css">
   <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="cards.css">
 </head>
@@ -117,11 +119,12 @@
                   <th scope="col">Rareté</th>
                   <th scope="col">Image FR</th>
                   <th scope="col">Image EN</th>
+                  <th scope="col">Généré FR</th>
                 </tr>
               </thead>
               <tbody id="cards-body">
                 <tr>
-                  <td class="table-placeholder" colspan="7">Chargement…</td>
+                  <td class="table-placeholder" colspan="8">Chargement…</td>
                 </tr>
               </tbody>
             </table>
@@ -232,14 +235,25 @@
     </section>
   </main>
 
-  <dialog class="lightbox" id="lightbox" aria-label="Aperçu de la carte">
+  <dialog class="lightbox" id="lightbox" aria-label="Comparaison de la carte">
     <div class="lightbox__bar">
       <p class="lightbox__caption" id="lightbox-caption"></p>
       <form method="dialog">
         <button type="submit" class="lightbox__close" aria-label="Fermer l’aperçu">×</button>
       </form>
     </div>
-    <img class="lightbox__image" id="lightbox-image" alt="">
+    <div class="lightbox__comparison">
+      <figure class="lightbox__panel">
+        <figcaption class="lightbox__panel-title" id="lightbox-image-title">Image source</figcaption>
+        <div class="lightbox__media">
+          <img class="lightbox__image" id="lightbox-image" alt="">
+        </div>
+      </figure>
+      <figure class="lightbox__panel">
+        <figcaption class="lightbox__panel-title" id="lightbox-generated-title">Carte générée</figcaption>
+        <div class="lightbox__media lightbox__media--generated" id="lightbox-generated"></div>
+      </figure>
+    </div>
   </dialog>
 
   <script type="module" src="cards.js"></script>

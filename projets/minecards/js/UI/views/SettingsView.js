@@ -66,7 +66,7 @@ import animationManager from '../../utils/AnimationManager.js';
 import glowManager from '../../utils/GlowManager.js';
 import foilManager from '../../utils/FoilManager.js';
 import boosterRenderManager from '../../utils/BoosterRenderManager.js';
-import { configLoader } from '../../utils/ConfigLoader.js';
+import { configLoader, buildCardGenerateDefaults } from '../../utils/ConfigLoader.js';
 import scrollHint from '../../utils/ScrollHint.js';
 import soundManager, {
   DEFAULT_SOUND_CATEGORIES,
@@ -88,6 +88,13 @@ import Toast from '../components/Toast.js';
 import notificationCenter from '../components/NotificationCenter.js';
 import errorLog, { ERROR_SEVERITY } from '../../utils/ErrorLog.js';
 import { applyShine } from '../components/CardComponent.js';
+import cardSourceManager, {
+  CARD_SOURCE,
+  CARD_SOURCE_VALUES,
+  DEFAULT_ANIMATED_LAYERS_SPEED,
+  resolveAnimatedLayersDuration,
+} from '../../utils/CardSourceManager.js';
+import cardGenerateManager from '../../utils/CardGenerateManager.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
@@ -192,6 +199,35 @@ export class SettingsView {
     this.soundHelpElement = query('[data-settings-sound-help]');
     this.devToggle = query('[data-settings-dev]');
     this.devModeStateElement = query('[data-settings-dev-state]');
+    this.cardSourcePanel = query('[data-settings-card-source-panel]');
+    this.cardSourceContainer = query('[data-settings-card-source]');
+    this.cardGenerateBody = query('[data-settings-cardgen-content]');
+    this.cardGenerateSpeedsContainer = query('[data-settings-cardgen-speeds]');
+    this.cardGenerateZoomSlider = query('[data-settings-cardgen-zoom]');
+    this.cardGenerateZoomValue = query('[data-settings-cardgen-zoom-value]');
+    this.cardGenerateBlurSlider = query('[data-settings-cardgen-blur]');
+    this.cardGenerateBlurValue = query('[data-settings-cardgen-blur-value]');
+    this.cardGenerateRaritiesContainer = query('[data-settings-cardgen-rarities]');
+    this.cardGenerateBorderSlider = query('[data-settings-cardgen-border]');
+    this.cardGenerateBorderValue = query('[data-settings-cardgen-border-value]');
+    this.cardGenerateHeaderSlider = query('[data-settings-cardgen-header]');
+    this.cardGenerateHeaderValue = query('[data-settings-cardgen-header-value]');
+    this.cardGenerateBodySlider = query('[data-settings-cardgen-body]');
+    this.cardGenerateBodyValue = query('[data-settings-cardgen-body-value]');
+    this.cardGenerateResetButton = query('[data-settings-cardgen-reset]');
+    this.animatedLayersToggle = query('[data-settings-animated-layers]');
+    this.animatedLayersStateElement = query('[data-settings-animated-layers-state]');
+    this.animatedLayersSpeedSlider = query('[data-settings-animated-layers-speed]');
+    this.animatedLayersSpeedValueElement = query('[data-settings-animated-layers-speed-value]');
+    this.cardGenerateLayerTogglesContainer = query('[data-settings-cardgen-layers]');
+    /** @type {Map<string, {toggle: HTMLButtonElement, state: HTMLElement|null}>} */
+    this.cardGenerateLayerToggles = new Map(
+      [...this.root.querySelectorAll('[data-settings-cardgen-layer][data-settings-cardgen-layout]')]
+        .map((toggle) => [
+          `${toggle.dataset.settingsCardgenLayout}:${toggle.dataset.settingsCardgenLayer}`,
+          { toggle, state: toggle.querySelector('.switch__state') },
+        ])
+    );
     this.nativeScrollbarsToggle = query('[data-settings-native-scrollbars]');
     this.nativeScrollbarsStateElement = query('[data-settings-native-scrollbars-state]');
     this.clockElement = query('[data-settings-utc]');
@@ -246,6 +282,16 @@ export class SettingsView {
     this.isBusy = false;
     /** @type {boolean} Last known developer mode (the store is the source of truth). */
     this.devMode = false;
+    /** @type {string} Stored card source (`image` or `generate`). */
+    this.cardSource = CARD_SOURCE.IMAGE;
+    /** @type {boolean} Whether the generated card layers move (off by default). */
+    this.animatedLayers = false;
+    /** @type {number} Animation speed, in percent of the reference 30-second cycle. */
+    this.animatedLayersSpeed = DEFAULT_ANIMATED_LAYERS_SPEED;
+    /** @type {object|null} Validated `cardGenerate` configuration (ranges and default design). */
+    this.cardGenerateConfig = null;
+    /** @type {object|null} Account values of the generated-card design. */
+    this.cardGenerate = null;
     /** @type {boolean} Last known scrollbar preference (the store is the source of truth). */
     this.nativeScrollbars = false;
     /** @type {number} Duration of one notification, in seconds. */
@@ -275,6 +321,16 @@ export class SettingsView {
     this.animationButtons = new Map();
     /** @type {Map<string, HTMLButtonElement>} Booster render buttons, keyed by mode id. */
     this.renderButtons = new Map();
+    /** @type {Map<string, HTMLButtonElement>} Card source buttons, keyed by source id. */
+    this.cardSourceButtons = new Map();
+    /** @type {Map<string, HTMLButtonElement>} Card Generate sub-tab buttons. */
+    this.cardGenerateTabButtons = new Map();
+    /** @type {Map<string, HTMLElement>} Card Generate sub-tab panels. */
+    this.cardGeneratePanels = new Map();
+    /** @type {Map<number, HTMLButtonElement>} Speed preset buttons of the Animation panel. */
+    this.cardGenerateSpeedButtons = new Map();
+    /** @type {Map<number, object>} Inputs of one rarity row, keyed by rarity level. */
+    this.cardGenerateRarityControls = new Map();
     /** @type {Map<string, {switch: HTMLButtonElement, state: HTMLElement,
      *   slider: HTMLInputElement, output: HTMLOutputElement}>} Sound family controls. */
     this.soundCategoryControls = new Map();
@@ -347,6 +403,27 @@ export class SettingsView {
       ['[data-settings-sound-categories]', this.soundCategoriesElement],
       ['[data-settings-dev]', this.devToggle],
       ['[data-settings-dev-state]', this.devModeStateElement],
+      ['[data-settings-card-source-panel]', this.cardSourcePanel],
+      ['[data-settings-card-source]', this.cardSourceContainer],
+      ['[data-settings-cardgen-content]', this.cardGenerateBody],
+      ['[data-settings-cardgen-speeds]', this.cardGenerateSpeedsContainer],
+      ['[data-settings-cardgen-zoom]', this.cardGenerateZoomSlider],
+      ['[data-settings-cardgen-zoom-value]', this.cardGenerateZoomValue],
+      ['[data-settings-cardgen-blur]', this.cardGenerateBlurSlider],
+      ['[data-settings-cardgen-blur-value]', this.cardGenerateBlurValue],
+      ['[data-settings-cardgen-rarities]', this.cardGenerateRaritiesContainer],
+      ['[data-settings-cardgen-border]', this.cardGenerateBorderSlider],
+      ['[data-settings-cardgen-border-value]', this.cardGenerateBorderValue],
+      ['[data-settings-cardgen-header]', this.cardGenerateHeaderSlider],
+      ['[data-settings-cardgen-header-value]', this.cardGenerateHeaderValue],
+      ['[data-settings-cardgen-body]', this.cardGenerateBodySlider],
+      ['[data-settings-cardgen-body-value]', this.cardGenerateBodyValue],
+      ['[data-settings-cardgen-reset]', this.cardGenerateResetButton],
+      ['[data-settings-animated-layers]', this.animatedLayersToggle],
+      ['[data-settings-animated-layers-state]', this.animatedLayersStateElement],
+      ['[data-settings-animated-layers-speed]', this.animatedLayersSpeedSlider],
+      ['[data-settings-animated-layers-speed-value]', this.animatedLayersSpeedValueElement],
+      ['[data-settings-cardgen-layers]', this.cardGenerateLayerTogglesContainer],
       ['[data-settings-native-scrollbars]', this.nativeScrollbarsToggle],
       ['[data-settings-native-scrollbars-state]', this.nativeScrollbarsStateElement],
       ['[data-settings-utc]', this.clockElement],
@@ -404,10 +481,12 @@ export class SettingsView {
     this.renderGlowSlider();
     await this.renderNotificationSettings();
     await this.renderMineSpeed();
+    await this.renderCardGenerateControls();
     await this.renderQuestTutorial();
     this.syncSoundToggle();
     this.renderSoundCategories();
     await this.syncDevToggle();
+    this.renderCardSourceSelector();
     await this.syncNativeScrollbarsToggle();
     await this.renderAccount();
     this.renderClock();
@@ -665,6 +744,689 @@ export class SettingsView {
   syncRenderPanelVisibility() {
     if (this.renderPanel) {
       this.renderPanel.hidden = !this.devMode;
+    }
+  }
+
+  /**
+   * Renders the two card sources: `generate` and `image source`.
+   *
+   * The panel is a developer tool, so `syncCardSourcePanelVisibility()` keeps it hidden until the
+   * developer mode is on. The labels come from the translation files, while the stored values are
+   * the two ids of `CARD_SOURCE`.
+   *
+   * @returns {void}
+   */
+  renderCardSourceSelector() {
+    if (!this.cardSourceContainer) return;
+
+    this.cardSourceContainer.textContent = '';
+    this.cardSourceButtons.clear();
+    [
+      { id: CARD_SOURCE.GENERATE, labelKey: 'settings.cardSource.generate' },
+      { id: CARD_SOURCE.IMAGE, labelKey: 'settings.cardSource.image' },
+    ].forEach(({ id, labelKey }) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lang-switch__option';
+      button.dataset.cardSourceId = id;
+      button.textContent = i18n.t(labelKey);
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => void this.handleCardSourceChange(id));
+      this.cardSourceContainer.appendChild(button);
+      this.cardSourceButtons.set(id, button);
+    });
+
+    this.syncCardSourceButtons();
+    this.syncCardSourcePanelVisibility();
+  }
+
+  /**
+   * Reflects the stored source on the picker buttons.
+   *
+   * @returns {void}
+   */
+  syncCardSourceButtons() {
+    this.cardSourceButtons.forEach((button, id) => {
+      const isActive = id === this.cardSource;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Shows the card source panel only when the developer mode is on.
+   *
+   * @returns {void}
+   */
+  syncCardSourcePanelVisibility() {
+    if (this.cardSourcePanel) {
+      this.cardSourcePanel.hidden = !this.devMode;
+    }
+    this.syncAnimatedLayersVisibility();
+  }
+
+  /**
+   * Shows the animated-layers switch only for the generated source.
+   *
+   * @returns {void}
+   */
+  syncAnimatedLayersVisibility() {
+    // The whole generated-card module follows the source: the speed and the construction are
+    // meaningful even while the layers are still, so only the source hides them.
+    if (this.cardGenerateBody) {
+      this.cardGenerateBody.hidden = !(this.devMode && this.cardSource === CARD_SOURCE.GENERATE);
+    }
+  }
+
+  /**
+   * Builds the Animation and Construction panels of Card Generate.
+   *
+   * @returns {Promise<void>} Resolves once the controls exist and the module is applied.
+   */
+  async renderCardGenerateControls() {
+    this.cardGenerateConfig = await configLoader.getCardGenerateSettings();
+    this.cardGenerate = buildCardGenerateDefaults(this.cardGenerateConfig);
+
+    const ranges = [
+      [this.cardGenerateZoomSlider, this.cardGenerateConfig.animation.zoom],
+      [this.cardGenerateBlurSlider, this.cardGenerateConfig.animation.blur],
+      [this.cardGenerateBorderSlider, this.cardGenerateConfig.construction.borderWidth],
+      [this.cardGenerateHeaderSlider, this.cardGenerateConfig.construction.headerHeight],
+      [this.cardGenerateBodySlider, this.cardGenerateConfig.construction.bodyHeight],
+    ];
+    ranges.forEach(([slider, range]) => {
+      slider.min = String(range.min);
+      slider.max = String(range.max);
+      slider.step = String(range.step);
+    });
+
+    const speedRange = this.cardGenerateConfig.animation.speed;
+    this.animatedLayersSpeedSlider.min = String(speedRange.min);
+    this.animatedLayersSpeedSlider.max = String(speedRange.max);
+    this.animatedLayersSpeedSlider.step = String(speedRange.step);
+    if (!Number.isFinite(this.animatedLayersSpeed)) {
+      this.animatedLayersSpeed = speedRange.default;
+    }
+
+    this.cardGenerateTabButtons = new Map(
+      [...this.root.querySelectorAll('[data-cardgen-tab]')].map((button) => [
+        button.dataset.cardgenTab,
+        button,
+      ])
+    );
+    this.cardGeneratePanels = new Map(
+      [...this.root.querySelectorAll('[data-cardgen-panel]')].map((panel) => [
+        panel.dataset.cardgenPanel,
+        panel,
+      ])
+    );
+    this.cardGenerateTabButtons.forEach((button, name) => {
+      this.listen(button, 'click', () => this.showCardGenerateTab(name));
+    });
+
+    this.renderCardGenerateSpeedPresets();
+    this.renderCardGenerateRarities();
+    this.showCardGenerateTab('animation');
+    this.syncCardGenerateControls();
+    this.applyCardGenerate();
+  }
+
+  /**
+   * Shows one of the two Card Generate panels.
+   *
+   * @param {string} name - `animation` or `construction`.
+   * @returns {void}
+   */
+  showCardGenerateTab(name) {
+    if (!this.cardGeneratePanels.has(name)) return;
+    this.cardGenerateTabButtons.forEach((button, key) => {
+      const isActive = key === name;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      button.tabIndex = isActive ? 0 : -1;
+    });
+    this.cardGeneratePanels.forEach((panel, key) => {
+      panel.hidden = key !== name;
+    });
+  }
+
+  /**
+   * Draws the quick speed buttons declared by `cardGenerate.animation.speeds`.
+   *
+   * @returns {void}
+   */
+  renderCardGenerateSpeedPresets() {
+    if (!this.cardGenerateSpeedsContainer || !this.cardGenerateConfig) return;
+    this.cardGenerateSpeedsContainer.textContent = '';
+    this.cardGenerateSpeedButtons.clear();
+    this.cardGenerateConfig.animation.speeds.forEach((speed) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lang-switch__option';
+      button.dataset.cardgenSpeed = String(speed);
+      button.textContent = `${speed} %`;
+      button.setAttribute('aria-pressed', 'false');
+      this.listen(button, 'click', () => this.handleCardGenerateSpeedPreset(speed));
+      this.cardGenerateSpeedsContainer.appendChild(button);
+      this.cardGenerateSpeedButtons.set(speed, button);
+    });
+    this.syncCardGenerateSpeedButtons();
+  }
+
+  /**
+   * Builds one construction row per rarity.
+   *
+   * @returns {void}
+   */
+  renderCardGenerateRarities() {
+    if (!this.cardGenerateRaritiesContainer || !this.cardGenerateConfig || !this.cardGenerate) {
+      return;
+    }
+    this.cardGenerateRaritiesContainer.textContent = '';
+    this.cardGenerateRarityControls.clear();
+
+    this.cardGenerateConfig.construction.rarities.forEach((rarity) => {
+      const current = this.cardGenerate.construction.rarities[rarity.id] ?? rarity;
+      const row = document.createElement('div');
+      row.className = 'settings__rarity-row';
+      row.dataset.cardgenRarity = String(rarity.id);
+
+      const title = document.createElement('h5');
+      title.textContent = i18n.t(rarity.labelKey);
+      row.appendChild(title);
+
+      const fields = document.createElement('div');
+      fields.className = 'settings__rarity-fields';
+
+      const addColorField = (labelKey, field, hexField, value) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'settings__rarity-field';
+        const label = document.createElement('span');
+        label.className = 'settings__rarity-field-label';
+        label.textContent = i18n.t(labelKey);
+        const controls = document.createElement('div');
+        controls.className = 'settings__rarity-color-controls';
+        const color = document.createElement('input');
+        color.type = 'color';
+        color.className = 'settings__rarity-color';
+        color.value = value;
+        color.dataset.cardgenField = field;
+        color.setAttribute(
+          'aria-label',
+          `${i18n.t(rarity.labelKey)} : ${i18n.t(labelKey)}`
+        );
+        const hex = document.createElement('input');
+        hex.type = 'text';
+        hex.className = 'settings__rarity-hex';
+        hex.value = value;
+        hex.maxLength = 7;
+        hex.spellcheck = false;
+        hex.dataset.cardgenField = hexField;
+        hex.setAttribute(
+          'aria-label',
+          `${i18n.t(rarity.labelKey)} : ${i18n.t(labelKey)}`
+        );
+        controls.append(color, hex);
+        wrapper.append(label, controls);
+        fields.appendChild(wrapper);
+        return { color, hex };
+      };
+
+      const color = addColorField(
+        'settings.cardGenerate.frameColor',
+        'color',
+        'colorHex',
+        current.color
+      );
+      const accent = addColorField(
+        'settings.cardGenerate.accentColor',
+        'accent',
+        'accentHex',
+        current.accent
+      );
+      const symbolColor = addColorField(
+        'settings.cardGenerate.symbolColor',
+        'symbolColor',
+        'symbolColorHex',
+        current.symbolColor
+      );
+
+      const symbolWrapper = document.createElement('div');
+      symbolWrapper.className = 'settings__rarity-field';
+      const symbolLabel = document.createElement('span');
+      symbolLabel.className = 'settings__rarity-field-label';
+      symbolLabel.textContent = i18n.t('settings.cardGenerate.symbol');
+      const symbol = document.createElement('input');
+      symbol.type = 'text';
+      symbol.className = 'settings__rarity-symbol';
+      symbol.value = current.symbol;
+      symbol.maxLength = 8;
+      symbol.spellcheck = false;
+      symbol.dataset.cardgenField = 'symbol';
+      symbol.setAttribute(
+        'aria-label',
+        `${i18n.t(rarity.labelKey)} : ${i18n.t('settings.cardGenerate.symbol')}`
+      );
+      symbolWrapper.append(symbolLabel, symbol);
+      fields.appendChild(symbolWrapper);
+
+      row.appendChild(fields);
+      this.cardGenerateRaritiesContainer.appendChild(row);
+      this.cardGenerateRarityControls.set(rarity.id, {
+        color: color.color,
+        colorHex: color.hex,
+        accent: accent.color,
+        accentHex: accent.hex,
+        symbolColor: symbolColor.color,
+        symbolColorHex: symbolColor.hex,
+        symbol,
+      });
+    });
+  }
+
+  /**
+   * Reflects the current design on every control of the module.
+   *
+   * @returns {void}
+   */
+  syncCardGenerateControls() {
+    if (!this.cardGenerate) return;
+    this.cardGenerateZoomSlider.value = String(this.cardGenerate.animation.zoom);
+    this.cardGenerateBlurSlider.value = String(this.cardGenerate.animation.blur);
+    this.cardGenerateBorderSlider.value = String(this.cardGenerate.construction.borderWidth);
+    this.cardGenerateHeaderSlider.value = String(this.cardGenerate.construction.headerHeight);
+    this.cardGenerateBodySlider.value = String(this.cardGenerate.construction.bodyHeight);
+    this.renderCardGenerateSliderValues();
+
+    this.cardGenerateRarityControls.forEach((controls, id) => {
+      const rarity = this.cardGenerate.construction.rarities[id];
+      if (!rarity) return;
+      controls.color.value = rarity.color;
+      controls.colorHex.value = rarity.color;
+      controls.accent.value = rarity.accent;
+      controls.accentHex.value = rarity.accent;
+      controls.symbolColor.value = rarity.symbolColor;
+      controls.symbolColorHex.value = rarity.symbolColor;
+      controls.symbol.value = rarity.symbol;
+    });
+    this.syncAnimatedLayersSpeedSlider();
+    this.syncCardGenerateSpeedButtons();
+    this.syncCardGenerateLayerToggles();
+  }
+
+  /**
+   * Reflects every per-layout animation switch.
+   *
+   * @returns {void}
+   */
+  syncCardGenerateLayerToggles() {
+    if (!this.cardGenerate) return;
+    this.cardGenerateLayerToggles.forEach(({ toggle, state }, key) => {
+      const [layout, layer] = key.split(':');
+      const enabled = this.cardGenerate.animation[layer]?.[layout] !== false;
+      toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+      if (state) {
+        state.textContent = i18n.t(enabled ? 'settings.dev.on' : 'settings.dev.off');
+      }
+    });
+  }
+
+  /**
+   * Writes the values next to the construction and animation sliders.
+   *
+   * @returns {void}
+   */
+  renderCardGenerateSliderValues() {
+    if (!this.cardGenerate) return;
+    this.cardGenerateZoomValue.textContent = `${this.cardGenerate.animation.zoom} %`;
+    this.cardGenerateBlurValue.textContent = `${this.cardGenerate.animation.blur} px`;
+    this.cardGenerateBorderValue.textContent = `${this.cardGenerate.construction.borderWidth} px`;
+    this.cardGenerateHeaderValue.textContent = `${this.cardGenerate.construction.headerHeight} %`;
+    this.cardGenerateBodyValue.textContent = `${this.cardGenerate.construction.bodyHeight} %`;
+  }
+
+  /**
+   * Reflects the current speed on the quick speed buttons.
+   *
+   * @returns {void}
+   */
+  syncCardGenerateSpeedButtons() {
+    this.cardGenerateSpeedButtons.forEach((button, speed) => {
+      const isActive = speed === this.animatedLayersSpeed;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Applies the current design to every generated card, live.
+   *
+   * @returns {void}
+   */
+  applyCardGenerate() {
+    if (this.cardGenerate) cardGenerateManager.applySettings(this.cardGenerate);
+  }
+
+  /**
+   * Applies one of the configured animation speed presets.
+   *
+   * @param {number} speed - Speed in percent of the reference cycle.
+   * @returns {void}
+   */
+  handleCardGenerateSpeedPreset(speed) {
+    if (!Number.isFinite(speed)) return;
+    this.animatedLayersSpeed = speed;
+    this.syncAnimatedLayersSpeedSlider();
+    this.syncCardGenerateSpeedButtons();
+    this.applyCardSource();
+    void this.handleAnimatedLayersSpeedChange();
+  }
+
+  /**
+   * Starts or freezes one moving layer of one layout and persists the design.
+   *
+   * @param {string} key - `layout:layer`, as stored on the switch.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleCardGenerateLayerToggle(key) {
+    const [layout, layer] = key.split(':');
+    const flags = this.cardGenerate?.animation?.[layer];
+    if (
+      !flags ||
+      typeof flags !== 'object' ||
+      !Object.prototype.hasOwnProperty.call(flags, layout)
+    ) {
+      return;
+    }
+    const enabled = flags[layout] !== false;
+    flags[layout] = !enabled;
+    this.syncCardGenerateLayerToggles();
+    this.applyCardGenerate();
+    await this.saveCardGenerate();
+  }
+
+  /**
+   * Applies a slider of the Card Generate panel while the thumb moves.
+   *
+   * @param {Event} event - Input event of one of the module sliders.
+   * @returns {void}
+   */
+  handleCardGenerateSliderInput(event) {
+    if (!this.cardGenerate) return;
+    const input = event?.target;
+    if (!(input instanceof HTMLInputElement) || !input.dataset.cardgenSlider) return;
+    const value = Number(input.value);
+    if (!Number.isFinite(value)) return;
+    if (input.dataset.cardgenSlider === 'zoom') this.cardGenerate.animation.zoom = value;
+    if (input.dataset.cardgenSlider === 'blur') this.cardGenerate.animation.blur = value;
+    if (input.dataset.cardgenSlider === 'border') this.cardGenerate.construction.borderWidth = value;
+    if (input.dataset.cardgenSlider === 'header') this.cardGenerate.construction.headerHeight = value;
+    if (input.dataset.cardgenSlider === 'body') this.cardGenerate.construction.bodyHeight = value;
+    this.renderCardGenerateSliderValues();
+    this.applyCardGenerate();
+  }
+
+  /**
+   * Saves a Card Generate slider once the player lets go of the thumb.
+   *
+   * @returns {Promise<void>} Resolves once the write finished.
+   */
+  async handleCardGenerateSliderChange() {
+    if (this.cardGenerate) await this.saveCardGenerate();
+  }
+
+  /**
+   * Updates one colour or symbol field of a rarity row.
+   *
+   * @param {Event} event - Input event delegated from the rarity container.
+   * @returns {void}
+   */
+  handleCardGenerateRarityInput(event) {
+    if (!this.cardGenerate) return;
+    const input = event?.target;
+    if (!(input instanceof HTMLInputElement)) return;
+    const row = input.closest('[data-cardgen-rarity]');
+    const field = input.dataset.cardgenField;
+    if (!row || !field) return;
+    const id = Number(row.dataset.cardgenRarity);
+    const rarity = this.cardGenerate.construction.rarities[id];
+    const controls = this.cardGenerateRarityControls.get(id);
+    if (!rarity || !controls) return;
+
+    let value = input.value.trim();
+    const isHexField = field.endsWith('Hex');
+    const property = isHexField ? field.slice(0, -3) : field;
+    if (property === 'symbol') {
+      if (value === '') return;
+      value = [...value].slice(0, 8).join('');
+      input.value = value;
+    } else if (!/^#[0-9a-f]{6}$/i.test(value)) {
+      return;
+    } else {
+      value = value.toLowerCase();
+      if (isHexField) controls[property].value = value;
+      else controls[`${property}Hex`].value = value;
+    }
+
+    rarity[property] = value;
+    this.applyCardGenerate();
+    // The frame and accent colours are custom properties and follow live; the symbol and its own
+    // colour are DOM values, so an already built card needs a repaint to show them before the
+    // release saves the value.
+    if (property === 'symbol' || property === 'symbolColor') cardSourceManager.refresh();
+  }
+
+  /**
+   * Saves the rarity design after a colour or symbol change.
+   *
+   * @returns {Promise<void>} Resolves once the write finished.
+   */
+  async handleCardGenerateRarityChange(event) {
+    const input = event?.target;
+    if (input instanceof HTMLInputElement) {
+      const field = input.dataset.cardgenField ?? '';
+      const invalidHex = field.endsWith('Hex') && !/^#[0-9a-f]{6}$/i.test(input.value.trim());
+      const emptySymbol = field === 'symbol' && input.value.trim() === '';
+      if (invalidHex || emptySymbol) this.syncCardGenerateControls();
+    }
+    await this.saveCardGenerate();
+  }
+
+  /**
+   * Persists the generated-card design.
+   *
+   * @returns {Promise<void>} Resolves once the write finished (success or failure).
+   */
+  async saveCardGenerate() {
+    if (!this.cardGenerate) return;
+    try {
+      await accountManager.updateSettings({ cardGenerate: this.cardGenerate });
+      // Symbols are DOM text, not custom properties: repaint the cards so a live preview follows.
+      cardSourceManager.refresh();
+      this.log('Generated-card design saved.');
+    } catch (error) {
+      console.error('[SettingsView] The generated-card design could not be saved.', error);
+      this.setFeedback('settings.error.cardGenerate', 'error');
+    }
+  }
+
+  /**
+   * Restores the construction rows and the classic layout to the configured defaults.
+   *
+   * @returns {Promise<void>} Resolves once the write finished.
+   */
+  async handleCardGenerateReset() {
+    if (!this.cardGenerateConfig || !this.cardGenerate) return;
+    this.cardGenerate = {
+      ...this.cardGenerate,
+      construction: buildCardGenerateDefaults(this.cardGenerateConfig).construction,
+    };
+    this.syncCardGenerateControls();
+    this.applyCardGenerate();
+    await this.saveCardGenerate();
+  }
+
+  /**
+   * Reflects the animated-layers preference on its switch and state label.
+   *
+   * @returns {void}
+   */
+  syncAnimatedLayersLabel() {
+    if (this.animatedLayersToggle) {
+      this.animatedLayersToggle.setAttribute('aria-checked', this.animatedLayers ? 'true' : 'false');
+    }
+    if (this.animatedLayersStateElement) {
+      this.animatedLayersStateElement.textContent = i18n.t(
+        this.animatedLayers ? 'settings.dev.on' : 'settings.dev.off'
+      );
+    }
+  }
+
+  /**
+   * Reflects the current speed on the slider and on its output.
+   *
+   * @returns {void}
+   */
+  syncAnimatedLayersSpeedSlider() {
+    if (!this.animatedLayersSpeedSlider) return;
+    const value = String(this.animatedLayersSpeed);
+    if (this.animatedLayersSpeedSlider.value !== value) {
+      this.animatedLayersSpeedSlider.value = value;
+    }
+    this.renderAnimatedLayersSpeedValue();
+  }
+
+  /**
+   * Writes the speed and the resulting cycle length next to the slider.
+   *
+   * The output is translated in code instead of through `data-i18n`: it depends on the value, not
+   * only on the language, like the notification duration.
+   *
+   * @param {number} [speed] - Speed in percent (the current one by default).
+   * @returns {void}
+   */
+  renderAnimatedLayersSpeedValue(speed = this.animatedLayersSpeed) {
+    if (!this.animatedLayersSpeedValueElement) return;
+    const factor = speed / 100;
+    this.animatedLayersSpeedValueElement.textContent = i18n.t(
+      'settings.animatedLayers.speedValue',
+      {
+        speed: Number(factor.toFixed(2)).toString(),
+        seconds: resolveAnimatedLayersDuration(speed),
+      }
+    );
+  }
+
+  /**
+   * Applies the speed while the thumb moves; the release is what saves it.
+   *
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleAnimatedLayersSpeedInput(event) {
+    const speed = Number(event?.target?.value);
+    if (!Number.isFinite(speed)) return;
+    this.animatedLayersSpeed = speed;
+    this.setFeedback(null);
+    this.renderAnimatedLayersSpeedValue();
+    this.syncCardGenerateSpeedButtons();
+    this.applyCardSource();
+  }
+
+  /**
+   * Persists the animated-layers speed once the player lets go of the thumb.
+   *
+   * Like the other sliders, a failed write keeps the speed applied for this session and reports it.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleAnimatedLayersSpeedChange() {
+    try {
+      await accountManager.updateSettings({ animatedLayersSpeed: this.animatedLayersSpeed });
+      this.log(`Animated layers speed set to ${this.animatedLayersSpeed} % and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The animated-layers speed could not be saved.', error);
+      this.setFeedback('settings.error.animatedLayersSpeed', 'error');
+    }
+  }
+
+  /**
+   * Applies the current developer mode and card source to the visible cards.
+   *
+   * @returns {void}
+   */
+  applyCardSource() {
+    cardSourceManager.applySettings({
+      devMode: this.devMode,
+      cardSource: this.cardSource,
+      animatedLayers: this.animatedLayers,
+      animatedLayersSpeed: this.animatedLayersSpeed,
+    });
+  }
+
+  /**
+   * Applies a card source live and persists it.
+   *
+   * The cards already on screen are repainted by `CardSourceManager`, so the picker has an
+   * immediate effect instead of waiting for the next screen. A failed write keeps the choice for
+   * this session and reports it, like the booster render picker.
+   *
+   * @param {string} id - `generate` or `image`.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleCardSourceChange(id) {
+    if (this.isBusy || id === this.cardSource) return;
+    if (!CARD_SOURCE_VALUES.includes(id)) return;
+
+    const previous = this.cardSource;
+    this.cardSource = id;
+    this.setFeedback(null);
+    this.syncCardSourceButtons();
+    this.syncAnimatedLayersVisibility();
+    this.applyCardSource();
+
+    try {
+      await accountManager.updateSettings({ cardSource: id });
+      this.log(`Card source set to "${id}" and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The card source could not be saved.', error);
+      this.cardSource = previous;
+      this.syncCardSourceButtons();
+      this.syncAnimatedLayersVisibility();
+      this.applyCardSource();
+      this.setFeedback('settings.error.cardSource', 'error');
+    }
+  }
+
+  /**
+   * Applies the animated-layers preference and persists it.
+   *
+   * Only the generated source uses it: the switch is hidden for image source, and the manager
+   * removes the attribute from cards that may still be alive when the preference is turned off.
+   *
+   * @returns {Promise<void>} Resolves once the write finished (success or failure).
+   */
+  async handleAnimatedLayersToggle() {
+    if (this.isBusy) return;
+
+    const previous = this.animatedLayers;
+    const next = !previous;
+    this.animatedLayers = next;
+    this.setFeedback(null);
+    this.syncAnimatedLayersLabel();
+    this.syncAnimatedLayersVisibility();
+    this.applyCardSource();
+
+    try {
+      await accountManager.updateSettings({ animatedLayers: next });
+      this.log(`Animated layers ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The animated-layers preference could not be saved.', error);
+      this.animatedLayers = previous;
+      this.syncAnimatedLayersLabel();
+      this.syncAnimatedLayersVisibility();
+      this.applyCardSource();
+      this.setFeedback('settings.error.animatedLayers', 'error');
     }
   }
 
@@ -1473,6 +2235,16 @@ export class SettingsView {
     try {
       const settings = await accountManager.getSettings();
       enabled = settings.devMode === true;
+      this.cardSource = CARD_SOURCE_VALUES.includes(settings.cardSource)
+        ? settings.cardSource
+        : CARD_SOURCE.IMAGE;
+      this.animatedLayers = settings.animatedLayers === true;
+      if (Number.isFinite(settings.animatedLayersSpeed)) {
+        this.animatedLayersSpeed = settings.animatedLayersSpeed;
+      }
+      if (settings.cardGenerate && typeof settings.cardGenerate === 'object') {
+        this.cardGenerate = settings.cardGenerate;
+      }
     } catch (error) {
       console.warn('[SettingsView] The developer mode could not be read.', error);
     }
@@ -1482,6 +2254,13 @@ export class SettingsView {
       this.devModeStateElement.textContent = i18n.t(enabled ? 'settings.dev.on' : 'settings.dev.off');
     }
     this.syncRenderPanelVisibility();
+    this.syncCardSourcePanelVisibility();
+    this.syncCardSourceButtons();
+    this.syncAnimatedLayersLabel();
+    this.syncAnimatedLayersSpeedSlider();
+    this.syncCardGenerateControls();
+    this.applyCardGenerate();
+    this.applyCardSource();
   }
 
   /**
@@ -1502,7 +2281,11 @@ export class SettingsView {
     if (this.devModeStateElement) {
       this.devModeStateElement.textContent = i18n.t(next ? 'settings.dev.on' : 'settings.dev.off');
     }
+    this.syncCardSourcePanelVisibility();
     this.setFeedback(null);
+    // The generated source is only effective with the developer mode: turning it off must bring
+    // the final images back now, not after a reload.
+    this.applyCardSource();
 
     try {
       await accountManager.updateSettings({ devMode: next });
@@ -1517,6 +2300,8 @@ export class SettingsView {
       this.setFeedback('settings.error.dev', 'error');
     }
     this.syncRenderPanelVisibility();
+    this.syncCardSourcePanelVisibility();
+    this.applyCardSource();
   }
 
   /**
@@ -2201,6 +2986,32 @@ export class SettingsView {
     );
     this.listen(this.mineSpeedSlider, 'input', () => this.handleMineSpeedInput());
     this.listen(this.mineSpeedSlider, 'change', () => void this.handleMineSpeedChange());
+    this.listen(this.animatedLayersSpeedSlider, 'input', (event) =>
+      this.handleAnimatedLayersSpeedInput(event)
+    );
+    this.listen(this.animatedLayersSpeedSlider, 'change', () =>
+      void this.handleAnimatedLayersSpeedChange()
+    );
+    [
+      this.cardGenerateZoomSlider,
+      this.cardGenerateBlurSlider,
+      this.cardGenerateBorderSlider,
+      this.cardGenerateHeaderSlider,
+      this.cardGenerateBodySlider,
+    ].forEach((slider) => {
+      this.listen(slider, 'input', (event) => this.handleCardGenerateSliderInput(event));
+      this.listen(slider, 'change', () => void this.handleCardGenerateSliderChange());
+    });
+    this.listen(this.cardGenerateRaritiesContainer, 'input', (event) =>
+      this.handleCardGenerateRarityInput(event)
+    );
+    this.listen(this.cardGenerateRaritiesContainer, 'change', (event) =>
+      void this.handleCardGenerateRarityChange(event)
+    );
+    this.listen(this.cardGenerateResetButton, 'click', () => void this.handleCardGenerateReset());
+    this.cardGenerateLayerToggles.forEach(({ toggle }, key) => {
+      this.listen(toggle, 'click', () => void this.handleCardGenerateLayerToggle(key));
+    });
     Object.entries(this.notificationToggles).forEach(([type, toggle]) => {
       this.listen(toggle, 'click', () => void this.handleNotificationToggle(type));
     });
@@ -2226,6 +3037,7 @@ export class SettingsView {
       if (slider) void this.handleSoundCategoryVolumeChange();
     });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
+    this.listen(this.animatedLayersToggle, 'click', () => void this.handleAnimatedLayersToggle());
     this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());
     this.listen(this.questTutorialToggle, 'click', () => void this.handleQuestTutorialToggle());
     this.listen(this.changelogAnnounceToggle, 'click', () => void this.handleChangelogAnnounceToggle());
@@ -3102,6 +3914,8 @@ export class SettingsView {
     this.renderSoundCategories();
     this.syncSoundToggle();
     void this.syncDevToggle();
+    this.renderCardSourceSelector();
+    this.renderCardGenerateRarities();
     void this.renderAnimationSelector().catch((error) => {
       console.error('[SettingsView] The animation list could not be re-rendered.', error);
     });
@@ -3147,6 +3961,7 @@ export class SettingsView {
     this.syncSoundToggle();
     this.syncSoundCategories();
     void this.syncDevToggle();
+    this.renderCardSourceSelector();
     this.renderClock();
     void this.renderAccount().catch((error) => {
       console.error('[SettingsView] The account could not be read.', error);

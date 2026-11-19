@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v122';
+const VERSION = 'v134';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -130,6 +130,7 @@ const PRECACHE_URLS = [
   './css/views/info.css',
   './css/components/booster-3d.css',
   './css/components/profile-card.css',
+  './css/components/generated-card.css',
   './css/components/card-reveal.css',
   './css/components/card-shine.css',
   './css/components/modal.css',
@@ -162,6 +163,7 @@ const PRECACHE_URLS = [
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
   './js/UI/components/CardDetailPopup.js',
+  './js/UI/components/CardPrint.js',
   './js/UI/components/CardRoulettePopup.js',
   './js/UI/components/CurrencyExpiryPopup.js',
   './js/UI/components/ErrorPopup.js',
@@ -230,6 +232,8 @@ const PRECACHE_URLS = [
   './js/utils/BinderCode.js',
   './js/utils/BoosterCode.js',
   './js/utils/BoosterRenderManager.js',
+  './js/utils/CardGenerateManager.js',
+  './js/utils/CardSourceManager.js',
   './js/utils/CardTilt.js',
   './js/utils/Clipboard.js',
   './js/utils/Compression.js',

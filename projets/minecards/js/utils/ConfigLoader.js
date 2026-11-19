@@ -346,6 +346,160 @@ export const DEFAULT_FOIL_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default range of the animated-layers speed slider (`animatedLayers.speed` of `config.json`).
+ *
+ * The value is a PERCENTAGE of the reference speed: 100 draws one cycle in 30 seconds, 200 in 15
+ * seconds, 50 in 60 seconds. Keeping the unit as an integer percentage lets the existing slider
+ * validation and clamping apply, while the card only reads the resulting duration.
+ */
+export const DEFAULT_ANIMATED_LAYERS_SETTINGS = Object.freeze({
+  min: 25,
+  max: 300,
+  step: 5,
+  default: 100,
+});
+
+/**
+ * Defaults of the generated-card module (`cardGenerate` of `config.json`).
+ *
+ * The module has two sides:
+ *   - `animation`: whether each layer animates by default on each layout, how far they zoom, how
+ *     much they blur and which speed presets the settings screen offers. The speed RANGE itself
+ *     stays next to them, so a developer can edit the bounds and the presets in one place.
+ *   - `construction`: the geometry of the classic layout (frame width, header and description
+ *     heights) and, per rarity, the frame colour, the accent colour, the symbol printed at the top
+ *     right and the colour of that symbol.
+ *
+ * The values here are the shipped design. A malformed or partial block only falls back to them;
+ * it never leaves a card without a colour or a symbol.
+ */
+export const DEFAULT_CARD_GENERATE_SETTINGS = Object.freeze({
+  animation: Object.freeze({
+    background: Object.freeze({ classic: true, fullart: true }),
+    underlay: Object.freeze({ classic: true, fullart: true }),
+    zoom: Object.freeze({ min: 100, max: 150, step: 1, default: 110 }),
+    blur: Object.freeze({ min: 0, max: 5, step: 0.5, default: 1.5 }),
+    speed: DEFAULT_ANIMATED_LAYERS_SETTINGS,
+    speeds: Object.freeze([50, 75, 100, 150, 200, 300]),
+  }),
+  construction: Object.freeze({
+    borderWidth: Object.freeze({ min: 1, max: 8, step: 1, default: 4 }),
+    headerHeight: Object.freeze({ min: 8, max: 20, step: 1, default: 10 }),
+    bodyHeight: Object.freeze({ min: 30, max: 60, step: 1, default: 50 }),
+    rarities: Object.freeze([
+      Object.freeze({
+        id: 1,
+        labelKey: 'rarity.1',
+        color: '#4a4a5a',
+        accent: '#a0a0b0',
+        symbol: '★',
+        symbolColor: '#ffffff',
+      }),
+      Object.freeze({
+        id: 2,
+        labelKey: 'rarity.2',
+        color: '#93b5c6',
+        accent: '#4dd0e1',
+        symbol: '★★',
+        symbolColor: '#ffffff',
+      }),
+      Object.freeze({
+        id: 3,
+        labelKey: 'rarity.3',
+        color: '#a855f7',
+        accent: '#c084fc',
+        symbol: '★★★',
+        symbolColor: '#ffffff',
+      }),
+      Object.freeze({
+        id: 4,
+        labelKey: 'rarity.4',
+        color: '#ffd700',
+        accent: '#ffb300',
+        symbol: '👑',
+        symbolColor: '#ffffff',
+      }),
+      Object.freeze({
+        id: 5,
+        labelKey: 'rarity.5',
+        color: '#ff2a8d',
+        accent: '#00ffff',
+        symbol: '💎',
+        symbolColor: '#ffffff',
+      }),
+      Object.freeze({
+        id: 6,
+        labelKey: 'rarity.6',
+        color: '#c25700',
+        accent: '#e58a2e',
+        symbol: '🔶',
+        symbolColor: '#ffffff',
+      }),
+    ]),
+  }),
+});
+
+/**
+ * Completes a per-layout layer switch.
+ *
+ * Earlier saves stored one boolean for both layouts. A boolean therefore applies to every layout,
+ * while a missing or malformed entry falls back to the shipped value of that layout.
+ *
+ * @param {unknown} value - Stored switch, either a per-layout object or a legacy boolean.
+ * @param {Record<string, boolean>} fallback - Shipped value per layout.
+ * @returns {Record<string, boolean>} A complete switch per layout.
+ */
+export function normalizeCardGenerateLayerSwitches(value, fallback) {
+  const stored = value && typeof value === 'object' && !Array.isArray(value) ? value : null;
+  return Object.fromEntries(Object.entries(fallback).map(([layout, enabled]) => {
+    const candidate = stored ? stored[layout] : value;
+    return [layout, typeof candidate === 'boolean' ? candidate : enabled];
+  }));
+}
+
+/**
+ * Builds the complete per-account design from a normalized `cardGenerate` block.
+ *
+ * The account and the settings screen both need the same plain object: animation values, geometry
+ * values and one rarity row keyed by level. Keeping that conversion next to the configuration
+ * defaults means a new module field only has to be added here, not in two methods.
+ *
+ * @param {{animation: {zoom: object, blur: object},
+ *   construction: {borderWidth: object, headerHeight: object, bodyHeight: object,
+ *   rarities: Array<object>}}} config - Result of `getCardGenerateSettings()`.
+ * @returns {{animation: {background: Record<string, boolean>,
+ *   underlay: Record<string, boolean>, zoom: number, blur: number},
+ *   construction: {borderWidth: number, headerHeight: number, bodyHeight: number,
+ *   rarities: Record<string, {color: string, accent: string, symbol: string,
+ *   symbolColor: string}>}}} The complete shipped design.
+ */
+export function buildCardGenerateDefaults(config) {
+  const rarities = {};
+  config.construction.rarities.forEach((rarity) => {
+    rarities[rarity.id] = {
+      color: rarity.color,
+      accent: rarity.accent,
+      symbol: rarity.symbol,
+      symbolColor: rarity.symbolColor,
+    };
+  });
+  return {
+    animation: {
+      background: { ...DEFAULT_CARD_GENERATE_SETTINGS.animation.background },
+      underlay: { ...DEFAULT_CARD_GENERATE_SETTINGS.animation.underlay },
+      zoom: config.animation.zoom.default,
+      blur: config.animation.blur.default,
+    },
+    construction: {
+      borderWidth: config.construction.borderWidth.default,
+      headerHeight: config.construction.headerHeight.default,
+      bodyHeight: config.construction.bodyHeight.default,
+      rarities,
+    },
+  };
+}
+
+/**
  * Default range of the trophy glow slider (`glow.trophies` of `config.json`).
  *
  * A level, not a percentage: 0 switches every trophy halo off, 5 is the strongest one the stylesheet
@@ -774,6 +928,104 @@ export class ConfigLoader {
   }
 
   /**
+   * Range and default of the animated-layers speed slider
+   * (`cardGenerate.animation.speed`; the old `animatedLayers.speed` is still read).
+   *
+   * The percentage is a speed multiplier: 100 % keeps the reference 30-second cycle, 200 % runs
+   * it in 15 seconds, 50 % stretches it to 60 seconds. A partially edited block only changes the
+   * slider bounds; a missing block falls back to these shipped values.
+   *
+   * @returns {Promise<{min: number, max: number, step: number, default: number}>} The bounds, in
+   *   percent of the reference speed.
+   * @throws {Error} See `load()`.
+   */
+  async getAnimatedLayersSettings() {
+    const config = await this.getConfig();
+    // The block moved under `cardGenerate.animation`; the old `animatedLayers.speed` is still
+    // accepted so a configuration written before the module existed keeps working.
+    return ConfigLoader.normalizeSliderRange(
+      config.cardGenerate?.animation?.speed ?? config.animatedLayers?.speed,
+      DEFAULT_ANIMATED_LAYERS_SETTINGS
+    );
+  }
+
+  /**
+   * Settings of the generated-card module (`cardGenerate` of `config.json`).
+   *
+   * The method returns the validated defaults and bounds, not the values of an account: the caller
+   * merges the stored overrides with `AccountManager.sanitizeCardGenerateSettings()`. Every slider
+   * block goes through `normalizeDecimalRange` so the blur can carry a half-pixel step; numeric
+   * values are clamped, never trusted. Rarities are always returned as one complete entry per
+   * level 1-6, in display order, even when the configuration omits one.
+   *
+   * @returns {Promise<{animation: {zoom: {min: number, max: number, step: number, default: number},
+   *   blur: {min: number, max: number, step: number, default: number},
+   *   speed: {min: number, max: number, step: number, default: number}, speeds: number[]},
+   *   construction: {borderWidth: {min: number, max: number, step: number, default: number},
+   *   headerHeight: {min: number, max: number, step: number, default: number},
+   *   bodyHeight: {min: number, max: number, step: number, default: number},
+   *   rarities: Array<{id: number, labelKey: string, color: string, accent: string,
+   *   symbol: string, symbolColor: string}>}}>} The validated module.
+   * @throws {Error} See `load()`.
+   */
+  async getCardGenerateSettings() {
+    const config = await this.getConfig();
+    return ConfigLoader.normalizeCardGenerateSettings(config.cardGenerate);
+  }
+
+  /**
+   * Validates a raw `cardGenerate` block.
+   *
+   * Kept separate from `getCardGenerateSettings()` so a caller that already has the parsed
+   * configuration (the admin card browser) can normalize it without fetching the file again.
+   *
+   * @param {unknown} block - Raw `cardGenerate` value.
+   * @returns {object} The validated module (see `getCardGenerateSettings()`).
+   */
+  static normalizeCardGenerateSettings(block) {
+    const animation = block?.animation;
+    const construction = block?.construction;
+    const speed = ConfigLoader.normalizeSliderRange(
+      animation?.speed,
+      DEFAULT_CARD_GENERATE_SETTINGS.animation.speed
+    );
+
+    return {
+      animation: {
+        zoom: ConfigLoader.normalizeDecimalRange(
+          animation?.zoom,
+          DEFAULT_CARD_GENERATE_SETTINGS.animation.zoom
+        ),
+        blur: ConfigLoader.normalizeDecimalRange(
+          animation?.blur,
+          DEFAULT_CARD_GENERATE_SETTINGS.animation.blur
+        ),
+        speed,
+        speeds: ConfigLoader.normalizeAnimatedSpeeds(
+          animation?.speeds,
+          DEFAULT_CARD_GENERATE_SETTINGS.animation.speeds,
+          speed
+        ),
+      },
+      construction: {
+        borderWidth: ConfigLoader.normalizeDecimalRange(
+          construction?.borderWidth,
+          DEFAULT_CARD_GENERATE_SETTINGS.construction.borderWidth
+        ),
+        headerHeight: ConfigLoader.normalizeDecimalRange(
+          construction?.headerHeight,
+          DEFAULT_CARD_GENERATE_SETTINGS.construction.headerHeight
+        ),
+        bodyHeight: ConfigLoader.normalizeDecimalRange(
+          construction?.bodyHeight,
+          DEFAULT_CARD_GENERATE_SETTINGS.construction.bodyHeight
+        ),
+        rarities: ConfigLoader.normalizeCardGenerateRarities(construction?.rarities),
+      },
+    };
+  }
+
+  /**
    * Rendering modes of the 3D booster (`boosterRender` of `settings/config.json`).
    *
    * Every mode is a complete recipe: a numeric value that is missing or unusable is replaced by
@@ -914,6 +1166,142 @@ export class ConfigLoader {
       step,
       default: ConfigLoader.normalizeIntegerInRange(block.default, fallbackDefault, min, max),
     };
+  }
+
+  /**
+   * Validates a slider block that may carry decimal steps (the card blur uses half pixels).
+   *
+   * The same contract as `normalizeSliderRange()`, without forcing whole numbers. A min/max pair
+   * that cannot be read keeps the shipped bounds, and the step is always positive.
+   *
+   * @param {unknown} raw - Raw block read from `config.json`.
+   * @param {{min: number, max: number, step: number, default: number}} defaults - Fallback bounds.
+   * @returns {{min: number, max: number, step: number, default: number}} Consistent bounds.
+   */
+  static normalizeDecimalRange(raw, defaults) {
+    const block = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+    const finite = (value, fallback) => {
+      const number = Number(value);
+      return Number.isFinite(number) ? number : fallback;
+    };
+
+    const min = Math.max(0, finite(block.min, defaults.min));
+    const max = Math.max(min + 0.1, finite(block.max, defaults.max));
+    const step = Math.max(0.1, finite(block.step, defaults.step));
+    const fallbackDefault = Math.min(Math.max(finite(block.default, defaults.default), min), max);
+    return { min, max, step, default: fallbackDefault };
+  }
+
+  /**
+   * Validates the speed presets offered by the card animation panel.
+   *
+   * The values are integer percentages of the reference speed. Duplicates are dropped, the order
+   * of the file is kept, and an empty or unreadable list falls back to the shipped presets.
+   *
+   * @param {unknown} raw - `cardGenerate.animation.speeds`.
+   * @param {readonly number[]} defaults - Shipped presets.
+   * @returns {number[]} Unique speeds, slowest/fastest in declaration order.
+   */
+  static normalizeAnimatedSpeeds(raw, defaults, range = DEFAULT_ANIMATED_LAYERS_SETTINGS) {
+    const between = (value) => value >= range.min && value <= range.max;
+    const valid = (list) => {
+      const seen = new Set();
+      const speeds = [];
+      list.forEach((entry) => {
+        const value = Number(entry);
+        if (!Number.isFinite(value) || !between(value)) return;
+        const steps = Math.round((value - range.min) / range.step);
+        const speed = range.min + steps * range.step;
+        if (!between(speed) || seen.has(speed)) return;
+        seen.add(speed);
+        speeds.push(speed);
+      });
+      return speeds;
+    };
+
+    if (Array.isArray(raw)) {
+      const speeds = valid(raw);
+      if (speeds.length > 0) return speeds;
+    }
+    const fallback = valid(defaults);
+    return fallback.length > 0 ? fallback : [range.default];
+  }
+
+  /**
+   * Reads one colour as a six-digit hex code.
+   *
+   * A short `#abc` is expanded; anything else falls back to the shipped colour. The stylesheet and
+   * the `<input type="color">` both expect the same six-digit form, so normalizing here avoids a
+   * card that reads a valid colour while the picker shows black.
+   *
+   * @param {unknown} value - Candidate colour.
+   * @param {string} fallback - Shipped colour.
+   * @returns {string} A lowercase `#rrggbb` colour.
+   */
+  static normalizeHexColor(value, fallback) {
+    const text = typeof value === 'string' ? value.trim() : '';
+    if (/^#[0-9a-f]{6}$/i.test(text)) return text.toLowerCase();
+    if (/^#[0-9a-f]{3}$/i.test(text)) {
+      return `#${text
+        .slice(1)
+        .split('')
+        .map((part) => part + part)
+        .join('')}`.toLowerCase();
+    }
+    return fallback;
+  }
+
+  /**
+   * Reads the symbol printed at the top right of a generated card.
+   *
+   * Symbols are short by design (`★`, `★★★`, `💎`): the first eight code points are kept, which
+   * leaves room for a composed emoji without letting a pasted paragraph crush the header.
+   *
+   * @param {unknown} value - Candidate symbol.
+   * @param {string} fallback - Shipped symbol.
+   * @returns {string} The symbol, or the fallback when empty.
+   */
+  static normalizeGeneratedSymbol(value, fallback) {
+    const text = typeof value === 'string' ? value.trim() : '';
+    const symbol = [...text].slice(0, 8).join('');
+    return symbol === '' ? fallback : symbol;
+  }
+
+  /**
+   * Completes the rarity construction list of the card module.
+   *
+   * The configuration declares an array (the shipped form). Each of the six levels always gets
+   * one complete row, in level order, so the settings screen never has to guess what a partial
+   * configuration omitted.
+   *
+   * @param {unknown} raw - `cardGenerate.construction.rarities`.
+   * @returns {Array<{id: number, labelKey: string, color: string, accent: string, symbol: string,
+   *   symbolColor: string}>} One entry per rarity.
+   */
+  static normalizeCardGenerateRarities(raw) {
+    const entries = Array.isArray(raw) ? raw : [];
+    const byId = new Map();
+    entries.forEach((entry) => {
+      if (!entry || typeof entry !== 'object') return;
+      const id = Number(entry.id);
+      if (!Number.isInteger(id) || id < 1 || id > 6 || byId.has(id)) return;
+      byId.set(id, entry);
+    });
+
+    return DEFAULT_CARD_GENERATE_SETTINGS.construction.rarities.map((fallback) => {
+      const entry = byId.get(fallback.id) ?? {};
+      return {
+        id: fallback.id,
+        labelKey:
+          typeof entry.labelKey === 'string' && entry.labelKey.trim() !== ''
+            ? entry.labelKey.trim()
+            : fallback.labelKey,
+        color: ConfigLoader.normalizeHexColor(entry.color, fallback.color),
+        accent: ConfigLoader.normalizeHexColor(entry.accent, fallback.accent),
+        symbol: ConfigLoader.normalizeGeneratedSymbol(entry.symbol, fallback.symbol),
+        symbolColor: ConfigLoader.normalizeHexColor(entry.symbolColor, fallback.symbolColor),
+      };
+    });
   }
 
   /**

@@ -65,7 +65,12 @@ import { attachCardTilt } from '../../utils/CardTilt.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 import { PROGRESSION_VIEW_NAME } from './ProgressionView.js';
 import { getShineClasses, applyShine, applyCardGlow } from '../components/CardComponent.js';
-import { buildCardEffectsToggle, syncCardEffectsToggle } from '../components/CardEffectsToggle.js';
+import {
+  buildCardEffectsToggle,
+  syncCardEffectsToggle,
+  syncCardPrintEffects,
+} from '../components/CardEffectsToggle.js';
+import cardSourceManager, { createCardVisual } from '../../utils/CardSourceManager.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** Icon of the Sparks currency, relative to the application root. */
@@ -1366,18 +1371,24 @@ export class CollectionView {
     // glowing it would announce a card the player does not have.
     if (entry.owned && entry.card) applyCardGlow(tile, entry.card);
 
-    const image = document.createElement('img');
-    image.className = 'collection__image';
-    image.loading = 'lazy';
-    image.alt = name;
-    if (entry.card) {
-      image.src = i18n.resolveImagePath(entry.card.illustration);
+    const image = entry.card
+      ? createCardVisual(entry.card, {
+          className: 'collection__image',
+          alt: name,
+          // A collection tile shows the whole card, at the size of the final image it replaces:
+          // it is not a thumbnail, so the generated card keeps its name and description.
+          mini: false,
+          loading: 'lazy',
+        })
+      : document.createElement('img');
+    if (!entry.card) {
+      image.className = 'collection__image';
+      image.hidden = true;
+    } else if (image instanceof HTMLImageElement) {
       image.addEventListener('error', () => {
         console.warn(`[CollectionView] Illustration not found for "${entry.key}": ${image.src}`);
         image.hidden = true;
       });
-    } else {
-      image.hidden = true;
     }
 
     const caption = document.createElement('span');
@@ -1438,7 +1449,9 @@ export class CollectionView {
       if (this.devMode) {
         this.modalBody.appendChild(this.buildDevKeyBlock(entry));
       }
-      if (getShineClasses(card).length > 0) {
+      // A common generated card has no glare and no foil, but its layers still move: it needs the
+      // switch too, otherwise the only way to stop the zoom would be the account setting.
+      if (getShineClasses(card).length > 0 || cardSourceManager.isAnimatedLayersActive()) {
         this.modalBody.appendChild(this.buildShineToggle());
       }
     } else if (this.devMode) {
@@ -1514,23 +1527,30 @@ export class CollectionView {
     const art = document.createElement('div');
     art.className = 'collection-modal__art';
 
-    const image = document.createElement('img');
-    image.className = 'collection-modal__image';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} (${getRarityLabel(card.rarity, (labelKey) => i18n.t(labelKey))})`;
+    const alt = `${name} (${getRarityLabel(card.rarity, (labelKey) => i18n.t(labelKey))})`;
+    const image = createCardVisual(card, {
+      className: 'collection-modal__image',
+      alt,
+      mini: false,
+      animatedLayers: true,
+      loading: 'eager',
+      decoding: 'async',
+    });
     // The shine is laid over the artwork, so the box needs the real ratio of the illustration.
-    image.addEventListener('load', () => {
-      if (image.naturalWidth > 0 && image.naturalHeight > 0) {
-        art.style.setProperty(
-          '--card-reveal-art-ratio',
-          String(image.naturalWidth / image.naturalHeight)
-        );
-      }
-    });
-    image.addEventListener('error', () => {
-      console.warn(`[CollectionView] Detail illustration not found for "${key}": ${image.src}`);
-      image.hidden = true;
-    });
+    if (image instanceof HTMLImageElement) {
+      image.addEventListener('load', () => {
+        if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+          art.style.setProperty(
+            '--card-reveal-art-ratio',
+            String(image.naturalWidth / image.naturalHeight)
+          );
+        }
+      });
+      image.addEventListener('error', () => {
+        console.warn(`[CollectionView] Detail illustration not found for "${key}": ${image.src}`);
+        image.hidden = true;
+      });
+    }
     art.appendChild(image);
     attachCardTilt(art);
 
@@ -1539,6 +1559,7 @@ export class CollectionView {
     applyShine(art, card);
     applyCardGlow(art, card);
     art.classList.toggle('is-off', !this.shineEnabled);
+    syncCardPrintEffects(art, this.shineEnabled);
     this.shineWindow = art;
     return art;
   }
@@ -1564,6 +1585,7 @@ export class CollectionView {
   toggleShine() {
     this.shineEnabled = !this.shineEnabled;
     this.shineWindow?.classList.toggle('is-off', !this.shineEnabled);
+    syncCardPrintEffects(this.shineWindow, this.shineEnabled);
     syncCardEffectsToggle(this.modalBody, this.shineEnabled);
     this.log(`Card effects ${this.shineEnabled ? 'enabled' : 'disabled'}.`);
   }
@@ -2031,11 +2053,13 @@ export class CollectionView {
     const thumb = document.createElement('span');
     thumb.className = 'binders__thumb';
     if (cover?.card) {
-      const image = document.createElement('img');
-      image.className = 'binders__thumb-image';
-      image.src = i18n.resolveImagePath(cover.card.illustration);
-      image.alt = '';
-      image.loading = 'lazy';
+      const image = createCardVisual(cover.card, {
+        className: 'binders__thumb-image',
+        alt: '',
+        ariaHidden: true,
+        mini: true,
+        loading: 'lazy',
+      });
       thumb.appendChild(image);
       applyCardGlow(thumb, cover.card);
     }
@@ -2275,10 +2299,12 @@ export class CollectionView {
     coverButton.dataset.collectionBinderCover = '';
     const cover = draft.cover ? byKey.get(draft.cover) : null;
     if (cover?.card) {
-      const image = document.createElement('img');
-      image.className = 'binder-editor__cover-image';
-      image.src = i18n.resolveImagePath(cover.card.illustration);
-      image.alt = '';
+      const image = createCardVisual(cover.card, {
+        className: 'binder-editor__cover-image',
+        alt: '',
+        ariaHidden: true,
+        mini: true,
+      });
       const text = document.createElement('span');
       text.textContent = cover.card.getName(cardLanguage.getLang());
       coverButton.append(image, text);
@@ -2314,11 +2340,13 @@ export class CollectionView {
           : i18n.t('binders.slotEmpty', { index: index + 1 })
       );
       if (entry?.card) {
-        const image = document.createElement('img');
-        image.className = 'binder-slot__image';
-        image.src = i18n.resolveImagePath(entry.card.illustration);
-        image.alt = '';
-        image.loading = 'lazy';
+        const image = createCardVisual(entry.card, {
+          className: 'binder-slot__image',
+          alt: '',
+          ariaHidden: true,
+          mini: true,
+          loading: 'lazy',
+        });
         button.appendChild(image);
         button.classList.add('is-filled');
         // The foil and the brillance of the high rarities are painted on the slot itself: a binder
@@ -2569,11 +2597,13 @@ export class CollectionView {
         button.dataset.collectionBinderPick = entry.key;
         button.classList.toggle('is-current', isCurrent);
 
-        const image = document.createElement('img');
-        image.className = 'binder-picker__image';
-        image.src = i18n.resolveImagePath(entry.card.illustration);
-        image.alt = '';
-        image.loading = 'lazy';
+        const image = createCardVisual(entry.card, {
+          className: 'binder-picker__image',
+          alt: '',
+          ariaHidden: true,
+          mini: true,
+          loading: 'lazy',
+        });
 
         const label = document.createElement('span');
         label.className = 'binder-picker__name';

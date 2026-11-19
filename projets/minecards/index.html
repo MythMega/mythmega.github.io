@@ -245,13 +245,14 @@
   <link rel="stylesheet" href="css/views/profile.css?v=2a60b79361">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
-  <link rel="stylesheet" href="css/views/settings.css?v=bc973a89e3">
+  <link rel="stylesheet" href="css/views/settings.css?v=c7a4f8bdac">
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f6d4429b3b">
   <link rel="stylesheet" href="css/components/card-shine.css?v=b524891613">
+  <link rel="stylesheet" href="css/components/generated-card.css?v=57e1ad0118">
   <link rel="stylesheet" href="css/components/modal.css?v=fc9a8ca7c8">
   <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
@@ -1991,6 +1992,140 @@
             <p class="settings__help" data-settings-render-detail></p>
           </section>
 
+          <!-- Card Generate: a developer module, hidden unless the switch above is on.
+               `image` keeps the final image written in `Path`; `generate` rebuilds every card from
+               its JSON fields and opens the Animation and Construction panels below. The module
+               values and their defaults live in `settings/config.json` (`cardGenerate`), the
+               runtime is applied by `CardGenerateManager`, and the pickers, rarity rows and
+               sliders are built by SettingsView. -->
+          <section class="panel settings__panel settings__panel--wide" data-settings-card-source-panel hidden>
+            <h3 class="settings__title" data-i18n="settings.cardGenerate.title">Card Generate</h3>
+            <div class="lang-switch settings__choices" data-settings-card-source role="group" data-i18n-aria-label="settings.cardGenerate.title" aria-label="Card Generate"></div>
+            <p class="settings__help" data-i18n="settings.cardSource.help">Mode développeur : construisez la carte à partir de ses données JSON, ou gardez l'image finale.</p>
+
+            <div data-settings-cardgen-content hidden>
+              <div class="settings__subtabs" role="tablist" data-settings-cardgen-tabs aria-label="Card Generate" data-i18n-aria-label="settings.cardGenerate.tabs">
+                <button type="button" class="settings__tab is-active" data-cardgen-tab="animation" role="tab" aria-selected="true" aria-controls="settings-cardgen-animation" data-i18n="settings.cardGenerate.tab.animation">Animation</button>
+                <button type="button" class="settings__tab" data-cardgen-tab="construction" role="tab" aria-selected="false" tabindex="-1" aria-controls="settings-cardgen-construction" data-i18n="settings.cardGenerate.tab.construction">Construction</button>
+              </div>
+
+              <div class="settings__cardgen-panel" id="settings-cardgen-animation" role="tabpanel" data-cardgen-panel="animation">
+                <div class="settings__toggles" data-settings-animated-layers-row>
+                  <div class="settings__toggle">
+                    <span class="settings__toggle-label" data-i18n="settings.animatedLayers.title">Animated layers</span>
+                    <button type="button" class="switch" data-settings-animated-layers role="switch" aria-checked="false" data-i18n-aria-label="settings.animatedLayers.title">
+                      <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                      <span class="switch__state" data-settings-animated-layers-state></span>
+                    </button>
+                  </div>
+                </div>
+
+                <p class="settings__help" data-i18n="settings.cardGenerate.speedsLabel">Vitesses disponibles</p>
+                <div class="settings__choices settings__cardgen-speeds" data-settings-cardgen-speeds role="group" data-i18n-aria-label="settings.cardGenerate.speedsLabel" aria-label="Vitesses disponibles"></div>
+                <div data-settings-animated-layers-speed-group>
+                  <div class="foil-slider">
+                    <div class="foil-slider__head">
+                      <label class="foil-slider__label" for="settings-animated-layers-speed" data-i18n="settings.animatedLayers.speed">Vitesse d'animation</label>
+                      <output class="foil-slider__value" data-settings-animated-layers-speed-value for="settings-animated-layers-speed">1× · 30 s</output>
+                    </div>
+                    <input type="range" class="foil-slider__input" id="settings-animated-layers-speed" data-settings-animated-layers-speed min="25" max="300" step="5" value="100" aria-describedby="settings-animated-layers-speed-help">
+                  </div>
+                  <p class="settings__help" id="settings-animated-layers-speed-help" data-i18n="settings.animatedLayers.speedHelp">Règle la durée d'un cycle : 100 % correspond à 30 s, 200 % à 15 s, 50 % à 60 s. Le réglage est enregistré avec le compte.</p>
+                </div>
+                <p class="settings__help" data-i18n="settings.animatedLayers.help">Uniquement avec la source générée : anime le fond et l'underlay de la carte. Désactivé par défaut.</p>
+
+                <div data-settings-cardgen-layers>
+                  <h4 class="settings__title" data-i18n="settings.cardGenerate.layoutClassic">Classique</h4>
+                  <div class="settings__toggles">
+                    <div class="settings__toggle">
+                      <span class="settings__toggle-label" data-i18n="settings.cardGenerate.animateBackground">Animer le fond</span>
+                      <button type="button" class="switch" data-settings-cardgen-layer="background" data-settings-cardgen-layout="classic" role="switch" aria-checked="true" data-i18n-aria-label="settings.cardGenerate.animateBackground">
+                        <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                        <span class="switch__state"></span>
+                      </button>
+                    </div>
+                    <div class="settings__toggle">
+                      <span class="settings__toggle-label" data-i18n="settings.cardGenerate.animateUnderlay">Animer l'underlay</span>
+                      <button type="button" class="switch" data-settings-cardgen-layer="underlay" data-settings-cardgen-layout="classic" role="switch" aria-checked="true" data-i18n-aria-label="settings.cardGenerate.animateUnderlay">
+                        <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                        <span class="switch__state"></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <h4 class="settings__title" data-i18n="settings.cardGenerate.layoutFullArt">Full Art</h4>
+                  <div class="settings__toggles">
+                    <div class="settings__toggle">
+                      <span class="settings__toggle-label" data-i18n="settings.cardGenerate.animateBackground">Animer le fond</span>
+                      <button type="button" class="switch" data-settings-cardgen-layer="background" data-settings-cardgen-layout="fullart" role="switch" aria-checked="true" data-i18n-aria-label="settings.cardGenerate.animateBackground">
+                        <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                        <span class="switch__state"></span>
+                      </button>
+                    </div>
+                    <div class="settings__toggle">
+                      <span class="settings__toggle-label" data-i18n="settings.cardGenerate.animateUnderlay">Animer l'underlay</span>
+                      <button type="button" class="switch" data-settings-cardgen-layer="underlay" data-settings-cardgen-layout="fullart" role="switch" aria-checked="true" data-i18n-aria-label="settings.cardGenerate.animateUnderlay">
+                        <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                        <span class="switch__state"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <p class="settings__help" data-i18n="settings.cardGenerate.layerAnimationHelp">Chaque layout garde ses propres interrupteurs. L'underlay reste toujours net, même pendant son zoom.</p>
+
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-zoom" data-i18n="settings.cardGenerate.zoom">Zoom maximal</label>
+                    <output class="foil-slider__value" data-settings-cardgen-zoom-value for="settings-cardgen-zoom">110 %</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-zoom" data-settings-cardgen-zoom data-cardgen-slider="zoom" min="100" max="150" step="1" value="110" aria-describedby="settings-cardgen-zoom-help">
+                </div>
+                <p class="settings__help" id="settings-cardgen-zoom-help" data-i18n="settings.cardGenerate.zoomHelp">Amplitude du zoom des plans : 100 % ne zoome pas, 110 % est le réglage d'origine, 150 % est le maximum.</p>
+
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-blur" data-i18n="settings.cardGenerate.blur">Flou maximal</label>
+                    <output class="foil-slider__value" data-settings-cardgen-blur-value for="settings-cardgen-blur">1.5 px</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-blur" data-settings-cardgen-blur data-cardgen-slider="blur" min="0" max="5" step="0.5" value="1.5" aria-describedby="settings-cardgen-blur-help">
+                </div>
+                <p class="settings__help" id="settings-cardgen-blur-help" data-i18n="settings.cardGenerate.blurHelp">Flou appliqué au fond au point le plus profond du zoom. À 0, le fond reste net.</p>
+              </div>
+
+              <div class="settings__cardgen-panel" id="settings-cardgen-construction" role="tabpanel" data-cardgen-panel="construction" hidden>
+                <h4 class="settings__title" data-i18n="settings.cardGenerate.rarities">Raretés</h4>
+                <p class="settings__help" data-i18n="settings.cardGenerate.raritiesHelp">Couleur du cadre et de l'accent, symbole affiché en haut à droite et couleur de ce symbole, pour chaque rareté.</p>
+                <div class="settings__cardgen-rarities" data-settings-cardgen-rarities></div>
+
+                <h4 class="settings__title" data-i18n="settings.cardGenerate.layout">Mise en page</h4>
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-border" data-i18n="settings.cardGenerate.borderWidth">Épaisseur du cadre</label>
+                    <output class="foil-slider__value" data-settings-cardgen-border-value for="settings-cardgen-border">4 px</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-border" data-settings-cardgen-border data-cardgen-slider="border" min="1" max="8" step="1" value="4" aria-describedby="settings-cardgen-layout-help">
+                </div>
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-header" data-i18n="settings.cardGenerate.headerHeight">Hauteur du bandeau titre</label>
+                    <output class="foil-slider__value" data-settings-cardgen-header-value for="settings-cardgen-header">10 %</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-header" data-settings-cardgen-header data-cardgen-slider="header" min="8" max="20" step="1" value="10" aria-describedby="settings-cardgen-layout-help">
+                </div>
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-body" data-i18n="settings.cardGenerate.bodyHeight">Hauteur de la description</label>
+                    <output class="foil-slider__value" data-settings-cardgen-body-value for="settings-cardgen-body">50 %</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-body" data-settings-cardgen-body data-cardgen-slider="body" min="30" max="60" step="1" value="50" aria-describedby="settings-cardgen-layout-help">
+                </div>
+                <p class="settings__help" id="settings-cardgen-layout-help" data-i18n="settings.cardGenerate.layoutHelp">Ces trois valeurs dessinent la carte classique : le bandeau du titre, la bande d'illustration et le bloc de description. La carte Full Art garde ses propres proportions.</p>
+                <button type="button" class="btn btn--ghost settings__cardgen-reset" data-settings-cardgen-reset data-i18n="settings.cardGenerate.reset">Restaurer la construction d'origine</button>
+                <p class="settings__help" data-i18n="settings.cardGenerate.constructionHelp">Les couleurs sont des codes hexadécimaux. Un symbole fait au plus huit caractères. Ces réglages sont enregistrés avec le compte et s'appliquent immédiatement aux cartes générées.</p>
+              </div>
+            </div>
+          </section>
+
           <!-- Account: read-only UUID, copy button (SettingsView never writes it). -->
           <section class="panel settings__panel">
             <h3 class="settings__title" data-i18n="settings.account.title">Compte</h3>
@@ -2587,7 +2722,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=5bd4044fb4"></script>
+  <script type="module" src="js/app.js?v=189c051aef"></script>
 
 </body>
 </html>

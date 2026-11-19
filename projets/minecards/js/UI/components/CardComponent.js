@@ -33,6 +33,7 @@ import {
   applyShine,
   applyCardGlow,
 } from '../../utils/Shine.js';
+import { createCardVisual, updateCardVisual } from '../../utils/CardSourceManager.js';
 
 // The foil helpers live in `js/utils/Shine.js` (a module with no import at all, so the read-only
 // page of a shared binder can paint a foil without pulling the game in) and are re-exported here,
@@ -60,8 +61,19 @@ export class CardComponent {
    *   the first time the card is revealed.
    * @param {boolean} [options.flipOnClick=true] - False disables the built-in click-to-flip
    *   listener, so the parent view can drive the reveal (spotlight tap-to-reveal).
+   * @param {boolean} [options.animatedLayers=false] - Allow the generated layers to move while this
+   *   card is a reveal, not a summary tile or a list thumbnail.
    */
-  constructor(card, { isNew = false, isUnowned = false, onFlipped = null, flipOnClick = true } = {}) {
+  constructor(
+    card,
+    {
+      isNew = false,
+      isUnowned = false,
+      onFlipped = null,
+      flipOnClick = true,
+      animatedLayers = false,
+    } = {}
+  ) {
     if (!card || typeof card.uniqueKey !== 'string') {
       throw new TypeError('CardComponent requires a Card instance.');
     }
@@ -71,11 +83,14 @@ export class CardComponent {
     this.isUnowned = isUnowned;
     this.onFlipped = onFlipped;
     this.flipOnClick = flipOnClick !== false;
+    this.animatedLayers = animatedLayers === true;
     this.isFlipped = false;
+    /** @type {boolean} True when the card is displayed as a thumbnail. */
+    this.mini = false;
 
     /** @type {HTMLElement|null} */
     this.element = null;
-    /** @type {HTMLImageElement|null} */
+    /** @type {HTMLElement|null} Image or generated card of the front face. */
     this.image = null;
     /** @type {HTMLElement|null} */
     this.nameFallback = null;
@@ -140,14 +155,20 @@ export class CardComponent {
       this.badge = badge;
     }
 
-    const image = document.createElement('img');
-    image.className = 'card-reveal__image';
-    image.loading = 'eager';
-    image.decoding = 'async';
-    image.addEventListener('error', () => this.handleImageError());
-    // The shine of a classic printing (`css/components/card-reveal.css`) is laid over the artwork,
-    // so it needs the real ratio of the illustration, not a guess.
-    image.addEventListener('load', () => this.applyArtworkRatio());
+    const image = createCardVisual(this.card, {
+      className: 'card-reveal__image',
+      alt: this.card.getName(cardLanguage.getLang()),
+      mini: this.mini,
+      animatedLayers: this.animatedLayers,
+      loading: 'eager',
+      decoding: 'async',
+    });
+    if (image instanceof HTMLImageElement) {
+      image.addEventListener('error', () => this.handleImageError());
+      // The shine of a classic printing (`css/components/card-reveal.css`) is laid over the
+      // artwork, so it needs the real ratio of the illustration, not a guess.
+      image.addEventListener('load', () => this.applyArtworkRatio());
+    }
     front.appendChild(image);
 
     const nameFallback = document.createElement('span');
@@ -219,9 +240,14 @@ export class CardComponent {
     const name = this.card.getName(lang);
     const rarityLabel = getRarityLabel(this.card.rarity, (key) => i18n.t(key));
 
-    if (this.image) {
-      this.image.src = i18n.resolveImagePath(this.card.illustration);
-      this.image.alt = `${name} (${rarityLabel})`;
+    const visual = this.element?.querySelector('.card-reveal__image') ?? this.image;
+    if (visual) {
+      updateCardVisual(visual, this.card, {
+        alt: `${name} (${rarityLabel})`,
+        mini: this.mini,
+        lang,
+      });
+      this.image = visual;
     }
     if (this.nameFallback) {
       this.nameFallback.textContent = name;
@@ -235,6 +261,40 @@ export class CardComponent {
     if (this.element) {
       this.applyAriaLabel();
     }
+  }
+
+  /**
+   * Shows or hides the generated card texts for a thumbnail or a large display.
+   *
+   * The same element is reused by the spotlight and the summary, so the mode has to follow the
+   * place it is currently mounted in rather than the options it was born with.
+   *
+   * @param {boolean} mini - True to hide the name, the set and the description.
+   * @returns {void}
+   */
+  setMini(mini) {
+    this.mini = mini === true;
+    const visual = this.element?.querySelector('.card-reveal__image') ?? this.image;
+    if (!visual) return;
+    updateCardVisual(visual, this.card, { mini: this.mini });
+    this.image = visual;
+  }
+
+  /**
+   * Allows or stops the movement of the generated layers for this card.
+   *
+   * The same element moves from the spotlight to the summary, so the view has to be able to leave
+   * the animation behind when the card becomes a thumbnail again.
+   *
+   * @param {boolean} enabled - True only while the card is a reveal or a detail.
+   * @returns {void}
+   */
+  setAnimatedLayers(enabled) {
+    this.animatedLayers = enabled === true;
+    const visual = this.element?.querySelector('.card-reveal__image') ?? this.image;
+    if (!visual) return;
+    updateCardVisual(visual, this.card, { animatedLayers: this.animatedLayers });
+    this.image = visual;
   }
 
   /**

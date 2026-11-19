@@ -58,6 +58,27 @@ export function buildCardEffectsToggle(enabled) {
 }
 
 /**
+ * Tells the generated cards of a detail whether their glare and movement may be painted.
+ *
+ * The image source already reacts to the `is-off` class of its window; the generated card paints
+ * its effects inside a shadow root and needs its own flag. The foil is left untouched on purpose.
+ *
+ * @param {ParentNode|null} root - Element holding the generated card.
+ * @param {boolean} enabled - New state of the effects.
+ * @returns {void}
+ */
+export function syncCardPrintEffects(root, enabled) {
+  if (!root?.querySelectorAll) return;
+  root.querySelectorAll('card-print').forEach((print) => {
+    if (typeof print.setEffectsEnabled === 'function') {
+      print.setEffectsEnabled(enabled);
+    } else {
+      print.toggleAttribute('effects-off', enabled === false);
+    }
+  });
+}
+
+/**
  * Republishes a state on the switches already in the document.
  *
  * The view keeps the boolean, this rewrites the two places that show it (`aria-checked` for the
@@ -78,4 +99,9 @@ export function syncCardEffectsToggle(root, enabled) {
   });
 }
 
-export default { buildCardEffectsToggle, syncCardEffectsToggle, CARD_EFFECTS_ATTRIBUTE };
+export default {
+  buildCardEffectsToggle,
+  syncCardEffectsToggle,
+  syncCardPrintEffects,
+  CARD_EFFECTS_ATTRIBUTE,
+};

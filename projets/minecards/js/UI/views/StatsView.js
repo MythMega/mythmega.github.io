@@ -40,6 +40,7 @@ import { writeToClipboard } from '../../utils/Clipboard.js';
 import Toast from '../components/Toast.js';
 import { applyCardGlow } from '../../utils/Shine.js';
 import cardDetailPopup from '../components/CardDetailPopup.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /** View name, matching `data-view="stats"` in `index.html`. */
 export const STATS_VIEW_NAME = 'stats';
@@ -491,15 +492,18 @@ export class StatsView {
 
     if (entry?.card) {
       applyCardGlow(wrapper, entry.card);
-      const image = document.createElement('img');
-      image.className = 'stats__top-image';
-      image.loading = 'lazy';
-      image.src = i18n.resolveImagePath(entry.card.illustration);
-      image.alt = entry.card.getName(cardLanguage.getLang());
-      image.addEventListener('error', () => {
-        console.warn(`[StatsView] Top card illustration not found for "${key}": ${image.src}`);
-        image.hidden = true;
+      const image = createCardVisual(entry.card, {
+        className: 'stats__top-image',
+        alt: entry.card.getName(cardLanguage.getLang()),
+        mini: true,
+        loading: 'lazy',
       });
+      if (image instanceof HTMLImageElement) {
+        image.addEventListener('error', () => {
+          console.warn(`[StatsView] Top card illustration not found for "${key}": ${image.src}`);
+          image.hidden = true;
+        });
+      }
       wrapper.appendChild(image);
     }
 
@@ -729,12 +733,14 @@ export class StatsView {
       if (card.isFullArt) thumbnail.classList.add('stats__history-card--fullart');
       thumbnail.setAttribute('aria-label', card.getName(cardLanguage.getLang()));
       applyCardGlow(thumbnail, card);
-      const image = document.createElement('img');
-      image.className = 'stats__history-image';
-      image.loading = 'lazy';
-      image.decoding = 'async';
-      image.src = i18n.resolveImagePath(card.illustration);
-      image.alt = '';
+      const image = createCardVisual(card, {
+        className: 'stats__history-image',
+        alt: '',
+        ariaHidden: true,
+        mini: true,
+        loading: 'lazy',
+        decoding: 'async',
+      });
       thumbnail.appendChild(image);
       thumbnail.addEventListener('click', () => void cardDetailPopup.open(card, { effects: true }));
       wrapper.appendChild(thumbnail);
@@ -859,16 +865,20 @@ export class StatsView {
     const rarityLabel = getRarityLabel(card.rarity, (key) => i18n.t(key));
     button.setAttribute('aria-label', `${name} (${rarityLabel})`);
 
-    const image = document.createElement('img');
-    image.className = 'stats__history-image';
-    image.loading = 'lazy';
-    image.decoding = 'async';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = '';
-    image.addEventListener('error', () => {
-      console.warn(`[StatsView] History illustration not found for "${card.uniqueKey}": ${image.src}`);
-      image.hidden = true;
+    const image = createCardVisual(card, {
+      className: 'stats__history-image',
+      alt: '',
+      ariaHidden: true,
+      mini: true,
+      loading: 'lazy',
+      decoding: 'async',
     });
+    if (image instanceof HTMLImageElement) {
+      image.addEventListener('error', () => {
+        console.warn(`[StatsView] History illustration not found for "${card.uniqueKey}": ${image.src}`);
+        image.hidden = true;
+      });
+    }
     button.appendChild(image);
     return button;
   }
@@ -973,16 +983,19 @@ export class StatsView {
     thumb.className = `stats__history-card stats__history-card--r${card.rarity}`;
     if (card.isFullArt) thumb.classList.add('stats__history-card--fullart');
     applyCardGlow(thumb, card);
-    const image = document.createElement('img');
-    image.className = 'stats__history-image';
-    image.loading = 'lazy';
-    image.decoding = 'async';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = card.getName(cardLanguage.getLang());
-    image.addEventListener('error', () => {
-      console.warn(`[StatsView] Saved-opening illustration not found for "${card.uniqueKey}": ${image.src}`);
-      image.hidden = true;
+    const image = createCardVisual(card, {
+      className: 'stats__history-image',
+      alt: card.getName(cardLanguage.getLang()),
+      mini: true,
+      loading: 'lazy',
+      decoding: 'async',
     });
+    if (image instanceof HTMLImageElement) {
+      image.addEventListener('error', () => {
+        console.warn(`[StatsView] Saved-opening illustration not found for "${card.uniqueKey}": ${image.src}`);
+        image.hidden = true;
+      });
+    }
     thumb.appendChild(image);
     return thumb;
   }

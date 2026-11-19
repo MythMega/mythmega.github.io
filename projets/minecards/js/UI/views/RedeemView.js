@@ -30,6 +30,7 @@ import redeemManager, {
 import boosterManager from '../../business/BoosterManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { applyCardGlow } from '../../utils/Shine.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 import cardRoulettePopup from '../components/CardRoulettePopup.js';
 
 /**
@@ -442,15 +443,18 @@ export class RedeemView {
 
     if (reward.type === 'card' && reward.card) {
       applyCardGlow(item, reward.card);
-      const image = document.createElement('img');
-      image.className = 'redeem__reward-image';
-      image.loading = 'lazy';
-      image.src = i18n.resolveImagePath(reward.card.illustration);
-      image.alt = reward.card.getName(cardLanguage.getLang());
-      image.addEventListener('error', () => {
-        console.warn(`[RedeemView] Illustration not found for "${reward.card.uniqueKey}".`);
-        image.hidden = true;
+      const image = createCardVisual(reward.card, {
+        className: 'redeem__reward-image',
+        alt: reward.card.getName(cardLanguage.getLang()),
+        mini: true,
+        loading: 'lazy',
       });
+      if (image instanceof HTMLImageElement) {
+        image.addEventListener('error', () => {
+          console.warn(`[RedeemView] Illustration not found for "${reward.card.uniqueKey}".`);
+          image.hidden = true;
+        });
+      }
       item.appendChild(image);
 
       const line = document.createElement('p');

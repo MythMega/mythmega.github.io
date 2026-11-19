@@ -43,7 +43,12 @@ import { attachCardTilt } from '../../utils/CardTilt.js';
 import Booster3DRenderer, { DEFAULT_MODEL_PATH } from '../components/Booster3DRenderer.js';
 import boosterRenderManager from '../../utils/BoosterRenderManager.js';
 import { getShineClasses, applyShine, applyCardGlow } from '../../utils/Shine.js';
-import { buildCardEffectsToggle, syncCardEffectsToggle } from '../components/CardEffectsToggle.js';
+import {
+  buildCardEffectsToggle,
+  syncCardEffectsToggle,
+  syncCardPrintEffects,
+} from '../components/CardEffectsToggle.js';
+import cardSourceManager, { createCardVisual } from '../../utils/CardSourceManager.js';
 import { preloadImage, preloadImages, isImageReady } from '../../utils/ImagePreloader.js';
 import { reportError } from '../../utils/ErrorReporter.js';
 
@@ -1767,6 +1772,7 @@ export class OpeningView {
       const component = new CardComponent(card, {
         isNew: newKeys.has(card.uniqueKey),
         flipOnClick: false,
+        animatedLayers: true,
       });
       this.cardComponents.push(component);
     });
@@ -1801,6 +1807,8 @@ export class OpeningView {
 
     this.spotlightStage.textContent = '';
     const element = component.render();
+    // The same element may come back from a summary thumbnail: the spotlight always shows the texts.
+    component.setMini(false);
     if (animation !== 'none') {
       element.classList.remove('is-entering-next', 'is-entering-prev');
       void element.offsetWidth;
@@ -2242,6 +2250,7 @@ export class OpeningView {
             new CardComponent(card, {
               isNew: newKeys.has(card.uniqueKey),
               flipOnClick: false,
+              animatedLayers: true,
             })
         ),
       };
@@ -2316,6 +2325,10 @@ export class OpeningView {
       const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
       tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
       const thumbnail = component.render();
+      // The booster workflow always shows the complete card, never a textless miniature.
+      component.setMini(false);
+      // The summary is a list of thumbnails, not the reveal itself: it stays still.
+      component.setAnimatedLayers(false);
       thumbnail.setAttribute('aria-hidden', 'true');
       thumbnail.tabIndex = -1;
       tile.appendChild(thumbnail);
@@ -2370,6 +2383,9 @@ export class OpeningView {
         const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
         tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
         const thumbnail = component.render();
+        // A recap tile keeps the complete card too: no miniature in the opening workflow.
+        component.setMini(false);
+        component.setAnimatedLayers(false);
         thumbnail.setAttribute('aria-hidden', 'true');
         thumbnail.tabIndex = -1;
         tile.appendChild(thumbnail);
@@ -2453,32 +2469,40 @@ export class OpeningView {
 
     const art = document.createElement('div');
     art.className = 'card-modal__art';
-    const image = document.createElement('img');
-    image.className = 'card-modal__image';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
+    const alt = `${name} (${getRarityLabel(card.rarity, (key) => i18n.t(key))})`;
+    const image = createCardVisual(card, {
+      className: 'card-modal__image',
+      alt,
+      mini: false,
+      animatedLayers: true,
+      loading: 'eager',
+      decoding: 'async',
+    });
     // The shine is laid over the artwork, so the window needs the real ratio of the illustration.
-    image.addEventListener('load', () => {
-      if (image.naturalWidth > 0 && image.naturalHeight > 0) {
-        art.style.setProperty(
-          '--card-reveal-art-ratio',
-          String(image.naturalWidth / image.naturalHeight)
-        );
-      }
-    });
-    image.addEventListener('error', () => {
-      console.warn(`[OpeningView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
-      image.hidden = true;
-    });
+    if (image instanceof HTMLImageElement) {
+      image.addEventListener('load', () => {
+        if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+          art.style.setProperty(
+            '--card-reveal-art-ratio',
+            String(image.naturalWidth / image.naturalHeight)
+          );
+        }
+      });
+      image.addEventListener('error', () => {
+        console.warn(`[OpeningView] Detail illustration not found for "${card.uniqueKey}": ${image.src}`);
+        image.hidden = true;
+      });
+    }
     art.appendChild(image);
     attachCardTilt(art);
     applyShine(art, card);
     applyCardGlow(art, card);
     art.classList.toggle('is-off', !this.shineEnabled);
+    syncCardPrintEffects(art, this.shineEnabled);
     this.shineWindow = art;
     this.cardModalBody.appendChild(art);
 
-    if (getShineClasses(card).length > 0) {
+    if (getShineClasses(card).length > 0 || cardSourceManager.isAnimatedLayersActive()) {
       this.cardModalBody.appendChild(buildCardEffectsToggle(this.shineEnabled));
     }
 
@@ -2523,6 +2547,7 @@ export class OpeningView {
   toggleCardEffects() {
     this.shineEnabled = !this.shineEnabled;
     this.shineWindow?.classList.toggle('is-off', !this.shineEnabled);
+    syncCardPrintEffects(this.shineWindow, this.shineEnabled);
     syncCardEffectsToggle(this.cardModalBody, this.shineEnabled);
     this.log(`Card effects ${this.shineEnabled ? 'enabled' : 'disabled'}.`);
   }

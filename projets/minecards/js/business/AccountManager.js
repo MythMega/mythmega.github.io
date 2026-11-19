@@ -12,7 +12,8 @@
  *   - `account`   : { uuid, createdAt }
  *   - `settings`  : { lang, cardLang, theme, sound, soundCategories, animation, foilIntensity,
  *                   glareIntensity, glowTrophies, notificationDuration, notificationTypes,
- *                   boosterRenderMode, nativeScrollbars }
+ *                   boosterRenderMode, cardSource, animatedLayers, animatedLayersSpeed,
+ *                   nativeScrollbars }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, godpacksOpened, boostersOpenedBySet, drawsByRarity,
  *                   drawsByCard, soldByRarity, questsCompleted, daysConnected, cardsSold,
@@ -32,7 +33,12 @@
  */
 
 import { storageRepository, STORES } from '../models/StorageRepository.js';
-import { configLoader } from '../utils/ConfigLoader.js';
+import {
+  ConfigLoader,
+  configLoader,
+  buildCardGenerateDefaults,
+  normalizeCardGenerateLayerSwitches,
+} from '../utils/ConfigLoader.js';
 import i18n, { clearMirroredLang } from '../utils/I18n.js';
 import cardLanguage, { CARD_LANG_AUTO, clearMirroredCardLang } from '../utils/CardLanguage.js';
 import themeManager, { clearMirroredTheme } from '../utils/ThemeManager.js';
@@ -42,6 +48,7 @@ import foilManager from '../utils/FoilManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import { DEFAULT_SOUND_CATEGORIES, SoundManager } from '../utils/SoundManager.js';
 import { ILLAGER_QUESTS_STATE_KEY, countClaimedQuests } from './IllagerQuestState.js';
+import { CARD_SOURCE_VALUES, DEFAULT_CARD_SOURCE } from '../utils/CardSourceManager.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
 export const USER_STATE_KEYS = Object.freeze({
@@ -298,13 +305,16 @@ export class AccountManager {
    *   animation?: string|null, foilIntensity?: number|null, glareIntensity?: number|null,
    *   glowTrophies?: number|null, notificationDuration?: number|null,
    *   notificationTypes?: Record<string, boolean>|null, devMode?: boolean|null,
+   *   cardSource?: string|null, animatedLayers?: boolean|null,
+   *   animatedLayersSpeed?: number|null, cardGenerate?: object|null,
    *   boosterRenderMode?: string|null}} [overrides] -
    *   Requested preferences.
    * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean, boosterRenderMode: string}>} Validated preferences.
+   *   devMode: boolean, cardSource: string, animatedLayers: boolean,
+   *   animatedLayersSpeed: number, cardGenerate: object, boosterRenderMode: string}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -356,6 +366,23 @@ export class AccountManager {
         ? glowManager.sanitizeLevel(overrides.glowTrophies)
         : glowManager.getSettings().default;
 
+    // The animated layers have their own speed, in PERCENT of the reference 30-second cycle. The
+    // bounds and the default live in `config.json` so the tuned speed can become the shipped
+    // default without touching the manager.
+    const animatedLayersRange = await configLoader.getAnimatedLayersSettings();
+    const animatedLayersSpeed = AccountManager.sanitizeAnimatedLayersSpeed(
+      overrides.animatedLayersSpeed,
+      animatedLayersRange
+    );
+    // The generated card has its own design module (`cardGenerate` of `config.json`): the stored
+    // overrides are completed and clamped here, so a save written before a slider existed still
+    // produces a complete card.
+    const cardGenerateSettings = await configLoader.getCardGenerateSettings();
+    const cardGenerate = AccountManager.sanitizeCardGenerateSettings(
+      overrides.cardGenerate,
+      cardGenerateSettings
+    );
+
     // The notifications have their own block (`notifications` of `config.json`): the duration is in
     // SECONDS and every known kind starts enabled. A new account therefore hears about everything
     // the game grants, and can shorten or silence it from the settings screen.
@@ -404,6 +431,18 @@ export class AccountManager {
       notificationTypes,
       mineSpeed,
       devMode: overrides.devMode === true,
+      // The source of the card faces is a developer choice (`generate` draws the card from its
+      // JSON, `image` keeps the final `Path`). It is stored even when the developer mode is off,
+      // so switching that mode back on restores the choice; `CardSourceManager` decides whether
+      // the setting is effective.
+      cardSource: CARD_SOURCE_VALUES.includes(overrides.cardSource)
+        ? overrides.cardSource
+        : DEFAULT_CARD_SOURCE,
+      // The generated-card animation is a developer option and is OFF by default: a card must stay
+      // still unless the player explicitly asks for moving layers.
+      animatedLayers: overrides.animatedLayers === true,
+      animatedLayersSpeed,
+      cardGenerate,
       boosterRenderMode,
       nativeScrollbars: overrides.nativeScrollbars === true,
       // Quest guidance is ON by default: "Y aller" walks the player through the screens instead of
@@ -442,6 +481,108 @@ export class AccountManager {
   static sanitizeNotificationDuration(value, range) {
     if (typeof value !== 'number' || !Number.isFinite(value)) return range.default;
     return Math.min(range.max, Math.max(range.min, Math.round(value)));
+  }
+
+  /**
+   * Brings an animated-layers speed back into the declared percentage range.
+   *
+   * The value is an integer percentage of the reference speed, not a duration. A missing or
+   * corrupted value reads as the configured default, and an out-of-range value is clamped to the
+   * nearest step of the slider so a save written with a wider range still loads.
+   *
+   * @param {unknown} value - Requested speed, in percent of the reference speed.
+   * @param {{min: number, max: number, step: number, default: number}} range - Declared bounds.
+   * @returns {number} A percentage inside the range, on a slider step.
+   */
+  static sanitizeAnimatedLayersSpeed(value, range) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return range.default;
+    const clamped = Math.min(range.max, Math.max(range.min, value));
+    const steps = Math.round((clamped - range.min) / range.step);
+    return Math.min(range.max, range.min + steps * range.step);
+  }
+
+  /**
+   * Brings a generated-card design back into the declared ranges.
+   *
+   * The animation has two switches per layout (background and underlay) and two values (zoom and
+   * blur), and the construction has three geometry values plus one complete row per rarity.
+   * Numbers are clamped to their range and snapped to the slider step; colours are normalized to
+   * six-digit hex; symbols are kept short. Every missing field comes from
+   * `buildCardGenerateDefaults(config)`, so the result is always safe to hand to
+   * `CardGenerateManager`.
+   *
+   * @param {unknown} value - Stored or requested `settings.cardGenerate`.
+   * @param {{animation: {zoom: object, blur: object},
+   *   construction: {borderWidth: object, headerHeight: object, bodyHeight: object,
+   *   rarities: Array<object>}}} config - Result of `getCardGenerateSettings()`.
+   * @returns {{animation: {background: Record<string, boolean>,
+   *   underlay: Record<string, boolean>, zoom: number, blur: number},
+   *   construction: {borderWidth: number, headerHeight: number, bodyHeight: number,
+   *   rarities: Record<string, {color: string, accent: string, symbol: string,
+   *   symbolColor: string}>}}} The complete validated design.
+   */
+  static sanitizeCardGenerateSettings(value, config) {
+    const defaults = buildCardGenerateDefaults(config);
+    const source = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+    const animation = source.animation && typeof source.animation === 'object' ? source.animation : {};
+    const construction =
+      source.construction && typeof source.construction === 'object' ? source.construction : {};
+    const storedRarities =
+      construction.rarities && typeof construction.rarities === 'object'
+        ? construction.rarities
+        : {};
+
+    const sanitizeNumber = (candidate, range, fallback) => {
+      const number = typeof candidate === 'number' && Number.isFinite(candidate) ? candidate : fallback;
+      const clamped = Math.min(range.max, Math.max(range.min, number));
+      const steps = Math.round((clamped - range.min) / range.step);
+      const snapped = Math.min(range.max, range.min + steps * range.step);
+      return Number(snapped.toFixed(4));
+    };
+
+    const rarities = {};
+    config.construction.rarities.forEach((rarity) => {
+      const stored = storedRarities[rarity.id] ?? {};
+      rarities[rarity.id] = {
+        color: ConfigLoader.normalizeHexColor(stored.color, rarity.color),
+        accent: ConfigLoader.normalizeHexColor(stored.accent, rarity.accent),
+        symbol: ConfigLoader.normalizeGeneratedSymbol(stored.symbol, rarity.symbol),
+        symbolColor: ConfigLoader.normalizeHexColor(stored.symbolColor, rarity.symbolColor),
+      };
+    });
+
+    return {
+      animation: {
+        background: normalizeCardGenerateLayerSwitches(
+          animation.background,
+          defaults.animation.background
+        ),
+        underlay: normalizeCardGenerateLayerSwitches(
+          animation.underlay,
+          defaults.animation.underlay
+        ),
+        zoom: sanitizeNumber(animation.zoom, config.animation.zoom, defaults.animation.zoom),
+        blur: sanitizeNumber(animation.blur, config.animation.blur, defaults.animation.blur),
+      },
+      construction: {
+        borderWidth: sanitizeNumber(
+          construction.borderWidth,
+          config.construction.borderWidth,
+          defaults.construction.borderWidth
+        ),
+        headerHeight: sanitizeNumber(
+          construction.headerHeight,
+          config.construction.headerHeight,
+          defaults.construction.headerHeight
+        ),
+        bodyHeight: sanitizeNumber(
+          construction.bodyHeight,
+          config.construction.bodyHeight,
+          defaults.construction.bodyHeight
+        ),
+        rarities,
+      },
+    };
   }
 
   /**
@@ -565,14 +706,17 @@ export class AccountManager {
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean, boosterRenderMode: string, nativeScrollbars: boolean,
- *   announceChangelog: boolean}>} The stored preferences.
+   *   devMode: boolean, cardSource: string, animatedLayers: boolean,
+   *   animatedLayersSpeed: number, boosterRenderMode: string, nativeScrollbars: boolean,
+   *   announceChangelog: boolean}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
     const stored = await storageRepository.getUserState(USER_STATE_KEYS.SETTINGS);
     const defaults = await this.buildInitialSettings();
     const notificationSettings = await configLoader.getNotificationSettings();
+    const animatedLayersRange = await configLoader.getAnimatedLayersSettings();
+    const cardGenerateSettings = await configLoader.getCardGenerateSettings();
     const boosterRender = await configLoader.getBoosterRenderSettings();
     if (!stored || typeof stored !== 'object') return defaults;
 
@@ -630,6 +774,29 @@ export class AccountManager {
       // Same rule as the sounds: only an explicit `true` turns it on, so a missing key, an old save
       // or a corrupted value reads as "off" instead of surprising the player with developer tools.
       devMode: typeof stored.devMode === 'boolean' ? stored.devMode : defaults.devMode,
+      // An unknown source (a hand-edited save, a value removed from a later release) falls back to
+      // the final image, which is always available and is the historical behaviour.
+      cardSource: CARD_SOURCE_VALUES.includes(stored.cardSource)
+        ? stored.cardSource
+        : defaults.cardSource,
+      // Only an explicit `true` animates the generated card layers, so an older save or a corrupted
+      // value stays still instead of starting an animation nobody asked for.
+      animatedLayers:
+        typeof stored.animatedLayers === 'boolean'
+          ? stored.animatedLayers
+          : defaults.animatedLayers,
+      // The speed is independent of the switch: turning the animation off keeps the chosen pace for
+      // the next time it is turned on. A save written before the slider existed gets the default.
+      animatedLayersSpeed: AccountManager.sanitizeAnimatedLayersSpeed(
+        stored.animatedLayersSpeed,
+        animatedLayersRange
+      ),
+      // The generated card design is a per-account override of the `cardGenerate` block. Missing
+      // fields, old saves and hand-edited values are completed from the configuration.
+      cardGenerate: AccountManager.sanitizeCardGenerateSettings(
+        stored.cardGenerate,
+        cardGenerateSettings
+      ),
       // A mode removed from `config.json` (or a save written before the modes existed) falls back
       // to the configured default: an unknown id would leave the opening without a usable recipe.
       boosterRenderMode:
@@ -663,7 +830,8 @@ export class AccountManager {
    *
    * Only `lang`, `cardLang`, `theme`, `sound`, `soundCategories`, `animation`, `foilIntensity`,
    * `glareIntensity`, `glowTrophies`, `notificationDuration`, `notificationTypes`, `devMode`,
-   * `boosterRenderMode`, `nativeScrollbars` and `announceChangelog` are accepted;
+   * `cardSource`, `animatedLayers`, `animatedLayersSpeed`, `boosterRenderMode`, `nativeScrollbars`
+   * and `announceChangelog` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
@@ -674,13 +842,16 @@ export class AccountManager {
    *   soundCategories?: Record<string, {enabled: boolean, volume: number}>, animation?: string,
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
    *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
-   *   devMode?: boolean, nativeScrollbars?: boolean, announceChangelog?: boolean}} partialSettings
-   *   - Preferences to update.
+   *   devMode?: boolean, cardSource?: string, animatedLayers?: boolean,
+   *   animatedLayersSpeed?: number, nativeScrollbars?: boolean, announceChangelog?: boolean}}
+   *   partialSettings - Preferences to update.
    * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
-   *   devMode: boolean, nativeScrollbars: boolean, announceChangelog: boolean}>} The merged
+   *   devMode: boolean, cardSource: string, animatedLayers: boolean,
+   *   animatedLayersSpeed: number, nativeScrollbars: boolean,
+   *   announceChangelog: boolean}>} The merged
    *   settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
    * @throws {RangeError} When a provided value is not declared in `config.json`.
@@ -774,6 +945,32 @@ export class AccountManager {
       merged.devMode = devMode;
     }
 
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'cardSource')) {
+      const { cardSource } = partialSettings;
+      if (typeof cardSource !== 'string' || cardSource.trim() === '') {
+        throw new TypeError(
+          `settings.cardSource must be a non-empty string (received: ${JSON.stringify(cardSource)}).`
+        );
+      }
+      const normalized = cardSource.trim().toLowerCase();
+      if (!CARD_SOURCE_VALUES.includes(normalized)) {
+        throw new RangeError(
+          `Unknown card source "${cardSource}". Available: [${CARD_SOURCE_VALUES.join(', ')}].`
+        );
+      }
+      merged.cardSource = normalized;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'animatedLayers')) {
+      const { animatedLayers } = partialSettings;
+      if (typeof animatedLayers !== 'boolean') {
+        throw new TypeError(
+          `settings.animatedLayers must be a boolean (received: ${JSON.stringify(animatedLayers)}).`
+        );
+      }
+      merged.animatedLayers = animatedLayers;
+    }
+
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'nativeScrollbars')) {
       const { nativeScrollbars } = partialSettings;
       if (typeof nativeScrollbars !== 'boolean') {
@@ -826,6 +1023,49 @@ export class AccountManager {
       }
       // Clamped like the foil: the 0-5 range belongs to `config.json`.
       merged.glowTrophies = glowManager.sanitizeLevel(glowTrophies);
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'animatedLayersSpeed')) {
+      const { animatedLayersSpeed } = partialSettings;
+      if (typeof animatedLayersSpeed !== 'number' || !Number.isFinite(animatedLayersSpeed)) {
+        throw new TypeError(
+          `settings.animatedLayersSpeed must be a number (received: ${JSON.stringify(animatedLayersSpeed)}).`
+        );
+      }
+      const range = await configLoader.getAnimatedLayersSettings();
+      merged.animatedLayersSpeed = AccountManager.sanitizeAnimatedLayersSpeed(
+        animatedLayersSpeed,
+        range
+      );
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'cardGenerate')) {
+      const { cardGenerate } = partialSettings;
+      if (!cardGenerate || typeof cardGenerate !== 'object' || Array.isArray(cardGenerate)) {
+        throw new TypeError(
+          `settings.cardGenerate must be a plain object (received: ${JSON.stringify(cardGenerate)}).`
+        );
+      }
+      const config = await configLoader.getCardGenerateSettings();
+      // A PARTIAL object is accepted: the settings screen can save one slider without having to
+      // rebuild the whole design. The nested blocks are merged one level at a time so a partial
+      // `animation` or `rarities` map keeps the other current values.
+      merged.cardGenerate = AccountManager.sanitizeCardGenerateSettings(
+        {
+          ...merged.cardGenerate,
+          ...cardGenerate,
+          animation: { ...merged.cardGenerate.animation, ...cardGenerate.animation },
+          construction: {
+            ...merged.cardGenerate.construction,
+            ...cardGenerate.construction,
+            rarities: {
+              ...merged.cardGenerate.construction.rarities,
+              ...cardGenerate.construction?.rarities,
+            },
+          },
+        },
+        config
+      );
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'notificationDuration')) {

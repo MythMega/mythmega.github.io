@@ -505,6 +505,120 @@ body[data-connection="offline"] .settings__clock-value {
   display: none;
 }
 
+/* --- Card Generate sub-panels -------------------------------------------- */
+
+/* Nested under the developer panel: the two faces of the generated card are settings of their
+   own, and a row of tabs keeps the panel from becoming a wall of sliders. The buttons reuse the
+   shared `.settings__tab` look, only the strip is lighter than the page-level one. */
+.settings__subtabs {
+  display: flex;
+  gap: var(--space-1);
+  align-self: flex-start;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.settings__cardgen-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.settings__cardgen-panel[hidden] {
+  display: none;
+}
+
+.settings__cardgen-speeds {
+  align-self: flex-start;
+}
+
+.settings__cardgen-rarities {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.settings__rarity-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.settings__rarity-row h5 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+.settings__rarity-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-3);
+}
+
+.settings__rarity-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.settings__rarity-field-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.settings__rarity-color-controls {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.settings__rarity-color {
+  flex: 0 0 2.2rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+}
+
+.settings__rarity-hex,
+.settings__rarity-symbol {
+  min-width: 0;
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-size-sm);
+}
+
+.settings__rarity-symbol {
+  max-width: 8rem;
+}
+
+.settings__rarity-hex:focus-visible,
+.settings__rarity-symbol:focus-visible,
+.settings__rarity-color:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.settings__cardgen-reset {
+  align-self: flex-start;
+}
+
 /* --- Premium offer (`SettingsView`, "Premium" section) ------------------- */
 
 /* The offer reads as a single object: its price, what it grants, then the button that opens its

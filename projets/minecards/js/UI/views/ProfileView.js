@@ -109,6 +109,7 @@ import { TITLES_VIEW_NAME } from './TitlesView.js';
 import { TROPHIES_VIEW_NAME } from './TrophiesView.js';
 import Toast from '../components/Toast.js';
 import { getRarityLabel } from '../../classes/Card.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /** View name, matching `data-view="profile"` in `index.html`. */
 export const PROFILE_VIEW_NAME = 'profile';
@@ -1743,13 +1744,14 @@ export class ProfileView {
         button.setAttribute('aria-label', name);
         button.title = name;
 
-        const image = document.createElement('img');
-        image.className = 'profile-picker__image';
-        image.src = i18n.resolveImagePath(entry.card.illustration);
-        image.alt = '';
-        image.loading = 'lazy';
-        image.decoding = 'async';
-        image.setAttribute('aria-hidden', 'true');
+        const image = createCardVisual(entry.card, {
+          className: 'profile-picker__image',
+          alt: '',
+          ariaHidden: true,
+          mini: true,
+          loading: 'lazy',
+          decoding: 'async',
+        });
 
         const label = document.createElement('span');
         label.className = 'profile-picker__label';
@@ -1957,17 +1959,20 @@ export class ProfileView {
     open.title = name;
 
     if (card) {
-      const image = document.createElement('img');
-      image.className = 'profile__tile-image';
-      image.loading = 'lazy';
-      image.decoding = 'async';
-      image.src = i18n.resolveImagePath(card.illustration);
-      image.alt = '';
-      image.setAttribute('aria-hidden', 'true');
-      image.addEventListener('error', () => {
-        console.warn(`[ProfileView] Favourite illustration not found for "${key}": ${image.src}`);
-        image.hidden = true;
+      const image = createCardVisual(card, {
+        className: 'profile__tile-image',
+        alt: '',
+        ariaHidden: true,
+        mini: true,
+        loading: 'lazy',
+        decoding: 'async',
       });
+      if (image instanceof HTMLImageElement) {
+        image.addEventListener('error', () => {
+          console.warn(`[ProfileView] Favourite illustration not found for "${key}": ${image.src}`);
+          image.hidden = true;
+        });
+      }
       open.appendChild(image);
     }
 
@@ -2970,15 +2975,20 @@ export class ProfileView {
     this.modalBody.textContent = '';
 
     if (card) {
-      const image = document.createElement('img');
-      image.className = 'profile-modal__card';
-      image.decoding = 'async';
-      image.src = i18n.resolveImagePath(card.illustration);
-      image.alt = name;
-      image.addEventListener('error', () => {
-        console.warn(`[ProfileView] Detail illustration not found for "${key}": ${image.src}`);
-        image.hidden = true;
+      const image = createCardVisual(card, {
+        className: 'profile-modal__card',
+        alt: name,
+        mini: false,
+        animatedLayers: true,
+        loading: 'eager',
+        decoding: 'async',
       });
+      if (image instanceof HTMLImageElement) {
+        image.addEventListener('error', () => {
+          console.warn(`[ProfileView] Detail illustration not found for "${key}": ${image.src}`);
+          image.hidden = true;
+        });
+      }
       applyCardGlow(image, card);
       attachCardTilt(image);
       this.modalBody.appendChild(image);

@@ -25,6 +25,7 @@ import { USER_STATE_KEYS } from '../../business/AccountManager.js';
 import { giftManager, GIFT_TYPES, GIFT_CATEGORIES } from '../../business/GiftManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { applyCardGlow } from '../../utils/Shine.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /**
  * Identity of the panel. It is NOT a router view anymore: the gift history lives inside the
@@ -298,15 +299,18 @@ export class GiftsView {
 
     if (isCard && info.card) {
       applyCardGlow(item, info.card);
-      const image = document.createElement('img');
-      image.className = 'gifts__image';
-      image.loading = 'lazy';
-      image.src = i18n.resolveImagePath(info.card.illustration);
-      image.alt = info.card.getName(cardLanguage.getLang());
-      image.addEventListener('error', () => {
-        console.warn(`[GiftsView] Illustration not found for "${gift.key}": ${image.src}`);
-        image.hidden = true;
+      const image = createCardVisual(info.card, {
+        className: 'gifts__image',
+        alt: info.card.getName(cardLanguage.getLang()),
+        mini: true,
+        loading: 'lazy',
       });
+      if (image instanceof HTMLImageElement) {
+        image.addEventListener('error', () => {
+          console.warn(`[GiftsView] Illustration not found for "${gift.key}": ${image.src}`);
+          image.hidden = true;
+        });
+      }
       item.appendChild(image);
     }
 

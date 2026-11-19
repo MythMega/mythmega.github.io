@@ -24,6 +24,9 @@ import { compressJson, decompressJson } from '../js/utils/Compression.js';
 /** SHA-256 (hex) of the admin password, identical to `admin/index.html`. */
 const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
 
+/** Local-only development password, accepted only on the exact `localhost` host. */
+const LOCAL_SKIP_PASSWORD = '--skip';
+
 /** Root of the application, seen from the `admin/` directory. */
 const APP_ROOT = '../';
 
@@ -2395,6 +2398,11 @@ lockForm.addEventListener('submit', async (event) => {
   const typed = lockInput.value;
   if (typed === '') {
     setFeedback(lockFeedback, 'Saisissez le mot de passe.', 'error');
+    return;
+  }
+  if (typed === LOCAL_SKIP_PASSWORD && globalThis.location?.hostname === 'localhost') {
+    lockInput.value = '';
+    await unlockApp();
     return;
   }
   try {

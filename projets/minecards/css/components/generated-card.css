@@ -1,0 +1,412 @@
+/* =============================================================================
+   generated-card.css - A card rebuilt from its JSON data instead of its Path.
+
+   Loaded twice on purpose:
+     - by `index.html`, for the one document-level rule below;
+     - inside the shadow root of `<card-print>` (`js/UI/components/CardPrint.js`),
+       where the card maker's palette and layout come from `profile-card.css`.
+
+   The shadow copy overrides a handful of rules of `profile-card.css`: that file
+   draws the 360x500 account card of the profile page, while a generated game card
+   has to fill whatever box the game already gave its `<img>`.
+   ============================================================================= */
+
+/* A generated card paints its own foil and glare. The wrappers that call
+   `applyShine()` must therefore not paint a second one on top of it. The
+   `:has()` keeps the rule on the windows that actually contain a generated
+   card: the settings demo card and every other foil preview keep their own
+   shine while the generated source is active. */
+html[data-card-source='generate'] .card-shine:has(card-print)::before,
+html[data-card-source='generate'] .card-shine:has(card-print)::after,
+html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gleam {
+  display: none !important;
+}
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: transparent;
+  color: #fff;
+}
+
+:host([hidden]) {
+  display: none !important;
+}
+
+/* `profile-card.css` authors the card at 360x500 and the profile stage scales it.
+   Here the host is already the box the game reserved for the artwork. */
+.profile-card-root {
+  --card-width: 100%;
+  --card-height: 100%;
+  /* Construction values published on <html> by `CardGenerateManager`. The fallbacks are the
+     shipped design, so a card rendered before the account is read still has a complete frame. */
+  --border-thickness: var(--generated-card-border-width, 4px);
+  width: 100%;
+  height: 100%;
+  transform: none;
+  container-type: inline-size;
+}
+
+.profile-card-root .card-preview {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+}
+
+/* ----------------------------------------------------------------------------
+   Responsive type: the card's own width is the reference, so a thumbnail and the
+   large detail keep the same proportions. `profile-card.css` keeps owning the
+   palette, the frame and the two layouts.
+   ---------------------------------------------------------------------------- */
+.profile-card-root .card-preview .card-inner {
+  padding: 3.5cqw;
+}
+
+.profile-card-root .card-preview .card-header {
+  gap: 2cqw;
+  padding: 2cqw 3.4cqw;
+}
+
+.profile-card-root .card-preview .card-title-container {
+  gap: 0.5cqw;
+}
+
+.profile-card-root .card-preview .card-title {
+  font-size: 3.1cqw;
+  line-height: 1.15;
+  letter-spacing: 0.12cqw;
+}
+
+/* The card maker gives the classic header a fixed `0 12px` padding, which is written at a higher
+   specificity than the responsive `.card-header` rule above. On a 190px collection tile those 24
+   fixed pixels squeeze the title and the series into a visibly tighter column than on the 360px
+   profile card. Repeating the selector with the generated responsive padding keeps the miniature
+   proportional to the large printing. */
+.profile-card-root .card-preview.card-layout-classic .card-header {
+  padding-inline: 3.4cqw;
+}
+
+.profile-card-root .card-preview .card-series {
+  font-size: 2.05cqw;
+  line-height: 1.15;
+  letter-spacing: 0.12cqw;
+}
+
+.profile-card-root .card-preview .card-rarity {
+  font-size: 4.4cqw;
+}
+
+.profile-card-root .card-preview .card-body {
+  padding: 3.5cqw;
+}
+
+.profile-card-root .card-preview .card-text {
+  font-size: 2.55cqw;
+  line-height: 1.45;
+}
+
+/* A miniature keeps the proportions of the large printing, but at ~190px the pixel face loses a
+   little too much room to the frame. A small bump keeps the title and the series readable without
+   making the tile look like a different card. */
+@container (max-width: 220px) {
+  .profile-card-root .card-preview .card-title {
+    font-size: 3.35cqw;
+    line-height: 1.2;
+  }
+
+  .profile-card-root .card-preview .card-series {
+    font-size: 2.2cqw;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Construction: the two bands and the frame width are values of the
+   `cardGenerate.construction` block, published as custom properties. Only the
+   classic layout has fixed bands; a Full Art card keeps its own overlay.
+   ---------------------------------------------------------------------------- */
+.profile-card-root .card-preview.card-layout-classic .card-header {
+  height: calc(var(--card-height) * var(--generated-card-header-ratio, 0.1));
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-body {
+  height: calc(var(--card-height) * var(--generated-card-body-ratio, 0.5));
+}
+
+.profile-card-root .card-preview.card-layout-classic .card-art,
+.profile-card-root .card-preview.card-layout-classic .card-foil-bg,
+.profile-card-root .card-preview.card-layout-classic .card-underlay,
+.profile-card-root .card-preview.card-layout-classic .card-foil-underlay {
+  top: calc(var(--card-height) * var(--generated-card-header-ratio, 0.1));
+  bottom: calc(var(--card-height) * var(--generated-card-body-ratio, 0.5));
+}
+
+/* Rarity construction: the frame and the accent (the colour of the brilliance and of the badge
+   border) come from the per-rarity rows. `--rarity-text-color` and the title colours stay owned by
+   the card maker, so a colour change never makes a name unreadable. */
+.profile-card-root .rarity-common {
+  --rarity-border: var(--generated-rarity-1-color, #4a4a5a);
+  --rarity-accent: var(--generated-rarity-1-accent, #a0a0b0);
+}
+
+.profile-card-root .rarity-rare {
+  --rarity-border: var(--generated-rarity-2-color, #93b5c6);
+  --rarity-accent: var(--generated-rarity-2-accent, #4dd0e1);
+}
+
+.profile-card-root .rarity-super-rare {
+  --rarity-border: var(--generated-rarity-3-color, #a855f7);
+  --rarity-accent: var(--generated-rarity-3-accent, #c084fc);
+}
+
+.profile-card-root .rarity-legendary {
+  --rarity-border: var(--generated-rarity-4-color, #ffd700);
+  --rarity-accent: var(--generated-rarity-4-accent, #ffb300);
+}
+
+.profile-card-root .rarity-mythic {
+  --rarity-border: var(--generated-rarity-5-color, #ff2a8d);
+  --rarity-accent: var(--generated-rarity-5-accent, #00ffff);
+}
+
+.profile-card-root .rarity-unique {
+  --rarity-border: var(--generated-rarity-6-color, #c25700);
+  --rarity-accent: var(--generated-rarity-6-accent, #e58a2e);
+}
+
+/* The profile card confines the avatar to a band of its own. A game card shows
+   the JSON `Underlay` exactly like the card maker does: contained and centred. */
+.profile-card-root .card-preview .card-underlay,
+.profile-card-root .card-preview.card-layout-fullart .card-underlay {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ----------------------------------------------------------------------------
+   Foil: the two layers of the card maker, scaled by the player's foil setting.
+   `--foil-intensity` and `--glare-intensity` are published on <html> by
+   `FoilManager` and inherit through the shadow boundary.
+   ---------------------------------------------------------------------------- */
+.profile-card-root .card-preview .card-foil-bg {
+  opacity: calc(var(--foil-opacity) * var(--foil-bg-strength, 1.15) * var(--foil-intensity, 1));
+}
+
+.profile-card-root .card-preview .card-foil-underlay {
+  opacity: calc(
+    var(--foil-opacity) * var(--foil-underlay-strength, 0.6) * var(--foil-intensity, 1)
+  );
+}
+
+/* The single brilliance line. It is one element, like `.card-shine__gleam`, so
+   the two settings cannot paint two competing reflections. The final artwork
+   already bakes most of the reflection into the illustration, while a rebuilt
+   card draws the whole line live: the generated glare is therefore scaled to
+   34 % of its former strength, i.e. 66 % weaker at the same settings value. */
+.profile-card-root .card-preview .card-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: calc(var(--glare-strength, 0.8) * var(--glare-intensity, 1) * 0.34);
+  background-image: linear-gradient(
+    var(--glare-angle, 115deg),
+    transparent 38%,
+    var(--rarity-accent) 47%,
+    #fff 50%,
+    var(--rarity-accent) 53%,
+    transparent 62%
+  );
+  background-repeat: no-repeat;
+  /* 200 % plus 0 % -> 100 % keeps the line inside the card at both ends of its travel, like the
+     `.card-shine__gleam` of the image source. A wider plane that started and ended off-card spent
+     most of the animation invisible, which read as "the foil does nothing". */
+  background-size: 200% 100%;
+  background-position: 0% 0;
+  mix-blend-mode: screen;
+  animation: generated-card-glare 5.4s var(--easing-standard, ease-in-out) infinite alternate;
+}
+
+/* The line has its own base strength, like `--gleam-strength` of the image source: the two foil
+   layers answer to the foil slider, the line to the brillance one. Common cards carry no foil at
+   all, which is the card maker's own palette. */
+.profile-card-root .rarity-common {
+  --glare-strength: 0;
+}
+
+.profile-card-root .rarity-rare {
+  --glare-strength: 0.75;
+}
+
+.profile-card-root .rarity-super-rare {
+  --glare-strength: 0.8;
+}
+
+.profile-card-root .rarity-legendary {
+  --glare-strength: 0.92;
+}
+
+.profile-card-root .rarity-mythic {
+  --glare-strength: 0.88;
+}
+
+.profile-card-root .rarity-unique {
+  --glare-strength: 0.96;
+}
+
+/* Rare: a plain white reflection instead of the cyan accent of the frame. */
+.profile-card-root .rarity-rare .card-glare {
+  background-image: linear-gradient(
+    var(--glare-angle, 115deg),
+    transparent 38%,
+    rgb(255 255 255 / 55%) 46%,
+    #fff 50%,
+    rgb(255 255 255 / 55%) 54%,
+    transparent 62%
+  );
+}
+
+/* Mythic: a muted rainbow. The stops stay desaturated on purpose so the line reads as a soft
+   spectrum rather than the vivid cyan accent used by the frame. */
+.profile-card-root .rarity-mythic .card-glare {
+  background-image: linear-gradient(
+    var(--glare-angle, 115deg),
+    transparent 34%,
+    #b78f9a 41%,
+    #c2b18f 45%,
+    #93b39c 48%,
+    #8fa6bd 51%,
+    #a795b9 54%,
+    #bd95ae 58%,
+    transparent 66%
+  );
+}
+
+/* Unique: the burnt-orange family of the frame, from amber to a warm white core. */
+.profile-card-root .rarity-unique .card-glare {
+  background-image: linear-gradient(
+    var(--glare-angle, 115deg),
+    transparent 38%,
+    #ff8a1f 46%,
+    #ffc27a 49%,
+    #fff0d2 50%,
+    #ffad4d 52%,
+    #ff7a00 56%,
+    transparent 64%
+  );
+}
+
+/* The classic layout keeps its description block below the artwork: the reflection belongs to the
+   print, not to the text, so it stays in the same band as the two foil layers. */
+.profile-card-root .card-preview.card-layout-classic .card-glare {
+  top: calc(var(--card-height) * 0.1);
+  bottom: calc(var(--card-height) * 0.5);
+  height: auto;
+}
+
+@keyframes generated-card-glare {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Optional moving layers
+   `Animated layers` is a developer preference, off by default, and only the
+   detail popups and the booster reveals are allowed to move. The background
+   zooms out while the underlay zooms in, then both return; the background blurs
+   slightly at the deepest point of the zoom. Both layouts share the scale so a
+   Full Art card animates as clearly as a classic one. Thirty seconds at 100 %,
+   ease-in-out, forever.
+   ---------------------------------------------------------------------------- */
+/* Each layout owns its two switches: publishing them on the preview lets the animated rules below
+   stay layout-agnostic. `CardGenerateManager` writes the values on `<html>`. */
+.profile-card-root .card-preview.card-layout-classic {
+  --card-background-animation: var(--generated-card-classic-background-animation, generated-card-background);
+  --card-underlay-animation: var(--generated-card-classic-underlay-animation, generated-card-underlay-zoom);
+}
+
+.profile-card-root .card-preview.card-layout-fullart {
+  --card-background-animation: var(--generated-card-fullart-background-animation, generated-card-background);
+  --card-underlay-animation: var(--generated-card-fullart-underlay-animation, generated-card-underlay-zoom);
+}
+
+:host([animated-layers][animated-layers-view]:not([effects-off]))
+  .profile-card-root
+  .card-preview
+  .card-art {
+  transform-origin: center;
+  animation: generated-card-background var(--animated-layers-duration, 30s) ease-in-out infinite;
+  animation-name: var(--card-background-animation, generated-card-background);
+  /* `transform` rather than `background-size`: the compositor interpolates the already-rasterised
+     artwork, while a background-size animation repaints a new rasterisation on every frame and
+     makes the texture shimmer. */
+  will-change: transform, filter;
+}
+
+:host([animated-layers][animated-layers-view]:not([effects-off]))
+  .profile-card-root
+  .card-preview
+  .card-underlay {
+  transform-origin: center;
+  animation: generated-card-underlay-zoom var(--animated-layers-duration, 30s) ease-in-out infinite;
+  animation-name: var(--card-underlay-animation, generated-card-underlay-zoom);
+  /* No `image-rendering` override here: the underlay keeps the `pixelated` rendering declared by
+     `profile-card.css`. Smoothing a moving pixel-art layer is what read as a blur. */
+  will-change: transform;
+}
+
+@keyframes generated-card-background {
+  0%, 100% {
+    transform: scale(var(--generated-card-zoom, 1.1));
+    filter: blur(0);
+  }
+
+  50% {
+    transform: scale(1);
+    filter: blur(var(--generated-card-blur, 1.5px));
+  }
+}
+
+@keyframes generated-card-underlay-zoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(var(--generated-card-zoom, 1.1));
+  }
+}
+
+/* "Effets" switched off: the glare and the layer movement leave, the foil stays. */
+:host([effects-off]) .profile-card-root .card-preview .card-glare {
+  display: none;
+}
+
+/* A thumbnail is the artwork and its frame, never the wording: the texts come
+   back when the same card is opened large. */
+:host([mini]) .card-header,
+:host([mini]) .card-body {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-card-root .card-preview .card-glare {
+    animation: none;
+    background-position: 50% 0;
+  }
+
+  :host([animated-layers][animated-layers-view]) .profile-card-root .card-preview .card-art,
+  :host([animated-layers][animated-layers-view]) .profile-card-root .card-preview .card-underlay {
+    animation: none;
+    will-change: auto;
+  }
+
+}

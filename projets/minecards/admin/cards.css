@@ -3,8 +3,8 @@
 
    Loaded after admin.css: the tokens, password gate, fields and buttons come
    from there. This file only adds the wide table, the thumbnail grid and the
-   full-size preview. It loads no game stylesheet, so the tool cannot drift
-   with a theme change.
+   comparison preview. The generated cards keep their own game styles inside
+   their shadow root, so the rest of the tool still cannot drift with a theme.
    ============================================================================= */
 
 [hidden] { display: none !important; }
@@ -495,7 +495,7 @@
 
 #cards-table {
   width: 100%;
-  min-width: 1160px;
+  min-width: 1320px;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 0.9rem;
@@ -603,11 +603,16 @@
   outline-offset: 2px;
 }
 
-.thumb img {
+.thumb img,
+.thumb__card-print {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.thumb--generated {
+  cursor: zoom-in;
 }
 
 .thumb__lang {
@@ -682,7 +687,7 @@
 /* --- Lightbox -------------------------------------------------------------- */
 
 .lightbox {
-  width: min(960px, 94vw);
+  width: min(880px, 94vw);
   max-width: 94vw;
   max-height: 92vh;
   margin: auto;
@@ -741,15 +746,58 @@
   outline-offset: 1px;
 }
 
+.lightbox__comparison {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-4);
+  max-height: calc(92vh - 55px);
+  padding: var(--space-4);
+  overflow: auto;
+}
+
+.lightbox__panel {
+  flex: 0 1 360px;
+  min-width: 0;
+  margin: 0;
+}
+
+.lightbox__panel-title {
+  margin: 0 0 var(--space-2);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lightbox__media {
+  width: 100%;
+  aspect-ratio: 360 / 500;
+  overflow: hidden;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
 .lightbox__image {
   display: block;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: calc(92vh - 54px);
-  margin: 0 auto;
-  background-color: var(--bg);
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+}
+
+.lightbox__media--generated {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.lightbox__card-print {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 760px) {
@@ -815,6 +863,16 @@
 
   .table-card__head {
     padding: var(--space-3);
+  }
+
+  .lightbox__comparison {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .lightbox__panel {
+    flex: 0 0 auto;
+    width: min(360px, 100%);
   }
 
   .pagination {

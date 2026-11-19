@@ -19,6 +19,7 @@ import cardLanguage from '../../utils/CardLanguage.js';
 import { DEFAULT_TROPHY_ICON, resolveTrophyIcon } from '../../business/TrophyManager.js';
 import { TitleManager } from '../../business/TitleManager.js';
 import { applyCardGlow } from '../../utils/Shine.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /** Icon of the "pin this trophy" action. */
 export const TROPHY_PIN_ICON = 'assets/img/pin.png';
@@ -351,17 +352,20 @@ export class TrophyDetail {
       const card = entry.card;
       const name = card ? card.getName(cardLanguage.getLang()) : entry.index;
       if (card) {
-        const image = document.createElement('img');
-        image.className = 'trophy-card__image';
-        image.loading = 'lazy';
-        image.decoding = 'async';
-        image.src = i18n.resolveImagePath(card.illustration);
-        image.alt = '';
-        image.setAttribute('aria-hidden', 'true');
-        image.addEventListener('error', () => {
-          console.warn(`[TrophyDetail] Required card illustration not found for "${entry.index}": ${image.src}`);
-          image.hidden = true;
+        const image = createCardVisual(card, {
+          className: 'trophy-card__image',
+          alt: '',
+          ariaHidden: true,
+          mini: true,
+          loading: 'lazy',
+          decoding: 'async',
         });
+        if (image instanceof HTMLImageElement) {
+          image.addEventListener('error', () => {
+            console.warn(`[TrophyDetail] Required card illustration not found for "${entry.index}": ${image.src}`);
+            image.hidden = true;
+          });
+        }
         // Only the OWNED printing glows: a missing one is greyed out and must stay flat.
         if (entry.owned) applyCardGlow(image, card);
         item.appendChild(image);

@@ -38,6 +38,7 @@ import { getRarityLabel } from '../../classes/Card.js';
 import cardRoulettePopup from './CardRoulettePopup.js';
 import cardDetailPopup from './CardDetailPopup.js';
 import Toast from './Toast.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /** Class of the overlay, which is also a `.modal` for the shared dialog sounds. */
 export const DAILY_REWARD_CLASS = 'daily-reward';
@@ -541,12 +542,14 @@ export class DailyRewardPopup {
     button.setAttribute('aria-label', i18n.t('daily.card.open', { name }));
     button.title = button.getAttribute('aria-label');
 
-    const image = document.createElement('img');
-    image.className = `${DAILY_REWARD_CLASS}__detail-card-image`;
-    image.src = i18n.resolveImagePath(day.card.illustration);
-    image.alt = '';
-    image.loading = 'lazy';
-    image.decoding = 'async';
+    const image = createCardVisual(day.card, {
+      className: `${DAILY_REWARD_CLASS}__detail-card-image`,
+      alt: '',
+      ariaHidden: true,
+      mini: true,
+      loading: 'lazy',
+      decoding: 'async',
+    });
     button.appendChild(image);
     return button;
   }

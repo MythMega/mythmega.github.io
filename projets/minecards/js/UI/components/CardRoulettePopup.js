@@ -30,6 +30,7 @@ import { applyCardGlow } from '../../utils/Shine.js';
 import { setFocusMode } from '../../utils/FocusMode.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { preloadImages, isImageReady } from '../../utils/ImagePreloader.js';
+import { createCardVisual, replaceCardVisual } from '../../utils/CardSourceManager.js';
 
 /** Class of the overlay, which is also a `.modal` for the shared dialog sounds. */
 export const CARD_ROULETTE_CLASS = 'card-roulette';
@@ -317,13 +318,14 @@ export class CardRoulettePopup {
       const item = document.createElement('li');
       item.className = `${CARD_ROULETTE_CLASS}__tile`;
       applyCardGlow(item, card);
-      const image = document.createElement('img');
-      image.className = `${CARD_ROULETTE_CLASS}__tile-image`;
-      image.src = i18n.resolveImagePath(card.illustration);
-      image.alt = '';
-      image.loading = 'eager';
-      image.decoding = 'async';
-      image.setAttribute('aria-hidden', 'true');
+      const image = createCardVisual(card, {
+        className: `${CARD_ROULETTE_CLASS}__tile-image`,
+        alt: '',
+        ariaHidden: true,
+        mini: true,
+        loading: 'eager',
+        decoding: 'async',
+      });
       item.append(image);
       strip.append(item);
     });
@@ -347,8 +349,13 @@ export class CardRoulettePopup {
       applyCardGlow(reveal, winner);
     }
     if (image) {
-      image.src = i18n.resolveImagePath(winner.illustration);
-      image.alt = winner.getName(cardLanguage.getLang());
+      replaceCardVisual(image, winner, {
+        className: image.className,
+        alt: winner.getName(cardLanguage.getLang()),
+        mini: false,
+        loading: 'eager',
+        decoding: 'async',
+      });
     }
     if (name) name.textContent = winner.getName(cardLanguage.getLang());
     if (meta) {

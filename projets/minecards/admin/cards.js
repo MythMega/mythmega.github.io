@@ -13,8 +13,21 @@
  *   as its data file exists. A booster declares its cards under `Cards`, a promo file under `Card`.
  */
 
+import { Card } from '../js/classes/Card.js';
+import CardPrint from '../js/UI/components/CardPrint.js';
+import { storageRepository } from '../js/models/StorageRepository.js';
+import {
+  ConfigLoader,
+  buildCardGenerateDefaults,
+} from '../js/utils/ConfigLoader.js';
+import cardGenerateManager from '../js/utils/CardGenerateManager.js';
+import { resolveAnimatedLayersDuration } from '../js/utils/CardSourceManager.js';
+
 /** SHA-256 (hex) of the admin password, identical to the other admin pages. */
 const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
+
+/** Local-only development password, accepted only on the exact `localhost` host. */
+const LOCAL_SKIP_PASSWORD = '--skip';
 
 /** Catalogue of the declared sets (ids, release dates, promo flag). */
 const CARDSETS_PATH = '../settings/cardsets.json';
@@ -26,6 +39,9 @@ const CONFIG_PATH = '../settings/config.json';
 const DEFAULT_BOOSTER_DIRECTORY = 'data/boosters';
 const DEFAULT_PROMO_DIRECTORY = 'data/promo_cards';
 const DEFAULT_RARITY_PATH = 'settings/defaultRarity.json';
+
+/** `user_state` key of the account preferences (see `AccountManager`). */
+const SETTINGS_STATE_KEY = 'settings';
 
 /** Number of complete-collection simulations used by the booster analysis. */
 const SIMULATION_TRIALS = 2000;
@@ -55,6 +71,9 @@ const RARITY_LABELS = Object.freeze({
 
 /** Rarities proposed by the filter, from the most common to the rarest. */
 const RARITY_VALUES = Object.freeze([1, 2, 3, 4, 5, 6]);
+
+/** Whether the saved account asked the generated layers to move. */
+let animatedLayers = false;
 
 /** Sentinel of the "all cards on one page" page size. */
 const PAGE_SIZE_ALL = 'all';
@@ -150,7 +169,13 @@ const pageNext = document.getElementById('page-next');
 const pageLast = document.getElementById('page-last');
 const lightbox = document.getElementById('lightbox');
 const lightboxImage = document.getElementById('lightbox-image');
+const lightboxImageTitle = document.getElementById('lightbox-image-title');
+const lightboxGenerated = document.getElementById('lightbox-generated');
+const lightboxGeneratedTitle = document.getElementById('lightbox-generated-title');
 const lightboxCaption = document.getElementById('lightbox-caption');
+
+/** Reused generated card of the comparison dialog. @type {CardPrint|null} */
+let lightboxCardPrint = null;
 
 /* -------------------------------------------------------------------------- */
 /* Shared helpers                                                             */
@@ -221,6 +246,51 @@ async function fetchJson(path) {
     throw new Error(`Impossible de charger ${path} (HTTP ${response.status}).`);
   }
   return response.json();
+}
+
+/**
+ * Applies the generated-card design and the animation preference of the saved account.
+ *
+ * The admin browser reads the same IndexedDB account as the game. The configuration gives the
+ * shipped design; `settings.cardGenerate` is the per-account override, and `animatedLayers` / its
+ * speed decide whether the generated cards move. A missing account or an unavailable database is
+ * not fatal: the page keeps the configuration defaults.
+ *
+ * @returns {Promise<void>} Resolves once the runtime values are published.
+ */
+async function applySavedCardGenerate() {
+  const shippedConfig = ConfigLoader.normalizeCardGenerateSettings(config?.cardGenerate);
+  cardGenerateManager.applySettings(buildCardGenerateDefaults(shippedConfig));
+
+  let saved = null;
+  try {
+    saved = await storageRepository.getUserState(SETTINGS_STATE_KEY);
+  } catch (error) {
+    console.warn('[Admin cards] Saved account settings unavailable.', error);
+  }
+
+  if (saved?.cardGenerate) cardGenerateManager.applySettings(saved.cardGenerate);
+  animatedLayers = saved?.animatedLayers === true;
+  document.documentElement.dataset.animatedLayers = String(animatedLayers);
+  document.documentElement.style.setProperty(
+    '--animated-layers-duration',
+    `${resolveAnimatedLayersDuration(saved?.animatedLayersSpeed)}s`
+  );
+}
+
+/**
+ * Lets one of the admin's generated cards follow the saved animation preference.
+ *
+ * The comparison table and the lightbox are both "detail" surfaces: when the account asked for
+ * moving layers, they animate just like a card detail of the game.
+ *
+ * @param {CardPrint} print - Generated card.
+ * @returns {CardPrint} The same card.
+ */
+function applyCardPrintAnimation(print) {
+  print.setAnimatedLayers(animatedLayers);
+  print.setAnimatedLayersView(animatedLayers);
+  return print;
 }
 
 /**
@@ -368,11 +438,16 @@ function buildRarityFilter() {
 /**
  * Normalises one card entry from a booster or promo file.
  *
+ * The table keeps the raw entry's generated counterpart alongside its view model. Building it can
+ * fail for a malformed catalogue entry, which must never hide the image thumbnails: the generated
+ * cell simply shows a dash in that case.
+ *
  * @param {object} card - Raw card declared in the JSON.
  * @param {number} index - Position in the source file, zero-based.
+ * @param {string} setId - Extension owning the card.
  * @returns {object} The view model used by the table.
  */
-function normalizeCard(card, index) {
+function normalizeCard(card, index, setId) {
   const num = index + 1;
   const cardIndex = typeof card?.Index === 'string' && card.Index.trim() !== '' ? card.Index.trim() : '-';
   const nameFr = typeof card?.Name_FR === 'string' && card.Name_FR.trim() !== '' ? card.Name_FR.trim() : '';
@@ -381,6 +456,16 @@ function normalizeCard(card, index) {
   const rarity = Number.isInteger(parsedRarity) ? parsedRarity : 0;
   const rarityLabel = RARITY_LABELS[rarity] ?? '-';
   const layout = typeof card?.Layout === 'string' ? card.Layout : '';
+
+  let generatedCard = null;
+  let generatedError = '';
+  try {
+    generatedCard = Card.fromSetEntry(card, { set: setId });
+  } catch (error) {
+    generatedError = error instanceof Error ? error.message : String(error);
+    console.warn(`[Admin cards] Generated card unavailable for ${cardIndex}.`, error);
+  }
+
   return {
     num,
     index: cardIndex,
@@ -391,6 +476,8 @@ function normalizeCard(card, index) {
     layout,
     frImage: resolveImagePath(card?.Path, 'fr'),
     enImage: resolveImagePath(card?.Path, 'en'),
+    generatedCard,
+    generatedError,
     searchText: normalizeText([num, cardIndex, nameFr, nameEn, rarityLabel, layout].join(' ')),
   };
 }
@@ -437,7 +524,7 @@ async function loadSource() {
         ? data.Card
         : [];
     state.source = { kind, id, data };
-    state.cards = rawCards.map(normalizeCard);
+    state.cards = rawCards.map((card, index) => normalizeCard(card, index, id));
     state.simulationRarities = new Set(
       state.cards.map((card) => card.rarity).filter((rarity) => Number.isInteger(rarity) && rarity > 0),
     );
@@ -1108,7 +1195,7 @@ function renderSimulation() {
 function setTablePlaceholder(message) {
   const row = document.createElement('tr');
   const cell = document.createElement('td');
-  cell.colSpan = 7;
+  cell.colSpan = 8;
   cell.className = 'table-placeholder';
   cell.textContent = message;
   row.append(cell);
@@ -1164,8 +1251,8 @@ function buildImageCell(card, language) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'thumb';
-  button.title = `Agrandir l’image ${language.toUpperCase()} de ${card.nameFr}`;
-  button.setAttribute('aria-label', `Agrandir l’image ${language.toUpperCase()} de ${card.nameFr}`);
+  button.title = `Comparer l’image ${language.toUpperCase()} et la carte générée de ${card.nameFr}`;
+  button.setAttribute('aria-label', `Comparer l’image ${language.toUpperCase()} et la carte générée de ${card.nameFr}`);
 
   const image = document.createElement('img');
   image.src = source;
@@ -1185,6 +1272,45 @@ function buildImageCell(card, language) {
   tag.textContent = language.toUpperCase();
   button.append(image, tag);
   button.addEventListener('click', () => openLightbox(card, language));
+  cell.append(button);
+  return cell;
+}
+
+/**
+ * Builds the generated counterpart of a card for the comparison table.
+ *
+ * The card is rendered at the same size as the two image thumbnails and with its texts, so the
+ * admin can compare the built card with the final artwork directly in the row.
+ *
+ * @param {object} card - Normalised card.
+ * @returns {HTMLTableCellElement} The table cell.
+ */
+function buildGeneratedCell(card) {
+  const cell = document.createElement('td');
+  cell.className = 'image-cell generated-cell';
+  if (!card.generatedCard) {
+    cell.textContent = '-';
+    if (card.generatedError) cell.title = card.generatedError;
+    return cell;
+  }
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'thumb thumb--generated';
+  button.title = `Comparer l’image FR et la carte générée de ${card.nameFr}`;
+  button.setAttribute('aria-label', `Comparer l’image FR et la carte générée de ${card.nameFr}`);
+
+  const generated = new CardPrint();
+  generated.className = 'thumb__card-print';
+  generated.setAttribute('aria-hidden', 'true');
+  generated.setCard(card.generatedCard, { mini: false, lang: 'fr' });
+  applyCardPrintAnimation(generated);
+
+  const tag = document.createElement('span');
+  tag.className = 'thumb__lang';
+  tag.textContent = 'GÉN';
+  button.append(generated, tag);
+  button.addEventListener('click', () => openLightbox(card, 'fr'));
   cell.append(button);
   return cell;
 }
@@ -1236,6 +1362,7 @@ function buildRow(card) {
     rarityCell,
     buildImageCell(card, 'fr'),
     buildImageCell(card, 'en'),
+    buildGeneratedCell(card),
   );
   return row;
 }
@@ -1286,18 +1413,48 @@ function render() {
 }
 
 /**
- * Opens the full-size preview of one card image.
+ * Returns the generated card reused by the comparison dialog.
+ *
+ * @returns {CardPrint} The card element.
+ */
+function getLightboxCardPrint() {
+  if (!lightboxCardPrint) {
+    lightboxCardPrint = new CardPrint();
+    lightboxCardPrint.className = 'lightbox__card-print';
+    // The dialog captions already name both cards: the print itself is decorative there.
+    lightboxCardPrint.setAttribute('aria-hidden', 'true');
+    applyCardPrintAnimation(lightboxCardPrint);
+  }
+  return lightboxCardPrint;
+}
+
+/**
+ * Opens the side-by-side comparison of one image and its generated card.
  *
  * @param {object} card - Normalised card.
- * @param {'fr'|'en'} language - Image language.
+ * @param {'fr'|'en'} language - Language of the image and of the generated texts.
  * @returns {void}
  */
 function openLightbox(card, language) {
   const source = language === 'fr' ? card.frImage : card.enImage;
   if (source === '') return;
+  const tag = language.toUpperCase();
+
   lightboxImage.src = source;
-  lightboxImage.alt = `Carte ${language.toUpperCase()} : ${card.nameFr}`;
-  lightboxCaption.textContent = `${language.toUpperCase()} · ${card.nameFr} · ${card.index}`;
+  lightboxImage.alt = `Carte ${tag} : ${card.nameFr}`;
+  lightboxImageTitle.textContent = `Image source ${tag}`;
+  lightboxGeneratedTitle.textContent = `Carte générée ${tag}`;
+
+  if (card.generatedCard) {
+    const generated = getLightboxCardPrint();
+    generated.setCard(card.generatedCard, { mini: false, lang: language });
+    applyCardPrintAnimation(generated);
+    lightboxGenerated.replaceChildren(generated);
+  } else {
+    lightboxGenerated.replaceChildren('Carte générée indisponible');
+  }
+
+  lightboxCaption.textContent = `${card.nameFr} · ${card.index} · image source et carte reconstruite`;
   if (!lightbox.open) lightbox.showModal();
 }
 
@@ -1391,6 +1548,7 @@ async function unlockApp() {
     if (config.sets.length === 0) {
       throw new Error('Aucun set déclaré dans settings/cardsets.json.');
     }
+    await applySavedCardGenerate();
     try {
       defaultRarityTable = await fetchJson(
         projectFileUrl(config?.boosters?.rarityConfigPath, DEFAULT_RARITY_PATH),
@@ -1418,6 +1576,11 @@ lockForm.addEventListener('submit', async (event) => {
   const typed = lockInput.value;
   if (typed === '') {
     setFeedback(lockFeedback, 'Saisissez le mot de passe.', 'error');
+    return;
+  }
+  if (typed === LOCAL_SKIP_PASSWORD && globalThis.location?.hostname === 'localhost') {
+    lockInput.value = '';
+    await unlockApp();
     return;
   }
   try {

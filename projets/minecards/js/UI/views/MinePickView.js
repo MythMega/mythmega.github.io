@@ -53,6 +53,7 @@ import CardComponent, { applyCardGlow } from '../components/CardComponent.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import animationManager from '../../utils/AnimationManager.js';
 import { setFocusMode } from '../../utils/FocusMode.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 
 /** View name, matching `data-view="minepick"` in `index.html`. */
 export const MINE_PICK_VIEW_NAME = 'minepick';
@@ -581,12 +582,14 @@ export class MinePickView {
     if (kept) item.classList.add('is-kept');
     if (discarded) item.classList.add('is-discarded');
 
-    const image = document.createElement('img');
-    image.className = 'minepick__mini-image';
-    image.src = i18n.resolveImagePath(card.illustration);
-    image.alt = this.describeCard(card);
-    image.loading = 'lazy';
-    image.decoding = 'async';
+    const image = createCardVisual(card, {
+      className: 'minepick__mini-image',
+      alt: this.describeCard(card),
+      // Mine Pick shows cards, not textless thumbnails, even in the compact history.
+      mini: false,
+      loading: 'lazy',
+      decoding: 'async',
+    });
     item.appendChild(image);
 
     // "NOT OWNED": the same corner ribbon as the "NEW" badge of an opening, so the player reads
@@ -798,8 +801,11 @@ export class MinePickView {
         isNew: false,
         isUnowned: this.isCardUnowned(card),
         flipOnClick: false,
+        animatedLayers: true,
       });
       const element = component.render();
+      // Every card of the Mine Pick workflow keeps its texts, stage included.
+      component.setMini(false);
       element.dataset.minepickCard = String(cardIndex);
       // The rarity is duplicated on the stage element as a plain class: the ring of the card is
       // drawn by `minepick.css`, which must not have to know the internal classes of `CardComponent`.

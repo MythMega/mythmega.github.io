@@ -38,6 +38,7 @@ import glowManager from './utils/GlowManager.js';
 import boosterRenderManager from './utils/BoosterRenderManager.js';
 import cardSourceManager from './utils/CardSourceManager.js';
 import cardGenerateManager from './utils/CardGenerateManager.js';
+import developerAccess from './utils/DeveloperAccess.js';
 import scrollHint from './utils/ScrollHint.js';
 import soundManager from './utils/SoundManager.js';
 import { startUiSounds } from './utils/UiSounds.js';
@@ -515,7 +516,13 @@ export class App {
     // before the source manager builds the first card, so no tile is ever drawn with the fallback
     // colours of a previous session.
     cardGenerateManager.applySettings(settings.cardGenerate);
-    cardSourceManager.applySettings(settings);
+    // Advanced developer options are effective only for an account on the shipped allowlist.
+    // Checking here keeps a stale or imported `advancedDevMode` from generating cards before the
+    // settings screen is opened.
+    const advancedDevMode =
+      settings.advancedDevMode === true &&
+      (await developerAccess.isAdvancedDeveloper(await accountManager.getUuid()));
+    cardSourceManager.applySettings({ ...settings, advancedDevMode });
     // Trophy glow: a level outside the declared range is clamped by the manager, so an obsolete
     // preference can never blow the halos up (or hide them for good).
     glowManager.applyLevel(settings.glowTrophies);

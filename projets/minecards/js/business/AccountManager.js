@@ -13,7 +13,7 @@
  *   - `settings`  : { lang, cardLang, theme, sound, soundCategories, animation, foilIntensity,
  *                   glareIntensity, glowTrophies, notificationDuration, notificationTypes,
  *                   boosterRenderMode, cardSource, animatedLayers, animatedLayersSpeed,
- *                   nativeScrollbars }
+ *                   advancedDevMode, nativeScrollbars }
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, godpacksOpened, boostersOpenedBySet, drawsByRarity,
  *                   drawsByCard, soldByRarity, questsCompleted, daysConnected, cardsSold,
@@ -307,14 +307,15 @@ export class AccountManager {
    *   notificationTypes?: Record<string, boolean>|null, devMode?: boolean|null,
    *   cardSource?: string|null, animatedLayers?: boolean|null,
    *   animatedLayersSpeed?: number|null, cardGenerate?: object|null,
-   *   boosterRenderMode?: string|null}} [overrides] -
+   *   advancedDevMode?: boolean|null, boosterRenderMode?: string|null}} [overrides] -
    *   Requested preferences.
    * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
    *   devMode: boolean, cardSource: string, animatedLayers: boolean,
-   *   animatedLayersSpeed: number, cardGenerate: object, boosterRenderMode: string}>} Validated preferences.
+   *   animatedLayersSpeed: number, cardGenerate: object, advancedDevMode: boolean,
+   *   boosterRenderMode: string}>} Validated preferences.
    * @throws {Error} When `config.json` cannot be loaded.
    */
   async buildInitialSettings(overrides = {}) {
@@ -443,6 +444,9 @@ export class AccountManager {
       animatedLayers: overrides.animatedLayers === true,
       animatedLayersSpeed,
       cardGenerate,
+      // The advanced developer options are a separate privilege. The allowlist is checked by the
+      // settings screen and at boot; the account only stores the requested switch.
+      advancedDevMode: overrides.advancedDevMode === true,
       boosterRenderMode,
       nativeScrollbars: overrides.nativeScrollbars === true,
       // Quest guidance is ON by default: "Y aller" walks the player through the screens instead of
@@ -707,8 +711,8 @@ export class AccountManager {
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
    *   devMode: boolean, cardSource: string, animatedLayers: boolean,
-   *   animatedLayersSpeed: number, boosterRenderMode: string, nativeScrollbars: boolean,
-   *   announceChangelog: boolean}>} The stored preferences.
+   *   animatedLayersSpeed: number, advancedDevMode: boolean, boosterRenderMode: string,
+   *   nativeScrollbars: boolean, announceChangelog: boolean}>} The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -785,6 +789,12 @@ export class AccountManager {
         typeof stored.animatedLayers === 'boolean'
           ? stored.animatedLayers
           : defaults.animatedLayers,
+      // The advanced mode is a stored request; the allowlist is enforced by the settings screen and
+      // by the boot path before it is allowed to affect the card source.
+      advancedDevMode:
+        typeof stored.advancedDevMode === 'boolean'
+          ? stored.advancedDevMode
+          : defaults.advancedDevMode,
       // The speed is independent of the switch: turning the animation off keeps the chosen pace for
       // the next time it is turned on. A save written before the slider existed gets the default.
       animatedLayersSpeed: AccountManager.sanitizeAnimatedLayersSpeed(
@@ -830,8 +840,8 @@ export class AccountManager {
    *
    * Only `lang`, `cardLang`, `theme`, `sound`, `soundCategories`, `animation`, `foilIntensity`,
    * `glareIntensity`, `glowTrophies`, `notificationDuration`, `notificationTypes`, `devMode`,
-   * `cardSource`, `animatedLayers`, `animatedLayersSpeed`, `boosterRenderMode`, `nativeScrollbars`
-   * and `announceChangelog` are accepted;
+   * `cardSource`, `animatedLayers`, `animatedLayersSpeed`, `advancedDevMode`, `boosterRenderMode`,
+   * `nativeScrollbars` and `announceChangelog` are accepted;
    * unknown keys are ignored. Values are validated against `config.json` as soon as the corresponding
    * lists are loaded, so a typo cannot silently break the next startup. Applying the new values
    * (calling `I18n.setLang`, `ThemeManager.applyTheme`, `SoundManager.setEnabled`,
@@ -843,14 +853,14 @@ export class AccountManager {
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
    *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
    *   devMode?: boolean, cardSource?: string, animatedLayers?: boolean,
-   *   animatedLayersSpeed?: number, nativeScrollbars?: boolean, announceChangelog?: boolean}}
-   *   partialSettings - Preferences to update.
+   *   animatedLayersSpeed?: number, advancedDevMode?: boolean, nativeScrollbars?: boolean,
+   *   announceChangelog?: boolean}} partialSettings - Preferences to update.
    * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
    *   devMode: boolean, cardSource: string, animatedLayers: boolean,
-   *   animatedLayersSpeed: number, nativeScrollbars: boolean,
+   *   animatedLayersSpeed: number, advancedDevMode: boolean, nativeScrollbars: boolean,
    *   announceChangelog: boolean}>} The merged
    *   settings.
    * @throws {TypeError} When the argument or a provided value is invalid.
@@ -959,6 +969,16 @@ export class AccountManager {
         );
       }
       merged.cardSource = normalized;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'advancedDevMode')) {
+      const { advancedDevMode } = partialSettings;
+      if (typeof advancedDevMode !== 'boolean') {
+        throw new TypeError(
+          `settings.advancedDevMode must be a boolean (received: ${JSON.stringify(advancedDevMode)}).`
+        );
+      }
+      merged.advancedDevMode = advancedDevMode;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'animatedLayers')) {

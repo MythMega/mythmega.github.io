@@ -18,6 +18,14 @@
 <div class="container">
   <!-- Formulaire -->
   <div class="form-container">
+    <div class="import-control">
+      <button id="import-btn" type="button" class="btn-secondary" aria-haspopup="menu" aria-expanded="false" aria-controls="import-menu">Import</button>
+      <div id="import-menu" class="import-menu" role="menu" aria-labelledby="import-btn" hidden>
+        <button type="button" role="menuitem" data-import-mode="existing">Existing</button>
+        <button type="button" role="menuitem" data-import-mode="code">Code</button>
+      </div>
+    </div>
+
     <div class="form-group">
       <label for="input-title">Nom de la carte</label>
       <input type="text" id="input-title" value="Dragon Céleste" placeholder="Ex: Dragon Céleste">
@@ -147,6 +155,85 @@
     </div>
   </div>
 </div>
+
+<!-- Import depuis les données du jeu : soit un fichier booster/promo existant, soit une
+     entrée JSON collée directement. Les dialogues restent dans la page pour que les scripts
+     historiques (aperçu, copie du JSON) n'aient pas à connaître leur existence. -->
+<dialog id="import-existing-dialog" class="import-dialog" aria-labelledby="import-existing-title">
+  <div class="import-dialog__layout">
+    <header class="import-dialog__header">
+      <div>
+        <h2 id="import-existing-title">Importer une carte existante</h2>
+        <p>Choisissez un fichier de <code>minecards/data</code>, puis recherchez une carte par nom FR, nom EN ou index.</p>
+      </div>
+      <button type="button" class="import-dialog__close" data-import-close="existing" aria-label="Fermer">×</button>
+    </header>
+
+    <div class="import-dialog__body">
+      <div class="import-filters">
+        <div class="import-field">
+          <label for="import-source">Fichier source</label>
+          <select id="import-source">
+            <option value="boosters/A1.json">Boosters · Genesis Blocks (A1)</option>
+            <option value="boosters/A2.json">Boosters · Melting Ground (A2)</option>
+            <option value="promo_cards/A1.json">Promo cards · A1</option>
+            <option value="promo_cards/A2.json">Promo cards · A2</option>
+          </select>
+        </div>
+        <div class="import-field">
+          <label for="import-search">Recherche</label>
+          <input id="import-search" type="search" placeholder="Nom FR, nom EN ou index…" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="import-results-head">
+        <span id="import-existing-status" class="import-status">Chargement…</span>
+        <span id="import-existing-count" class="import-count"></span>
+      </div>
+      <div id="import-results" class="import-results" role="listbox" aria-label="Cartes du fichier source"></div>
+    </div>
+
+    <footer class="import-dialog__footer">
+      <button type="button" class="btn-secondary" data-import-close="existing">Annuler</button>
+      <button type="button" id="import-existing-submit" disabled>Importer la carte</button>
+    </footer>
+  </div>
+</dialog>
+
+<dialog id="import-code-dialog" class="import-dialog" aria-labelledby="import-code-title">
+  <div class="import-dialog__layout">
+    <header class="import-dialog__header">
+      <div>
+        <h2 id="import-code-title">Importer une entrée JSON</h2>
+        <p>Collez une seule entrée de la liste <code>Cards</code> / <code>Card</code>. Les champs Index, noms, descriptions, rareté, style, images et layout sont repris.</p>
+      </div>
+      <button type="button" class="import-dialog__close" data-import-close="code" aria-label="Fermer">×</button>
+    </header>
+
+    <div class="import-dialog__body">
+      <label class="import-code-label" for="import-code-input">Entrée JSON</label>
+      <textarea id="import-code-input" class="import-code-input" rows="14" spellcheck="false" placeholder='{
+  "Index": "SERIE-A1 / W001",
+  "Name_FR": "Laine blanche",
+  "Name_EN": "White Wool",
+  "Desc_FR": "…",
+  "Desc_EN": "…",
+  "Rarity": 1,
+  "Style": "Press Start 2P (Pixel)",
+  "Background": "https://…",
+  "Underlay": "https://…",
+  "Layout": "classic",
+  "Path": null
+}'></textarea>
+      <p id="import-code-error" class="import-error" role="alert" hidden></p>
+    </div>
+
+    <footer class="import-dialog__footer">
+      <button type="button" class="btn-secondary" data-import-close="code">Annuler</button>
+      <button type="button" id="import-code-submit">Importer la carte</button>
+    </footer>
+  </div>
+</dialog>
 
 <script src="./js/render/FontEmbedder.js"></script>
 <script src="./js/render/SvgDomRenderer.js"></script>

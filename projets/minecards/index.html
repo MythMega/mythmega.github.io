@@ -1970,16 +1970,29 @@
 
         <div class="settings__tabpanel" id="settings-panel-account" role="tabpanel"
              aria-labelledby="settings-tab-account" data-settings-tabpanel="account">
-          <!-- Developer mode: one boolean preference. When it is on, the detail of a card in the
-               collection shows its key and a button copying it (CollectionView reads the setting on
-               every opening, so the switch takes effect without a reload). -->
+          <!-- Developer mode: the normal level. When it is on, the booster render picker appears and
+               the detail of a card in the collection shows its key with a copy button
+               (CollectionView reads the setting on every opening, so the switch takes effect
+               without a reload). -->
           <section class="panel settings__panel">
             <h3 class="settings__title" data-i18n="settings.dev.title">Mode développeur</h3>
             <button type="button" class="switch" data-settings-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.dev.title">
               <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
               <span class="switch__state" data-settings-dev-state></span>
             </button>
-            <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Affiche, dans la collection, l'identifiant technique de la carte ouverte et un bouton pour le copier.</p>
+            <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Débloque le choix du rendu des boosters, ainsi que l'identifiant technique des cartes dans la collection et son bouton de copie.</p>
+          </section>
+
+          <!-- Advanced developer mode: hidden until the normal developer mode is on. Checking it
+               verifies the account UUID against `developpers.json`, then unlocks Card Generate.
+               An unauthorized account gets an explanation modal and the switch stays off. -->
+          <section class="panel settings__panel" data-settings-advanced-dev-panel hidden>
+            <h3 class="settings__title" data-i18n="settings.advancedDev.title">Options développeur avancées</h3>
+            <button type="button" class="switch" data-settings-advanced-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.advancedDev.title">
+              <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+              <span class="switch__state" data-settings-advanced-dev-state></span>
+            </button>
+            <p class="settings__help" data-info-hint="settings-advanced-dev" data-i18n="settings.advancedDev.help">Débloque Card Generate : source générée, animation et construction des cartes. Accès réservé aux personnes ajoutées manuellement à la liste des développeurs.</p>
           </section>
 
           <!-- Booster rendering: a developer tool, hidden unless the switch above is on. The choices
@@ -1992,16 +2005,16 @@
             <p class="settings__help" data-settings-render-detail></p>
           </section>
 
-          <!-- Card Generate: a developer module, hidden unless the switch above is on.
-               `image` keeps the final image written in `Path`; `generate` rebuilds every card from
-               its JSON fields and opens the Animation and Construction panels below. The module
-               values and their defaults live in `settings/config.json` (`cardGenerate`), the
+          <!-- Card Generate: an advanced developer module, hidden unless both switches above are
+               on. `image` keeps the final image written in `Path`; `generate` rebuilds every card
+               from its JSON fields and opens the Animation and Construction panels below. The
+               module values and their defaults live in `settings/config.json` (`cardGenerate`), the
                runtime is applied by `CardGenerateManager`, and the pickers, rarity rows and
                sliders are built by SettingsView. -->
           <section class="panel settings__panel settings__panel--wide" data-settings-card-source-panel hidden>
             <h3 class="settings__title" data-i18n="settings.cardGenerate.title">Card Generate</h3>
             <div class="lang-switch settings__choices" data-settings-card-source role="group" data-i18n-aria-label="settings.cardGenerate.title" aria-label="Card Generate"></div>
-            <p class="settings__help" data-i18n="settings.cardSource.help">Mode développeur : construisez la carte à partir de ses données JSON, ou gardez l'image finale.</p>
+            <p class="settings__help" data-i18n="settings.cardSource.help">Mode développeur avancé : construisez la carte à partir de ses données JSON, ou gardez l'image finale.</p>
 
             <div data-settings-cardgen-content hidden>
               <div class="settings__subtabs" role="tablist" data-settings-cardgen-tabs aria-label="Card Generate" data-i18n-aria-label="settings.cardGenerate.tabs">

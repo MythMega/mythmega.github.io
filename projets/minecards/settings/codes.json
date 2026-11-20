@@ -147,5 +147,30 @@
             "StartDate": null,
             "EndDate": "2026-11-02"
         }
+    },
+    {
+        "Code": "TDOR2K26",
+        "Rewards": [
+            {
+                "RewardType": "Card",
+                "Quantity": 1,
+                "ItemId": "PROMO-A1 / E02",
+                "PreferedLayout": null
+            }
+        ],
+        "Repeatable": false,
+        "AutoClaim": {
+            "Auto": true,
+            "RequiredLevel": 1,
+            "RequiredOpenBoosterStats" : 3,
+            "CustomMessage": {
+                "FR": null,
+                "EN": null
+            }
+        },
+        "Availabilities" : {
+            "StartDate": null,
+            "EndDate": "2026-11-23"
+        }
     }
 ]

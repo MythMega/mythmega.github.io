@@ -126,3 +126,16 @@ test('an old account is migrated and its layer switches persist', async () => {
     fullart: true,
   });
 });
+
+test('the advanced developer switch defaults off and persists', async () => {
+  resetStorage();
+
+  assert.equal((await accountManager.getSettings()).advancedDevMode, false);
+
+  await accountManager.updateSettings({ advancedDevMode: true });
+  assert.equal(readState(USER_STATE_KEYS.SETTINGS).advancedDevMode, true);
+  assert.equal((await accountManager.getSettings()).advancedDevMode, true);
+
+  await accountManager.updateSettings({ advancedDevMode: false });
+  assert.equal((await accountManager.getSettings()).advancedDevMode, false);
+});

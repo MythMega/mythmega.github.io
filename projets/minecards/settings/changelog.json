@@ -686,5 +686,39 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 10,
+        "Version": "1.0.9",
+        "Titles": {
+            "Fr": "La Dev Update",
+            "En": "The Dev Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Beaucoup de nouvelles options développeurs.",
+                    "En": "Many new developer options."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Changement du moteur de rendu des cartes (WIP).",
+                    "En": "Card rendering engine change (WIP)."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Amélioration globale du générateur de carte.",
+                    "En": "Overall improvement of the card generator."
+                }
+            }
+        ]
     }
 ]

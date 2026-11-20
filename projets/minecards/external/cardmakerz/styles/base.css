@@ -493,3 +493,283 @@
       position: relative;
       z-index: 2;
     }
+
+    /* =====================================================================
+       IMPORT
+       Menu à deux choix (Existing / Code) et dialogues de sélection. Les
+       dialogues reprennent le fond sombre du formulaire et restent utilisables
+       sur un écran étroit.
+       ===================================================================== */
+
+    .import-control {
+      position: relative;
+    }
+
+    .import-control > button {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .import-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px;
+      background: #2a2a35;
+      border: 1px solid #4a4a5e;
+      border-radius: 8px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+    }
+
+    .import-menu[hidden] {
+      display: none;
+    }
+
+    .import-menu button {
+      margin: 0;
+      padding: 9px 10px;
+      background: transparent;
+      color: #e6e6ee;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    .import-menu button:hover {
+      background: #3f3f50;
+    }
+
+    .import-dialog {
+      width: min(680px, calc(100vw - 32px));
+      max-width: 680px;
+      max-height: min(82vh, 760px);
+      padding: 0;
+      border: 1px solid #3f3f50;
+      border-radius: 12px;
+      background: #1e1e24;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+    }
+
+    .import-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(3px);
+    }
+
+    .import-dialog__layout {
+      display: flex;
+      flex-direction: column;
+      max-height: min(82vh, 760px);
+    }
+
+    .import-dialog__header,
+    .import-dialog__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+    }
+
+    .import-dialog__header {
+      border-bottom: 1px solid #343440;
+    }
+
+    .import-dialog__footer {
+      border-top: 1px solid #343440;
+      justify-content: flex-end;
+    }
+
+    .import-dialog__header h2 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+    }
+
+    .import-dialog__header p {
+      margin: 0;
+      color: #9a9caf;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .import-dialog__header code {
+      color: #c9c9d6;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .import-dialog__close {
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      margin: 0;
+      padding: 0;
+      background: #2a2a35;
+      color: #c9c9d6;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .import-dialog__close:hover {
+      background: #3f3f50;
+    }
+
+    .import-dialog__body {
+      min-height: 0;
+      padding: 18px 20px;
+      overflow: auto;
+    }
+
+    .import-filters {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .import-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .import-field select,
+    .import-field input {
+      width: 100%;
+    }
+
+    .import-results-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 18px;
+      margin-bottom: 8px;
+    }
+
+    .import-status,
+    .import-count {
+      font-size: 0.74rem;
+      color: #9a9caf;
+    }
+
+    .import-status[data-state='error'] {
+      color: #f47b7b;
+    }
+
+    .import-status[data-state='info'] {
+      color: #e0b566;
+    }
+
+    .import-results {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 330px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .import-result {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 14px;
+      width: 100%;
+      margin: 0;
+      padding: 10px 12px;
+      background: #262630;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      color: #fff;
+      text-align: left;
+    }
+
+    .import-result:hover {
+      background: #30303c;
+    }
+
+    .import-result[aria-selected='true'] {
+      background: #31334a;
+      border-color: #7289da;
+    }
+
+    .import-result__index {
+      grid-column: 1;
+      color: #8fa2ff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .import-result__name {
+      grid-column: 1;
+      font-size: 0.86rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .import-result__en {
+      grid-column: 1;
+      color: #9a9caf;
+      font-size: 0.72rem;
+      overflow-wrap: anywhere;
+    }
+
+    .import-result__rarity {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+      color: #d6d6e2;
+      font-size: 0.74rem;
+      white-space: nowrap;
+    }
+
+    .import-empty {
+      padding: 22px 12px;
+      color: #8f92a4;
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .import-dialog__footer button {
+      margin: 0;
+    }
+
+    .import-code-label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .import-code-input {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.76rem;
+      line-height: 1.5;
+      white-space: pre;
+    }
+
+    .import-error {
+      margin: 8px 0 0;
+      color: #f47b7b;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 620px) {
+      .import-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .import-dialog__header,
+      .import-dialog__footer,
+      .import-dialog__body {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }

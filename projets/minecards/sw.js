@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v134';
+const VERSION = 'v135';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -239,6 +239,7 @@ const PRECACHE_URLS = [
   './js/utils/Compression.js',
   './js/utils/ConfigLoader.js',
   './js/utils/DeepLink.js',
+  './js/utils/DeveloperAccess.js',
   './js/utils/EventBus.js',
   './js/utils/FocusMode.js',
   './js/utils/FoilManager.js',
@@ -252,6 +253,7 @@ const PRECACHE_URLS = [
   /* Configuration and data: the settings screen, the two languages and the card catalogues. Without
      them the game boots but has nothing to open. */
   './settings/config.json',
+  './developpers.json',
   './settings/cardsets.json',
   './settings/changelog.json',
   './settings/colors.json',

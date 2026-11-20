@@ -380,6 +380,11 @@ function localizedCardFields(title, description) {
   };
 }
 
+/* Chemin de l'image publiée repris d'un import. Il reste celui de l'entrée tant que
+ * l'utilisateur ne touche à aucun champ, puis repasse à null : une carte modifiée ne
+ * doit pas conserver le chemin d'une ancienne image. */
+let preservedPath = null;
+
 /* Objet JSON de la carte affichée, prêt à coller dans le fichier du booster. */
 function buildCardJson() {
   const title = inputTitle.value.trim();
@@ -399,7 +404,7 @@ function buildCardJson() {
     Background: inputImage.value.trim(),
     Underlay: inputUnderlay.value.trim(),
     Layout: previewLayout(),
-    Path: null,
+    Path: preservedPath,
   };
 }
 
@@ -462,4 +467,472 @@ copyJsonBtn.addEventListener('click', async () => {
     jsonOutput.hidden = true;
   }
 });
+
+/* --------------------------------------------------------------------------
+ * Import
+ *
+ * Deux chemins :
+ *   - « Existing » lit un fichier du projet MineCards (`data/boosters` ou
+ *     `data/promo_cards`) et cherche dans ses cartes ;
+ *   - « Code » accepte directement une entrée JSON.
+ *
+ * Les deux produisent le même objet normalisé, puis `applyImportedCard()` remplit
+ * tous les champs du générateur. Les liens locaux sont essayés d'abord ; le raw
+ * GitHub sert de repli quand `cards.html` est ouvert depuis le dossier autonome
+ * de cardmakerz, où les données du jeu ne sont pas servies.
+ * ------------------------------------------------------------------------ */
+
+const IMPORT_SOURCE_BASES = [
+  '../../data',
+  './data',
+  'https://raw.githubusercontent.com/MythMega/mythmega.github.io/refs/heads/master/projets/minecards/data',
+];
+
+const IMPORT_RARITY_LABELS = ['Commune', 'Rare', 'Super Rare', 'Légendaire', 'Mythique', 'Unique'];
+const IMPORT_FONT_HINTS = [
+  { index: 1, terms: ['press start', 'pixel', '8bit', '8-bit'] },
+  { index: 2, terms: ['cinzel', 'fantasy', 'medieval'] },
+  { index: 3, terms: ['orbitron', 'futur'] },
+  { index: 4, terms: ['bebas', 'arcade', 'comics'] },
+  { index: 0, terms: ['montserrat', 'moderne'] },
+];
+
+const importBtn = document.getElementById('import-btn');
+const importMenu = document.getElementById('import-menu');
+const importControl = importBtn ? importBtn.closest('.import-control') : null;
+const existingImportDialog = document.getElementById('import-existing-dialog');
+const codeImportDialog = document.getElementById('import-code-dialog');
+const importSourceSelect = document.getElementById('import-source');
+const importSearchInput = document.getElementById('import-search');
+const importResults = document.getElementById('import-results');
+const importExistingStatus = document.getElementById('import-existing-status');
+const importExistingCount = document.getElementById('import-existing-count');
+const importExistingSubmit = document.getElementById('import-existing-submit');
+const importCodeInput = document.getElementById('import-code-input');
+const importCodeError = document.getElementById('import-code-error');
+const importCodeSubmit = document.getElementById('import-code-submit');
+const importFormContainer = document.querySelector('.form-container');
+
+const importState = {
+  cards: [],
+  selected: null,
+  loading: false,
+  sourcePath: '',
+  requestId: 0,
+};
+const sourceCache = new Map();
+
+/** Retire les accents et la casse pour une recherche tolérante. */
+function normalizeImportSearch(value) {
+  return String(value === undefined || value === null ? '' : value)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+/** Lit la première clé reconnue d'une entrée JSON. */
+function readImportField(data, keys) {
+  if (!data || typeof data !== 'object') return undefined;
+  for (const key of keys) {
+    if (data[key] !== undefined && data[key] !== null) return data[key];
+  }
+  return undefined;
+}
+
+function importText(value) {
+  return value === undefined || value === null ? '' : String(value).trim();
+}
+
+/** Convertit une rareté JSON (1..6, symbole ou libellé) en index 0..5. */
+function importRarityIndex(value) {
+  if (value === undefined || value === null || value === '') return 0;
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return Math.max(0, Math.min(5, Math.round(value) - 1));
+  }
+
+  const text = normalizeImportSearch(value);
+  if (/^\d+$/.test(text)) return Math.max(0, Math.min(5, parseInt(text, 10) - 1));
+  if (text.includes('unique') || text.includes('🔶')) return 5;
+  if (text.includes('myth') || text.includes('💎')) return 4;
+  if (text.includes('legend') || text.includes('✦')) return 3;
+  if (text.includes('super') || text.includes('★★★')) return 2;
+  if (text.includes('rare') || text.includes('★★')) return 1;
+  return 0;
+}
+
+function importLayout(value) {
+  if (typeof value === 'boolean') return value ? 'fullart' : 'classic';
+  const text = normalizeImportSearch(value);
+  return ['classic', 'classique', 'classical', 'false', '0', 'no'].includes(text)
+    ? 'classic'
+    : 'fullart';
+}
+
+/** Normalise une carte source. Les champs absents restent vides. */
+function normalizeImportedCard(raw, sourcePath, position) {
+  const safe = raw && typeof raw === 'object' ? raw : {};
+  const index = importText(readImportField(safe, ['Index', 'index', 'ID', 'id']));
+  const nameFR = importText(readImportField(safe, [
+    'Name_FR', 'name_fr', 'NameFR', 'nameFr', 'Name', 'name', 'Title', 'title',
+  ]));
+  const nameEN = importText(readImportField(safe, [
+    'Name_EN', 'name_en', 'NameEN', 'nameEn', 'Name_Translated', 'name_translated', 'Title_EN',
+  ]));
+  const descFR = importText(readImportField(safe, [
+    'Desc_FR', 'desc_fr', 'DescFr', 'Description_FR', 'description_fr', 'Description', 'description', 'Desc', 'desc',
+  ]));
+  const descEN = importText(readImportField(safe, [
+    'Desc_EN', 'desc_en', 'DescEn', 'Description_EN', 'description_en', 'Description_Translated', 'description_translated',
+  ]));
+  const rarityValue = importRarityIndex(readImportField(safe, ['Rarity', 'rarity']));
+  const style = importText(readImportField(safe, ['Style', 'style', 'Font', 'font']));
+  const background = importText(readImportField(safe, ['Background', 'background', 'Image', 'image', 'Image_URL']));
+  const underlay = importText(readImportField(safe, ['Underlay', 'underlay', 'Foreground', 'foreground']));
+  const layout = importLayout(readImportField(safe, ['Layout', 'layout', 'CardLayout', 'cardLayout']));
+  const path = importText(readImportField(safe, ['Path', 'path']));
+
+  return {
+    key: `${sourcePath}:${position}:${index}:${nameFR}:${nameEN}`,
+    index,
+    nameFR: nameFR || nameEN,
+    nameEN,
+    descFR: descFR || descEN,
+    descEN,
+    rarityValue,
+    style,
+    background,
+    underlay,
+    layout,
+    path,
+    searchText: normalizeImportSearch([index, nameFR, nameEN].join(' ')),
+  };
+}
+
+/** Récupère la liste de cartes d'un fichier source (Cards ou Card). */
+function extractSourceCards(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (payload && Array.isArray(payload.Cards)) return payload.Cards;
+  if (payload && Array.isArray(payload.Card)) return payload.Card;
+  return [];
+}
+
+/** Récupère une ou plusieurs cartes depuis le JSON collé en mode Code. */
+function extractCodeCards(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (payload && Array.isArray(payload.Cards)) return payload.Cards;
+  if (payload && Array.isArray(payload.Card)) return payload.Card;
+  if (payload && typeof payload === 'object') return [payload];
+  return [];
+}
+
+/** Télécharge et normalise un fichier source, avec repli distant. */
+async function fetchImportSource(sourcePath) {
+  if (sourceCache.has(sourcePath)) return sourceCache.get(sourcePath);
+
+  const failures = [];
+  for (const base of IMPORT_SOURCE_BASES) {
+    const url = `${base.replace(/\/$/, '')}/${sourcePath}`;
+    try {
+      const response = await fetch(url, { cache: 'no-cache' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const rawCards = extractSourceCards(payload);
+      if (rawCards.length === 0) throw new Error('aucune carte dans le fichier');
+
+      const result = {
+        cards: rawCards.map((card, index) => normalizeImportedCard(card, sourcePath, index)),
+        remote: /^https?:/i.test(base),
+        url,
+      };
+      sourceCache.set(sourcePath, result);
+      return result;
+    } catch (error) {
+      failures.push(`${url} (${error.message || error})`);
+    }
+  }
+
+  throw new Error(`Impossible de lire ${sourcePath}. ${failures.join(' · ')}`);
+}
+
+function setImportStatus(message, state = '') {
+  importExistingStatus.textContent = message || '';
+  if (state) {
+    importExistingStatus.dataset.state = state;
+  } else {
+    delete importExistingStatus.dataset.state;
+  }
+}
+
+function updateImportSubmit() {
+  importExistingSubmit.disabled = importState.loading || !importState.selected;
+}
+
+/** Affiche les cartes filtrées par nom FR, nom EN ou index. */
+function renderImportResults() {
+  if (!importResults) return;
+  importResults.replaceChildren();
+
+  if (importState.loading) {
+    importExistingCount.textContent = '';
+    return;
+  }
+
+  const term = normalizeImportSearch(importSearchInput.value);
+  const filtered = term
+    ? importState.cards.filter((card) => card.searchText.includes(term))
+    : importState.cards;
+
+  if (importState.selected && !filtered.includes(importState.selected)) {
+    importState.selected = null;
+  }
+  updateImportSubmit();
+  importExistingCount.textContent = `${filtered.length} / ${importState.cards.length} carte(s)`;
+
+  if (filtered.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'import-empty';
+    empty.textContent = importState.cards.length === 0
+      ? 'Aucune carte chargée.'
+      : 'Aucune carte ne correspond à cette recherche.';
+    importResults.appendChild(empty);
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  filtered.forEach((card) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'import-result';
+    button.dataset.cardKey = card.key;
+    button.setAttribute('role', 'option');
+    button.setAttribute('aria-selected', importState.selected === card ? 'true' : 'false');
+
+    const index = document.createElement('span');
+    index.className = 'import-result__index';
+    index.textContent = card.index || 'Sans index';
+
+    const name = document.createElement('span');
+    name.className = 'import-result__name';
+    name.textContent = card.nameFR || 'Carte sans nom';
+
+    const nameEN = document.createElement('span');
+    nameEN.className = 'import-result__en';
+    nameEN.textContent = card.nameEN && card.nameEN !== card.nameFR ? card.nameEN : '';
+
+    const rarity = document.createElement('span');
+    rarity.className = 'import-result__rarity';
+    rarity.textContent = IMPORT_RARITY_LABELS[card.rarityValue] || 'Commune';
+
+    button.append(index, name, nameEN, rarity);
+    fragment.appendChild(button);
+  });
+  importResults.appendChild(fragment);
+}
+
+/** Charge le fichier sélectionné, en ignorant les réponses d'un ancien choix. */
+async function loadImportSource(sourcePath) {
+  const requestId = ++importState.requestId;
+  importState.sourcePath = sourcePath;
+  importState.loading = true;
+  importState.cards = [];
+  importState.selected = null;
+  updateImportSubmit();
+  setImportStatus('Chargement…');
+  renderImportResults();
+
+  try {
+    const result = await fetchImportSource(sourcePath);
+    if (requestId !== importState.requestId) return;
+    importState.cards = result.cards;
+    setImportStatus(
+      result.remote ? 'Fichier local inaccessible : version GitHub utilisée.' : '',
+      result.remote ? 'info' : ''
+    );
+  } catch (error) {
+    if (requestId !== importState.requestId) return;
+    console.error('[Import]', error);
+    setImportStatus(error.message || 'Le fichier source est illisible.', 'error');
+  } finally {
+    if (requestId === importState.requestId) {
+      importState.loading = false;
+      renderImportResults();
+    }
+  }
+}
+
+/** Choisit une police connue à partir du champ Style/Font. */
+function applyImportedFont(style) {
+  const text = normalizeImportSearch(style);
+  const match = IMPORT_FONT_HINTS.find((entry) => entry.terms.some((term) => text.includes(term)));
+  inputFont.selectedIndex = match ? match.index : 0;
+}
+
+/** Remplit tous les champs de cards.html depuis une carte normalisée. */
+function applyImportedCard(card) {
+  preservedPath = card.path || null;
+
+  inputSeries.value = card.index;
+  inputTitle.value = card.nameFR;
+  inputText.value = card.descFR;
+  inputTitleTranslated.value = card.nameEN;
+  inputTextTranslated.value = card.descEN;
+  inputTranslationLang.value = 'EN';
+  inputImage.value = card.background;
+  inputUnderlay.value = card.underlay;
+  inputRarity.selectedIndex = card.rarityValue;
+  inputLayout.value = card.layout;
+  applyImportedFont(card.style);
+
+  updateTranslationLabels();
+  updateCard();
+
+  const label = card.nameFR || card.index || 'carte sans nom';
+  copyJsonStatus.textContent = `Carte importée : ${label}.`;
+  copyJsonStatus.dataset.state = 'ok';
+  copyJsonStatus.hidden = false;
+  jsonOutput.hidden = true;
+}
+
+function openExistingImport() {
+  if (!existingImportDialog) return;
+  existingImportDialog.showModal();
+  if (!importState.sourcePath || (!importState.loading && importState.cards.length === 0)) {
+    void loadImportSource(importSourceSelect.value);
+  }
+  importSearchInput.focus();
+}
+
+function openCodeImport() {
+  if (!codeImportDialog) return;
+  importCodeError.hidden = true;
+  importCodeError.textContent = '';
+  codeImportDialog.showModal();
+  importCodeInput.focus();
+}
+
+function setImportMenuOpen(open) {
+  importMenu.hidden = !open;
+  importBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function handleCodeImport() {
+  importCodeError.hidden = true;
+  importCodeError.textContent = '';
+
+  let parsed;
+  try {
+    parsed = JSON.parse(importCodeInput.value);
+  } catch (error) {
+    importCodeError.textContent = `JSON invalide : ${error.message || error}`;
+    importCodeError.hidden = false;
+    return;
+  }
+
+  const cards = extractCodeCards(parsed);
+  if (cards.length === 0) {
+    importCodeError.textContent = 'Aucune entrée de carte trouvée dans ce JSON.';
+    importCodeError.hidden = false;
+    return;
+  }
+  if (cards.length > 1) {
+    importCodeError.textContent =
+      `Ce JSON contient ${cards.length} cartes. Collez une seule entrée, ou utilisez Existing pour importer un fichier complet.`;
+    importCodeError.hidden = false;
+    return;
+  }
+
+  const card = normalizeImportedCard(cards[0], 'code', 0);
+  if (!card.index && !card.nameFR && !card.nameEN && !card.descFR && !card.descEN) {
+    importCodeError.textContent = 'Cette entrée ne contient aucun champ de carte reconnu.';
+    importCodeError.hidden = false;
+    return;
+  }
+
+  applyImportedCard(card);
+  codeImportDialog.close();
+}
+
+if (importBtn && importMenu) {
+  importBtn.addEventListener('click', () => {
+    setImportMenuOpen(importMenu.hidden);
+  });
+
+  importMenu.addEventListener('click', (event) => {
+    const action = event.target.closest('[data-import-mode]');
+    if (!action) return;
+    setImportMenuOpen(false);
+    if (action.dataset.importMode === 'existing') openExistingImport();
+    if (action.dataset.importMode === 'code') openCodeImport();
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!importControl || !importControl.contains(event.target)) setImportMenuOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !importMenu.hidden) setImportMenuOpen(false);
+  });
+}
+
+document.querySelectorAll('[data-import-close]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const dialog = button.dataset.importClose === 'code' ? codeImportDialog : existingImportDialog;
+    dialog.close();
+  });
+});
+
+[existingImportDialog, codeImportDialog].forEach((dialog) => {
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+});
+
+if (importSourceSelect) {
+  importSourceSelect.addEventListener('change', () => {
+    importSearchInput.value = '';
+    void loadImportSource(importSourceSelect.value);
+  });
+}
+
+if (importSearchInput) {
+  importSearchInput.addEventListener('input', renderImportResults);
+}
+
+if (importResults) {
+  importResults.addEventListener('click', (event) => {
+    const result = event.target.closest('.import-result');
+    if (!result) return;
+    const card = importState.cards.find((entry) => entry.key === result.dataset.cardKey);
+    if (!card) return;
+    importState.selected = card;
+    importResults.querySelectorAll('.import-result').forEach((button) => {
+      button.setAttribute('aria-selected', button === result ? 'true' : 'false');
+    });
+    updateImportSubmit();
+  });
+}
+
+if (importExistingSubmit) {
+  importExistingSubmit.addEventListener('click', () => {
+    if (!importState.selected) return;
+    applyImportedCard(importState.selected);
+    existingImportDialog.close();
+  });
+}
+
+if (importCodeSubmit) {
+  importCodeSubmit.addEventListener('click', handleCodeImport);
+}
+
+/* Une modification manuelle invalide le Path importé : la carte n'est plus
+ * exactement celle du fichier source. Les changements programmatiques de
+ * l'import ne déclenchent pas d'événement, ils conservent donc le Path. */
+if (importFormContainer) {
+  ['input', 'change'].forEach((eventName) => {
+    importFormContainer.addEventListener(eventName, () => {
+      preservedPath = null;
+    });
+  });
+}
 

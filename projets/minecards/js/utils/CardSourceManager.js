@@ -6,9 +6,9 @@
  *   - `generate` : a card built from the JSON fields (`Background`, `Underlay`, name, description,
  *                  rarity and layout) by `<card-print>`.
  *
- * The generated source only applies while the developer mode is on. The preference is still stored
- * when the developer mode is switched off, so turning it back on restores the choice, but the
- * effective source (`isGenerateEnabled()`) is the AND of the two.
+ * The generated source only applies while the developer mode and the advanced developer mode are
+ * both on. The preference is still stored when either switch is off, so turning them back on
+ * restores the choice, but the effective source (`isGenerateEnabled()`) is the AND of the three.
  *
  * ONE HELPER FOR EVERY SCREEN
  *   `createCardVisual()` returns either the usual `<img>` or a `<card-print>`. Both wear the class
@@ -68,6 +68,7 @@ const cardRegistry = new Map();
 /** Current effective state. */
 const state = {
   devMode: false,
+  advancedDevMode: false,
   cardSource: DEFAULT_CARD_SOURCE,
   generate: false,
   animatedLayers: false,
@@ -88,7 +89,7 @@ export function normalizeCardSource(value) {
 /**
  * Tells whether cards must currently be built from JSON.
  *
- * @returns {boolean} True when the developer mode and the generated source are both active.
+ * @returns {boolean} True when both developer modes and the generated source are active.
  */
 export function isGenerateEnabled() {
   return state.generate;
@@ -365,6 +366,7 @@ export function refreshCardVisuals() {
  *
  * @param {object} settings - Account settings (or the relevant fields alone).
  * @param {boolean} [settings.devMode] - Developer mode.
+ * @param {boolean} [settings.advancedDevMode] - Authorized advanced developer mode.
  * @param {string} [settings.cardSource] - `image` or `generate`.
  * @param {boolean} [settings.animatedLayers] - Animate the generated card layers.
  * @param {number} [settings.animatedLayersSpeed] - Speed in percent of the reference cycle.
@@ -372,6 +374,7 @@ export function refreshCardVisuals() {
  */
 export function applyCardSourceSettings({
   devMode = false,
+  advancedDevMode = false,
   cardSource = DEFAULT_CARD_SOURCE,
   animatedLayers = state.animatedLayers,
   animatedLayersSpeed = state.animatedLayersSpeed,
@@ -379,6 +382,7 @@ export function applyCardSourceSettings({
   listen();
   const previous = state.generate;
   state.devMode = devMode === true;
+  state.advancedDevMode = advancedDevMode === true;
   state.cardSource = normalizeCardSource(cardSource);
   state.animatedLayers = animatedLayers === true;
   const requestedSpeed = Number(animatedLayersSpeed);
@@ -386,7 +390,8 @@ export function applyCardSourceSettings({
     Number.isFinite(requestedSpeed) && requestedSpeed > 0
       ? requestedSpeed
       : DEFAULT_ANIMATED_LAYERS_SPEED;
-  state.generate = state.devMode && state.cardSource === CARD_SOURCE.GENERATE;
+  state.generate =
+    state.devMode && state.advancedDevMode && state.cardSource === CARD_SOURCE.GENERATE;
 
   document.documentElement.dataset.cardSource = state.generate
     ? CARD_SOURCE.GENERATE

@@ -95,6 +95,7 @@ import cardSourceManager, {
   resolveAnimatedLayersDuration,
 } from '../../utils/CardSourceManager.js';
 import cardGenerateManager from '../../utils/CardGenerateManager.js';
+import developerAccess from '../../utils/DeveloperAccess.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
@@ -199,6 +200,9 @@ export class SettingsView {
     this.soundHelpElement = query('[data-settings-sound-help]');
     this.devToggle = query('[data-settings-dev]');
     this.devModeStateElement = query('[data-settings-dev-state]');
+    this.advancedDevPanel = query('[data-settings-advanced-dev-panel]');
+    this.advancedDevToggle = query('[data-settings-advanced-dev]');
+    this.advancedDevStateElement = query('[data-settings-advanced-dev-state]');
     this.cardSourcePanel = query('[data-settings-card-source-panel]');
     this.cardSourceContainer = query('[data-settings-card-source]');
     this.cardGenerateBody = query('[data-settings-cardgen-content]');
@@ -282,6 +286,8 @@ export class SettingsView {
     this.isBusy = false;
     /** @type {boolean} Last known developer mode (the store is the source of truth). */
     this.devMode = false;
+    /** @type {boolean} Advanced mode after checking the developer allowlist. */
+    this.advancedDevMode = false;
     /** @type {string} Stored card source (`image` or `generate`). */
     this.cardSource = CARD_SOURCE.IMAGE;
     /** @type {boolean} Whether the generated card layers move (off by default). */
@@ -403,6 +409,9 @@ export class SettingsView {
       ['[data-settings-sound-categories]', this.soundCategoriesElement],
       ['[data-settings-dev]', this.devToggle],
       ['[data-settings-dev-state]', this.devModeStateElement],
+      ['[data-settings-advanced-dev-panel]', this.advancedDevPanel],
+      ['[data-settings-advanced-dev]', this.advancedDevToggle],
+      ['[data-settings-advanced-dev-state]', this.advancedDevStateElement],
       ['[data-settings-card-source-panel]', this.cardSourcePanel],
       ['[data-settings-card-source]', this.cardSourceContainer],
       ['[data-settings-cardgen-content]', this.cardGenerateBody],
@@ -748,11 +757,59 @@ export class SettingsView {
   }
 
   /**
+   * Shows the advanced developer switch only under the normal developer mode.
+   *
+   * It stays visible to an unauthorized account so that checking it opens the explanation modal.
+   *
+   * @returns {void}
+   */
+  syncAdvancedDevPanelVisibility() {
+    if (this.advancedDevPanel) {
+      this.advancedDevPanel.hidden = !this.devMode;
+    }
+  }
+
+  /**
+   * Reflects the effective advanced developer mode on its switch.
+   *
+   * @returns {void}
+   */
+  syncAdvancedDevToggle() {
+    if (this.advancedDevToggle) {
+      this.advancedDevToggle.setAttribute('aria-checked', this.advancedDevMode ? 'true' : 'false');
+    }
+    if (this.advancedDevStateElement) {
+      this.advancedDevStateElement.textContent = i18n.t(
+        this.advancedDevMode ? 'settings.advancedDev.on' : 'settings.advancedDev.off'
+      );
+    }
+    this.syncAdvancedDevPanelVisibility();
+  }
+
+  /**
+   * Checks the shipped allowlist for the current account.
+   *
+   * A missing file or a storage failure denies the access instead of throwing: advanced options
+   * are an explicit privilege, never a best-effort default.
+   *
+   * @returns {Promise<boolean>} True when this account may use the advanced options.
+   */
+  async hasAdvancedDeveloperAccess() {
+    try {
+      const uuid = await accountManager.getUuid();
+      return await developerAccess.isAdvancedDeveloper(uuid);
+    } catch (error) {
+      console.warn('[SettingsView] The advanced developer allowlist could not be checked.', error);
+      return false;
+    }
+  }
+
+  /**
    * Renders the two card sources: `generate` and `image source`.
    *
-   * The panel is a developer tool, so `syncCardSourcePanelVisibility()` keeps it hidden until the
-   * developer mode is on. The labels come from the translation files, while the stored values are
-   * the two ids of `CARD_SOURCE`.
+   * The panel is an advanced developer tool, so `syncCardSourcePanelVisibility()` keeps it hidden
+   * until both developer modes are on. The labels come from the translation files, while the
+   * stored values are the two ids of `CARD_SOURCE`.
    *
    * @returns {void}
    */
@@ -794,13 +851,13 @@ export class SettingsView {
   }
 
   /**
-   * Shows the card source panel only when the developer mode is on.
+   * Shows the card source panel only when both developer modes are on.
    *
    * @returns {void}
    */
   syncCardSourcePanelVisibility() {
     if (this.cardSourcePanel) {
-      this.cardSourcePanel.hidden = !this.devMode;
+      this.cardSourcePanel.hidden = !(this.devMode && this.advancedDevMode);
     }
     this.syncAnimatedLayersVisibility();
   }
@@ -814,7 +871,9 @@ export class SettingsView {
     // The whole generated-card module follows the source: the speed and the construction are
     // meaningful even while the layers are still, so only the source hides them.
     if (this.cardGenerateBody) {
-      this.cardGenerateBody.hidden = !(this.devMode && this.cardSource === CARD_SOURCE.GENERATE);
+      this.cardGenerateBody.hidden = !(
+        this.devMode && this.advancedDevMode && this.cardSource === CARD_SOURCE.GENERATE
+      );
     }
   }
 
@@ -1358,6 +1417,7 @@ export class SettingsView {
   applyCardSource() {
     cardSourceManager.applySettings({
       devMode: this.devMode,
+      advancedDevMode: this.advancedDevMode,
       cardSource: this.cardSource,
       animatedLayers: this.animatedLayers,
       animatedLayersSpeed: this.animatedLayersSpeed,
@@ -2235,6 +2295,11 @@ export class SettingsView {
     try {
       const settings = await accountManager.getSettings();
       enabled = settings.devMode === true;
+      // The stored advanced switch only counts for an allowlisted UUID. A save copied from another
+      // account (or a revoked UUID) falls back to the normal developer options without a popup.
+      this.advancedDevMode = settings.advancedDevMode === true
+        ? await this.hasAdvancedDeveloperAccess()
+        : false;
       this.cardSource = CARD_SOURCE_VALUES.includes(settings.cardSource)
         ? settings.cardSource
         : CARD_SOURCE.IMAGE;
@@ -2254,6 +2319,7 @@ export class SettingsView {
       this.devModeStateElement.textContent = i18n.t(enabled ? 'settings.dev.on' : 'settings.dev.off');
     }
     this.syncRenderPanelVisibility();
+    this.syncAdvancedDevToggle();
     this.syncCardSourcePanelVisibility();
     this.syncCardSourceButtons();
     this.syncAnimatedLayersLabel();
@@ -2281,10 +2347,11 @@ export class SettingsView {
     if (this.devModeStateElement) {
       this.devModeStateElement.textContent = i18n.t(next ? 'settings.dev.on' : 'settings.dev.off');
     }
+    this.syncAdvancedDevPanelVisibility();
     this.syncCardSourcePanelVisibility();
     this.setFeedback(null);
-    // The generated source is only effective with the developer mode: turning it off must bring
-    // the final images back now, not after a reload.
+    // The generated source is only effective with both developer modes: turning the normal mode
+    // off must bring the final images back now, not after a reload.
     this.applyCardSource();
 
     try {
@@ -2300,8 +2367,56 @@ export class SettingsView {
       this.setFeedback('settings.error.dev', 'error');
     }
     this.syncRenderPanelVisibility();
+    this.syncAdvancedDevPanelVisibility();
     this.syncCardSourcePanelVisibility();
     this.applyCardSource();
+  }
+
+  /**
+   * Checks the allowlist, then enables or disables the advanced developer mode.
+   *
+   * An unauthorized check leaves the switch off and opens the "ask MythMega/JMDev" modal; it is
+   * never persisted. The check happens only when turning the switch on, because turning a
+   * privilege off must always remain possible.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success, refusal or failure).
+   */
+  async handleAdvancedDevToggle() {
+    if (this.isBusy || !this.devMode) return;
+
+    const previous = this.advancedDevMode;
+    const next = !previous;
+
+    if (next && !(await this.hasAdvancedDeveloperAccess())) {
+      this.advancedDevMode = false;
+      this.syncAdvancedDevToggle();
+      this.syncCardSourcePanelVisibility();
+      this.setFeedback(null);
+      this.log('Advanced developer mode refused: the account is not on the allowlist.');
+      await this.openInformation({
+        titleKey: 'settings.advancedDev.deniedTitle',
+        bodyKey: 'settings.advancedDev.deniedBody',
+      });
+      return;
+    }
+
+    this.advancedDevMode = next;
+    this.syncAdvancedDevToggle();
+    this.syncCardSourcePanelVisibility();
+    this.setFeedback(null);
+    this.applyCardSource();
+
+    try {
+      await accountManager.updateSettings({ advancedDevMode: next });
+      this.log(`Advanced developer mode ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The advanced developer mode could not be saved.', error);
+      this.advancedDevMode = previous;
+      this.syncAdvancedDevToggle();
+      this.syncCardSourcePanelVisibility();
+      this.setFeedback('settings.error.advancedDevMode', 'error');
+      this.applyCardSource();
+    }
   }
 
   /**
@@ -3037,6 +3152,7 @@ export class SettingsView {
       if (slider) void this.handleSoundCategoryVolumeChange();
     });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
+    this.listen(this.advancedDevToggle, 'click', () => void this.handleAdvancedDevToggle());
     this.listen(this.animatedLayersToggle, 'click', () => void this.handleAnimatedLayersToggle());
     this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());
     this.listen(this.questTutorialToggle, 'click', () => void this.handleQuestTutorialToggle());
@@ -3610,22 +3726,24 @@ export class SettingsView {
   }
 
   /**
-   * Opens an information modal (distribution report).
+   * Opens an information modal (distribution report or a translated message).
    *
    * Same dialog as a confirmation, but the cancel button is hidden and the only action closes it:
-   * there is nothing to accept, the message reports work that already happened.
+   * there is nothing to accept.
    *
    * @param {object} information - Content of the modal.
    * @param {string} information.titleKey - i18n key of the title.
-   * @param {object} information.report - Result of `GiftManager.checkGifts()`.
+   * @param {string|null} [information.bodyKey] - i18n key of a plain message instead of a report.
+   * @param {object|null} [information.params] - Interpolation values for `bodyKey`.
+   * @param {object|null} [information.report] - Result of `GiftManager.checkGifts()`.
    * @returns {Promise<void>} Resolves once the modal is displayed.
    */
-  async openInformation({ titleKey, report }) {
+  async openInformation({ titleKey, bodyKey = null, params = null, report = null }) {
     this.pendingModal = {
       mode: 'info',
       titleKey,
-      bodyKey: null,
-      params: null,
+      bodyKey,
+      params,
       report,
       confirmVariant: 'primary',
       onConfirm: null,
@@ -3652,7 +3770,9 @@ export class SettingsView {
     this.modalConfirm.classList.toggle('btn--danger', pending.confirmVariant === 'danger');
     this.modalConfirm.classList.toggle('btn--primary', pending.confirmVariant !== 'danger');
     this.modalBody.textContent = isInfo
-      ? await this.buildCheckBody(pending.report)
+      ? pending.bodyKey
+        ? i18n.t(pending.bodyKey, pending.params)
+        : await this.buildCheckBody(pending.report)
       : i18n.t(pending.bodyKey, pending.params);
   }
 
@@ -3843,6 +3963,7 @@ export class SettingsView {
     [
       this.soundToggle,
       this.devToggle,
+      this.advancedDevToggle,
       this.nativeScrollbarsToggle,
       this.copyButton,
       this.exportButton,

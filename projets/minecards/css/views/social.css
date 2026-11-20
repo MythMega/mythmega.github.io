@@ -345,3 +345,414 @@
     gap: var(--space-1) var(--space-2);
   }
 }
+
+/* =============================================================================
+   Trades - Ender Eyes balance, requests, statistics and the claim animation.
+
+   The tab lives inside the Social page and reuses `.panel`, `.btn`, `.modal` and `.field`. A
+   trade row shows the card given and the card received side by side, because the rarity is the
+   only thing that makes the exchange fair: seeing both at once is the whole point.
+   ============================================================================= */
+
+.trade__balance {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.trade__eye {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 0.5rem rgba(46, 230, 168, 0.35));
+}
+
+.trade__balance-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-2);
+}
+
+.trade__balance-value {
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.trade__balance-label {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.trade__empty {
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.trade__empty[hidden] {
+  display: none;
+}
+
+.trade__groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.trade__group[hidden] {
+  display: none;
+}
+
+.trade__group-title {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.trade__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trade__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.trade__item[data-status="accepted"] {
+  border-color: var(--color-accent);
+}
+
+.trade__item-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.trade__item-name {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+}
+
+.trade__status {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.trade__status[data-status="accepted"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.trade__status[data-status="completed"] {
+  border-color: #2ee6a8;
+  color: #2ee6a8;
+}
+
+.trade__status[data-status="declined"],
+.trade__status[data-status="cancelled"],
+.trade__status[data-status="expired"] {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.trade__item-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trade__arrow {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+}
+
+.trade__item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.trade__rarity {
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.trade__rarity[data-rarity="1"] { color: #a0a0b0; }
+.trade__rarity[data-rarity="2"] { color: #4dd0e1; }
+.trade__rarity[data-rarity="3"] { color: var(--color-rarity-super); }
+.trade__rarity[data-rarity="4"] { color: var(--color-rarity-legendary); }
+.trade__rarity[data-rarity="5"] { color: var(--color-rarity-mythic); }
+
+.trade__item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.trade__item-actions .btn {
+  flex: 1 1 auto;
+}
+
+.trade__waiting {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-style: italic;
+}
+
+.trade__card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.trade__card.is-empty {
+  align-items: center;
+  justify-content: center;
+  min-height: 4.5rem;
+  padding: var(--space-2);
+  border-style: dashed;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
+.trade__card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  background-color: var(--color-surface-alt);
+}
+
+.trade__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: var(--space-2);
+}
+
+.trade__card-label {
+  color: var(--color-text-muted);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.trade__card-name {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade__card-detail {
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  line-height: 1.4;
+}
+
+/* Compact variant: the two cards of a trade row, side by side. */
+.trade__card--compact {
+  flex-direction: row;
+  align-items: center;
+}
+
+.trade__card--compact .trade__card-image {
+  width: 3.25rem;
+  aspect-ratio: 5 / 7;
+  flex: 0 0 auto;
+}
+
+.trade__card--compact .trade__card-body {
+  min-width: 0;
+  padding: var(--space-1) var(--space-2);
+}
+
+.trade__card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr));
+  gap: var(--space-2);
+  max-height: 27rem;
+  overflow-y: auto;
+  padding: var(--space-1);
+}
+
+.trade__card-button {
+  display: block;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.trade__card-button:hover,
+.trade__card-button:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.trade__card-button.is-selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.trade__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.trade__cards-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.trade__cost-line {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.trade__cost-line[data-tone="error"] {
+  color: var(--color-error);
+}
+
+.trade__empty-cards {
+  margin: 0;
+  padding: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* Claim: the card given rises, then the card received drops in. */
+.trade__claim-stage {
+  position: relative;
+  height: 16rem;
+  margin: var(--space-3) 0;
+  overflow: hidden;
+}
+
+.trade__claim-slot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trade__claim-slot .trade__card {
+  width: 8rem;
+}
+
+.trade__claim-slot--in {
+  opacity: 0;
+}
+
+.trade__claim-stage.is-animating .trade__claim-slot--out {
+  animation: trade-card-out 900ms var(--easing-standard) forwards;
+}
+
+.trade__claim-stage.is-animating .trade__claim-slot--in {
+  animation: trade-card-in 900ms 900ms var(--easing-standard) forwards;
+}
+
+@keyframes trade-card-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-11rem) scale(0.8) rotate(-5deg);
+  }
+}
+
+@keyframes trade-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(-11rem) scale(0.8) rotate(5deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.trade__claim-text {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trade__claim-stage.is-animating .trade__claim-slot--out,
+  .trade__claim-stage.is-animating .trade__claim-slot--in {
+    animation: none;
+  }
+
+  .trade__claim-slot--out {
+    display: none;
+  }
+
+  .trade__claim-slot--in {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 720px) {
+  .trade__item-actions .btn {
+    flex: 0 0 auto;
+  }
+}

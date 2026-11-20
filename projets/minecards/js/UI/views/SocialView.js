@@ -13,6 +13,7 @@ import socialManager, {
 } from '../../business/SocialManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import { ProfileCard } from '../components/ProfileCard.js';
+import TradeView from './TradeView.js';
 
 /** View name, matching `data-view="social"` in `index.html`. */
 export const SOCIAL_VIEW_NAME = 'social';
@@ -57,6 +58,10 @@ export class SocialView {
     this.unfollowError = query('[data-social-unfollow-error]');
     this.unfollowConfirm = query('[data-social-unfollow-confirm]');
     this.unfollowCloseButtons = this.root.querySelectorAll('[data-social-unfollow-close]');
+
+    this.tradePanel = query('[data-social-panel="trade"]');
+    this.tradeView = null;
+    this.activeTab = 'follows';
 
     this.cards = new Map();
     this.following = [];
@@ -130,6 +135,16 @@ export class SocialView {
     this.isInitialized = true;
     this.bindEvents();
     this.subscribeToEvents();
+    // The trade tab is optional: a stale `index.html` keeps the Follow List working alone.
+    if (this.tradePanel) {
+      try {
+        this.tradeView = new TradeView(this.tradePanel, this.root);
+        this.tradeView.init();
+      } catch (error) {
+        console.error('[SocialView] The trade tab could not be initialized.', error);
+        this.tradeView = null;
+      }
+    }
     this.log('Ready.');
   }
 
@@ -139,6 +154,10 @@ export class SocialView {
    * @returns {void}
    */
   handleViewActivated() {
+    if (this.activeTab === 'trade' && this.tradeView) {
+      this.tradeView.activate();
+      return;
+    }
     void this.reload();
   }
 
@@ -229,6 +248,7 @@ export class SocialView {
         this.closeAddModal();
         this.closeUnfollowConfirmation();
         this.closeFriend();
+        this.tradeView?.deactivate();
       }
     }));
   }
@@ -250,6 +270,12 @@ export class SocialView {
     this.panels.forEach((panel) => {
       panel.hidden = panel.dataset.socialPanel !== name;
     });
+    this.activeTab = name;
+    // The trade tab owns its own loading: switching to it must not perform a Follow List read.
+    if (this.tradeView) {
+      if (name === 'trade') this.tradeView.activate();
+      else this.tradeView.deactivate();
+    }
   }
 
   /**
@@ -672,6 +698,7 @@ export class SocialView {
    * @returns {void}
    */
   destroy() {
+    this.tradeView?.destroy();
     this.bindings.forEach(({ target, type, handler }) => target.removeEventListener(type, handler));
     this.bindings = [];
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());

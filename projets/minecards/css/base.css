@@ -483,6 +483,13 @@ body[data-connection="offline"] .app-header__clock {
   object-fit: contain;
 }
 
+/* The Ender Eye is a pixel-art sprite: keep it crisp, and let the ender green halo it slightly so
+   it reads as a currency next to the Sparks coin. */
+.app-header__stat-icon--ender-eye {
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 0.35rem rgba(46, 230, 168, 0.45));
+}
+
 /* The daily reward draws its icon INLINE (the gift), so it follows the text colour like
    `.app-nav__item svg` instead of carrying the baked colours of a PNG. */
 svg.app-header__stat-icon {

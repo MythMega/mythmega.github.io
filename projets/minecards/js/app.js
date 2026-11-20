@@ -79,6 +79,7 @@ import autoClaimManager from './business/AutoClaimManager.js';
 import dailyRewardManager from './business/DailyRewardManager.js';
 import changelogManager from './business/ChangelogManager.js';
 import socialManager from './business/SocialManager.js';
+import tradeManager, { TRADE_MAX_ENDER_EYES } from './business/TradeManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
@@ -120,6 +121,11 @@ export const INVENTORY_SELECTORS = Object.freeze({
 /** Selector of the Sparks balance of the header. */
 export const HEADER_SPARKS_SELECTORS = Object.freeze({
   VALUE: '[data-header-sparks-value]',
+});
+
+/** Selector of the Ender Eyes balance of the header (the trade currency). */
+export const HEADER_ENDER_EYES_SELECTORS = Object.freeze({
+  VALUE: '[data-header-ender-eyes-value]',
 });
 
 /** Selectors of the daily reward button of the header and of its "something to claim" dot. */
@@ -571,6 +577,7 @@ export class App {
     this.bindHeader();
     this.bindHeaderIdentity();
     await this.refreshHeaderSparks();
+    await this.refreshHeaderEnderEyes();
     this.bindChangelogBadge();
     this.bindInventory();
     this.bindDailyRewards();
@@ -617,6 +624,9 @@ export class App {
     // seeded BEFORE the notifications are armed, for the same reason.
     await this.startTitles();
     await this.startGameNotifications();
+    // Trades are refreshed once at startup: it applies the pending refunds (a trade cancelled or
+    // expired while away) and announces what changed, without the player opening the Social page.
+    await this.refreshTrades();
     // The announcements come first, then the automatic codes (AutoClaim): both are deferred to
     // the next task, after the boot overlay is gone, and a gift waits for the announcement.
     this.startSetAnnouncements();
@@ -739,6 +749,7 @@ export class App {
         trophyManager.ensureState(),
         accountManager.ensureStatistics(),
         socialManager.ensureState(),
+        tradeManager.ensureState(),
       ]);
     } catch (error) {
       console.warn('[App] The profile and trophy states could not be created.', error);
@@ -1506,6 +1517,27 @@ export class App {
   }
 
   /**
+   * Refreshes the trades once at boot and announces what changed.
+   *
+   * The refresh is what applies the local refunds of a trade that was declined, cancelled or
+   * expired while the game was closed. A failure is never fatal: the game keeps working offline,
+   * and the Social page retries when it is opened.
+   *
+   * @returns {Promise<void>} Always resolves.
+   */
+  async refreshTrades() {
+    try {
+      const view = await tradeManager.refresh({ silent: true });
+      view.notifications.forEach((item) => notificationCenter.push(item));
+      if (view.notifications.length > 0) {
+        console.info(`[App] ${view.notifications.length} trade update(s) announced.`);
+      }
+    } catch (error) {
+      console.warn('[App] The trades could not be refreshed at startup.', error);
+    }
+  }
+
+  /**
    * Starts the monthly booster shop: allowance, price, quantity and purchase.
    *
    * A load failure must not break the whole boot: the view shows its own error message and the
@@ -1621,6 +1653,7 @@ export class App {
     eventBus.on(EVENTS.CONNECTION_STATUS, (payload) => this.setConnectionState(payload?.online));
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload?.balance));
+    eventBus.on(EVENTS.TRADES_UPDATED, (payload) => this.renderHeaderEnderEyes(payload?.balance));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
     eventBus.on(EVENTS.SAVE_IMPORTED, (payload) => this.handleSaveImported(payload));
     eventBus.on(EVENTS.QUEST_GUIDE_REQUESTED, (payload) => void this.guideToQuest(payload));
@@ -1826,6 +1859,41 @@ export class App {
     const value = document.querySelector(HEADER_SPARKS_SELECTORS.VALUE);
     if (!value) return;
     const amount = Number.isFinite(balance) ? Math.max(0, balance) : 0;
+    value.textContent = String(amount);
+  }
+
+  /**
+   * Reads the cached Ender Eyes balance and writes it in the header.
+   *
+   * The balance is owned by the worker (max 5, +1 per UTC day) and cached in `user_state["trades"]`
+   * by `TradeManager`. The header therefore shows the last known value, then follows every refresh
+   * through `TRADES_UPDATED`: no request is made just to paint the bar.
+   *
+   * @returns {Promise<void>} Resolves once the balance was drawn (a failure only logs).
+   */
+  async refreshHeaderEnderEyes() {
+    try {
+      const state = await tradeManager.getState();
+      this.renderHeaderEnderEyes(state.enderEyes);
+    } catch (error) {
+      console.warn('[App] The Ender Eyes balance of the header could not be read.', error);
+    }
+  }
+
+  /**
+   * Writes the Ender Eyes balance in the header.
+   *
+   * @param {number|null|undefined} balance - Last known balance, or null before the first read.
+   * @returns {void}
+   */
+  renderHeaderEnderEyes(balance) {
+    const value = document.querySelector(HEADER_ENDER_EYES_SELECTORS.VALUE);
+    if (!value) return;
+    // A missing balance is the initial stock: the worker opens the trade account with 5 Eyes, so a
+    // player who never refreshed still sees the truth instead of a zero.
+    const amount = Number.isFinite(balance)
+      ? Math.min(TRADE_MAX_ENDER_EYES, Math.max(0, balance))
+      : TRADE_MAX_ENDER_EYES;
     value.textContent = String(amount);
   }
 
@@ -2152,12 +2220,16 @@ export class App {
     const quota = dateSyncManager.getQuotaSnapshot();
     const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
     const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
-    const [blocks, picks, bundles, sparks] = await Promise.all([
+    const [blocks, picks, bundles, sparks, tradeState] = await Promise.all([
       this.readBlocksLeft(),
       this.readPicksLeft(),
       this.readOwnedBundles(),
       this.readSparksBalance(),
+      tradeManager.getState(),
     ]);
+    const enderEyes = Number.isInteger(tradeState?.enderEyes)
+      ? tradeState.enderEyes
+      : TRADE_MAX_ENDER_EYES;
 
     body.textContent = '';
     // Three sections: what the day still grants (boosters, blocks, picks), what the player owns
@@ -2191,7 +2263,12 @@ export class App {
     const wallet = document.createElement('ul');
     wallet.className = 'inventory__list';
     wallet.append(
-      App.buildInventoryRow({ icon: 'sparks', labelKey: 'inventory.sparks', value: sparks })
+      App.buildInventoryRow({ icon: 'sparks', labelKey: 'inventory.sparks', value: sparks }),
+      App.buildInventoryRow({
+        icon: 'endereye',
+        labelKey: 'inventory.enderEyes',
+        value: `${enderEyes} / ${TRADE_MAX_ENDER_EYES}`,
+      })
     );
     body.appendChild(wallet);
 
@@ -2376,6 +2453,8 @@ export class App {
       image.className = 'inventory__icon-image';
       if (icon === 'sparks') {
         image.src = 'assets/img/sparks.png';
+      } else if (icon === 'endereye') {
+        image.src = 'assets/img/endereye.webp';
       } else if (icon === 'bundle') {
         image.src = 'assets/img/bundle.png';
       } else {
@@ -2391,7 +2470,8 @@ export class App {
     label.textContent = i18n.t(labelKey);
     const amount = document.createElement('span');
     amount.className = 'inventory__value';
-    amount.textContent = String(Math.max(0, Number.isFinite(value) ? value : 0));
+    amount.textContent =
+      typeof value === 'string' ? value : String(Math.max(0, Number.isFinite(value) ? value : 0));
     item.append(badge, label, amount);
     return item;
   }

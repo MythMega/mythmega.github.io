@@ -47,6 +47,8 @@ export const NOTIFICATION_TYPES = Object.freeze({
   TITLE: 'title',
   /** An Illager quest reached its requirement and waits to be claimed. */
   QUEST: 'quest',
+  /** A trade was proposed, answered, accepted, closed or expired. */
+  TRADE: 'trade',
 });
 
 /** Visual variants, exposed as `data-variant` (an extra accent on top of the type). */

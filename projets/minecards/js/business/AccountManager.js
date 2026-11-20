@@ -67,6 +67,9 @@ export const USER_STATE_KEYS = Object.freeze({
   // Social publication: the secret write code of the trainer card and the followed UUIDs
   // (see `SocialManager`). The code stays in clear because the worker needs it on every update.
   SOCIAL: 'social',
+  // Trades with followed players (see `TradeManager`): the cached Ender Eyes balance, the cards
+  // and Sparks currently escrowed, and the statuses already announced.
+  TRADES: 'trades',
   TROPHIES: 'trophies',
   // Daily state, statistics and history of the Mine Pick (see `MinePickManager`).
   MINE_PICK: 'minePick',

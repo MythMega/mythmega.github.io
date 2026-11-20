@@ -67,6 +67,10 @@ export const EVENTS = Object.freeze({
    * wherever the player is. The rewards are already credited when it is emitted. */
   AUTO_CLAIM_GRANTED: 'AUTO_CLAIM_GRANTED',
   SPARKS_UPDATED: 'SPARKS_UPDATED',
+  /** Payload: `{ balance }`. Emitted by `TradeManager` after the Ender Eyes balance was read from
+   * the worker or spent: the header counter and the inventory listen to it. Ender Eyes are
+   * server-authoritative (max 5, +1 per UTC day), so this is a cache of the last known value. */
+  TRADES_UPDATED: 'TRADES_UPDATED',
   /** Payload: `{ profile }`. Emitted by ProfileManager after the name, the photo or the pinned
    * trophies changed: the profile page and the identity displays re-render from it. */
   PROFILE_UPDATED: 'PROFILE_UPDATED',

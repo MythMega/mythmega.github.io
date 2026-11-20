@@ -233,7 +233,7 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=38b9ac149a">
-  <link rel="stylesheet" href="css/base.css?v=edf62fd55f">
+  <link rel="stylesheet" href="css/base.css?v=9cd5cf183e">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=2a7719d47d">
   <link rel="stylesheet" href="css/views/shop.css?v=ee425ac9f0">
@@ -249,7 +249,7 @@
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
-  <link rel="stylesheet" href="css/views/social.css?v=ad3b2ea828">
+  <link rel="stylesheet" href="css/views/social.css?v=4c5948cbdd">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
@@ -263,7 +263,7 @@
   <link rel="stylesheet" href="css/components/card-roulette.css?v=ffd08ce0eb">
   <link rel="stylesheet" href="css/components/error-popup.css?v=6639af2fdc">
   <link rel="stylesheet" href="css/components/image-loader.css?v=40c1405fc5">
-  <link rel="stylesheet" href="css/components/notifications.css?v=e179758c8e">
+  <link rel="stylesheet" href="css/components/notifications.css?v=5550d74c4a">
   <link rel="stylesheet" href="css/components/install-prompt.css?v=11cabfc4d6">
   <link rel="stylesheet" href="css/components/info-hint.css?v=848c08b3f4">
   <!-- Animation modes: loaded LAST on purpose, they only override the animation of an opening
@@ -426,6 +426,13 @@
         <img class="app-header__stat-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
         <span class="sr-only" data-i18n="header.sparks.short">Sparks</span>
         <span class="app-header__sparks-value" data-header-sparks-value>0</span>
+      </div>
+      <!-- Ender Eyes: the trade currency. Same readout as Sparks, but capped (5) and refilled by
+           one per UTC day, which the tooltip states; `TradeManager` publishes every change. -->
+      <div class="app-header__stat app-header__stat--sparks app-header__stat--ender-eyes" data-header-ender-eyes data-i18n-title="header.enderEyes.title" title="Œils de l'End (maximum 5)">
+        <img class="app-header__stat-icon app-header__stat-icon--ender-eye" src="assets/img/endereye.webp" alt="" aria-hidden="true">
+        <span class="sr-only" data-i18n="header.enderEyes.short">Œils de l'End</span>
+        <span class="app-header__sparks-value" data-header-ender-eyes-value>0</span>
       </div>
       <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-nav-target="shop" data-i18n-title="header.shop.title" data-i18n-aria-label="header.shop.title" title="Boutique">
         <span class="app-header__stat-icon app-header__stat-icon--mask app-header__stat-icon--shop" aria-hidden="true"></span>
@@ -1341,6 +1348,18 @@
           <p class="stats__line" data-stats-mining-resources></p>
         </div>
 
+        <!-- Trades: the local counters of the exchange feature (`user_state["trades"].stats`),
+             written by `TradeManager` when a trade changes state. Ender Eyes are the only part of
+             that feature the worker owns, so nothing here needs the network. The explanations of
+             the mode live on the Info page. -->
+        <div class="panel stats__panel stats__panel--trades">
+          <h3 class="stats__title" data-i18n="stats.trade.title">Échanges</h3>
+          <p class="stats__line" data-stats-trade-summary></p>
+          <p class="stats__line stats__line--muted" data-stats-trade-closed></p>
+          <p class="stats__title stats__title--sub" data-i18n="stats.trade.rarity">Échanges conclus par rareté</p>
+          <div class="stats__bars" data-stats-trade-rarity></div>
+        </div>
+
         <!-- Last openings (the codes are shareable, the cards open the detail modal). -->
         <div class="panel stats__panel stats__panel--history">
           <h3 class="stats__title" data-i18n="stats.history.title">Dernières ouvertures</h3>
@@ -1921,6 +1940,13 @@
                   <span class="switch__state" data-settings-notification-quest-state></span>
                 </button>
               </div>
+              <div class="settings__toggle">
+                <span class="settings__toggle-label" data-i18n="settings.notifications.trade">Échanges</span>
+                <button type="button" class="switch" data-settings-notification-trade role="switch" aria-checked="true" data-i18n-aria-label="settings.notifications.trade">
+                  <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                  <span class="switch__state" data-settings-notification-trade-state></span>
+                </button>
+              </div>
             </div>
             <p class="settings__help" data-info-hint="settings-notifications" data-i18n="settings.notifications.help">Choisissez ce que le jeu annonce en haut de l'écran. Les messages d'action (un achat, une sauvegarde) ne sont pas concernés.</p>
             <!-- Moved after the panel help so both sentences read in order inside the "i" popover;
@@ -2390,7 +2416,8 @@
 
       <div class="social">
         <div class="social__tabs" role="tablist" data-social-tabs data-i18n-aria-label="social.tabs.label" aria-label="Sections sociales">
-          <button type="button" class="social__tab is-active" id="social-tab-follows" role="tab" data-social-tab="follows" aria-controls="social-panel-follows" aria-selected="true">Follow List</button>
+          <button type="button" class="social__tab is-active" id="social-tab-follows" role="tab" data-social-tab="follows" aria-controls="social-panel-follows" aria-selected="true" data-i18n="social.followTab">Amis</button>
+          <button type="button" class="social__tab" id="social-tab-trade" role="tab" data-social-tab="trade" aria-controls="social-panel-trade" aria-selected="false" tabindex="-1" data-i18n="social.tradeTab">Échanges</button>
         </div>
 
         <div class="social__panel" id="social-panel-follows" role="tabpanel" aria-labelledby="social-tab-follows" data-social-panel="follows">
@@ -2406,6 +2433,46 @@
             <ul class="social__list" data-social-list></ul>
             <p class="social__empty" data-social-empty data-i18n="social.empty">Aucun joueur suivi pour le moment. Ajoutez l'UUID d'un joueur qui a publié sa carte.</p>
           </section>
+        </div>
+
+        <!-- Trades: the Ender Eyes balance, the incoming and outgoing requests, and the history.
+             The trade statistics live on the statistics page (`StatsView`); the markup here is
+             static so `TradeView` can verify its contract once, at startup. -->
+        <div class="social__panel" id="social-panel-trade" role="tabpanel" aria-labelledby="social-tab-trade" data-social-panel="trade" hidden>
+          <p class="feedback" data-trade-feedback role="status" hidden></p>
+
+          <section class="panel trade__balance">
+            <img class="trade__eye" src="assets/img/endereye.webp" alt="" width="48" height="48" decoding="async">
+            <div class="trade__balance-text">
+              <strong class="trade__balance-value" data-trade-eyes>-</strong>
+              <span class="trade__balance-label" data-i18n="trade.eyes.label">Œils de l'End</span>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="social__toolbar">
+              <button type="button" class="btn btn--primary" data-trade-new data-i18n="trade.new">Proposer un échange</button>
+              <button type="button" class="btn btn--ghost" data-trade-refresh data-i18n="trade.refresh">Actualiser</button>
+            </div>
+
+            <p class="trade__empty" data-trade-empty hidden></p>
+
+            <div class="trade__groups">
+              <section class="trade__group" data-trade-incoming-group hidden>
+                <h3 class="trade__group-title" data-i18n="trade.incoming.title">Demandes reçues</h3>
+                <ul class="trade__list" data-trade-incoming></ul>
+              </section>
+              <section class="trade__group" data-trade-outgoing-group hidden>
+                <h3 class="trade__group-title" data-i18n="trade.outgoing.title">Mes demandes</h3>
+                <ul class="trade__list" data-trade-outgoing></ul>
+              </section>
+              <section class="trade__group" data-trade-history-group hidden>
+                <h3 class="trade__group-title" data-i18n="trade.history.title">Historique</h3>
+                <ul class="trade__list trade__list--history" data-trade-history></ul>
+              </section>
+            </div>
+          </section>
+
         </div>
       </div>
 
@@ -2461,6 +2528,81 @@
           </div>
         </div>
       </div>
+
+      <!-- New trade: a followed player, one duplicate of rarity 1-5, and the cost of the exchange. -->
+      <div class="modal" data-trade-new-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="trade-new-title">
+          <button type="button" class="modal__close" data-trade-new-close aria-label="×">×</button>
+          <h2 class="modal__title" id="trade-new-title" data-i18n="trade.new.title">Proposer un échange</h2>
+          <form class="trade__form" data-trade-new-form novalidate>
+            <label class="field" for="trade-friend">
+              <span class="field__label" data-i18n="trade.new.friend">Joueur suivi</span>
+              <select class="field__input" id="trade-friend" data-trade-friend></select>
+            </label>
+            <div class="trade__cards-block">
+              <span class="field__label" data-i18n="trade.new.card">Carte à donner</span>
+              <div class="trade__card-grid" data-trade-cards></div>
+            </div>
+            <p class="trade__cost-line" data-trade-new-cost></p>
+            <p class="social__add-error" data-trade-new-error role="alert" hidden></p>
+            <div class="modal__actions">
+              <button type="button" class="btn btn--ghost" data-trade-new-close data-i18n="social.cancel">Annuler</button>
+              <button type="submit" class="btn btn--primary" data-trade-new-confirm data-i18n="trade.new.confirm">Envoyer la demande</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Proposal: answer a request with a card of the very same rarity. -->
+      <div class="modal" data-trade-proposal-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="trade-proposal-title">
+          <button type="button" class="modal__close" data-trade-proposal-close aria-label="×">×</button>
+          <h2 class="modal__title" id="trade-proposal-title" data-i18n="trade.proposal.title">Proposer une carte</h2>
+          <form class="trade__form" data-trade-proposal-form novalidate>
+            <div class="trade__cards-block">
+              <span class="field__label" data-i18n="trade.proposal.card">Carte à donner</span>
+              <div class="trade__card-grid" data-trade-proposal-cards></div>
+            </div>
+            <p class="trade__cost-line" data-trade-proposal-cost></p>
+            <p class="social__add-error" data-trade-proposal-error role="alert" hidden></p>
+            <div class="modal__actions">
+              <button type="button" class="btn btn--ghost" data-trade-proposal-close data-i18n="social.cancel">Annuler</button>
+              <button type="submit" class="btn btn--primary" data-trade-proposal-confirm data-i18n="trade.proposal.confirm">Proposer cette carte</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Shared confirmation for the irreversible actions (deny, cancel, accept). -->
+      <div class="modal" data-trade-confirm-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-confirm-title">
+          <button type="button" class="modal__close" data-trade-confirm-close aria-label="×">×</button>
+          <h2 class="modal__title" id="trade-confirm-title" data-trade-confirm-title></h2>
+          <div class="modal__body">
+            <p data-trade-confirm-body></p>
+            <p class="social__add-error" data-trade-confirm-error role="alert" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-trade-confirm-close data-i18n="social.cancel">Annuler</button>
+            <button type="button" class="btn btn--primary" data-trade-confirm-action></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Claim: the card given leaves upwards, then the card received drops in. -->
+      <div class="modal" data-trade-claim-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-claim-title">
+          <h2 class="modal__title" id="trade-claim-title" data-trade-claim-title></h2>
+          <div class="trade__claim-stage" data-trade-claim-stage>
+            <div class="trade__claim-slot trade__claim-slot--out" data-trade-claim-out></div>
+            <div class="trade__claim-slot trade__claim-slot--in" data-trade-claim-in></div>
+          </div>
+          <p class="trade__claim-text" data-trade-claim-text></p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-trade-claim-close data-i18n="social.detail.close">Fermer</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 7. Information (how the application works, drop rates, credits) -->
@@ -2485,6 +2627,7 @@
             <li><a class="info__toc-link" href="#info-keyboard" data-info-toc-link="info-keyboard" data-i18n="info.keyboard.title">Contrôles clavier</a></li>
             <li><a class="info__toc-link" href="#info-mining" data-info-toc-link="info-mining" data-i18n="info.mining.title">Mine</a></li>
             <li><a class="info__toc-link" href="#info-trader" data-info-toc-link="info-trader" data-i18n="info.trader.title">Marchand itinérant</a></li>
+            <li><a class="info__toc-link" href="#info-trades" data-info-toc-link="info-trades" data-i18n="info.trades.title">Échanges</a></li>
             <li><a class="info__toc-link" href="#info-experience" data-info-toc-link="info-experience" data-i18n="info.experience.title">Expérience et niveaux</a></li>
             <li><a class="info__toc-link" href="#info-account-value" data-info-toc-link="info-account-value" data-i18n="info.accountValue.title">Valeur de compte</a></li>
             <li><a class="info__toc-link" href="#info-about" data-info-toc-link="info-about" data-i18n="info.about.title">À propos de MineCards</a></li>
@@ -2666,6 +2809,20 @@
             <li data-i18n="info.trader.step4">Une offre quotidienne vend une ressource contre des Sparks : la quantité est tirée au sort dans la limite d'une valeur fixée par la configuration, et son prix vaut le double de cette valeur.</li>
           </ol>
           <p class="info__note" data-i18n="info.trader.help">Tout ce que le marchand vend revient à minuit UTC pour les offres du jour, et le lundi pour les cartes de la semaine.</p>
+        </section>
+
+        <!-- Trades: the economy of the Ender Eyes, the currency that makes an exchange possible.
+             The numbers are the ones the worker enforces; the page only explains them. -->
+        <section class="panel info__panel" id="info-trades">
+          <h3 class="stats__title" data-i18n="info.trades.title">Échanges</h3>
+          <p class="info__text" data-i18n="info.trades.intro">L'onglet Échanges de la page Social permet de troquer une carte avec un ami qui a publié sa carte de dresseur. Chaque joueur propose une carte, et les deux cartes changent de main en même temps.</p>
+          <ol class="info__steps">
+            <li data-i18n="info.trades.step1">Chaque joueur paie le même prix : 1 Œil de l'End par point de rareté et rareté² Sparks. Une carte de rareté 3 coûte donc 3 Œils et 9 Sparks.</li>
+            <li data-i18n="info.trades.step2">Les deux cartes doivent avoir la même rareté. La rareté 6 ne s'échange jamais.</li>
+            <li data-i18n="info.trades.step3">Le stock d'Œils de l'End monte à 5 au maximum et remonte de 1 par jour, à minuit UTC. Un joueur qui découvre les échanges commence avec 5 Œils.</li>
+            <li data-i18n="info.trades.step4">Une demande reste ouverte 24 h. Passé ce délai elle expire et les deux joueurs sont remboursés ; un refus ou une annulation rembourse aussi tout le monde.</li>
+          </ol>
+          <p class="info__note" data-i18n="info.trades.help">Une seule demande ouverte à la fois par joueur. Une fois la contre-proposition acceptée, chacun récupère la carte reçue depuis l'onglet Échanges, et les compteurs de la page Statistiques suivent ces échanges.</p>
         </section>
 
         <!-- Experience: EVERY XP source and its exact value, read live from `settings/config.json`
@@ -2896,7 +3053,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=ab01e0d16c"></script>
+  <script type="module" src="js/app.js?v=f894ca61ae"></script>
 
 </body>
 </html>

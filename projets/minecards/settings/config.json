@@ -78,7 +78,7 @@
       "step": 1,
       "default": 3
     },
-    "types": ["collection", "experience", "title", "quest"]
+    "types": ["collection", "experience", "title", "quest", "trade"]
   },
   "social": {
     "_comment": "Follow List cache. 'refresh' bounds the minimum number of MINUTES between two network reads of a followed player's card. Opening the Social view (or reloading the page) reuses the persisted card while its last read is younger than this delay; the Refresh button always forces a read. The value is stored per account in user_state[\"settings\"].socialRefreshMinutes, and SocialManager keeps the last read time and the public card of each UUID in user_state[\"social\"].cardFetchedAt and .cardCache. A missing or corrupted value falls back to the default (2 minutes), and an out-of-range value is clamped so an older save still loads.",

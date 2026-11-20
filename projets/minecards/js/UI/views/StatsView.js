@@ -34,6 +34,7 @@ import {
   SPARKS_SPENT_SOURCES,
 } from '../../business/SparksManager.js';
 import miningManager from '../../business/MiningManager.js';
+import tradeManager from '../../business/TradeManager.js';
 import trophyManager from '../../business/TrophyManager.js';
 import { CARD_RARITY, getRarityLabel } from '../../classes/Card.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
@@ -96,6 +97,9 @@ export class StatsView {
     this.miningSummaryElement = this.root.querySelector('[data-stats-mining-summary]');
     this.miningBlocksElement = this.root.querySelector('[data-stats-mining-blocks]');
     this.miningResourcesElement = this.root.querySelector('[data-stats-mining-resources]');
+    this.tradeSummaryElement = this.root.querySelector('[data-stats-trade-summary]');
+    this.tradeClosedElement = this.root.querySelector('[data-stats-trade-closed]');
+    this.tradeRarityElement = this.root.querySelector('[data-stats-trade-rarity]');
 
     /** @type {Array<{code: string|null, setId: string, openedAt: string|null, godpack: boolean, set: object|null, cards: Array}>} */
     this.historyEntries = [];
@@ -158,6 +162,9 @@ export class StatsView {
       ['[data-stats-mining-summary]', this.miningSummaryElement],
       ['[data-stats-mining-blocks]', this.miningBlocksElement],
       ['[data-stats-mining-resources]', this.miningResourcesElement],
+      ['[data-stats-trade-summary]', this.tradeSummaryElement],
+      ['[data-stats-trade-closed]', this.tradeClosedElement],
+      ['[data-stats-trade-rarity]', this.tradeRarityElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -252,6 +259,13 @@ export class StatsView {
         if (this.isActive) this.handleBoosterOpened();
       })
     );
+    // A trade changes its local counters (and the Ender Eyes balance): the panel follows while it is
+    // on screen, and the activation of the view reloads it anyway.
+    this.unsubscribers.push(
+      eventBus.on(EVENTS.TRADES_UPDATED, () => {
+        if (this.isActive) this.handleBoosterOpened();
+      })
+    );
     this.log('Event subscriptions registered.');
   }
 
@@ -275,6 +289,7 @@ export class StatsView {
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
       const saved = await boosterManager.getSavedOpenings();
       const minepick = await minePickManager.getState();
+      const trading = await tradeManager.getState();
       const mining = await miningManager.getState({ lang: cardLanguage.getLang() });
       const miningBlocks = await miningManager.listBlocks(cardLanguage.getLang());
       const miningResources = await miningManager.listResources();
@@ -287,6 +302,7 @@ export class StatsView {
       this.renderTop(stats, view);
       this.renderMinePick(minepick, view);
       this.renderMining(mining, miningBlocks, miningResources);
+      this.renderTrades(trading);
       this.renderHistory(history);
       this.renderSaved(saved);
     } catch (error) {
@@ -587,6 +603,47 @@ export class StatsView {
     }
 
     this.log(`Mine Pick: ${state?.totalPicks ?? 0} pick(s), ${state?.remaining ?? 0} left today.`);
+  }
+
+  /**
+   * Renders the Trades panel from the LOCAL counters of the exchange feature.
+   *
+   * Those counters are written by `TradeManager` inside the save (`user_state["trades"].stats`),
+   * like every other statistic of the game: `buildStatsView` already shapes them, so the panel and
+   * the trade screen can never diverge. Ender Eyes are server-side, the counters are not.
+   *
+   * @param {object} state - State returned by `TradeManager.getState()`.
+   * @returns {void}
+   */
+  renderTrades(state) {
+    const stats = tradeManager.buildStatsView(state.stats);
+    const totals = stats.totals;
+    this.tradeSummaryElement.textContent = i18n.t('stats.trade.summary', {
+      completed: totals.completed,
+      given: totals.cards_given,
+      received: totals.cards_received,
+      sparks: totals.sparks_spent,
+      eyes: totals.ender_eyes_spent,
+    });
+    this.tradeClosedElement.textContent = i18n.t('stats.trade.closed', {
+      cancelled: totals.cancelled,
+      declined: totals.declined,
+      expired: totals.expired,
+    });
+
+    this.tradeRarityElement.textContent = '';
+    const byRarity = stats.by_rarity ?? {};
+    const rows = Object.entries(byRarity)
+      .filter(([, row]) => row && row.completed > 0)
+      .sort(([a], [b]) => Number(b) - Number(a));
+    if (rows.length === 0) {
+      this.tradeRarityElement.textContent = i18n.t('stats.trade.empty');
+      return;
+    }
+    rows.forEach(([rarity, row]) => {
+      const label = getRarityLabel(Number(rarity), (key) => i18n.t(key));
+      this.tradeRarityElement.appendChild(this.buildBar(label, row.completed, totals.completed));
+    });
   }
 
   /**

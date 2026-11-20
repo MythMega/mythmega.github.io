@@ -144,6 +144,15 @@
   color: var(--color-title);
 }
 
+/* A trade moved forward (proposed, accepted, closed): the Ender purple of the exchange cards. */
+.notification[data-type="trade"] {
+  border-left-color: var(--color-rarity-super);
+}
+
+.notification[data-type="trade"] .notification__badge {
+  color: var(--color-rarity-super);
+}
+
 /* --- Variants --------------------------------------------------------------- */
 
 /* A collection completed by this very opening. */

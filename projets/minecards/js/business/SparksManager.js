@@ -71,6 +71,7 @@ export const SPARKS_SOURCES = Object.freeze({
   TRADER: 'trader',
   ILLAGER: 'illager',
   QUEST: 'quest',
+  TRADE: 'trade',
   OTHER: 'other',
 });
 
@@ -84,6 +85,7 @@ export const SPARKS_EARNED_SOURCES = Object.freeze([
   SPARKS_SOURCES.GIFT,
   SPARKS_SOURCES.ILLAGER,
   SPARKS_SOURCES.QUEST,
+  SPARKS_SOURCES.TRADE,
   SPARKS_SOURCES.OTHER,
 ]);
 
@@ -95,6 +97,7 @@ export const SPARKS_SPENT_SOURCES = Object.freeze([
   SPARKS_SOURCES.FEATURE,
   SPARKS_SOURCES.MINE_PICK,
   SPARKS_SOURCES.TRADER,
+  SPARKS_SOURCES.TRADE,
   SPARKS_SOURCES.OTHER,
 ]);
 

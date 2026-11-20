@@ -1,0 +1,482 @@
+/**
+ * Trade tests - local escrow, refunds and received cards.
+ *
+ * The worker owns the trade status machine, the Ender Eyes stock and the 24 h deadline; these
+ * tests therefore exercise the half that lives in the browser:
+ *   - a sent trade removes exactly one copy and the Sparks, and stores an escrow;
+ *   - a refused request leaves the collection and the balance untouched;
+ *   - a closed trade gives the card and the Sparks back ONCE, even after a reload;
+ *   - a claimed trade adds the received card ONCE;
+ *   - the first refresh announces a new incoming request, never the imported history.
+ *
+ * `fetch` is stubbed: the tests assert what the client does with a worker answer, not the worker
+ * itself (which is covered by D1 and `src/tradeService.ts`).
+ */
+
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import {
+  installFakeStorage,
+  resetStorage,
+  readCollection,
+  readState,
+  STORES,
+} from './helpers/fake_storage.mjs';
+import { USER_STATE_KEYS } from '../../js/business/AccountManager.js';
+import { SocialError, SOCIAL_ERROR_CODES } from '../../js/business/SocialManager.js';
+import { storageRepository } from '../../js/models/StorageRepository.js';
+import tradeManager, {
+  TradeError,
+  TradeManager,
+  buildDefaultTradeState,
+  getTradeCost,
+  getTradeErrorMessageKey,
+  TRADE_ERROR_CODES,
+  TRADE_MAX_ENDER_EYES,
+  TRADE_STATUSES,
+} from '../../js/business/TradeManager.js';
+
+installFakeStorage();
+
+const UUID = '38cc0f6a-a0e9-43d1-9c30-1c239d64af48';
+const FRIEND = '211d06bb-6cb7-492a-9d55-10a3d58d2885';
+const KEY = 'SERIE-A1 / W001_classic';
+const RECEIVED_KEY = 'SERIE-A1 / W002_classic';
+
+/** Requests the stub received, in order. */
+let calls = [];
+
+/** Responses waiting to be served by the stub, in order. */
+let queue = [];
+
+/** Original `fetch`, restored when the suite ends. */
+const realFetch = globalThis.fetch;
+
+/**
+ * Serves one canned response per call.
+ *
+ * @param {unknown} url - Requested URL.
+ * @param {object} [options] - Fetch options.
+ * @returns {Promise<object>} A minimal `Response`-like object.
+ */
+async function fetchStub(url, options = {}) {
+  calls.push({ url: String(url), method: options.method ?? 'GET', body: options.body ?? null });
+  const next = queue.shift();
+  if (!next) throw new Error(`Unexpected request: ${options.method ?? 'GET'} ${url}`);
+  const status = next.status ?? 200;
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    json: async () => next.body,
+  };
+}
+
+globalThis.fetch = fetchStub;
+
+test.after(() => {
+  globalThis.fetch = realFetch;
+});
+
+/**
+ * Seeds one account with a duplicate and a Sparks balance.
+ *
+ * @param {object} [options] - Seed options.
+ * @returns {void}
+ */
+function seed({
+  quantity = 2,
+  sparks = 50,
+  escrows = {},
+  claimed = {},
+  seen = {},
+  lastRefreshAt = 0,
+  enderEyes = 5,
+} = {}) {
+  calls = [];
+  queue = [];
+  resetStorage({
+    [STORES.USER_STATE]: {
+      account: { uuid: UUID, createdAt: '2026-01-01T00:00:00.000Z' },
+      social: {
+        authCode: 'ABCDEFGHIJKLMNOP',
+        following: [FRIEND],
+        cardFetchedAt: {},
+        cardCache: {},
+      },
+      sparks,
+      [USER_STATE_KEYS.TRADES]: {
+        ...buildDefaultTradeState(),
+        escrows,
+        claimed,
+        seen,
+        lastRefreshAt,
+        enderEyes,
+      },
+      stats: {
+        sparksEarned: 0,
+        sparksSpent: 0,
+        sparksEarnedBySource: {},
+        sparksSpentBySource: {},
+      },
+    },
+    [STORES.COLLECTION]: {
+      [KEY]: {
+        key: KEY,
+        cardId: 'SERIE-A1 / W001',
+        style: 'classic',
+        set: 'A1',
+        quantity,
+        firstObtainedAt: '2026-01-01T00:00:00.000Z',
+        lastObtainedAt: '2026-01-01T00:00:00.000Z',
+      },
+    },
+  });
+}
+
+/**
+ * Builds the collection entry the trade flow receives.
+ *
+ * @param {number} [rarity=3] - Card rarity.
+ * @returns {object} The entry.
+ */
+function buildEntry(rarity = 3) {
+  return {
+    key: KEY,
+    cardId: 'SERIE-A1 / W001',
+    style: 'classic',
+    set: 'A1',
+    rarity,
+    quantity: 2,
+    card: { getName: () => 'Creeper' },
+  };
+}
+
+test('a trade costs one Ender Eye per rarity and rarity squared Sparks', () => {
+  assert.deepEqual(getTradeCost(1), { sparks: 1, enderEyes: 1 });
+  assert.deepEqual(getTradeCost(4), { sparks: 16, enderEyes: 4 });
+  assert.deepEqual(getTradeCost(5), { sparks: 25, enderEyes: 5 });
+});
+
+test('a missing Ender Eyes balance starts at the full stock of 5', async () => {
+  resetStorage();
+  // A player who discovers the feature has no `user_state["trades"]` yet: the worker opens the
+  // account with 5 Eyes, so the client shows that initial stock instead of 0 or a dash.
+  assert.equal((await tradeManager.getState()).enderEyes, TRADE_MAX_ENDER_EYES);
+  // The same goes for a state that was stored with a null balance.
+  await storageRepository.setUserState(USER_STATE_KEYS.TRADES, { enderEyes: null });
+  assert.equal((await tradeManager.getState()).enderEyes, TRADE_MAX_ENDER_EYES);
+  // A real balance is kept as is, clamped to the maximum.
+  await storageRepository.setUserState(USER_STATE_KEYS.TRADES, { enderEyes: 2 });
+  assert.equal((await tradeManager.getState()).enderEyes, 2);
+});
+
+test('the local Ender Eyes stock refills by one per UTC day, capped at 5', async () => {
+  seed({ enderEyes: 2 });
+  const today = new Date().toISOString().slice(0, 10);
+  const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+  await storageRepository.setUserState(USER_STATE_KEYS.TRADES, {
+    ...buildDefaultTradeState(),
+    enderEyes: 2,
+    enderEyesDay: yesterday,
+  });
+  assert.equal((await tradeManager.getState()).enderEyes, 3);
+
+  // Several days at once never exceed the cap.
+  await storageRepository.setUserState(USER_STATE_KEYS.TRADES, {
+    ...buildDefaultTradeState(),
+    enderEyes: 4,
+    enderEyesDay: '2026-01-01',
+  });
+  assert.equal((await tradeManager.getState()).enderEyes, 5);
+
+  // A second read on the same day does not grant anything more.
+  await storageRepository.setUserState(USER_STATE_KEYS.TRADES, {
+    ...buildDefaultTradeState(),
+    enderEyes: 1,
+    enderEyesDay: today,
+  });
+  assert.equal((await tradeManager.getState()).enderEyes, 1);
+});
+
+test('only duplicates of rarity 1 to 5 are tradable, promos excluded', () => {
+  const entries = TradeManager.listTradableEntries({
+    entries: [
+      { key: 'dup3', cardId: 'A', rarity: 3, quantity: 2, owned: true },
+      { key: 'single', cardId: 'B', rarity: 3, quantity: 1, owned: true },
+      { key: 'unique', cardId: 'C', rarity: 6, quantity: 4, owned: true },
+      { key: 'promo', cardId: 'D', rarity: 2, quantity: 2, owned: true, promo: true },
+      { key: 'dup1', cardId: 'E', rarity: 1, quantity: 3, owned: true },
+      { key: 'missing', cardId: 'F', rarity: 2, quantity: 0, owned: false },
+    ],
+  });
+  assert.deepEqual(
+    entries.map((entry) => entry.key),
+    ['dup3', 'dup1']
+  );
+});
+
+test('sending a trade consumes one copy, the Sparks and stores the escrow', async () => {
+  seed();
+  queue.push({ status: 201, body: { trade: { id: 't1' }, ender_eyes: 2 } });
+
+  await tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) });
+
+  const row = readCollection(KEY);
+  assert.equal(row.quantity, 1);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 41);
+  const state = readState(USER_STATE_KEYS.TRADES);
+  assert.equal(state.enderEyes, 2);
+  assert.equal(state.escrows.t1.sparks, 9);
+  assert.equal(state.escrows.t1.card.key, KEY);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].method, 'POST');
+  assert.match(calls[0].url, /\/trades$/);
+  // Every worker request carries the pair, even though the trade itself is public data.
+  const sent = JSON.parse(calls[0].body);
+  assert.equal(sent.uuid, UUID);
+  assert.equal(sent.auth_code, 'ABCDEFGHIJKLMNOP');
+  assert.equal(sent.ender_eyes, undefined);
+});
+
+test('a trade that moved on the other side maps to a conflict message', () => {
+  // The worker answers 409 when the trade moved (denied, withdrawn, expired, accepted meanwhile)
+  // and 404 when it is gone: both must read as a stale trade, not as a generic HTTP failure.
+  const refusedWith = (status) =>
+    new SocialError(SOCIAL_ERROR_CODES.HTTP, 'refused', { status });
+  assert.equal(getTradeErrorMessageKey(refusedWith(409)), 'trade.error.conflict');
+  assert.equal(getTradeErrorMessageKey(refusedWith(404)), 'trade.error.notFound');
+  assert.equal(getTradeErrorMessageKey(refusedWith(403)), 'trade.error.auth');
+  assert.equal(getTradeErrorMessageKey(refusedWith(500)), 'trade.error.http');
+});
+
+test('a trade is refused locally when there are not enough Ender Eyes', async () => {
+  seed({ enderEyes: 2 });
+  // No response is queued: any call to the worker would throw instead of being answered.
+  await assert.rejects(
+    () => tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) }),
+    (error) =>
+      error instanceof TradeError && error.code === TRADE_ERROR_CODES.NOT_ENOUGH_ENDER_EYES
+  );
+
+  assert.equal(calls.length, 0, 'the refusal must not reach the worker');
+  assert.equal(readCollection(KEY).quantity, 2, 'the card must stay in the collection');
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50, 'no Sparks may be spent');
+  assert.equal(readState(USER_STATE_KEYS.TRADES).enderEyes, 2, 'the stock is unchanged');
+  assert.deepEqual(readState(USER_STATE_KEYS.TRADES).escrows, {}, 'no escrow is recorded');
+});
+
+test('a trade is refused locally when there are not enough Sparks', async () => {
+  seed({ sparks: 5 });
+  await assert.rejects(
+    () => tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) }),
+    (error) => error instanceof TradeError && error.code === TRADE_ERROR_CODES.NOT_ENOUGH_SPARKS
+  );
+  assert.equal(calls.length, 0, 'the refusal must not reach the worker');
+  assert.equal(readCollection(KEY).quantity, 2);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 5);
+  assert.equal(readState(USER_STATE_KEYS.TRADES).enderEyes, 5);
+});
+
+test('a counter-proposal is refused locally when the stock cannot pay it', async () => {
+  seed({ enderEyes: 1, quantity: 1 });
+  await assert.rejects(
+    () => tradeManager.proposeTrade({ tradeId: 't1', entry: buildEntry(3) }),
+    (error) =>
+      error instanceof TradeError && error.code === TRADE_ERROR_CODES.NOT_ENOUGH_ENDER_EYES
+  );
+  assert.equal(calls.length, 0, 'the refusal must not reach the worker');
+  assert.equal(readState(USER_STATE_KEYS.TRADES).enderEyes, 1);
+});
+
+test('a refused request leaves the collection and the balance untouched', async () => {
+  seed();
+  queue.push({ status: 403, body: { error: 'Authentification invalide pour cet UUID.' } });
+
+  await assert.rejects(
+    () => tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) }),
+    (error) => error.status === 403
+  );
+
+  assert.equal(readCollection(KEY).quantity, 2);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
+  assert.deepEqual(readState(USER_STATE_KEYS.TRADES).escrows, {});
+});
+
+test('a declined trade gives the card and the Sparks back exactly once', async () => {
+  seed({
+    quantity: 1,
+    sparks: 41,
+    lastRefreshAt: Date.now(),
+    enderEyes: 2,
+    escrows: {
+      t1: {
+        role: 'initiator',
+        card: { key: KEY, card_id: 'SERIE-A1 / W001', style: 'classic', set: 'A1', rarity: 3 },
+        sparks: 9,
+        enderEyes: 3,
+        createdAt: Date.now(),
+      },
+    },
+  });
+
+  const declined = {
+    id: 't1',
+    status: TRADE_STATUSES.DECLINED,
+    rarity: 3,
+    sparks_cost: 9,
+    ender_eyes_cost: 3,
+    my_role: 'initiator',
+    initiator: { uuid: UUID, username: 'Myth', card: null, claimed: false },
+    responder: { uuid: FRIEND, username: 'Bonhomme', card: null, claimed: false },
+    created_at: '2026-11-20 10:00:00',
+  };
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [], history: [declined], stats: null } });
+  const first = await tradeManager.refresh();
+  assert.equal(first.ready, true);
+  assert.equal(readCollection(KEY).quantity, 2);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
+  // The Ender Eyes are local too: the escrow holds them and the refund gives them back, capped.
+  assert.equal(readState(USER_STATE_KEYS.TRADES).enderEyes, 5);
+  assert.deepEqual(readState(USER_STATE_KEYS.TRADES).escrows, {});
+
+  // A second refresh must not refund again: the escrow entry is gone.
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [], history: [declined], stats: null } });
+  await tradeManager.refresh();
+  assert.equal(readCollection(KEY).quantity, 2);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
+});
+
+test('the first refresh announces a new incoming request but not imported history', async () => {
+  seed();
+  const incoming = {
+    id: 't2',
+    status: TRADE_STATUSES.PENDING,
+    rarity: 2,
+    sparks_cost: 4,
+    ender_eyes_cost: 2,
+    my_role: 'responder',
+    initiator: {
+      uuid: FRIEND,
+      username: 'Bonhomme',
+      card: { key: RECEIVED_KEY, name: 'Zombie', rarity: 2 },
+      claimed: false,
+    },
+    responder: { uuid: UUID, username: 'Myth', card: null, claimed: false },
+    created_at: '2026-11-20 10:00:00',
+  };
+  const oldTrade = { ...incoming, id: 't3', status: TRADE_STATUSES.COMPLETED };
+  queue.push({
+    body: { ender_eyes: 5, incoming: [incoming], outgoing: [], history: [oldTrade], stats: null },
+  });
+
+  const view = await tradeManager.refresh();
+  assert.equal(view.notifications.length, 1);
+  assert.equal(view.notifications[0].type, 'trade');
+  assert.match(view.notifications[0].title, /./);
+  const state = readState(USER_STATE_KEYS.TRADES);
+  assert.equal(state.seen.t2, TRADE_STATUSES.PENDING);
+  assert.equal(state.seen.t3, TRADE_STATUSES.COMPLETED);
+});
+
+test('claiming adds the received card once and clears the escrow', async () => {
+  seed({
+    quantity: 1,
+    sparks: 41,
+    lastRefreshAt: Date.now(),
+    escrows: {
+      t4: {
+        role: 'initiator',
+        card: { key: KEY, card_id: 'SERIE-A1 / W001', style: 'classic', set: 'A1', rarity: 3 },
+        sparks: 9,
+        createdAt: Date.now(),
+      },
+    },
+  });
+
+  const trade = {
+    id: 't4',
+    status: TRADE_STATUSES.ACCEPTED,
+    rarity: 3,
+    sparks_cost: 9,
+    ender_eyes_cost: 3,
+    my_role: 'initiator',
+    initiator: {
+      uuid: UUID,
+      username: 'Myth',
+      card: { key: KEY, name: 'Creeper', rarity: 3 },
+      claimed: false,
+    },
+    responder: {
+      uuid: FRIEND,
+      username: 'Bonhomme',
+      card: { key: RECEIVED_KEY, card_id: 'SERIE-A1 / W002', style: 'classic', set: 'A1', rarity: 3, name: 'Zombie' },
+      claimed: false,
+    },
+    created_at: '2026-11-20 10:00:00',
+  };
+
+  queue.push({ body: { trade_id: 't4', status: 'accepted', claimed: true } });
+  queue.push({
+    body: { ender_eyes: 2, incoming: [], outgoing: [trade], history: [], stats: null },
+  });
+
+  const received = await tradeManager.claimTrade(trade);
+  assert.equal(received.key, RECEIVED_KEY);
+  assert.equal(readCollection(RECEIVED_KEY).quantity, 1);
+  assert.equal(readCollection(KEY).quantity, 1);
+  const state = readState(USER_STATE_KEYS.TRADES);
+  assert.equal(state.claimed.t4, true);
+  assert.equal(state.escrows.t4, undefined);
+
+  // Claiming twice is a no-op: the card is not added again.
+  assert.equal(await tradeManager.claimTrade(trade), null);
+  assert.equal(readCollection(RECEIVED_KEY).quantity, 1);
+});
+
+test('trade statistics live locally and count each transition once', async () => {
+  seed({ lastRefreshAt: Date.now(), seen: { t5: 'accepted', t6: 'pending' } });
+
+  const completed = {
+    id: 't5',
+    status: TRADE_STATUSES.COMPLETED,
+    rarity: 3,
+    sparks_cost: 9,
+    ender_eyes_cost: 3,
+    my_role: 'initiator',
+    initiator: { uuid: UUID, username: 'Myth', card: { key: KEY, name: 'Creeper' }, claimed: true },
+    responder: { uuid: FRIEND, username: 'Bonhomme', card: { key: RECEIVED_KEY, name: 'Zombie' }, claimed: true },
+    created_at: '2026-11-20 10:00:00',
+  };
+  const cancelled = {
+    ...completed,
+    id: 't6',
+    status: TRADE_STATUSES.CANCELLED,
+    rarity: 2,
+    sparks_cost: 4,
+    ender_eyes_cost: 2,
+  };
+
+  queue.push({
+    body: { ender_eyes: 5, incoming: [], outgoing: [], history: [completed, cancelled] },
+  });
+  const view = await tradeManager.refresh();
+  assert.equal(view.stats.totals.completed, 1);
+  assert.equal(view.stats.totals.cancelled, 1);
+  assert.equal(view.stats.totals.sparks_spent, 9);
+  assert.equal(view.stats.totals.ender_eyes_spent, 3);
+  assert.equal(view.stats.totals.cards_given, 1);
+  assert.equal(view.stats.totals.cards_received, 1);
+  assert.equal(view.stats.by_rarity['3'].completed, 1);
+  assert.equal(view.stats.by_rarity['2'].cancelled, 1);
+  assert.equal(readState(USER_STATE_KEYS.TRADES).stats.completed, 1);
+
+  // The same statuses observed again must not increment anything.
+  queue.push({
+    body: { ender_eyes: 5, incoming: [], outgoing: [], history: [completed, cancelled] },
+  });
+  const again = await tradeManager.refresh();
+  assert.equal(again.stats.totals.completed, 1);
+  assert.equal(again.stats.totals.cancelled, 1);
+  assert.equal(again.stats.totals.sparks_spent, 9);
+});

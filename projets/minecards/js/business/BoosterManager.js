@@ -857,6 +857,27 @@ export class BoosterManager {
   }
 
   /**
+   * Finds one card by its collection key, in every loaded extension.
+   *
+   * Used by the trade screen: a card received from another player is drawn from the local
+   * catalogue (the worker stores the key, never an illustration path), and the collection itself
+   * does not know the card before it is owned.
+   *
+   * @param {string} key - Collection key (`uniqueKey`).
+   * @returns {Promise<Card|null>} The card, or null when no extension declares it.
+   * @throws {Error} When the extensions cannot be loaded.
+   */
+  async getCardByKey(key) {
+    if (typeof key !== 'string' || key === '') return null;
+    await this.init();
+    for (const set of Object.values(this.boosterSets ?? {})) {
+      const card = set?.cards?.find((candidate) => candidate.uniqueKey === key);
+      if (card) return card;
+    }
+    return null;
+  }
+
+  /**
    * Reads the openings pinned by the player, with their cards resolved.
    *
    * A saved opening is a history entry (`code`, `setId`, `openedAt`, `godpack`, `keys`) plus an

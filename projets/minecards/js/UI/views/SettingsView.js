@@ -187,12 +187,14 @@ export class SettingsView {
       experience: query('[data-settings-notification-experience]'),
       title: query('[data-settings-notification-title]'),
       quest: query('[data-settings-notification-quest]'),
+      trade: query('[data-settings-notification-trade]'),
     };
     this.notificationStateElements = {
       collection: query('[data-settings-notification-collection-state]'),
       experience: query('[data-settings-notification-experience-state]'),
       title: query('[data-settings-notification-title-state]'),
       quest: query('[data-settings-notification-quest-state]'),
+      trade: query('[data-settings-notification-trade-state]'),
     };
     this.demoStage = query('[data-animation-demo-stage]');
     this.demoTiles = query('[data-animation-demo-tiles]');
@@ -312,7 +314,7 @@ export class SettingsView {
     /** @type {number} Duration of one notification, in seconds. */
     this.notificationDuration = 3;
     /** @type {Record<string, boolean>} Allowed notification kinds. */
-    this.notificationTypes = { collection: true, experience: true, title: true, quest: true };
+    this.notificationTypes = { collection: true, experience: true, title: true, quest: true, trade: true };
     /** @type {string} Speed of the automatic mining (`normal`, `fast` or `veryFast`). */
     this.mineSpeed = DEFAULT_MINE_SPEED;
     /** @type {number} Minimum delay between two reads of a followed card, in minutes. */
@@ -413,6 +415,7 @@ export class SettingsView {
       ['[data-settings-notification-experience]', this.notificationToggles.experience],
       ['[data-settings-notification-title]', this.notificationToggles.title],
       ['[data-settings-notification-quest]', this.notificationToggles.quest],
+      ['[data-settings-notification-trade]', this.notificationToggles.trade],
       ['[data-animation-demo-stage]', this.demoStage],
       ['[data-animation-demo-tiles]', this.demoTiles],
       ['[data-animation-demo-play]', this.demoPlayButton],

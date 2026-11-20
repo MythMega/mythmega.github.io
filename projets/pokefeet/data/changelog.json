@@ -1,5 +1,14 @@
 [
     {
+        "Version": { "Major": 6, "Minor": 1, "Patch": 0, "Stage": "Release" },
+        "Title": "Trans Day Of Remembrance",
+        "Date": "20/11/2026",
+        "Changelog": [
+            { "Type": "Content", "Severity": 3, "Translation_FR": "Event Challenge Temporaire : Transgender Day Of Remembrance (TDOR)", "Translation_EN": "Temporary Event Challenge : Transgender Day Of Remembrance (TDOR)" },
+            { "Type": "Fix", "Severity": 2, "Translation_FR": "Nettoyage complet du code (fichiers éclatés source en artéfacts)", "Translation_EN": "Complete code cleanup (breaking down source files into artifacts)" }
+        ]
+    },
+    {
         "Version": { "Major": 6, "Minor": 0, "Patch": 0, "Stage": "Release" },
         "Title": "Mega Evolution",
         "Date": "02/11/2026",

@@ -3,8 +3,8 @@
  * Validateur des JSON de données Pokefeet (sans navigateur).
  *
  * Chaque fichier de data/ est d'abord identifié (manifeste, espèces, trophées,
- * récompenses de niveau, défis, cosmétiques, crédits, changelog, version,
- * archive d'export), puis chaque entrée est vérifiée champ par champ, avec ses
+ * récompenses de niveau, défis, cosmétiques, crédits, changelog, version),
+ * puis chaque entrée est vérifiée champ par champ, avec ses
  * références croisées : une espèce citée par un défi, un trophée exigé par un
  * prérequis ou un cosmétique offert doivent exister.
  *
@@ -12,11 +12,6 @@
  *
  *   data/bonus_challenges/event.json
  *     #1 (ID 1) › Availabilities[1].End · date inexistante « 2027-06-31 »
- *
- * Les archives (data/backup.json, data/trophies.json, …) ne sont pas chargées
- * par l'application : elles ne subissent qu'un contrôle de forme (types,
- * énumérations, identifiants uniques), sans exigence de fichiers ni de
- * références, pour ne pas signaler des chemins historiques.
  *
  * Aucune dépendance npm. Usage : npm run test:json
  */
@@ -119,13 +114,8 @@ function isHttpUrl(value) {
   }
 }
 
-// Un identifiant ne doit apparaître qu'une fois par famille (par archive).
-// Les archives reprennent les identifiants des fichiers chargés : l'unicité
-// se juge donc à leur échelle de fichier, pas de famille.
-function scopeKey(ctx, family) {
-  return ctx.legacy ? family + ':' + ctx.file : family;
-}
-
+// Un identifiant ne doit apparaître qu'une seule fois dans sa famille
+// (espèces, trophées, récompenses, défis, cosmétiques).
 function claimUnique(scope, ctx, at, field, value) {
   const key = `${scope}:${String(value)}`;
   if (uniques.has(key)) report(ctx.file, at, field, `doublon de ${uniques.get(key)}`);
@@ -135,7 +125,7 @@ function claimUnique(scope, ctx, at, field, value) {
 function checkText(ctx, entry, at, field, options = {}) {
   const value = entry[field];
   if (value === undefined || value === null) {
-    if (!options.optional && !ctx.legacy) report(ctx.file, at, field, 'champ obligatoire absent');
+    if (!options.optional) report(ctx.file, at, field, 'champ obligatoire absent');
     return;
   }
   if (!isText(value)) {
@@ -148,7 +138,7 @@ function checkText(ctx, entry, at, field, options = {}) {
   if (options.pattern && !options.pattern.test(value)) {
     report(ctx.file, at, field, `format inattendu « ${value} »`);
   }
-  if (options.asset && !ctx.legacy && !assetExists(value)) {
+  if (options.asset && !assetExists(value)) {
     report(ctx.file, at, field, `fichier introuvable « ${value} »`);
   }
   if (options.url && !isHttpUrl(value)) {
@@ -165,7 +155,7 @@ function checkText(ctx, entry, at, field, options = {}) {
 function checkInt(ctx, entry, at, field, options = {}) {
   const value = entry[field];
   if (value === undefined || value === null) {
-    if (!options.optional && !ctx.legacy) report(ctx.file, at, field, 'champ obligatoire absent');
+    if (!options.optional) report(ctx.file, at, field, 'champ obligatoire absent');
     return;
   }
   if (!Number.isInteger(value)) {
@@ -183,7 +173,7 @@ function checkInt(ctx, entry, at, field, options = {}) {
 function checkBool(ctx, entry, at, field, options = {}) {
   const value = entry[field];
   if (value === undefined || value === null) {
-    if (!options.optional && !ctx.legacy) report(ctx.file, at, field, 'champ obligatoire absent');
+    if (!options.optional) report(ctx.file, at, field, 'champ obligatoire absent');
     return;
   }
   if (typeof value !== 'boolean') report(ctx.file, at, field, `booléen attendu (reçu ${describe(value)})`);
@@ -193,7 +183,7 @@ function checkBool(ctx, entry, at, field, options = {}) {
 function checkArray(ctx, entry, at, field, options = {}) {
   const value = entry[field];
   if (value === undefined || value === null) {
-    if (!options.optional && !ctx.legacy) report(ctx.file, at, field, 'champ obligatoire absent');
+    if (!options.optional) report(ctx.file, at, field, 'champ obligatoire absent');
     return null;
   }
   if (!Array.isArray(value)) {
@@ -209,7 +199,7 @@ function checkArray(ctx, entry, at, field, options = {}) {
 function checkObject(ctx, entry, at, field, options = {}) {
   const value = entry[field];
   if (value === undefined || value === null) {
-    if (!options.optional && !ctx.legacy) report(ctx.file, at, field, 'champ obligatoire absent');
+    if (!options.optional) report(ctx.file, at, field, 'champ obligatoire absent');
     return null;
   }
   if (!isObject(value)) {
@@ -226,20 +216,9 @@ function entryLabel(entry, index, keys) {
 }
 
 // ── Lecture et identification des fichiers ──────────────────
-const ARCHIVES = new Map([
-  ['data/credits.json', 'credits'],
-  ['data/backup.json', 'mons'],
-  ['data/new_backup.json', 'mons'],
-  ['data/bonus_challenges.json', 'challenges'],
-  ['data/cosmetics.json', 'cosmetics'],
-  ['data/reward.json', 'rewards'],
-  ['data/trophies.json', 'trophies']
-]);
-
 function identify(relative) {
   const manifest = /^data\/([a-z_]+)files\.json$/i.exec(relative);
   if (manifest) return { family: 'manifest', directory: manifest[1] };
-  if (ARCHIVES.has(relative)) return { family: ARCHIVES.get(relative), legacy: true };
   if (relative === 'data/changelog.json') return { family: 'changelog' };
   if (relative === 'data/version.json') return { family: 'version' };
   if (relative.startsWith('data/mons/')) return { family: 'mons' };
@@ -282,9 +261,8 @@ for (const full of walk(path.join(ROOT, 'data'))) {
   if (Array.isArray(value)) stats.entries += value.length;
 }
 
-// ── Références croisées (uniquement les fichiers chargés par l'app) ──
+// ── Références croisées ──
 for (const file of files) {
-  if (file.legacy) continue;
   // Les crédits sont répartis en objets (traductions + membres).
   if (file.family === 'credits' && isObject(file.value)) {
     const parts = [
@@ -311,7 +289,7 @@ for (const file of files) {
 
 // ── Validateurs par famille ─────────────────────────────────
 function validateManifest(file) {
-  const ctx = { file: file.relative, legacy: false };
+  const ctx = { file: file.relative };
   const entries = checkArray(ctx, { list: file.value }, '—', 'list', {});
   if (!entries) return;
   const seen = new Set();
@@ -339,17 +317,17 @@ function validateManifest(file) {
 }
 
 function validateMons(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['Index']);
     if (!isObject(entry)) return report(ctx.file, at, '—', 'objet attendu');
 
     if (entry.Index === undefined || entry.Index === null || entry.Index === '') {
-      if (!ctx.legacy) report(ctx.file, at, 'Index', 'champ obligatoire absent');
+      report(ctx.file, at, 'Index', 'champ obligatoire absent');
     } else if (typeof entry.Index !== 'string' && !Number.isInteger(entry.Index)) {
       report(ctx.file, at, 'Index', `chaîne ou entier attendu (reçu ${describe(entry.Index)})`);
     } else {
-      claimUnique(scopeKey(ctx, 'mons'), ctx, at, 'Index', entry.Index);
+      claimUnique('mons', ctx, at, 'Index', entry.Index);
     }
 
     checkText(ctx, entry, at, 'NameEN');
@@ -362,7 +340,7 @@ function validateMons(file) {
     }
     checkText(ctx, entry, at, 'Image', { asset: true });
     checkText(ctx, entry, at, 'FullImage', { asset: true });
-    const eggGroups = checkArray(ctx, entry, at, 'EggGroups', { min: ctx.legacy ? 0 : 1 });
+    const eggGroups = checkArray(ctx, entry, at, 'EggGroups', { min: 1 });
     if (eggGroups) {
       eggGroups.forEach((group, i) => {
         if (!isText(group)) report(ctx.file, at, `EggGroups[${i}]`, `chaîne non vide attendue (reçu ${describe(group)})`);
@@ -371,7 +349,7 @@ function validateMons(file) {
     checkText(ctx, entry, at, 'Category');
     checkInt(ctx, entry, at, 'pokefeet_data_version', { min: 1 });
 
-    if (entry.evolve_from !== undefined && entry.evolve_from !== null && !ctx.legacy) {
+    if (entry.evolve_from !== undefined && entry.evolve_from !== null) {
       const from = String(entry.evolve_from);
       if (!monsIndexes.has(from)) report(ctx.file, at, 'evolve_from', `espèce inconnue « ${from} »`);
     }
@@ -379,12 +357,12 @@ function validateMons(file) {
 }
 
 function validateTrophies(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['Id']);
     if (!isObject(entry)) return report(ctx.file, at, '—', 'objet attendu');
 
-    if (Number.isInteger(entry.Id)) claimUnique(scopeKey(ctx, 'trophies'), ctx, at, 'Id', entry.Id);
+    if (Number.isInteger(entry.Id)) claimUnique('trophies', ctx, at, 'Id', entry.Id);
     else checkInt(ctx, entry, at, 'Id', { min: 1 });
 
     for (const field of ['Name_en', 'Name_fr', 'Desc_en', 'Desc_fr']) checkText(ctx, entry, at, field);
@@ -408,12 +386,12 @@ function validateTrophies(file) {
 }
 
 function validateRewards(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['Level']);
     if (!isObject(entry)) return report(ctx.file, at, '—', 'objet attendu');
 
-    if (Number.isInteger(entry.Level)) claimUnique(scopeKey(ctx, 'rewards'), ctx, at, 'Level', entry.Level);
+    if (Number.isInteger(entry.Level)) claimUnique('rewards', ctx, at, 'Level', entry.Level);
     else checkInt(ctx, entry, at, 'Level', { min: 1, max: 100 });
 
     checkText(ctx, entry, at, 'ImageUrl', { asset: true });
@@ -446,12 +424,12 @@ function validateRewards(file) {
 }
 
 function validateChallenges(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['ID']);
     if (!isObject(entry)) return report(ctx.file, at, '—', 'objet attendu');
 
-    if (Number.isInteger(entry.ID)) claimUnique(scopeKey(ctx, 'challenges'), ctx, at, 'ID', entry.ID);
+    if (Number.isInteger(entry.ID)) claimUnique('challenges', ctx, at, 'ID', entry.ID);
     else checkInt(ctx, entry, at, 'ID', { min: 1 });
 
     checkText(ctx, entry, at, 'Difficulty', { choices: DIFFICULTIES });
@@ -466,7 +444,7 @@ function validateChallenges(file) {
           return report(ctx.file, feetAt, '—', `identifiant d'espèce attendu (reçu ${describe(index_)})`);
         }
         const key = String(index_);
-        if (!ctx.legacy && !monsIndexes.has(key)) report(ctx.file, feetAt, '—', `espèce inconnue « ${key} »`);
+        if (!monsIndexes.has(key)) report(ctx.file, feetAt, '—', `espèce inconnue « ${key} »`);
       });
     }
 
@@ -480,7 +458,7 @@ function validateChallenges(file) {
           checkInt(ctx, reward, rewardAt, 'Value', { min: 1 });
         } else if (reward.TypeReward === 'Cosmetic') {
           if (Number.isInteger(reward.Value)) {
-            if (!ctx.legacy && !cosmeticIds.has(reward.Value)) {
+            if (!cosmeticIds.has(reward.Value)) {
               report(ctx.file, rewardAt, 'Value', `cosmétique inconnu ${reward.Value}`);
             }
           } else {
@@ -503,7 +481,7 @@ function validateChallenges(file) {
         } else if (requirement.TypeRequirement === 'trophy') {
           if (!Number.isInteger(requirement.Value)) {
             report(ctx.file, requirementAt, 'Value', `identifiant de trophée attendu (reçu ${describe(requirement.Value)})`);
-          } else if (!ctx.legacy && !trophyIds.has(requirement.Value)) {
+          } else if (!trophyIds.has(requirement.Value)) {
             report(ctx.file, requirementAt, 'Value', `trophée inconnu ${requirement.Value}`);
           }
         }
@@ -533,12 +511,12 @@ function validateChallenges(file) {
 }
 
 function validateCosmetics(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['ID']);
     if (!isObject(entry)) return report(ctx.file, at, '—', 'objet attendu');
 
-    if (Number.isInteger(entry.ID)) claimUnique(scopeKey(ctx, 'cosmetics'), ctx, at, 'ID', entry.ID);
+    if (Number.isInteger(entry.ID)) claimUnique('cosmetics', ctx, at, 'ID', entry.ID);
     else report(ctx.file, at, 'ID', `entier attendu (reçu ${describe(entry.ID)})`);
 
     checkText(ctx, entry, at, 'Type', { choices: COSMETIC_TYPES });
@@ -560,7 +538,7 @@ function validateCosmetics(file) {
 }
 
 function validateCredits(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   const value = file.value;
   if (!isObject(value)) {
     return report(ctx.file, '—', '—', `objet attendu (reçu ${describe(value)})`);
@@ -596,10 +574,10 @@ function validateCredits(file) {
         if (!isText(type)) return report(ctx.file, typeAt, '—', `chaîne attendue (reçu ${describe(type)})`);
         if (!CREDIT_TYPES.has(type)) report(ctx.file, typeAt, '—', `type de crédit inconnu « ${type} »`);
         // Sans libellé « Type.X », la carte de crédit affiche la clé brute.
-        if (!ctx.legacy && !creditTranslations.fr.has(`Type.${type}`)) {
+        if (!creditTranslations.fr.has(`Type.${type}`)) {
           report(ctx.file, typeAt, '—', `libellé FR manquant pour Type.${type}`);
         }
-        if (!ctx.legacy && !creditTranslations.en.has(`Type.${type}`)) {
+        if (!creditTranslations.en.has(`Type.${type}`)) {
           report(ctx.file, typeAt, '—', `libellé EN manquant pour Type.${type}`);
         }
       });
@@ -618,7 +596,7 @@ function validateCredits(file) {
 }
 
 function validateChangelog(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['Title']);
     if (!isObject(entry)) return report(ctx.file, at, '—', 'objet attendu');
@@ -649,7 +627,7 @@ function validateChangelog(file) {
 }
 
 function validateVersion(file) {
-  const ctx = { file: file.relative, legacy: !!file.legacy };
+  const ctx = { file: file.relative };
   let previous = null;
   file.value.forEach((entry, index) => {
     const at = entryLabel(entry, index, ['pokefeet_data_version']);

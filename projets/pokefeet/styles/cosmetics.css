@@ -1200,6 +1200,75 @@ body.event-jmdev-ocean .deco-secondary.n12::after { left: 65%; animation-delay: 
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   TDOR — Transgender Day of Remembrance
+   Fond 104 (tdor-bg) et bouton 114 (tdor-btn) : dégradé vertical du
+   drapeau trans (#5BCEFA → #F5A9B8 → #FFFFFF → #F5A9B8 → #5BCEFA).
+   Le fond est assombri et désaturé pour que le texte clair du jeu reste
+   lisible sur chacune des cinq bandes ; le bouton garde les couleurs
+   claires, son texte étant blanc contouré de noir. Les deux bougent très
+   lentement et se figent avec html.no-animations : rien à prévoir ici.
+   ═══════════════════════════════════════════════════════════════ */
+
+body.tdor-bg {
+  background-color: #2E6B85;
+  background-image: linear-gradient(180deg,
+    #2E6B85 0%,
+    #8E4E5E 25%,
+    #4A4F58 50%,
+    #8E4E5E 75%,
+    #2E6B85 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 140%;
+  background-attachment: fixed;
+  background-position: 50% 0%;
+  animation: tdorBgDrift 26s ease-in-out infinite;
+}
+
+/* Le dégradé glisse lentement d'une bande à l'autre, sans jamais éclaircir
+   une zone : le fond reste sous le texte clair à chaque instant. */
+@keyframes tdorBgDrift {
+  0%, 100% { background-position: 50% 0%; }
+  50%      { background-position: 50% 100%; }
+}
+
+[data-tag="customizables-button"].tdor-btn {
+  background: linear-gradient(180deg,
+    #5BCEFA 0%,
+    #F5A9B8 25%,
+    #FFFFFF 50%,
+    #F5A9B8 75%,
+    #5BCEFA 100%);
+  background-size: 100% 200%;
+  background-position: 50% 0%;
+  animation: tdorBtnShift 26s ease-in-out infinite;
+  padding: 14px 22px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0, 0, 0.58, 1), box-shadow 0.2s cubic-bezier(0, 0, 0.58, 1);
+}
+
+.tdor-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(245, 169, 184, 0.75);
+}
+
+.tdor-btn:active {
+  transform: translateY(0);
+}
+
+/* Le dégradé glisse d'une bande à l'autre : bleu → rose → blanc, puis retour. */
+@keyframes tdorBtnShift {
+  0%, 100% { background-position: 50% 0%; }
+  50%      { background-position: 50% 100%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    THÈMES CRÉATIFS — IDs 2000+ (fonds) et 2100+ (boutons)
    Tous libres (RequiresUnlock: false), catégorie « Créatif ».
    15 paires fond + bouton, 11 fonds animés et 12 boutons animés.

@@ -53,5 +53,15 @@
         "Value": "event-jmdev-ocean",
         "File": "jmdev-ocean.png",
         "RequiresUnlock": true
+    },
+    {
+        "ID": 104,
+        "Type": "Background",
+        "Cat": "Event",
+        "Name": "Transgender Day of Remembrance",
+        "Value": "tdor-bg",
+        "File": "tdor.png",
+        "MustHideIfUnobtained": true,
+        "RequiresUnlock": true
     }
 ]

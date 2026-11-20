@@ -71,6 +71,61 @@
         ]
     },
     {
+    "ID": 103,
+    "Difficulty": "Medium",
+    "Requirements": [],
+    "Tab": "Event",
+    "Name_En": "TDOR",
+    "Name_Fr": "TDOR",
+    "Desc_En": "Transgender Day of Remembrance (TDOR) was founded on November 20, 1999, by a small group to memorialize those who have been murdered as a result of transphobia.",
+    "Desc_Fr": "La Transgender Day of Remembrance (Journée du souvenir trans) (TDOR) a été instaurée le 20 novembre 1999 par un petit groupe, afin de commémorer les personnes assassinées en raison de la transphobie.",
+    "Additional_Info_Fr": "Source sur le choix des pokémons : discussions sur le reddit traaaaaaannnnnnnnnns (https://www.reddit.com/r/traaaaaaannnnnnnnnns/comments/777k8n/full_trans_pok%C3%A9mon_team/)",
+    "Additional_Info_En": "Source for the choice of Pokémon: discussions on the traaaaaaannnnnnnnnns subreddit (https://www.reddit.com/r/traaaaaaannnnnnnnnns/comments/777k8n/full_trans_pok%C3%A9mon_team/)",
+    "FeetList": [
+        "183",
+        "282",
+        "175",
+        "43",
+        "371"
+    ],
+    "Rewards": [
+            {
+                "TypeReward": "Experience",
+                "Value": 100
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 104
+            },
+            {
+                "TypeReward": "Cosmetic",
+                "Value": 114
+            }],
+    "MustHideIfUnavailable": true,
+        "Availabilities": [
+            {
+                "Start": "2026-11-19",
+                "End": "2026-11-24"
+            },
+            {
+                "Start": "2027-11-19",
+                "End": "2027-11-24"
+            },
+            {
+                "Start": "2028-11-19",
+                "End": "2028-11-24"
+            },
+            {
+                "Start": "2029-11-19",
+                "End": "2029-11-24"
+            },
+            {
+                "Start": "2030-11-19",
+                "End": "2030-11-24"
+            }
+        ]
+    },
+    {
         "ID": 101,
         "Difficulty": "Hard",
         "Requirements": [

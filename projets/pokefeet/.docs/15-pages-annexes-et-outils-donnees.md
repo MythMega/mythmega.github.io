@@ -149,12 +149,6 @@ Toute évolution de l'algorithme doit être répliquée ici, sinon les prédicti
 
 ---
 
-## 7. Intégration (`integration-pokefeet.html`)
-
-Page statique, sans script, non liée. Elle décrit probablement une intention d'intégration (iframe/badge) mais n'est pas utilisée par l'application. À classer comme orpheline (voir doc 16).
-
----
-
 ## 8. Test i18n (`test-i18n.html`)
 
 Page de test manuel du système de traduction :
@@ -192,8 +186,6 @@ Ces scripts constituent la **chaîne de production des données**. Ils ne sont n
 
 | Fichier | Statut |
 |---|---|
-| `data/backup.json` | sauvegarde historique, non lue par le code |
-| `data/new_backup.json` | idem |
 | `data/result_analyse_challenge.log` | log d'analyse |
 | `cover.png` | visuel, non référencé dans les pages |
 | `trophies.md` | documentation ancienne |
@@ -225,7 +217,6 @@ footer (toutes pages de jeu)
 
 Pages sans lien entrant :
 ├── prediction.html (protégée)
-├── integration-pokefeet.html
 └── test-i18n.html
 ```
 
@@ -234,9 +225,9 @@ Pages sans lien entrant :
 ## 11. Recommandations
 
 1. **Déplacer** `prediction.html`, `data.html`, `test-i18n.html` dans un dossier `tools/` non déployé, ou les supprimer.
-2. **Décider** du sort de `integration-pokefeet.html` et `profile.html`.
+2. **Décider** du sort de `profile.html`.
 3. **Documenter ou supprimer** les scripts Python ; si conservés, les isoler dans `tools/data-pipeline/` avec un README et des dépendances.
-4. **Supprimer** `backup.json`, `new_backup.json`, les logs et CSV s'ils ne servent plus.
+4. **Supprimer** les logs et CSV s'ils ne servent plus (les archives `backup.json`, `new_backup.json` et les copies monolithiques des données ont été retirées).
 5. **Remplacer** le bandeau Google Sheets par un JSON local versionné, ou assumer la dépendance.
 6. **Unifier** les algorithmes de prédiction avec les modules de jeu (une seule source de vérité).
 érité).

@@ -12,12 +12,33 @@
  *  - version déjà vue : rien, même avec des données ;
  *  - version plus ancienne en cookie : la popup revient avec la nouvelle.
  *
+ * Les attentes (version, titre, date, lignes) sont dérivées de
+ * `data/changelog.json` : publier une nouvelle entrée en tête du fichier met
+ * ces cas à jour au lieu de les casser.
+ *
  * `cookies` est posé avant la navigation par le banc de test : la page les lit
  * dès son chargement, comme un joueur qui revient avec ses données.
  */
 
+import fs from 'node:fs';
+
 /** Cookie que retient js/ui/whats-new.js. */
 const SEEN_COOKIE = 'pk_changelog_seen';
+
+/** Entrée la plus récente du changelog, lue à la source. */
+const LATEST_ENTRY = JSON.parse(
+  fs.readFileSync(new URL('../data/changelog.json', import.meta.url), 'utf8')
+)[0];
+
+/** Version de cette entrée, au format du cookie. */
+const LATEST_VERSION = [
+  LATEST_ENTRY.Version.Major,
+  LATEST_ENTRY.Version.Minor,
+  LATEST_ENTRY.Version.Patch
+].join('.');
+
+/** Lignes de cette entrée, en français et en anglais. */
+const LATEST_LINES = LATEST_ENTRY.Changelog.map((line) => [line.Translation_FR, line.Translation_EN]);
 
 /** Expression vraie quand la popup est à l'écran. */
 const POPUP_VISIBLE =
@@ -28,13 +49,10 @@ const POPUP_ABSENT = "document.querySelectorAll('.whats-new').length === 0";
 
 /** Lit le cookie de version vue depuis la page. */
 const seenCookieValue =
-  `(() => { const m = document.cookie.match(/(^|;)\\s*${SEEN_COOKIE}\\s*=\\s*([^;]+)/); return m ? decodeURIComponent(m[2]) : null; })()`;
+  "(() => { const parts = document.cookie.split(';'); for (let i = 0; i < parts.length; i++) { const pair = parts[i].trim(); const eq = pair.indexOf('='); if (eq === -1) continue; if (pair.slice(0, eq) === '" + SEEN_COOKIE + "') return decodeURIComponent(pair.slice(eq + 1)); } return null; })()";
 
 /** Attente d'un tour de boucle d'événements, en millisecondes. */
 const TICK_MS = 200;
-
-/** Version publiée en haut du changelog au moment de ces tests. */
-const LATEST_VERSION = '6.0.0';
 
 /** Version déjà vue : la popup doit rester silencieuse. */
 const NEW_VERSION_VISIBLE = {
@@ -46,17 +64,17 @@ const NEW_VERSION_VISIBLE = {
     {
       name: 'la dernière version du changelog est reprise telle quelle',
       expression:
-        "(() => { const badge = document.querySelector('.whats-new__badge').textContent.trim(); const title = document.querySelector('.whats-new__title').textContent.trim(); return { ok: badge === 'v6.0.0' && title === 'Mega Evolution', detail: badge + ' — ' + title }; })()"
+        `(() => { const badge = document.querySelector('.whats-new__badge').textContent.trim(); const title = document.querySelector('.whats-new__title').textContent.trim(); return { ok: badge === 'v${LATEST_VERSION}' && title === ${JSON.stringify(LATEST_ENTRY.Title)}, detail: badge + ' — ' + title }; })()`
     },
     {
       name: 'la date et les lignes de la version sont affichées',
       expression:
-        "(() => { const date = document.querySelector('.whats-new__date').textContent.trim(); const items = document.querySelectorAll('.whats-new__item'); const texts = Array.from(items).map(li => li.textContent); return { ok: date === '24/10/2026' && items.length >= 6 && texts.every(t => t.trim().length > 10), detail: date + ' — ' + items.length + ' ligne(s)' }; })()"
+        `(async () => { const data = await (await fetch('data/changelog.json')).json(); const entry = data[0]; const date = document.querySelector('.whats-new__date').textContent.trim(); const items = document.querySelectorAll('.whats-new__item'); const texts = Array.from(items).map(li => li.textContent.trim()); const ok = date === entry.Date && date === ${JSON.stringify(LATEST_ENTRY.Date)} && items.length === entry.Changelog.length && items.length === ${LATEST_LINES.length} && items.length > 0 && texts.every(t => t.length > 10); return { ok, detail: date + ' (attendu ' + entry.Date + ') — ' + items.length + '/' + entry.Changelog.length + ' ligne(s)' }; })()`
     },
     {
-      name: 'les nouveautés de la 6.0 y figurent',
+      name: 'chaque ligne affichée vient du changelog',
       expression:
-        "(() => { const text = Array.from(document.querySelectorAll('.whats-new__item')).map(li => li.textContent).join(' | '); const wanted = ['Boutique', 'Méga', 'application', 'XP']; const missing = wanted.filter(word => text.indexOf(word) === -1); return { ok: missing.length === 0, detail: missing.length ? 'manque : ' + missing.join(', ') : text.slice(0, 90) }; })()"
+        `(() => { const text = Array.from(document.querySelectorAll('.whats-new__item')).map(li => li.textContent).join(' | '); const pairs = ${JSON.stringify(LATEST_LINES)}; const missing = pairs.filter(p => text.indexOf(p[0]) === -1 && text.indexOf(p[1]) === -1).map(p => p[0]); return { ok: missing.length === 0, detail: missing.length ? 'manque : ' + missing.join(' | ') : text.slice(0, 90) }; })()`
     },
     {
       name: 'la fenêtre est une modale accessible',
@@ -125,7 +143,7 @@ const OLD_VERSION_SEEN = {
     {
       name: 'la nouvelle version est présentée',
       expression:
-        "(() => { const badge = document.querySelector('.whats-new__badge').textContent.trim(); return { ok: badge === 'v6.0.0', detail: badge }; })()"
+        `(() => { const badge = document.querySelector('.whats-new__badge').textContent.trim(); return { ok: badge === 'v${LATEST_VERSION}', detail: badge }; })()`
     },
     {
       name: 'le cookie est mis à jour avec la version affichée',

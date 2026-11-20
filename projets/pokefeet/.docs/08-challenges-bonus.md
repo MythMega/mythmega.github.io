@@ -75,7 +75,7 @@ Les challenges bonus sont des séries thématiques (jeux principaux, stratégie,
 `ChallengeListUI.init()` :
 
 1. La page ne bloque pas sur `Migration.ready` : `js/data/migration.js` lance sa migration en parallèle et `ChallengeManager` ouvre `PokefeetChallengeDB` directement.
-2. `ChallengeManager.loadChallenges()` : fetch `bonus_challenges.json`, instancie `Challenge`, restaure l'état `sessionStorage`.
+2. `ChallengeManager.loadChallenges()` : `DataFiles.load('challenges')` (manifeste `data/bonus_challengesfiles.json` + fichiers de `data/bonus_challenges/`), instancie `Challenge`, restaure l'état `sessionStorage`.
 3. `ChallengeManager.loadPokemons()` : fetch `pokemons.json`, instancie `Pokemon`.
 4. Charge `ChallengeStorage.getAllCompletions()`.
 5. Construit les onglets et les cartes.
@@ -180,7 +180,7 @@ Contrairement au Daily/Weekly, il n'y a **pas de limite d'échecs** : le joueur 
 `Cosmetics.loadUnlockedCosmetics()` :
 
 1. lit toutes les complétions ;
-2. lit `bonus_challenges.json` ;
+2. lit les défis via `DataFiles.load('challenges')` ;
 3. pour chaque challenge complété, parcourt `Rewards` ;
 4. ajoute à `unlockedIds` chaque `Cosmetic.Value` numérique.
 

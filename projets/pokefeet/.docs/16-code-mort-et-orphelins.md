@@ -11,7 +11,7 @@
 | Catégorie | Volume | Effort de suppression | Risque |
 |---|---|---|---|
 | Pages orphelines | 4 | faible | faible |
-| Fichiers JS entièrement morts | 1 (`js/features/settings/profile.js`) | faible | faible |
+| Fichiers JS entièrement morts | 0 (`profile.js` supprimé) | faible | faible |
 | Fonctions/export morts | ~15 | faible | faible |
 | Doublons de réorganisation | ~10 blocs | moyen | moyen |
 | Assets non référencés | ~45 fichiers | faible | faible (vérifier variantes) |
@@ -25,8 +25,9 @@
 | Page | Liens entrants | Statut | Recommandation |
 |---|---:|---|---|
 | `prediction.html` | 0 | outil admin protégé côté client | déplacer dans `tools/` ou supprimer du déploiement |
-| `integration-pokefeet.html` | 0 | page statique isolée | supprimer ou documenter l'intention |
 | `test-i18n.html` | 0 | page de test manuel | déplacer dans `tests/manual/` |
+
+Pages supprimées (aucun lien entrant, aucun script de page ne les chargeait) : `stats.html`, `pokefeet.html`, `pied-dex.html`, `old_daily.html`, `integration-pokefeet.html`.
 
 **Cas particuliers** :
 
@@ -50,7 +51,7 @@ Preuves :
 - le profil est géré en inline dans `settings.html` ;
 - `js/features/stats/stats.js` lit directement `pk_pseudo`.
 
-**Recommandation** : supprimer le fichier et la balise `<script>` de `profile.html`. Le pseudo reste géré par la page Paramètres.
+**Fait** : fichier et balise `<script>` supprimés. Le pseudo reste géré par la page Paramètres.
 
 ---
 
@@ -221,7 +222,7 @@ js/features/weekly/weekly.js
 
 ### 5.9 UI dupliquée
 
-- Profil : `js/features/settings/profile.js` (mort) + inline `settings.html`.
+- Profil : inline `settings.html`.
 - Cosmétiques : `Cosmetics.renderCosmeticsUI` (mort) + inline `settings.html`.
 - Autocomplete : `js/features/marathon/game.js` + `js/features/daily/daily.js` + `js/features/weekly/weekly.js`.
 - Jauges : `js/features/marathon/ui.js` + `js/features/daily/daily.js` + `js/features/weekly/weekly.js`.
@@ -259,7 +260,7 @@ Le JSON ne référence que les variantes `-a.png` pour les formes de base. Les v
 - `img/autoname.py`, `img/fullsprite/download_full_image.py` — scripts ;
 - `img/trophy/type/*.xcf` — sources.
 
-> Les fichiers `img/cosmetics/*` ne sont **pas** listés comme morts : ils sont référencés indirectement par le champ `File` de `js/features/settings/cosmetics.json`. Même chose pour les trophées référencés par `trophies.json`.
+> Les fichiers `img/cosmetics/*` ne sont **pas** listés comme morts : ils sont référencés indirectement par le champ `File` des cosmétiques de `data/cosmetics/*.json`. Même chose pour les trophées référencés par `data/trophies/*.json`.
 
 ---
 
@@ -267,8 +268,6 @@ Le JSON ne référence que les variantes `-a.png` pour les formes de base. Les v
 
 | Élément | Statut | Recommandation |
 |---|---|---|
-| `data/backup.json` | non lu | archiver/supprimer |
-| `data/new_backup.json` | non lu | archiver/supprimer |
 | `data/result_analyse_challenge.log` | non lu | supprimer |
 | `data/poke_data.py` | non exécuté au runtime | module partagé des scripts de `data/` |
 | `data/analyse_challenges.py` | non exécuté au runtime | déplacer dans `tools/data-pipeline/` |
@@ -295,7 +294,6 @@ Le JSON ne référence que les variantes `-a.png` pour les formes de base. Les v
 | `js/features/marathon/ui.js` est un composant de vue | il pourrait rejoindre `js/ui/` si un composant de manche partagé émerge |
 | les gros modules restent monolithiques | `daily` (1 174 lignes), `weekly` (1 033), `data-manager` (934), `stats` (917) |
 | les styles sont éclatés mais certains blocs sont dupliqués | `game-controls.css` et `history-details.css` redéfinissent la jauge et le responsive |
-| `js/features/stats/stats.js` charge `js/features/settings/profile.js` | reliquat d'une ancienne page profil |
 | `js/features/settings/cosmetics.js` contient une UI morte | reliquat d'une ancienne page paramètres |
 | `data.html` vise `pokemons_wip.json` | reliquat d'un flux de travail WIP |
 | `js/features/history/history-curve.js` rend une liste écrasée | reliquat d'une ancienne page historique |
@@ -306,7 +304,7 @@ Le JSON ne référence que les variantes `-a.png` pour les formes de base. Les v
 
 ## 9. Ordre de nettoyage recommandé
 
-1. **Sans risque** : supprimer `js/features/settings/profile.js` + sa balise ; supprimer les exports morts ; supprimer `cookieName`, `resultToEmojiLine`, `showAttemptGauge`, `populateNamesList`, `gameActive`, `COOKIE_DAILY`.
+1. **Fait** : `js/features/settings/profile.js` supprimé avec sa balise, pages orphelines retirées. **Reste à faire** : supprimer les exports morts ; supprimer `cookieName`, `resultToEmojiLine`, `showAttemptGauge`, `populateNamesList`, `gameActive`, `COOKIE_DAILY`.
 2. **Sans risque après vérification** : supprimer les pages orphelines ou les déplacer dans `tools/` ; supprimer `data/backup*.json` et les logs.
 3. **Moyen** : supprimer le rendu de liste de `js/features/history/history-curve.js` ; supprimer `Cosmetics.renderCosmeticsUI` ; déplacer les sprites alternatifs dans `img/_unused/`.
 4. **Après tests** : fusionner Daily/Weekly, unifier la persistance, unifier l'XP.

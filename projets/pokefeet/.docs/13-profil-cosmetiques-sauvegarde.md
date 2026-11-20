@@ -41,15 +41,9 @@ Dans `settings.html`, un script inline (et non `js/features/settings/profile.js`
 
 `custom-create-ui.js` préremplit le champ auteur avec le pseudo.
 
-### 2.4 `js/features/settings/profile.js` est mort
+### 2.4 `js/features/settings/profile.js` a été supprimé
 
-`profile.html` charge `js/features/settings/profile.js`, mais :
-
-- `ProfileInit()` n'est jamais appelé ;
-- aucun élément `#pseudoInput`, `#savePseudoBtn`, `#clearPseudoBtn`, `#profileStatus` n'existe sur `profile.html` ;
-- `COOKIE_NAME` n'est lu nulle part.
-
-`profile.html` est la page de profil (niveau, XP, trophées, badges) ; elle charge `profile.js` pour rien — le pseudo y est seulement **affiché**, il se modifie dans `settings.html`.
+L'ancien module de profil ne servait à rien : `ProfileInit()` retournait immédiatement, aucun `#pseudoInput` / `#savePseudoBtn` n'existe sur `profile.html`, et `COOKIE_NAME` n'était lu nulle part. Le fichier et sa balise `<script>` ont été retirés ; le pseudo s'affiche sur `profile.html` et se modifie dans `settings.html`.
 
 ---
 
@@ -84,7 +78,7 @@ Champs : `ID`, `Type`, `Cat`, `Name`, `Value`, `File`, `RequiresUnlock`, `MustHi
 `Cosmetics.loadUnlockedCosmetics()` :
 
 1. `ChallengeStorage.getAllCompletions()`.
-2. `bonus_challenges.json`.
+2. les défis via `DataFiles.load('challenges')`.
 3. Pour chaque challenge complété, chaque `Rewards[].TypeReward === 'Cosmetic'` ajoute `Value` à `unlockedIds`.
 
 Un cosmétique `RequiresUnlock: true` est verrouillé tant que son ID n'est pas dans `unlockedIds`. 37 cosmétiques sont verrouillés.
@@ -173,7 +167,6 @@ Aucun bouton pour :
 
 | Problème | Détail |
 |---|---|
-| Duplication profil | inline dans `settings.html` + `js/features/settings/profile.js` mort |
 | Duplication cosmétiques | inline dans `settings.html` + `Cosmetics.renderCosmeticsUI()` mort |
 | Textes non traduits | mode rapide, profil inline, `Niveau` |
 | Export incomplet | pseudo, cosmétiques, langue, mode rapide, Dex |

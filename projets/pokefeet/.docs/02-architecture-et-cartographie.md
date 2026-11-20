@@ -150,7 +150,6 @@ Les scripts sont listés dans l'ordre de chargement réel. Cet ordre est **ident
 | `changelog.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/core/pokemon`, `js/data/challenge-storage`, `js/features/settings/cosmetics` |
 | `credits.html` | `js/ui/loader`, `js/i18n/translate`, `js/i18n/language-switcher`, `js/ui/footer`, `js/i18n/setup`, `js/data/migration`, `js/data/challenge-storage`, `js/features/settings/cosmetics`, `js/features/credits/credits` |
 | `prediction.html` | aucun script externe + inline |
-| `integration-pokefeet.html` | aucun |
 | `test-i18n.html` | `js/i18n/translate`, `js/i18n/language-switcher`, `js/i18n/setup` |
 
 > `custom_create.html` et `custom_play.html` chargent `migration` et `challenge-storage` uniquement parce que `cosmetics` en dépend. Aucune donnée de challenge custom n'est persistée.
@@ -200,7 +199,7 @@ js/ui/loader.js ──► Cosmetics.load() (optionnel)
 - `js/features/challenges/challenge-manager.js` contient une copie du calcul d'XP de `js/features/stats/stats.js`.
 - `js/features/dex/dex-ui.js` appelle `DailyToDexImport.forceUpdate()` : l'UI déclenche un import.
 - `settings.html` réimplémente en inline le profil et le rendu des cosmétiques.
-- `js/features/settings/profile.js` reste chargé par `profile.html` mais n'est jamais initialisé.
+- `js/features/settings/profile.js` (chargé par `profile.html` sans jamais s'initialiser) a été supprimé, comme les pages sans lien entrant `stats.html`, `pokefeet.html`, `pied-dex.html`, `old_daily.html` et `integration-pokefeet.html`.
 
 ---
 

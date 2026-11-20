@@ -72,7 +72,7 @@ Plusieurs modules implémentent un timeout de 5 s (`idbTimedOut`) et un handler 
 | `pk_best` | entier | `js/features/marathon/game.js`, `js/data/data-manager.js` | `js/features/marathon/game.js`, `js/features/stats/stats.js`, `js/data/data-manager.js`, `challenge-manager.js` | 365 j (3650 j à l'import) |
 | `pk_best_streak` | entier | `js/features/marathon/game.js`, `js/data/data-manager.js` | `js/features/marathon/game.js`, `js/features/stats/stats.js`, `js/data/data-manager.js`, `challenge-manager.js` | 365 j |
 | `pk_fast_mode` | `true` / `false` | `js/features/marathon/game.js`, `settings.html` | `js/features/marathon/game.js` | 365 j |
-| `pk_pseudo` | chaîne ≤ 30 | `settings.html` (inline), `js/features/settings/profile.js` (mort) | `js/features/stats/stats.js`, `custom-create-ui.js`, page crédits | 365 j |
+| `pk_pseudo` | chaîne ≤ 30 | `settings.html` (inline) | `js/features/stats/stats.js`, `custom-create-ui.js`, page crédits | 365 j |
 | `pk_cosmetic_bg` | `Value` ou `null`/`default` | `js/features/settings/cosmetics.js` | `js/features/settings/cosmetics.js` | 365 j |
 | `pk_cosmetic_btn` | `Value` ou `null`/`default` | `js/features/settings/cosmetics.js` | `js/features/settings/cosmetics.js` | 365 j |
 | `pk_daily_result_v2` | JSON legacy | **plus personne** | `js/data/migration.js` (backup uniquement) | 3650 j |
@@ -189,7 +189,7 @@ Commande spéciale : `!DEL:YYYY-MM-DD` dans la zone Daily supprime l'entrée cor
 | Fin de Daily | `daily_results` (clear + put de tout l'historique), Dex `markFound` pour les gagnants | historique complet, Dex |
 | Fin de Weekly | `weekly_results` (clear + put), Dex | historique complet, Dex |
 | Challenge réussi | `challenge_completions` put, Dex pour toute la `FeetList` | challenges JSON, Pokémons |
-| Choix cosmétique | cookie `pk_cosmetic_*` | `js/features/settings/cosmetics.json`, complétions |
+| Choix cosmétique | cookie `pk_cosmetic_*` | `data/cosmetics/` (via `data/cosmeticsfiles.json`), complétions |
 | Marathon correct | `localStorage` session, cookies best | session, cookies |
 | Import fichier | les 2 stores + challenges + cookies + Dex | fichier, bases |
 | Migration | upgrade des 3 bases | données existantes |

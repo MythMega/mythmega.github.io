@@ -186,7 +186,7 @@ R1 : ||fausse réponse|| ...
 
 ### 5.7 Export JSON
 
-`copyChallengeJson()` produit un objet compatible avec `bonus_challenges.json` :
+`copyChallengeJson()` produit un objet compatible avec une entrée de `data/bonus_challenges/*.json` :
 
 ```json
 {

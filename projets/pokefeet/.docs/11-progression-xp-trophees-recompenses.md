@@ -8,7 +8,7 @@ La progression n'est **pas stockée** : elle est recalculée à chaque chargemen
 - des cookies Marathon (`pk_best`, `pk_best_streak`) ;
 - des complétions de challenges (`PokefeetChallengeDB`) ;
 - du Dex (`PokefeetDexDB`) ;
-- des JSON `trophies.json`, `reward.json`, `bonus_challenges.json`, `pokemons.json`.
+- des JSON de `data/trophies/`, `data/rewards/`, `data/bonus_challenges/` et `data/mons/`, chargés via leurs manifestes.
 
 Conséquence : modifier un JSON, importer une sauvegarde ou changer un barème **change rétroactivement** le niveau et les trophées.
 
@@ -52,7 +52,7 @@ Uniquement les **records** (`pk_best`, `pk_best_streak`), pas l'historique des s
 
 ### 2.4 Challenges bonus
 
-Pour chaque complétion, on retrouve le challenge dans `bonus_challenges.json` et on ajoute chaque `Rewards[].Value` de type `Experience`.
+Pour chaque complétion, on retrouve le challenge dans les défis chargés par `DataFiles.load('challenges')` et on ajoute chaque `Rewards[].Value` de type `Experience`.
 
 - Pas de distinction première complétion / re-complétion : une seule entrée par challenge.
 - Les cosmétiques ne donnent pas d'XP.

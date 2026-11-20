@@ -67,7 +67,7 @@
 1. **La réorganisation physique est terminée.** Tous les scripts sont désormais rangés par domaine dans `js/core`, `js/data`, `js/features`, `js/i18n` et `js/ui` ; les styles sont éclatés dans `styles/`. En revanche, les gros modules (`daily`, `weekly`, `stats`, `data-manager`) mélangent encore métier, UI et persistance : le découpage interne reste à faire.
 2. **La persistance est dupliquée.** Le même code `indexedDB.open(...)` et les mêmes helpers cookies existent dans plus de dix fichiers, avec des variantes de gestion d'erreur.
 3. **Les règles métier sont dupliquées.** PRNG Mulberry32, shuffle seedé, normalisation des noms, barème de points, calcul d'XP et génération des textes de partage sont réimplémentés dans plusieurs modules. `ChallengeManager.computeTotalXP()` est explicitement commenté comme « IDENTIQUE à js/features/stats/stats.js ».
-4. **Le code mort est concentré autour de la réorganisation et des pages annexes.** Voir le détail dans [16-code-mort-et-orphelins.md](./16-code-mort-et-orphelins.md) : `js/features/settings/profile.js`, `Cosmetics.renderCosmeticsUI()`, plusieurs exports jamais appelés, 4 pages non liées, des sprites alternatifs et des scripts/outils non référencés.
+4. **Le code mort est concentré autour de la réorganisation et des pages annexes.** Voir le détail dans [16-code-mort-et-orphelins.md](./16-code-mort-et-orphelins.md) : `Cosmetics.renderCosmeticsUI()`, plusieurs exports jamais appelés, des sprites alternatifs et des scripts/outils non référencés.
 5. **Il n'existe aucun filet de sécurité automatisé.** Pas de tests, pas de build, pas de lint. Toute restructuration doit commencer par une baseline de tests manuels et des fixtures d'import/export.
 
 ---

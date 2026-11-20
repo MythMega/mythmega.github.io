@@ -80,6 +80,15 @@
     },
     "types": ["collection", "experience", "title", "quest"]
   },
+  "social": {
+    "_comment": "Follow List cache. 'refresh' bounds the minimum number of MINUTES between two network reads of a followed player's card. Opening the Social view (or reloading the page) reuses the persisted card while its last read is younger than this delay; the Refresh button always forces a read. The value is stored per account in user_state[\"settings\"].socialRefreshMinutes, and SocialManager keeps the last read time and the public card of each UUID in user_state[\"social\"].cardFetchedAt and .cardCache. A missing or corrupted value falls back to the default (2 minutes), and an out-of-range value is clamped so an older save still loads.",
+    "refresh": {
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "default": 2
+    }
+  },
   "glow": {
     "_comment": "Glow ('Illumination') ranges. Each effect has its own 0-N slider on the settings screen, so a future one never inherits the bounds of another: 'trophies' is the halo around a trophy medal (none for bronze, light for silver and gold, medium for diamond and emerald - see css/components/trophy.css), and a 'cards' block will be added here when the card glow is tuned. The intensity is stored per account in `user_state[\"settings\"].glowTrophies`; `js/utils/GlowManager.js` publishes it as the 0-N factor `--trophy-glow-scale` on <html>, which the stylesheets multiply into the radius of their shadows. 0 switches the effect off completely.",
     "trophies": {

@@ -570,6 +570,19 @@ export const DEFAULT_NOTIFICATION_SETTINGS = Object.freeze({
 });
 
 /**
+ * Default bounds of the Follow List refresh delay (`settings.social.refresh` of `config.json`).
+ *
+ * The value is a number of MINUTES: a followed card read less than that long ago is reused when
+ * the Social view opens, while the manual Refresh button remains a forced read.
+ */
+export const DEFAULT_SOCIAL_REFRESH_SETTINGS = Object.freeze({
+  min: 0,
+  max: 60,
+  step: 1,
+  default: 2,
+});
+
+/**
  * Default range of the "brillance" setting (`settings.foil.glare` of `config.json`).
  *
  * Same unit and same rules as `DEFAULT_FOIL_SETTINGS`, for the OTHER foil effect: the bright line
@@ -1139,6 +1152,23 @@ export class ConfigLoader {
     const known = DEFAULT_NOTIFICATION_SETTINGS.types;
     const types = known.filter((type) => declared.includes(type));
     return { duration, types: types.length > 0 ? types : known.slice() };
+  }
+
+  /**
+   * Bounds of the minimum delay between two reads of a followed player's card.
+   *
+   * The unit is MINUTES. A missing or malformed block falls back to the shipped two minutes, so a
+   * partially edited configuration can never disable the cache or make the slider unusable.
+   *
+   * @returns {Promise<{min: number, max: number, step: number, default: number}>} The delay bounds.
+   * @throws {Error} See `load()`.
+   */
+  async getSocialRefreshSettings() {
+    const config = await this.getConfig();
+    return ConfigLoader.normalizeSliderRange(
+      config.social?.refresh,
+      DEFAULT_SOCIAL_REFRESH_SETTINGS
+    );
   }
 
   /**

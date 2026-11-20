@@ -1,0 +1,347 @@
+/* =============================================================================
+   social.css - Social page: Follow List, publication actions and followed cards.
+
+   The page reuses `.panel`, `.view__header`, `.modal` and `.feedback`. The avatar is the exact
+   round identity pattern of the header (picture, level badge on its corner), and the detail dialog
+   hosts the shared `ProfileCard` component so a followed card is drawn exactly like the local one.
+   ============================================================================= */
+
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.social__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.social__tab {
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.social__tab:hover,
+.social__tab:focus-visible,
+.social__tab.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.social__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.social__panel[hidden] {
+  display: none;
+}
+
+.social__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.social__toolbar .btn {
+  flex: 1 1 auto;
+}
+
+.social__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social__item {
+  min-width: 0;
+}
+
+.social__friend {
+  --social-rarity: var(--color-border);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  height: 100%;
+  min-height: 8.5rem;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--social-rarity);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-surface-alt), var(--color-surface) 75%);
+  color: var(--color-text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+/* Rarity colours shared by the left rule, the avatar ring and the label. */
+.social__friend[data-rarity="1"] { --social-rarity: #a0a0b0; }
+.social__friend[data-rarity="2"] { --social-rarity: #4dd0e1; }
+.social__friend[data-rarity="3"] { --social-rarity: var(--color-rarity-super); }
+.social__friend[data-rarity="4"] { --social-rarity: var(--color-rarity-legendary); }
+.social__friend[data-rarity="5"] { --social-rarity: var(--color-rarity-mythic); }
+.social__friend[data-rarity="6"] { --social-rarity: var(--color-rarity-unique); }
+
+.social__friend:hover,
+.social__friend:focus-visible {
+  border-color: var(--color-accent);
+  border-left-color: var(--social-rarity);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.social__avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid var(--social-rarity);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  box-shadow: 0 0 0 3px var(--color-surface-alt);
+  overflow: visible;
+}
+
+.social__avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.social__avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  color: var(--color-accent);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.social__level {
+  position: absolute;
+  right: -0.25rem;
+  bottom: -0.25rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.2rem;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 0.625rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--color-surface);
+}
+
+.social__identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.35rem;
+}
+
+.social__headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.social__name {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-weight: 800;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social__rarity {
+  flex: 0 0 auto;
+  padding: 0.12rem 0.45rem;
+  border: 1px solid var(--social-rarity);
+  border-radius: var(--radius-pill);
+  color: var(--social-rarity);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.social__title {
+  overflow: hidden;
+  color: var(--color-title);
+  font-family: var(--font-family-title);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social__title.is-empty {
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-style: italic;
+}
+
+.social__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin-top: 0.1rem;
+}
+
+.social__stat {
+  display: flex;
+  flex-direction: column;
+  min-width: 2.25rem;
+}
+
+.social__stat-value {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.social__stat-label {
+  color: var(--color-text-muted);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.social__updated {
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+.social__chevron {
+  align-self: center;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.social__friend:hover .social__chevron,
+.social__friend:focus-visible .social__chevron {
+  color: var(--color-accent);
+  transform: translateX(3px);
+}
+
+.social__empty {
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.social__empty[hidden] {
+  display: none;
+}
+
+.social__add-error {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+}
+
+.social__add-error[hidden] {
+  display: none;
+}
+
+.social__add-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.social__detail-card {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Followed card dialog: the destructive action sits away from the neutral close button. */
+.modal__actions.social__detail-actions {
+  justify-content: space-between;
+}
+
+.social__detail-meta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 720px) {
+  .social__toolbar .btn {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .social__friend {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .social__chevron {
+    display: none;
+  }
+
+  .social__avatar {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .social__stats {
+    gap: var(--space-1) var(--space-2);
+  }
+}

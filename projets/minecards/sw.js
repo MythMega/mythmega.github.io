@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v135';
+const VERSION = 'v146';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -128,6 +128,7 @@ const PRECACHE_URLS = [
   './css/views/redeem.css',
   './css/views/gifts.css',
   './css/views/info.css',
+  './css/views/social.css',
   './css/components/booster-3d.css',
   './css/components/profile-card.css',
   './css/components/generated-card.css',
@@ -144,6 +145,7 @@ const PRECACHE_URLS = [
   './css/components/notifications.css',
   './css/components/install-prompt.css',
   './css/components/info-hint.css',
+  './css/components/app-menu.css',
   './css/animations/defaults.css',
   './css/animations/opening.css',
   './css/animations/epic.css',
@@ -160,6 +162,7 @@ const PRECACHE_URLS = [
   './js/overlay.js',
   './js/UI/SpaRouter.js',
   './js/UI/components/AutoClaimPopup.js',
+  './js/UI/components/AppMenu.js',
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
   './js/UI/components/CardDetailPopup.js',
@@ -194,6 +197,7 @@ const PRECACHE_URLS = [
   './js/UI/views/ProfileView.js',
   './js/UI/views/RedeemView.js',
   './js/UI/views/SettingsView.js',
+  './js/UI/views/SocialView.js',
   './js/UI/views/StatsView.js',
   './js/UI/views/TitlesView.js',
   './js/UI/views/TrophiesView.js',
@@ -221,6 +225,7 @@ const PRECACHE_URLS = [
   './js/business/PromoSet.js',
   './js/business/RandomCardReward.js',
   './js/business/RedeemManager.js',
+  './js/business/SocialManager.js',
   './js/business/SparksManager.js',
   './js/business/TitleManager.js',
   './js/business/TrophyManager.js',
@@ -253,6 +258,7 @@ const PRECACHE_URLS = [
   /* Configuration and data: the settings screen, the two languages and the card catalogues. Without
      them the game boots but has nothing to open. */
   './settings/config.json',
+  './assets/img/social.svg',
   './developpers.json',
   './settings/cardsets.json',
   './settings/changelog.json',

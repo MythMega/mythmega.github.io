@@ -46,6 +46,7 @@ import { configLoader } from './utils/ConfigLoader.js';
 import eventBus, { EVENTS } from './utils/EventBus.js';
 import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
 import notificationCenter from './UI/components/NotificationCenter.js';
+import { AppMenu } from './UI/components/AppMenu.js';
 import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
@@ -61,6 +62,7 @@ import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
 import { RedeemView } from './UI/views/RedeemView.js';
 import { GiftsView } from './UI/views/GiftsView.js';
 import { InfoView, INFO_VIEW_NAME } from './UI/views/InfoView.js';
+import { SocialView, SOCIAL_VIEW_NAME } from './UI/views/SocialView.js';
 import { ShopView, SHOP_VIEW_NAME } from './UI/views/ShopView.js';
 import titleManager from './business/TitleManager.js';
 import minePickManager from './business/MinePickManager.js';
@@ -76,6 +78,7 @@ import illagerQuestManager, { ILLAGER_QUEST_TYPES } from './business/IllagerQues
 import autoClaimManager from './business/AutoClaimManager.js';
 import dailyRewardManager from './business/DailyRewardManager.js';
 import changelogManager from './business/ChangelogManager.js';
+import socialManager from './business/SocialManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
@@ -178,6 +181,7 @@ export const VIEW_NAMES = Object.freeze({
   MINE_BLOCK: 'mineblock',
   SETTINGS: 'settings',
   INFO: 'info',
+  SOCIAL: 'social',
 });
 
 /**
@@ -557,6 +561,11 @@ export class App {
     }
     this.router.start(DEFAULT_VIEW);
 
+    // The floating menu replaces the former "Info" destination of the bottom bar. It owns no
+    // navigation: every entry still carries `data-nav-target` and is handled by the router.
+    this.appMenu = new AppMenu();
+    this.appMenu.init();
+
     // The header listens before the time synchronization so the very first CLOCK_TICK emission is
     // already displayed.
     this.bindHeader();
@@ -589,6 +598,7 @@ export class App {
     await this.startRedeemView();
     await this.startGiftsView();
     await this.startInfoView();
+    await this.startSocialView();
     await this.startShopView();
     // The deep link is handled LAST: the account exists, the views are ready and the trusted clock
     // is initialized, which is exactly what `?Redeem=` needs (step 10).
@@ -728,6 +738,7 @@ export class App {
         profileManager.ensureState(),
         trophyManager.ensureState(),
         accountManager.ensureStatistics(),
+        socialManager.ensureState(),
       ]);
     } catch (error) {
       console.warn('[App] The profile and trophy states could not be created.', error);
@@ -1462,6 +1473,36 @@ export class App {
       return;
     }
     console.info('[App] Info view ready.');
+  }
+
+  /**
+   * Starts the social page: Follow List and publication of the local trainer card.
+   *
+   * The view loads its list on activation, never during the boot: most sessions never open the
+   * page, and an unnecessary request to the public worker would only slow the startup down.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startSocialView() {
+    const root = document.querySelector(`[data-view="${SOCIAL_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The social view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the social view…');
+    try {
+      this.socialView = new SocialView(root);
+      this.socialView.init();
+    } catch (error) {
+      console.error('[App] The social view could not be loaded.', error);
+      this.socialView?.setFeedback('social.error.load', 'error');
+      this.socialView = null;
+      return;
+    }
+    console.info('[App] Social view ready.');
+    if (this.router?.getCurrentView() === SOCIAL_VIEW_NAME) {
+      this.socialView.handleViewActivated();
+    }
   }
 
   /**

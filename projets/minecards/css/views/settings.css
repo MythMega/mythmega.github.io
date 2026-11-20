@@ -309,6 +309,56 @@ body[data-connection="offline"] .settings__clock-value {
   user-select: all;
 }
 
+/* --- Social publication code ----------------------------------------------- */
+
+.settings__auth-code {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.settings__subtitle {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.settings__auth-code-dev {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.settings__auth-code-dev[hidden] {
+  display: none;
+}
+
+/* A destructive warning must be impossible to miss: danger tint, thick left rule and the word
+   "ATTENTION" in the heading. It is only shown in the basic developer mode. */
+.settings__warning {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-error);
+  border-left-width: 0.35rem;
+  border-radius: var(--radius-md);
+  background-color: color-mix(in srgb, var(--color-error) 10%, var(--color-surface-alt));
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.settings__warning strong {
+  color: var(--color-error);
+  letter-spacing: 0.08em;
+}
+
 /* --- Sound families ------------------------------------------------------- */
 
 /* One row per family: its switch on the right, its volume slider underneath. The global switch is

@@ -64,6 +64,7 @@ import featureManager, {
 import sparksManager from '../../business/SparksManager.js';
 import slotPurchaseModal from '../components/SlotPurchaseModal.js';
 import accountManager from '../../business/AccountManager.js';
+import socialManager, { getSocialErrorMessageKey } from '../../business/SocialManager.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 
 /**
@@ -201,6 +202,7 @@ export class ProfileView {
     this.cardBuyConfirmButton = this.root.querySelector('[data-profile-card-buy-confirm]');
     this.cardBuyCloseButtons = this.root.querySelectorAll('[data-profile-card-buy-close]');
     this.cardDownloadButton = this.root.querySelector('[data-profile-card-download]');
+    this.cardPublishButton = this.root.querySelector('[data-profile-card-publish]');
     this.cardExpandButton = this.root.querySelector('[data-profile-card-expand]');
     this.cardModal = this.root.querySelector('[data-profile-card-modal]');
     this.cardModalBody = this.root.querySelector('[data-profile-card-modal-body]');
@@ -368,6 +370,7 @@ export class ProfileView {
       ['[data-profile-card-buy-preview]', this.buyPreviewHost],
       ['[data-profile-card-buy-confirm]', this.cardBuyConfirmButton],
       ['[data-profile-card-download]', this.cardDownloadButton],
+      ['[data-profile-card-publish]', this.cardPublishButton],
       ['[data-profile-card-expand]', this.cardExpandButton],
       ['[data-profile-card-modal]', this.cardModal],
       ['[data-profile-card-modal-body]', this.cardModalBody],
@@ -576,6 +579,7 @@ export class ProfileView {
       if (event?.target === this.cardBuyModal) this.closeBuyModal();
     });
     this.listen(this.cardDownloadButton, 'click', () => void this.downloadProfileCard());
+    this.listen(this.cardPublishButton, 'click', () => void this.publishProfileCard());
     this.listen(this.cardModalDownloadButton, 'click', () => void this.downloadProfileCard());
     this.listen(this.cardExpandButton, 'click', () => this.openCardModal());
     this.cardModalCloseButtons.forEach((button) => this.listen(button, 'click', () => this.closeCardModal()));
@@ -2890,6 +2894,35 @@ export class ProfileView {
       buttons.forEach((button) => {
         button.disabled = false;
       });
+    }
+  }
+
+  /**
+   * Publishes or updates the local trainer card in the social database.
+   *
+   * The button lives under the card because the card is what is published. `SocialManager` reads
+   * the worker first, creates the secret code on a first publication and sends the mapped model;
+   * this method only owns the busy state and the feedback line.
+   *
+   * @returns {Promise<void>} Resolves once the worker answered (or the failure is displayed).
+   */
+  async publishProfileCard() {
+    if (!this.cardPublishButton || this.isPublishingCard) return;
+    this.isPublishingCard = true;
+    this.cardPublishButton.disabled = true;
+    this.setCardFeedback('social.publish.loading');
+    try {
+      const result = await socialManager.publishOwnCard();
+      this.setCardFeedback('social.publish.success', 'info');
+      this.log(`Trainer card published (${result.action}).`);
+    } catch (error) {
+      console.error('[ProfileView] The trainer card could not be published.', error);
+      const key = getSocialErrorMessageKey(error);
+      this.setCardFeedback(key, 'error');
+      Toast.error(key);
+    } finally {
+      this.isPublishingCard = false;
+      this.cardPublishButton.disabled = false;
     }
   }
 

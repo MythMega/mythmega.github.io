@@ -720,5 +720,39 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 11,
+        "Version": "1.0.10",
+        "Titles": {
+            "Fr": "Social Update",
+            "En": "Social Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "En ligne : Envoyez votre carte de joueur en ligne pour qu'elle soit visible par d'autres !",
+                    "En": "Online : Send your player card online so that it's visible for other players"
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouvel onglet : Social. Ajoutez des amis et affichez leur carte de joueur !",
+                    "En": "New Tab : Social. Add friend and display their own player card !."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "UI : Bouton menu en bas a droite pour accéder aux \"autres\" pages.",
+                    "En": "UI : Menu button bottom right to reach \"other\" pages."
+                }
+            }
+        ]
     }
 ]

@@ -700,6 +700,24 @@
   color: var(--color-error);
 }
 
+/* Publication of the card under the panel: one full-width action and its explanation, separated
+   from the display controls because it talks to the social database instead of the card itself. */
+.profile-card-panel__publish {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.profile-card-panel__publish-help {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
 .profile-card-modal__body {
   display: flex;
   justify-content: center;

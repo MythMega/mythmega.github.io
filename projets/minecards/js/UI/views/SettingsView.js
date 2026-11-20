@@ -96,6 +96,7 @@ import cardSourceManager, {
 } from '../../utils/CardSourceManager.js';
 import cardGenerateManager from '../../utils/CardGenerateManager.js';
 import developerAccess from '../../utils/DeveloperAccess.js';
+import socialManager from '../../business/SocialManager.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
@@ -177,6 +178,8 @@ export class SettingsView {
     this.notificationDurationValue = query('[data-settings-notification-duration-value]');
     this.mineSpeedSlider = query('[data-settings-mine-speed]');
     this.mineSpeedValue = query('[data-settings-mine-speed-value]');
+    this.socialRefreshSlider = query('[data-settings-social-refresh]');
+    this.socialRefreshValueElement = query('[data-settings-social-refresh-value]');
     this.questTutorialToggle = query('[data-settings-quest-tutorial]');
     this.questTutorialStateElement = query('[data-settings-quest-tutorial-state]');
     this.notificationToggles = {
@@ -238,6 +241,12 @@ export class SettingsView {
     this.clockDayElement = query('[data-settings-utc-day]');
     this.uuidElement = query('[data-settings-uuid]');
     this.copyButton = query('[data-settings-copy]');
+    this.authCodeElement = query('[data-settings-auth-code]');
+    this.authCodeCopyButton = query('[data-settings-auth-code-copy]');
+    this.authCodeEmptyElement = query('[data-settings-auth-code-empty]');
+    this.authCodeDevPanel = query('[data-settings-auth-code-dev]');
+    this.authCodeInput = query('[data-settings-auth-code-input]');
+    this.authCodeSaveButton = query('[data-settings-auth-code-save]');
     this.exportButton = query('[data-settings-export]');
     this.importButton = query('[data-settings-import]');
     this.fileInput = query('[data-settings-file]');
@@ -306,10 +315,14 @@ export class SettingsView {
     this.notificationTypes = { collection: true, experience: true, title: true, quest: true };
     /** @type {string} Speed of the automatic mining (`normal`, `fast` or `veryFast`). */
     this.mineSpeed = DEFAULT_MINE_SPEED;
+    /** @type {number} Minimum delay between two reads of a followed card, in minutes. */
+    this.socialRefreshMinutes = 2;
     /** @type {boolean} Walk the player through the screens on "Y aller" (the store is the source). */
     this.questTutorial = true;
     /** @type {string|null} UUID of the current account (read-only display). */
     this.uuid = null;
+    /** @type {string} Secret code of the social publication (empty before the first one). */
+    this.authCode = '';
     /** @type {{key: string, tone: string, params: object|null}|null} Last feedback message. */
     this.feedback = null;
     /** @type {{mode: 'confirm'|'info', titleKey: string, bodyKey: string|null,
@@ -392,6 +405,8 @@ export class SettingsView {
       ['[data-settings-notification-duration-value]', this.notificationDurationValue],
       ['[data-settings-mine-speed]', this.mineSpeedSlider],
       ['[data-settings-mine-speed-value]', this.mineSpeedValue],
+      ['[data-settings-social-refresh]', this.socialRefreshSlider],
+      ['[data-settings-social-refresh-value]', this.socialRefreshValueElement],
       ['[data-settings-quest-tutorial]', this.questTutorialToggle],
       ['[data-settings-quest-tutorial-state]', this.questTutorialStateElement],
       ['[data-settings-notification-collection]', this.notificationToggles.collection],
@@ -438,6 +453,12 @@ export class SettingsView {
       ['[data-settings-utc]', this.clockElement],
       ['[data-settings-uuid]', this.uuidElement],
       ['[data-settings-copy]', this.copyButton],
+      ['[data-settings-auth-code]', this.authCodeElement],
+      ['[data-settings-auth-code-copy]', this.authCodeCopyButton],
+      ['[data-settings-auth-code-empty]', this.authCodeEmptyElement],
+      ['[data-settings-auth-code-dev]', this.authCodeDevPanel],
+      ['[data-settings-auth-code-input]', this.authCodeInput],
+      ['[data-settings-auth-code-save]', this.authCodeSaveButton],
       ['[data-settings-export]', this.exportButton],
       ['[data-settings-import]', this.importButton],
       ['[data-settings-file]', this.fileInput],
@@ -489,6 +510,7 @@ export class SettingsView {
     this.renderGlareSlider();
     this.renderGlowSlider();
     await this.renderNotificationSettings();
+    await this.renderSocialRefresh();
     await this.renderMineSpeed();
     await this.renderCardGenerateControls();
     await this.renderQuestTutorial();
@@ -1611,6 +1633,13 @@ export class SettingsView {
     this.uuid = await accountManager.getUuid();
     this.uuidElement.textContent = this.uuid ?? i18n.t('common.unknown');
     this.uuidElement.setAttribute('title', this.uuid ?? '');
+    this.authCode = await socialManager.getAuthCode();
+    this.authCodeElement.textContent = this.authCode || '-';
+    this.authCodeElement.setAttribute('title', this.authCode);
+    this.authCodeCopyButton.disabled = this.authCode === '';
+    this.authCodeEmptyElement.hidden = this.authCode !== '';
+    this.authCodeInput.value = this.authCode;
+    this.syncAuthCodeEditor();
   }
 
   /**
@@ -2321,6 +2350,7 @@ export class SettingsView {
     this.syncRenderPanelVisibility();
     this.syncAdvancedDevToggle();
     this.syncCardSourcePanelVisibility();
+    this.syncAuthCodeEditor();
     this.syncCardSourceButtons();
     this.syncAnimatedLayersLabel();
     this.syncAnimatedLayersSpeedSlider();
@@ -2369,6 +2399,7 @@ export class SettingsView {
     this.syncRenderPanelVisibility();
     this.syncAdvancedDevPanelVisibility();
     this.syncCardSourcePanelVisibility();
+    this.syncAuthCodeEditor();
     this.applyCardSource();
   }
 
@@ -2864,6 +2895,88 @@ export class SettingsView {
   }
 
   /**
+   * Fills the Follow List refresh-delay slider from `config.json` and the stored preference.
+   *
+   * The unit is MINUTES. Nothing is applied live: `SocialManager` reads the preference on its next
+   * refresh, so saving the account setting is enough. The Refresh button of the Social view remains
+   * a forced read and deliberately ignores this delay.
+   *
+   * @returns {Promise<void>} Resolves once the slider is painted.
+   */
+  async renderSocialRefresh() {
+    if (!this.socialRefreshSlider) return;
+    const range = await configLoader.getSocialRefreshSettings();
+    this.socialRefreshSlider.min = String(range.min);
+    this.socialRefreshSlider.max = String(range.max);
+    this.socialRefreshSlider.step = String(range.step);
+
+    try {
+      const settings = await accountManager.getSettings();
+      this.socialRefreshMinutes = settings.socialRefreshMinutes ?? range.default;
+    } catch (error) {
+      console.warn('[SettingsView] The Follow List refresh delay could not be read.', error);
+      this.socialRefreshMinutes = range.default;
+    }
+    this.applySocialRefresh();
+  }
+
+  /**
+   * Writes the Follow List refresh delay on its slider and output.
+   *
+   * @returns {void}
+   */
+  applySocialRefresh() {
+    if (this.socialRefreshSlider) {
+      this.socialRefreshSlider.value = String(this.socialRefreshMinutes);
+    }
+    this.renderSocialRefreshValue();
+  }
+
+  /**
+   * Writes the delay displayed next to its slider.
+   *
+   * @param {number} [minutes] - Value to display (the current one by default).
+   * @returns {void}
+   */
+  renderSocialRefreshValue(minutes = this.socialRefreshMinutes) {
+    if (!this.socialRefreshValueElement) return;
+    this.socialRefreshValueElement.textContent = i18n.t('settings.social.refreshValue', {
+      value: minutes,
+    });
+  }
+
+  /**
+   * Applies the Follow List delay while the thumb moves (the release is what saves).
+   *
+   * @param {Event} event - Input event of the range element.
+   * @returns {void}
+   */
+  handleSocialRefreshInput(event) {
+    const minutes = Number(event?.target?.value);
+    if (!Number.isFinite(minutes)) return;
+    this.socialRefreshMinutes = Math.round(minutes);
+    this.setFeedback(null);
+    this.renderSocialRefreshValue();
+  }
+
+  /**
+   * Persists the Follow List refresh delay once the player lets go of the thumb.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleSocialRefreshChange() {
+    try {
+      await accountManager.updateSettings({
+        socialRefreshMinutes: this.socialRefreshMinutes,
+      });
+      this.log(`Follow List refresh delay set to ${this.socialRefreshMinutes} min and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The Follow List refresh delay could not be saved.', error);
+      this.setFeedback('settings.error.socialRefresh', 'error');
+    }
+  }
+
+  /**
    * Fills the mining-speed slider from the stored preference.
    *
    * The three stops are the speeds `AccountManager` accepts, in the order they are read: `normal`
@@ -3099,6 +3212,12 @@ export class SettingsView {
     this.listen(this.notificationDurationSlider, 'change', () =>
       this.handleNotificationDurationChange()
     );
+    this.listen(this.socialRefreshSlider, 'input', (event) =>
+      this.handleSocialRefreshInput(event)
+    );
+    this.listen(this.socialRefreshSlider, 'change', () =>
+      this.handleSocialRefreshChange()
+    );
     this.listen(this.mineSpeedSlider, 'input', () => this.handleMineSpeedInput());
     this.listen(this.mineSpeedSlider, 'change', () => void this.handleMineSpeedChange());
     this.listen(this.animatedLayersSpeedSlider, 'input', (event) =>
@@ -3158,6 +3277,8 @@ export class SettingsView {
     this.listen(this.questTutorialToggle, 'click', () => void this.handleQuestTutorialToggle());
     this.listen(this.changelogAnnounceToggle, 'click', () => void this.handleChangelogAnnounceToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
+    this.listen(this.authCodeCopyButton, 'click', () => void this.handleCopyAuthCode());
+    this.listen(this.authCodeSaveButton, 'click', () => void this.handleSaveAuthCode());
     this.listen(this.errorLogCopyButton, 'click', () => void this.handleCopyErrorLog());
     this.listen(this.exportButton, 'click', () => this.handleExport());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
@@ -3400,6 +3521,72 @@ export class SettingsView {
       console.error('[SettingsView] The UUID could not be copied.', error);
       this.setFeedback('settings.account.copyError', 'error');
     }
+  }
+
+  /**
+   * Copies the social publication code.
+   *
+   * The value is read from the manager rather than from the DOM so the copy always matches the
+   * stored code, even after a reset or an imported save.
+   *
+   * @returns {Promise<void>} Resolves once the copy attempt finished.
+   */
+  async handleCopyAuthCode() {
+    if (this.authCode === '') return;
+    try {
+      await this.writeToClipboard(this.authCode);
+      this.setFeedback('settings.account.authCode.copied', 'info');
+    } catch (error) {
+      console.error('[SettingsView] The social code could not be copied.', error);
+      this.setFeedback('settings.account.authCode.copyError', 'error');
+    }
+  }
+
+  /**
+   * Replaces the social publication code after an explicit confirmation.
+   *
+   * The basic developer mode reveals the field, the warning and this button; the confirmation is
+   * the second safeguard, because a wrong code locks the account out of its own published card.
+   *
+   * @returns {Promise<void>} Resolves once the confirmation is displayed.
+   */
+  async handleSaveAuthCode() {
+    if (!this.devMode || this.isBusy) return;
+    const value = this.authCodeInput.value.trim().toUpperCase();
+    if (!/^[A-Z0-9]{16}$/.test(value)) {
+      this.setFeedback('settings.account.authCode.invalid', 'error');
+      this.authCodeInput.focus();
+      return;
+    }
+
+    await this.openConfirmation({
+      titleKey: 'settings.account.authCode.confirmTitle',
+      bodyKey: 'settings.account.authCode.confirmBody',
+      confirmVariant: 'danger',
+      onConfirm: async () => {
+        try {
+          await socialManager.setAuthCode(value);
+          this.closeModal();
+          await this.renderAccount();
+          this.setFeedback('settings.account.authCode.saved', 'info');
+        } catch (error) {
+          console.error('[SettingsView] The social code could not be changed.', error);
+          this.closeModal();
+          this.setFeedback('settings.account.authCode.invalid', 'error');
+        }
+      },
+    });
+  }
+
+  /**
+   * Reveals the code editor only in the basic developer mode.
+   *
+   * @returns {void}
+   */
+  syncAuthCodeEditor() {
+    if (!this.authCodeDevPanel) return;
+    this.authCodeDevPanel.hidden = !this.devMode;
+    if (!this.devMode && this.authCodeInput) this.authCodeInput.value = this.authCode;
   }
 
   /**
@@ -3966,6 +4153,8 @@ export class SettingsView {
       this.advancedDevToggle,
       this.nativeScrollbarsToggle,
       this.copyButton,
+      this.authCodeCopyButton,
+      this.authCodeSaveButton,
       this.exportButton,
       this.importButton,
       this.resetButton,

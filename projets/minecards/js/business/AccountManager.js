@@ -64,6 +64,9 @@ export const USER_STATE_KEYS = Object.freeze({
   SAVED_OPENINGS: 'savedOpenings',
   SPARKS: 'sparks',
   PROFILE: 'profile',
+  // Social publication: the secret write code of the trainer card and the followed UUIDs
+  // (see `SocialManager`). The code stays in clear because the worker needs it on every update.
+  SOCIAL: 'social',
   TROPHIES: 'trophies',
   // Daily state, statistics and history of the Mine Pick (see `MinePickManager`).
   MINE_PICK: 'minePick',
@@ -392,6 +395,13 @@ export class AccountManager {
       overrides.notificationDuration,
       notificationSettings.duration
     );
+    // The Follow List cache delay is stored in MINUTES. It only decides when an already known card
+    // is reused; the Social Refresh button deliberately bypasses it.
+    const socialRefreshSettings = await configLoader.getSocialRefreshSettings();
+    const socialRefreshMinutes = AccountManager.sanitizeSocialRefreshMinutes(
+      overrides.socialRefreshMinutes,
+      socialRefreshSettings
+    );
 
     // The automatic mining (Shift+Space held, or a finger kept on the block) has its own speed: the
     // historical beat of `mining.keyHoldIntervalMs` is "normal", a new account starts there.
@@ -430,6 +440,7 @@ export class AccountManager {
       glowTrophies,
       notificationDuration,
       notificationTypes,
+      socialRefreshMinutes,
       mineSpeed,
       devMode: overrides.devMode === true,
       // The source of the card faces is a developer choice (`generate` draws the card from its
@@ -483,6 +494,22 @@ export class AccountManager {
    * @returns {number} A whole duration inside the range.
    */
   static sanitizeNotificationDuration(value, range) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return range.default;
+    return Math.min(range.max, Math.max(range.min, Math.round(value)));
+  }
+
+  /**
+   * Brings the Follow List refresh delay back into its declared range.
+   *
+   * The value is a whole number of MINUTES. A missing or corrupted value reads as the configured
+   * default, and an out-of-range value is clamped: a save written with older bounds must keep
+   * loading while still honouring the delay the player chose.
+   *
+   * @param {unknown} value - Requested delay, in minutes.
+   * @param {{min: number, max: number, step: number, default: number}} range - Declared bounds.
+   * @returns {number} A whole delay inside the range.
+   */
+  static sanitizeSocialRefreshMinutes(value, range) {
     if (typeof value !== 'number' || !Number.isFinite(value)) return range.default;
     return Math.min(range.max, Math.max(range.min, Math.round(value)));
   }
@@ -719,6 +746,7 @@ export class AccountManager {
     const stored = await storageRepository.getUserState(USER_STATE_KEYS.SETTINGS);
     const defaults = await this.buildInitialSettings();
     const notificationSettings = await configLoader.getNotificationSettings();
+    const socialRefreshSettings = await configLoader.getSocialRefreshSettings();
     const animatedLayersRange = await configLoader.getAnimatedLayersSettings();
     const cardGenerateSettings = await configLoader.getCardGenerateSettings();
     const boosterRender = await configLoader.getBoosterRenderSettings();
@@ -771,6 +799,10 @@ export class AccountManager {
       notificationTypes: AccountManager.normalizeNotificationTypes(
         stored.notificationTypes,
         notificationSettings.types
+      ),
+      socialRefreshMinutes: AccountManager.sanitizeSocialRefreshMinutes(
+        stored.socialRefreshMinutes,
+        socialRefreshSettings
       ),
       // A speed that disappeared from the game (or a hand-edited save) falls back to the historical
       // pace instead of leaving the mine without a beat.
@@ -1099,6 +1131,20 @@ export class AccountManager {
       merged.notificationDuration = AccountManager.sanitizeNotificationDuration(
         notificationDuration,
         duration
+      );
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'socialRefreshMinutes')) {
+      const { socialRefreshMinutes } = partialSettings;
+      if (typeof socialRefreshMinutes !== 'number' || !Number.isFinite(socialRefreshMinutes)) {
+        throw new TypeError(
+          `settings.socialRefreshMinutes must be a number (received: ${JSON.stringify(socialRefreshMinutes)}).`
+        );
+      }
+      const socialRefreshSettings = await configLoader.getSocialRefreshSettings();
+      merged.socialRefreshMinutes = AccountManager.sanitizeSocialRefreshMinutes(
+        socialRefreshMinutes,
+        socialRefreshSettings
       );
     }
 

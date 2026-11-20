@@ -1,0 +1,173 @@
+/* =============================================================================
+   app-menu.css - Floating right-side menu opened by the last button of the bottom bar.
+
+   The menu replaced the "Info" destination. It is a small popover anchored above its button, with
+   one row per destination (Info, Profile, Settings, Social). Every row carries `data-nav-target`,
+   so `SpaRouter` still owns navigation; `AppMenu` only opens, closes and positions the panel.
+   ============================================================================= */
+
+.app-menu {
+  position: fixed;
+  /* Overridden on open by `AppMenu.positionMenu()` with the real gap under the button. */
+  right: max(var(--space-3), env(safe-area-inset-right, 0px));
+  bottom: calc(var(--nav-height) + var(--space-3) + env(safe-area-inset-bottom, 0px));
+  z-index: calc(var(--z-nav) + 1);
+  width: min(15rem, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  animation: app-menu-in var(--duration-base) var(--easing-standard);
+}
+
+.app-menu[hidden] {
+  display: none;
+}
+
+.app-menu::after {
+  /* Small pointer toward the button: it makes the relationship obvious without covering it. */
+  content: "";
+  position: absolute;
+  right: var(--app-menu-arrow-right, 1.55rem);
+  bottom: -0.4rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  transform: rotate(45deg);
+}
+
+.app-menu__title {
+  margin: 0 0 var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Trusted UTC time, directly under the menu heading. Plain text: no button, no click target. */
+.app-menu__clock {
+  display: block;
+  padding: 0 var(--space-2) var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.app-menu__clock-seconds {
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
+
+.app-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.app-menu__item:hover,
+.app-menu__item:focus-visible {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+
+.app-menu__item.is-active {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-alt);
+  color: var(--color-accent);
+}
+
+.app-menu__icon {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--icon-ink);
+}
+
+.app-menu__icon--drawn {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.app-menu__icon--mask {
+  background-color: var(--icon-ink);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.app-menu__icon--settings {
+  -webkit-mask-image: url("../../assets/img/settings.svg");
+  mask-image: url("../../assets/img/settings.svg");
+}
+
+.app-menu__icon--social {
+  -webkit-mask-image: url("../../assets/img/social.svg");
+  mask-image: url("../../assets/img/social.svg");
+}
+
+.app-menu__badge {
+  margin-left: auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color-warning);
+  box-shadow: 0 0 0 1px var(--color-surface), 0 0 8px var(--color-warning);
+}
+
+.app-menu__badge[hidden] {
+  display: none;
+}
+
+body.is-focus .app-menu,
+body.is-onboarding .app-menu {
+  display: none;
+}
+
+@keyframes app-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

@@ -45,7 +45,7 @@ const FULL_ART_MAX_SENTENCES = 2;
 /** Stylesheets injected into the shadow root, in cascade order. */
 const STYLESHEETS = Object.freeze([
   'css/components/profile-card.css',
-  'css/components/generated-card.css?v=57e1ad0118',
+  'css/components/generated-card.css?v=f6a69bcf8f',
 ]);
 
 /**
@@ -111,6 +111,9 @@ export class CardPrint extends HTMLElementBase {
     this.card = null;
     /** @type {string} Language of the texts. */
     this.lang = cardLanguage.getLang();
+    /** @type {{color: string, accent: string, symbol: string, symbolColor: string}|null}
+     *   Rarity appearance overriding the account design (the settings preview uses it). */
+    this.appearance = null;
 
     if (typeof this.attachShadow !== 'function') return;
 
@@ -201,10 +204,13 @@ export class CardPrint extends HTMLElementBase {
    * @param {object} [options] - Display options.
    * @param {boolean} [options.mini=false] - Hide the name, the set and the description.
    * @param {string} [options.lang] - Language of the texts.
+   * @param {{color: string, accent: string, symbol: string, symbolColor: string}} [options.appearance]
+   *   Rarity appearance to use instead of the account design (a preview of another mode).
    * @returns {CardPrint} This element, for chaining.
    */
-  setCard(card, { mini = this.hasAttribute('mini'), lang = null } = {}) {
+  setCard(card, { mini = this.hasAttribute('mini'), lang = null, appearance = null } = {}) {
     this.card = card;
+    this.appearance = appearance && typeof appearance === 'object' ? appearance : null;
     this.lang = typeof lang === 'string' && lang !== '' ? lang : cardLanguage.getLang();
     this.setAttribute('lang', this.lang);
     if (mini) {
@@ -289,7 +295,7 @@ export class CardPrint extends HTMLElementBase {
     }
 
     const rarity = RARITIES[card.rarity] ?? RARITIES[1];
-    const appearance = getRarityAppearance(card.rarity);
+    const appearance = this.appearance ?? getRarityAppearance(card.rarity);
     const name = card.getName(this.lang);
     const isFullArt = card.style === 'fullart';
 

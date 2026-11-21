@@ -176,6 +176,24 @@
                 "RewardCurrency": 1,
                 "RewardSparks": 5,
                 "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W3_05",
+                "StartDate": "2026-11-23",
+                "Type": "UploadSave",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 5,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W3_05",
+                "StartDate": "2026-11-23",
+                "Type": "ChangeCardRendering",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 5,
+                "RewardXP": 10
             }
         ]
     }

@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v163';
+const VERSION = 'v164';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -239,6 +239,7 @@ const PRECACHE_URLS = [
   './js/utils/BoosterCode.js',
   './js/utils/BoosterRenderManager.js',
   './js/utils/CardGenerateManager.js',
+  './js/utils/CardRenderManager.js',
   './js/utils/CardSourceManager.js',
   './js/utils/CardTilt.js',
   './js/utils/Clipboard.js',
@@ -259,6 +260,7 @@ const PRECACHE_URLS = [
   /* Configuration and data: the settings screen, the two languages and the card catalogues. Without
      them the game boots but has nothing to open. */
   './settings/config.json',
+  './settings/cardrender.json',
   './assets/img/social.svg',
   './developpers.json',
   './settings/cardsets.json',

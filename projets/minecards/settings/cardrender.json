@@ -1,78 +1,43 @@
-[
+{
+  "_comment": "Card render presets shown in Settings > Appearance > Card render, next to the plain images. Each entry is ONE complete generated-card design: `id` is what the account stores, `name` is the label per language (falls back to the id), `requiresDeveloperMode` hides the entry until the basic developer mode is on, and the rest is applied to every generated card. `animation` carries one block per layout (animateBackground / animateUnderlay and the scale each layer keeps when it is NOT animated); backgroundZoomPercent / underlayZoomPercent are the maximum zoom of each layer, blurPx the blur at the deepest point of the background zoom. `rarities` declares tier 1 (common) to 6 (unique) with the frame colour, the accent colour, the symbol printed at the top right and its colour. Every number is clamped to the ranges of `cardGenerate` in settings/config.json, so a hand-edited preset can only cost a narrower effect, never a broken card. To add a mode, copy an entry from Settings > Account > Advanced developer options > Card Generate ('Copy the JSON of this mode'), paste it here and give it a new id.",
+  "modes": [
     {
-        "PresetName": "Minecards Dynamic",
-        "Animation": {
-            "AnimatedLayers": true,
-            "SpeedPercent": 200,
-            "LayoutSettings": [
-                {
-                    "Layout": "Classic",
-                    "AnimateBackground": true,
-                    "AnimateUnderlay": false,
-                    "NotAnimatedBackgroundScalePercent": 120,
-                    "NotAnimatedUnderlayScalePercent": 120
-                },
-                {
-                    "Layout": "Fullart",
-                    "AnimateBackground": true,
-                    "AnimateUnderlay": false,
-                    "NotAnimatedBackgroundScalePercent": 100,
-                    "NotAnimatedUnderlayScalePercent": 120
-                }
-            ],
-            "MaximalZoomUnderlayPercent": 130,
-            "MaximalZoomBackgroundPercent": 100,
-            "MaximumBlurPixel": 5
+      "id": "dynamic",
+      "name": {
+        "fr": "Minecards dynamique",
+        "en": "Minecards dynamic"
+      },
+      "requiresDeveloperMode": false,
+      "animatedLayers": true,
+      "speedPercent": 200,
+      "animation": {
+        "classic": {
+          "animateBackground": true,
+          "animateUnderlay": true,
+          "stillBackgroundScalePercent": 120,
+          "stillUnderlayScalePercent": 120
         },
-        "Construction": {
-            "Rarity": [
-                {
-                    "RarityTier": 1,
-                    "BorderColor": "#4a4a5a",
-                    "AccentColor": "#a0a0b0",
-                    "SymboleColor": "#ffffff",
-                    "Symbole": "★"
-                },
-                {
-                    "RarityTier": 2,
-                    "BorderColor": "#93b5c6",
-                    "AccentColor": "#4dd0e1",
-                    "SymboleColor": "#ffffff",
-                    "Symbole": "★★"
-                },
-                {
-                    "RarityTier": 3,
-                    "BorderColor": "#a855f7",
-                    "AccentColor": "#c084fc",
-                    "SymboleColor": "#ffffff",
-                    "Symbole": "★★★"
-                },
-                {
-                    "RarityTier": 4,
-                    "BorderColor": "#ffd700",
-                    "AccentColor": "#ffb300",
-                    "SymboleColor": "#ffffff",
-                    "Symbole": "👑"
-                },
-                {
-                    "RarityTier": 5,
-                    "BorderColor": "#ff2a8d",
-                    "AccentColor": "#00ffff",
-                    "SymboleColor": "#ffffff",
-                    "Symbole": "💎"
-                },
-                {
-                    "RarityTier": 6,
-                    "BorderColor": "#c25700",
-                    "AccentColor": "#e58a2e",
-                    "SymboleColor": "#ffffff",
-                    "Symbole": "🔶"
-                }
-            ],
-            "BorderSize": 4,
-            "HeightTopTitleSectionPercent": 10,
-            "HeightDescriptionSectionPercent": 50
-        },
-        "RequireBasicDeveloperAccount": false
+        "fullart": {
+          "animateBackground": true,
+          "animateUnderlay": true,
+          "stillBackgroundScalePercent": 110,
+          "stillUnderlayScalePercent": 120
+        }
+      },
+      "backgroundZoomPercent": 100,
+      "underlayZoomPercent": 130,
+      "blurPx": 5,
+      "borderWidth": 4,
+      "headerHeightPercent": 10,
+      "bodyHeightPercent": 50,
+      "rarities": [
+        { "tier": 1, "borderColor": "#4a4a5a", "accentColor": "#a0a0b0", "symbolColor": "#ffffff", "symbol": "★" },
+        { "tier": 2, "borderColor": "#93b5c6", "accentColor": "#4dd0e1", "symbolColor": "#ffffff", "symbol": "★★" },
+        { "tier": 3, "borderColor": "#a855f7", "accentColor": "#c084fc", "symbolColor": "#ffffff", "symbol": "★★★" },
+        { "tier": 4, "borderColor": "#ffd700", "accentColor": "#ffb300", "symbolColor": "#ffffff", "symbol": "👑" },
+        { "tier": 5, "borderColor": "#ff2a8d", "accentColor": "#00ffff", "symbolColor": "#ffffff", "symbol": "💎" },
+        { "tier": 6, "borderColor": "#c25700", "accentColor": "#e58a2e", "symbolColor": "#ffffff", "symbol": "🔶" }
+      ]
     }
-]
+  ]
+}

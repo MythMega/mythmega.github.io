@@ -44,6 +44,15 @@ export const CARDSETS_PATH = 'settings/cardsets.json';
 export const CHANGELOG_PATH = 'settings/changelog.json';
 
 /**
+ * Card render presets, relative to the application root.
+ *
+ * One entry per generated-card design offered by the "Card render" picker of the settings
+ * screen (`js/utils/CardRenderManager.js`). A preset is a complete design, so choosing one only
+ * copies its values into the account: nothing else has to know the file exists.
+ */
+export const CARD_RENDER_PATH = 'settings/cardrender.json';
+
+/**
  * Default settings of the set catalogue.
  *
  * `previewDays` is how many days before its release a set may be shown (booster picker and 3D model
@@ -384,11 +393,27 @@ export const DEFAULT_ANIMATED_LAYERS_SETTINGS = Object.freeze({
  * The values here are the shipped design. A malformed or partial block only falls back to them;
  * it never leaves a card without a colour or a symbol.
  */
+/**
+ * Default range of the scale a generated layer keeps while it is NOT animated.
+ *
+ * The value is a PERCENTAGE of the layer's own box: 100 % is the card maker's framing, 120 %
+ * crops a little into the artwork, which is what the moving layers look like at rest. It is
+ * stored per layout and per layer (`animation.still`), bounded by this single range.
+ */
+export const DEFAULT_STILL_SCALE_SETTINGS = Object.freeze({
+  min: 100,
+  max: 150,
+  step: 1,
+  default: 100,
+});
+
 export const DEFAULT_CARD_GENERATE_SETTINGS = Object.freeze({
   animation: Object.freeze({
     background: Object.freeze({ classic: true, fullart: true }),
     underlay: Object.freeze({ classic: true, fullart: true }),
     zoom: Object.freeze({ min: 100, max: 150, step: 1, default: 110 }),
+    zoomUnderlay: Object.freeze({ min: 100, max: 150, step: 1, default: 110 }),
+    stillScale: DEFAULT_STILL_SCALE_SETTINGS,
     blur: Object.freeze({ min: 0, max: 5, step: 0.5, default: 1.5 }),
     speed: DEFAULT_ANIMATED_LAYERS_SETTINGS,
     speeds: Object.freeze([50, 75, 100, 150, 200, 300]),
@@ -494,11 +519,18 @@ export function buildCardGenerateDefaults(config) {
       symbolColor: rarity.symbolColor,
     };
   });
+  const stillRange = config.animation.stillScale ?? DEFAULT_STILL_SCALE_SETTINGS;
+  const still = () => ({ classic: stillRange.default, fullart: stillRange.default });
   return {
     animation: {
       background: { ...DEFAULT_CARD_GENERATE_SETTINGS.animation.background },
       underlay: { ...DEFAULT_CARD_GENERATE_SETTINGS.animation.underlay },
-      zoom: config.animation.zoom.default,
+      // Two zooms, because a preset can zoom its background and its underlay differently. A design
+      // written before they were split carries a single `zoom`, read as the background one.
+      zoomBackground: config.animation.zoom.default,
+      zoomUnderlay:
+        (config.animation.zoomUnderlay ?? config.animation.zoom).default,
+      still: { background: still(), underlay: still() },
       blur: config.animation.blur.default,
     },
     construction: {
@@ -640,6 +672,10 @@ export class ConfigLoader {
     this.cachedChangelog = null;
     /** @type {Promise<Array<object>>|null} In-flight request of the release notes. */
     this.pendingChangelog = null;
+    /** @type {Array<object>|null} Card render presets (`cardrender.json`). */
+    this.cachedCardRenderModes = null;
+    /** @type {Promise<Array<object>>|null} In-flight request of those presets. */
+    this.pendingCardRenderModes = null;
   }
 
   /**
@@ -1020,6 +1056,14 @@ export class ConfigLoader {
           animation?.zoom,
           DEFAULT_CARD_GENERATE_SETTINGS.animation.zoom
         ),
+        zoomUnderlay: ConfigLoader.normalizeDecimalRange(
+          animation?.zoomUnderlay ?? animation?.zoom,
+          DEFAULT_CARD_GENERATE_SETTINGS.animation.zoomUnderlay
+        ),
+        stillScale: ConfigLoader.normalizeDecimalRange(
+          animation?.stillScale ?? animation?.still,
+          DEFAULT_CARD_GENERATE_SETTINGS.animation.stillScale
+        ),
         blur: ConfigLoader.normalizeDecimalRange(
           animation?.blur,
           DEFAULT_CARD_GENERATE_SETTINGS.animation.blur
@@ -1047,6 +1091,183 @@ export class ConfigLoader {
         rarities: ConfigLoader.normalizeCardGenerateRarities(construction?.rarities),
       },
     };
+  }
+
+  /**
+   * Card render presets (`settings/cardrender.json`).
+   *
+   * Read once and kept in memory: the Appearance picker and the advanced panel both read the very
+   * same list, so they can never disagree on what a mode is. The file is validated here rather
+   * than by its consumers: an entry without an id is dropped (the picker could neither label nor
+   * store it), a duplicate keeps its first declaration, and every number is snapped to the range
+   * of the matching `cardGenerate` setting.
+   *
+   * @param {object} [options] - Load options.
+   * @param {boolean} [options.force=false] - Re-fetch the file even when a cached copy exists.
+   * @returns {Promise<Array<{id: string, name: Record<string, string>,
+   *   requiresDeveloperMode: boolean, animatedLayers: boolean, speedPercent: number,
+   *   design: object}>>} The validated presets, in declaration order.
+   * @throws {Error} When the file cannot be read or is not valid JSON.
+   */
+  async getCardRenderModes({ force = false } = {}) {
+    if (this.cachedCardRenderModes && !force) return this.cachedCardRenderModes;
+    if (this.pendingCardRenderModes && !force) return this.pendingCardRenderModes;
+
+    this.pendingCardRenderModes = (async () => {
+      let response;
+      try {
+        response = await fetch(CARD_RENDER_PATH, { cache: 'no-store' });
+      } catch (error) {
+        throw new Error(`Unable to fetch "${CARD_RENDER_PATH}" (network error).`, { cause: error });
+      }
+      if (!response.ok) {
+        throw new Error(`Unable to fetch "${CARD_RENDER_PATH}" (HTTP ${response.status}).`);
+      }
+
+      let raw;
+      try {
+        raw = await response.json();
+      } catch (error) {
+        throw new Error(`"${CARD_RENDER_PATH}" is not valid JSON.`, { cause: error });
+      }
+
+      this.cachedCardRenderModes = ConfigLoader.normalizeCardRenderModes(raw);
+      this.pendingCardRenderModes = null;
+      return this.cachedCardRenderModes;
+    })();
+
+    try {
+      return await this.pendingCardRenderModes;
+    } catch (error) {
+      this.pendingCardRenderModes = null;
+      throw error;
+    }
+  }
+
+  /**
+   * Validates the raw card render presets.
+   *
+   * The accepted shape is `{ modes: [...] }`; a bare array is still read, so a file written before
+   * the wrapper existed keeps working. Each entry carries a name, whether it needs the basic
+   * developer mode, and a complete design: nothing is merged with the configuration at use time.
+   *
+   * @param {unknown} raw - Parsed JSON of `settings/cardrender.json`.
+   * @returns {Array<object>} The validated presets, in declaration order.
+   */
+  static normalizeCardRenderModes(raw) {
+    const declared = Array.isArray(raw) ? raw : Array.isArray(raw?.modes) ? raw.modes : [];
+    const seen = new Set();
+    const modes = [];
+
+    declared.forEach((entry) => {
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return;
+      if (typeof entry.id !== 'string' || entry.id.trim() === '') return;
+      const id = entry.id.trim();
+      if (seen.has(id)) return;
+      seen.add(id);
+
+      const design = buildCardGenerateDefaults(DEFAULT_CARD_GENERATE_SETTINGS);
+      const layout = (name) =>
+        entry.animation && typeof entry.animation[name] === 'object' ? entry.animation[name] : {};
+      const classic = layout('classic');
+      const fullart = layout('fullart');
+      const still = (layoutEntry, key) =>
+        ConfigLoader.normalizeValueInRange(
+          layoutEntry[key],
+          DEFAULT_CARD_GENERATE_SETTINGS.animation.stillScale
+        );
+
+      design.animation.background = {
+        classic: classic.animateBackground !== false,
+        fullart: fullart.animateBackground !== false,
+      };
+      design.animation.underlay = {
+        classic: classic.animateUnderlay !== false,
+        fullart: fullart.animateUnderlay !== false,
+      };
+      design.animation.still = {
+        background: {
+          classic: still(classic, 'stillBackgroundScalePercent'),
+          fullart: still(fullart, 'stillBackgroundScalePercent'),
+        },
+        underlay: {
+          classic: still(classic, 'stillUnderlayScalePercent'),
+          fullart: still(fullart, 'stillUnderlayScalePercent'),
+        },
+      };
+      design.animation.zoomBackground = ConfigLoader.normalizeValueInRange(
+        entry.backgroundZoomPercent,
+        DEFAULT_CARD_GENERATE_SETTINGS.animation.zoom
+      );
+      design.animation.zoomUnderlay = ConfigLoader.normalizeValueInRange(
+        entry.underlayZoomPercent,
+        DEFAULT_CARD_GENERATE_SETTINGS.animation.zoomUnderlay
+      );
+      design.animation.blur = ConfigLoader.normalizeValueInRange(
+        entry.blurPx,
+        DEFAULT_CARD_GENERATE_SETTINGS.animation.blur
+      );
+      design.construction.borderWidth = ConfigLoader.normalizeValueInRange(
+        entry.borderWidth,
+        DEFAULT_CARD_GENERATE_SETTINGS.construction.borderWidth
+      );
+      design.construction.headerHeight = ConfigLoader.normalizeValueInRange(
+        entry.headerHeightPercent,
+        DEFAULT_CARD_GENERATE_SETTINGS.construction.headerHeight
+      );
+      design.construction.bodyHeight = ConfigLoader.normalizeValueInRange(
+        entry.bodyHeightPercent,
+        DEFAULT_CARD_GENERATE_SETTINGS.construction.bodyHeight
+      );
+
+      // The file names the columns from the point of view of the designer (`tier`, `borderColor`);
+      // the shared rarity normalizer speaks the vocabulary of `cardGenerate`.
+      const declaredRarities = Array.isArray(entry.rarities)
+        ? entry.rarities.map((row) => ({
+            id: row?.tier,
+            color: row?.borderColor,
+            accent: row?.accentColor,
+            symbol: row?.symbol,
+            symbolColor: row?.symbolColor,
+          }))
+        : [];
+      ConfigLoader.normalizeCardGenerateRarities(declaredRarities).forEach((rarity) => {
+        design.construction.rarities[rarity.id] = {
+          color: rarity.color,
+          accent: rarity.accent,
+          symbol: rarity.symbol,
+          symbolColor: rarity.symbolColor,
+        };
+      });
+
+      const declaredName =
+        entry.name && typeof entry.name === 'object' && !Array.isArray(entry.name)
+          ? Object.fromEntries(
+              Object.entries(entry.name).filter(
+                ([, value]) => typeof value === 'string' && value.trim() !== ''
+              )
+            )
+          : {};
+      const singleName = typeof entry.name === 'string' ? entry.name.trim() : '';
+      const name =
+        Object.keys(declaredName).length > 0
+          ? declaredName
+          : { fr: singleName || id, en: singleName || id };
+
+      modes.push({
+        id,
+        name,
+        requiresDeveloperMode: entry.requiresDeveloperMode === true,
+        animatedLayers: entry.animatedLayers === true,
+        speedPercent: ConfigLoader.normalizeValueInRange(
+          entry.speedPercent,
+          DEFAULT_ANIMATED_LAYERS_SETTINGS
+        ),
+        design,
+      });
+    });
+
+    return modes;
   }
 
   /**
@@ -1231,6 +1452,24 @@ export class ConfigLoader {
     const step = Math.max(0.1, finite(block.step, defaults.step));
     const fallbackDefault = Math.min(Math.max(finite(block.default, defaults.default), min), max);
     return { min, max, step, default: fallbackDefault };
+  }
+
+  /**
+   * Snaps a value to a declared slider range.
+   *
+   * Unlike `normalizeDecimalRange()` this validates a VALUE, not the bounds: it is what a preset
+   * of `cardrender.json` needs, since a hand-edited file can only cost a narrower effect.
+   *
+   * @param {unknown} value - Candidate value.
+   * @param {{min: number, max: number, step: number, default: number}} range - Declared bounds.
+   * @returns {number} The value, clamped to the range and snapped to its step.
+   */
+  static normalizeValueInRange(value, range) {
+    const number = Number(value);
+    const candidate = Number.isFinite(number) ? number : range.default;
+    const clamped = Math.min(range.max, Math.max(range.min, candidate));
+    const steps = Math.round((clamped - range.min) / range.step);
+    return Number(Math.min(range.max, range.min + steps * range.step).toFixed(4));
   }
 
   /**

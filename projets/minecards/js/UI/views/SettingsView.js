@@ -95,6 +95,16 @@ import cardSourceManager, {
   resolveAnimatedLayersDuration,
 } from '../../utils/CardSourceManager.js';
 import cardGenerateManager from '../../utils/CardGenerateManager.js';
+import {
+  CARD_RENDER_MODE,
+  DEFAULT_CARD_RENDER_MODE,
+  buildModeExport,
+  findMode,
+  getCardRenderModes,
+  getModeLabel,
+  isModeAvailable,
+} from '../../utils/CardRenderManager.js';
+import { CardPrint } from '../components/CardPrint.js';
 import developerAccess from '../../utils/DeveloperAccess.js';
 import socialManager from '../../business/SocialManager.js';
 import saveSyncManager, {
@@ -110,6 +120,24 @@ export const SETTINGS_VIEW_NAME = 'settings';
  * kind of note must never need a release of the game to be readable.
  */
 const CHANGELOG_TYPES = ['feature', 'fix', 'qol'];
+
+/**
+ * Card drawn in the small preview of the "Card render" picker.
+ *
+ * It is a mythic so the preview also shows the foil and the accent of the frame, and it carries
+ * the four fields `<card-print>` reads. The texts are translated lazily: the preview follows a
+ * language change like every other label of the screen.
+ */
+const CARD_RENDER_SAMPLE = Object.freeze({
+  id: 'SERIE-A1 / 001',
+  index: 'SERIE-A1 / 001',
+  rarity: 5,
+  style: 'classic',
+  background: 'assets/img/card_back.png',
+  underlay: '',
+  getName: () => i18n.t('settings.cardRender.sampleName'),
+  getDescription: () => i18n.t('settings.cardRender.sampleDescription'),
+});
 
 /** Page the "buy" button of the premium offer opens, in a tab of its own. */
 export const PREMIUM_OFFER_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ';
@@ -228,6 +256,15 @@ export class SettingsView {
     this.cardGenerateBodySlider = query('[data-settings-cardgen-body]');
     this.cardGenerateBodyValue = query('[data-settings-cardgen-body-value]');
     this.cardGenerateResetButton = query('[data-settings-cardgen-reset]');
+    this.cardGenerateCopyButton = query('[data-settings-cardgen-copy]');
+    this.cardGenerateUnderlayZoomSlider = query('[data-settings-cardgen-underlay-zoom]');
+    this.cardGenerateUnderlayZoomValue = query('[data-settings-cardgen-underlay-zoom-value]');
+    this.cardGenerateStillBackgroundSlider = query('[data-settings-cardgen-still-background]');
+    this.cardGenerateStillBackgroundValue = query('[data-settings-cardgen-still-background-value]');
+    this.cardGenerateStillUnderlaySlider = query('[data-settings-cardgen-still-underlay]');
+    this.cardGenerateStillUnderlayValue = query('[data-settings-cardgen-still-underlay-value]');
+    this.cardRenderContainer = query('[data-settings-card-render]');
+    this.cardRenderStage = query('[data-settings-card-render-stage]');
     this.animatedLayersToggle = query('[data-settings-animated-layers]');
     this.animatedLayersStateElement = query('[data-settings-animated-layers-state]');
     this.animatedLayersSpeedSlider = query('[data-settings-animated-layers-speed]');
@@ -314,8 +351,12 @@ export class SettingsView {
     this.devMode = false;
     /** @type {boolean} Advanced mode after checking the developer allowlist. */
     this.advancedDevMode = false;
-    /** @type {string} Stored card source (`image` or `generate`). */
+    /** @type {string} Effective card source (`image` or `generate`), derived from the render mode. */
     this.cardSource = CARD_SOURCE.IMAGE;
+    /** @type {string} Entry of the "Card render" picker that produced `cardSource`. */
+    this.cardRenderMode = DEFAULT_CARD_RENDER_MODE;
+    /** @type {Array<object>} Card render presets (`settings/cardrender.json`). */
+    this.cardRenderModes = [];
     /** @type {boolean} Whether the generated card layers move (off by default). */
     this.animatedLayers = false;
     /** @type {number} Animation speed, in percent of the reference 30-second cycle. */
@@ -365,6 +406,8 @@ export class SettingsView {
     this.renderButtons = new Map();
     /** @type {Map<string, HTMLButtonElement>} Card source buttons, keyed by source id. */
     this.cardSourceButtons = new Map();
+    /** @type {Map<string, HTMLButtonElement>} Card render buttons, keyed by mode id. */
+    this.cardRenderButtons = new Map();
     /** @type {Map<string, HTMLButtonElement>} Card Generate sub-tab buttons. */
     this.cardGenerateTabButtons = new Map();
     /** @type {Map<string, HTMLElement>} Card Generate sub-tab panels. */
@@ -467,6 +510,15 @@ export class SettingsView {
       ['[data-settings-cardgen-body]', this.cardGenerateBodySlider],
       ['[data-settings-cardgen-body-value]', this.cardGenerateBodyValue],
       ['[data-settings-cardgen-reset]', this.cardGenerateResetButton],
+      ['[data-settings-cardgen-copy]', this.cardGenerateCopyButton],
+      ['[data-settings-cardgen-underlay-zoom]', this.cardGenerateUnderlayZoomSlider],
+      ['[data-settings-cardgen-underlay-zoom-value]', this.cardGenerateUnderlayZoomValue],
+      ['[data-settings-cardgen-still-background]', this.cardGenerateStillBackgroundSlider],
+      ['[data-settings-cardgen-still-background-value]', this.cardGenerateStillBackgroundValue],
+      ['[data-settings-cardgen-still-underlay]', this.cardGenerateStillUnderlaySlider],
+      ['[data-settings-cardgen-still-underlay-value]', this.cardGenerateStillUnderlayValue],
+      ['[data-settings-card-render]', this.cardRenderContainer],
+      ['[data-settings-card-render-stage]', this.cardRenderStage],
       ['[data-settings-animated-layers]', this.animatedLayersToggle],
       ['[data-settings-animated-layers-state]', this.animatedLayersStateElement],
       ['[data-settings-animated-layers-speed]', this.animatedLayersSpeedSlider],
@@ -552,6 +604,7 @@ export class SettingsView {
     this.syncSoundToggle();
     this.renderSoundCategories();
     await this.syncDevToggle();
+    await this.renderCardRenderSelector();
     this.renderCardSourceSelector();
     await this.syncNativeScrollbarsToggle();
     await this.renderAccount();
@@ -862,11 +915,13 @@ export class SettingsView {
   }
 
   /**
-   * Renders the two card sources: `generate` and `image source`.
+   * Renders the two card sources: `Custom` (generated) and `Default` (images).
    *
    * The panel is an advanced developer tool, so `syncCardSourcePanelVisibility()` keeps it hidden
    * until both developer modes are on. The labels come from the translation files, while the
-   * stored values are the two ids of `CARD_SOURCE`.
+   * stored values are the two ids of `CARD_SOURCE`. The picker is the "render mode" of the
+   * Appearance panel seen from the developer side: `Custom` selects the design edited here, which
+   * is also what `CardRenderManager.CARD_RENDER_MODE.CUSTOM` stores.
    *
    * @returns {void}
    */
@@ -876,8 +931,8 @@ export class SettingsView {
     this.cardSourceContainer.textContent = '';
     this.cardSourceButtons.clear();
     [
-      { id: CARD_SOURCE.GENERATE, labelKey: 'settings.cardSource.generate' },
-      { id: CARD_SOURCE.IMAGE, labelKey: 'settings.cardSource.image' },
+      { id: CARD_SOURCE.GENERATE, labelKey: 'settings.cardSource.custom' },
+      { id: CARD_SOURCE.IMAGE, labelKey: 'settings.cardSource.default' },
     ].forEach(({ id, labelKey }) => {
       const button = document.createElement('button');
       button.type = 'button';
@@ -900,8 +955,15 @@ export class SettingsView {
    * @returns {void}
    */
   syncCardSourceButtons() {
+    const active = this.resolveActiveCardRenderMode();
     this.cardSourceButtons.forEach((button, id) => {
-      const isActive = id === this.cardSource;
+      // A preset also renders the generated source, but it is NOT the `Custom` design: only
+      // `Default` and `Custom` themselves light up, so the panel never claims the account renders a
+      // design nobody picked here.
+      const isActive =
+        active === CARD_RENDER_MODE.IMAGES
+          ? id === CARD_SOURCE.IMAGE
+          : active === CARD_RENDER_MODE.CUSTOM && id === CARD_SOURCE.GENERATE;
       button.classList.toggle('is-active', isActive);
       button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
@@ -945,6 +1007,9 @@ export class SettingsView {
 
     const ranges = [
       [this.cardGenerateZoomSlider, this.cardGenerateConfig.animation.zoom],
+      [this.cardGenerateUnderlayZoomSlider, this.cardGenerateConfig.animation.zoomUnderlay],
+      [this.cardGenerateStillBackgroundSlider, this.cardGenerateConfig.animation.stillScale],
+      [this.cardGenerateStillUnderlaySlider, this.cardGenerateConfig.animation.stillScale],
       [this.cardGenerateBlurSlider, this.cardGenerateConfig.animation.blur],
       [this.cardGenerateBorderSlider, this.cardGenerateConfig.construction.borderWidth],
       [this.cardGenerateHeaderSlider, this.cardGenerateConfig.construction.headerHeight],
@@ -1147,7 +1212,14 @@ export class SettingsView {
    */
   syncCardGenerateControls() {
     if (!this.cardGenerate) return;
-    this.cardGenerateZoomSlider.value = String(this.cardGenerate.animation.zoom);
+    this.cardGenerateZoomSlider.value = String(this.cardGenerate.animation.zoomBackground);
+    this.cardGenerateUnderlayZoomSlider.value = String(this.cardGenerate.animation.zoomUnderlay);
+    this.cardGenerateStillBackgroundSlider.value = String(
+      this.cardGenerate.animation.still.background.classic
+    );
+    this.cardGenerateStillUnderlaySlider.value = String(
+      this.cardGenerate.animation.still.underlay.classic
+    );
     this.cardGenerateBlurSlider.value = String(this.cardGenerate.animation.blur);
     this.cardGenerateBorderSlider.value = String(this.cardGenerate.construction.borderWidth);
     this.cardGenerateHeaderSlider.value = String(this.cardGenerate.construction.headerHeight);
@@ -1194,7 +1266,13 @@ export class SettingsView {
    */
   renderCardGenerateSliderValues() {
     if (!this.cardGenerate) return;
-    this.cardGenerateZoomValue.textContent = `${this.cardGenerate.animation.zoom} %`;
+    this.cardGenerateZoomValue.textContent = `${this.cardGenerate.animation.zoomBackground} %`;
+    this.cardGenerateUnderlayZoomValue.textContent =
+      `${this.cardGenerate.animation.zoomUnderlay} %`;
+    this.cardGenerateStillBackgroundValue.textContent =
+      `${this.cardGenerate.animation.still.background.classic} %`;
+    this.cardGenerateStillUnderlayValue.textContent =
+      `${this.cardGenerate.animation.still.underlay.classic} %`;
     this.cardGenerateBlurValue.textContent = `${this.cardGenerate.animation.blur} px`;
     this.cardGenerateBorderValue.textContent = `${this.cardGenerate.construction.borderWidth} px`;
     this.cardGenerateHeaderValue.textContent = `${this.cardGenerate.construction.headerHeight} %`;
@@ -1273,7 +1351,18 @@ export class SettingsView {
     if (!(input instanceof HTMLInputElement) || !input.dataset.cardgenSlider) return;
     const value = Number(input.value);
     if (!Number.isFinite(value)) return;
-    if (input.dataset.cardgenSlider === 'zoom') this.cardGenerate.animation.zoom = value;
+    if (input.dataset.cardgenSlider === 'zoom') this.cardGenerate.animation.zoomBackground = value;
+    if (input.dataset.cardgenSlider === 'underlayZoom') {
+      this.cardGenerate.animation.zoomUnderlay = value;
+    }
+    // The two still scales are one slider per layer, applied to both layouts: a preset can still
+    // give them distinct values, but the advanced panel keeps one control per layer.
+    if (input.dataset.cardgenSlider === 'stillBackground') {
+      this.cardGenerate.animation.still.background = { classic: value, fullart: value };
+    }
+    if (input.dataset.cardgenSlider === 'stillUnderlay') {
+      this.cardGenerate.animation.still.underlay = { classic: value, fullart: value };
+    }
     if (input.dataset.cardgenSlider === 'blur') this.cardGenerate.animation.blur = value;
     if (input.dataset.cardgenSlider === 'border') this.cardGenerate.construction.borderWidth = value;
     if (input.dataset.cardgenSlider === 'header') this.cardGenerate.construction.headerHeight = value;
@@ -1355,8 +1444,20 @@ export class SettingsView {
    */
   async saveCardGenerate() {
     if (!this.cardGenerate) return;
+    const payload = { cardGenerate: this.cardGenerate };
+    // Editing the design by hand makes it the `custom` mode: the picker must say that the account
+    // no longer renders the preset it came from, otherwise it would keep claiming a mode nobody
+    // is looking at anymore.
+    if (
+      this.cardSource === CARD_SOURCE.GENERATE &&
+      this.cardRenderMode !== CARD_RENDER_MODE.CUSTOM
+    ) {
+      this.cardRenderMode = CARD_RENDER_MODE.CUSTOM;
+      payload.cardRenderMode = CARD_RENDER_MODE.CUSTOM;
+      this.syncCardRenderSelection();
+    }
     try {
-      await accountManager.updateSettings({ cardGenerate: this.cardGenerate });
+      await accountManager.updateSettings(payload);
       // Symbols are DOM text, not custom properties: repaint the cards so a live preview follows.
       cardSourceManager.refresh();
       this.log('Generated-card design saved.');
@@ -1457,8 +1558,17 @@ export class SettingsView {
    * @returns {Promise<void>} Resolves once the flow finished (success or failure).
    */
   async handleAnimatedLayersSpeedChange() {
+    const payload = { animatedLayersSpeed: this.animatedLayersSpeed };
+    if (
+      this.cardSource === CARD_SOURCE.GENERATE &&
+      this.cardRenderMode !== CARD_RENDER_MODE.CUSTOM
+    ) {
+      this.cardRenderMode = CARD_RENDER_MODE.CUSTOM;
+      payload.cardRenderMode = CARD_RENDER_MODE.CUSTOM;
+      this.syncCardRenderSelection();
+    }
     try {
-      await accountManager.updateSettings({ animatedLayersSpeed: this.animatedLayersSpeed });
+      await accountManager.updateSettings(payload);
       this.log(`Animated layers speed set to ${this.animatedLayersSpeed} % and saved.`);
     } catch (error) {
       console.error('[SettingsView] The animated-layers speed could not be saved.', error);
@@ -1472,13 +1582,304 @@ export class SettingsView {
    * @returns {void}
    */
   applyCardSource() {
+    const cardRenderMode = this.resolveActiveCardRenderMode();
+    this.cardSource =
+      cardRenderMode === CARD_RENDER_MODE.IMAGES ? CARD_SOURCE.IMAGE : CARD_SOURCE.GENERATE;
+    this.syncAnimatedLayersVisibility();
     cardSourceManager.applySettings({
       devMode: this.devMode,
       advancedDevMode: this.advancedDevMode,
       cardSource: this.cardSource,
+      cardRenderMode,
       animatedLayers: this.animatedLayers,
       animatedLayersSpeed: this.animatedLayersSpeed,
     });
+  }
+
+  /**
+   * Entry of the "Card render" picker that is actually in effect.
+   *
+   * A stored preset stays out of reach when it asks for the developer mode and that mode is off,
+   * and `custom` needs BOTH developer modes: the settings screen then falls back to the plain
+   * images instead of claiming a mode the player can no longer see.
+   *
+   * @returns {string} `images`, `custom`, or the id of an available preset.
+   */
+  resolveActiveCardRenderMode() {
+    const stored = this.cardRenderMode;
+    if (stored === CARD_RENDER_MODE.IMAGES) return CARD_RENDER_MODE.IMAGES;
+    const customAllowed = this.devMode && this.advancedDevMode;
+    if (stored === CARD_RENDER_MODE.CUSTOM) {
+      return customAllowed ? CARD_RENDER_MODE.CUSTOM : CARD_RENDER_MODE.IMAGES;
+    }
+    // The list is not loaded yet (the boot path applies the source before the preset file is
+    // read): trust what the account stores instead of flicking every card back to the images.
+    if (this.cardRenderModes.length === 0) return stored;
+
+    const preset = findMode(this.cardRenderModes, stored);
+    if (preset && isModeAvailable(preset, { devMode: this.devMode })) return preset.id;
+    // A mode removed from the file (or one that now asks for a developer mode this account does
+    // not have) falls back to the design the account still carries, never to a broken card.
+    return customAllowed ? CARD_RENDER_MODE.CUSTOM : CARD_RENDER_MODE.IMAGES;
+  }
+
+  /**
+   * Loads the presets of `settings/cardrender.json` and builds the picker.
+   *
+   * A file that cannot be read leaves a picker with the images alone: the screen stays usable, and
+   * the account keeps the mode it already had.
+   *
+   * @returns {Promise<void>} Resolves once the picker exists.
+   */
+  async renderCardRenderSelector() {
+    this.cardRenderModes = await getCardRenderModes();
+    this.buildCardRenderButtons();
+  }
+
+  /**
+   * Draws one button per available mode, then repaints the preview.
+   *
+   * `images` is always first; a preset is listed when it does not ask for the developer mode (or
+   * when that mode is on), and `custom` is the advanced option, shown with both developer modes.
+   *
+   * @returns {void}
+   */
+  buildCardRenderButtons() {
+    if (!this.cardRenderContainer) return;
+    this.cardRenderContainer.textContent = '';
+    this.cardRenderButtons.clear();
+
+    const lang = i18n.getLang();
+    const entries = [{ id: CARD_RENDER_MODE.IMAGES, label: i18n.t('settings.cardRender.images') }];
+    this.cardRenderModes.forEach((mode) => {
+      if (!isModeAvailable(mode, { devMode: this.devMode })) return;
+      entries.push({ id: mode.id, label: getModeLabel(mode, lang) });
+    });
+    if (this.advancedDevMode) {
+      entries.push({ id: CARD_RENDER_MODE.CUSTOM, label: i18n.t('settings.cardRender.custom') });
+    }
+
+    entries.forEach(({ id, label }) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'lang-switch__option';
+      button.dataset.cardRenderId = id;
+      button.textContent = label;
+      button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', () => void this.handleCardRenderModeChange(id));
+      this.cardRenderContainer.appendChild(button);
+      this.cardRenderButtons.set(id, button);
+    });
+
+    this.syncCardRenderSelection();
+  }
+
+  /**
+   * Reflects the effective mode on the picker buttons.
+   *
+   * @returns {void}
+   */
+  syncCardRenderButtons() {
+    const active = this.resolveActiveCardRenderMode();
+    this.cardRenderButtons.forEach((button, id) => {
+      const isActive = id === active;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  /**
+   * Paints the small preview of the selected mode.
+   *
+   * The preview is a real `<card-print>`: the design of the mode is published as custom properties
+   * on the stage itself, so only that card follows it, while the cards on the other screens keep
+   * the design of the account. `images` shows the artwork the game would display instead.
+   *
+   * @returns {void}
+   */
+  renderCardRenderStage() {
+    if (!this.cardRenderStage) return;
+    const active = this.resolveActiveCardRenderMode();
+    const preset = findMode(this.cardRenderModes, active);
+    const design = preset ? preset.design : this.cardGenerate;
+    const stage = this.cardRenderStage;
+    stage.textContent = '';
+    stage.removeAttribute('style');
+
+    if (active === CARD_RENDER_MODE.IMAGES) {
+      const image = document.createElement('img');
+      image.className = 'settings__card-render-image';
+      image.src = 'assets/img/card_back.png';
+      image.alt = '';
+      image.setAttribute('aria-hidden', 'true');
+      stage.appendChild(image);
+      return;
+    }
+    if (!design) return;
+
+    Object.entries(cardGenerateManager.buildVariables(design)).forEach(([name, value]) => {
+      stage.style.setProperty(name, value);
+    });
+    stage.style.setProperty(
+      '--animated-layers-duration',
+      `${resolveAnimatedLayersDuration(preset ? preset.speedPercent : this.animatedLayersSpeed)}s`
+    );
+
+    const print = new CardPrint();
+    print.className = 'settings__card-render-image';
+    print.setAttribute('aria-hidden', 'true');
+    print.setCard(
+      {
+        ...CARD_RENDER_SAMPLE,
+        // The artwork is painted from inside the shadow root, where a relative URL would resolve
+        // against `css/components/`: the preview needs the absolute one.
+        background: new URL(CARD_RENDER_SAMPLE.background, document.baseURI).href,
+      },
+      {
+        mini: false,
+        lang: i18n.getLang(),
+        appearance: design.construction.rarities[CARD_RENDER_SAMPLE.rarity],
+      }
+    );
+    print.setAnimatedLayers(preset ? preset.animatedLayers : this.animatedLayers);
+    print.setAnimatedLayersView(true);
+    stage.appendChild(print);
+  }
+
+  /**
+   * Pushes the selected mode to every label, to the cards and to the preview.
+   *
+   * @returns {void}
+   */
+  syncCardRenderSelection() {
+    this.syncCardSourceButtons();
+    this.syncCardRenderButtons();
+    this.applyCardSource();
+    this.renderCardRenderStage();
+  }
+
+  /**
+   * Applies one entry of the "Card render" picker and persists it.
+   *
+   * A preset carries a complete design, so choosing one copies its values into the account: the
+   * cards keep rendering the same way even if `cardrender.json` changes afterwards. `images` and
+   * `custom` only move the picker; the design stays whatever the account already stores.
+   *
+   * @param {string} modeId - Entry that was clicked.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleCardRenderModeChange(modeId) {
+    if (this.isBusy) return;
+    if (modeId === this.resolveActiveCardRenderMode()) return;
+
+    const preset = findMode(this.cardRenderModes, modeId);
+    await this.saveCardRenderSelection(
+      preset ? preset.id : modeId,
+      preset ? SettingsView.cloneCardDesign(preset.design) : null,
+      preset
+    );
+  }
+
+  /**
+   * Writes a render selection, applies it live and rolls it back on failure.
+   *
+   * @param {string} modeId - `images`, `custom` or a preset id.
+   * @param {object|null} [design] - Complete design of a preset, or null to keep the current one.
+   * @param {object|null} [preset] - Preset the design comes from, or null.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async saveCardRenderSelection(modeId, design = null, preset = null) {
+    const previous = {
+      cardRenderMode: this.cardRenderMode,
+      cardSource: this.cardSource,
+      cardGenerate: this.cardGenerate,
+      animatedLayers: this.animatedLayers,
+      animatedLayersSpeed: this.animatedLayersSpeed,
+    };
+
+    this.cardRenderMode = modeId;
+    if (preset) {
+      this.cardGenerate = design;
+      this.animatedLayers = preset.animatedLayers === true;
+      this.animatedLayersSpeed = preset.speedPercent;
+      this.syncAnimatedLayersLabel();
+      this.syncAnimatedLayersSpeedSlider();
+      this.syncCardGenerateControls();
+      this.applyCardGenerate();
+    }
+    this.setFeedback(null);
+    this.syncCardRenderSelection();
+
+    const payload = {
+      cardRenderMode: modeId,
+      cardSource: modeId === CARD_RENDER_MODE.IMAGES ? CARD_SOURCE.IMAGE : CARD_SOURCE.GENERATE,
+    };
+    if (preset) {
+      payload.cardGenerate = this.cardGenerate;
+      payload.animatedLayers = this.animatedLayers;
+      payload.animatedLayersSpeed = this.animatedLayersSpeed;
+    }
+
+    try {
+      await accountManager.updateSettings(payload);
+      this.log(`Card render mode set to "${modeId}" and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The card render mode could not be saved.', error);
+      this.cardRenderMode = previous.cardRenderMode;
+      this.cardSource = previous.cardSource;
+      this.cardGenerate = previous.cardGenerate;
+      this.animatedLayers = previous.animatedLayers;
+      this.animatedLayersSpeed = previous.animatedLayersSpeed;
+      this.syncAnimatedLayersLabel();
+      this.syncAnimatedLayersSpeedSlider();
+      this.syncCardGenerateControls();
+      this.applyCardGenerate();
+      this.syncCardRenderSelection();
+      this.setFeedback('settings.error.cardSource', 'error');
+    }
+  }
+
+  /**
+   * Copies the active mode as an entry of `settings/cardrender.json`.
+   *
+   * The advanced panel offers it so adding a mode is: click, paste, change the id. The copied
+   * object carries every property the file reads, in the vocabulary of the file.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleCardGenerateCopy() {
+    if (!this.cardGenerate) return;
+    const preset = findMode(this.cardRenderModes, this.resolveActiveCardRenderMode());
+    const entry = buildModeExport(
+      preset ?? {
+        id: CARD_RENDER_MODE.CUSTOM,
+        name: { fr: i18n.t('settings.cardRender.custom'), en: 'Custom' },
+        requiresDeveloperMode: true,
+        animatedLayers: this.animatedLayers,
+        speedPercent: this.animatedLayersSpeed,
+        design: this.cardGenerate,
+      },
+      preset ? preset.id : 'custom-copy'
+    );
+
+    try {
+      await this.writeToClipboard(JSON.stringify(entry, null, 2));
+      this.setFeedback('settings.cardGenerate.copyDone', 'info');
+      this.log(`Render mode "${entry.id}" copied as JSON.`);
+    } catch (error) {
+      console.error('[SettingsView] The render mode could not be copied.', error);
+      this.setFeedback('settings.error.cardGenerateCopy', 'error');
+    }
+  }
+
+  /**
+   * Deep copy of a card design, so editing it never mutates the preset it came from.
+   *
+   * @param {object} design - Design to copy.
+   * @returns {object} An independent copy.
+   */
+  static cloneCardDesign(design) {
+    return JSON.parse(JSON.stringify(design));
   }
 
   /**
@@ -1492,27 +1893,11 @@ export class SettingsView {
    * @returns {Promise<void>} Resolves once the flow finished (success or failure).
    */
   async handleCardSourceChange(id) {
-    if (this.isBusy || id === this.cardSource) return;
     if (!CARD_SOURCE_VALUES.includes(id)) return;
-
-    const previous = this.cardSource;
-    this.cardSource = id;
-    this.setFeedback(null);
-    this.syncCardSourceButtons();
-    this.syncAnimatedLayersVisibility();
-    this.applyCardSource();
-
-    try {
-      await accountManager.updateSettings({ cardSource: id });
-      this.log(`Card source set to "${id}" and saved.`);
-    } catch (error) {
-      console.error('[SettingsView] The card source could not be saved.', error);
-      this.cardSource = previous;
-      this.syncCardSourceButtons();
-      this.syncAnimatedLayersVisibility();
-      this.applyCardSource();
-      this.setFeedback('settings.error.cardSource', 'error');
-    }
+    const mode =
+      id === CARD_SOURCE.GENERATE ? CARD_RENDER_MODE.CUSTOM : CARD_RENDER_MODE.IMAGES;
+    if (mode === this.resolveActiveCardRenderMode()) return;
+    await this.saveCardRenderSelection(mode);
   }
 
   /**
@@ -2378,6 +2763,10 @@ export class SettingsView {
       this.cardSource = CARD_SOURCE_VALUES.includes(settings.cardSource)
         ? settings.cardSource
         : CARD_SOURCE.IMAGE;
+      this.cardRenderMode =
+        typeof settings.cardRenderMode === 'string' && settings.cardRenderMode !== ''
+          ? settings.cardRenderMode
+          : DEFAULT_CARD_RENDER_MODE;
       this.animatedLayers = settings.animatedLayers === true;
       if (Number.isFinite(settings.animatedLayersSpeed)) {
         this.animatedLayersSpeed = settings.animatedLayersSpeed;
@@ -2402,7 +2791,10 @@ export class SettingsView {
     this.syncAnimatedLayersSpeedSlider();
     this.syncCardGenerateControls();
     this.applyCardGenerate();
-    this.applyCardSource();
+    // The picker lists the modes this account may use, so the developer mode has to be reflected
+    // on it: a mode that asks for that mode disappears when it is turned off, and the effective
+    // selection falls back to the images.
+    this.buildCardRenderButtons();
   }
 
   /**
@@ -2446,7 +2838,7 @@ export class SettingsView {
     this.syncAdvancedDevPanelVisibility();
     this.syncCardSourcePanelVisibility();
     this.syncAuthCodeEditor();
-    this.applyCardSource();
+    this.buildCardRenderButtons();
   }
 
   /**
@@ -2481,7 +2873,7 @@ export class SettingsView {
     this.syncAdvancedDevToggle();
     this.syncCardSourcePanelVisibility();
     this.setFeedback(null);
-    this.applyCardSource();
+    this.buildCardRenderButtons();
 
     try {
       await accountManager.updateSettings({ advancedDevMode: next });
@@ -2492,7 +2884,7 @@ export class SettingsView {
       this.syncAdvancedDevToggle();
       this.syncCardSourcePanelVisibility();
       this.setFeedback('settings.error.advancedDevMode', 'error');
-      this.applyCardSource();
+      this.buildCardRenderButtons();
     }
   }
 
@@ -3274,6 +3666,9 @@ export class SettingsView {
     );
     [
       this.cardGenerateZoomSlider,
+      this.cardGenerateUnderlayZoomSlider,
+      this.cardGenerateStillBackgroundSlider,
+      this.cardGenerateStillUnderlaySlider,
       this.cardGenerateBlurSlider,
       this.cardGenerateBorderSlider,
       this.cardGenerateHeaderSlider,
@@ -3289,6 +3684,7 @@ export class SettingsView {
       void this.handleCardGenerateRarityChange(event)
     );
     this.listen(this.cardGenerateResetButton, 'click', () => void this.handleCardGenerateReset());
+    this.listen(this.cardGenerateCopyButton, 'click', () => void this.handleCardGenerateCopy());
     this.cardGenerateLayerToggles.forEach(({ toggle }, key) => {
       this.listen(toggle, 'click', () => void this.handleCardGenerateLayerToggle(key));
     });
@@ -4454,6 +4850,7 @@ export class SettingsView {
     this.syncSoundToggle();
     void this.syncDevToggle();
     this.renderCardSourceSelector();
+    void this.renderCardRenderSelector();
     this.renderCardGenerateRarities();
     void this.renderAnimationSelector().catch((error) => {
       console.error('[SettingsView] The animation list could not be re-rendered.', error);

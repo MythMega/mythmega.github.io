@@ -1,14 +1,16 @@
 /**
  * CardSourceManager - Where the game takes the face of a card from.
  *
- * Two sources, one developer preference (`settings.cardSource`):
- *   - `image`    : the current behaviour, the final PNG/WebP written in `Path`;
+ * Two sources (`settings.cardSource`):
+ *   - `image`    : the final PNG/WebP written in `Path`;
  *   - `generate` : a card built from the JSON fields (`Background`, `Underlay`, name, description,
  *                  rarity and layout) by `<card-print>`.
  *
- * The generated source only applies while the developer mode and the advanced developer mode are
- * both on. The preference is still stored when either switch is off, so turning them back on
- * restores the choice, but the effective source (`isGenerateEnabled()`) is the AND of the three.
+ * The generated source is what a render mode of the "Card render" picker asks for: the presets of
+ * `settings/cardrender.json` are open to everyone, so only the `custom` mode — the design edited in
+ * the advanced developer panel — still requires BOTH developer modes. The preference is stored when
+ * the switches are off, so turning them back on restores the choice; the effective source
+ * (`isGenerateEnabled()`) is the result of that rule.
  *
  * ONE HELPER FOR EVERY SCREEN
  *   `createCardVisual()` returns either the usual `<img>` or a `<card-print>`. Both wear the class
@@ -24,6 +26,7 @@ import i18n from './I18n.js';
 import cardLanguage from './CardLanguage.js';
 import eventBus, { EVENTS } from './EventBus.js';
 import { CardPrint } from '../UI/components/CardPrint.js';
+import { CARD_RENDER_MODE, DEFAULT_CARD_RENDER_MODE } from './CardRenderManager.js';
 
 /** The two accepted values of `settings.cardSource`. */
 export const CARD_SOURCE = Object.freeze({
@@ -70,6 +73,8 @@ const state = {
   devMode: false,
   advancedDevMode: false,
   cardSource: DEFAULT_CARD_SOURCE,
+  /** Entry of the "Card render" picker that produced `cardSource` (`images`, `custom` or a preset). */
+  cardRenderMode: DEFAULT_CARD_RENDER_MODE,
   generate: false,
   animatedLayers: false,
   animatedLayersSpeed: DEFAULT_ANIMATED_LAYERS_SPEED,
@@ -89,7 +94,7 @@ export function normalizeCardSource(value) {
 /**
  * Tells whether cards must currently be built from JSON.
  *
- * @returns {boolean} True when both developer modes and the generated source are active.
+ * @returns {boolean} True when the generated source (or an allowed `custom` design) is active.
  */
 export function isGenerateEnabled() {
   return state.generate;
@@ -376,6 +381,7 @@ export function applyCardSourceSettings({
   devMode = false,
   advancedDevMode = false,
   cardSource = DEFAULT_CARD_SOURCE,
+  cardRenderMode = DEFAULT_CARD_RENDER_MODE,
   animatedLayers = state.animatedLayers,
   animatedLayersSpeed = state.animatedLayersSpeed,
 } = {}) {
@@ -384,14 +390,23 @@ export function applyCardSourceSettings({
   state.devMode = devMode === true;
   state.advancedDevMode = advancedDevMode === true;
   state.cardSource = normalizeCardSource(cardSource);
+  state.cardRenderMode =
+    typeof cardRenderMode === 'string' && cardRenderMode !== ''
+      ? cardRenderMode
+      : DEFAULT_CARD_RENDER_MODE;
   state.animatedLayers = animatedLayers === true;
   const requestedSpeed = Number(animatedLayersSpeed);
   state.animatedLayersSpeed =
     Number.isFinite(requestedSpeed) && requestedSpeed > 0
       ? requestedSpeed
       : DEFAULT_ANIMATED_LAYERS_SPEED;
+  // The generated source is now open to every player through the presets of `cardrender.json`, so
+  // its own selection is enough. The `custom` mode is the exception: it is the design edited in the
+  // advanced panel, and it stays gated by both developer modes, exactly as before.
   state.generate =
-    state.devMode && state.advancedDevMode && state.cardSource === CARD_SOURCE.GENERATE;
+    state.cardSource === CARD_SOURCE.GENERATE &&
+    (state.cardRenderMode !== CARD_RENDER_MODE.CUSTOM ||
+      (state.devMode && state.advancedDevMode));
 
   document.documentElement.dataset.cardSource = state.generate
     ? CARD_SOURCE.GENERATE

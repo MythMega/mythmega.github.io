@@ -331,11 +331,27 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
 .profile-card-root .card-preview.card-layout-classic {
   --card-background-animation: var(--generated-card-classic-background-animation, generated-card-background);
   --card-underlay-animation: var(--generated-card-classic-underlay-animation, generated-card-underlay-zoom);
+  --card-background-still: var(--generated-card-classic-background-still, 1);
+  --card-underlay-still: var(--generated-card-classic-underlay-still, 1);
 }
 
 .profile-card-root .card-preview.card-layout-fullart {
   --card-background-animation: var(--generated-card-fullart-background-animation, generated-card-background);
   --card-underlay-animation: var(--generated-card-fullart-underlay-animation, generated-card-underlay-zoom);
+  --card-background-still: var(--generated-card-fullart-background-still, 1);
+  --card-underlay-still: var(--generated-card-fullart-underlay-still, 1);
+}
+
+/* Framing of a layer that does not move. A render preset may crop a little into the artwork
+   (`stillBackgroundScalePercent` / `stillUnderlayScalePercent` of `settings/cardrender.json`), per
+   layout; 1 keeps the card maker's own framing. While a layer animates, its keyframes write the
+   `transform` and these declarations are overridden for the duration of the cycle. */
+.profile-card-root .card-preview .card-art {
+  transform: scale(var(--card-background-still, 1));
+}
+
+.profile-card-root .card-preview .card-underlay {
+  transform: scale(var(--card-underlay-still, 1));
 }
 
 :host([animated-layers][animated-layers-view]:not([effects-off]))
@@ -365,7 +381,7 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
 
 @keyframes generated-card-background {
   0%, 100% {
-    transform: scale(var(--generated-card-zoom, 1.1));
+    transform: scale(var(--generated-card-background-zoom, 1.1));
     filter: blur(0);
   }
 
@@ -381,7 +397,7 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
   }
 
   50% {
-    transform: scale(var(--generated-card-zoom, 1.1));
+    transform: scale(var(--generated-card-underlay-zoom, 1.1));
   }
 }
 

@@ -245,16 +245,16 @@
   <link rel="stylesheet" href="css/views/profile.css?v=5beba0c219">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
-  <link rel="stylesheet" href="css/views/settings.css?v=a96532470e">
+  <link rel="stylesheet" href="css/views/settings.css?v=926557b8a5">
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
-  <link rel="stylesheet" href="css/views/social.css?v=c4a245eb01">
+  <link rel="stylesheet" href="css/views/social.css?v=eab3f185bb">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
   <link rel="stylesheet" href="css/components/card-shine.css?v=9503ab62cf">
-  <link rel="stylesheet" href="css/components/generated-card.css?v=57e1ad0118">
+  <link rel="stylesheet" href="css/components/generated-card.css?v=f6a69bcf8f">
   <link rel="stylesheet" href="css/components/modal.css?v=bbf68d6c89">
   <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
@@ -1847,6 +1847,20 @@
             <p class="settings__help" data-info-hint="settings-animation" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
           </section>
 
+          <!-- Card render: how the face of every card is drawn. "Images" keeps the final artwork of
+               `Path`; the other entries are the presets of `settings/cardrender.json`, each named in
+               the file and flagged with whether it needs the basic developer mode. The preview
+               below shows the selected mode on a sample card, so the choice is made by looking. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.cardRender.title">Rendu des cartes</h3>
+            <div class="lang-switch settings__choices" data-settings-card-render role="group" data-i18n-aria-label="settings.cardRender.title" aria-label="Rendu des cartes"></div>
+            <div class="settings__card-render-preview">
+              <p class="settings__help" data-i18n="settings.cardRender.preview">Aperçu du mode sélectionné</p>
+              <div class="settings__card-render-stage" data-settings-card-render-stage aria-hidden="true"></div>
+            </div>
+            <p class="settings__help" data-info-hint="settings-card-render" data-i18n="settings.cardRender.help">« Images » garde l'illustration finale de chaque carte. Les autres modes la reconstruisent à partir de ses données et de la palette du mode ; ils sont enregistrés avec votre compte.</p>
+          </section>
+
           <!-- Foil: how strong the reflection of the super rare, legendary and mythic printings is, and
                how bright the line sweeping across them is. Each slider drives its own custom property
                live (`--foil-intensity` and `--glare-intensity`), so the demo card of the panel above
@@ -2168,12 +2182,37 @@
 
                 <div class="foil-slider">
                   <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-underlay-zoom" data-i18n="settings.cardGenerate.zoomUnderlay">Zoom de l'underlay</label>
+                    <output class="foil-slider__value" data-settings-cardgen-underlay-zoom-value for="settings-cardgen-underlay-zoom">110 %</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-underlay-zoom" data-settings-cardgen-underlay-zoom data-cardgen-slider="underlayZoom" min="100" max="150" step="1" value="110" aria-describedby="settings-cardgen-zoom-help">
+                </div>
+
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
                     <label class="foil-slider__label" for="settings-cardgen-blur" data-i18n="settings.cardGenerate.blur">Flou maximal</label>
                     <output class="foil-slider__value" data-settings-cardgen-blur-value for="settings-cardgen-blur">1.5 px</output>
                   </div>
                   <input type="range" class="foil-slider__input" id="settings-cardgen-blur" data-settings-cardgen-blur data-cardgen-slider="blur" min="0" max="5" step="0.5" value="1.5" aria-describedby="settings-cardgen-blur-help">
                 </div>
                 <p class="settings__help" id="settings-cardgen-blur-help" data-i18n="settings.cardGenerate.blurHelp">Flou appliqué au fond au point le plus profond du zoom. À 0, le fond reste net.</p>
+
+                <h4 class="settings__title" data-i18n="settings.cardGenerate.still">Plans figés</h4>
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-still-background" data-i18n="settings.cardGenerate.stillBackground">Échelle du fond figé</label>
+                    <output class="foil-slider__value" data-settings-cardgen-still-background-value for="settings-cardgen-still-background">100 %</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-still-background" data-settings-cardgen-still-background data-cardgen-slider="stillBackground" min="100" max="150" step="1" value="100" aria-describedby="settings-cardgen-still-help">
+                </div>
+                <div class="foil-slider">
+                  <div class="foil-slider__head">
+                    <label class="foil-slider__label" for="settings-cardgen-still-underlay" data-i18n="settings.cardGenerate.stillUnderlay">Échelle de l'underlay figé</label>
+                    <output class="foil-slider__value" data-settings-cardgen-still-underlay-value for="settings-cardgen-still-underlay">100 %</output>
+                  </div>
+                  <input type="range" class="foil-slider__input" id="settings-cardgen-still-underlay" data-settings-cardgen-still-underlay data-cardgen-slider="stillUnderlay" min="100" max="150" step="1" value="100" aria-describedby="settings-cardgen-still-help">
+                </div>
+                <p class="settings__help" id="settings-cardgen-still-help" data-i18n="settings.cardGenerate.stillHelp">Cadrage gardé par un plan quand il ne bouge pas : 100 % reproduit le cadrage d'origine, 120 % recadre légèrement dans l'illustration. Le réglage s'applique aux deux mises en page.</p>
               </div>
 
               <div class="settings__cardgen-panel" id="settings-cardgen-construction" role="tabpanel" data-cardgen-panel="construction" hidden>
@@ -2205,6 +2244,10 @@
                 </div>
                 <p class="settings__help" id="settings-cardgen-layout-help" data-i18n="settings.cardGenerate.layoutHelp">Ces trois valeurs dessinent la carte classique : le bandeau du titre, la bande d'illustration et le bloc de description. La carte Full Art garde ses propres proportions.</p>
                 <button type="button" class="btn btn--ghost settings__cardgen-reset" data-settings-cardgen-reset data-i18n="settings.cardGenerate.reset">Restaurer la construction d'origine</button>
+                <!-- Copies the active mode as an entry of `settings/cardrender.json`: adding a mode
+                     is then a paste and a new id, without rebuilding the whole design by hand. -->
+                <button type="button" class="btn btn--ghost settings__cardgen-reset" data-settings-cardgen-copy data-i18n="settings.cardGenerate.copyMode">Copier le JSON de ce mode</button>
+                <p class="settings__help" data-i18n="settings.cardGenerate.copyModeHelp">Copie une entrée prête à coller dans settings/cardrender.json. Donnez-lui un nouvel identifiant : elle apparaîtra alors dans « Rendu des cartes ».</p>
                 <p class="settings__help" data-i18n="settings.cardGenerate.constructionHelp">Les couleurs sont des codes hexadécimaux. Un symbole fait au plus huit caractères. Ces réglages sont enregistrés avec le compte et s'appliquent immédiatement aux cartes générées.</p>
               </div>
             </div>

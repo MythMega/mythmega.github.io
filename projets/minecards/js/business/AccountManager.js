@@ -48,7 +48,12 @@ import foilManager from '../utils/FoilManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 import { DEFAULT_SOUND_CATEGORIES, SoundManager } from '../utils/SoundManager.js';
 import { ILLAGER_QUESTS_STATE_KEY, countClaimedQuests } from './IllagerQuestState.js';
-import { CARD_SOURCE_VALUES, DEFAULT_CARD_SOURCE } from '../utils/CardSourceManager.js';
+import {
+  CARD_SOURCE,
+  CARD_SOURCE_VALUES,
+  DEFAULT_CARD_SOURCE,
+} from '../utils/CardSourceManager.js';
+import { CARD_RENDER_MODE, DEFAULT_CARD_RENDER_MODE } from '../utils/CardRenderManager.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
 export const USER_STATE_KEYS = Object.freeze({
@@ -458,6 +463,15 @@ export class AccountManager {
       cardSource: CARD_SOURCE_VALUES.includes(overrides.cardSource)
         ? overrides.cardSource
         : DEFAULT_CARD_SOURCE,
+      // Which entry of the "Card render" picker produced that source: `images`, `custom` (the
+      // design edited in the advanced panel) or the id of a preset of `cardrender.json`. A save
+      // written before the picker existed derives it from the source it already stores.
+      cardRenderMode:
+        typeof overrides.cardRenderMode === 'string' && overrides.cardRenderMode.trim() !== ''
+          ? overrides.cardRenderMode.trim()
+          : overrides.cardSource === CARD_SOURCE.GENERATE
+            ? CARD_RENDER_MODE.CUSTOM
+            : DEFAULT_CARD_RENDER_MODE,
       // The generated-card animation is a developer option and is OFF by default: a card must stay
       // still unless the player explicitly asks for moving layers.
       animatedLayers: overrides.animatedLayers === true,
@@ -579,6 +593,26 @@ export class AccountManager {
       return Number(snapped.toFixed(4));
     };
 
+    // The scale a layer keeps while still is stored per layout. A single number (a hand-edited
+    // save, or a preset that only cares about one value) applies to both layouts.
+    const sanitizeStillScales = (value, fallbackDesign, layer) => {
+      const stored = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+      const simple = typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+      const fallback = fallbackDesign.animation.still[layer];
+      return {
+        classic: sanitizeNumber(
+          stored.classic ?? simple,
+          config.animation.stillScale,
+          fallback.classic
+        ),
+        fullart: sanitizeNumber(
+          stored.fullart ?? simple,
+          config.animation.stillScale,
+          fallback.fullart
+        ),
+      };
+    };
+
     const rarities = {};
     config.construction.rarities.forEach((rarity) => {
       const stored = storedRarities[rarity.id] ?? {};
@@ -600,7 +634,22 @@ export class AccountManager {
           animation.underlay,
           defaults.animation.underlay
         ),
-        zoom: sanitizeNumber(animation.zoom, config.animation.zoom, defaults.animation.zoom),
+        // Two zooms: `zoom` is what a save written before the split carries, read as the
+        // background one, so an older account keeps exactly the amplitude it had.
+        zoomBackground: sanitizeNumber(
+          animation.zoomBackground ?? animation.zoom,
+          config.animation.zoom,
+          defaults.animation.zoomBackground
+        ),
+        zoomUnderlay: sanitizeNumber(
+          animation.zoomUnderlay ?? animation.zoom,
+          config.animation.zoomUnderlay,
+          defaults.animation.zoomUnderlay
+        ),
+        still: {
+          background: sanitizeStillScales(animation.still?.background, defaults, 'background'),
+          underlay: sanitizeStillScales(animation.still?.underlay, defaults, 'underlay'),
+        },
         blur: sanitizeNumber(animation.blur, config.animation.blur, defaults.animation.blur),
       },
       construction: {
@@ -823,6 +872,14 @@ export class AccountManager {
       cardSource: CARD_SOURCE_VALUES.includes(stored.cardSource)
         ? stored.cardSource
         : defaults.cardSource,
+      // The picker entry is kept as stored: it may be a preset id this client does not know
+      // (another release added it), which simply falls back to `images` when the list is read.
+      cardRenderMode:
+        typeof stored.cardRenderMode === 'string' && stored.cardRenderMode.trim() !== ''
+          ? stored.cardRenderMode.trim()
+          : stored.cardSource === CARD_SOURCE.GENERATE
+            ? CARD_RENDER_MODE.CUSTOM
+            : defaults.cardRenderMode,
       // Only an explicit `true` animates the generated card layers, so an older save or a corrupted
       // value stays still instead of starting an animation nobody asked for.
       animatedLayers:
@@ -892,9 +949,10 @@ export class AccountManager {
    *   soundCategories?: Record<string, {enabled: boolean, volume: number}>, animation?: string,
    *   foilIntensity?: number, glareIntensity?: number, glowTrophies?: number,
    *   notificationDuration?: number, notificationTypes?: Record<string, boolean>,
-   *   devMode?: boolean, cardSource?: string, animatedLayers?: boolean,
-   *   animatedLayersSpeed?: number, advancedDevMode?: boolean, nativeScrollbars?: boolean,
-   *   announceChangelog?: boolean}} partialSettings - Preferences to update.
+   *   devMode?: boolean, cardSource?: string, cardRenderMode?: string,
+   *   animatedLayers?: boolean, animatedLayersSpeed?: number, advancedDevMode?: boolean,
+   *   nativeScrollbars?: boolean, announceChangelog?: boolean}} partialSettings - Preferences
+   *   to update.
    * @returns {Promise<{lang: string, cardLang: string, theme: string, sound: boolean,
    *   soundCategories: Record<string, {enabled: boolean, volume: number}>, animation: string,
    *   foilIntensity: number, glareIntensity: number, glowTrophies: number,
@@ -1009,6 +1067,18 @@ export class AccountManager {
         );
       }
       merged.cardSource = normalized;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'cardRenderMode')) {
+      const { cardRenderMode } = partialSettings;
+      if (typeof cardRenderMode !== 'string' || cardRenderMode.trim() === '') {
+        throw new TypeError(
+          `settings.cardRenderMode must be a non-empty string (received: ${JSON.stringify(cardRenderMode)}).`
+        );
+      }
+      // The id is NOT checked against `cardrender.json` here: the file can change without a save
+      // migration, and an unknown id already falls back to the images when the list is read.
+      merged.cardRenderMode = cardRenderMode.trim();
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'advancedDevMode')) {

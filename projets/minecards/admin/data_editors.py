@@ -103,14 +103,14 @@ KINDS = {
 }
 
 #: File that owns the list of quest objectives (game, lint rule and this form read it).
-QUEST_TYPES_PATH = "tools/lint/lib/quest-types.mjs"
+QUEST_TYPES_PATH = "js/business/IllagerQuestTypes.js"
 
 
 def read_quest_types():
     """Reads the quest objectives from the module the linter owns.
 
     The list used to be copied here, in the game and in `tools/lint/rules/data.mjs`; a type added
-    to the game could then be rejected by the linter. `tools/lint/lib/quest-types.mjs` is now the
+    to the game could then be rejected by the linter. `js/business/IllagerQuestTypes.js` is now the
     only copy, and this function extracts its values in declaration order.
 
     Returns:

@@ -33,6 +33,8 @@ import { colorManager, findColor } from './ColorManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager from './BoosterManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import { ERROR_SEVERITY } from '../utils/ErrorLog.js';
+import { reportError } from '../utils/ErrorReporter.js';
 
 /** Public base URL of the Cloudflare worker that hosts the trainer cards. */
 export const SOCIAL_API_BASE_URL = 'https://minecard-backend.jordanmorindev.workers.dev';
@@ -312,6 +314,22 @@ export class SocialManager {
    */
   async getAuthCode() {
     return (await this.getState()).authCode;
+  }
+
+  /**
+   * Reads the secret code, creating and storing one when the account has none yet.
+   *
+   * The online saves need the same pair as the trainer card, and a player who never published a
+   * card has no code: the worker creates the account row with the code of the first upload. This
+   * method is that creation, kept here so both features share one generator.
+   *
+   * @returns {Promise<string>} The 16-character code, or an empty string when no account exists.
+   */
+  async ensureAuthCode() {
+    const state = await this.getState();
+    if (state.authCode) return state.authCode;
+    if (!(await accountManager.getUuid())) return '';
+    return this.setAuthCode(generateAuthCode());
   }
 
   /**
@@ -726,14 +744,38 @@ export class SocialManager {
   }
 
   /**
+   * Adds a failed worker request to the error report of the settings.
+   *
+   * The view already shows the failure where the player acted, and `console.error` keeps the line
+   * only until the next reload: the settings list is what makes a 403 or a 409 on a trade
+   * diagnosable later, with the route and the status beside the message.
+   *
+   * Recorded as a MINOR incident (no dialog). The detail NEVER contains the query string, which
+   * carries `uuid` and `auth_code`.
+   *
+   * @param {SocialError} error - Failure about to be thrown.
+   * @param {string} detail - Request line, e.g. `GET /cards/feed → 403 · …`.
+   * @returns {void}
+   */
+  reportRequestFailure(error, detail) {
+    reportError(error, {
+      source: 'social',
+      severity: ERROR_SEVERITY.MINOR,
+      details: detail,
+    });
+  }
+
+  /**
    * Performs one worker request and normalizes its failures.
    *
-   * @param {string} path - Path beginning with `/`.
+   * @param {string} path - Path beginning with `/`, query string included when there is one.
    * @param {RequestInit} [options] - Fetch options.
    * @returns {Promise<object>} The parsed JSON payload.
    * @throws {SocialError} On a network failure or a non-2xx response.
    */
   async request(path, options = {}) {
+    const method = String(options.method ?? 'GET').toUpperCase();
+    const requestLine = `${method} ${path.split('?')[0]}`;
     let response;
     try {
       response = await fetch(`${SOCIAL_API_BASE_URL}${path}`, {
@@ -741,9 +783,13 @@ export class SocialManager {
         ...options,
       });
     } catch (error) {
-      throw new SocialError(SOCIAL_ERROR_CODES.NETWORK, 'The social server is unreachable.', {
-        status: null,
-      });
+      const failure = new SocialError(
+        SOCIAL_ERROR_CODES.NETWORK,
+        'The social server is unreachable.',
+        { status: null }
+      );
+      this.reportRequestFailure(failure, `${requestLine} → aucune réponse`);
+      throw failure;
     }
 
     let payload = null;
@@ -754,11 +800,17 @@ export class SocialManager {
     }
 
     if (!response.ok) {
-      throw new SocialError(
+      const serverMessage = typeof payload?.error === 'string' ? payload.error : '';
+      const failure = new SocialError(
         SOCIAL_ERROR_CODES.HTTP,
-        typeof payload?.error === 'string' ? payload.error : `HTTP ${response.status}`,
-        { status: response.status, serverMessage: payload?.error }
+        serverMessage || `HTTP ${response.status}`,
+        { status: response.status, serverMessage }
       );
+      this.reportRequestFailure(
+        failure,
+        `${requestLine} → ${response.status}${serverMessage ? ` · ${serverMessage}` : ''}`
+      );
+      throw failure;
     }
     return payload ?? {};
   }

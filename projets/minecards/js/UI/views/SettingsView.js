@@ -97,6 +97,10 @@ import cardSourceManager, {
 import cardGenerateManager from '../../utils/CardGenerateManager.js';
 import developerAccess from '../../utils/DeveloperAccess.js';
 import socialManager from '../../business/SocialManager.js';
+import saveSyncManager, {
+  formatSyncTimestamp,
+  getSaveSyncErrorMessageKey,
+} from '../../business/SaveSyncManager.js';
 
 /** View name, matching `data-view="settings"` in `index.html`. */
 export const SETTINGS_VIEW_NAME = 'settings';
@@ -261,6 +265,17 @@ export class SettingsView {
     this.modalClose = query('[data-settings-modal-close]');
     this.modalCancel = query('[data-settings-modal-cancel]');
     this.modalConfirm = query('[data-settings-modal-confirm]');
+    this.onlineUploadButton = query('[data-settings-online-upload]');
+    this.onlineDownloadButton = query('[data-settings-online-download]');
+    this.onlineStatusElement = query('[data-settings-online-status]');
+    this.onlineModal = query('[data-settings-online-modal]');
+    this.onlineModalTitle = query('[data-settings-online-title]');
+    this.onlineModalDate = query('[data-settings-online-date]');
+    this.onlineBackupToggle = query('[data-settings-online-backup]');
+    this.onlineBackupStateElement = query('[data-settings-online-backup-state]');
+    this.onlineModalClose = query('[data-settings-online-close]');
+    this.onlineModalCancel = query('[data-settings-online-cancel]');
+    this.onlineModalConfirm = query('[data-settings-online-confirm]');
     this.premiumPerksElement = query('[data-settings-premium-perks]');
     this.premiumOpenButton = query('[data-settings-premium-open]');
     this.premiumModal = query('[data-settings-premium-modal]');
@@ -333,6 +348,12 @@ export class SettingsView {
     this.pendingModal = null;
     /** @type {boolean} True once the premium dialog was used: it then only offers to close. */
     this.premiumUsed = false;
+    /** @type {boolean} Whether the current game is downloaded before an online load. */
+    this.onlineBackup = false;
+    /** @type {string|null} Server date of the save the download dialog offers. */
+    this.onlineSavedAt = null;
+    /** @type {{key: string, tone: string, params: object|null}|null} Last online message. */
+    this.onlineStatus = null;
 
     /** @type {Map<string, HTMLButtonElement>} Language buttons, keyed by language code. */
     this.languageButtons = new Map();
@@ -474,6 +495,17 @@ export class SettingsView {
       ['[data-settings-modal-close]', this.modalClose],
       ['[data-settings-modal-cancel]', this.modalCancel],
       ['[data-settings-modal-confirm]', this.modalConfirm],
+      ['[data-settings-online-upload]', this.onlineUploadButton],
+      ['[data-settings-online-download]', this.onlineDownloadButton],
+      ['[data-settings-online-status]', this.onlineStatusElement],
+      ['[data-settings-online-modal]', this.onlineModal],
+      ['[data-settings-online-title]', this.onlineModalTitle],
+      ['[data-settings-online-date]', this.onlineModalDate],
+      ['[data-settings-online-backup]', this.onlineBackupToggle],
+      ['[data-settings-online-backup-state]', this.onlineBackupStateElement],
+      ['[data-settings-online-close]', this.onlineModalClose],
+      ['[data-settings-online-cancel]', this.onlineModalCancel],
+      ['[data-settings-online-confirm]', this.onlineModalConfirm],
       ['[data-settings-premium-perks]', this.premiumPerksElement],
       ['[data-settings-premium-open]', this.premiumOpenButton],
       ['[data-settings-premium-modal]', this.premiumModal],
@@ -1856,10 +1888,11 @@ export class SettingsView {
   }
 
   /**
-   * Builds one incident: its severity, its code, its message and how often it was met.
+   * Builds one incident: its severity, its code, its message, its detail and how often it was met.
    *
    * The code stays selectable so a player can quote it in a message, even for an incident the game
-   * announced nowhere.
+   * announced nowhere. The detail is what makes a refused worker request actionable: the route and
+   * the status the server answered.
    *
    * @param {object} entry - Incident read from `errorLog.getEntries()`.
    * @returns {HTMLElement} The list item.
@@ -1895,7 +1928,14 @@ export class SettingsView {
       .filter(Boolean)
       .join(' · ');
 
-    item.append(head, message, meta);
+    item.append(head, message);
+    if (typeof entry.details === 'string' && entry.details !== '') {
+      const details = document.createElement('p');
+      details.className = 'error-log__details';
+      details.textContent = i18n.t('settings.errors.details', { details: entry.details });
+      item.append(details);
+    }
+    item.append(meta);
     return item;
   }
 
@@ -1963,6 +2003,9 @@ export class SettingsView {
           .join(' · ')
       );
       lines.push(`> ${String(entry.message ?? '').replace(/\s*\n\s*/g, ' ')}`);
+      if (typeof entry.details === 'string' && entry.details !== '') {
+        lines.push(`> ${i18n.t('settings.errors.details', { details: entry.details })}`);
+      }
     });
 
     return lines.join('\n');
@@ -3285,6 +3328,17 @@ export class SettingsView {
     this.listen(this.errorLogCopyButton, 'click', () => void this.handleCopyErrorLog());
     this.listen(this.exportButton, 'click', () => this.handleExport());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
+    this.listen(this.onlineUploadButton, 'click', () => this.handleOnlineUpload());
+    this.listen(this.onlineDownloadButton, 'click', () => this.handleOnlineDownload());
+    this.listen(this.onlineBackupToggle, 'click', () => this.toggleOnlineBackup());
+    this.listen(this.onlineModalClose, 'click', () => this.closeOnlineModal());
+    this.listen(this.onlineModalCancel, 'click', () => this.closeOnlineModal());
+    this.listen(this.onlineModalConfirm, 'click', () => this.handleOnlineConfirm());
+    this.listen(this.onlineModal, 'click', (event) => {
+      if (event?.target === this.onlineModal) {
+        this.closeOnlineModal();
+      }
+    });
     this.listen(this.fileInput, 'change', (event) => this.handleFileSelected(event));
     this.listen(this.resetButton, 'click', () => this.handleResetClick());
     this.listen(this.checkGiftsButton, 'click', () => this.handleCheckGifts());
@@ -3313,6 +3367,9 @@ export class SettingsView {
       if (this.premiumModal && !this.premiumModal.hidden) {
         this.closePremiumModal();
         return;
+      }
+      if (this.onlineModal && !this.onlineModal.hidden) {
+        this.closeOnlineModal();
       }
       if (this.modal && !this.modal.hidden) {
         this.closeModal();
@@ -3713,6 +3770,172 @@ export class SettingsView {
       this.setFeedback(getSaveErrorMessageKey(error), 'error');
       this.setBusy(false);
     }
+  }
+
+  /**
+   * Sends the current game to the worker as a `.save` file.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleOnlineUpload() {
+    if (this.isBusy) return;
+
+    this.setBusy(true);
+    this.setOnlineStatus('save.sync.uploading', 'info');
+    this.log('Uploading the save…');
+    try {
+      const result = await saveSyncManager.uploadCurrentSave();
+      const { date, time } = formatSyncTimestamp(result.savedAt);
+      this.setOnlineStatus('save.sync.uploaded', 'info', { date, time });
+      this.log(`Save uploaded (${result.byteLength} bytes).`);
+    } catch (error) {
+      console.error('[SettingsView] The save could not be uploaded.', error);
+      this.setOnlineStatus(getSaveSyncErrorMessageKey(error), 'error');
+    } finally {
+      this.setBusy(false);
+    }
+  }
+
+  /**
+   * Reads the date of the last online save, then opens the download dialog.
+   *
+   * Nothing heavy is downloaded here: the file itself is only requested once the player confirms,
+   * so opening the dialog on a slow connection stays cheap.
+   *
+   * @returns {Promise<void>} Resolves once the dialog is displayed (or the flow failed).
+   */
+  async handleOnlineDownload() {
+    if (this.isBusy) return;
+
+    this.setBusy(true);
+    this.setOnlineStatus('save.sync.checking', 'info');
+    try {
+      const { exists, savedAt } = await saveSyncManager.getLastSaveDate();
+      if (!exists) {
+        this.setOnlineStatus('save.sync.none', 'info');
+        return;
+      }
+      this.setOnlineStatus(null);
+      this.openOnlineModal(savedAt);
+    } catch (error) {
+      console.error('[SettingsView] The last save date could not be read.', error);
+      this.setOnlineStatus(getSaveSyncErrorMessageKey(error), 'error');
+    } finally {
+      this.setBusy(false);
+    }
+  }
+
+  /**
+   * Shows the download dialog with the date of the save it offers.
+   *
+   * @param {string|null} savedAt - Server timestamp of the last upload.
+   * @returns {void}
+   */
+  openOnlineModal(savedAt) {
+    this.onlineSavedAt = savedAt;
+    const { date, time } = formatSyncTimestamp(savedAt);
+    this.onlineModalTitle.textContent = i18n.t('save.sync.confirmTitle');
+    this.onlineModalDate.textContent = i18n.t('save.sync.confirmBody', { date, time });
+    // The switch starts off on every opening: a local copy is never written without being asked.
+    this.onlineBackup = false;
+    this.syncOnlineBackup();
+    this.onlineModal.hidden = false;
+    this.onlineModalConfirm.focus();
+    this.log('Online download dialog displayed.');
+  }
+
+  /**
+   * Flips the "backup the current session" switch.
+   *
+   * @returns {void}
+   */
+  toggleOnlineBackup() {
+    this.onlineBackup = !this.onlineBackup;
+    this.syncOnlineBackup();
+  }
+
+  /**
+   * Reflects the backup switch in the dialog.
+   *
+   * @returns {void}
+   */
+  syncOnlineBackup() {
+    this.onlineBackupToggle.setAttribute('aria-checked', this.onlineBackup ? 'true' : 'false');
+    this.onlineBackupStateElement.textContent = i18n.t(
+      this.onlineBackup ? 'save.sync.backupOn' : 'save.sync.backupOff'
+    );
+  }
+
+  /**
+   * Downloads the online save and replaces the local game with it.
+   *
+   * When the backup switch is on, the current game is first written to the device as
+   * `minecard-backupsave-<date>.save`: the load is about to replace it, and the player keeps a
+   * copy of what they had.
+   *
+   * @returns {Promise<void>} Resolves only when the load failed (a success reloads the page).
+   */
+  async handleOnlineConfirm() {
+    if (this.isBusy) return;
+    this.closeOnlineModal();
+    this.setBusy(true);
+
+    try {
+      if (this.onlineBackup) {
+        const { filename } = await saveSyncManager.backupCurrentSave({ day: this.getTrustedDay() });
+        this.log(`Current session backed up to "${filename}".`);
+      }
+      this.setOnlineStatus('save.sync.loading', 'info');
+      await saveSyncManager.downloadLastSave();
+    } catch (error) {
+      console.error('[SettingsView] The online save could not be loaded.', error);
+      this.setOnlineStatus(getSaveSyncErrorMessageKey(error), 'error');
+      this.setBusy(false);
+    }
+  }
+
+  /**
+   * Closes the download dialog.
+   *
+   * @returns {void}
+   */
+  closeOnlineModal() {
+    this.onlineSavedAt = null;
+    this.onlineModal.hidden = true;
+  }
+
+  /**
+   * Displays a message under the two online buttons.
+   *
+   * @param {string|null} key - i18n key, or null to clear the message.
+   * @param {'info'|'error'} [tone='info'] - Visual tone, exposed as `data-tone`.
+   * @param {object|null} [params=null] - Interpolation values.
+   * @returns {void}
+   */
+  setOnlineStatus(key, tone = 'info', params = null) {
+    this.onlineStatus = key ? { key, tone, params } : null;
+    this.renderOnlineStatus();
+  }
+
+  /**
+   * Writes the stored online message into the DOM (re-translated on a language change).
+   *
+   * @returns {void}
+   */
+  renderOnlineStatus() {
+    if (!this.onlineStatusElement) return;
+    if (!this.onlineStatus) {
+      this.onlineStatusElement.hidden = true;
+      this.onlineStatusElement.textContent = '';
+      this.onlineStatusElement.removeAttribute('data-tone');
+      return;
+    }
+    this.onlineStatusElement.hidden = false;
+    this.onlineStatusElement.textContent = i18n.t(
+      this.onlineStatus.key,
+      this.onlineStatus.params
+    );
+    this.onlineStatusElement.dataset.tone = this.onlineStatus.tone;
   }
 
   /**
@@ -4160,6 +4383,8 @@ export class SettingsView {
       this.authCodeSaveButton,
       this.exportButton,
       this.importButton,
+      this.onlineUploadButton,
+      this.onlineDownloadButton,
       this.resetButton,
       this.checkGiftsButton,
       this.giftHistoryButton,
@@ -4224,7 +4449,8 @@ export class SettingsView {
     void this.renderThemeSelector().catch((error) => {
       console.error('[SettingsView] The theme list could not be re-rendered.', error);
     });
-    this.renderSoundCategories();
+    this.  renderSoundCategories();
+    this.renderOnlineStatus();
     this.syncSoundToggle();
     void this.syncDevToggle();
     this.renderCardSourceSelector();

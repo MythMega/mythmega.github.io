@@ -225,6 +225,17 @@ export const DEFAULT_PROMO_SETTINGS = Object.freeze({
  * statistics. `seedSalt` + the UTC day + the account UUID seed the deterministic draw;
  * `setWeightExponent` is the exponent of the extension weight (the highest id is the likeliest).
  */
+/**
+ * Default rules of the card exchanges (`settings/config.json`, section `trades`).
+ *
+ * `sameExtension` forces both cards of a trade into the same extension; the rarity is always
+ * identical on both sides, so it is not configurable. The per-extension permission is the `trade`
+ * flag of `settings/cardsets.json`.
+ */
+export const DEFAULT_TRADE_SETTINGS = Object.freeze({
+  sameExtension: true,
+});
+
 export const DEFAULT_MINE_PICK_SETTINGS = Object.freeze({
   boosterCount: 10,
   picksPerDay: 3,
@@ -1345,7 +1356,8 @@ export class ConfigLoader {
    *
    * @param {object} [options] - Load options.
    * @param {boolean} [options.force=false] - Re-fetch the file even when a cached copy exists.
-   * @returns {Promise<Array<{id: string, releaseDate: string|null, promo: boolean}>>} The sets, in
+   * @returns {Promise<Array<{id: string, releaseDate: string|null, promo: boolean,
+   *   trade: boolean}>>} The sets, in
    *   the order of the file.
    * @throws {Error} When the file cannot be fetched or is not valid JSON.
    */
@@ -1365,7 +1377,8 @@ export class ConfigLoader {
   /**
    * Fetches, validates and caches `settings/cardsets.json`.
    *
-   * @returns {Promise<Array<{id: string, releaseDate: string|null, promo: boolean}>>} The sets.
+   * @returns {Promise<Array<{id: string, releaseDate: string|null, promo: boolean,
+   *   trade: boolean}>>} The sets.
    * @throws {Error} When the request fails, the status is not 2xx or the payload is not valid JSON.
    */
   async fetchCardSets() {
@@ -1400,6 +1413,8 @@ export class ConfigLoader {
         id,
         releaseDate: ConfigLoader.normalizeReleaseDate(entry.releaseDate),
         promo: entry.promo === true,
+        // A missing flag allows the exchange: only an explicit `false` closes an extension.
+        trade: entry.trade !== false,
       });
     });
 
@@ -1588,6 +1603,23 @@ export class ConfigLoader {
           ? promos.directory.trim()
           : DEFAULT_PROMO_SETTINGS.directory,
       sets: cardSets.filter((entry) => entry.promo).map((entry) => entry.id),
+    };
+  }
+
+  /**
+   * Rules of the card exchanges (`settings/config.json`, section `trades`).
+   *
+   * A missing section or a malformed value falls back to `DEFAULT_TRADE_SETTINGS`: only an explicit
+   * `false` reopens the exchanges between two extensions.
+   *
+   * @returns {Promise<{sameExtension: boolean}>} The trade rules.
+   * @throws {Error} See `load()`.
+   */
+  async getTradeSettings() {
+    const config = await this.getConfig();
+    const trades = config.trades || {};
+    return {
+      sameExtension: trades.sameExtension === true,
     };
   }
 

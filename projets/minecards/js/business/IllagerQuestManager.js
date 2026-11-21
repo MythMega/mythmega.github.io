@@ -39,12 +39,12 @@ import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import trophyManager from './TrophyManager.js';
 import { ILLAGER_QUESTS_STATE_KEY, normalizeQuestState } from './IllagerQuestState.js';
-import { ILLAGER_QUEST_TYPES } from '../../tools/lint/lib/quest-types.mjs';
+import { ILLAGER_QUEST_TYPES } from './IllagerQuestTypes.js';
 
 /**
  * Objective a quest asks the player to reach.
  *
- * The list itself lives in `tools/lint/lib/quest-types.mjs`: the linter validates the data files
+ * The list itself lives in `js/business/IllagerQuestTypes.js`: the linter validates the data files
  * against it, so the game and the editor cannot drift away from what is accepted. Re-exported
  * here because every caller of the quest manager imports it from this module.
  */

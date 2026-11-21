@@ -116,6 +116,43 @@ function buildContext(staged) {
     count: async (store) => table(store).size,
 
     /**
+     * Returns a store handle, like `transaction.objectStore(name)` does.
+     *
+     * Only the methods the application really uses are provided: `getAllKeys()` is what lets
+     * `SaveFile.collectStores()` read the out-of-line keys of `user_state`. It returns an
+     * IndexedDB-shaped request (a `result` and an `onsuccess` setter), because the repository
+     * wraps real requests instead of awaiting them.
+     *
+     * @param {string} store - Store name.
+     * @returns {object} The handle.
+     */
+    store: (store) => ({
+      getAllKeys: () => ({
+        result: Array.from(table(store).keys()),
+        /**
+         * Runs the success handler on the next microtask, like a real request.
+         *
+         * @param {Function} handler - Success handler.
+         * @returns {void}
+         */
+        set onsuccess(handler) {
+          Promise.resolve().then(() => {
+            if (typeof handler === 'function') handler();
+          });
+        },
+        /**
+         * Accepts an error handler the tests never trigger.
+         *
+         * @param {Function} handler - Error handler.
+         * @returns {void}
+         */
+        set onerror(handler) {
+          void handler;
+        },
+      }),
+    }),
+
+    /**
      * Writes one record.
      *
      * @param {string} store - Store name.

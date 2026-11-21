@@ -1,12 +1,16 @@
 /**
- * quest-types.mjs - The objectives an Illager quest can ask for.
+ * IllagerQuestTypes - The objectives an Illager quest can ask for.
  *
- * WHY THIS FILE EXISTS
- * The list is needed in three places: the game (`IllagerQuestManager` keys the progress of a
- * quest by its type), the `data/illager-shop` rule (a quest whose `Type` is unknown is refused)
- * and `admin/data_editors.py` (the form offers it as a dropdown). Three copies meant a type added
- * to the game could be silently rejected by the linter. This module is the single copy: the rule
- * imports it, the game re-exports it and the Python server reads it.
+ * WHY THIS FILE LIVES IN THE GAME
+ * The list is needed in three places: the game (`IllagerQuestManager` keys the progress of a quest
+ * by its type), the `data/illager-shop` rule of the linter (a quest whose `Type` is unknown is
+ * refused) and `admin/data_editors.py` (the form offers it as a dropdown). Three copies meant a
+ * type added to the game could be silently rejected by the linter. This module is the single copy:
+ * the game imports it, the rule imports it and the Python server reads it.
+ *
+ * It lives under `js/` rather than under `tools/` because the APPLICATION imports it: a runtime
+ * module must be served with a JavaScript MIME type, cacheable by the service worker and shipped
+ * with the game, none of which is true of the development tooling.
  *
  * ADDING A TYPE
  *   1. add it here, with the exact string the data files write;

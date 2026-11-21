@@ -240,6 +240,8 @@ function dispatch(report) {
  * @param {string} [options.titleKey] - i18n key of the dialog title.
  * @param {string} [options.bodyKey] - i18n key of the dialog message.
  * @param {object|null} [options.context=null] - Details of the failure.
+ * @param {string|null} [options.details=null] - One extra line kept with the incident in the error
+ *   log of the settings, e.g. the route and status of a refused request.
  * @param {boolean} [options.silent=false] - True to log without opening a dialog.
  * @param {string|null} [options.severity=null] - Severity to force (`minor` or `blocking`); by
  *   default it comes from the source (`MINOR_ERROR_SOURCES`). A minor failure is recorded in the
@@ -248,7 +250,15 @@ function dispatch(report) {
  */
 export function reportError(
   error,
-  { source = 'app', titleKey, bodyKey, context = null, silent = false, severity = null } = {}
+  {
+    source = 'app',
+    titleKey,
+    bodyKey,
+    context = null,
+    details = null,
+    silent = false,
+    severity = null,
+  } = {}
 ) {
   try {
     const normalized = normalizeError(error);
@@ -275,6 +285,7 @@ export function reportError(
       message: normalized.message,
       source,
       severity: resolvedSeverity,
+      details,
     });
 
     if (resolvedSeverity === ERROR_SEVERITY.MINOR) {

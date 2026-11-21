@@ -13,7 +13,7 @@
  * `.docs/projet/04-donnees-et-configuration.md`.
  */
 
-import { ILLAGER_QUEST_TYPES as QUEST_TYPE_BY_KEY } from '../lib/quest-types.mjs';
+import { ILLAGER_QUEST_TYPES as QUEST_TYPE_BY_KEY } from '../../../js/business/IllagerQuestTypes.js';
 
 /** Settings files read by more than one rule below. */
 const CONFIG_FILE = 'settings/config.json';
@@ -47,7 +47,7 @@ const ILLAGER_REWARD_TYPES = new Set(['Sparks', 'Ultima', 'Card', 'Booster']);
 /**
  * Objectives an Illager quest can ask for.
  *
- * The list lives in `tools/lint/lib/quest-types.mjs`, the single copy the game, this rule and the
+ * The list lives in `js/business/IllagerQuestTypes.js`, the single copy the game, this rule and the
  * admin data editor all read: adding a type there is enough.
  */
 const ILLAGER_QUEST_TYPES = new Set(Object.values(QUEST_TYPE_BY_KEY));

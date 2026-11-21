@@ -7,6 +7,7 @@
  *   - a refused request leaves the collection and the balance untouched;
  *   - a closed trade gives the card and the Sparks back ONCE, even after a reload;
  *   - a claimed trade adds the received card ONCE;
+ *   - a received card refused locally is closed for BOTH players, so the other one is refunded;
  *   - the first refresh announces a new incoming request, never the imported history.
  *
  * `fetch` is stubbed: the tests assert what the client does with a worker answer, not the worker
@@ -14,6 +15,7 @@
  */
 
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import {
@@ -53,6 +55,9 @@ let queue = [];
 /** Original `fetch`, restored when the suite ends. */
 const realFetch = globalThis.fetch;
 
+/** Files of `settings/` the trade rules are read from (never counted as worker requests). */
+const LOCAL_FILES = new Set(['settings/config.json', 'settings/cardsets.json']);
+
 /**
  * Serves one canned response per call.
  *
@@ -61,7 +66,14 @@ const realFetch = globalThis.fetch;
  * @returns {Promise<object>} A minimal `Response`-like object.
  */
 async function fetchStub(url, options = {}) {
-  calls.push({ url: String(url), method: options.method ?? 'GET', body: options.body ?? null });
+  // The trade rules are read from the shipped configuration: answer those two files from disk and
+  // keep them out of `calls`, which only counts the requests sent to the worker.
+  const target = String(url);
+  if (LOCAL_FILES.has(target)) {
+    const body = JSON.parse(readFileSync(new URL(`../../${target}`, import.meta.url), 'utf8'));
+    return { ok: true, status: 200, json: async () => body };
+  }
+  calls.push({ url: target, method: options.method ?? 'GET', body: options.body ?? null });
   const next = queue.shift();
   if (!next) throw new Error(`Unexpected request: ${options.method ?? 'GET'} ${url}`);
   const status = next.status ?? 200;
@@ -214,6 +226,64 @@ test('only duplicates of rarity 1 to 5 are tradable, promos excluded', () => {
     entries.map((entry) => entry.key),
     ['dup3', 'dup1']
   );
+});
+
+test('a promo card and a closed extension are never offered', async () => {
+  // The configuration closes A2 here: its cards must leave the list, exactly like the promos.
+  tradeManager.rules = { sameExtension: false, tradableSets: new Set(['A1']) };
+  try {
+    const entries = await tradeManager.getTradableEntries({
+      entries: [
+        { key: 'a2', cardId: 'A2 / X', rarity: 3, quantity: 2, owned: true, set: 'A2' },
+        { key: 'a1', cardId: 'A1 / Y', rarity: 3, quantity: 2, owned: true, set: 'A1' },
+        {
+          key: 'promo',
+          cardId: 'PROMO-A1 / B01',
+          rarity: 3,
+          quantity: 2,
+          owned: true,
+          set: 'A1-Promo',
+          promo: true,
+        },
+      ],
+    });
+    assert.deepEqual(
+      entries.map((entry) => entry.key),
+      ['a1']
+    );
+  } finally {
+    tradeManager.rules = null;
+  }
+});
+
+test('a promo card is refused before anything leaves the save', async () => {
+  seed();
+  await assert.rejects(
+    () => tradeManager.createTrade({ responderUuid: FRIEND, entry: { ...buildEntry(3), promo: true } }),
+    (error) => error instanceof TradeError && error.code === TRADE_ERROR_CODES.PROMO_NOT_TRADABLE
+  );
+  assert.equal(calls.length, 0, 'the refusal must not reach the worker');
+  assert.equal(readCollection(KEY).quantity, 2, 'the card must stay in the collection');
+});
+
+test('the same-extension rule refuses a proposal from another extension', async () => {
+  seed();
+  tradeManager.rules = { sameExtension: true, tradableSets: null };
+  try {
+    await assert.rejects(
+      () =>
+        tradeManager.proposeTrade({
+          tradeId: 't1',
+          entry: { ...buildEntry(3), set: 'A2' },
+          otherSet: 'A1',
+        }),
+      (error) => error instanceof TradeError && error.code === TRADE_ERROR_CODES.SAME_EXTENSION
+    );
+    assert.equal(calls.length, 0, 'the refusal must not reach the worker');
+    assert.equal(readCollection(KEY).quantity, 2);
+  } finally {
+    tradeManager.rules = null;
+  }
 });
 
 test('sending a trade consumes one copy, the Sparks and stores the escrow', async () => {
@@ -432,6 +502,162 @@ test('claiming adds the received card once and clears the escrow', async () => {
   // Claiming twice is a no-op: the card is not added again.
   assert.equal(await tradeManager.claimTrade(trade), null);
   assert.equal(readCollection(RECEIVED_KEY).quantity, 1);
+});
+
+test('a refused received card cancels the trade and refunds the escrow', async () => {
+  seed({
+    quantity: 1,
+    sparks: 41,
+    enderEyes: 2,
+    lastRefreshAt: Date.now(),
+    escrows: {
+      t7: {
+        role: 'initiator',
+        card: { key: KEY, card_id: 'SERIE-A1 / W001', style: 'classic', set: 'A1', rarity: 3 },
+        sparks: 9,
+        enderEyes: 3,
+        createdAt: Date.now(),
+      },
+    },
+  });
+
+  const trade = {
+    id: 't7',
+    status: TRADE_STATUSES.ACCEPTED,
+    rarity: 3,
+    sparks_cost: 9,
+    ender_eyes_cost: 3,
+    my_role: 'initiator',
+    initiator: {
+      uuid: UUID,
+      username: 'Myth',
+      card: { key: KEY, name: 'Creeper', rarity: 3 },
+      claimed: false,
+    },
+    responder: {
+      uuid: FRIEND,
+      username: 'Bonhomme',
+      card: {
+        key: 'PROMO-A1 / B01_classic',
+        card_id: 'PROMO-A1 / B01',
+        style: 'classic',
+        set: 'A1-Promo',
+        rarity: 3,
+        name: 'Promo',
+      },
+      claimed: false,
+    },
+    created_at: '2026-11-20 10:00:00',
+  };
+
+  // An accepted trade cannot be cancelled anymore: the refusal is shared with the worker, which
+  // closes it for BOTH players. Then the refresh that follows the refusal.
+  queue.push({ body: { trade_id: 't7', status: TRADE_STATUSES.CANCELLED } });
+  queue.push({
+    body: {
+      ender_eyes: 5,
+      incoming: [],
+      outgoing: [],
+      history: [{ ...trade, status: TRADE_STATUSES.CANCELLED }],
+    },
+  });
+
+  // A refused trade must never notify: every notification built is recorded.
+  const notified = [];
+  const buildNotification = tradeManager.buildNotification.bind(tradeManager);
+  tradeManager.buildNotification = (candidate, previous, known) => {
+    const notification = buildNotification(candidate, previous, known);
+    if (notification) notified.push(candidate.id);
+    return notification;
+  };
+
+  await assert.rejects(
+    () => tradeManager.claimTrade(trade),
+    (error) => error instanceof TradeError && error.code === TRADE_ERROR_CODES.PROMO_NOT_TRADABLE
+  );
+
+  // Nothing was claimed, and the trade was closed for both players on the worker: this is what
+  // refunds the other player's escrow at its next refresh.
+  assert.equal(calls.filter((call) => call.url.endsWith('/trades/claim')).length, 0);
+  assert.equal(calls.filter((call) => call.url.endsWith('/trades/refuse')).length, 1);
+  assert.equal(calls.filter((call) => call.url.endsWith('/trades/cancel')).length, 0);
+  assert.equal(JSON.parse(calls.find((call) => call.url.endsWith('/trades/refuse')).body).trade_id, 't7');
+  assert.equal(readCollection('PROMO-A1 / B01_classic'), undefined);
+
+  // The escrow came back whole: the card, the Sparks and the Ender Eyes.
+  assert.equal(readCollection(KEY).quantity, 2);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
+  const state = readState(USER_STATE_KEYS.TRADES);
+  assert.equal(state.enderEyes, 5);
+  assert.deepEqual(state.escrows, {});
+  assert.equal(state.refused.t7, TRADE_ERROR_CODES.PROMO_NOT_TRADABLE);
+
+  // The worker keeps announcing the trade, and even turns it into `completed` afterwards: a refused
+  // trade must not be listed, must not notify, and must not be counted.
+  queue.push({
+    body: {
+      ender_eyes: 5,
+      incoming: [],
+      outgoing: [{ ...trade, status: TRADE_STATUSES.COMPLETED }],
+      history: [],
+    },
+  });
+  const view = await tradeManager.refresh();
+  assert.equal(view.outgoing.length, 0, 'a refused trade is no longer listed');
+  assert.deepEqual(view.notifications, []);
+  assert.deepEqual(notified, [], 'a refused trade never raises a notification');
+  assert.equal(view.stats.totals.completed, 0);
+  assert.equal(view.stats.totals.cards_given, 0);
+  assert.equal(readState(USER_STATE_KEYS.TRADES).stats.completed, 0);
+});
+
+test("a refusal shared by the worker refunds the other player's escrow", async () => {
+  seed({
+    quantity: 1,
+    sparks: 41,
+    enderEyes: 2,
+    lastRefreshAt: Date.now(),
+    seen: { t8: TRADE_STATUSES.ACCEPTED },
+    escrows: {
+      t8: {
+        role: 'responder',
+        card: { key: KEY, card_id: 'SERIE-A1 / W001', style: 'classic', set: 'A1', rarity: 3 },
+        sparks: 9,
+        enderEyes: 3,
+        createdAt: Date.now(),
+      },
+    },
+  });
+
+  // The refuser closed the trade on the worker (`/trades/refuse` -> `cancelled`): the other
+  // player's next refresh must give back its card, its Sparks and its Ender Eyes.
+  queue.push({
+    body: {
+      ender_eyes: 2,
+      incoming: [],
+      outgoing: [],
+      history: [
+        {
+          id: 't8',
+          status: TRADE_STATUSES.CANCELLED,
+          rarity: 3,
+          sparks_cost: 9,
+          ender_eyes_cost: 3,
+          my_role: 'responder',
+          initiator: { uuid: FRIEND, username: 'Bonhomme', card: null, claimed: false },
+          responder: { uuid: UUID, username: 'Myth', card: null, claimed: false },
+          created_at: '2026-11-20 10:00:00',
+        },
+      ],
+    },
+  });
+
+  const view = await tradeManager.refresh();
+  assert.equal(readCollection(KEY).quantity, 2);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
+  assert.equal(readState(USER_STATE_KEYS.TRADES).enderEyes, 5);
+  assert.deepEqual(readState(USER_STATE_KEYS.TRADES).escrows, {});
+  assert.equal(view.stats.totals.cancelled, 1);
 });
 
 test('trade statistics live locally and count each transition once', async () => {

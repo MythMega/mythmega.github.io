@@ -4,6 +4,12 @@
  * The view owns the DOM only: `TradeManager` speaks to the worker and to the local escrow,
  * `SocialManager` provides the followed players, `CollectionManager` the cards that can be offered.
  *
+ * TRADE RULES
+ *   A promo card is never offered, both cards always share one rarity, the extensions closed by
+ *   `settings/cardsets.json` stay out of both lists (`trade` flag) and `trades.sameExtension` of
+ *   `settings/config.json` restricts a proposal to the extension of the incoming card. The rules
+ *   themselves live in `TradeManager`; this view only asks for the accepted cards.
+ *
  * THREE DIALOGS
  *   - `new`: choose a followed player and one duplicate of rarity 1-5, see the cost (1 Ender Eye
  *     per rarity + rarity² Sparks) and send the request;
@@ -24,7 +30,6 @@ import socialManager, { getSocialErrorMessageKey } from '../../business/SocialMa
 import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import tradeManager, {
-  TradeManager,
   TRADE_EXPIRY_HOURS,
   TRADE_MAX_ENDER_EYES,
   TRADE_STATUSES,
@@ -116,6 +121,8 @@ export class TradeView {
 
     this.view = tradeManager.buildEmptyView();
     this.collectionEntries = [];
+    /** @type {{sameExtension: boolean}|null} Rules read from `settings/config.json`. */
+    this.tradeRules = null;
     this.friends = [];
     this.imageCache = new Map();
     this.selectedCardKey = '';
@@ -730,7 +737,9 @@ export class TradeView {
         collectionManager.getCollectionView(),
       ]);
       this.friends = cards.filter((card) => card && typeof card.uuid === 'string');
-      this.collectionEntries = TradeManager.listTradableEntries(collection);
+      // Promo cards, rarity 6 and the extensions closed in `settings/cardsets.json` are already out.
+      this.tradeRules = await tradeManager.getRules();
+      this.collectionEntries = await tradeManager.getTradableEntries(collection);
 
       this.friendSelect.textContent = '';
       if (this.friends.length === 0) {
@@ -919,13 +928,24 @@ export class TradeView {
     try {
       const collection = await collectionManager.getCollectionView();
       const excluded = trade.initiator?.card?.key ?? '';
-      this.collectionEntries = TradeManager.listTradableEntries(collection).filter(
-        (entry) => entry.rarity === trade.rarity && entry.key !== excluded
-      );
+      // Same rarity is mandatory; the same extension is only required when the configuration says
+      // so (`trades.sameExtension`), in which case the offered card must match the other one's set.
+      this.tradeRules = await tradeManager.getRules();
+      this.collectionEntries = (
+        await tradeManager.getTradableEntries(collection, {
+          rarity: trade.rarity,
+          set: trade.initiator?.card?.set ?? '',
+        })
+      ).filter((entry) => entry.key !== excluded);
       if (this.collectionEntries.length === 0) {
         const empty = document.createElement('p');
         empty.className = 'trade__empty-cards';
-        empty.textContent = i18n.t('trade.error.noMatchingDuplicate', { rarity: trade.rarity });
+        empty.textContent = i18n.t(
+          this.tradeRules.sameExtension
+            ? 'trade.error.noMatchingSameExtension'
+            : 'trade.error.noMatchingDuplicate',
+          { rarity: trade.rarity, set: trade.initiator?.card?.set ?? '' }
+        );
         this.proposalCards.appendChild(empty);
       } else {
         for (const entry of this.collectionEntries) {
@@ -979,7 +999,11 @@ export class TradeView {
     this.proposalConfirm.disabled = true;
     this.proposalError.hidden = true;
     try {
-      await tradeManager.proposeTrade({ tradeId: this.proposalTrade.id, entry });
+      await tradeManager.proposeTrade({
+        tradeId: this.proposalTrade.id,
+        entry,
+        otherSet: this.proposalTrade?.initiator?.card?.set ?? '',
+      });
       this.closeProposal();
       Toast.success('trade.proposed');
       await this.reload();

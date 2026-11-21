@@ -789,16 +789,24 @@
                 "Type": "Info",
                 "IsImportant": false,
                 "Text": {
-                    "Fr": "(mineur) Modifications interne au code administrateur",
-                    "En": "(minor) Internal changes to the admin code"
+                    "Fr": "Modifications interne au code administrateur",
+                    "En": "Internal changes to the admin code"
                 }
             },
             {
                 "Type": "Fix",
                 "IsImportant": false,
                 "Text": {
-                    "Fr": "(mineur) Changements sur l'aléatoire des booster, pour corriger une faille de triche",
-                    "En": "(minor) Changes to booster randomness, to fix a cheating flaw"
+                    "Fr": "Changements sur l'aléatoire des booster, pour corriger une faille de triche",
+                    "En": "Changes to booster randomness, to fix a cheating flaw"
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Support : un bouton dans les paramètres pour écrire au support (contact@jmdev.fr) ou rejoindre le Discord (discord.com/invite/Zk8TRnwCxG).",
+                    "En": "Support: a button in settings to email support (contact@jmdev.fr) or join the Discord (discord.com/invite/Zk8TRnwCxG)."
                 }
             },
             {

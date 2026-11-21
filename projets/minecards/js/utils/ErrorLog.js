@@ -47,6 +47,9 @@ export const ERROR_SEVERITY = Object.freeze({
 /** Longest message kept per incident, in characters. */
 const MESSAGE_MAX_CHARS = 300;
 
+/** Longest detail kept per incident, in characters (a route, a status, a server answer). */
+const DETAILS_MAX_CHARS = 300;
+
 /**
  * Delay coalescing the writes, in milliseconds.
  *
@@ -59,7 +62,7 @@ const PERSIST_DELAY_MS = 250;
 export class ErrorLog {
   constructor() {
     /** @type {Array<{code: string, message: string, source: string, severity: string,
-     *   at: string, count: number}>} Incidents, newest first. */
+     *   details?: string, at: string, count: number}>} Incidents, newest first. */
     this.entries = [];
     /** @type {number|null} Newest `Id` of the changelog the log belongs to. */
     this.releaseId = null;
@@ -107,6 +110,7 @@ export class ErrorLog {
       typeof candidate.message === 'string' &&
       typeof candidate.source === 'string' &&
       (candidate.severity === ERROR_SEVERITY.MINOR || candidate.severity === ERROR_SEVERITY.BLOCKING) &&
+      (candidate.details === undefined || typeof candidate.details === 'string') &&
       typeof candidate.at === 'string' &&
       (candidate.release === null ||
         candidate.release === undefined ||
@@ -220,14 +224,18 @@ export class ErrorLog {
    * @param {string} [entry.message] - Message of the failure.
    * @param {string} [entry.source] - Where it was caught.
    * @param {string} [entry.severity] - `ERROR_SEVERITY.MINOR` or `ERROR_SEVERITY.BLOCKING`.
+   * @param {string|null} [entry.details] - One extra line that explains the failure, e.g. the
+   *   route and status of a request the server refused. Shown and copied with the incident.
    * @returns {object|null} The stored incident, or null when the code was unusable.
    */
-  record({ code, message, source, severity } = {}) {
+  record({ code, message, source, severity, details = null } = {}) {
     if (typeof code !== 'string' || code === '') return null;
     this.load();
 
     const label = severity === ERROR_SEVERITY.MINOR ? ERROR_SEVERITY.MINOR : ERROR_SEVERITY.BLOCKING;
     const text = typeof message === 'string' ? message.slice(0, MESSAGE_MAX_CHARS) : '';
+    const detail =
+      typeof details === 'string' ? details.replace(/\s+/g, ' ').slice(0, DETAILS_MAX_CHARS) : '';
     const origin = typeof source === 'string' && source !== '' ? source : 'app';
     const at = new Date().toISOString();
     const existing = this.entries.find((entry) => entry.code === code);
@@ -237,6 +245,7 @@ export class ErrorLog {
       existing.at = at;
       existing.source = origin;
       if (text !== '') existing.message = text;
+      if (detail !== '') existing.details = detail;
       // A failure met as blocking wins: the dialog it opened is the one that matters.
       if (label === ERROR_SEVERITY.BLOCKING) existing.severity = label;
       this.entries = [existing, ...this.entries.filter((entry) => entry !== existing)];
@@ -246,6 +255,7 @@ export class ErrorLog {
         message: text,
         source: origin,
         severity: label,
+        ...(detail !== '' ? { details: detail } : {}),
         at,
         count: 1,
         release: Number.isInteger(this.releaseId) ? this.releaseId : null,

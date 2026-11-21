@@ -776,6 +776,15 @@ body[data-connection="offline"] .settings__clock-value {
   overflow-wrap: anywhere;
 }
 
+.error-log__details {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
 .error-log__meta {
   margin: 0;
   color: var(--color-text-muted);

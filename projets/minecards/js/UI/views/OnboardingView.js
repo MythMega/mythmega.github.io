@@ -16,6 +16,12 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import i18n from '../../utils/I18n.js';
 import accountManager from '../../business/AccountManager.js';
 import { saveFile, getSaveErrorMessageKey, SAVE_EXTENSION } from '../../classes/SaveFile.js';
+import saveSyncManager, {
+  formatSyncTimestamp,
+  getSaveSyncErrorMessageKey,
+  normalizeSyncAuthCode,
+  normalizeSyncUuid,
+} from '../../business/SaveSyncManager.js';
 import { hasPendingRedeem } from '../../utils/DeepLink.js';
 
 /** Name of the view section, matching `data-view="onboarding"` in `index.html`. */
@@ -42,6 +48,19 @@ export class OnboardingView {
     this.createButton = this.root.querySelector('[data-onboarding-action="create"]');
     this.importButton = this.root.querySelector('[data-onboarding-action="import"]');
     this.fileInput = this.root.querySelector('[data-onboarding-file]');
+    this.onlineButton = this.root.querySelector('[data-onboarding-action="online"]');
+    this.onlineModal = this.root.querySelector('[data-onboarding-online-modal]');
+    this.onlineTitle = this.root.querySelector('[data-onboarding-online-title]');
+    this.onlineHelp = this.root.querySelector('[data-onboarding-online-help]');
+    this.onlineForm = this.root.querySelector('[data-onboarding-online-form]');
+    this.onlineUuidLabel = this.root.querySelector('[data-onboarding-online-uuid-label]');
+    this.onlineCodeLabel = this.root.querySelector('[data-onboarding-online-code-label]');
+    this.onlineUuidInput = this.root.querySelector('[data-onboarding-online-uuid]');
+    this.onlineCodeInput = this.root.querySelector('[data-onboarding-online-code]');
+    this.onlineFeedback = this.root.querySelector('[data-onboarding-online-feedback]');
+    this.onlineClose = this.root.querySelector('[data-onboarding-online-close]');
+    this.onlineCancel = this.root.querySelector('[data-onboarding-online-cancel]');
+    this.onlineConfirm = this.root.querySelector('[data-onboarding-online-confirm]');
     this.languageContainer = this.root.querySelector('[data-onboarding-languages]');
     this.feedbackElement = this.root.querySelector('[data-onboarding-feedback]');
     this.pendingElement = this.root.querySelector('[data-onboarding-pending]');
@@ -54,6 +73,12 @@ export class OnboardingView {
     this.isBusy = false;
     /** @type {string|null} Last feedback i18n key, re-translated on `LANG_CHANGED`. */
     this.feedbackKey = null;
+    /** @type {{uuid: string, authCode: string}|null} Credentials typed in the online dialog. */
+    this.onlineCredentials = null;
+    /** @type {'form'|'confirm'} Step of the online dialog. */
+    this.onlineStep = 'form';
+    /** @type {string|null} Server date of the save the dialog offers to load. */
+    this.onlineSavedAt = null;
     /** @type {'info'|'error'} Tone of the current feedback message. */
     this.feedbackTone = 'info';
     /** @type {Function|null} Unsubscribe handle for `LANG_CHANGED`. */
@@ -73,6 +98,19 @@ export class OnboardingView {
     const missing = [
       ['data-onboarding-action="create"', this.createButton],
       ['data-onboarding-action="import"', this.importButton],
+      ['data-onboarding-action="online"', this.onlineButton],
+      ['data-onboarding-online-modal', this.onlineModal],
+      ['data-onboarding-online-title', this.onlineTitle],
+      ['data-onboarding-online-help', this.onlineHelp],
+      ['data-onboarding-online-form', this.onlineForm],
+      ['data-onboarding-online-uuid-label', this.onlineUuidLabel],
+      ['data-onboarding-online-code-label', this.onlineCodeLabel],
+      ['data-onboarding-online-uuid', this.onlineUuidInput],
+      ['data-onboarding-online-code', this.onlineCodeInput],
+      ['data-onboarding-online-feedback', this.onlineFeedback],
+      ['data-onboarding-online-close', this.onlineClose],
+      ['data-onboarding-online-cancel', this.onlineCancel],
+      ['data-onboarding-online-confirm', this.onlineConfirm],
       ['data-onboarding-file', this.fileInput],
       ['data-onboarding-languages', this.languageContainer],
       ['data-onboarding-feedback', this.feedbackElement],
@@ -159,6 +197,15 @@ export class OnboardingView {
     this.listen(this.createButton, 'click', () => this.handleCreate());
     this.listen(this.importButton, 'click', () => this.handleImportClick());
     this.listen(this.fileInput, 'change', (event) => this.handleFileSelected(event));
+    this.listen(this.onlineButton, 'click', () => this.openOnlineModal());
+    this.listen(this.onlineClose, 'click', () => this.closeOnlineModal());
+    this.listen(this.onlineCancel, 'click', () => this.closeOnlineModal());
+    this.listen(this.onlineConfirm, 'click', () => this.handleOnlineConfirm());
+    this.listen(this.onlineModal, 'click', (event) => {
+      if (event?.target === this.onlineModal) {
+        this.closeOnlineModal();
+      }
+    });
   }
 
   /**
@@ -310,6 +357,151 @@ export class OnboardingView {
   }
 
   /**
+   * Opens the online recovery dialog on its credential form.
+   *
+   * @returns {void}
+   */
+  openOnlineModal() {
+    if (this.isBusy) return;
+    this.onlineStep = 'form';
+    this.onlineCredentials = null;
+    this.onlineSavedAt = null;
+    this.onlineUuidInput.value = '';
+    this.onlineCodeInput.value = '';
+    this.setOnlineFeedback(null);
+    this.renderOnlineStep();
+    this.onlineModal.hidden = false;
+    this.onlineUuidInput.focus();
+  }
+
+  /**
+   * Closes the online recovery dialog.
+   *
+   * @returns {void}
+   */
+  closeOnlineModal() {
+    this.onlineModal.hidden = true;
+    this.onlineStep = 'form';
+    this.onlineCredentials = null;
+    this.onlineSavedAt = null;
+  }
+
+  /**
+   * Writes the dialog for its current step (credentials, then confirmation).
+   *
+   * @returns {void}
+   */
+  renderOnlineStep() {
+    const isForm = this.onlineStep === 'form';
+    this.onlineTitle.textContent = i18n.t(
+      isForm ? 'onboarding.online.title' : 'save.sync.confirmTitle'
+    );
+    this.onlineHelp.textContent = i18n.t(
+      isForm ? 'onboarding.online.help' : 'onboarding.online.confirmHelp'
+    );
+    this.onlineForm.hidden = !isForm;
+    this.onlineUuidLabel.textContent = i18n.t('onboarding.online.uuid');
+    this.onlineCodeLabel.textContent = i18n.t('onboarding.online.code');
+    this.onlineUuidInput.placeholder = i18n.t('onboarding.online.uuidPlaceholder');
+    this.onlineCodeInput.placeholder = i18n.t('onboarding.online.codePlaceholder');
+    this.onlineCancel.textContent = i18n.t('settings.confirm.cancel');
+    this.onlineConfirm.textContent = i18n.t(
+      isForm ? 'onboarding.online.submit' : 'save.sync.load'
+    );
+    if (!isForm) {
+      const { date, time } = formatSyncTimestamp(this.onlineSavedAt);
+      this.setOnlineFeedback('save.sync.confirmBody', 'info', { date, time });
+    }
+  }
+
+  /**
+   * Checks the typed pair and, when the account has a save online, asks for the confirmation.
+   *
+   * @returns {Promise<void>} Resolves once the step changed (or the check failed).
+   */
+  async handleOnlineConfirm() {
+    if (this.isBusy) return;
+
+    if (this.onlineStep === 'confirm') {
+      await this.loadOnlineSave();
+      return;
+    }
+
+    const uuid = normalizeSyncUuid(this.onlineUuidInput.value);
+    const authCode = normalizeSyncAuthCode(this.onlineCodeInput.value);
+    if (!uuid || !authCode) {
+      this.setOnlineFeedback('save.sync.error.invalidCredentials', 'error');
+      return;
+    }
+
+    this.setBusy(true);
+    this.setOnlineFeedback('save.sync.checking', 'info');
+    try {
+      const { exists, savedAt } = await saveSyncManager.getLastSaveDate({ uuid, authCode });
+      if (!exists) {
+        this.setOnlineFeedback('save.sync.none', 'info');
+        return;
+      }
+      this.onlineCredentials = { uuid, authCode };
+      this.onlineSavedAt = savedAt;
+      this.onlineStep = 'confirm';
+      this.renderOnlineStep();
+    } catch (error) {
+      console.error('[OnboardingView] The online save could not be found.', error);
+      this.setOnlineFeedback(getSaveSyncErrorMessageKey(error), 'error');
+    } finally {
+      this.setBusy(false);
+    }
+  }
+
+  /**
+   * Downloads the online save and restarts the game with it.
+   *
+   * `SaveSyncManager.downloadLastSave()` validates the file and replaces the whole database, then
+   * reloads the page: nothing is lost when the download is refused, because the import validates
+   * before it writes.
+   *
+   * @returns {Promise<void>} Resolves only when the load failed.
+   */
+  async loadOnlineSave() {
+    if (!this.onlineCredentials) {
+      this.onlineStep = 'form';
+      this.renderOnlineStep();
+      return;
+    }
+
+    this.setBusy(true);
+    this.setOnlineFeedback('save.sync.loading', 'info');
+    try {
+      await saveSyncManager.downloadLastSave(this.onlineCredentials);
+    } catch (error) {
+      console.error('[OnboardingView] The online save could not be loaded.', error);
+      this.setOnlineFeedback(getSaveSyncErrorMessageKey(error), 'error');
+      this.setBusy(false);
+    }
+  }
+
+  /**
+   * Displays a message in the online dialog.
+   *
+   * @param {string|null} key - i18n key, or null to clear the message.
+   * @param {'info'|'error'} [tone='info'] - Visual tone, exposed as `data-tone`.
+   * @param {object|null} [params=null] - Interpolation values.
+   * @returns {void}
+   */
+  setOnlineFeedback(key, tone = 'info', params = null) {
+    if (!key) {
+      this.onlineFeedback.textContent = '';
+      this.onlineFeedback.removeAttribute('data-tone');
+      this.onlineFeedback.hidden = true;
+      return;
+    }
+    this.onlineFeedback.textContent = i18n.t(key, params);
+    this.onlineFeedback.dataset.tone = tone;
+    this.onlineFeedback.hidden = false;
+  }
+
+  /**
    * Enables or disables the two actions (single source of truth for the busy state).
    *
    * @param {boolean} isBusy - Whether an operation is running.
@@ -319,7 +511,7 @@ export class OnboardingView {
    */
   setBusy(isBusy, createLabelKey = null) {
     this.isBusy = isBusy;
-    [this.createButton, this.importButton].forEach((button) => {
+    [this.createButton, this.importButton, this.onlineButton].forEach((button) => {
       button.disabled = isBusy;
     });
     this.createButton.textContent = i18n.t(createLabelKey || 'onboarding.create');

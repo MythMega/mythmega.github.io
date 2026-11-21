@@ -89,6 +89,11 @@
       "default": 2
     }
   },
+  "trades": {
+    "_comment": "Card exchanges with a followed player (js/business/TradeManager.js). 'sameExtension': when true, the two cards of one trade must come from the SAME extension (an A2 card against an A2 card); when false, two cards of any extension may be exchanged. The rarity is ALWAYS identical on both sides, whatever this option says, and a promo card is NEVER tradable, whatever this option or the per-extension flags say: promos only enter a collection through a code or a gift. Whether an extension may be traded at all is the 'trade' flag of its entry in 'settings/cardsets.json' (a missing flag means allowed). These rules are read once per page by TradeManager; the trade lists only ever offer the cards the rules accept, and an offer that breaks them is refused before anything leaves the local save.",
+    "sameExtension": true
+  },
+
   "glow": {
     "_comment": "Glow ('Illumination') ranges. Each effect has its own 0-N slider on the settings screen, so a future one never inherits the bounds of another: 'trophies' is the halo around a trophy medal (none for bronze, light for silver and gold, medium for diamond and emerald - see css/components/trophy.css), and a 'cards' block will be added here when the card glow is tuned. The intensity is stored per account in `user_state[\"settings\"].glowTrophies`; `js/utils/GlowManager.js` publishes it as the 0-N factor `--trophy-glow-scale` on <html>, which the stylesheets multiply into the radius of their shadows. 0 switches the effect off completely.",
     "trophies": {

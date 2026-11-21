@@ -496,6 +496,7 @@
         <button type="button" class="btn btn--primary btn--block" data-onboarding-action="create" data-i18n="onboarding.create">Créer une nouvelle sauvegarde</button>
         <button type="button" class="btn btn--ghost btn--block" data-onboarding-action="import" data-i18n="onboarding.import">Importer une sauvegarde (.save)</button>
         <input type="file" data-onboarding-file accept=".save,application/octet-stream" hidden>
+        <button type="button" class="btn btn--ghost btn--block" data-onboarding-action="online" data-i18n="onboarding.online">Récupérer une sauvegarde en ligne</button>
       </div>
 
       <div class="onboarding__language">
@@ -509,6 +510,34 @@
 
       <p class="onboarding__feedback" data-onboarding-feedback role="status" hidden></p>
       <p class="onboarding__notice" data-i18n="onboarding.storageNotice">Vos données sont stockées uniquement sur cet appareil.</p>
+
+      <!-- Online recovery: the UUID and the secret code typed by the player, then the date of the
+           last upload and the confirmation that replaces this device with it. Every label is
+           written by `OnboardingView`. -->
+      <div class="modal" data-onboarding-online-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="onboarding-online-title">
+          <button type="button" class="modal__close" data-onboarding-online-close aria-label="×">×</button>
+          <h2 class="modal__title" id="onboarding-online-title" data-onboarding-online-title></h2>
+          <div class="modal__body">
+            <p class="settings__help" data-onboarding-online-help></p>
+            <div data-onboarding-online-form>
+              <label class="field" for="onboarding-online-uuid">
+                <span class="field__label" data-onboarding-online-uuid-label></span>
+                <input class="field__input" id="onboarding-online-uuid" type="text" maxlength="36" autocomplete="off" spellcheck="false" data-onboarding-online-uuid>
+              </label>
+              <label class="field" for="onboarding-online-code">
+                <span class="field__label" data-onboarding-online-code-label></span>
+                <input class="field__input" id="onboarding-online-code" type="text" maxlength="16" autocomplete="off" autocapitalize="characters" spellcheck="false" data-onboarding-online-code>
+              </label>
+            </div>
+            <p class="feedback" data-onboarding-online-feedback role="status" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-onboarding-online-cancel></button>
+            <button type="button" class="btn btn--primary" data-onboarding-online-confirm></button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 1. Booster opening -->
@@ -2226,6 +2255,19 @@
             <input type="file" data-settings-file accept=".save,application/octet-stream" hidden>
           </section>
 
+          <!-- Online backup: the same `.save` file, sent to the worker so another device can load
+               it. The download button only reads the DATE of the last upload first; the file itself
+               is fetched once the player confirms in the dialog below. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="save.sync.title">Sauvegarde en ligne</h3>
+            <p class="settings__help" data-i18n="save.sync.help">Envoyez votre sauvegarde sur le serveur pour la retrouver sur un autre appareil. Les 5 dernières sauvegardes de votre compte sont conservées.</p>
+            <div class="settings__actions">
+              <button type="button" class="btn btn--primary" data-settings-online-upload data-i18n="save.sync.upload">Envoyer ma sauvegarde</button>
+              <button type="button" class="btn btn--ghost" data-settings-online-download data-i18n="save.sync.download">Télécharger une sauvegarde</button>
+            </div>
+            <p class="settings__help" data-settings-online-status role="status" hidden></p>
+          </section>
+
         </div>
 
         <!-- Gift: everything the player receives outside an opening, grouped in one tab. The
@@ -2366,12 +2408,24 @@
                one never opened a dialog, so this panel is the only place it can be read. -->
           <section class="panel settings__panel settings__panel--wide">
             <h3 class="settings__title" data-i18n="settings.errors.title">Rapport d'erreurs</h3>
-            <p class="settings__help" data-i18n="settings.errors.help">Les cinq derniers incidents distincts de cette version. Un incident mineur n'ouvre aucune popup : il est noté ici, avec son code.</p>
+            <p class="settings__help" data-i18n="settings.errors.help">Les cinq derniers incidents distincts de cette version. Un incident mineur n'ouvre aucune popup : il est noté ici, avec son code. Une requête refusée par le serveur y laisse aussi sa route et son code HTTP.</p>
             <p class="settings__help error-log__release" data-settings-error-release hidden></p>
             <!-- One-click report: the text is built for Discord (bold headings, code spans) so a
                  player can paste it in a bug report without reformatting anything. -->
             <button type="button" class="btn btn--ghost error-log__copy" data-settings-error-copy data-i18n="settings.errors.copy">Copier le rapport</button>
             <ul class="error-log" data-settings-error-log></ul>
+          </section>
+
+          <!-- Support: the two ways to reach the developer, right where a player comes to report
+               what broke. Plain links, so they work even when the rest of the page is broken. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.support.title">Support</h3>
+            <p class="settings__help" data-i18n="settings.support.help">Une question, un bug, une sauvegarde perdue ? Écrivez-nous : joignez le code d'erreur ci-dessus et la description de ce qui s'est passé.</p>
+            <div class="settings__actions">
+              <a class="btn btn--primary" href="mailto:contact@jmdev.fr" data-i18n="settings.support.email">Envoyer un e-mail</a>
+              <a class="btn btn--ghost" href="https://discord.com/invite/Zk8TRnwCxG" target="_blank" rel="noopener noreferrer" data-i18n="settings.support.discord">Rejoindre le Discord</a>
+            </div>
+            <p class="settings__help" data-i18n="settings.support.contact">contact@jmdev.fr · discord.com/invite/Zk8TRnwCxG</p>
           </section>
         </div>
 
@@ -2388,6 +2442,31 @@
                  information message), which is why they carry no `data-i18n` attribute. -->
             <button type="button" class="btn btn--ghost" data-settings-modal-cancel>Annuler</button>
             <button type="button" class="btn btn--primary" data-settings-modal-confirm>Confirmer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Online download: the date of the last upload, the switch that saves the current game to
+           the device first, then the confirmation that fetches the file and reloads the page.
+           Every label is written by `SettingsView` (the date is interpolated). -->
+      <div class="modal" data-settings-online-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="settings-online-modal-title">
+          <button type="button" class="modal__close" data-settings-online-close aria-label="×">×</button>
+          <h2 class="modal__title" id="settings-online-modal-title" data-settings-online-title></h2>
+          <div class="modal__body">
+            <p data-settings-online-date></p>
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="save.sync.backupSwitch">Backup la session actuelle</span>
+              <button type="button" class="switch" data-settings-online-backup role="switch" aria-checked="false" aria-label="Backup la session actuelle">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-online-backup-state></span>
+              </button>
+            </div>
+            <p class="settings__help" data-i18n="save.sync.backupHelp">Si activé, la sauvegarde actuelle est d'abord téléchargée sur cet appareil (minecard-backupsave-[date].save) avant le chargement de la sauvegarde en ligne.</p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-settings-online-cancel data-i18n="settings.confirm.cancel">Annuler</button>
+            <button type="button" class="btn btn--primary" data-settings-online-confirm data-i18n="save.sync.load">Charger</button>
           </div>
         </div>
       </div>

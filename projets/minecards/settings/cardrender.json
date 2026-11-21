@@ -1,0 +1,78 @@
+[
+    {
+        "PresetName": "Minecards Dynamic",
+        "Animation": {
+            "AnimatedLayers": true,
+            "SpeedPercent": 200,
+            "LayoutSettings": [
+                {
+                    "Layout": "Classic",
+                    "AnimateBackground": true,
+                    "AnimateUnderlay": false,
+                    "NotAnimatedBackgroundScalePercent": 120,
+                    "NotAnimatedUnderlayScalePercent": 120
+                },
+                {
+                    "Layout": "Fullart",
+                    "AnimateBackground": true,
+                    "AnimateUnderlay": false,
+                    "NotAnimatedBackgroundScalePercent": 100,
+                    "NotAnimatedUnderlayScalePercent": 120
+                }
+            ],
+            "MaximalZoomUnderlayPercent": 130,
+            "MaximalZoomBackgroundPercent": 100,
+            "MaximumBlurPixel": 5
+        },
+        "Construction": {
+            "Rarity": [
+                {
+                    "RarityTier": 1,
+                    "BorderColor": "#4a4a5a",
+                    "AccentColor": "#a0a0b0",
+                    "SymboleColor": "#ffffff",
+                    "Symbole": "★"
+                },
+                {
+                    "RarityTier": 2,
+                    "BorderColor": "#93b5c6",
+                    "AccentColor": "#4dd0e1",
+                    "SymboleColor": "#ffffff",
+                    "Symbole": "★★"
+                },
+                {
+                    "RarityTier": 3,
+                    "BorderColor": "#a855f7",
+                    "AccentColor": "#c084fc",
+                    "SymboleColor": "#ffffff",
+                    "Symbole": "★★★"
+                },
+                {
+                    "RarityTier": 4,
+                    "BorderColor": "#ffd700",
+                    "AccentColor": "#ffb300",
+                    "SymboleColor": "#ffffff",
+                    "Symbole": "👑"
+                },
+                {
+                    "RarityTier": 5,
+                    "BorderColor": "#ff2a8d",
+                    "AccentColor": "#00ffff",
+                    "SymboleColor": "#ffffff",
+                    "Symbole": "💎"
+                },
+                {
+                    "RarityTier": 6,
+                    "BorderColor": "#c25700",
+                    "AccentColor": "#e58a2e",
+                    "SymboleColor": "#ffffff",
+                    "Symbole": "🔶"
+                }
+            ],
+            "BorderSize": 4,
+            "HeightTopTitleSectionPercent": 10,
+            "HeightDescriptionSectionPercent": 50
+        },
+        "RequireBasicDeveloperAccount": false
+    }
+]

@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v156';
+const VERSION = 'v163';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -226,6 +226,7 @@ const PRECACHE_URLS = [
   './js/business/RandomCardReward.js',
   './js/business/RedeemManager.js',
   './js/business/SocialManager.js',
+  './js/business/SaveSyncManager.js',
   './js/business/SparksManager.js',
   './js/business/TitleManager.js',
   './js/business/TrophyManager.js',

@@ -29,12 +29,22 @@
  *   1 Ender Eye per rarity + rarity² Sparks, per side. Rarity 6 is never tradable, which the worker
  *   enforces with a CHECK constraint as well.
  *
+ * TRADE RULES (`getRules`)
+ *   Two cards are always exchanged at the SAME rarity: that rule is not configurable. On top of it,
+ *   `settings/config.json` -> `trades.sameExtension` forces both cards into the same extension, and
+ *   the `trade` flag of each set in `settings/cardsets.json` decides whether its cards may be
+ *   exchanged at all (missing flag = allowed). A PROMO card is never tradable, whatever the
+ *   configuration says: it only enters a collection through a code or a gift, so exchanging one
+ *   would turn it into a free reward. The rules are read once per page, only ever offer accepted
+ *   cards in the lists, and are checked again before an offer leaves the local save.
+ *
  * NOTIFICATIONS
  *   `refresh()` returns the transitions it observed instead of displaying them: `app.js` and
  *   `TradeView` push them into the notification queue. The module stays free of UI imports.
  */
 
 import storageRepository, { STORES } from '../models/StorageRepository.js';
+import configLoader from '../utils/ConfigLoader.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import socialManager, { SOCIAL_ERROR_CODES, SocialError } from './SocialManager.js';
@@ -89,6 +99,9 @@ export const TRADE_ERROR_CODES = Object.freeze({
   NOT_ENOUGH_SPARKS: 'notEnoughSparks',
   NOT_ENOUGH_ENDER_EYES: 'notEnoughEnderEyes',
   INVALID_RARITY: 'invalidRarity',
+  PROMO_NOT_TRADABLE: 'promoNotTradable',
+  SET_NOT_TRADABLE: 'setNotTradable',
+  SAME_EXTENSION: 'sameExtension',
   SELF: 'self',
   CONFLICT: 'conflict',
   NOT_FOUND: 'notFound',
@@ -127,6 +140,23 @@ export function getTradeErrorMessageKey(error) {
     return 'trade.error.http';
   }
   return 'trade.error.http';
+}
+
+/**
+ * Tells whether a card payload or a collection entry is a promo card.
+ *
+ * A collection entry carries the flag built by `CollectionManager`; a card payload received from
+ * the worker only carries its extension, and a promo card's extension is its promo group
+ * (`A1-Promo`), so the suffix is what both forms have in common.
+ *
+ * @param {object|null|undefined} card - Collection entry or card payload.
+ * @returns {boolean} True for a promo card.
+ */
+export function isPromoCard(card) {
+  if (!card || typeof card !== 'object') return false;
+  if (card.promo === true) return true;
+  const set = typeof card.set === 'string' ? card.set.trim() : '';
+  return /-promo$/i.test(set);
 }
 
 /**
@@ -271,7 +301,7 @@ function normalizeEyes(value) {
  * @param {unknown} raw - Value of `user_state["trades"]`.
  * @returns {{enderEyes: number, enderEyesDay: string, escrows: Record<string, object>,
  *   claimed: Record<string, boolean>, seen: Record<string, string>,
- *   stats: object, lastRefreshAt: number}} A writable state.
+ *   refused: Record<string, string>, stats: object, lastRefreshAt: number}} A writable state.
  */
 function normalizeTradeState(raw) {
   const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -307,12 +337,22 @@ function normalizeTradeState(raw) {
     });
   }
 
+  // Trades the game refused locally (see `refuseTrade`): the card received broke the rules, so the
+  // trade is dead for this account whatever the worker still answers. Values are error codes.
+  const refused = {};
+  if (source.refused && typeof source.refused === 'object' && !Array.isArray(source.refused)) {
+    Object.entries(source.refused).forEach(([tradeId, code]) => {
+      if (typeof code === 'string' && code !== '') refused[tradeId] = code;
+    });
+  }
+
   return {
     enderEyes: normalizeEyes(source.enderEyes),
     enderEyesDay: typeof source.enderEyesDay === 'string' ? source.enderEyesDay : '',
     escrows,
     claimed,
     seen,
+    refused,
     stats: normalizeTradeStats(source.stats),
     lastRefreshAt: Number.isFinite(Number(source.lastRefreshAt))
       ? Math.max(0, Number(source.lastRefreshAt))
@@ -324,7 +364,7 @@ function normalizeTradeState(raw) {
  * Builds the default trade state.
  *
  * @returns {{enderEyes: number, enderEyesDay: string, escrows: object, claimed: object, seen: object,
- *   stats: object, lastRefreshAt: number}} An empty state.
+ *   refused: object, stats: object, lastRefreshAt: number}} An empty state.
  */
 export function buildDefaultTradeState() {
   return {
@@ -333,6 +373,7 @@ export function buildDefaultTradeState() {
     escrows: {},
     claimed: {},
     seen: {},
+    refused: {},
     stats: buildDefaultTradeStats(),
     lastRefreshAt: 0,
   };
@@ -366,6 +407,15 @@ export function buildTradeCard(entry) {
 }
 
 export class TradeManager {
+  constructor() {
+    /**
+     * @type {{sameExtension: boolean, tradableSets: Set<string>|null}|null} Rules read from the
+     *   configuration, cached for the page (`getRules`). `null` until the first read, and
+     *   `tradableSets` stays `null` when the files could not be read (every extension is open).
+     */
+    this.rules = null;
+  }
+
   /**
    * Logs with the manager prefix.
    *
@@ -476,6 +526,111 @@ export class TradeManager {
   }
 
   /**
+   * Reads the trade rules from the configuration, once per page.
+   *
+   * `settings/config.json` -> `trades.sameExtension` decides whether both cards must come from the
+   * same extension, and the `trade` flag of every set of `settings/cardsets.json` decides whether
+   * its cards may be exchanged at all. A file that cannot be read leaves every extension open and
+   * the same-extension rule off: a broken configuration must never block the exchanges.
+   *
+   * @param {{force?: boolean}} [options] - `force` re-reads the files.
+   * @returns {Promise<{sameExtension: boolean, tradableSets: Set<string>|null}>} The rules.
+   */
+  async getRules({ force = false } = {}) {
+    if (this.rules && !force) return this.rules;
+    let sameExtension = false;
+    let tradableSets = null;
+    try {
+      const [settings, sets] = await Promise.all([
+        configLoader.getTradeSettings(),
+        configLoader.getCardSets(),
+      ]);
+      sameExtension = settings.sameExtension === true;
+      tradableSets = new Set(sets.filter((set) => set.trade !== false).map((set) => set.id));
+    } catch (error) {
+      console.warn(
+        '[TradeManager] The trade rules could not be read, every extension stays tradable.',
+        error
+      );
+    }
+    this.rules = { sameExtension, tradableSets };
+    return this.rules;
+  }
+
+  /**
+   * Tells whether an extension allows exchanges.
+   *
+   * @param {string} setId - Extension identifier of the card.
+   * @param {{tradableSets: Set<string>|null}|null} [rules] - Rules already read.
+   * @returns {boolean} True when the extension is tradable (or unknown to the catalogue).
+   */
+  isSetTradable(setId, rules = null) {
+    const tradable = (rules ?? this.rules)?.tradableSets ?? null;
+    if (!tradable) return true;
+    const id = typeof setId === 'string' ? setId.trim() : '';
+    // A card whose extension is unknown (an orphan row of an old save) stays tradable: hiding it
+    // would only strand a card the player already owns.
+    return id === '' ? true : tradable.has(id);
+  }
+
+  /**
+   * Reads the cards the player may offer, under the current rules.
+   *
+   * @param {object} collectionView - Result of `CollectionManager.getCollectionView()`.
+   * @param {{rarity?: number|null, set?: string|null}} [options] - `rarity` keeps one rarity (an
+   *   incoming request always exchanges one rarity), `set` keeps one extension (used when
+   *   `trades.sameExtension` is on).
+   * @returns {Promise<object[]>} The tradable entries, rarest first.
+   */
+  async getTradableEntries(collectionView, { rarity = null, set = null } = {}) {
+    const rules = await this.getRules();
+    const target = typeof set === 'string' ? set.trim() : '';
+    return TradeManager.listTradableEntries(collectionView).filter(
+      (entry) =>
+        !isPromoCard(entry) &&
+        this.isSetTradable(entry.set, rules) &&
+        (rarity === null || entry.rarity === rarity) &&
+        (!rules.sameExtension || target === '' || entry.set === target)
+    );
+  }
+
+  /**
+   * Refuses an offer the rules forbid, before anything leaves the local save.
+   *
+   * This is the second line of defence: the dialogs already only list accepted cards, but an offer
+   * is checked again here so no code path can exchange a promo card, a closed extension or a card
+   * of another extension while `trades.sameExtension` is on.
+   *
+   * @param {object} entry - Collection entry offered.
+   * @param {{otherSet?: string|null}} [options] - Extension of the other card, when known.
+   * @returns {Promise<void>} Resolves when the offer is allowed.
+   * @throws {TradeError} When the offer breaks the rules.
+   */
+  async assertTradable(entry, { otherSet = null } = {}) {
+    if (isPromoCard(entry)) {
+      throw new TradeError(
+        TRADE_ERROR_CODES.PROMO_NOT_TRADABLE,
+        'A promo card is never tradable.'
+      );
+    }
+    const rules = await this.getRules();
+    if (!this.isSetTradable(entry?.set, rules)) {
+      throw new TradeError(
+        TRADE_ERROR_CODES.SET_NOT_TRADABLE,
+        `The extension "${entry?.set}" does not allow trades.`
+      );
+    }
+    const target = typeof otherSet === 'string' ? otherSet.trim() : '';
+    const own = typeof entry?.set === 'string' ? entry.set.trim() : '';
+    if (rules.sameExtension && target !== '' && own !== '' && own !== target) {
+      throw new TradeError(
+        TRADE_ERROR_CODES.SAME_EXTENSION,
+        `A trade must oppose two cards of "${target}".`
+      );
+    }
+  }
+
+  /**
    * Reads one trade from the worker.
    *
    * @param {{uuid: string, authCode: string}} credentials - Sender credentials.
@@ -512,6 +667,9 @@ export class TradeManager {
     const outgoing = Array.isArray(payload?.outgoing) ? payload.outgoing : [];
     const history = Array.isArray(payload?.history) ? payload.history : [];
     const { notifications, state } = await this.reconcile({ incoming, outgoing, history });
+    // A trade the game closed locally (its received card broke the rules) can never be claimed: it
+    // leaves every list here, once, so no reader of the view model can offer it again.
+    const listed = (trades) => trades.filter((trade) => !state.refused[trade?.id]);
 
     if (!silent) {
       this.log(
@@ -524,9 +682,9 @@ export class TradeManager {
       ready: true,
       enderEyes: state.enderEyes,
       maxEnderEyes: TRADE_MAX_ENDER_EYES,
-      incoming,
-      outgoing,
-      history,
+      incoming: listed(incoming),
+      outgoing: listed(outgoing),
+      history: listed(history),
       // The statistics are local: the worker only describes the trades themselves.
       stats: this.buildStatsView(state.stats),
       notifications,
@@ -589,6 +747,14 @@ export class TradeManager {
         delete escrows[trade.id];
       }
 
+      // A trade the game closed locally (its received card broke the rules) stays dead whatever the
+      // worker still answers: it must never count in the statistics nor raise a notification, even
+      // when the worker keeps describing it as `accepted` or turns it into `completed`.
+      if (state.refused[trade.id]) {
+        seen[trade.id] = trade.status;
+        continue;
+      }
+
       // Local statistics: a transition is counted once. An imported history (`previous` undefined)
       // is never replayed, and a closed trade seen again keeps its counter.
       const previous = seen[trade.id];
@@ -614,6 +780,7 @@ export class TradeManager {
       escrows,
       claimed: TradeManager.trim(claimed),
       seen: TradeManager.trim(seen),
+      refused: TradeManager.trim(state.refused),
       stats,
       lastRefreshAt: Date.now(),
     };
@@ -790,6 +957,7 @@ export class TradeManager {
     if (entry.rarity < TRADE_MIN_RARITY || entry.rarity > TRADE_MAX_RARITY) {
       throw new TradeError(TRADE_ERROR_CODES.INVALID_RARITY, 'This rarity cannot be traded.');
     }
+    await this.assertTradable(entry);
     const credentials = await this.getCredentials();
     const cost = getTradeCost(entry.rarity);
     if ((await this.getState()).enderEyes < cost.enderEyes) {
@@ -837,15 +1005,18 @@ export class TradeManager {
   /**
    * Publishes a proposal, replacing a previous one when B already answered.
    *
-   * @param {{tradeId: string, entry: object}} options - Trade and offered card.
+   * @param {{tradeId: string, entry: object, otherSet?: string|null}} options - Trade, offered card
+   *   and the extension of the card already offered by the other player (what
+   *   `trades.sameExtension` compares against).
    * @returns {Promise<object>} The worker payload.
-   * @throws {TradeError} On an invalid rarity.
+   * @throws {TradeError} On an invalid rarity or an offer the rules forbid.
    * @throws {SocialError} When the worker refuses the proposal.
    */
-  async proposeTrade({ tradeId, entry }) {
+  async proposeTrade({ tradeId, entry, otherSet = null }) {
     if (!entry || !Number.isInteger(entry.rarity)) {
       throw new TradeError(TRADE_ERROR_CODES.INVALID_RARITY, 'The card has no usable rarity.');
     }
+    await this.assertTradable(entry, { otherSet });
     const credentials = await this.getCredentials();
     const card = buildTradeCard(entry);
     const cost = getTradeCost(entry.rarity);
@@ -970,6 +1141,18 @@ export class TradeManager {
     const state = await this.getState();
     if (state.claimed[trade.id] === true) return null;
 
+    const received = trade.my_role === 'initiator' ? trade.responder?.card : trade.initiator?.card;
+    // The rules protect BOTH sides: a card the game forbids to trade is never added to a
+    // collection, even when the other client sent it anyway. The trade is then closed and the
+    // escrow refunded at once, otherwise the card, the Sparks and the Eyes would stay locked for an
+    // exchange that can never be completed.
+    try {
+      await this.assertTradable(received);
+    } catch (error) {
+      await this.refuseTrade(trade, error?.code ?? TRADE_ERROR_CODES.HTTP);
+      throw error;
+    }
+
     const credentials = await this.getCredentials();
     await socialManager.request('/trades/claim', {
       method: 'POST',
@@ -981,10 +1164,70 @@ export class TradeManager {
       }),
     });
 
-    const received = trade.my_role === 'initiator' ? trade.responder?.card : trade.initiator?.card;
     if (received) await this.addReceivedCard(received, trade.id);
     await this.syncAfterAction();
     return received ?? null;
+  }
+
+  /**
+   * Closes a trade for BOTH players after its received card was refused, and gives its escrow back.
+   *
+   * The worker owns the shared death of an accepted trade: `/trades/refuse` moves it to
+   * `cancelled`, a status every client refunds on its next refresh. That is what frees the OTHER
+   * player: a plain cancellation is answered 409 once the trade is accepted, so their card, Sparks
+   * and Eyes would otherwise stay in escrow forever.
+   *
+   * A worker that cannot close the trade (a side already claimed) or cannot be reached still leaves
+   * the local refund to run: a player must never lose a card, its Sparks or its Eyes to a trade the
+   * game will not let them receive.
+   *
+   * The identifier is then recorded in `refused`, which is what `refresh` filters out and what
+   * `reconcile` skips: the claim button would only fail again, and the worker keeps answering
+   * `accepted` forever.
+   *
+   * @param {object} trade - Trade whose received card was refused.
+   * @param {string} reason - Error code explaining the refusal.
+   * @returns {Promise<void>} Resolves once the trade is closed locally.
+   */
+  async refuseTrade(trade, reason) {
+    try {
+      await this.requestRefusal(trade.id);
+    } catch (error) {
+      // 409: a side already claimed the card it received, the exchange can no longer be undone.
+      console.warn(`[TradeManager] Trade ${trade.id} could not be closed on the server.`, error);
+    }
+    const state = await this.getState();
+    const escrow = state.escrows[trade.id];
+    if (escrow) await this.refundEscrow(escrow, trade.id);
+    const afterRefund = await this.getState();
+    // Nothing else is needed: an id in `refused` is skipped by `reconcile` (no notification, no
+    // statistic) and filtered out by `refresh` (no row).
+    await storageRepository.setUserState(USER_STATE_KEYS.TRADES, {
+      ...afterRefund,
+      refused: { ...afterRefund.refused, [trade.id]: reason },
+    });
+    eventBus.emit(EVENTS.TRADES_UPDATED, { balance: afterRefund.enderEyes });
+    await this.syncAfterAction();
+  }
+
+  /**
+   * Asks the worker to close an accepted trade for both players (see `refuseTrade`).
+   *
+   * @param {string} tradeId - Trade whose received card was refused.
+   * @returns {Promise<void>} Resolves once the worker closed the trade.
+   * @throws {SocialError} When the worker refuses (409) or cannot be reached.
+   */
+  async requestRefusal(tradeId) {
+    const credentials = await this.getCredentials();
+    await socialManager.request('/trades/refuse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        uuid: credentials.uuid,
+        auth_code: credentials.authCode,
+        trade_id: tradeId,
+      }),
+    });
   }
 
   /**
@@ -1133,6 +1376,12 @@ export class TradeManager {
   async addReceivedCard(card, tradeId = '') {
     if (!card || typeof card.key !== 'string' || card.key === '') {
       throw new TradeError(TRADE_ERROR_CODES.HTTP, 'The received card is unusable.');
+    }
+    if (isPromoCard(card)) {
+      throw new TradeError(
+        TRADE_ERROR_CODES.PROMO_NOT_TRADABLE,
+        'A promo card is never tradable.'
+      );
     }
     const timestamp = new Date().toISOString();
     await storageRepository.transaction(

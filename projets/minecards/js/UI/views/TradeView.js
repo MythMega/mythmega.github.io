@@ -20,7 +20,7 @@
 import i18n from '../../utils/I18n.js';
 import Toast from '../components/Toast.js';
 import notificationCenter from '../components/NotificationCenter.js';
-import socialManager from '../../business/SocialManager.js';
+import socialManager, { getSocialErrorMessageKey } from '../../business/SocialManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import tradeManager, {
@@ -36,7 +36,10 @@ import tradeManager, {
 const TRADE_VIEW_CACHE_MS = 15_000;
 
 /** How long the claim animation runs before the dialog can be closed, in milliseconds. */
-const CLAIM_ANIMATION_MS = 2400;
+const CLAIM_ANIMATION_MS = 7800;
+
+/** How long after one of our own actions the lists are fetched again, in milliseconds. */
+const TRADE_AUTO_REFRESH_MS = 500;
 
 export class TradeView {
   /**
@@ -58,9 +61,14 @@ export class TradeView {
     this.eyesElement = query('[data-trade-eyes]');
     this.feedbackElement = query('[data-trade-feedback]');
     this.emptyElement = query('[data-trade-empty]');
+    this.tradeMain = query('[data-trade-main]');
+    this.historyPage = query('[data-trade-history-page]');
+    this.historyButton = query('[data-trade-history-open]');
+    this.historyBackButton = query('[data-trade-history-back]');
+    this.historyRefreshButton = query('[data-trade-history-refresh]');
+    this.historyEmpty = query('[data-trade-history-empty]');
     this.incomingGroup = query('[data-trade-incoming-group]');
     this.outgoingGroup = query('[data-trade-outgoing-group]');
-    this.historyGroup = query('[data-trade-history-group]');
     this.incomingList = query('[data-trade-incoming]');
     this.outgoingList = query('[data-trade-outgoing]');
     this.historyList = query('[data-trade-history]');
@@ -99,6 +107,13 @@ export class TradeView {
     this.claimIn = modalQuery('[data-trade-claim-in]');
     this.claimClose = modalQuery('[data-trade-claim-close]');
 
+    this.friendModal = modalQuery('[data-trade-friend-modal]');
+    this.friendTitle = modalQuery('[data-trade-friend-title]');
+    this.friendBody = modalQuery('[data-trade-friend-body]');
+    this.friendError = modalQuery('[data-trade-friend-error]');
+    this.friendAdd = modalQuery('[data-trade-friend-add]');
+    this.friendCloseButtons = scopeElement.querySelectorAll('[data-trade-friend-close], [data-trade-friend-later]');
+
     this.view = tradeManager.buildEmptyView();
     this.collectionEntries = [];
     this.friends = [];
@@ -107,10 +122,13 @@ export class TradeView {
     this.proposalTrade = null;
     this.proposalCardKey = '';
     this.pendingConfirm = null;
+    this.pendingFriend = null;
     this.isBusy = false;
+    this.isFriendBusy = false;
     this.isActive = false;
     this.loadedAt = 0;
     this.animationTimer = null;
+    this.refreshTimer = null;
     this.bindings = [];
 
     this.assertMarkup();
@@ -135,6 +153,10 @@ export class TradeView {
   assertMarkup() {
     const missing = [
       ['[data-trade-eyes]', this.eyesElement],
+      ['[data-trade-main]', this.tradeMain],
+      ['[data-trade-history-page]', this.historyPage],
+      ['[data-trade-history-open]', this.historyButton],
+      ['[data-trade-history-back]', this.historyBackButton],
       ['[data-trade-incoming]', this.incomingList],
       ['[data-trade-outgoing]', this.outgoingList],
       ['[data-trade-history]', this.historyList],
@@ -152,6 +174,8 @@ export class TradeView {
       ['[data-trade-confirm-action]', this.confirmAction],
       ['[data-trade-claim-modal]', this.claimModal],
       ['[data-trade-claim-stage]', this.claimStage],
+      ['[data-trade-friend-modal]', this.friendModal],
+      ['[data-trade-friend-add]', this.friendAdd],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -168,6 +192,9 @@ export class TradeView {
   init() {
     this.listen(this.newButton, 'click', () => void this.openNewTrade());
     this.listen(this.refreshButton, 'click', () => void this.reload({ announce: true }));
+    this.listen(this.historyButton, 'click', () => this.openHistory());
+    this.listen(this.historyBackButton, 'click', () => this.closeHistory());
+    this.listen(this.historyRefreshButton, 'click', () => void this.reload({ announce: true }));
     this.listen(this.root, 'click', (event) => void this.handleActionClick(event));
 
     this.listen(this.newForm, 'submit', (event) => {
@@ -208,10 +235,22 @@ export class TradeView {
       if (event.target === this.claimModal) this.closeClaim();
     });
 
+    this.friendCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeFriendPrompt());
+    });
+    this.listen(this.friendAdd, 'click', () => void this.addFriend());
+    this.listen(this.friendModal, 'click', (event) => {
+      if (event.target === this.friendModal) this.closeFriendPrompt();
+    });
+
     this.listen(document, 'keydown', (event) => {
       if (event.key !== 'Escape') return;
-      if (!this.claimModal.hidden) {
+      if (!this.friendModal.hidden) {
+        this.closeFriendPrompt();
+      } else if (!this.claimModal.hidden) {
         this.closeClaim();
+      } else if (!this.historyPage.hidden) {
+        this.closeHistory();
       } else if (!this.confirmModal.hidden) {
         this.closeConfirm();
       } else if (!this.proposalModal.hidden) {
@@ -258,10 +297,37 @@ export class TradeView {
    */
   deactivate() {
     this.isActive = false;
+    if (this.refreshTimer !== null) {
+      clearTimeout(this.refreshTimer);
+      this.refreshTimer = null;
+    }
     this.closeNewTrade();
     this.closeProposal();
     this.closeConfirm();
     this.closeClaim();
+    this.closeFriendPrompt();
+    this.closeHistory();
+  }
+
+  /**
+   * Shows the history screen: the live lists make room for the closed trades.
+   *
+   * @returns {void}
+   */
+  openHistory() {
+    this.historyPage.hidden = false;
+    this.tradeMain.hidden = true;
+    this.historyBackButton.focus();
+  }
+
+  /**
+   * Goes back to the live requests.
+   *
+   * @returns {void}
+   */
+  closeHistory() {
+    this.historyPage.hidden = true;
+    this.tradeMain.hidden = false;
   }
 
   /**
@@ -305,6 +371,24 @@ export class TradeView {
   }
 
   /**
+   * Fetches the lists again shortly after one of our own actions.
+   *
+   * The other player may answer in the same second (a counter-proposal, a denial, a claim), and
+   * the worker write settles just after the response. Polling once half a second later keeps the
+   * tab truthful without the player having to press "Actualiser", while the immediate reload of
+   * the action still paints our own change at once.
+   *
+   * @returns {void}
+   */
+  scheduleRefresh() {
+    if (this.refreshTimer !== null) clearTimeout(this.refreshTimer);
+    this.refreshTimer = setTimeout(() => {
+      this.refreshTimer = null;
+      if (this.isActive) void this.reload();
+    }, TRADE_AUTO_REFRESH_MS);
+  }
+
+  /**
    * Paints the balance and the lists.
    *
    * @returns {void}
@@ -319,8 +403,12 @@ export class TradeView {
     const active = [...this.view.incoming, ...this.view.outgoing];
     void this.renderGroup(this.incomingList, this.incomingGroup, this.view.incoming);
     void this.renderGroup(this.outgoingList, this.outgoingGroup, this.view.outgoing);
-    void this.renderGroup(this.historyList, this.historyGroup, this.view.history);
-    this.emptyElement.hidden = active.length > 0 || this.view.history.length > 0;
+    // The history lives on its own screen: it is painted from the same snapshot, so opening it
+    // never performs another read.
+    void this.renderGroup(this.historyList, null, this.view.history);
+    this.historyEmpty.textContent = i18n.t('trade.history.empty');
+    this.historyEmpty.hidden = this.view.history.length > 0;
+    this.emptyElement.hidden = active.length > 0;
     this.emptyElement.textContent = this.view.ready
       ? i18n.t('trade.empty')
       : i18n.t('trade.notReady');
@@ -331,7 +419,7 @@ export class TradeView {
    * Paints one list of trades.
    *
    * @param {HTMLElement} list - Target `<ul>`.
-   * @param {HTMLElement} group - Section wrapping the list.
+   * @param {HTMLElement|null} group - Section wrapping the list, or null on the history screen.
    * @param {object[]} trades - Trades to paint.
    * @returns {Promise<void>} Resolves once every row is built.
    */
@@ -339,7 +427,7 @@ export class TradeView {
     list.textContent = '';
     const rows = await Promise.all(trades.map((trade) => this.buildTradeRow(trade)));
     rows.forEach((row) => list.appendChild(row));
-    group.hidden = rows.length === 0;
+    if (group) group.hidden = rows.length === 0;
   }
 
   /**
@@ -435,7 +523,8 @@ export class TradeView {
         button('accept', 'trade.action.accept', 'primary');
         button('cancel', 'trade.action.cancel', 'danger');
       } else {
-        button('propose', 'trade.action.replace', 'ghost');
+        button('propose', 'trade.action.replace');
+        button('withdraw', 'trade.action.withdraw');
         button('deny', 'trade.action.deny', 'danger');
       }
     } else if (trade.status === TRADE_STATUSES.ACCEPTED) {
@@ -455,13 +544,18 @@ export class TradeView {
    * Builds one card tile.
    *
    * @param {object|null} payload - Card stored in the trade.
-   * @param {{label?: string, compact?: boolean, quantity?: number, cost?: string}} [options] - Tile
-   *   options.
+   * @param {{label?: string, compact?: boolean, quantity?: number, cost?: string,
+   *   artOnly?: boolean}} [options] - Tile options. `artOnly` drops the caption and the name, which
+   *   the claim animation does not want over the artwork.
    * @returns {Promise<HTMLElement>} The tile.
    */
-  async buildCardTile(payload, { label = '', compact = false, quantity = 0, cost = '' } = {}) {
+  async buildCardTile(
+    payload,
+    { label = '', compact = false, quantity = 0, cost = '', artOnly = false } = {}
+  ) {
     const tile = document.createElement('div');
     tile.className = compact ? 'trade__card trade__card--compact' : 'trade__card';
+    if (artOnly) tile.classList.add('trade__card--art');
 
     if (!payload) {
       tile.classList.add('is-empty');
@@ -483,6 +577,7 @@ export class TradeView {
       image.addEventListener('error', () => image.remove());
       tile.appendChild(image);
     }
+    if (artOnly) return tile;
 
     const body = document.createElement('span');
     body.className = 'trade__card-body';
@@ -576,6 +671,16 @@ export class TradeView {
         confirmKey: 'trade.action.deny',
         tone: 'danger',
         action: () => this.deny(trade),
+      });
+      return;
+    }
+    if (action === 'withdraw') {
+      this.openConfirm({
+        titleKey: 'trade.confirm.withdraw.title',
+        bodyKey: 'trade.confirm.withdraw.body',
+        confirmKey: 'trade.action.withdraw',
+        tone: 'danger',
+        action: () => this.withdraw(trade),
       });
       return;
     }
@@ -763,6 +868,7 @@ export class TradeView {
       this.closeNewTrade();
       Toast.success('trade.created');
       await this.reload();
+      this.scheduleRefresh();
     } catch (error) {
       console.warn('[TradeView] The trade could not be created.', error);
       // 409: another tab or device already opened a request. The dialog is about a state that no
@@ -877,6 +983,7 @@ export class TradeView {
       this.closeProposal();
       Toast.success('trade.proposed');
       await this.reload();
+      this.scheduleRefresh();
     } catch (error) {
       console.warn('[TradeView] The proposal could not be sent.', error);
       // The request was denied, cancelled or accepted meanwhile: the dialog targets a dead state.
@@ -942,6 +1049,7 @@ export class TradeView {
       await action();
       this.closeConfirm();
       await this.reload();
+      this.scheduleRefresh();
     } catch (error) {
       console.warn('[TradeView] The trade action failed.', error);
       // 409/404: the trade moved on the other side (denied, withdrawn, expired, completed). The
@@ -985,6 +1093,17 @@ export class TradeView {
   }
 
   /**
+   * Withdraws the counter-proposal of a responder, back to the initiator's request.
+   *
+   * @param {object} trade - Trade with an open proposal.
+   * @returns {Promise<void>} Resolves once the worker answered.
+   */
+  async withdraw(trade) {
+    await tradeManager.cancelTrade(trade.id);
+    Toast.info('trade.withdrawn');
+  }
+
+  /**
    * Cancels a request.
    *
    * @param {object} trade - Outgoing trade.
@@ -1018,10 +1137,15 @@ export class TradeView {
     try {
       const received = await tradeManager.claimTrade(trade);
       await this.reload();
+      this.scheduleRefresh();
+      // A finished exchange is when the partner is worth offering as a friend. The prompt is
+      // prepared here and displayed once the claim animation is closed.
+      this.pendingFriend = received ? await this.findFriendCandidate(trade) : null;
       if (received) {
         await this.playClaimAnimation(trade, received);
       } else {
         Toast.info('trade.claimed');
+        this.openFriendPrompt();
       }
     } catch (error) {
       console.warn('[TradeView] The card could not be claimed.', error);
@@ -1052,8 +1176,10 @@ export class TradeView {
     this.claimStage.classList.remove('is-animating');
     this.claimOut.textContent = '';
     this.claimIn.textContent = '';
-    this.claimOut.appendChild(await this.buildCardTile(given, { compact: true }));
-    this.claimIn.appendChild(await this.buildCardTile(received, { compact: true }));
+    // Artwork only: the animation is about the two cards, and a caption over an 8rem card would
+    // hide half of it.
+    this.claimOut.appendChild(await this.buildCardTile(given, { artOnly: true }));
+    this.claimIn.appendChild(await this.buildCardTile(received, { artOnly: true }));
     this.claimClose.disabled = true;
     this.claimModal.hidden = false;
 
@@ -1070,7 +1196,84 @@ export class TradeView {
   }
 
   /**
-   * Closes the claim dialog.
+   * Reads the partner of a trade and tells whether they still have to be followed.
+   *
+   * @param {object} trade - Trade that was just claimed.
+   * @returns {Promise<{uuid: string, name: string}|null>} The partner, or null when the trade has
+   *   no usable uuid or the player already follows them.
+   */
+  async findFriendCandidate(trade) {
+    const isInitiator = trade.my_role === 'initiator';
+    const other = isInitiator ? trade.responder : trade.initiator;
+    if (!other || typeof other.uuid !== 'string' || other.uuid === '') return null;
+    try {
+      const following = await socialManager.getFollowing();
+      if (following.includes(other.uuid)) return null;
+    } catch (error) {
+      console.warn('[TradeView] The follow list could not be read.', error);
+      return null;
+    }
+    return {
+      uuid: other.uuid,
+      name: other.username || i18n.t('profile.anonymous'),
+    };
+  }
+
+  /**
+   * Offers to follow the partner of the exchange that just completed.
+   *
+   * @returns {void}
+   */
+  openFriendPrompt() {
+    if (!this.pendingFriend) return;
+    this.friendTitle.textContent = i18n.t('trade.friend.title', { name: this.pendingFriend.name });
+    this.friendBody.textContent = i18n.t('trade.friend.body', { name: this.pendingFriend.name });
+    this.friendError.hidden = true;
+    this.friendError.textContent = '';
+    this.friendAdd.disabled = false;
+    this.friendModal.hidden = false;
+    this.friendAdd.focus();
+  }
+
+  /**
+   * Dismisses the friend proposal.
+   *
+   * @returns {void}
+   */
+  closeFriendPrompt() {
+    this.friendModal.hidden = true;
+    this.friendError.hidden = true;
+    this.friendError.textContent = '';
+    this.pendingFriend = null;
+  }
+
+  /**
+   * Follows the partner of the exchange.
+   *
+   * @returns {Promise<void>} Resolves once the worker answered.
+   */
+  async addFriend() {
+    if (!this.pendingFriend || this.isFriendBusy) return;
+    this.isFriendBusy = true;
+    this.friendAdd.disabled = true;
+    this.friendError.hidden = true;
+    const { uuid, name } = this.pendingFriend;
+    try {
+      await socialManager.addFollow(uuid);
+      this.closeFriendPrompt();
+      Toast.success('trade.friend.added', { params: { name } });
+    } catch (error) {
+      console.warn('[TradeView] The partner could not be followed.', error);
+      this.friendError.hidden = false;
+      this.friendError.textContent = i18n.t(getSocialErrorMessageKey(error));
+    } finally {
+      this.isFriendBusy = false;
+      this.friendAdd.disabled = false;
+    }
+  }
+
+  /**
+   * Closes the claim dialog, then offers the partner as a friend.
    *
    * @returns {void}
    */
@@ -1082,6 +1285,25 @@ export class TradeView {
     this.claimModal.hidden = true;
     this.claimStage.classList.remove('is-animating');
     this.claimClose.disabled = false;
+    if (this.isActive) this.openFriendPrompt();
+  }
+
+  /**
+   * Removes every listener.
+   *
+   * @returns {void}
+   */
+  destroy() {
+    this.bindings.forEach(({ target, type, handler }) => target.removeEventListener(type, handler));
+    this.bindings = [];
+    if (this.refreshTimer !== null) {
+      clearTimeout(this.refreshTimer);
+      this.refreshTimer = null;
+    }
+    // No dialog may be opened on a torn-down view: `closeClaim()` chains the friend prompt.
+    this.isActive = false;
+    this.closeClaim();
+    this.closeFriendPrompt();
   }
 
   /**
@@ -1125,16 +1347,6 @@ export class TradeView {
     this.feedbackElement.dataset.tone = tone;
   }
 
-  /**
-   * Removes every listener.
-   *
-   * @returns {void}
-   */
-  destroy() {
-    this.bindings.forEach(({ target, type, handler }) => target.removeEventListener(type, handler));
-    this.bindings = [];
-    this.closeClaim();
-  }
 }
 
 export default TradeView;

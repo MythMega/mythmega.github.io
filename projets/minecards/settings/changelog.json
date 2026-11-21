@@ -718,6 +718,14 @@
                     "Fr": "Amélioration globale du générateur de carte.",
                     "En": "Overall improvement of the card generator."
                 }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
             }
         ]
     },
@@ -742,7 +750,15 @@
                 "IsImportant": true,
                 "Text": {
                     "Fr": "Nouvel onglet : Social. Ajoutez des amis et affichez leur carte de joueur !",
-                    "En": "New Tab : Social. Add friend and display their own player card !."
+                    "En": "New Tab : Social. Add friend and display their own player card !"
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Sauvegarde en ligne. Tu peux désormais envoyer ta sauvegarde dans le cloud et la charger sur un autre appareil !",
+                    "En": "Online save. You can now send your save online et load it on any other device !"
                 }
             },
             {
@@ -751,6 +767,46 @@
                 "Text": {
                     "Fr": "UI : Bouton menu en bas a droite pour accéder aux \"autres\" pages.",
                     "En": "UI : Menu button bottom right to reach \"other\" pages."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Monnaie : Ajout d'une nouvelle monnaie : Oeil de l'End ! Cette monnaie se recharge automatiquement jusqu'à un maximum de 5, au rythme de 1/jour.",
+                    "En": "Currency: Added a new currency: Eye of Ender! This currency refills automatically up to a maximum of 5, at a rate of 1/day."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Échange : Possibilité d'échanger des cartes de même rareté avec les joueur du monde entier.",
+                    "En": "Trade: trade cards of the same rarity with players from all over the world."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "(mineur) Modifications interne au code administrateur",
+                    "En": "(minor) Internal changes to the admin code"
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "(mineur) Changements sur l'aléatoire des booster, pour corriger une faille de triche",
+                    "En": "(minor) Changes to booster randomness, to fix a cheating flaw"
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
                 }
             }
         ]

@@ -32,12 +32,13 @@
 
 import Card from '../classes/Card.js';
 import { storageRepository, STORES } from '../models/StorageRepository.js';
-import { USER_STATE_KEYS } from './AccountManager.js';
+import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import dateSyncManager, { BOOSTER_SOURCES } from './DateSyncManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import GachaEngine from './GachaEngine.js';
 import { configLoader, DEFAULT_CARDSET_SETTINGS } from '../utils/ConfigLoader.js';
 import { buildBoosterCode } from '../utils/BoosterCode.js';
+import { createSeededRandom } from '../utils/SeededRandom.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** Default directory of the extension JSON files (overridable through `boosters.directory`). */
@@ -488,11 +489,11 @@ export class BoosterManager {
    * @param {'auto'|'daily'|'bonus'} [options.source='auto'] - Booster bucket to spend. `auto` keeps
    *   the historic order (daily first, then the extension bonus); the opening view passes an
    *   explicit source when the player chose between a daily and an inventory booster.
-   * @returns {Promise<{setId: string, cards: Card[], newKeys: string[], source: 'daily'|'bonus', godpack: boolean, sparks: number, quantity: Object<string, number>, remaining: Object}>}
+   * @returns {Promise<{setId: string, cards: Card[], newKeys: string[], source: 'daily'|'bonus', godpack: boolean, sparks: number, quantity: Object<string, number>, remaining: Object, seed: string}>}
    *   The drawn cards, the keys that were NOT owned before this pack (used for the "NEW" badge of
    *   step 4), whether the booster came from the daily quota or from a bonus, whether it was a god
-   *   pack, the Sparks balance after the reward, the resulting quantities and the remaining
-   *   boosters for that extension.
+   *   pack, the Sparks balance after the reward, the resulting quantities, the remaining boosters
+   *   for that extension and the seed the pack was drawn from.
    * @throws {RangeError} When the extension is unknown or the source is invalid.
    * @throws {Error} With the code `NO_BOOSTER_AVAILABLE` when neither the daily quota nor a bonus
    *   is available for that extension.
@@ -530,16 +531,26 @@ export class BoosterManager {
 
     // Drawn only after the availability check, and always validated at load time (the cards and
     // the rarity table were checked in `loadAll()`), so a draw cannot fail here.
+    //
+    // The engine is SEEDED with `<uuid>-<n>-<setId>` (see `buildOpeningSeed()`): the pack is a
+    // function of the save, so saving before an opening, opening, reloading and opening again
+    // gives the same cards. A reloaded save cannot be used to reroll a pack.
+    const seed = await this.buildOpeningSeed(key);
+    console.info(`[BoosterManager] Opening "${key}" with the seed "${seed}".`);
+    const drawEngine =
+      typeof this.gachaEngine.withRandom === 'function'
+        ? this.gachaEngine.withRandom(createSeededRandom(seed))
+        : this.gachaEngine;
     const boosterSetData = { setId: loadedSet.setId, cards: loadedSet.cards };
     // A "god pack" (settings/config.json `boosters.godpackChancePercent`) replaces the rarity
     // draw by a uniform draw inside the full art pool; it is only possible when the extension
     // declares enough distinct full art printings (see GachaEngine.MIN_GODPACK_FULL_ART).
-    const isGodpack = this.gachaEngine.shouldDrawGodpack(boosterSetData, {
+    const isGodpack = drawEngine.shouldDrawGodpack(boosterSetData, {
       chancePercent: godpackChancePercent,
     });
     const cards = isGodpack
-      ? this.gachaEngine.drawGodpack(boosterSetData, loadedSet.rarityConfig, { cardsPerBooster })
-      : this.gachaEngine.drawPack(boosterSetData, loadedSet.rarityConfig, { cardsPerBooster });
+      ? drawEngine.drawGodpack(boosterSetData, loadedSet.rarityConfig, { cardsPerBooster })
+      : drawEngine.drawPack(boosterSetData, loadedSet.rarityConfig, { cardsPerBooster });
     if (isGodpack) {
       console.info(`[BoosterManager] God pack for "${key}": ${cards.length} full art card(s).`);
     }
@@ -599,6 +610,7 @@ export class BoosterManager {
       sparks: result.sparks,
       quantity: result.quantity,
       remaining,
+      seed,
     };
 
     eventBus.emit(EVENTS.BOOSTER_OPENED, summary);
@@ -606,6 +618,28 @@ export class BoosterManager {
       eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: result.sparks });
     }
     return summary;
+  }
+
+  /**
+   * Builds the seed of the next opening of one extension.
+   *
+   * The form is `<uuid>-<n>-<setId>`: the UUID identifies the player (an imported `.save` carries
+   * its original one, so a save cannot be copied to get another draw), `n` is the number of
+   * openings of that extension already written plus one, and the extension id keeps two sets
+   * independent. Because `n` comes from the SAVE, reloading an earlier save rewinds it: reopening
+   * a pack after a reload necessarily gives the same cards.
+   *
+   * @param {string} setId - Extension id.
+   * @returns {Promise<string>} The seed of the next opening.
+   * @throws {Error} When the statistics cannot be read.
+   */
+  async buildOpeningSeed(setId) {
+    const account = await accountManager.getAccount().catch(() => null);
+    const stats = this.normalizeStats(
+      await storageRepository.getUserState(USER_STATE_KEYS.STATS)
+    );
+    const opened = stats.boostersOpenedBySet[setId] ?? 0;
+    return `${account?.uuid ?? 'anonymous'}-${opened + 1}-${setId}`;
   }
 
   /**

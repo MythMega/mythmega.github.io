@@ -149,6 +149,33 @@
                 "RewardCurrency": 1,
                 "RewardSparks": 3,
                 "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W3_02",
+                "StartDate": "2026-11-23",
+                "Type": "AddFriend",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 3,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W3_03",
+                "StartDate": "2026-11-23",
+                "Type": "TradeComplete",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 5,
+                "RewardXP": 10
+            },
+            {
+                "ID": "allays_A1_W3_04",
+                "StartDate": "2026-11-23",
+                "Type": "PublishProfilCard",
+                "RequirementsToUnlock": 1,
+                "RewardCurrency": 1,
+                "RewardSparks": 5,
+                "RewardXP": 10
             }
         ]
     }

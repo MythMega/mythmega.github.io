@@ -71,6 +71,15 @@ export const EVENTS = Object.freeze({
    * the worker or spent: the header counter and the inventory listen to it. Ender Eyes are
    * server-authoritative (max 5, +1 per UTC day), so this is a cache of the last known value. */
   TRADES_UPDATED: 'TRADES_UPDATED',
+  /** Payload: `{ uuid }`. Emitted by `SocialManager` once a player is stored in the Follow List:
+   * the `AddFriend` quest counts a successful follow (never a follow that failed the check). */
+  FOLLOW_ADDED: 'FOLLOW_ADDED',
+  /** Payload: `{ tradeId }`. Emitted by `TradeManager` when a refresh observes a trade that just
+   * reached `completed`, once per trade: the `TradeComplete` quest counts it. */
+  TRADE_COMPLETED: 'TRADE_COMPLETED',
+  /** Payload: `{ action }` (`created` or `updated`). Emitted by `SocialManager` once the worker
+   * accepted the publication of the trainer card: the `PublishProfilCard` quest counts it. */
+  PROFILE_CARD_PUBLISHED: 'PROFILE_CARD_PUBLISHED',
   /** Payload: `{ profile }`. Emitted by ProfileManager after the name, the photo or the pinned
    * trophies changed: the profile page and the identity displays re-render from it. */
   PROFILE_UPDATED: 'PROFILE_UPDATED',

@@ -17,9 +17,10 @@
  * data error must never cost the player a booster.
  *
  * Randomness: `Math.random()` is the default source, overridable through the `random` option.
- * A collectible single-player game has nothing to protect against a predictable PRNG (the odds
- * are public); the anti-cheat concern of the project is the clock, not the draw. The override
- * exists to make the engine deterministic in tests and reproducible when debugging a report.
+ * `BoosterManager` never uses the default one: every opening is drawn by a SEEDED engine
+ * (`withRandom`, see `utils/SeededRandom.js`) built from the player UUID, the number of openings
+ * of the extension and its id, so reloading a save replays the same pack instead of rerolling it.
+ * The override exists to make the engine deterministic in tests and reproducible in a report.
  */
 
 import Card from '../classes/Card.js';
@@ -52,6 +53,21 @@ export class GachaEngine {
       throw new TypeError('GachaEngine expects the `random` option to be a function.');
     }
     this.random = random;
+  }
+
+  /**
+   * Returns an engine drawing from another random source.
+   *
+   * `BoosterManager` forks the engine with the seed of the opening instead of mutating the shared
+   * instance: two openings can never share a sequence, and a caller that injected its own engine
+   * keeps it.
+   *
+   * @param {() => number} random - Random source returning a float in [0, 1).
+   * @returns {GachaEngine} A new engine using that source.
+   * @throws {TypeError} When the source is not a function.
+   */
+  withRandom(random) {
+    return new GachaEngine({ random });
   }
 
   /**

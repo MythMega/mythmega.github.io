@@ -72,6 +72,45 @@ const textCache = new Map();
 const jsonCache = new Map();
 
 /**
+ * Text a caller wants the linter to read instead of the file on disk, or null before the first
+ * read.
+ *
+ * `admin/data_editors.py` validates a candidate buffer WITHOUT writing it: it passes the buffer
+ * through the `LINT_OVERLAY_FILE` environment variable, a JSON object keyed by project-relative
+ * path. Every rule reads through `readText()`, so one override covers all of them and the real
+ * file is never touched by a validation.
+ *
+ * @type {Record<string, string>|null}
+ */
+let overlay = null;
+
+/**
+ * Reads the overlay described by `LINT_OVERLAY_FILE`, once per run.
+ *
+ * A missing, unreadable or malformed overlay is ignored: the linter then reads the disk, which is
+ * what a caller passing nothing expects.
+ *
+ * @returns {Record<string, string>} The overridden texts, keyed by relative path.
+ */
+function readOverlay() {
+  if (overlay !== null) return overlay;
+  overlay = {};
+  const file = process.env.LINT_OVERLAY_FILE;
+  if (!file) return overlay;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      Object.entries(parsed).forEach(([key, value]) => {
+        if (typeof value === 'string') overlay[key.split(path.sep).join('/')] = value;
+      });
+    }
+  } catch {
+    overlay = {};
+  }
+  return overlay;
+}
+
+/**
  * Lists every linted file of the project.
  *
  * @returns {string[]} Project-relative paths, always separated by `/`, in alphabetical order.
@@ -114,7 +153,11 @@ export function toRelative(absolutePath) {
  */
 export function readText(relativePath) {
   if (!textCache.has(relativePath)) {
-    textCache.set(relativePath, fs.readFileSync(path.join(PROJECT_ROOT, relativePath), 'utf8'));
+    const override = readOverlay()[relativePath];
+    textCache.set(
+      relativePath,
+      override ?? fs.readFileSync(path.join(PROJECT_ROOT, relativePath), 'utf8')
+    );
   }
   return textCache.get(relativePath);
 }
@@ -156,6 +199,7 @@ export function readJsonValue(relativePath) {
  * @returns {boolean} True when it exists.
  */
 export function exists(relativePath) {
+  if (Object.prototype.hasOwnProperty.call(readOverlay(), relativePath)) return true;
   return fs.existsSync(path.join(PROJECT_ROOT, relativePath));
 }
 

@@ -78,6 +78,11 @@ export const USER_STATE_KEYS = Object.freeze({
   // Weekly shop of the Wandering Trader: the Monday its purchases belong to, and how many times
   // each offer was bought (see `TraderManager`).
   TRADER: 'trader',
+  // PERMANENT stock of the pinned offers (see `TraderManager`): the same counts as `trader`, in a
+  // record of their own. A pinned offer is bought `MaxUse` times for good, so its stock must
+  // survive anything that rewrites the weekly record (an old save, a hand-edited one, a tab still
+  // running a previous build): the two maps are merged, keeping the higher count.
+  TRADER_PINNED: 'traderPinned',
   ILLAGER_SHOP: 'illagerShop',
   // Monthly allowance of the booster shop: the `YYYY-MM` month it belongs to and how many packs
   // were bought in it (see `BoosterManager`). Kept in `user_state` so a `.save` carries it.

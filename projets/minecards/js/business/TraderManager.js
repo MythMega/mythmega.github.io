@@ -564,6 +564,27 @@ export class TraderManager {
   }
 
   /**
+   * Merges the permanent use counts of the pinned offers.
+   *
+   * The stock of a pinned offer is permanent, so it is written TWICE: in `trader.pinnedUsed` (the
+   * historical place, kept for older saves) and in the dedicated `user_state["traderPinned"]`
+   * record that nothing else ever rewrites. Reading the higher count of the two, plus the counts
+   * an older save kept in `purchases`, makes a lost or stale map unable to restore the stock:
+   * whatever rewrote the weekly record, an offer already bought stays bought.
+   *
+   * @param {{pinnedUsed?: Record<string, number>}|null} state - Normalized trader state.
+   * @param {unknown} dedicated - Raw `user_state["traderPinned"]`.
+   * @returns {Record<string, number>} The counts, by pinned offer key.
+   */
+  static mergePinnedUses(state, dedicated) {
+    const merged = TraderManager.normalizeCounters(dedicated);
+    Object.entries(state?.pinnedUsed ?? {}).forEach(([key, count]) => {
+      merged[key] = Math.max(merged[key] ?? 0, count);
+    });
+    return merged;
+  }
+
+  /**
    * Reads a `{ key: count }` map, dropping what is not a positive integer.
    *
    * @param {unknown} raw - Raw map.
@@ -808,8 +829,13 @@ export class TraderManager {
     // A stored week that is not the current one is a reroll: its purchases no longer count.
     const purchases = state.week === week ? state.purchases : {};
     // The pinned offers are the exception: their uses are permanent, so they are read from their
-    // own map, which no reroll ever clears.
-    const pinned = await this.buildPinnedOffers(state.pinnedUsed);
+    // own maps (the historical one and the dedicated record), which no reroll ever clears.
+    const pinned = await this.buildPinnedOffers(
+      TraderManager.mergePinnedUses(
+        state,
+        await storageRepository.getUserState(USER_STATE_KEYS.TRADER_PINNED)
+      )
+    );
     const weekly = await this.buildWeeklyOffers(week, purchases, seedSalt);
     this.log(
       `Shop of the week of ${week ?? 'unknown day'}: ${weekly.length} drawn offer(s), ${pinned.length} pinned.`
@@ -1241,10 +1267,15 @@ export class TraderManager {
         const state = this.normalizeState(await context.get(STORES.USER_STATE, USER_STATE_KEYS.TRADER));
         // The reroll is evaluated INSIDE the transaction: a purchase made a second after the shop
         // was rerolled can never spend the stock of the previous week. A pinned offer is counted in
-        // its OWN map and never rolled over: once bought, it can never be bought again.
+        // its OWN maps and never rolled over: once bought, it can never be bought again, even if
+        // the weekly record was rewritten by an old save or a hand edit.
         const purchases = state.week === week ? state.purchases : {};
         const isPinned = offer.source === 'pinned';
-        const bought = isPinned ? state.pinnedUsed[offer.key] ?? 0 : purchases[offer.key] ?? 0;
+        const pinnedUses = TraderManager.mergePinnedUses(
+          state,
+          await context.get(STORES.USER_STATE, USER_STATE_KEYS.TRADER_PINNED)
+        );
+        const bought = isPinned ? pinnedUses[offer.key] ?? 0 : purchases[offer.key] ?? 0;
         if (offer.maxUses !== null && bought >= offer.maxUses) {
           throw new TraderError(TRADER_ERRORS.SOLD_OUT, `Offer "${offer.key}" is exhausted.`);
         }
@@ -1268,7 +1299,17 @@ export class TraderManager {
         // daily Sparks purchase, which a partial write would silently reset.
         const nextState = { ...state, week };
         if (isPinned) {
+          // Written in both records: `pinnedUsed` for older saves, `traderPinned` so no rewrite of
+          // the weekly record can ever hand the offer back.
+          const permanent = TraderManager.normalizeCounters(
+            await context.get(STORES.USER_STATE, USER_STATE_KEYS.TRADER_PINNED)
+          );
           nextState.pinnedUsed = { ...state.pinnedUsed, [offer.key]: bought + 1 };
+          await context.put(
+            STORES.USER_STATE,
+            { ...permanent, [offer.key]: bought + 1 },
+            USER_STATE_KEYS.TRADER_PINNED
+          );
         } else {
           nextState.purchases = { ...purchases, [offer.key]: bought + 1 };
         }

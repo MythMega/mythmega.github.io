@@ -249,7 +249,7 @@
   <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
   <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
-  <link rel="stylesheet" href="css/views/social.css?v=4c5948cbdd">
+  <link rel="stylesheet" href="css/views/social.css?v=c4a245eb01">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
@@ -2435,43 +2435,59 @@
           </section>
         </div>
 
-        <!-- Trades: the Ender Eyes balance, the incoming and outgoing requests, and the history.
-             The trade statistics live on the statistics page (`StatsView`); the markup here is
-             static so `TradeView` can verify its contract once, at startup. -->
+        <!-- Trades: the Ender Eyes balance and the incoming/outgoing requests, plus the history
+             page the trade screen opens. The trade statistics live on the statistics page
+             (`StatsView`); the markup here is static so `TradeView` can verify its contract once,
+             at startup. -->
         <div class="social__panel" id="social-panel-trade" role="tabpanel" aria-labelledby="social-tab-trade" data-social-panel="trade" hidden>
           <p class="feedback" data-trade-feedback role="status" hidden></p>
 
-          <section class="panel trade__balance">
-            <img class="trade__eye" src="assets/img/endereye.webp" alt="" width="48" height="48" decoding="async">
-            <div class="trade__balance-text">
-              <strong class="trade__balance-value" data-trade-eyes>-</strong>
-              <span class="trade__balance-label" data-i18n="trade.eyes.label">Œils de l'End</span>
-            </div>
-          </section>
+          <!-- Trade screen: the balance, the live requests, and the way into the history page. -->
+          <div class="trade__main" data-trade-main>
+            <section class="panel trade__balance">
+              <img class="trade__eye" src="assets/img/endereye.webp" alt="" width="48" height="48" decoding="async">
+              <div class="trade__balance-text">
+                <strong class="trade__balance-value" data-trade-eyes>-</strong>
+                <span class="trade__balance-label" data-i18n="trade.eyes.label">Œils de l'End</span>
+              </div>
+            </section>
 
-          <section class="panel">
-            <div class="social__toolbar">
-              <button type="button" class="btn btn--primary" data-trade-new data-i18n="trade.new">Proposer un échange</button>
-              <button type="button" class="btn btn--ghost" data-trade-refresh data-i18n="trade.refresh">Actualiser</button>
-            </div>
+            <section class="panel">
+              <div class="social__toolbar">
+                <button type="button" class="btn btn--primary" data-trade-new data-i18n="trade.new">Proposer un échange</button>
+                <button type="button" class="btn btn--ghost" data-trade-refresh data-i18n="trade.refresh">Actualiser</button>
+              </div>
 
-            <p class="trade__empty" data-trade-empty hidden></p>
+              <p class="trade__empty" data-trade-empty hidden></p>
 
-            <div class="trade__groups">
-              <section class="trade__group" data-trade-incoming-group hidden>
-                <h3 class="trade__group-title" data-i18n="trade.incoming.title">Demandes reçues</h3>
-                <ul class="trade__list" data-trade-incoming></ul>
-              </section>
-              <section class="trade__group" data-trade-outgoing-group hidden>
-                <h3 class="trade__group-title" data-i18n="trade.outgoing.title">Mes demandes</h3>
-                <ul class="trade__list" data-trade-outgoing></ul>
-              </section>
-              <section class="trade__group" data-trade-history-group hidden>
-                <h3 class="trade__group-title" data-i18n="trade.history.title">Historique</h3>
-                <ul class="trade__list trade__list--history" data-trade-history></ul>
-              </section>
+              <div class="trade__groups">
+                <section class="trade__group" data-trade-incoming-group hidden>
+                  <h3 class="trade__group-title" data-i18n="trade.incoming.title">Demandes reçues</h3>
+                  <ul class="trade__list" data-trade-incoming></ul>
+                </section>
+                <section class="trade__group" data-trade-outgoing-group hidden>
+                  <h3 class="trade__group-title" data-i18n="trade.outgoing.title">Mes demandes</h3>
+                  <ul class="trade__list" data-trade-outgoing></ul>
+                </section>
+              </div>
+
+              <!-- The closed trades live on their own screen: the live lists stay short enough to
+                   be read at a glance, and an account with months of exchanges keeps only a link
+                   here. -->
+              <button type="button" class="btn btn--ghost btn--block trade__history-open" data-trade-history-open data-i18n="trade.history.open">Historique des échanges</button>
+            </section>
+          </div>
+
+          <!-- History page: the same screen space, reached from the button above. -->
+          <div class="trade__history-page" data-trade-history-page hidden>
+            <div class="social__toolbar trade__history-head">
+              <button type="button" class="btn btn--ghost" data-trade-history-back data-i18n="trade.history.back">← Retour aux échanges</button>
+              <h3 class="trade__history-title" data-i18n="trade.history.title">Historique</h3>
+              <button type="button" class="btn btn--ghost" data-trade-history-refresh data-i18n="trade.refresh">Actualiser</button>
             </div>
-          </section>
+            <p class="trade__empty" data-trade-history-empty hidden></p>
+            <ul class="trade__list trade__list--history" data-trade-history></ul>
+          </div>
 
         </div>
       </div>
@@ -2585,6 +2601,22 @@
           <div class="modal__actions">
             <button type="button" class="btn btn--ghost" data-trade-confirm-close data-i18n="social.cancel">Annuler</button>
             <button type="button" class="btn btn--primary" data-trade-confirm-action></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Friend proposal: shown after an exchange, when the partner is not followed yet. -->
+      <div class="modal" data-trade-friend-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-friend-title">
+          <button type="button" class="modal__close" data-trade-friend-close aria-label="×">×</button>
+          <h2 class="modal__title" id="trade-friend-title" data-trade-friend-title></h2>
+          <div class="modal__body">
+            <p data-trade-friend-body></p>
+            <p class="social__add-error" data-trade-friend-error role="alert" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-trade-friend-later data-i18n="trade.friend.later">Plus tard</button>
+            <button type="button" class="btn btn--primary" data-trade-friend-add data-i18n="trade.friend.add">Ajouter en ami</button>
           </div>
         </div>
       </div>
@@ -3053,7 +3085,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=f894ca61ae"></script>
+  <script type="module" src="js/app.js?v=1fa21d515d"></script>
 
 </body>
 </html>

@@ -595,6 +595,9 @@ export class TradeManager {
       if (known && previous && previous !== trade.status) {
         if (trade.status === TRADE_STATUSES.COMPLETED) {
           this.recordOutcome(stats, trade, TRADE_STATUSES.COMPLETED);
+          // One event per trade: the transition is observed once, and the `TradeComplete` quest
+          // then counts a finished exchange instead of every later refresh.
+          eventBus.emit(EVENTS.TRADE_COMPLETED, { tradeId: trade.id });
         } else if (TRADE_REFUND_STATUSES.includes(trade.status)) {
           this.recordOutcome(stats, trade, trade.status);
         }

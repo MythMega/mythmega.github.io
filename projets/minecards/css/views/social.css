@@ -402,6 +402,28 @@
   display: none;
 }
 
+/* History is a screen of the trade tab: the live lists step aside while it is shown. */
+.trade__main[hidden],
+.trade__history-page[hidden] {
+  display: none;
+}
+
+.trade__history-head {
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.trade__history-title {
+  flex: 1;
+  margin: 0;
+  font-size: var(--font-size-lg);
+  text-align: center;
+}
+
+.trade__history-open {
+  margin-top: var(--space-3);
+}
+
 .trade__groups {
   display: flex;
   flex-direction: column;
@@ -695,16 +717,23 @@
   width: 8rem;
 }
 
+/* The animation draws the artwork alone, without its tile background or frame. */
+.trade__card--art {
+  border: none;
+  background: none;
+}
+
 .trade__claim-slot--in {
   opacity: 0;
 }
 
+/* The timeline is deliberately slow (quarter speed): the exchange is the reward, not a blink. */
 .trade__claim-stage.is-animating .trade__claim-slot--out {
-  animation: trade-card-out 900ms var(--easing-standard) forwards;
+  animation: trade-card-out 3600ms var(--easing-standard) forwards;
 }
 
 .trade__claim-stage.is-animating .trade__claim-slot--in {
-  animation: trade-card-in 900ms 900ms var(--easing-standard) forwards;
+  animation: trade-card-in 3600ms 3600ms var(--easing-standard) forwards;
 }
 
 @keyframes trade-card-out {

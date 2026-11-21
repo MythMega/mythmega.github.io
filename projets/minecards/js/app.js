@@ -1197,6 +1197,27 @@ export class App {
         reveal('[data-settings-export]');
         highlight('[data-settings-export]');
         return;
+      case ILLAGER_QUEST_TYPES.ADD_FRIEND:
+        show(SOCIAL_VIEW_NAME);
+        if (tutorial) await pause();
+        this.socialView?.showTab('follows');
+        // The quest is the follow itself, so the dialog that asks for the UUID is opened for the
+        // player instead of dropping them on the list with no visible way forward.
+        this.socialView?.openAddModal();
+        highlight('[data-social-add-input]');
+        return;
+      case ILLAGER_QUEST_TYPES.TRADE_COMPLETE:
+        show(SOCIAL_VIEW_NAME);
+        if (tutorial) await pause();
+        this.socialView?.showTab('trade');
+        highlight('[data-trade-new]');
+        return;
+      case ILLAGER_QUEST_TYPES.PUBLISH_PROFILE_CARD:
+        show(PROFILE_VIEW_NAME);
+        if (tutorial) await pause();
+        reveal('[data-profile-card-publish]');
+        highlight('[data-profile-card-publish]');
+        return;
       default:
         return;
     }

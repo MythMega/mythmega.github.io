@@ -1,0 +1,568 @@
+/* =============================================================================
+   data_editors.css - Styling of the data editor (admin back-office).
+
+   Loaded after `admin.css`, which already provides the palette (`--surface`,
+   `--border`, `--accent`…), the buttons and the form fields. This file only adds
+   the two-column layout, the generated form and the code editor.
+   ============================================================================= */
+
+.data-editor {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) 3rem;
+}
+
+.data-editor__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.data-editor__title { margin: 0; }
+
+.data-editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.data-editor__layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.data-editor__sidebar {
+  position: sticky;
+  top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-editor__filter { margin-top: 0; }
+
+.data-editor__files {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 70vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.data-editor__group-label {
+  margin: var(--space-3) 0 var(--space-1);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.data-editor__file-button {
+  display: block;
+  width: 100%;
+  padding: var(--space-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.data-editor__file-button:hover { background-color: var(--surface-alt); }
+
+.data-editor__file-button.is-active {
+  background-color: var(--surface-alt);
+  border-color: var(--accent);
+}
+
+.data-editor__file-path {
+  display: block;
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.72rem;
+}
+
+.data-editor__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.data-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-editor__identity { min-width: 0; }
+
+.data-editor__file {
+  margin: 0;
+  overflow: hidden;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.95rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-editor__description {
+  margin: var(--space-1) 0 0;
+  max-width: 70ch;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.data-editor__toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.data-editor__tabs {
+  display: inline-flex;
+  padding: 2px;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.data-editor__tab {
+  padding: var(--space-1) var(--space-3);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.82rem;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.data-editor__tab.is-active {
+  color: var(--accent-contrast);
+  background-color: var(--accent);
+}
+
+.data-editor__panel {
+  padding: var(--space-3);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-editor__panel[hidden] { display: none; }
+
+.data-editor__placeholder {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* --- Generated form ------------------------------------------------------- */
+
+.data-editor__group {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-editor__group:last-child { margin-bottom: 0; }
+
+.data-editor__group-title {
+  margin: 0 0 var(--space-2);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.data-editor__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--space-2) var(--space-3);
+}
+
+.data-editor__field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.data-editor__label {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.data-editor__label-code {
+  margin-left: var(--space-1);
+  color: var(--accent);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.7rem;
+}
+
+.data-editor__input { width: 100%; }
+
+.data-editor__field--wide { grid-column: 1 / -1; }
+
+.data-editor__inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.data-editor__check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+}
+
+.data-editor__help {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.data-editor__item {
+  margin-bottom: var(--space-2);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.data-editor__item-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-editor__item-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-editor__item-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.data-editor__icon-button {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  color: var(--muted);
+  font: inherit;
+  line-height: 1;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.data-editor__icon-button:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.data-editor__item-body { padding: var(--space-2); }
+
+.data-editor__add {
+  margin-top: var(--space-2);
+}
+
+.data-editor__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.data-editor__card-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.data-editor__card-matches {
+  margin: 0;
+  padding: var(--space-1);
+  list-style: none;
+  max-height: 12rem;
+  overflow-y: auto;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-editor__card-match {
+  display: block;
+  width: 100%;
+  padding: var(--space-2);
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: none;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.data-editor__card-match:hover,
+.data-editor__card-match:focus-visible {
+  background-color: var(--surface);
+}
+
+.data-editor__map-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 110px 30px;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.data-editor__empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* --- Raw JSON ------------------------------------------------------------- */
+
+.data-editor__search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.data-editor__search-field {
+  flex: 1;
+  min-width: 220px;
+  margin-top: 0;
+}
+
+.data-editor__search-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.data-editor__search-count {
+  min-width: 4.5rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.data-editor__matches {
+  width: 100%;
+  max-height: 9rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.data-editor__matches[hidden] { display: none; }
+
+.data-editor__match {
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.data-editor__match:hover { background-color: var(--surface-alt); }
+
+.data-editor__match-path {
+  color: var(--accent);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.72rem;
+}
+
+.data-editor__code-wrap {
+  position: relative;
+  display: flex;
+  max-height: 62vh;
+  overflow: hidden;
+  background-color: #080b12;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.data-editor__gutter {
+  margin: 0;
+  padding: var(--space-2);
+  overflow: hidden;
+  color: #46536b;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: right;
+  background-color: #0b0f18;
+  border-right: 1px solid var(--border);
+  user-select: none;
+}
+
+.data-editor__code {
+  flex: 1;
+  min-height: 24rem;
+  margin: 0;
+  padding: var(--space-2);
+  overflow: auto;
+  color: var(--text);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre;
+  tab-size: 2;
+  background: none;
+  border: 0;
+  resize: vertical;
+}
+
+.data-editor__code:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.data-editor__completion {
+  position: absolute;
+  z-index: 5;
+  max-height: 14rem;
+  margin: 0;
+  padding: var(--space-1);
+  overflow-y: auto;
+  list-style: none;
+  background-color: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 45%);
+}
+
+.data-editor__completion[hidden] { display: none; }
+
+.data-editor__completion-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 2px var(--space-2);
+  font-size: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.data-editor__completion-item.is-selected { background-color: var(--surface-alt); }
+
+.data-editor__completion-kind {
+  color: var(--muted);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.data-editor__hint {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+/* --- Diagnostics ---------------------------------------------------------- */
+
+.data-editor__diagnostics {
+  padding: var(--space-3);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-editor__diagnostics-title {
+  margin: 0 0 var(--space-2);
+  font-size: 0.95rem;
+}
+
+.data-editor__counter { color: var(--muted); font-size: 0.8rem; font-weight: 400; }
+
+.data-editor__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: 16rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.data-editor__list-empty { color: var(--muted); font-size: 0.82rem; }
+
+.data-editor__diagnostic {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.data-editor__diagnostic--error { border-color: rgb(255 98 114 / 45%); }
+
+.data-editor__diagnostic--warning { border-color: rgb(255 200 87 / 45%); }
+
+.data-editor__diagnostic-position {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.74rem;
+}
+
+.data-editor__status {
+  margin: var(--space-3) 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.data-editor__sources { display: none; }
+
+/* A phone stacks the sidebar above the editor: the two columns would both be unusable. */
+@media (max-width: 900px) {
+  .data-editor__layout { grid-template-columns: 1fr; }
+
+  .data-editor__sidebar { position: static; }
+
+  .data-editor__files { max-height: 14rem; }
+}

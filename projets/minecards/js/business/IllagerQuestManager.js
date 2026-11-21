@@ -19,7 +19,9 @@
  *   `BOOSTER_OPENED`, `DAILY_REWARDS_UPDATED`, `CARDS_OBTAINED` from the Mine Pick) plus the flows
  *   that had no event of their own (`CARD_SOLD`, `BINDER_SHARED`, `PROFILE_CARD_EXPORTED`,
  *   `CHANGELOG_OPENED`, `TITLE_SELECTED`, `SAVE_EXPORTED`) and the button of a `CustomWebsiteOpen`
- *   quest, which records its own visit.
+ *   quest, which records its own visit. The social objectives follow the same rule: `FOLLOW_ADDED`,
+ *   `TRADE_COMPLETED` and `PROFILE_CARD_PUBLISHED` are published by `SocialManager`/`TradeManager`
+ *   once the server accepted the action, so a refused call never moves a counter.
  *   The mine counter is absolute (`totalMined`): the manager keeps the last value it saw and adds
  *   only the difference, so a reload never counts a block twice.
  *
@@ -37,21 +39,16 @@ import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import { USER_STATE_KEYS } from './AccountManager.js';
 import trophyManager from './TrophyManager.js';
 import { ILLAGER_QUESTS_STATE_KEY, normalizeQuestState } from './IllagerQuestState.js';
+import { ILLAGER_QUEST_TYPES } from '../../tools/lint/lib/quest-types.mjs';
 
-/** Objective a quest asks the player to reach. */
-export const ILLAGER_QUEST_TYPES = Object.freeze({
-  OPEN_BOOSTER_DAILY: 'OpenBooster_Daily',
-  DAILY_REWARD_CLAIM: 'DailyRewardClaim',
-  SELL_CARD: 'SellCard',
-  MINE_BLOCK: 'MineBlock',
-  SHARE_BINDER: 'ShareBinder',
-  MINE_PICK_CARDS: 'MinePickCards',
-  DOWNLOAD_PROFILE_CARD: 'DownloadProfilCard',
-  OPEN_CHANGELOG: 'OpenChangelog',
-  CHANGE_SELECTED_TITLE: 'ChangeSelectedTitle',
-  DOWNLOAD_SAVE_BACKUP: 'DownloadCurrentSaveBackup',
-  CUSTOM_WEBSITE_OPEN: 'CustomWebsiteOpen',
-});
+/**
+ * Objective a quest asks the player to reach.
+ *
+ * The list itself lives in `tools/lint/lib/quest-types.mjs`: the linter validates the data files
+ * against it, so the game and the editor cannot drift away from what is accepted. Re-exported
+ * here because every caller of the quest manager imports it from this module.
+ */
+export { ILLAGER_QUEST_TYPES };
 
 /** Name of the event published when a quest progresses or is claimed. */
 export const ILLAGER_QUESTS_EVENT = 'ILLAGER_QUESTS_UPDATED';
@@ -661,6 +658,15 @@ export class IllagerQuestManager {
       ),
       eventBus.on(EVENTS.SAVE_EXPORTED, () =>
         safely(this.record(ILLAGER_QUEST_TYPES.DOWNLOAD_SAVE_BACKUP, 1))
+      ),
+      eventBus.on(EVENTS.FOLLOW_ADDED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.ADD_FRIEND, 1))
+      ),
+      eventBus.on(EVENTS.TRADE_COMPLETED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.TRADE_COMPLETE, 1))
+      ),
+      eventBus.on(EVENTS.PROFILE_CARD_PUBLISHED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.PUBLISH_PROFILE_CARD, 1))
       ),
       eventBus.on(EVENTS.MINING_UPDATED, (payload) => {
         if (!Number.isInteger(payload?.totalMined)) return;

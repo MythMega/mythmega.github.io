@@ -25,6 +25,9 @@ const QUEST_TYPES = new Set([
   'ChangeSelectedTitle',
   'DownloadCurrentSaveBackup',
   'CustomWebsiteOpen',
+  'AddFriend',
+  'TradeComplete',
+  'PublishProfilCard',
 ]);
 
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;

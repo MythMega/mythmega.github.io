@@ -21,10 +21,11 @@ import {
   readState,
   resetStorage,
   STORES,
+  writeState,
 } from './helpers/fake_storage.mjs';
 import Card from '../../js/classes/Card.js';
 import { USER_STATE_KEYS } from '../../js/business/AccountManager.js';
-import { TraderManager } from '../../js/business/TraderManager.js';
+import { PINNED_OFFER_PREFIX, TraderManager } from '../../js/business/TraderManager.js';
 import miningManager from '../../js/business/MiningManager.js';
 
 installFakeStorage();
@@ -262,6 +263,44 @@ test('a resource swap gives both resources and records its use', async () => {
   assert.equal(readState(TRADER).pinnedUsed['pinned-test'], 1);
   assert.equal(readState(TRADER).sparkDay, DAY);
   assert.equal(readState(TRADER).sparkBought, true);
+});
+
+test('a rewritten weekly record cannot hand a pinned offer back', async () => {
+  // The pinned stock is permanent: it also lives in `traderPinned`, so an old or hand-edited save
+  // whose `trader` record lost `pinnedUsed` must still find the offer sold out.
+  seedTraderState();
+  const trader = buildTrader();
+  const pinned = {
+    key: `${PINNED_OFFER_PREFIX}-1`,
+    source: 'pinned',
+    card: CARD,
+    price: [{ slug: 'stone_dust', quantity: 2, type: 'stone_dust' }],
+    maxUses: 1,
+  };
+  trader.getOffers = async () => [pinned];
+  miningManager.getState = async () => ({
+    day: DAY,
+    minedToday: 0,
+    remaining: 1,
+    blocksPerDay: 1,
+    totalMined: 0,
+  });
+
+  await trader.buy(pinned.key);
+  assert.equal(readState(USER_STATE_KEYS.TRADER_PINNED)[pinned.key], 1);
+
+  // An older save, or a record written before the counter existed.
+  writeState(TRADER, {
+    week: WEEK,
+    purchases: {},
+    pinnedUsed: {},
+    tradeDay: DAY,
+    tradeUses: {},
+    sparkDay: null,
+    sparkBought: false,
+  });
+
+  await assert.rejects(() => trader.buy(pinned.key), (error) => error.code === 'SOLD_OUT');
 });
 
 test('a failed swap write moves neither resource and keeps the use count', async () => {

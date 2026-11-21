@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>MineCards : éditeur de données</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="data_editors.css">
+</head>
+<body>
+  <main class="data-editor">
+
+    <!-- Header: what this page is, and the other admin pages. The project path is written by the
+         script, so a player reading the page from the deployed site sees why nothing works. -->
+    <header class="data-editor__head">
+      <div>
+        <h1 class="data-editor__title">Éditeur de données <span class="badge">admin</span></h1>
+        <p class="muted" data-de-project>Serveur local…</p>
+      </div>
+      <nav class="data-editor__actions" aria-label="Autres outils">
+        <a class="btn btn--ghost" href="index.html">Codes</a>
+        <a class="btn btn--ghost" href="cards.html">Cartes</a>
+        <a class="btn btn--ghost" href="save-editor.html">Sauvegardes</a>
+      </nav>
+    </header>
+
+    <div class="data-editor__layout">
+
+      <!-- Sidebar: every editable file, grouped by family. A file is one click away and the
+           filter accepts a path, a kind or a set id. -->
+      <aside class="data-editor__sidebar">
+        <label class="field data-editor__filter">
+          <span class="field__label">Fichier</span>
+          <input class="field__input" type="search" data-de-filter
+            placeholder="Filtrer (trophées, A1, illager…)" autocomplete="off" spellcheck="false">
+        </label>
+        <ul class="data-editor__files" data-de-files aria-label="Fichiers éditables"></ul>
+      </aside>
+
+      <!-- Editor: the identity of the file, the two views of it, the diagnostics, and the save. -->
+      <section class="data-editor__main">
+        <div class="data-editor__toolbar">
+          <div class="data-editor__identity">
+            <h2 class="data-editor__file" data-de-file>Chargement…</h2>
+            <p class="data-editor__description" data-de-description></p>
+          </div>
+
+          <div class="data-editor__toolbar-actions">
+            <div class="data-editor__tabs" role="tablist" aria-label="Vue du fichier">
+              <button type="button" class="data-editor__tab is-active" role="tab" aria-selected="true"
+                data-de-tab="form">Formulaire</button>
+              <button type="button" class="data-editor__tab" role="tab" aria-selected="false"
+                data-de-tab="json">JSON</button>
+            </div>
+            <button type="button" class="btn btn--ghost" data-de-revert title="Recharger le fichier depuis le disque">Annuler</button>
+            <button type="button" class="btn btn--ghost" data-de-check>Vérifier</button>
+            <button type="button" class="btn btn--primary" data-de-save disabled>Enregistrer</button>
+          </div>
+        </div>
+
+        <p class="feedback" data-de-feedback role="status" hidden></p>
+
+        <!-- Generated form: the shape comes from the server schema, so every family gets its own
+             controls without a page per file. -->
+        <div class="data-editor__panel" data-de-form-panel>
+          <p class="data-editor__placeholder">Choisissez un fichier.</p>
+        </div>
+
+        <!-- Raw JSON: line numbers, completion, smart search, and the same validation as the form. -->
+        <div class="data-editor__panel" data-de-json-panel hidden>
+          <div class="data-editor__search">
+            <label class="field data-editor__search-field">
+              <span class="field__label">Recherche intelligente</span>
+              <input class="field__input" type="search" data-de-search autocomplete="off"
+                placeholder="Champ, valeur ou texte du fichier…">
+            </label>
+            <div class="data-editor__search-actions">
+              <button type="button" class="btn btn--ghost" data-de-search-prev aria-label="Occurrence précédente">‹</button>
+              <span class="data-editor__search-count" data-de-search-count></span>
+              <button type="button" class="btn btn--ghost" data-de-search-next aria-label="Occurrence suivante">›</button>
+            </div>
+            <ul class="data-editor__matches" data-de-search-list hidden></ul>
+          </div>
+
+          <div class="data-editor__code-wrap">
+            <pre class="data-editor__gutter" data-de-gutter aria-hidden="true"></pre>
+            <textarea class="data-editor__code" data-de-code wrap="off" spellcheck="false"
+              aria-label="Contenu JSON du fichier"></textarea>
+            <ul class="data-editor__completion" data-de-completion hidden></ul>
+          </div>
+          <p class="data-editor__hint">
+            Ctrl+Espace : complétion · Ctrl+F : recherche · Ctrl+S : enregistrer ·
+            Tab indente de deux espaces.
+          </p>
+        </div>
+
+        <!-- Diagnostics: the lint speaks here, and clicking one jumps to its line in the JSON. -->
+        <section class="data-editor__diagnostics" aria-label="Diagnostics">
+          <h3 class="data-editor__diagnostics-title">Diagnostics <span class="data-editor__counter" data-de-count>aucun</span></h3>
+          <ul class="data-editor__list" data-de-diagnostic-list>
+            <li class="data-editor__list-empty">Rien à signaler.</li>
+          </ul>
+        </section>
+      </section>
+    </div>
+
+    <p class="data-editor__status" data-de-status role="status"></p>
+  </main>
+
+  <div class="data-editor__sources" data-de-sources hidden></div>
+
+  <script type="module" src="data_editors.js"></script>
+</body>
+</html>

@@ -31,6 +31,8 @@ import profileCardManager, {
 } from './ProfileCardManager.js';
 import { colorManager, findColor } from './ColorManager.js';
 import dateSyncManager from './DateSyncManager.js';
+import boosterManager from './BoosterManager.js';
+import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /** Public base URL of the Cloudflare worker that hosts the trainer cards. */
 export const SOCIAL_API_BASE_URL = 'https://minecard-backend.jordanmorindev.workers.dev';
@@ -391,6 +393,8 @@ export class SocialManager {
       cardFetchedAt: { ...latest.cardFetchedAt, [uuid]: Date.now() },
       cardCache: { ...latest.cardCache, [uuid]: card },
     });
+    // Published only once the follow is stored: a UUID that was rejected never counts.
+    eventBus.emit(EVENTS.FOLLOW_ADDED, { uuid });
     return card;
   }
 
@@ -571,10 +575,9 @@ export class SocialManager {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      return {
-        action: typeof response?.action === 'string' ? response.action : 'updated',
-        card: response?.card ?? null,
-      };
+      const action = typeof response?.action === 'string' ? response.action : 'updated';
+      eventBus.emit(EVENTS.PROFILE_CARD_PUBLISHED, { action });
+      return { action, card: response?.card ?? null };
     } catch (error) {
       if (error instanceof SocialError && error.status === 403) {
         throw new SocialError(
@@ -662,7 +665,22 @@ export class SocialManager {
     const titleColor = findColor(colors, titleColorId);
     const iconSize = PROFILE_CARD_ICON_SIZES[iconSizeId];
     const iconAlign = PROFILE_CARD_ICON_ALIGNS[iconAlignId];
-    const background = safeSocialAssetPath(card?.location_id) || settings.defaultArtPath;
+    // The backdrop is resolved from `background_card_id` through the LOCAL catalogue, exactly like
+    // the owner's own card: every player ships the same card data, so a followed card can borrow
+    // the artwork of its favourite card. `location_id` only remains as a fallback for cards
+    // published before that column existed (its path is often a remote URL, which
+    // `safeSocialAssetPath` refuses on purpose).
+    let background = '';
+    if (typeof card?.background_card_id === 'string' && card.background_card_id !== '') {
+      try {
+        const backdropCard = await boosterManager.getCardByKey(card.background_card_id);
+        background = ProfileCardManager.cardBackdrop(backdropCard);
+      } catch (error) {
+        console.warn('[SocialManager] The background card could not be resolved.', error);
+      }
+    }
+    if (background === '') background = safeSocialAssetPath(card?.location_id);
+    if (background === '') background = settings.defaultArtPath;
     const underlay = safeSocialAssetPath(card?.profile_picture_id);
 
     return {

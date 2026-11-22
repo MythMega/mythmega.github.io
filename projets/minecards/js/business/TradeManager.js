@@ -25,6 +25,11 @@
  *   the daily refill (tracked by `enderEyesDay`) before any read, and a save without a balance
  *   starts at 5.
  *
+ * LOCAL STATISTICS (`user_state["trades"].stats`)
+ *   The totals, the per-rarity rows and the per-partner counts (`byPartner`, UUID -> completed
+ *   trades) live in the save, never on the worker: an export carries them, and the new-trade
+ *   picker orders the followed players by that record.
+ *
  * COST (`getTradeCost`)
  *   1 Ender Eye per rarity + rarity² Sparks, per side. Rarity 6 is never tradable, which the worker
  *   enforces with a CHECK constraint as well.
@@ -179,7 +184,7 @@ export function getTradeCost(rarity) {
  *
  * @returns {{completed: number, cancelled: number, declined: number, expired: number,
  *   sparksSpent: number, enderEyesSpent: number, cardsGiven: number, cardsReceived: number,
- *   byRarity: Record<string, object>}} Zeroed counters.
+ *   byRarity: Record<string, object>, byPartner: Record<string, number>}} Zeroed counters.
  */
 export function buildDefaultTradeStats() {
   return {
@@ -192,6 +197,9 @@ export function buildDefaultTradeStats() {
     cardsGiven: 0,
     cardsReceived: 0,
     byRarity: {},
+    // Completed trades per partner UUID: the record the new-trade picker sorts by. It travels in
+    // the save like every other counter (`stats` is exported with `user_state`).
+    byPartner: {},
   };
 }
 
@@ -249,6 +257,15 @@ function normalizeTradeStats(raw) {
       const value = Number(rarity);
       if (!Number.isInteger(value) || value < TRADE_MIN_RARITY || value > TRADE_MAX_RARITY) return;
       stats.byRarity[String(value)] = normalizeRarityStats(row);
+    });
+  }
+
+  if (source.byPartner && typeof source.byPartner === 'object' && !Array.isArray(source.byPartner)) {
+    Object.entries(source.byPartner).forEach(([uuid, count]) => {
+      if (typeof uuid !== 'string' || uuid === '') return;
+      const value = normalizeCounter(count);
+      // A zero partner is not a row: the picker reads "never traded" from the missing key.
+      if (value > 0) stats.byPartner[uuid] = value;
     });
   }
   return stats;
@@ -821,6 +838,26 @@ export class TradeManager {
     stats.byRarity[key] ??= normalizeRarityStats({});
     count(stats.byRarity[key]);
     count(stats);
+
+    // Completed trades are also recorded per partner: the picker lists the players this account
+    // exchanges with most. The other outcomes never count, so the rows match `stats.completed`.
+    if (completed) {
+      const partnerUuid = String(
+        (trade.my_role === 'initiator' ? trade.responder?.uuid : trade.initiator?.uuid) ?? ''
+      );
+      if (partnerUuid !== '') {
+        stats.byPartner[partnerUuid] = normalizeCounter(stats.byPartner[partnerUuid]) + 1;
+      }
+    }
+  }
+
+  /**
+   * Reads the completed trades recorded per partner UUID.
+   *
+   * @returns {Promise<Record<string, number>>} UUID -> completed trades, zeroes omitted.
+   */
+  async getPartnerCounts() {
+    return { ...(await this.getState()).stats.byPartner };
   }
 
   /**

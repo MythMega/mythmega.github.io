@@ -26,7 +26,10 @@
 import i18n from '../../utils/I18n.js';
 import Toast from '../components/Toast.js';
 import notificationCenter from '../components/NotificationCenter.js';
-import socialManager, { getSocialErrorMessageKey } from '../../business/SocialManager.js';
+import socialManager, {
+  getSocialErrorMessageKey,
+  safeSocialAssetPath,
+} from '../../business/SocialManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import tradeManager, {
@@ -82,12 +85,21 @@ export class TradeView {
 
     this.newModal = modalQuery('[data-trade-new-modal]');
     this.newForm = modalQuery('[data-trade-new-form]');
-    this.friendSelect = modalQuery('[data-trade-friend]');
+    this.partnerButton = modalQuery('[data-trade-partner-open]');
+    this.partnerAvatar = modalQuery('[data-trade-partner-avatar]');
+    this.partnerLabel = modalQuery('[data-trade-partner-label]');
+    this.partnerCount = modalQuery('[data-trade-partner-count]');
     this.cardList = modalQuery('[data-trade-cards]');
     this.newError = modalQuery('[data-trade-new-error]');
     this.newConfirm = modalQuery('[data-trade-new-confirm]');
     this.newCost = modalQuery('[data-trade-new-cost]');
     this.newCloseButtons = scopeElement.querySelectorAll('[data-trade-new-close]');
+
+    this.partnerModal = modalQuery('[data-trade-partner-modal]');
+    this.partnerSearch = modalQuery('[data-trade-partner-search]');
+    this.partnerList = modalQuery('[data-trade-partner-list]');
+    this.partnerEmpty = modalQuery('[data-trade-partner-empty]');
+    this.partnerCloseButtons = scopeElement.querySelectorAll('[data-trade-partner-close]');
 
     this.proposalModal = modalQuery('[data-trade-proposal-modal]');
     this.proposalForm = modalQuery('[data-trade-proposal-form]');
@@ -124,6 +136,11 @@ export class TradeView {
     /** @type {{sameExtension: boolean}|null} Rules read from `settings/config.json`. */
     this.tradeRules = null;
     this.friends = [];
+    /** @type {Array<{uuid: string, username: string, iconPath: string, trades: number}>} Followed
+     *   players of the new-trade dialog, busiest partner first. */
+    this.partners = [];
+    /** UUID chosen in the partner picker (empty until the player picks one). */
+    this.partnerUuid = '';
     this.imageCache = new Map();
     this.selectedCardKey = '';
     this.proposalTrade = null;
@@ -171,7 +188,10 @@ export class TradeView {
       ['[data-trade-refresh]', this.refreshButton],
       ['[data-trade-new-modal]', this.newModal],
       ['[data-trade-new-form]', this.newForm],
-      ['[data-trade-friend]', this.friendSelect],
+      ['[data-trade-partner-open]', this.partnerButton],
+      ['[data-trade-partner-modal]', this.partnerModal],
+      ['[data-trade-partner-search]', this.partnerSearch],
+      ['[data-trade-partner-list]', this.partnerList],
       ['[data-trade-cards]', this.cardList],
       ['[data-trade-new-confirm]', this.newConfirm],
       ['[data-trade-proposal-modal]', this.proposalModal],
@@ -208,7 +228,15 @@ export class TradeView {
       event.preventDefault();
       void this.submitNewTrade();
     });
-    this.listen(this.friendSelect, 'change', () => this.updateNewCost());
+    this.listen(this.partnerButton, 'click', () => this.openPartnerPicker());
+    this.listen(this.partnerSearch, 'input', () => this.renderPartners());
+    this.listen(this.partnerList, 'click', (event) => this.selectPartner(event));
+    this.partnerCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closePartnerPicker());
+    });
+    this.listen(this.partnerModal, 'click', (event) => {
+      if (event.target === this.partnerModal) this.closePartnerPicker();
+    });
     this.listen(this.cardList, 'click', (event) => this.selectCard(event, 'new'));
     this.newCloseButtons.forEach((button) => {
       this.listen(button, 'click', () => this.closeNewTrade());
@@ -252,7 +280,9 @@ export class TradeView {
 
     this.listen(document, 'keydown', (event) => {
       if (event.key !== 'Escape') return;
-      if (!this.friendModal.hidden) {
+      if (!this.partnerModal.hidden) {
+        this.closePartnerPicker();
+      } else if (!this.friendModal.hidden) {
         this.closeFriendPrompt();
       } else if (!this.claimModal.hidden) {
         this.closeClaim();
@@ -308,6 +338,7 @@ export class TradeView {
       clearTimeout(this.refreshTimer);
       this.refreshTimer = null;
     }
+    this.closePartnerPicker();
     this.closeNewTrade();
     this.closeProposal();
     this.closeConfirm();
@@ -805,26 +836,24 @@ export class TradeView {
     this.newModal.hidden = false;
 
     try {
-      const [{ cards }, collection] = await Promise.all([
+      const [{ cards }, collection, partnerCounts] = await Promise.all([
         socialManager.refreshFollowing(),
         collectionManager.getCollectionView(),
+        tradeManager.getPartnerCounts(),
       ]);
       this.friends = cards.filter((card) => card && typeof card.uuid === 'string');
+      this.partners = this.buildPartners(this.friends, partnerCounts);
+      this.partnerUuid = '';
+      this.partnerButton.disabled = this.partners.length === 0;
+      this.updatePartnerDisplay();
       // Promo cards, rarity 6 and the extensions closed in `settings/cardsets.json` are already out.
       this.tradeRules = await tradeManager.getRules();
       this.collectionEntries = await tradeManager.getTradableEntries(collection);
 
-      this.friendSelect.textContent = '';
       if (this.friends.length === 0) {
         this.newError.hidden = false;
         this.newError.textContent = i18n.t('trade.error.noFriends');
       }
-      this.friends.forEach((card) => {
-        const option = document.createElement('option');
-        option.value = card.uuid;
-        option.textContent = card.username || i18n.t('profile.anonymous');
-        this.friendSelect.appendChild(option);
-      });
 
       if (this.collectionEntries.length === 0) {
         const empty = document.createElement('p');
@@ -837,7 +866,7 @@ export class TradeView {
         }
       }
       this.updateNewCost();
-      this.friendSelect.focus();
+      this.partnerButton.focus();
     } catch (error) {
       console.error('[TradeView] The new-trade dialog could not be filled.', error);
       this.newError.hidden = false;
@@ -936,7 +965,7 @@ export class TradeView {
   async submitNewTrade() {
     if (this.isBusy) return;
     const entry = this.collectionEntries.find((candidate) => candidate.key === this.selectedCardKey);
-    const responderUuid = this.friendSelect.value;
+    const responderUuid = this.partnerUuid;
     if (!entry) {
       this.setNewError('trade.error.pickCard');
       return;
@@ -984,9 +1013,171 @@ export class TradeView {
    */
   closeNewTrade() {
     this.newModal.hidden = true;
+    this.closePartnerPicker();
     this.selectedCardKey = '';
+    this.partnerUuid = '';
+    this.updatePartnerDisplay();
     this.newError.hidden = true;
     this.newError.textContent = '';
+  }
+
+  /**
+   * Builds the followed players the new-trade dialog offers, busiest partner first.
+   *
+   * The count comes from the local trade statistics (`stats.byPartner`): the players this account
+   * already completed exchanges with go to the top, then the rest by name. A player never traded
+   * with stays at zero and no counter is invented for them.
+   *
+   * @param {object[]} cards - Public cards of the followed players.
+   * @param {Record<string, number>} counts - Completed trades per player UUID.
+   * @returns {Array<{uuid: string, username: string, iconPath: string, trades: number}>} The rows.
+   */
+  buildPartners(cards, counts) {
+    const lang = i18n.getLang();
+    return cards
+      .filter((card) => card && typeof card.uuid === 'string' && card.uuid !== '')
+      .map((card) => ({
+        uuid: card.uuid,
+        username: card.username || i18n.t('profile.anonymous'),
+        iconPath: safeSocialAssetPath(card.profile_picture_id),
+        trades:
+          Number.isInteger(counts?.[card.uuid]) && counts[card.uuid] > 0 ? counts[card.uuid] : 0,
+      }))
+      .sort(
+        (a, b) =>
+          b.trades - a.trades || a.username.localeCompare(b.username, lang, { sensitivity: 'base' })
+      );
+  }
+
+  /**
+   * Opens the partner picker on the full list.
+   *
+   * @returns {void}
+   */
+  openPartnerPicker() {
+    if (this.partners.length === 0) return;
+    this.partnerSearch.value = '';
+    this.renderPartners();
+    this.partnerModal.hidden = false;
+    this.partnerSearch.focus();
+  }
+
+  /**
+   * Closes the partner picker, leaving the new-trade dialog open underneath.
+   *
+   * @returns {void}
+   */
+  closePartnerPicker() {
+    this.partnerModal.hidden = true;
+  }
+
+  /**
+   * Repaints the rows matching the search field.
+   *
+   * The list is already sorted by completed trades, so filtering keeps that order.
+   *
+   * @returns {void}
+   */
+  renderPartners() {
+    const query = this.partnerSearch.value.trim().toLocaleLowerCase();
+    const matches = this.partners.filter((partner) =>
+      partner.username.toLocaleLowerCase().includes(query)
+    );
+    this.partnerList.textContent = '';
+    matches.forEach((partner) => this.partnerList.appendChild(this.buildPartnerRow(partner)));
+    this.partnerEmpty.hidden = matches.length > 0;
+  }
+
+  /**
+   * Builds one row of the partner picker: avatar, pseudo and completed trades.
+   *
+   * @param {{uuid: string, username: string, iconPath: string, trades: number}} partner - Player.
+   * @returns {HTMLElement} The list item.
+   */
+  buildPartnerRow(partner) {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'trade__partner-row';
+    button.dataset.tradePartnerUuid = partner.uuid;
+    const selected = partner.uuid === this.partnerUuid;
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+
+    const avatar = document.createElement('span');
+    avatar.className = 'trade__partner-avatar';
+    this.fillPartnerAvatar(avatar, partner);
+
+    const name = document.createElement('span');
+    name.className = 'trade__partner-name';
+    name.textContent = partner.username;
+
+    const count = document.createElement('span');
+    count.className = 'trade__partner-count';
+    count.textContent = i18n.t('trade.partner.trades', { count: partner.trades });
+
+    button.append(avatar, name, count);
+    item.appendChild(button);
+    return item;
+  }
+
+  /**
+   * Draws the recognizable icon of a followed player, with the initial as fallback.
+   *
+   * @param {HTMLElement} host - Element that receives the picture.
+   * @param {{username: string, iconPath: string}} partner - Player, or an empty placeholder.
+   * @returns {void}
+   */
+  fillPartnerAvatar(host, partner) {
+    host.textContent = '';
+    if (partner.iconPath !== '') {
+      const image = document.createElement('img');
+      image.className = 'trade__partner-avatar-image';
+      image.src = i18n.resolveImagePath(partner.iconPath);
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.addEventListener('error', () => image.remove());
+      host.appendChild(image);
+      return;
+    }
+    const fallback = document.createElement('span');
+    fallback.className = 'trade__partner-avatar-initial';
+    fallback.textContent = partner.username.slice(0, 1).toUpperCase();
+    host.appendChild(fallback);
+  }
+
+  /**
+   * Picks one player from the picker.
+   *
+   * @param {MouseEvent} event - Click event.
+   * @returns {void}
+   */
+  selectPartner(event) {
+    const row =
+      event.target instanceof Element ? event.target.closest('[data-trade-partner-uuid]') : null;
+    if (!row) return;
+    this.partnerUuid = row.dataset.tradePartnerUuid || '';
+    this.updatePartnerDisplay();
+    this.closePartnerPicker();
+  }
+
+  /**
+   * Shows the chosen player in the new-trade dialog (or its placeholder).
+   *
+   * @returns {void}
+   */
+  updatePartnerDisplay() {
+    const partner = this.partners.find((candidate) => candidate.uuid === this.partnerUuid) ?? null;
+    this.partnerAvatar.hidden = partner === null;
+    this.fillPartnerAvatar(this.partnerAvatar, partner ?? { username: '', iconPath: '' });
+    this.partnerLabel.textContent = partner
+      ? partner.username
+      : i18n.t('trade.partner.choose');
+    this.partnerLabel.classList.toggle('is-placeholder', partner === null);
+    this.partnerCount.textContent = partner
+      ? i18n.t('trade.partner.trades', { count: partner.trades })
+      : '';
   }
 
   /**

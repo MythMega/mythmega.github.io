@@ -785,3 +785,154 @@
     flex: 0 0 auto;
   }
 }
+
+/* =============================================================================
+   New trade - partner picker: the followed players, searchable and sorted by
+   completed trades. The trigger replaces the old <select> at the same spot.
+   ============================================================================= */
+
+.trade__partner-button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.trade__partner-button:hover,
+.trade__partner-button:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.trade__partner-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.trade__partner-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade__partner-name.is-placeholder {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.trade__partner-count {
+  flex: 0 0 auto;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.trade__partner-chevron {
+  flex: 0 0 auto;
+  color: var(--color-text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.trade__partner-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  overflow: hidden;
+}
+
+.trade__partner-avatar[hidden] {
+  display: none;
+}
+
+.trade__partner-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.trade__partner-avatar-initial {
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.trade__partner-search {
+  margin-bottom: var(--space-3);
+}
+
+.trade__partner-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-height: min(50vh, 24rem);
+  margin: 0;
+  padding: var(--space-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.trade__partner-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.trade__partner-row:hover,
+.trade__partner-row:focus-visible {
+  background-color: var(--color-surface-alt);
+}
+
+.trade__partner-row.is-selected {
+  border-color: var(--color-accent);
+  background-color: var(--color-surface-alt);
+}
+
+.trade__partner-empty {
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.trade__partner-empty[hidden] {
+  display: none;
+}

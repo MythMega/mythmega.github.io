@@ -404,7 +404,9 @@ export class TradeView {
     // A missing balance is the initial stock (`TRADE_MAX_ENDER_EYES`), never a dash: the worker
     // opens the trade account full, see `TradeManager`.
     const eyes = this.view.enderEyes ?? TRADE_MAX_ENDER_EYES;
-    this.newButton.disabled = !this.view.ready;
+    // The button is NEVER disabled: a greyed-out button explains nothing. Clicking it opens
+    // `openNewTrade()`, which names the missing piece in a dialog instead (see `showBlocked()`).
+    this.newButton.disabled = false;
     this.eyesElement.textContent = `${eyes} / ${TRADE_MAX_ENDER_EYES}`;
 
     const active = [...this.view.incoming, ...this.view.outgoing];
@@ -717,16 +719,87 @@ export class TradeView {
   }
 
   /**
+   * Reads what prevents trading right now, if anything does.
+   *
+   * The worker refuses a request from an account whose trainer card was never published (it has
+   * no auth code), so the form would open on something nothing can send. The balance and the lists
+   * are not read here: they are explained inside the dialog once it is open, where the player sees
+   * the friends and the cards they actually have.
+   *
+   * @returns {Promise<string|null>} Translation key of the blocker, or null when trading is open.
+   */
+  async getTradeBlocker() {
+    if (this.view.ready) return null;
+    try {
+      // No exception: the account exists and is published, the lists were simply not loaded yet.
+      await tradeManager.getCredentials();
+      return null;
+    } catch (error) {
+      return getTradeErrorMessageKey(error);
+    }
+  }
+
+  /**
+   * Shows why an action is not possible, in the dialog this view already owns.
+   *
+   * The shared confirmation modal is reused as a plain message: its action button only closes it
+   * (`runConfirm()` handles a null action), so no second piece of markup is needed.
+   *
+   * @param {string} titleKey - Translation key of the title.
+   * @param {string} messageKey - Translation key of the explanation.
+   * @returns {void}
+   */
+  showBlocked(titleKey, messageKey) {
+    this.pendingConfirm = null;
+    this.confirmTitle.textContent = i18n.t(titleKey);
+    this.confirmBody.textContent = i18n.t(messageKey);
+    this.confirmAction.textContent = i18n.t('social.detail.close');
+    this.confirmAction.className = 'btn btn--primary';
+    this.confirmError.hidden = true;
+    this.confirmError.textContent = '';
+    this.confirmAction.disabled = false;
+    this.confirmModal.hidden = false;
+    this.confirmAction.focus();
+  }
+
+  /**
+   * Tells whether the balance covers the Ender Eyes of one trade.
+   *
+   * @param {{enderEyes: number}} cost - Cost returned by `getTradeCost()`.
+   * @returns {boolean} True when the balance is unknown or large enough.
+   */
+  hasEnoughEyes(cost) {
+    if (this.view.enderEyes === null || this.view.enderEyes === undefined) return true;
+    return this.view.enderEyes >= cost.enderEyes;
+  }
+
+  /**
+   * Shows an explanation inside the new-trade dialog.
+   *
+   * @param {string} key - Translation key.
+   * @returns {void}
+   */
+  setNewError(key) {
+    this.newError.hidden = false;
+    this.newError.textContent = i18n.t(key);
+  }
+
+  /**
    * Opens the new-trade dialog with the friends and the tradable cards.
    *
    * @returns {Promise<void>} Resolves once the dialog is filled.
    */
   async openNewTrade() {
     if (this.isBusy) return;
+    const blocker = await this.getTradeBlocker();
+    if (blocker) {
+      this.showBlocked('trade.blocked.title', blocker);
+      return;
+    }
     this.selectedCardKey = '';
     this.newError.hidden = true;
     this.newError.textContent = '';
-    this.newConfirm.disabled = true;
+    this.newConfirm.disabled = false;
     this.cardList.textContent = '';
     this.newCost.textContent = '';
     this.newModal.hidden = false;
@@ -835,24 +908,21 @@ export class TradeView {
    * @returns {void}
    */
   updateNewCost() {
+    // The confirm button is never disabled: `submitNewTrade()` names what is missing instead.
+    this.newConfirm.disabled = false;
     const entry = this.collectionEntries.find((candidate) => candidate.key === this.selectedCardKey);
     if (!entry) {
       this.newCost.textContent = '';
-      this.newConfirm.disabled = true;
       return;
     }
     const cost = getTradeCost(entry.rarity);
-    const enoughEyes =
-      this.view.enderEyes === null || this.view.enderEyes === undefined
-        ? true
-        : this.view.enderEyes >= cost.enderEyes;
+    const enoughEyes = this.hasEnoughEyes(cost);
     this.newCost.textContent = i18n.t('trade.costDetail', {
       rarity: i18n.t(`rarity.${entry.rarity}`),
       eyes: cost.enderEyes,
       sparks: cost.sparks,
     });
     this.newCost.dataset.tone = enoughEyes ? 'info' : 'error';
-    this.newConfirm.disabled = this.friends.length === 0 || !enoughEyes;
     if (!enoughEyes) {
       this.newCost.textContent += ` · ${i18n.t('trade.error.notEnoughEnderEyes')}`;
     }
@@ -867,7 +937,18 @@ export class TradeView {
     if (this.isBusy) return;
     const entry = this.collectionEntries.find((candidate) => candidate.key === this.selectedCardKey);
     const responderUuid = this.friendSelect.value;
-    if (!entry || !responderUuid) return;
+    if (!entry) {
+      this.setNewError('trade.error.pickCard');
+      return;
+    }
+    if (!responderUuid) {
+      this.setNewError('trade.error.noFriends');
+      return;
+    }
+    if (!this.hasEnoughEyes(getTradeCost(entry.rarity))) {
+      this.setNewError('trade.error.notEnoughEnderEyes');
+      return;
+    }
 
     this.isBusy = true;
     this.newConfirm.disabled = true;
@@ -920,7 +1001,7 @@ export class TradeView {
     this.proposalCardKey = '';
     this.proposalError.hidden = true;
     this.proposalError.textContent = '';
-    this.proposalConfirm.disabled = true;
+    this.proposalConfirm.disabled = false;
     this.proposalCost.textContent = '';
     this.proposalCards.textContent = '';
     this.proposalModal.hidden = false;
@@ -966,12 +1047,14 @@ export class TradeView {
    * @returns {void}
    */
   updateProposalCost() {
+    // Same contract as the new-trade dialog: the confirm stays clickable, the error says what
+    // is missing (`submitProposal()`).
+    this.proposalConfirm.disabled = false;
     const entry = this.collectionEntries.find(
       (candidate) => candidate.key === this.proposalCardKey
     );
     if (!entry || !this.proposalTrade) {
       this.proposalCost.textContent = '';
-      this.proposalConfirm.disabled = true;
       return;
     }
     const cost = getTradeCost(entry.rarity);
@@ -993,7 +1076,11 @@ export class TradeView {
     const entry = this.collectionEntries.find(
       (candidate) => candidate.key === this.proposalCardKey
     );
-    if (!entry) return;
+    if (!entry) {
+      this.proposalError.hidden = false;
+      this.proposalError.textContent = i18n.t('trade.error.pickCard');
+      return;
+    }
 
     this.isBusy = true;
     this.proposalConfirm.disabled = true;
@@ -1064,7 +1151,12 @@ export class TradeView {
    * @returns {Promise<void>} Resolves once the action finished.
    */
   async runConfirm() {
-    if (!this.pendingConfirm || this.isBusy) return;
+    if (this.isBusy) return;
+    // A dialog opened only to explain something (`showBlocked()`): its button closes it.
+    if (!this.pendingConfirm) {
+      this.closeConfirm();
+      return;
+    }
     const action = this.pendingConfirm;
     this.isBusy = true;
     this.confirmAction.disabled = true;

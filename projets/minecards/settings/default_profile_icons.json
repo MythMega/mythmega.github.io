@@ -53,8 +53,33 @@
         "requiredLevel": 9
     },
     {
+        "file": "./assets/img/profile/default/pumpkin_head.webp",
+        "name": "Jack",
+        "requiredLevel": 12
+    },
+    {
+        "file": "./assets/img/profile/default/Illusioner.webp",
+        "name": "Illusioner",
+        "requiredLevel": 15
+    },
+    {
         "file": "./assets/img/profile/buyable/chicken_gold.png",
         "name": "Chicken Gold",
         "price": 150
+    },
+    {
+        "file": "./assets/img/profile/buyable/witch.webp",
+        "name": "Witch",
+        "price": 175
+    },
+    {
+        "file": "./assets/img/profile/buyable/villager.png",
+        "name": "Villager",
+        "price": 200
+    },
+    {
+        "file": "./assets/img/profile/buyable/ArmorStandFace.webp",
+        "name": "Headless",
+        "price": 225
     }
 ]

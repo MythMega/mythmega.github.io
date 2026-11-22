@@ -17,10 +17,11 @@
  *   - `quota`     : { lastResetDay, dailyRemaining, bonusBoosters }
  *   - `stats`     : { boostersOpened, godpacksOpened, boostersOpenedBySet, drawsByRarity,
  *                   drawsByCard, soldByRarity, questsCompleted, daysConnected, cardsSold,
- *                   sparksEarned, sparksSpent, sparksEarnedBySource, sparksSpentBySource }
- *     `questsCompleted`, `daysConnected` and `cardsSold` are created retroactively on boot from
- *     `illagerQuests`, `dailyRewards` and `soldByRarity` for a save written before they existed
- *     (see `ensureStatistics()`).
+ *                   friendsPeak, sparksEarned, sparksSpent, sparksEarnedBySource,
+ *                   sparksSpentBySource }
+ *     `questsCompleted`, `daysConnected`, `cardsSold` and `friendsPeak` are created retroactively
+ *     on boot from `illagerQuests`, `dailyRewards`, `soldByRarity` and `social.following` for a
+ *     save written before they existed (see `ensureStatistics()`).
  *   - `giftSync`  : { lastCheckedLine, lastCheckAt }
  *   - `sparks`    : number (starting balance of the Sparks currency)
  *   - `profile`   : { name, photo, favorites, featured } (created at the first boot, see
@@ -207,6 +208,7 @@ export function buildDefaultStats() {
     questsCompleted: 0,
     daysConnected: 0,
     cardsSold: 0,
+    friendsPeak: 0,
     sparksEarned: 0,
     sparksSpent: 0,
     sparksEarnedBySource: {},
@@ -707,12 +709,14 @@ export class AccountManager {
   /**
    * Creates the account-wide statistics added after the first saves.
    *
-   * The three counters are derived from data that already exists, so importing an old save adopts
-   * its history instead of starting the medals at zero:
+   * The counters are derived from data that already exists, so importing an old save adopts its
+   * history instead of starting the medals at zero:
    *   - `questsCompleted` counts the Illager quests whose `claimedAt` is set;
    *   - `daysConnected` reads the run position of the daily rewards (the only connection history
    *     the save keeps);
-   *   - `cardsSold` sums `soldByRarity`.
+   *   - `cardsSold` sums `soldByRarity`;
+   *   - `friendsPeak` starts at the number of distinct followed players the save already has (it
+   *     is a record, so `SocialManager` only ever raises it afterwards).
    *
    * Only a MISSING counter is filled: an existing zero is a real value and is never replaced.
    *
@@ -739,6 +743,16 @@ export class AccountManager {
       }
       if (!Number.isInteger(stats.cardsSold) || stats.cardsSold < 0) {
         stats.cardsSold = AccountManager.sumSoldByRarity(stats.soldByRarity);
+        changed = true;
+      }
+      // The record of friends starts at the list the save already has: an old account adopts its
+      // history instead of starting the medals at zero.
+      if (!Number.isInteger(stats.friendsPeak) || stats.friendsPeak < 0) {
+        const social = await context.get(STORES.USER_STATE, USER_STATE_KEYS.SOCIAL);
+        const following = Array.isArray(social?.following) ? social.following : [];
+        stats.friendsPeak = new Set(
+          following.filter((uuid) => typeof uuid === 'string' && uuid !== '')
+        ).size;
         changed = true;
       }
 

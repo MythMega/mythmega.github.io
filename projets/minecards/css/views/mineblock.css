@@ -826,6 +826,9 @@
 .mineblock__offer-image {
   width: 100%;
   height: auto;
+  /* A `<card-print>` has no intrinsic height: the ratio of the artwork is what gives the thumbnail
+     its box, instead of a squashed strip. */
+  aspect-ratio: var(--card-ratio);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
 }
@@ -935,6 +938,8 @@
 .mineblock__detail-image {
   width: min(100%, 15rem);
   height: auto;
+  /* Same reason as the thumbnail: the opened card keeps the ratio of its printing. */
+  aspect-ratio: var(--card-ratio);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }

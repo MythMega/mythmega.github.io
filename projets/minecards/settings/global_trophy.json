@@ -87,5 +87,21 @@
         "gold": 25,
         "diamond": 50,
         "emerald": 100
+    },
+    "trades": {
+        "_comment": "player completed trade count; medals in 'assets/img/trophy/Global/trades/'",
+        "bronze": 3,
+        "silver": 25,
+        "gold": 50,
+        "diamond": 100,
+        "emerald": 250
+    },
+    "friendscount": {
+        "_comment": "highest number of distinct friends ever followed (a record: unfollowing never lowers it); medals in 'assets/img/trophy/Global/friendscount/'",
+        "bronze": 1,
+        "silver": 5,
+        "gold": 10,
+        "diamond": 25,
+        "emerald": 100
     }
 }

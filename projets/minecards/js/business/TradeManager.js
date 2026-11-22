@@ -1257,7 +1257,7 @@ export class TradeManager {
    * @throws {SparksError} When the balance does not cover the cost.
    */
   async lockCard(entry, { role, tradeId, sparks, enderEyes }) {
-    return storageRepository.transaction(
+    const remainingEyes = await storageRepository.transaction(
       [STORES.COLLECTION, STORES.USER_STATE],
       'readwrite',
       async (context) => {
@@ -1308,6 +1308,11 @@ export class TradeManager {
         return remainingEyes;
       }
     );
+
+    // The Sparks were debited inside the transaction, where `applyDelta` cannot publish (the
+    // caller owns the commit): the wallet of the header and of the inventory is republished here.
+    if (sparks > 0) await sparksManager.publishBalance();
+    return remainingEyes;
   }
 
   /**
@@ -1325,7 +1330,7 @@ export class TradeManager {
     const card = escrow?.card;
     if (!card || typeof card.key !== 'string' || card.key === '') return undefined;
     const timestamp = new Date().toISOString();
-    return storageRepository.transaction(
+    const remainingEyes = await storageRepository.transaction(
       [STORES.COLLECTION, STORES.USER_STATE],
       'readwrite',
       async (context) => {
@@ -1361,6 +1366,11 @@ export class TradeManager {
         return Math.min(TRADE_MAX_ENDER_EYES, state.enderEyes + eyes);
       }
     );
+
+    // Returning an escrow credits its Sparks inside the transaction: publish them, like the debit
+    // of `lockCard`, or the header would still show the balance of the proposal.
+    if (Number(escrow.sparks) > 0) await sparksManager.publishBalance();
+    return remainingEyes;
   }
 
   /**

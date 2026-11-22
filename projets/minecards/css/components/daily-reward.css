@@ -255,6 +255,11 @@
   display: block;
   width: auto;
   height: 5.5rem;
+  /* A generated card is a box that fills its parent: without the ratio its automatic width was
+     computed as zero and the card of the reward disappeared. The ratio gives it that width back,
+     exactly like the `<img>` it replaces. */
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
   border-radius: var(--radius-sm);
 }
 

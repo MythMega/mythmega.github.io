@@ -33,6 +33,8 @@ export const ILLAGER_QUEST_TYPES = Object.freeze({
   CUSTOM_WEBSITE_OPEN: 'CustomWebsiteOpen',
   ADD_FRIEND: 'AddFriend',
   TRADE_COMPLETE: 'TradeComplete',
+  UPLOAD_SAVE: 'UploadSave',
+  CHANGE_CARD_RENDERING: 'ChangeCardRendering',
   PUBLISH_PROFILE_CARD: 'PublishProfilCard',
 });
 

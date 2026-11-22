@@ -239,27 +239,27 @@
   <link rel="stylesheet" href="css/views/shop.css?v=ee425ac9f0">
   <link rel="stylesheet" href="css/views/collection.css?v=25f89ebf80">
   <link rel="stylesheet" href="css/views/binders.css?v=c463cc94fc">
-  <link rel="stylesheet" href="css/views/stats.css?v=722d8370d6">
+  <link rel="stylesheet" href="css/views/stats.css?v=8c9b1e5211">
   <link rel="stylesheet" href="css/views/minepick.css?v=920529bd87">
-  <link rel="stylesheet" href="css/views/mineblock.css?v=6019b93773">
-  <link rel="stylesheet" href="css/views/profile.css?v=5beba0c219">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=4df308eb19">
+  <link rel="stylesheet" href="css/views/profile.css?v=5090b8ff20">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
-  <link rel="stylesheet" href="css/views/settings.css?v=926557b8a5">
-  <link rel="stylesheet" href="css/views/redeem.css?v=cc574d882e">
-  <link rel="stylesheet" href="css/views/gifts.css?v=bd107bdb62">
+  <link rel="stylesheet" href="css/views/settings.css?v=98da47ccd0">
+  <link rel="stylesheet" href="css/views/redeem.css?v=d0fa404527">
+  <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/views/social.css?v=eab3f185bb">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
   <link rel="stylesheet" href="css/components/card-shine.css?v=9503ab62cf">
-  <link rel="stylesheet" href="css/components/generated-card.css?v=f6a69bcf8f">
+  <link rel="stylesheet" href="css/components/generated-card.css?v=138b037948">
   <link rel="stylesheet" href="css/components/modal.css?v=bbf68d6c89">
   <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
   <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
-  <link rel="stylesheet" href="css/components/daily-reward.css?v=593921f5e6">
+  <link rel="stylesheet" href="css/components/daily-reward.css?v=b7ed4f3f3f">
   <link rel="stylesheet" href="css/components/card-roulette.css?v=ffd08ce0eb">
   <link rel="stylesheet" href="css/components/error-popup.css?v=6639af2fdc">
   <link rel="stylesheet" href="css/components/image-loader.css?v=40c1405fc5">
@@ -1039,13 +1039,29 @@
             <div class="profile__avatar">
               <img class="profile__avatar-image" data-profile-avatar alt="" hidden>
               <span class="profile__avatar-fallback" data-profile-avatar-fallback aria-hidden="true">?</span>
+              <!-- The pencil of the avatar opens the icon picker. Each pencil edits ONE field:
+                   the identity can never be rewritten by a stray tap. -->
+              <button type="button" class="profile__pencil profile__pencil--avatar" data-profile-edit-icon data-i18n-aria-label="profile.icons.edit" data-i18n-title="profile.icons.edit" aria-label="Modifier l'icône de profil" title="Modifier l'icône de profil">
+                <img class="profile__pencil-icon" src="assets/img/edit.png" alt="" loading="lazy" decoding="async">
+              </button>
             </div>
             <div class="profile__identity-fields">
-              <p class="profile__display-name" data-profile-display-name></p>
+              <div class="profile__name-row">
+                <p class="profile__display-name" data-profile-display-name></p>
+                <button type="button" class="profile__pencil" data-profile-edit-name data-i18n-aria-label="profile.name.edit" data-i18n-title="profile.name.edit" aria-label="Modifier le pseudo" title="Modifier le pseudo">
+                  <img class="profile__pencil-icon" src="assets/img/edit.png" alt="" loading="lazy" decoding="async">
+                </button>
+              </div>
 
               <!-- The player TITLE: the line under the pseudo, in the pixel face ("Press Start 2P")
-                   and in yellow. Empty (and hidden) until one is selected - see `TitlesView`. -->
-              <p class="profile__title" data-profile-title-line hidden></p>
+                   and in yellow. Empty (and hidden) until one is selected - see `TitlesView`. Its
+                   pencil opens that page, which owns the catalogue and the choice. -->
+              <div class="profile__title-row">
+                <p class="profile__title" data-profile-title-line hidden></p>
+                <button type="button" class="profile__pencil" data-profile-edit-title data-i18n-aria-label="profile.title.edit" data-i18n-title="profile.title.edit" aria-label="Choisir un titre" title="Choisir un titre">
+                  <img class="profile__pencil-icon" src="assets/img/edit.png" alt="" loading="lazy" decoding="async">
+                </button>
+              </div>
 
               <!-- Level: right under the identity and without the wall of text (every XP
                    source is spelled out on the Info page instead). -->
@@ -1060,11 +1076,6 @@
             </div>
 
             <div class="profile__identity-actions">
-              <button type="button" class="profile__edit" data-profile-edit aria-expanded="false" data-i18n-aria-label="profile.edit" aria-label="Modifier le profil">
-                <img class="profile__edit-icon" src="assets/img/edit.png" alt="" loading="lazy" decoding="async">
-                <span data-i18n="profile.edit">Modifier</span>
-              </button>
-
               <!-- The player code is the UUID of the account: the value the settings page prints,
                    and the one gifts and support ask for. Read-only, so a copy is all this button
                    can do - `ProfileView.handleCopyCode()` writes it to the clipboard. -->
@@ -1075,29 +1086,6 @@
             </div>
           </div>
 
-          <!-- Revealed by the edit button: the identity can never be changed by accident. -->
-          <form class="profile__form" data-profile-form novalidate hidden>
-            <label class="field">
-              <span class="field__label" data-i18n="profile.name.label">Nom affiché</span>
-              <input class="field__input" type="text" data-profile-name maxlength="24" autocomplete="nickname" data-i18n-placeholder="profile.name.placeholder" placeholder="Votre nom de joueur…">
-            </label>
-
-            <!-- Avatar: a closed list of icons instead of a free URL. The default ones are always
-                 available; the others are earned through a trophy (see the Trophies tab). -->
-            <div class="profile__icons-field" role="radiogroup" data-i18n-aria-label="profile.icons.label" aria-label="Icône de profil">
-              <span class="field__label" data-i18n="profile.icons.label">Icône de profil</span>
-              <!-- The sentence is the first of the panel explanations moved behind an "i" by
-                   `InfoHint` (and printed again on the Information page): it is useful once, and
-                   noise on every visit. Without JavaScript it simply stays visible. -->
-              <p class="profile__help" data-info-hint="profile-icons" data-i18n="profile.icons.help">Choisissez une icône débloquée pour votre profil.</p>
-              <ul class="profile__icons" data-profile-icons></ul>
-            </div>
-
-            <div class="profile__form-actions">
-              <button type="submit" class="btn btn--primary" data-profile-submit data-i18n="profile.save">Enregistrer</button>
-              <button type="button" class="btn" data-profile-cancel data-i18n="profile.cancel">Annuler</button>
-            </div>
-          </form>
         </section>
 
         <!-- Highlighted trophies: up to `profile.maxFeaturedTrophies` unlocked ones, all on one row. -->
@@ -1205,6 +1193,54 @@
             <p class="profile-card-panel__feedback" data-profile-card-feedback role="status" hidden></p>
           </div>
         </section>
+      </div>
+
+      <!-- Identity editors: ONE dialog per field. The pencil of the avatar opens the picker, the one
+           next to the pseudo this small form, and the one next to the title switches to the titles
+           page. Only the field the player asked for is ever rewritten. -->
+      <div class="modal" data-profile-name-modal hidden>
+        <form class="modal__dialog" data-profile-name-form novalidate role="dialog" aria-modal="true" aria-labelledby="profile-name-title">
+          <button type="button" class="modal__close" data-profile-name-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-name-title" data-i18n="profile.name.edit">Modifier le pseudo</h2>
+          <div class="modal__body">
+            <label class="field">
+              <span class="field__label" data-i18n="profile.name.label">Nom affiché</span>
+              <input class="field__input" type="text" data-profile-name maxlength="24" autocomplete="nickname" data-i18n-placeholder="profile.name.placeholder" placeholder="Votre nom de joueur…">
+            </label>
+            <p class="profile__modal-feedback" data-profile-name-feedback role="status" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="submit" class="btn btn--primary" data-profile-name-save data-i18n="profile.save">Enregistrer</button>
+            <button type="button" class="btn btn--ghost" data-profile-name-close data-i18n="profile.cancel">Annuler</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Avatar picker: the icons the account owns, plus a dashed "+" that opens the shop on top
+           of it (same affordance as an extra slot). Choosing a tile saves it at once. -->
+      <div class="modal" data-profile-icon-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-icon-title">
+          <button type="button" class="modal__close" data-profile-icon-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-icon-title" data-i18n="profile.icons.title">Icône de profil</h2>
+          <div class="modal__body profile-icons-modal">
+            <ul class="profile__icons" role="radiogroup" data-profile-icon-grid data-i18n-aria-label="profile.icons.label" aria-label="Icône de profil"></ul>
+            <p class="profile__modal-feedback" data-profile-icon-feedback role="status" hidden></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar shop: the paid icons still to buy, opened from the "+" of the picker. It is
+           stacked over it, and the purchase dialog opens over both. -->
+      <div class="modal modal--stacked" data-profile-icon-shop-modal hidden>
+        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="profile-icon-shop-title">
+          <button type="button" class="modal__close" data-profile-icon-shop-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-icon-shop-title" data-i18n="profile.icons.shopTitle">Icônes à acheter</h2>
+          <div class="modal__body profile-icons-modal">
+            <p class="profile__help" data-i18n="profile.icons.shopHelp">Choisissez une icône : elle est achetée en Sparks après confirmation.</p>
+            <ul class="profile__icons" data-profile-icon-shop></ul>
+            <p class="profile__modal-feedback" data-profile-icon-shop-feedback role="status" hidden></p>
+          </div>
+        </div>
       </div>
 
       <!-- Buy modal of a feature (the Full Art layout for now): the price, the current balance and
@@ -1810,25 +1846,19 @@
 
         <div class="settings__tabpanel" id="settings-panel-appearance" role="tabpanel"
              aria-labelledby="settings-tab-appearance" data-settings-tabpanel="appearance">
-          <!-- Language: buttons are generated from `settings/config.json` by SettingsView. -->
-          <section class="panel settings__panel">
-            <h3 class="settings__title" data-i18n="settings.language.title">Langue</h3>
-            <div class="lang-switch settings__choices" data-settings-languages role="group" data-i18n-aria-label="settings.language.title" aria-label="Langue"></div>
-          </section>
 
-          <!-- Card language: independent from the language of the site, so a French player can
-               collect the English printings and the other way round. The buttons are generated from
-               `config.json` (`cardLanguages`) by SettingsView, with an "Automatic" entry first. -->
+          <!-- Card render: how the face of every card is drawn. "Images" keeps the final artwork of
+               `Path`; the other entries are the presets of `settings/cardrender.json`, each named in
+               the file and flagged with whether it needs the basic developer mode. The preview
+               below shows the selected mode on a sample card, so the choice is made by looking. -->
           <section class="panel settings__panel">
-            <h3 class="settings__title" data-i18n="settings.cardLanguage.title">Langue des cartes</h3>
-            <div class="lang-switch settings__choices" data-settings-card-languages role="group" data-i18n-aria-label="settings.cardLanguage.title" aria-label="Langue des cartes"></div>
-            <p class="settings__help" data-i18n="settings.cardLanguage.help">Les noms, les descriptions et les illustrations des cartes suivent ce réglage, indépendamment de la langue du site.</p>
-          </section>
-
-          <!-- Theme: same contract, one button per theme declared in `config.json`. -->
-          <section class="panel settings__panel">
-            <h3 class="settings__title" data-i18n="settings.theme.title">Thème</h3>
-            <div class="lang-switch settings__choices" data-settings-themes role="group" data-i18n-aria-label="settings.theme.title" aria-label="Thème"></div>
+            <h3 class="settings__title" data-i18n="settings.cardRender.title">Rendu des cartes</h3>
+            <div class="lang-switch settings__choices" data-settings-card-render role="group" data-i18n-aria-label="settings.cardRender.title" aria-label="Rendu des cartes"></div>
+            <div class="settings__card-render-preview">
+              <p class="settings__help" data-i18n="settings.cardRender.preview">Aperçu du mode sélectionné</p>
+              <div class="settings__card-render-stage" data-settings-card-render-stage aria-hidden="true"></div>
+            </div>
+            <p class="settings__help" data-info-hint="settings-card-render" data-i18n="settings.cardRender.help">« Images » garde l'illustration finale de chaque carte. Les autres modes la reconstruisent à partir de ses données et de la palette du mode ; ils sont enregistrés avec votre compte.</p>
           </section>
 
           <!-- Animations: the flavour of the opening ("normal", "epic", "explosive"). The buttons are
@@ -1847,18 +1877,10 @@
             <p class="settings__help" data-info-hint="settings-animation" data-i18n="settings.animation.help">Choisissez l'ambiance de l'ouverture. L'aperçu et les ouvertures du jeu suivent immédiatement le mode choisi.</p>
           </section>
 
-          <!-- Card render: how the face of every card is drawn. "Images" keeps the final artwork of
-               `Path`; the other entries are the presets of `settings/cardrender.json`, each named in
-               the file and flagged with whether it needs the basic developer mode. The preview
-               below shows the selected mode on a sample card, so the choice is made by looking. -->
+          <!-- Theme: same contract, one button per theme declared in `config.json`. -->
           <section class="panel settings__panel">
-            <h3 class="settings__title" data-i18n="settings.cardRender.title">Rendu des cartes</h3>
-            <div class="lang-switch settings__choices" data-settings-card-render role="group" data-i18n-aria-label="settings.cardRender.title" aria-label="Rendu des cartes"></div>
-            <div class="settings__card-render-preview">
-              <p class="settings__help" data-i18n="settings.cardRender.preview">Aperçu du mode sélectionné</p>
-              <div class="settings__card-render-stage" data-settings-card-render-stage aria-hidden="true"></div>
-            </div>
-            <p class="settings__help" data-info-hint="settings-card-render" data-i18n="settings.cardRender.help">« Images » garde l'illustration finale de chaque carte. Les autres modes la reconstruisent à partir de ses données et de la palette du mode ; ils sont enregistrés avec votre compte.</p>
+            <h3 class="settings__title" data-i18n="settings.theme.title">Thème</h3>
+            <div class="lang-switch settings__choices" data-settings-themes role="group" data-i18n-aria-label="settings.theme.title" aria-label="Thème"></div>
           </section>
 
           <!-- Foil: how strong the reflection of the super rare, legendary and mythic printings is, and
@@ -1924,6 +1946,22 @@
 
         <div class="settings__tabpanel" id="settings-panel-game" role="tabpanel"
              aria-labelledby="settings-tab-game" data-settings-tabpanel="game">
+
+          <!-- Language: buttons are generated from `settings/config.json` by SettingsView. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.language.title">Langue</h3>
+            <div class="lang-switch settings__choices" data-settings-languages role="group" data-i18n-aria-label="settings.language.title" aria-label="Langue"></div>
+          </section>
+
+          <!-- Card language: independent from the language of the site, so a French player can
+               collect the English printings and the other way round. The buttons are generated from
+               `config.json` (`cardLanguages`) by SettingsView, with an "Automatic" entry first. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.cardLanguage.title">Langue des cartes</h3>
+            <div class="lang-switch settings__choices" data-settings-card-languages role="group" data-i18n-aria-label="settings.cardLanguage.title" aria-label="Langue des cartes"></div>
+            <p class="settings__help" data-i18n="settings.cardLanguage.help">Les noms, les descriptions et les illustrations des cartes suivent ce réglage, indépendamment de la langue du site.</p>
+          </section>
+
           <!-- Automatic mining: the pace of the taps landed while Shift+Space is held (or while a
                finger stays on the block on a phone). Three stops, "normal" being the historical beat
                of `mining.keyHoldIntervalMs`; the speed is a preference of the account
@@ -2055,19 +2093,6 @@
 
         <div class="settings__tabpanel" id="settings-panel-account" role="tabpanel"
              aria-labelledby="settings-tab-account" data-settings-tabpanel="account">
-          <!-- Developer mode: the normal level. When it is on, the booster render picker appears and
-               the detail of a card in the collection shows its key with a copy button
-               (CollectionView reads the setting on every opening, so the switch takes effect
-               without a reload). -->
-          <section class="panel settings__panel">
-            <h3 class="settings__title" data-i18n="settings.dev.title">Mode développeur</h3>
-            <button type="button" class="switch" data-settings-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.dev.title">
-              <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
-              <span class="switch__state" data-settings-dev-state></span>
-            </button>
-            <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Débloque le choix du rendu des boosters, ainsi que l'identifiant technique des cartes dans la collection et son bouton de copie.</p>
-          </section>
-
           <!-- Advanced developer mode: hidden until the normal developer mode is on. Checking it
                verifies the account UUID against `developpers.json`, then unlocks Card Generate.
                An unauthorized account gets an explanation modal and the switch stays off. -->
@@ -2285,32 +2310,43 @@
                 <button type="button" class="btn btn--danger" data-settings-auth-code-save data-i18n="settings.account.authCode.devSave">Changer le code</button>
               </div>
             </div>
+            <!-- Developer mode: the normal level, grouped with the account it unlocks. When it
+                 is on, the booster render picker appears and the detail of a card in the collection
+                 shows its key with a copy button (CollectionView reads the setting on every
+                 opening, so the switch takes effect without a reload). -->
+            <div class="settings__dev">
+              <h4 class="settings__subtitle" data-i18n="settings.dev.title">Mode développeur</h4>
+              <button type="button" class="switch" data-settings-dev role="switch" aria-checked="false" data-i18n-aria-label="settings.dev.title">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-dev-state></span>
+              </button>
+              <p class="settings__help" data-info-hint="settings-dev" data-i18n="settings.dev.help">Débloque le choix du rendu des boosters 3D, ainsi que l'identifiant technique de la carte ouverte dans la collection et son bouton de copie.</p>
+            </div>
           </section>
 
-          <!-- Save: export / import / full reset. The import and the reset ask for a confirmation. -->
+          <!-- Save: the local file and the online backup, in one panel. Export / import / reset on
+               the local file, then the two online actions and their status. Import and reset ask for
+               a confirmation. -->
           <section class="panel settings__panel">
             <h3 class="settings__title" data-i18n="settings.save.title">Sauvegarde</h3>
             <div class="settings__actions">
-              <button type="button" class="btn btn--primary" data-settings-export data-i18n="settings.save.export">Exporter</button>
-              <button type="button" class="btn btn--ghost" data-settings-import data-i18n="settings.save.import">Importer</button>
+              <button type="button" class="btn btn--primary" data-settings-export data-i18n="settings.save.export">Télécharger fichier de sauvegarde</button>
+              <button type="button" class="btn btn--ghost" data-settings-import data-i18n="settings.save.import">Charger fichier de sauvegarde</button>
               <button type="button" class="btn btn--danger" data-settings-reset data-i18n="settings.save.reset">Réinitialiser</button>
             </div>
             <input type="file" data-settings-file accept=".save,application/octet-stream" hidden>
-          </section>
 
-          <!-- Online backup: the same `.save` file, sent to the worker so another device can load
-               it. The download button only reads the DATE of the last upload first; the file itself
-               is fetched once the player confirms in the dialog below. -->
-          <section class="panel settings__panel">
-            <h3 class="settings__title" data-i18n="save.sync.title">Sauvegarde en ligne</h3>
+            <!-- Online backup: the same `.save` file, sent to the worker so another device can load
+                 it. The download button only reads the DATE of the last upload first; the file
+                 itself is fetched once the player confirms in the dialog below. -->
+            <h4 class="settings__subtitle" data-i18n="save.sync.title">Sauvegarde en ligne</h4>
             <p class="settings__help" data-i18n="save.sync.help">Envoyez votre sauvegarde sur le serveur pour la retrouver sur un autre appareil. Les 5 dernières sauvegardes de votre compte sont conservées.</p>
             <div class="settings__actions">
-              <button type="button" class="btn btn--primary" data-settings-online-upload data-i18n="save.sync.upload">Envoyer ma sauvegarde</button>
-              <button type="button" class="btn btn--ghost" data-settings-online-download data-i18n="save.sync.download">Télécharger une sauvegarde</button>
+              <button type="button" class="btn btn--primary" data-settings-online-upload data-i18n="save.sync.upload">Envoyer ma sauvegarde en ligne</button>
+              <button type="button" class="btn btn--ghost" data-settings-online-download data-i18n="save.sync.download">Recharger une sauvegarde en ligne</button>
             </div>
             <p class="settings__help" data-settings-online-status role="status" hidden></p>
           </section>
-
         </div>
 
         <!-- Gift: everything the player receives outside an opening, grouped in one tab. The
@@ -3207,7 +3243,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=1fa21d515d"></script>
+  <script type="module" src="js/app.js?v=89ce961235"></script>
 
 </body>
 </html>

@@ -85,6 +85,8 @@ import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
 import errorPopup from './UI/components/ErrorPopup.js';
 import { installErrorReporter, setErrorPresenter, reportError } from './utils/ErrorReporter.js';
+import { installLocalResourceWatch } from './utils/LocalResourceWatch.js';
+import { installConsoleGate, setDeveloperConsole } from './utils/ConsoleGate.js';
 import errorLog from './utils/ErrorLog.js';
 
 /** Id of the boot overlay removed once the application is ready. */
@@ -472,6 +474,11 @@ export class App {
    */
   async startMainApp() {
     const settings = await accountManager.getSettings();
+
+    // Console: the narration of the game (view changes, loads, retries) is a development aid, so it
+    // only reaches the console of an account with the basic developer mode on. Warnings and errors
+    // always pass; `ConsoleGate` explains the rule and the buffering of the boot lines.
+    setDeveloperConsole(settings.devMode === true);
 
     // The stored values may predate a `config.json` change: fall back to what is already
     // loaded instead of failing the whole boot on an obsolete preference.
@@ -2641,10 +2648,16 @@ export class App {
   }
 }
 
+// The console gate is armed before ANY of the game boots: every line written by a module loaded
+// before this one is queued until the stored settings say whether this account is a developer.
+installConsoleGate();
 // The error reporter is armed before ANY of the game boots: a module that fails to load, a view that
 // throws while it is built or a promise nobody awaited has to be reportable, and the report is the
 // only thing a player can hand over (`ErrorPopup`: copy the code, paste it on the Discord).
 installErrorReporter();
+// A `file:///` reference is refused by the browser without a JavaScript error: this watch is what
+// turns "the console mentions file:///" into an incident naming the URL and the caller.
+installLocalResourceWatch();
 setErrorPresenter((report) => errorPopup.show(report));
 
 // Capture the `?Redeem=` deep link before anything else renders, so a first-visit player keeps

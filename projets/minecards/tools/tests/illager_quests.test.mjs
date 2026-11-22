@@ -11,24 +11,13 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
+import ILLAGER_QUEST_TYPES from '../../js/business/IllagerQuestTypes.js';
+
 const CURRENCIES_PATH = new URL('../../data/illager_shop/illager_currencies.json', import.meta.url);
 
-const QUEST_TYPES = new Set([
-  'OpenBooster_Daily',
-  'DailyRewardClaim',
-  'SellCard',
-  'MineBlock',
-  'ShareBinder',
-  'MinePickCards',
-  'DownloadProfilCard',
-  'OpenChangelog',
-  'ChangeSelectedTitle',
-  'DownloadCurrentSaveBackup',
-  'CustomWebsiteOpen',
-  'AddFriend',
-  'TradeComplete',
-  'PublishProfilCard',
-]);
+// The list has a single copy, in `js/business/IllagerQuestTypes.js`, which the game and the linter
+// both read: reusing it here means a type added to the game is never rejected by this test.
+const QUEST_TYPES = new Set(Object.values(ILLAGER_QUEST_TYPES));
 
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 

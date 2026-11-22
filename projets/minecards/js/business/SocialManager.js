@@ -16,7 +16,7 @@
  * presentation instead of breaking a remote card.
  */
 
-import storageRepository from '../models/StorageRepository.js';
+import storageRepository, { STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS, isUuid } from './AccountManager.js';
 import profileManager from './ProfileManager.js';
 import trophyManager from './TrophyManager.js';
@@ -405,15 +405,59 @@ export class SocialManager {
       throw new SocialError(SOCIAL_ERROR_CODES.FOLLOW_LIMIT, 'The follow list is full.');
     }
 
+    const following = [...latest.following, uuid];
     await storageRepository.setUserState(USER_STATE_KEYS.SOCIAL, {
       ...latest,
-      following: [...latest.following, uuid],
+      following,
       cardFetchedAt: { ...latest.cardFetchedAt, [uuid]: Date.now() },
       cardCache: { ...latest.cardCache, [uuid]: card },
     });
+    // The friend trophy counts a RECORD, so only adding raises it: an unfollow leaves it alone.
+    await this.recordFriendsPeak(following.length);
     // Published only once the follow is stored: a UUID that was rejected never counts.
     eventBus.emit(EVENTS.FOLLOW_ADDED, { uuid });
     return card;
+  }
+
+  /**
+   * Raises the record of distinct friends followed at once (`stats.friendsPeak`).
+   *
+   * The friend-count trophies must never go down: unfollowing three of six friends leaves the
+   * counter at six, and reaching seven takes four new follows. Only a HIGHER count is written, so
+   * this method is idempotent and safe to call on every follow.
+   *
+   * The follow itself is already committed when this runs: a failure here is bookkeeping, not a
+   * lost follow, and `TrophyManager` re-derives `max(stored peak, current list)` on every read.
+   *
+   * @param {unknown} count - Current number of followed players.
+   * @returns {Promise<number>} The stored record.
+   */
+  async recordFriendsPeak(count) {
+    const value = Math.max(0, Math.trunc(Number(count) || 0));
+    if (value === 0) return 0;
+    try {
+      return await storageRepository.transaction(
+        STORES.USER_STATE,
+        'readwrite',
+        async (context) => {
+          const stored = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+          const stats =
+            stored && typeof stored === 'object' && !Array.isArray(stored) ? { ...stored } : {};
+          const current =
+            Number.isInteger(stats.friendsPeak) && stats.friendsPeak >= 0 ? stats.friendsPeak : 0;
+          if (value <= current) return current;
+          await context.put(
+            STORES.USER_STATE,
+            { ...stats, friendsPeak: value },
+            USER_STATE_KEYS.STATS
+          );
+          return value;
+        }
+      );
+    } catch (error) {
+      console.warn('[SocialManager] The record of friends could not be updated.', error);
+      return value;
+    }
   }
 
   /**

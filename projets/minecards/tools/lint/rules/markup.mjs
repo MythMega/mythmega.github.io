@@ -9,6 +9,7 @@
  */
 
 import path from 'node:path';
+import { findHtmlNestingIssues } from '../lib/html.mjs';
 import { maskCss, maskHtml, maskJavaScript, splitLines } from '../lib/text.mjs';
 
 /** Extensions searched for asset paths. */
@@ -308,6 +309,21 @@ export default [
             }
           );
         });
+      });
+    }
+  },
+  {
+    id: 'html/nesting',
+    summary: 'A page closes its elements in the order it opened them.',
+    severity: 'error',
+    files: (file) => path.extname(file) === '.html',
+    /**
+     * @param {object} context - Rule context.
+     * @returns {void}
+     */
+    run(context) {
+      context.eachFile(({ file, text }) => {
+        findHtmlNestingIssues(text).forEach((finding) => context.report({ file, ...finding }));
       });
     }
   },

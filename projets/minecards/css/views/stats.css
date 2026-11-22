@@ -88,8 +88,14 @@
   text-align: center;
 }
 
+/* The generated card is a `<card-print>` that fills the box it is given: without a ratio of its
+   own this box had no height at all under a column flex container, and the card collapsed to a
+   few pixels. An illustration keeps the same box, since a card image has that very ratio. */
 .stats__top-image {
   width: min(100%, 12rem);
+  height: auto;
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
   border-radius: var(--radius-md);
   background-color: var(--color-surface-alt);
 }
@@ -271,16 +277,19 @@
 
 .stats__minepick-pick {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-2);
   min-width: 0;
 }
 
-/* The miniature is the way into the large card detail: the tile stays compact, the card itself
-   keeps a real touch target. */
+/* The miniature is the way into the large card detail. It is a real printing (name and
+   description included, like a booster of the Mine Pick board), not a 3rem icon where the
+   generated card had no room to draw anything: the card therefore keeps the width of a small
+   collection tile, and the name of the entry sits under it. */
 .stats__minepick-pick .stats__history-card {
   flex: 0 0 auto;
-  width: 2.75rem;
+  width: min(100%, 8rem);
 }
 
 .stats__minepick-name {

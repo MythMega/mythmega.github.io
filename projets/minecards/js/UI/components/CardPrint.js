@@ -45,7 +45,7 @@ const FULL_ART_MAX_SENTENCES = 2;
 /** Stylesheets injected into the shadow root, in cascade order. */
 const STYLESHEETS = Object.freeze([
   'css/components/profile-card.css',
-  'css/components/generated-card.css?v=f6a69bcf8f',
+  'css/components/generated-card.css?v=f8b0c12d15',
 ]);
 
 /**
@@ -130,7 +130,11 @@ export class CardPrint extends HTMLElementBase {
     // Inline first: the two stylesheets below load asynchronously, and a thumbnail must not show
     // its texts for the frame(s) before they arrive.
     const miniStyle = document.createElement('style');
-    miniStyle.textContent = ':host([mini]) .card-header, :host([mini]) .card-body { display: none; }';
+    miniStyle.textContent =
+      ':host([mini]) .card-header, :host([mini]) .card-body { display: none; } ' +
+      ':host([mini]) .profile-card-root { --corner-clip: polygon(0 1px, 1px 0, ' +
+      'calc(100% - 1px) 0, 100% 1px, 100% calc(100% - 1px), calc(100% - 1px) 100%, ' +
+      '1px 100%, 0 calc(100% - 1px)); }';
     this.root.appendChild(miniStyle);
 
     STYLESHEETS.forEach((path) => {

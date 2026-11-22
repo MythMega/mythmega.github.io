@@ -2053,11 +2053,14 @@ export class CollectionView {
     const thumb = document.createElement('span');
     thumb.className = 'binders__thumb';
     if (cover?.card) {
+      // The row shows the WHOLE card, name and description included: with the generated source a
+      // thumbnail would be the artwork alone, which tells the player nothing about which card the
+      // page is built around.
       const image = createCardVisual(cover.card, {
         className: 'binders__thumb-image',
         alt: '',
         ariaHidden: true,
-        mini: true,
+        mini: false,
         loading: 'lazy',
       });
       thumb.appendChild(image);
@@ -2303,7 +2306,7 @@ export class CollectionView {
         className: 'binder-editor__cover-image',
         alt: '',
         ariaHidden: true,
-        mini: true,
+        mini: false,
       });
       const text = document.createElement('span');
       text.textContent = cover.card.getName(cardLanguage.getLang());
@@ -2340,11 +2343,13 @@ export class CollectionView {
           : i18n.t('binders.slotEmpty', { index: index + 1 })
       );
       if (entry?.card) {
+        // The editor shows the card the way the binder will: the name and the text are part of
+        // what the player is composing, so the slots are not thumbnails.
         const image = createCardVisual(entry.card, {
           className: 'binder-slot__image',
           alt: '',
           ariaHidden: true,
-          mini: true,
+          mini: false,
           loading: 'lazy',
         });
         button.appendChild(image);
@@ -2597,11 +2602,14 @@ export class CollectionView {
         button.dataset.collectionBinderPick = entry.key;
         button.classList.toggle('is-current', isCurrent);
 
+        // Same rule as the row of the list: this is where a card is CHOSEN, so it is shown as the
+        // printing it is - a thumbnail would hide the name and the description right when they are
+        // what decides the click.
         const image = createCardVisual(entry.card, {
           className: 'binder-picker__image',
           alt: '',
           ariaHidden: true,
-          mini: true,
+          mini: false,
           loading: 'lazy',
         });
 

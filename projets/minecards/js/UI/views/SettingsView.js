@@ -106,6 +106,7 @@ import {
 } from '../../utils/CardRenderManager.js';
 import { CardPrint } from '../components/CardPrint.js';
 import developerAccess from '../../utils/DeveloperAccess.js';
+import { setDeveloperConsole } from '../../utils/ConsoleGate.js';
 import socialManager from '../../business/SocialManager.js';
 import saveSyncManager, {
   formatSyncTimestamp,
@@ -2824,6 +2825,9 @@ export class SettingsView {
 
     try {
       await accountManager.updateSettings({ devMode: next });
+      // The console follows the switch at once: the lines a developer turned the mode on to read
+      // are usually the next ones, and a reload would lose the very state being investigated.
+      setDeveloperConsole(next);
       this.log(`Developer mode ${next ? 'enabled' : 'disabled'} and saved.`);
     } catch (error) {
       console.error('[SettingsView] The developer mode could not be saved.', error);

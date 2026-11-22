@@ -68,6 +68,11 @@
 .redeem__reward-image {
   flex: 0 0 auto;
   width: 3.5rem;
+  /* Same contract as `.gifts__image`: a `<card-print>` only has the height its box gives it, so
+     the artwork ratio is published here instead of relying on the content of the card. */
+  height: auto;
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface);
 }

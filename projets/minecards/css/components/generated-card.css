@@ -58,6 +58,17 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
   box-shadow: none;
 }
 
+/* A card printed very small — a thumbnail of the statistics, a slot of a binder — keeps a
+   hairline frame. `cardGenerate.borderWidth` is authored for a card the size of a collection
+   tile (1 to 8 px), where it reads as a frame; at a fraction of that width the same value eats
+   the artwork and the card looks empty. The container query follows `container-type: inline-size`
+   set on `.profile-card-root` above. */
+@container (max-width: 140px) {
+  .profile-card-root .card-preview {
+    --border-thickness: 1px;
+  }
+}
+
 /* ----------------------------------------------------------------------------
    Responsive type: the card's own width is the reference, so a thumbnail and the
    large detail keep the same proportions. `profile-card.css` keeps owning the
@@ -411,6 +422,22 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
 :host([mini]) .card-header,
 :host([mini]) .card-body {
   display: none;
+}
+
+/* The card maker chamfers every corner by 10px. That value is authored for a 360px card; on a
+   thumbnail next to a 1px frame it is a third of the box, and the slot reads as a lozenge instead
+   of a card. A mini card therefore keeps a 1px chamfer at most, whatever its width. */
+:host([mini]) .profile-card-root {
+  --corner-clip: polygon(
+    0 1px,
+    1px 0,
+    calc(100% - 1px) 0,
+    100% 1px,
+    100% calc(100% - 1px),
+    calc(100% - 1px) 100%,
+    1px 100%,
+    0 calc(100% - 1px)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

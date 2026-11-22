@@ -761,6 +761,31 @@
                     "En": "Online save. You can now send your save online et load it on any other device !"
                 }
             },
+
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Rendu des cartes dynamique et animé : le fond et l'underlay bougent, chacun avec son propre zoom.",
+                    "En": "Dynamic and animated card render: the background and the underlay move, each with its own zoom."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Techniquement, il est désormais possible de créer des presets de rendu de carte.",
+                    "En": "Technically, it is now possible to create card render presets."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "4 nouveaux types de quêtes : ajouter un ami, faire un échange, envoyer sa sauvegarde en ligne et changer le rendu des cartes.",
+                    "En": "4 new quest types: add a friend, make a trade, send your save online and change the card render."
+                }
+            },
             {
                 "Type": "QoL",
                 "IsImportant": false,
@@ -775,6 +800,22 @@
                 "Text": {
                     "Fr": "Monnaie : Ajout d'une nouvelle monnaie : Oeil de l'End ! Cette monnaie se recharge automatiquement jusqu'à un maximum de 5, au rythme de 1/jour.",
                     "En": "Currency: Added a new currency: Eye of Ender! This currency refills automatically up to a maximum of 5, at a rate of 1/day."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "2 nouvelles icones déblocable au level 12 & 15 : Jack & Illusioner.",
+                    "En": "2 new unlockable icons for level 12 & 15 : Jack & Illusioner."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "3 nouvelles icones achetables : Villager, Headless & Witch.",
+                    "En": "3 new buyable icons : Villager, Headless & Witch."
                 }
             },
             {
@@ -805,8 +846,32 @@
                 "Type": "QoL",
                 "IsImportant": false,
                 "Text": {
+                    "Fr": "Rework de l'interface de mofication de profil.",
+                    "En": "Profile Edit UI rework."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
                     "Fr": "Support : un bouton dans les paramètres pour écrire au support (contact@jmdev.fr) ou rejoindre le Discord (discord.com/invite/Zk8TRnwCxG).",
                     "En": "Support: a button in settings to email support (contact@jmdev.fr) or join the Discord (discord.com/invite/Zk8TRnwCxG)."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Correction de certains placements et noms dans les paramètres.",
+                    "En": "Fixed some placements and names in the settings."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Correction de sparks qui n'étaient pas automatiquement mis à jour dans l'en-tête'.",
+                    "En": "Fixed sparks value not automatically updated in header."
                 }
             },
             {

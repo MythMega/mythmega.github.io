@@ -289,6 +289,9 @@ export class StatsView {
       const history = await boosterManager.getBoosterHistory(STATS_HISTORY_SIZE);
       const saved = await boosterManager.getSavedOpenings();
       const minepick = await minePickManager.getState();
+      // The picked cards are resolved before the panel is drawn: a pick of an extension that the
+      // collection view does not list (an upcoming set) still has a card to show.
+      const minepickCards = await StatsView.resolveMinePickCards(minepick, view);
       const trading = await tradeManager.getState();
       const mining = await miningManager.getState({ lang: cardLanguage.getLang() });
       const miningBlocks = await miningManager.listBlocks(cardLanguage.getLang());
@@ -300,7 +303,7 @@ export class StatsView {
       this.renderSold(stats);
       this.renderSparks(stats);
       this.renderTop(stats, view);
-      this.renderMinePick(minepick, view);
+      this.renderMinePick(minepick, view, minepickCards);
       this.renderMining(mining, miningBlocks, miningResources);
       this.renderTrades(trading);
       this.renderHistory(history);
@@ -511,7 +514,9 @@ export class StatsView {
       const image = createCardVisual(entry.card, {
         className: 'stats__top-image',
         alt: entry.card.getName(cardLanguage.getLang()),
-        mini: true,
+        // A full printing, like a collection tile: the top card is a panel of its own, not a
+        // textless thumbnail.
+        mini: false,
         loading: 'lazy',
       });
       if (image instanceof HTMLImageElement) {
@@ -540,6 +545,47 @@ export class StatsView {
   // __STATS_MINE_PICK__
 
   /**
+   * Resolves the cards of the Mine Pick counters and history.
+   *
+   * A pick is stored as a collection key. The collection view only lists the extensions that are
+   * released and shown, so a card of an extension the collection hides has no entry there, exactly
+   * like a pick written before its extension was locked again. The key is then resolved from the
+   * loaded extension files, the way the booster history does it, so the panel never loses a card
+   * the opening history still displays.
+   *
+   * @param {object} state - State returned by `MinePickManager.getState()`.
+   * @param {{entries: object[]}} view - Collection view from the manager.
+   * @returns {Promise<Map<string, object>>} The resolved cards, keyed by collection key.
+   */
+  static async resolveMinePickCards(state, view) {
+    const entries = new Map(
+      (view?.entries ?? []).filter((entry) => entry?.key).map((entry) => [entry.key, entry])
+    );
+    const keys = new Set([
+      ...(Array.isArray(state?.history) ? state.history : []).map((pick) => pick?.key),
+      ...Object.keys(state?.picksByCard ?? {}),
+    ]);
+    const resolved = new Map();
+    await Promise.all(
+      Array.from(keys).map(async (key) => {
+        if (typeof key !== 'string' || key === '') return;
+        const catalogCard = entries.get(key)?.card;
+        if (catalogCard) {
+          resolved.set(key, catalogCard);
+          return;
+        }
+        try {
+          const card = await boosterManager.getCardByKey(key);
+          if (card) resolved.set(key, card);
+        } catch (error) {
+          console.warn(`[StatsView] Mine Pick card "${key}" could not be resolved.`, error);
+        }
+      })
+    );
+    return resolved;
+  }
+
+  /**
    * Renders the dedicated Mine Pick counters.
    *
    * The feature has its own block on purpose: a picked card is not an opened booster, so it is
@@ -548,9 +594,10 @@ export class StatsView {
    *
    * @param {object} state - State returned by `MinePickManager.getState()`.
    * @param {{entries: object[]}} view - Collection view from the manager (resolves the card keys).
+   * @param {Map<string, object>} cardsByKey - Cards resolved by `resolveMinePickCards()`.
    * @returns {void}
    */
-  renderMinePick(state, view) {
+  renderMinePick(state, view, cardsByKey = new Map()) {
     if (this.minepickSummaryElement) {
       const summary = i18n.t('stats.minepick.summary', {
         total: state?.totalPicks ?? 0,
@@ -578,7 +625,7 @@ export class StatsView {
     }
 
     if (this.minepickRarestElement) {
-      const rarest = this.resolveRarestPick(state, view);
+      const rarest = this.resolveRarestPick(state, cardsByKey);
       this.minepickRarestElement.textContent = rarest
         ? i18n.t('stats.minepick.rarest', {
             name: rarest.card.getName(cardLanguage.getLang()),
@@ -597,7 +644,7 @@ export class StatsView {
         this.minepickHistoryElement.appendChild(empty);
       } else {
         picks.forEach((pick) => {
-          this.minepickHistoryElement.appendChild(this.buildMinePickEntry(pick, view));
+          this.minepickHistoryElement.appendChild(this.buildMinePickEntry(pick, view, cardsByKey));
         });
       }
     }
@@ -721,19 +768,18 @@ export class StatsView {
    * Finds the rarest card ever picked.
    *
    * @param {object} state - State returned by `MinePickManager.getState()`.
-   * @param {{entries: object[]}} view - Collection view from the manager.
+   * @param {Map<string, object>} cardsByKey - Cards resolved by `resolveMinePickCards()`.
    * @returns {{key: string, rarity: number, card: object, count: number}|null} The best pick.
    */
-  resolveRarestPick(state, view) {
-    const entries = Array.isArray(view?.entries) ? view.entries : [];
+  resolveRarestPick(state, cardsByKey) {
     let best = null;
 
     Object.entries(state?.picksByCard ?? {}).forEach(([key, count]) => {
-      const entry = entries.find((candidate) => candidate.key === key);
-      const rarity = entry?.card?.rarity ?? 0;
-      if (!entry || rarity <= 0) return;
+      const card = cardsByKey.get(key) ?? null;
+      const rarity = card?.rarity ?? 0;
+      if (!card || rarity <= 0) return;
       if (!best || rarity > best.rarity) {
-        best = { key, rarity, card: entry.card, count };
+        best = { key, rarity, card, count };
       }
     });
     return best;
@@ -749,9 +795,10 @@ export class StatsView {
    * @param {{day: string|null, setId: string, setName: string|null, key: string, rarity: number,
    *   godpack: boolean}} pick - History entry written by `MinePickManager`.
    * @param {{entries: object[]}} view - Collection view from the manager.
+   * @param {Map<string, object>} cardsByKey - Cards resolved by `resolveMinePickCards()`.
    * @returns {HTMLElement} The list item.
    */
-  buildMinePickEntry(pick, view) {
+  buildMinePickEntry(pick, view, cardsByKey = new Map()) {
     const item = document.createElement('li');
     item.className = 'stats__history-entry';
 
@@ -779,11 +826,13 @@ export class StatsView {
     item.appendChild(head);
 
     const entry = (view?.entries ?? []).find((candidate) => candidate.key === pick.key);
+    // The resolved map also covers the extensions the collection view hides, so the thumbnail is
+    // never missing while the opening history draws the very same card.
+    const card = cardsByKey.get(pick.key) ?? entry?.card ?? null;
     const wrapper = document.createElement('div');
     wrapper.className = 'stats__minepick-pick';
 
-    if (entry?.card) {
-      const card = entry.card;
+    if (card) {
       const thumbnail = document.createElement('button');
       thumbnail.type = 'button';
       thumbnail.className = `stats__history-card stats__history-card--r${card.rarity}`;
@@ -794,7 +843,9 @@ export class StatsView {
         className: 'stats__history-image',
         alt: '',
         ariaHidden: true,
-        mini: true,
+        // The same printing as a booster of the Mine Pick board: the name and the description are
+        // part of the card, whatever the size of the tile.
+        mini: false,
         loading: 'lazy',
         decoding: 'async',
       });
@@ -805,8 +856,8 @@ export class StatsView {
 
     const name = document.createElement('p');
     name.className = 'stats__minepick-name';
-    name.textContent = `${entry?.card?.getName(cardLanguage.getLang()) ?? pick.key} · ${getRarityLabel(
-      entry?.card?.rarity ?? pick.rarity,
+    name.textContent = `${card?.getName(cardLanguage.getLang()) ?? pick.key} · ${getRarityLabel(
+      card?.rarity ?? pick.rarity,
       (key) => i18n.t(key)
     )}`;
     wrapper.appendChild(name);
@@ -926,7 +977,8 @@ export class StatsView {
       className: 'stats__history-image',
       alt: '',
       ariaHidden: true,
-      mini: true,
+      // A real printing, texts included: the history shows the cards of the pack, not icons.
+      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });
@@ -1043,7 +1095,8 @@ export class StatsView {
     const image = createCardVisual(card, {
       className: 'stats__history-image',
       alt: card.getName(cardLanguage.getLang()),
-      mini: true,
+      // Same printing as the two histories above.
+      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });

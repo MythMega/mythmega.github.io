@@ -110,6 +110,7 @@ repository is checked on disk.
 | `css/class-naming` | a class outside BEM (`block__element--modifier`); `is-`, `has-`, `no-`, `js-` prefixes are the accepted utility names |
 | `html/ids` | an `id` declared twice in the same page |
 | `html/inline-handlers` | an `onclick="…"`-style attribute |
+| `html/nesting` | an element a page opens and never closes in order: a missing `</div>` is repaired silently by the browser, and the panels it swallows simply render empty |
 | `assets/references` | a quoted asset path that does not exist (error in code, warning in a settings or data file: the screen falls back) |
 | `sw/precache` | a file listed in `PRECACHE_URLS` of `sw.js` that is absent |
 | `assets/trophy-medals` | a medal the trophy catalogue looks for and does not find (warning: `TrophyDetail` falls back to `default.png`) |

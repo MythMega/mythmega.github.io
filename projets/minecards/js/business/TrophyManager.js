@@ -15,7 +15,8 @@
  *   2. `global`  — account-wide, declared in `settings/global_trophy.json`: total cards owned,
  *      boosters opened, distinct cards of the collection, the blocks mined (all of them, or one
  *      block at a time), the cards kept in the Mine Pick (all of them, or one card rarity at a
- *      time), completed quests, connection days, cards sold and the player level.
+ *      time), completed quests, connection days, cards sold, completed trades, the record of
+ *      friends and the player level.
  *   3. `collection` — declared in `data/trophies/<setId>.json`: a list of card indexes to own
  *      (`RequirementType: "CardList"`), optionally restricted to one layout (`classic` / `fullart`).
  *      `MusthaveAllRequirementsCompleted` tells whether every listed index is required or one is
@@ -181,6 +182,13 @@ export const GLOBAL_TROPHY_STATS = Object.freeze({
   DAYS_CONNECTED: 'dailyconnect',
   /** Copies sold back to the shop. */
   CARDS_SOLD: 'cardsold',
+  /** Trades the player COMPLETED (the `stats.completed` counter of the trades state). */
+  TRADES: 'trades',
+  /**
+   * Highest number of distinct friends the account ever followed, not the current list: removing
+   * a friend never takes a medal back (see `SocialManager.recordFriendsPeak`).
+   */
+  FRIENDS_PEAK: 'friendscount',
   /** Player level, which is derived from the experience (see `buildLevelTrophies`). */
   PLAYER_LEVEL: 'xp',
 });
@@ -427,6 +435,8 @@ export class TrophyManager {
       experiencePerTrophy,
       questState,
       dailyState,
+      tradeState,
+      socialState,
     ] = await Promise.all([
       boosterManager.listBoosterSets(),
       storageRepository.getAll(STORES.COLLECTION),
@@ -437,6 +447,8 @@ export class TrophyManager {
       configLoader.getExperiencePerTrophy(),
       storageRepository.getItem(STORES.USER_STATE, ILLAGER_QUESTS_STATE_KEY),
       storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS),
+      storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.TRADES),
+      storageRepository.getItem(STORES.USER_STATE, USER_STATE_KEYS.SOCIAL),
     ]);
     // The mine keeps its counters apart from `stats` (a mined block is not an opened booster): the
     // two mining families read them here, once, instead of each trophy re-reading the save. A mine
@@ -514,6 +526,24 @@ export class TrophyManager {
             (sum, count) => sum + (Number.isInteger(count) && count > 0 ? count : 0),
             0
           );
+    // Trades completed: the counter `TradeManager` writes when a trade reaches its end. A save
+    // that never traded (or predates the statistics) simply reads zero.
+    const completedTrades =
+      Number.isInteger(tradeState?.stats?.completed) && tradeState.stats.completed >= 0
+        ? tradeState.stats.completed
+        : 0;
+    // Friends are a RECORD, not the current list (see `settings/global_trophy.json`): the stored
+    // peak only ever grows, and the current follow list raises it in case the write never landed
+    // (an imported save, a follow recorded by an older version). Removing a friend therefore
+    // cannot lower it.
+    const following = Array.isArray(socialState?.following) ? socialState.following : [];
+    const distinctFriends = new Set(
+      following.filter((uuid) => typeof uuid === 'string' && uuid !== '')
+    ).size;
+    const friendsPeak = Math.max(
+      Number.isInteger(stats?.friendsPeak) && stats.friendsPeak >= 0 ? stats.friendsPeak : 0,
+      distinctFriends
+    );
 
     return {
       sets,
@@ -525,6 +555,8 @@ export class TrophyManager {
       questsCompleted,
       daysConnected,
       cardsSold,
+      completedTrades,
+      friendsPeak,
       // Mining counters, shared by the two mining families.
       totalMined: mining.totalMined,
       blocksMined: mining.blocksMined,
@@ -1116,6 +1148,10 @@ export class TrophyManager {
         return context.daysConnected ?? 0;
       case GLOBAL_TROPHY_STATS.CARDS_SOLD:
         return context.cardsSold ?? 0;
+      case GLOBAL_TROPHY_STATS.TRADES:
+        return context.completedTrades ?? 0;
+      case GLOBAL_TROPHY_STATS.FRIENDS_PEAK:
+        return context.friendsPeak ?? 0;
       default:
         return null;
     }

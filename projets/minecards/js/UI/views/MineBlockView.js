@@ -1919,7 +1919,9 @@ export class MineBlockView {
       className: 'mineblock__offer-image',
       alt: '',
       ariaHidden: true,
-      mini: true,
+      // A real printing, like the offer of the Illager Shop: the shop shows the card itself, not a
+      // textless thumbnail whose name only the line next to it carries.
+      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });

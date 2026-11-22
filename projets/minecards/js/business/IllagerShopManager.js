@@ -860,6 +860,12 @@ export class IllagerShopManager {
     );
 
     const card = offer.rewards.find((reward) => reward.card)?.card ?? null;
+    // The rewards are granted inside the transaction, where `addSparks` cannot publish (the caller
+    // owns the commit): an offer paid in the shop currency but rewarding Sparks must therefore
+    // republish the balance here, or the header and the inventory keep the old wallet.
+    if (offer.rewards.some((reward) => reward.type === ILLAGER_REWARD_TYPES.SPARKS)) {
+      await sparksManager.publishBalance();
+    }
     this.log(`Bought "${offerKey}" for ${offer.price} ${currencyId} (balance: ${committed.balance}).`);
     eventBus.emit(ILLAGER_SHOP_EVENT, {
       currencyId,

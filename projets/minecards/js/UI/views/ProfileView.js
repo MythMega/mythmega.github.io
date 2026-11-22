@@ -133,12 +133,26 @@ export class ProfileView {
     this.avatarFallback = this.root.querySelector('[data-profile-avatar-fallback]');
     this.displayNameElement = this.root.querySelector('[data-profile-display-name]');
     this.titleLineElement = this.root.querySelector('[data-profile-title-line]');
-    this.form = this.root.querySelector('[data-profile-form]');
+    // Identity editors: ONE pencil per field, and one dialog behind each pencil. The pseudo is
+    // edited in place, the title opens its own page, the avatar opens the picker (whose "+" opens
+    // the shop of the paid icons).
+    this.nameEditButton = this.root.querySelector('[data-profile-edit-name]');
+    this.titleEditButton = this.root.querySelector('[data-profile-edit-title]');
+    this.iconEditButton = this.root.querySelector('[data-profile-edit-icon]');
+    this.nameModal = this.root.querySelector('[data-profile-name-modal]');
+    this.nameForm = this.root.querySelector('[data-profile-name-form]');
     this.nameInput = this.root.querySelector('[data-profile-name]');
-    this.iconsList = this.root.querySelector('[data-profile-icons]');
-    this.submitButton = this.root.querySelector('[data-profile-submit]');
-    this.cancelButton = this.root.querySelector('[data-profile-cancel]');
-    this.editButton = this.root.querySelector('[data-profile-edit]');
+    this.nameSaveButton = this.root.querySelector('[data-profile-name-save]');
+    this.nameFeedback = this.root.querySelector('[data-profile-name-feedback]');
+    this.nameCloseButtons = this.root.querySelectorAll('[data-profile-name-close]');
+    this.iconModal = this.root.querySelector('[data-profile-icon-modal]');
+    this.iconGrid = this.root.querySelector('[data-profile-icon-grid]');
+    this.iconFeedback = this.root.querySelector('[data-profile-icon-feedback]');
+    this.iconCloseButtons = this.root.querySelectorAll('[data-profile-icon-close]');
+    this.iconShopModal = this.root.querySelector('[data-profile-icon-shop-modal]');
+    this.iconShopGrid = this.root.querySelector('[data-profile-icon-shop]');
+    this.iconShopFeedback = this.root.querySelector('[data-profile-icon-shop-feedback]');
+    this.iconShopCloseButtons = this.root.querySelectorAll('[data-profile-icon-shop-close]');
     this.copyButton = this.root.querySelector('[data-profile-copy]');
     this.levelElement = this.root.querySelector('[data-profile-level]');
     this.xpFill = this.root.querySelector('[data-profile-xp-fill]');
@@ -299,8 +313,6 @@ export class ProfileView {
      * not part of the icon picker (no tile is checked until the player chooses one).
      */
     this.hasLegacyAvatar = false;
-    /** @type {boolean} True while the identity form is open. */
-    this.isEditing = false;
     /** @type {boolean} True while a save is running (guards double submissions). */
     this.isSaving = false;
     /** @type {boolean} True once `init()` bound everything. */
@@ -334,10 +346,19 @@ export class ProfileView {
    */
   assertMarkup() {
     const missing = [
-      ['[data-profile-form]', this.form],
+      ['[data-profile-edit-name]', this.nameEditButton],
+      ['[data-profile-edit-title]', this.titleEditButton],
+      ['[data-profile-edit-icon]', this.iconEditButton],
+      ['[data-profile-name-modal]', this.nameModal],
+      ['[data-profile-name-form]', this.nameForm],
       ['[data-profile-name]', this.nameInput],
-      ['[data-profile-icons]', this.iconsList],
-      ['[data-profile-edit]', this.editButton],
+      ['[data-profile-name-feedback]', this.nameFeedback],
+      ['[data-profile-icon-modal]', this.iconModal],
+      ['[data-profile-icon-grid]', this.iconGrid],
+      ['[data-profile-icon-feedback]', this.iconFeedback],
+      ['[data-profile-icon-shop-modal]', this.iconShopModal],
+      ['[data-profile-icon-shop]', this.iconShopGrid],
+      ['[data-profile-icon-shop-feedback]', this.iconShopFeedback],
       ['[data-profile-copy]', this.copyButton],
       ['[data-profile-level]', this.levelElement],
       ['[data-profile-xp-fill]', this.xpFill],
@@ -428,22 +449,50 @@ export class ProfileView {
     this.listen(this.statsButton, 'click', () => this.onNavigate?.(STATS_VIEW_NAME));
     this.listen(this.trophiesButton, 'click', () => this.onNavigate?.(TROPHIES_VIEW_NAME));
     this.listen(this.titlesButton, 'click', () => this.onNavigate?.(TITLES_VIEW_NAME));
-    this.listen(this.editButton, 'click', () => this.setEditing(!this.isEditing));
+    this.listen(this.nameEditButton, 'click', () => this.openNameEditor());
+    this.listen(this.titleEditButton, 'click', () => this.onNavigate?.(TITLES_VIEW_NAME));
+    this.listen(this.iconEditButton, 'click', () => this.openIconPicker());
     this.listen(this.copyButton, 'click', () => void this.handleCopyCode());
-    this.listen(this.cancelButton, 'click', () => {
-      this.renderIdentity(this.profile);
-      this.setEditing(false);
-    });
 
-    this.listen(this.form, 'submit', (event) => {
+    this.nameCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeNameEditor());
+    });
+    this.listen(this.nameModal, 'click', (event) => {
+      if (event?.target === this.nameModal) this.closeNameEditor();
+    });
+    this.listen(this.nameForm, 'submit', (event) => {
       event.preventDefault();
-      void this.handleSubmit();
+      void this.handleNameSubmit();
     });
 
-    // A single delegated listener: the picker is rebuilt whenever the catalogue changes.
-    this.listen(this.iconsList, 'click', (event) => {
-      const button = event.target instanceof Element ? event.target.closest('[data-profile-icon]') : null;
-      if (button && !button.disabled) this.handleIconClick(button.dataset.profileIcon);
+    this.iconCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeIconPicker());
+    });
+    this.listen(this.iconModal, 'click', (event) => {
+      if (event?.target === this.iconModal) this.closeIconPicker();
+    });
+    this.iconShopCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeIconShop());
+    });
+    this.listen(this.iconShopModal, 'click', (event) => {
+      if (event?.target === this.iconShopModal) this.closeIconShop();
+    });
+
+    // One delegated listener per grid: both are rebuilt whenever the catalogue changes.
+    this.listen(this.iconGrid, 'click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      if (event.target.closest('[data-profile-icon-shop-open]')) {
+        this.openIconShop();
+        return;
+      }
+      const button = event.target.closest('[data-profile-icon]');
+      if (button && !button.disabled) void this.selectIcon(button.dataset.profileIcon);
+    });
+    this.listen(this.iconShopGrid, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-profile-icon]')
+        : null;
+      if (button && !button.disabled) this.handleIconShopClick(button.dataset.profileIcon);
     });
 
     // A dead avatar (an old remote photo URL) must not leave a broken image icon: the initial takes over.
@@ -505,6 +554,18 @@ export class ProfileView {
       }
       if (this.cardModal && !this.cardModal.hidden) {
         this.closeCardModal();
+        return;
+      }
+      if (this.iconShopModal && !this.iconShopModal.hidden) {
+        this.closeIconShop();
+        return;
+      }
+      if (this.iconModal && !this.iconModal.hidden) {
+        this.closeIconPicker();
+        return;
+      }
+      if (this.nameModal && !this.nameModal.hidden) {
+        this.closeNameEditor();
         return;
       }
       if (this.colorModal && !this.colorModal.hidden) {
@@ -748,23 +809,93 @@ export class ProfileView {
   }
 
   /**
-   * Opens or closes the identity form.
+   * Opens the pseudo editor: a dialog with one text box, its save button and a cancel.
    *
-   * The identity is displayed read-only by default: the form only exists while the player asked
-   * for it, so the name and the avatar can never be changed by a stray tap.
+   * The value is seeded with the stored name rather than with what is displayed: the default
+   * "Joueur anonyme" is a placeholder, not a name the save would keep.
    *
-   * @param {boolean} editing - True to reveal the form.
    * @returns {void}
    */
-  setEditing(editing) {
-    this.isEditing = Boolean(editing);
-    this.form.hidden = !this.isEditing;
-    this.editButton.setAttribute('aria-expanded', String(this.isEditing));
-    this.editButton.classList.toggle('is-active', this.isEditing);
-    if (this.isEditing) {
-      this.nameInput.focus();
+  openNameEditor() {
+    if (!this.nameModal) return;
+    this.setNameFeedback(null);
+    this.nameInput.value = typeof this.profile?.name === 'string' ? this.profile.name : '';
+    this.nameModal.hidden = false;
+    this.nameModal.classList.remove('is-opening');
+    void this.nameModal.offsetWidth;
+    this.nameModal.classList.add('is-opening');
+    this.nameInput.focus();
+    this.nameInput.select();
+    this.log('Name editor opened.');
+  }
+
+  /**
+   * Closes the pseudo editor, throwing away what was typed.
+   *
+   * @returns {void}
+   */
+  closeNameEditor() {
+    if (!this.nameModal || this.nameModal.hidden) return;
+    this.nameModal.hidden = true;
+    this.nameModal.classList.remove('is-opening');
+    this.setNameFeedback(null);
+  }
+
+  /**
+   * Writes a message in one of the identity dialogs.
+   *
+   * The page-level feedback line sits behind the dialogs, so a refusal has to be shown inside the
+   * dialog that asked. A null key hides the line again.
+   *
+   * @param {HTMLElement|null} element - Feedback paragraph of the dialog.
+   * @param {string|null} key - i18n key, or null to hide.
+   * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @returns {void}
+   */
+  static setDialogFeedback(element, key, tone = 'info') {
+    if (!element) return;
+    if (!key) {
+      element.hidden = true;
+      element.textContent = '';
+      return;
     }
-    this.log(this.isEditing ? 'Edit mode opened.' : 'Edit mode closed.');
+    element.hidden = false;
+    element.textContent = i18n.t(key);
+    element.dataset.tone = tone;
+    if (tone === 'error') console.warn(`[ProfileView] ${element.textContent}`);
+  }
+
+  /**
+   * Shows (or hides) the message of the pseudo dialog.
+   *
+   * @param {string|null} key - i18n key, or null.
+   * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @returns {void}
+   */
+  setNameFeedback(key, tone = 'info') {
+    ProfileView.setDialogFeedback(this.nameFeedback, key, tone);
+  }
+
+  /**
+   * Shows (or hides) the message of the avatar picker.
+   *
+   * @param {string|null} key - i18n key, or null.
+   * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @returns {void}
+   */
+  setIconFeedback(key, tone = 'info') {
+    ProfileView.setDialogFeedback(this.iconFeedback, key, tone);
+  }
+
+  /**
+   * Shows (or hides) the message of the avatar shop.
+   *
+   * @param {string|null} key - i18n key, or null.
+   * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @returns {void}
+   */
+  setIconShopFeedback(key, tone = 'info') {
+    ProfileView.setDialogFeedback(this.iconShopFeedback, key, tone);
   }
 
   /**
@@ -1289,31 +1420,132 @@ export class ProfileView {
   }
 
   /**
-   * Renders the avatar picker: the "no icon" choice, the default icons and the trophy-pinned ones.
+   * Renders the avatar picker: the "no icon" choice, the icons the account owns, then a dashed
+   * "+" that opens the shop of the paid ones.
    *
-   * In the developer mode every locked icon stays visible but disabled, with the trophy that grants
-   * it as a hint: the picker is then also the list of what there is to earn. Out of it, a tile that
-   * is neither available nor for sale is not offered at all - it is a picture of something the
-   * player cannot reach, and the picker is a choice, not a catalogue.
+   * In the developer mode the trophy-gated icons are shown too, disabled, with the trophy that
+   * grants each one: the picker is then also the list of what there is to earn. A paid icon lives
+   * in the shop, never here: the plus is the one door to it.
    *
    * @returns {void}
    */
   renderIconPicker() {
-    if (!this.iconsList || !this.icons) return;
-    this.iconsList.textContent = '';
-    this.iconsList.appendChild(this.buildIconOption({
+    if (!this.iconGrid || !this.icons) return;
+    this.iconGrid.textContent = '';
+    this.iconGrid.appendChild(this.buildIconOption({
       name: i18n.t('profile.icons.none'),
       file: '',
       unlocked: true,
       source: 'none',
     }));
 
-    const offered = [...this.icons.default, ...this.icons.unlockable]
-      .filter((icon) => this.devMode || icon.unlocked === true || icon.purchasable === true);
+    const all = [...this.icons.default, ...this.icons.unlockable];
+    const offered = all.filter(
+      (icon) => icon.unlocked === true || (this.devMode && icon.purchasable !== true)
+    );
     offered.forEach((icon) => {
-      this.iconsList.appendChild(this.buildIconOption(icon));
+      this.iconGrid.appendChild(this.buildIconOption(icon));
     });
-    this.log(`${this.iconsList.children.length} avatar(s) offered in the picker.`);
+    if (all.some((icon) => icon.purchasable === true)) {
+      this.iconGrid.appendChild(this.buildIconAddTile());
+    }
+    this.log(`${offered.length} avatar(s) offered in the picker.`);
+    this.renderIconShop();
+  }
+
+  /**
+   * Renders the shop of the paid avatars, the ones the level already allows but nobody bought.
+   *
+   * @returns {void}
+   */
+  renderIconShop() {
+    if (!this.iconShopGrid || !this.icons) return;
+    this.iconShopGrid.textContent = '';
+    const purchasable = [...this.icons.default, ...this.icons.unlockable]
+      .filter((icon) => icon.purchasable === true);
+    purchasable.forEach((icon) => {
+      this.iconShopGrid.appendChild(this.buildIconOption(icon));
+    });
+    this.iconShopGrid.hidden = purchasable.length === 0;
+    this.setIconShopFeedback(purchasable.length === 0 ? 'profile.icons.shopEmpty' : null, 'info');
+  }
+
+  /**
+   * Builds the dashed "+" tile of the picker, the same affordance as an extra slot of binder.
+   *
+   * @returns {HTMLLIElement} The tile.
+   */
+  buildIconAddTile() {
+    const item = document.createElement('li');
+    item.className = 'profile__icon-option';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'profile__icon-choice profile__icon-choice--add';
+    button.dataset.profileIconShopOpen = '';
+    button.setAttribute('aria-label', i18n.t('profile.icons.add'));
+    button.title = i18n.t('profile.icons.add');
+    const mark = document.createElement('span');
+    mark.className = 'profile__icon-add-mark';
+    mark.textContent = '+';
+    mark.setAttribute('aria-hidden', 'true');
+    button.appendChild(mark);
+    item.appendChild(button);
+    return item;
+  }
+
+  /**
+   * Opens the avatar picker.
+   *
+   * @returns {void}
+   */
+  openIconPicker() {
+    if (!this.iconModal) return;
+    this.setIconFeedback(null);
+    this.renderIconPicker();
+    this.iconModal.hidden = false;
+    this.iconModal.classList.remove('is-opening');
+    void this.iconModal.offsetWidth;
+    this.iconModal.classList.add('is-opening');
+    this.log('Avatar picker opened.');
+  }
+
+  /**
+   * Closes the avatar picker and the shop it may have opened.
+   *
+   * @returns {void}
+   */
+  closeIconPicker() {
+    if (!this.iconModal || this.iconModal.hidden) return;
+    this.closeIconShop();
+    this.iconModal.hidden = true;
+    this.iconModal.classList.remove('is-opening');
+    this.setIconFeedback(null);
+  }
+
+  /**
+   * Opens the shop of the paid avatars, stacked over the picker.
+   *
+   * @returns {void}
+   */
+  openIconShop() {
+    if (!this.iconShopModal) return;
+    this.renderIconShop();
+    this.iconShopModal.hidden = false;
+    this.iconShopModal.classList.remove('is-opening');
+    void this.iconShopModal.offsetWidth;
+    this.iconShopModal.classList.add('is-opening');
+    this.log('Avatar shop opened.');
+  }
+
+  /**
+   * Closes the avatar shop, leaving the picker behind it.
+   *
+   * @returns {void}
+   */
+  closeIconShop() {
+    if (!this.iconShopModal || this.iconShopModal.hidden) return;
+    this.iconShopModal.hidden = true;
+    this.iconShopModal.classList.remove('is-opening');
   }
 
   /**
@@ -1426,23 +1658,18 @@ export class ProfileView {
   }
 
   /**
-   * Handles a click on one avatar tile.
+   * Handles a click on one tile of the avatar shop.
    *
-   * An available icon is selected; a paid one the level does not gate opens the purchase modal. A
-   * tile gated by a level or a trophy is disabled and never reaches this method.
+   * Only a paid icon the level already allows opens the purchase: the shop never offers a tile a
+   * trophy has to grant first.
    *
    * @param {string} file - Icon path.
    * @returns {void}
    */
-  handleIconClick(file) {
+  handleIconShopClick(file) {
     const icon = [...(this.icons?.default ?? []), ...(this.icons?.unlockable ?? [])]
       .find((candidate) => candidate.file === file);
-    if (!icon) return;
-    if (icon.unlocked) {
-      this.selectIcon(file);
-      return;
-    }
-    if (!icon.purchasable) return;
+    if (!icon || icon.purchasable !== true) return;
     void this.openBuyModal(file, {
       type: 'icon',
       label: icon.name,
@@ -1485,25 +1712,57 @@ export class ProfileView {
    * @param {string} file - Icon path (`''` clears the avatar).
    * @returns {void}
    */
-  selectIcon(file) {
+  async selectIcon(file) {
+    if (this.isSaving) return;
     this.selectedIcon = typeof file === 'string' ? file : '';
     // Clicking a tile settles the choice: the legacy avatar of an older save is no longer "current",
     // so the picker shows the clicked tile as the selection ("Aucune" included, which then saves
     // an avatar-less profile).
     this.hasLegacyAvatar = false;
-    this.iconsList.querySelectorAll('[data-profile-icon]').forEach((button) => {
-      button.setAttribute('aria-checked', String(this.isIconChecked(button.dataset.profileIcon)));
-    });
+    this.syncIconTiles();
     // The preview mirrors what the save will store: the picked icon replaces the legacy URL (`photo`)
-    // of an older save, so choosing "no icon" clears the displayed avatar right away. The pseudo
-    // being typed is carried over: picking an avatar must never undo a name that is not saved yet.
+    // of an older save, so choosing "no icon" clears the displayed avatar right away.
     this.renderIdentity({
       ...this.profile,
-      name: this.nameInput?.value ?? this.profile?.name ?? '',
+      name: this.profile?.name ?? '',
       icon: this.selectedIcon,
       photo: '',
     });
     this.log(`Avatar icon selected: ${this.selectedIcon === '' ? 'none' : this.selectedIcon}.`);
+
+    this.isSaving = true;
+    this.setIconFeedback(null);
+    try {
+      const next = await profileManager.setIdentity({ icon: this.selectedIcon });
+      this.profile = next;
+      this.renderIdentity(next);
+      this.renderIconPicker();
+      this.closeIconPicker();
+      this.setFeedback('profile.saved', 'info');
+      Toast.success('profile.saved');
+      // The level depends on whether a custom name is set: an icon change must not leave it stale.
+      if (this.trophyState) void this.reload();
+    } catch (error) {
+      console.error('[ProfileView] The avatar could not be saved.', error);
+      const key = getProfileErrorMessageKey(error);
+      this.setIconFeedback(key, 'error');
+      Toast.error(key);
+    } finally {
+      this.isSaving = false;
+    }
+  }
+
+  /**
+   * Marks the selected avatar on every grid that shows the catalogue.
+   *
+   * @returns {void}
+   */
+  syncIconTiles() {
+    [this.iconGrid, this.iconShopGrid].forEach((grid) => {
+      grid?.querySelectorAll('[data-profile-icon]').forEach((button) => {
+        button.setAttribute('aria-checked', String(this.isIconChecked(button.dataset.profileIcon)));
+      });
+    });
   }
 
   /**
@@ -1967,7 +2226,9 @@ export class ProfileView {
         className: 'profile__tile-image',
         alt: '',
         ariaHidden: true,
-        mini: true,
+        // A real printing, like a collection tile: the favourite strip shows the whole card, not
+        // a textless thumbnail.
+        mini: false,
         loading: 'lazy',
         decoding: 'async',
       });
@@ -2802,7 +3063,13 @@ export class ProfileView {
       this.renderColorChoosers(this.lastCardModel);
       this.renderIconOptions(this.lastCardModel);
       if (!this.colorModal?.hidden) this.renderColorPicker();
-      if (isIcon) await this.refreshIcons();
+      if (isIcon) {
+        await this.refreshIcons();
+        // The bought icon is now in the picker: both dialogs of the avatar close on success, so
+        // the player comes back to the profile with the choice already available.
+        this.closeIconShop();
+        this.closeIconPicker();
+      }
     } catch (error) {
       console.error('[ProfileView] The feature could not be bought.', error);
       if (error?.code === FEATURE_ERROR_CODES.INSUFFICIENT_SPARKS) {
@@ -3094,39 +3361,38 @@ export class ProfileView {
   }
 
   /**
-   * Saves the identity form (the display name and the selected avatar).
+   * Saves the pseudo typed in the name dialog.
+   *
+   * Only the name is sent: the avatar and the pseudo colour belong to their own pencils, and a
+   * rename must never rewrite them.
    *
    * @returns {Promise<void>} Resolves once the save finished (or the refusal was reported).
    */
-  async handleSubmit() {
+  async handleNameSubmit() {
     if (this.isSaving) return;
     this.isSaving = true;
-    if (this.submitButton) this.submitButton.disabled = true;
+    if (this.nameSaveButton) this.nameSaveButton.disabled = true;
+    this.setNameFeedback(null);
     try {
-      const next = await profileManager.setIdentity({
-        name: this.nameInput.value,
-        icon: this.selectedIcon,
-        usernameColor: this.selectedUsernameColor,
-      });
+      const next = await profileManager.setIdentity({ name: this.nameInput.value });
       this.profile = next;
       this.renderIdentity(next);
-      this.renderIconPicker();
-      this.setEditing(false);
+      this.closeNameEditor();
       this.setFeedback('profile.saved', 'info');
       Toast.success('profile.saved');
-      this.log('Profile saved.');
+      this.log('Profile name saved.');
       // The level depends on whether a custom name is set (see the levelling experience).
       if (this.trophyState) {
         void this.reload();
       }
     } catch (error) {
-      console.error('[ProfileView] The profile could not be saved.', error);
+      console.error('[ProfileView] The profile name could not be saved.', error);
       const key = getProfileErrorMessageKey(error);
-      this.setFeedback(key, 'error');
+      this.setNameFeedback(key, 'error');
       Toast.error(key);
     } finally {
       this.isSaving = false;
-      if (this.submitButton) this.submitButton.disabled = false;
+      if (this.nameSaveButton) this.nameSaveButton.disabled = false;
     }
   }
 

@@ -69,6 +69,59 @@
   color: var(--color-accent);
 }
 
+/* The pencils of the identity: one per field (avatar, pseudo, title). Small and icon-only, so the
+   pseudo and the title stay the loudest thing in the band; each one is still a full touch target. */
+.profile__pencil {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.profile__pencil:hover,
+.profile__pencil:focus-visible {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+/* The pencil of the avatar sits on the picture itself: the avatar is the field it edits. */
+.profile__pencil--avatar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+}
+
+.profile__pencil-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  object-fit: contain;
+  filter: var(--icon-filter);
+}
+
+.profile__name-row,
+.profile__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.profile__name-row .profile__display-name,
+.profile__title-row .profile__title {
+  min-width: 0;
+}
+
 .profile__identity-fields {
   display: flex;
   flex-direction: column;
@@ -129,7 +182,6 @@
   align-self: flex-start;
 }
 
-.profile__edit,
 .profile__copy {
   display: inline-flex;
   align-items: center;
@@ -151,24 +203,10 @@
     background-color var(--duration-fast) var(--easing-standard);
 }
 
-.profile__edit:hover,
 .profile__copy:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
   transform: translateY(-2px);
-}
-
-.profile__edit.is-active {
-  border-color: var(--color-accent);
-  background-color: var(--color-accent);
-  color: var(--color-accent-contrast);
-}
-
-.profile__edit-icon {
-  width: 1.125rem;
-  height: 1.125rem;
-  object-fit: contain;
-  filter: var(--icon-filter);
 }
 
 /* Drawn inline rather than shipped as a PNG: the copy glyph has to follow the ink of the theme on
@@ -184,21 +222,16 @@
   stroke-linejoin: round;
 }
 
-.profile__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  animation: profile-panel-in var(--duration-base) var(--easing-standard);
+/* A refusal of one identity dialog is shown inside that dialog, behind which the page-level
+   feedback line is hidden. */
+.profile__modal-feedback {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 
-.profile__form[hidden] {
-  display: none;
-}
-
-.profile__form-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+.profile__modal-feedback[data-tone="error"] {
+  color: var(--color-error);
 }
 
 /* --- Avatar picker --------------------------------------------------------- */
@@ -303,6 +336,32 @@
 .profile__icon-none {
   font-size: var(--font-size-lg);
   color: var(--color-text-muted);
+}
+
+/* The "+" of the avatar picker: the door to the paid icons, drawn like an extra slot (dashed,
+   accent on hover) rather than like an avatar. */
+.profile__icon-choice--add {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.profile__icon-choice--add:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.profile__icon-add-mark {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* The avatar dialogs list the same tiles as the old form, but in a dialog: a little more room
+   between the grid and its message, and the grid scrolls with the dialog. */
+.profile-icons-modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 /* --- Level ----------------------------------------------------------------- */
@@ -550,6 +609,10 @@
 .profile-modal__card {
   align-self: center;
   width: min(100%, 15rem);
+  /* A `<card-print>` fills the box it is given: under a column flex parent without a height, the
+     card collapsed. The ratio gives the opened card the height of its artwork. */
+  height: auto;
+  aspect-ratio: var(--card-ratio);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   animation: profile-tile-in var(--duration-base) var(--easing-standard);

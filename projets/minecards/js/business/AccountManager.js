@@ -79,6 +79,9 @@ export const USER_STATE_KEYS = Object.freeze({
   // Trades with followed players (see `TradeManager`): the cached Ender Eyes balance, the cards
   // and Sparks currently escrowed, and the statuses already announced.
   TRADES: 'trades',
+  // Wishlist (see `WishlistManager`): the collection keys of the cards the player hopes to receive.
+  // Published with the trainer card, so a followed player can see it and favour them in a trade.
+  WISHLIST: 'wishlist',
   TROPHIES: 'trophies',
   // Daily state, statistics and history of the Mine Pick (see `MinePickManager`).
   MINE_PICK: 'minePick',
@@ -463,6 +466,12 @@ export class AccountManager {
       notificationDuration,
       notificationTypes,
       socialRefreshMinutes,
+      // Wishlist housekeeping. Removing a card from the wishlist once it was obtained is ON by
+      // default for the flows that never ask (booster, purchase, Mine Pick), and OFF for a trade:
+      // a received card is exactly the moment a player may want to keep hoping for a nicer printing
+      // of it, so the post-trade dialog asks instead (see `WishlistManager`).
+      wishlistAutoRemoveGain: overrides.wishlistAutoRemoveGain !== false,
+      wishlistAutoRemoveTrade: overrides.wishlistAutoRemoveTrade === true,
       mineSpeed,
       devMode: overrides.devMode === true,
       // The source of the card faces is a developer choice (`generate` draws the card from its
@@ -882,6 +891,17 @@ export class AccountManager {
         stored.socialRefreshMinutes,
         socialRefreshSettings
       ),
+      // Only an explicit `false` turns the automatic removal off (the historical behaviour of a
+      // wishlist did not exist, so the flow that never asks removes by default), and only an
+      // explicit `true` turns the trade one on.
+      wishlistAutoRemoveGain:
+        typeof stored.wishlistAutoRemoveGain === 'boolean'
+          ? stored.wishlistAutoRemoveGain
+          : defaults.wishlistAutoRemoveGain,
+      wishlistAutoRemoveTrade:
+        typeof stored.wishlistAutoRemoveTrade === 'boolean'
+          ? stored.wishlistAutoRemoveTrade
+          : defaults.wishlistAutoRemoveTrade,
       // A speed that disappeared from the game (or a hand-edited save) falls back to the historical
       // pace instead of leaving the mine without a beat.
       mineSpeed: AccountManager.sanitizeMineSpeed(stored.mineSpeed ?? defaults.mineSpeed),
@@ -1297,6 +1317,18 @@ export class AccountManager {
         );
       }
       merged.questNavigationTutorial = questNavigationTutorial;
+    }
+
+    // The two wishlist switches are plain booleans: the dialog they silence is the only thing that
+    // reads them, so a switch that lies would be invisible until a card was received.
+    for (const key of ['wishlistAutoRemoveGain', 'wishlistAutoRemoveTrade']) {
+      if (!Object.prototype.hasOwnProperty.call(partialSettings, key)) continue;
+      if (typeof partialSettings[key] !== 'boolean') {
+        throw new TypeError(
+          `settings.${key} must be a boolean (received: ${JSON.stringify(partialSettings[key])}).`
+        );
+      }
+      merged[key] = partialSettings[key];
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'mineSpeed')) {

@@ -83,7 +83,8 @@
     "types": ["collection", "experience", "title", "quest", "trade"]
   },
   "social": {
-    "_comment": "Follow List cache. 'refresh' bounds the minimum number of MINUTES between two network reads of a followed player's card. Opening the Social view (or reloading the page) reuses the persisted card while its last read is younger than this delay; the Refresh button always forces a read. The value is stored per account in user_state[\"settings\"].socialRefreshMinutes, and SocialManager keeps the last read time and the public card of each UUID in user_state[\"social\"].cardFetchedAt and .cardCache. A missing or corrupted value falls back to the default (2 minutes), and an out-of-range value is clamped so an older save still loads.",
+    "_comment": "Follow List. 'maxFriends' is how many players can be followed at once (50 by default): SocialManager refuses the follow that would go over it, and never allows more than the 100 UUIDs one worker read accepts. 'refresh' bounds the minimum number of MINUTES between two network reads of a followed player's card. Opening the Social view (or reloading the page) reuses the persisted card while its last read is younger than this delay; the Refresh button always forces a read. The value is stored per account in user_state[\"settings\"].socialRefreshMinutes, and SocialManager keeps the last read time and the public card of each UUID in user_state[\"social\"].cardFetchedAt and .cardCache. A missing or corrupted value falls back to the default (2 minutes), and an out-of-range value is clamped so an older save still loads.",
+    "maxFriends": 50,
     "refresh": {
       "min": 0,
       "max": 60,

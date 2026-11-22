@@ -71,6 +71,10 @@ export const EVENTS = Object.freeze({
    * paid. The counter stays hidden when the read fails, so listeners only ever see real values. */
   LIKES_UPDATED: 'LIKES_UPDATED',
   SPARKS_UPDATED: 'SPARKS_UPDATED',
+  /** Payload: `{ cards }`. Emitted by `WishlistManager` after every write: the collection grid
+   * repaints the star of its tiles, and the settings screen refreshes the list of the cards it can
+   * empty. */
+  WISHLIST_CHANGED: 'WISHLIST_CHANGED',
   /** Payload: `{ balance }`. Emitted by `TradeManager` after the Ender Eyes balance was read from
    * the worker or spent: the header counter and the inventory listen to it. Ender Eyes are
    * server-authoritative (max 5, +1 per UTC day), so this is a cache of the last known value. */

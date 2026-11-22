@@ -108,7 +108,7 @@
             },
             {
                 "Type": "Feature",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Taille et alignement de l'icône de profil réglables, les options étant achetables.",
                     "En": "Profile icon size and alignment can be set, the options are bought with Sparks."
@@ -132,7 +132,7 @@
             },
             {
                 "Type": "QoL",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Les couleurs se choisissent dans un sélecteur, plus dans une grille sous la carte.",
                     "En": "Colours are chosen in a picker instead of a grid under the card."
@@ -156,7 +156,7 @@
             },
             {
                 "Type": "Fix",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Les visuels de booster ne s'affichent plus à l'envers, sauf le booster 3D.",
                     "En": "Booster artwork is no longer shown upside down, except the 3D booster."
@@ -403,7 +403,7 @@
             },
             {
                 "Type": "Feature",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Popup « nouveautés » au démarrage : le résumé de la dernière version s'affiche une seule fois par version, uniquement sur une sauvegarde existante, avec un bouton vers le changelog complet.",
                     "En": "“What's new” popup at startup: the summary of the latest version is shown once per version, only on an existing save, with a button to the full changelog."
@@ -411,7 +411,7 @@
             },
             {
                 "Type": "Feature",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Ouverture multiple : « Ouvrir 10 » (quotidiens ou bonus) et « Ouvrir X » avec ses deux compteurs et leur bouton « Tout », chaque paquet révélé avec son compteur « Ouverture du booster n / X » puis un récapitulatif défilant de tous les paquets.",
                     "En": "Multiple opening: “Open 10” (daily or bonus) and “Open X” with its two counters and their “All” button, each pack revealed with its “Opening booster n / X” counter, then a scrolling recap of every pack."
@@ -427,7 +427,7 @@
             },
             {
                 "Type": "Feature",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Ouvertures sauvegardées : dix emplacements dans les statistiques pour garder une ouverture à vie, avec un bouton pour la rejouer en visuel, sans carte, sans expérience et sans Sparks.",
                     "En": "Saved openings: ten slots in the statistics to keep an opening forever, with a button to replay it visually, without cards, experience or Sparks."
@@ -459,7 +459,7 @@
             },
             {
                 "Type": "QoL",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Pastille sur le bouton Illager Quests quand une quête est prête, et notification au moment où elle le devient.",
                     "En": "Badge on the Illager Quests button when a quest is ready, and a notification the moment it becomes ready."
@@ -483,7 +483,7 @@
             },
             {
                 "Type": "Feature",
-                "IsImportant": true,
+                "IsImportant": false,
                 "Text": {
                     "Fr": "Récapitulatif des ressources de la mine en haut du Wandering Trader : poussière de pierre, de sculk, de pierre lumineuse, du vide et Ultima, avec ce que vous possédez de chacune.",
                     "En": "Recap of the mine resources at the top of the Wandering Trader: stone, sculk, glowstone and void dust plus Ultima, with what you own of each."
@@ -733,8 +733,8 @@
         "Id": 11,
         "Version": "1.0.10",
         "Titles": {
-            "Fr": "Social Update",
-            "En": "Social Update"
+            "Fr": "Collect Together Update",
+            "En": "Collect Together Update"
         },
         "Notes": [
             {
@@ -820,6 +820,14 @@
             },
             {
                 "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "4 nouveaux types de trophées (20 trophées totaux).",
+                    "En": "4 new trophies types (20 total trophies)."
+                }
+            },
+            {
+                "Type": "Feature",
                 "IsImportant": true,
                 "Text": {
                     "Fr": "Échange : Possibilité d'échanger des cartes de même rareté avec les joueur du monde entier.",
@@ -831,7 +839,39 @@
                 "IsImportant": true,
                 "Text": {
                     "Fr": "Like : Possibilité de liker vos amis. Likez les tous, et soyez sympa avec eux, et ils vous le rendront.",
-                    "En": "Like : ability to give a like to all your friends. Like them all, be nice and they will give it back for sure.."
+                    "En": "Like : ability to give a like to all your friends. Like them all, be nice and they will give it back for sure."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Wishlist : Ajouter jusqu'à dix cartes en liste de souhait, avec l'icone étoile. Lorsque vous publiez votre carte, vous publiez aussi cette wishlist, et les gens qui échangent avec vous peuvent voir cette wishlist.",
+                    "En": "Wishlist:  Add up to ten cards to your wishlist using the star icon. When you list your card, you also publish this wishlist, allowing players trading with you to view it."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Suppressoin automatique de la Wishlist : recevoir une carte par booster, pick ou achat, retire la carte de votre wishlist. La recevoir par trade vous propose de la retirer. Options configurable dans les paramètres.",
+                    "En": "Automatic Wishlist Removal: Receiving a card via booster pack, pick, or purchase removes it from your wishlist. Receiving it via trade prompts you to remove it. Options configurable in settings."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Page d'information sur le contenu IA.",
+                    "En": "Information page about AI content disclosure."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Page d'information de politique de données.",
+                    "En": "Data policy information page."
                 }
             },
             {
@@ -840,6 +880,14 @@
                 "Text": {
                     "Fr": "Modifications interne au code administrateur",
                     "En": "Internal changes to the admin code"
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Heure UTC visible dans le menu pour tous les appareils",
+                    "En": "UTC Time visible in menu for all devices"
                 }
             },
             {
@@ -862,6 +910,14 @@
                 "Type": "QoL",
                 "IsImportant": false,
                 "Text": {
+                    "Fr": "Les comptes nouvellements crées ne seront plus spam de notifications à leur arrivée.",
+                    "En": "New account won't have notifications for new quests upon creation."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
                     "Fr": "Support : un bouton dans les paramètres pour écrire au support (contact@jmdev.fr) ou rejoindre le Discord (discord.com/invite/Zk8TRnwCxG).",
                     "En": "Support: a button in settings to email support (contact@jmdev.fr) or join the Discord (discord.com/invite/Zk8TRnwCxG)."
                 }
@@ -872,6 +928,14 @@
                 "Text": {
                     "Fr": "Correction de certains placements et noms dans les paramètres.",
                     "En": "Fixed some placements and names in the settings."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Fix Notification de quête prête pas désactivables.",
+                    "En": "Fix the ability to disable Quest ready notification."
                 }
             },
             {

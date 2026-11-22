@@ -31,6 +31,8 @@ import profileCardManager, {
   ProfileCardManager,
 } from './ProfileCardManager.js';
 import { colorManager, findColor } from './ColorManager.js';
+import { configLoader } from '../utils/ConfigLoader.js';
+import { wishlistManager } from './WishlistManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager from './BoosterManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -267,12 +269,30 @@ function normalizeFavoriteEntry(value) {
 }
 
 /**
+ * Normalizes the wishlist of one player.
+ *
+ * @param {unknown} value - List of collection keys read from the worker or from the cache.
+ * @returns {string[]} At most ten distinct keys, in display order.
+ */
+function normalizeWishlistEntry(value) {
+  if (!Array.isArray(value)) return [];
+  return Array.from(
+    new Set(
+      value
+        .filter((key) => typeof key === 'string')
+        .map((key) => key.trim())
+        .filter((key) => key !== '')
+    )
+  ).slice(0, 10);
+}
+
+/**
  * Normalizes the stored social state.
  *
  * @param {unknown} raw - Value of `user_state["social"]`.
  * @returns {{authCode: string, following: string[], cardFetchedAt: Record<string, number>,
  *   cardCache: Record<string, object>, favoriteCache: Record<string, {cards: string[],
- *   trophies: string[]}>}} A writable state.
+ *   trophies: string[]}>, wishlistCache: Record<string, string[]>}} A writable state.
  */
 function normalizeSocialState(raw) {
   const source = raw && typeof raw === 'object' ? raw : {};
@@ -306,6 +326,14 @@ function normalizeSocialState(raw) {
       ? source.favoriteCache
       : {};
   const favoriteCache = {};
+  // The wishlists follow the same rule: one entry per followed player, nothing for the others.
+  const storedWishlists =
+    source.wishlistCache &&
+    typeof source.wishlistCache === 'object' &&
+    !Array.isArray(source.wishlistCache)
+      ? source.wishlistCache
+      : {};
+  const wishlistCache = {};
   following.forEach((uuid) => {
     const timestamp = Number(storedFetchedAt[uuid]);
     if (Number.isFinite(timestamp) && timestamp > 0) cardFetchedAt[uuid] = timestamp;
@@ -317,6 +345,9 @@ function normalizeSocialState(raw) {
     if (favorites && typeof favorites === 'object' && !Array.isArray(favorites)) {
       favoriteCache[uuid] = normalizeFavoriteEntry(favorites);
     }
+    if (Object.prototype.hasOwnProperty.call(storedWishlists, uuid)) {
+      wishlistCache[uuid] = normalizeWishlistEntry(storedWishlists[uuid]);
+    }
   });
   return {
     authCode: normalizeAuthCode(source.authCode),
@@ -324,6 +355,7 @@ function normalizeSocialState(raw) {
     cardFetchedAt,
     cardCache,
     favoriteCache,
+    wishlistCache,
   };
 }
 
@@ -335,7 +367,14 @@ function normalizeSocialState(raw) {
  *   trophies: string[]}>}} An empty state.
  */
 export function buildDefaultSocialState() {
-  return { authCode: '', following: [], cardFetchedAt: {}, cardCache: {}, favoriteCache: {} };
+  return {
+    authCode: '',
+    following: [],
+    cardFetchedAt: {},
+    cardCache: {},
+    favoriteCache: {},
+    wishlistCache: {},
+  };
 }
 
 export class SocialManager {
@@ -416,6 +455,27 @@ export class SocialManager {
   }
 
   /**
+   * Reads how many players may be followed at once.
+   *
+   * The limit is a design value (`social.maxFriends` of `settings/config.json`, 50 by default) and
+   * never exceeds the batch size the worker accepts. A missing or corrupted value falls back to
+   * the default instead of locking the Follow List.
+   *
+   * @returns {Promise<number>} The maximum number of followed players.
+   */
+  async getMaxFriends() {
+    try {
+      const config = await configLoader.getConfig();
+      const value = Math.trunc(Number(config?.social?.maxFriends));
+      if (!Number.isFinite(value) || value < 1) return 50;
+      return Math.min(SOCIAL_MAX_FOLLOWING, value);
+    } catch (error) {
+      console.warn('[SocialManager] The friend limit could not be read, using 50.', error);
+      return 50;
+    }
+  }
+
+  /**
    * Follows one player after checking that their card is published.
    *
    * @param {unknown} value - UUID typed by the player.
@@ -437,7 +497,8 @@ export class SocialManager {
     if (state.following.includes(uuid)) {
       throw new SocialError(SOCIAL_ERROR_CODES.ALREADY_FOLLOWED, 'This UUID is already followed.');
     }
-    if (state.following.length >= SOCIAL_MAX_FOLLOWING) {
+    const limit = await this.getMaxFriends();
+    if (state.following.length >= limit) {
       throw new SocialError(SOCIAL_ERROR_CODES.FOLLOW_LIMIT, 'The follow list is full.');
     }
 
@@ -455,7 +516,7 @@ export class SocialManager {
     if (latest.following.includes(uuid)) {
       throw new SocialError(SOCIAL_ERROR_CODES.ALREADY_FOLLOWED, 'This UUID is already followed.');
     }
-    if (latest.following.length >= SOCIAL_MAX_FOLLOWING) {
+    if (latest.following.length >= limit) {
       throw new SocialError(SOCIAL_ERROR_CODES.FOLLOW_LIMIT, 'The follow list is full.');
     }
 
@@ -542,6 +603,9 @@ export class SocialManager {
       favoriteCache: Object.fromEntries(
         Object.entries(state.favoriteCache).filter(([followed]) => followed !== uuid)
       ),
+      wishlistCache: Object.fromEntries(
+        Object.entries(state.wishlistCache).filter(([followed]) => followed !== uuid)
+      ),
     });
     return true;
   }
@@ -565,13 +629,14 @@ export class SocialManager {
    *
    * @param {string[]} uuids - Player UUIDs.
    * @returns {Promise<{cards: object[], favorites: Record<string, {cards: string[],
-   *   trophies: string[]}>}>} The cards the worker knows about, and the favourites it has.
+   *   trophies: string[]}>, wishlists: Record<string, string[]>}>} The cards the worker knows
+   *   about, the favourites and the wishlists it has.
    */
   async getCardsAndFavorites(uuids) {
     const cleaned = Array.from(
       new Set((Array.isArray(uuids) ? uuids : []).map(normalizeUuid).filter(Boolean))
     ).slice(0, SOCIAL_MAX_FOLLOWING);
-    if (cleaned.length === 0) return { cards: [], favorites: {} };
+    if (cleaned.length === 0) return { cards: [], favorites: {}, wishlists: {} };
 
     const query = encodeURIComponent(cleaned.join(','));
     const payload = await this.request(`/cards?uuids=${query}`);
@@ -587,7 +652,21 @@ export class SocialManager {
         favorites[uuid] = normalizeFavoriteEntry(entry);
       }
     });
-    return { cards, favorites };
+    // The wishlists travel in the SAME answer (`wishlists` of the worker payload): a followed
+    // player's wishes cost no second request, and a player without a row simply has no entry.
+    const rawWishlists =
+      payload?.wishlists &&
+      typeof payload.wishlists === 'object' &&
+      !Array.isArray(payload.wishlists)
+        ? payload.wishlists
+        : {};
+    const wishlists = {};
+    cleaned.forEach((uuid) => {
+      if (Object.prototype.hasOwnProperty.call(rawWishlists, uuid)) {
+        wishlists[uuid] = normalizeWishlistEntry(rawWishlists[uuid]);
+      }
+    });
+    return { cards, favorites, wishlists };
   }
 
   /**
@@ -610,13 +689,13 @@ export class SocialManager {
    *
    * @param {{force?: boolean}} [options] - Refresh options.
    * @returns {Promise<{following: string[], cards: object[], favorites: Record<string, {cards:
-   *   string[], trophies: string[]}>}>} The followed UUIDs, the cards that are still published and
-   *   their favourites, in follow order.
+   *   string[], trophies: string[]}>, wishlists: Record<string, string[]>}>} The followed UUIDs,
+   *   the cards that are still published, their favourites and their wishlists, in follow order.
    */
   async refreshFollowing({ force = false } = {}) {
     const state = await this.getState();
-    const { following, cardFetchedAt, cardCache, favoriteCache } = state;
-    if (following.length === 0) return { following, cards: [], favorites: {} };
+    const { following, cardFetchedAt, cardCache, favoriteCache, wishlistCache } = state;
+    if (following.length === 0) return { following, cards: [], favorites: {}, wishlists: {} };
 
     let delayMinutes = 2;
     try {
@@ -636,12 +715,14 @@ export class SocialManager {
     // A player whose favourites were never read (a new follow, a save written by the version that
     // predates them) is stale too: the pins cannot be guessed from the card.
     const cachedFavorites = new Map(Object.entries(favoriteCache));
+    const cachedWishlists = new Map(Object.entries(wishlistCache));
     const stale = following.filter((uuid) => {
       if (force) return true;
       // The timestamp alone is not enough: the card itself lives only in the view's snapshot. After
       // a reload, the first visit must fetch it even when the stored timestamp is still fresh.
       if (!cachedCards.has(uuid)) return true;
       if (!cachedFavorites.has(uuid)) return true;
+      if (!cachedWishlists.has(uuid)) return true;
       const fetchedAt = cardFetchedAt[uuid];
       if (!Number.isFinite(fetchedAt)) return true;
       const age = now - fetchedAt;
@@ -652,7 +733,11 @@ export class SocialManager {
 
     let currentFollowing = following;
     if (stale.length > 0) {
-      const { cards: freshCards, favorites: freshFavorites } = await this.getCardsAndFavorites(stale);
+      const {
+        cards: freshCards,
+        favorites: freshFavorites,
+        wishlists: freshWishlists,
+      } = await this.getCardsAndFavorites(stale);
       // The network read can take a while: the Follow List may have changed meanwhile (an unfollow
       // from the detail dialog, for example). Re-read before storing the timestamps so a stale
       // snapshot can never resurrect a player who was just removed.
@@ -661,6 +746,7 @@ export class SocialManager {
       const fetchedAt = { ...latest.cardFetchedAt };
       const latestCards = { ...latest.cardCache };
       const latestFavorites = { ...latest.favoriteCache };
+      const latestWishlists = { ...latest.wishlistCache };
       // A follow added while the request was in flight already has its card in the latest cache.
       Object.entries(latest.cardCache).forEach(([uuid, card]) => {
         if (!cachedCards.has(uuid)) cachedCards.set(uuid, card);
@@ -673,6 +759,8 @@ export class SocialManager {
         delete latestCards[uuid];
         cachedFavorites.delete(uuid);
         delete latestFavorites[uuid];
+        cachedWishlists.delete(uuid);
+        delete latestWishlists[uuid];
       });
       freshCards.forEach((card) => {
         cachedCards.set(card.uuid, card);
@@ -686,23 +774,36 @@ export class SocialManager {
         cachedFavorites.set(uuid, favorites);
         latestFavorites[uuid] = favorites;
       });
+      // Same contract for the wishlist: an entry of an empty list still records that the read
+      // happened, so a player who cleared theirs is not asked on every visit.
+      stale.forEach((uuid) => {
+        if (!currentFollowing.includes(uuid)) return;
+        const wishlist = freshWishlists[uuid] ?? [];
+        cachedWishlists.set(uuid, wishlist);
+        latestWishlists[uuid] = wishlist;
+      });
       await storageRepository.setUserState(USER_STATE_KEYS.SOCIAL, {
         ...latest,
         cardFetchedAt: fetchedAt,
         cardCache: latestCards,
         favoriteCache: latestFavorites,
+        wishlistCache: latestWishlists,
       });
     }
 
     const favorites = {};
+    const wishlists = {};
     currentFollowing.forEach((uuid) => {
       const entry = cachedFavorites.get(uuid);
       if (entry) favorites[uuid] = entry;
+      const wishlist = cachedWishlists.get(uuid);
+      if (wishlist) wishlists[uuid] = wishlist;
     });
     return {
       following: currentFollowing,
       cards: currentFollowing.map((uuid) => cachedCards.get(uuid)).filter(Boolean),
       favorites,
+      wishlists,
     };
   }
 
@@ -813,6 +914,10 @@ export class SocialManager {
       // The binder pinned in the profile goes with them, as the share code the game already knows
       // how to build: the worker only relays it.
       binder_code: await this.buildBinderCode(profile?.binder),
+      // The wishlist is part of the published card too (its own `wishlist` table), and it is
+      // ALWAYS sent, even empty: publishing is the only moment the online list changes, so
+      // clearing the last wish must reach the worker as an explicit empty list.
+      wishlist_cards: await wishlistManager.getCards(),
     };
   }
 

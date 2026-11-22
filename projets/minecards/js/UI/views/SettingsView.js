@@ -108,6 +108,8 @@ import { CardPrint } from '../components/CardPrint.js';
 import developerAccess from '../../utils/DeveloperAccess.js';
 import { setDeveloperConsole } from '../../utils/ConsoleGate.js';
 import socialManager from '../../business/SocialManager.js';
+import boosterManager from '../../business/BoosterManager.js';
+import wishlistManager from '../../business/WishlistManager.js';
 import saveSyncManager, {
   formatSyncTimestamp,
   getSaveSyncErrorMessageKey,
@@ -215,6 +217,16 @@ export class SettingsView {
     this.socialRefreshValueElement = query('[data-settings-social-refresh-value]');
     this.questTutorialToggle = query('[data-settings-quest-tutorial]');
     this.questTutorialStateElement = query('[data-settings-quest-tutorial-state]');
+    this.wishlistGainToggle = query('[data-settings-wishlist-gain]');
+    this.wishlistGainStateElement = query('[data-settings-wishlist-gain-state]');
+    this.wishlistTradeToggle = query('[data-settings-wishlist-trade]');
+    this.wishlistTradeStateElement = query('[data-settings-wishlist-trade-state]');
+    this.wishlistClearButton = query('[data-settings-wishlist-clear]');
+    this.wishlistClearPanel = query('[data-settings-wishlist-clear-panel]');
+    this.wishlistClearIntro = query('[data-settings-wishlist-clear-intro]');
+    this.wishlistClearList = query('[data-settings-wishlist-clear-list]');
+    this.wishlistClearConfirm = query('[data-settings-wishlist-clear-confirm]');
+    this.wishlistClearCancel = query('[data-settings-wishlist-clear-cancel]');
     this.notificationToggles = {
       collection: query('[data-settings-notification-collection]'),
       experience: query('[data-settings-notification-experience]'),
@@ -340,6 +352,20 @@ export class SettingsView {
 
     this.assertMarkup();
 
+    // A link coming from another page (the "write to us here" of the data policy page) opens this
+    // view on one section and scrolls to one of its panels. Bound here rather than in `init()`:
+    // that click is what brings the view on screen, so the handler must exist before it is
+    // dispatched. The listener lives as long as the page, like the view itself.
+    document.addEventListener('click', (event) => {
+      const trigger =
+        event.target instanceof Element ? event.target.closest('[data-settings-section]') : null;
+      if (!trigger) return;
+      this.openFromLink(
+        trigger.dataset.settingsSection ?? '',
+        trigger.dataset.settingsAnchor ?? ''
+      );
+    });
+
     /** @type {string|null} Section on screen (null until `renderTabs()` picks one). */
     this.activeTab = null;
     /** @type {boolean} True once `init()` bound everything. */
@@ -378,6 +404,10 @@ export class SettingsView {
     this.socialRefreshMinutes = 2;
     /** @type {boolean} Walk the player through the screens on "Y aller" (the store is the source). */
     this.questTutorial = true;
+    /** @type {boolean} Remove a card obtained without asking (booster, purchase, pick). */
+    this.wishlistAutoRemoveGain = true;
+    /** @type {boolean} Remove a card received in a trade without the post-trade dialog. */
+    this.wishlistAutoRemoveTrade = false;
     /** @type {string|null} UUID of the current account (read-only display). */
     this.uuid = null;
     /** @type {string} Secret code of the social publication (empty before the first one). */
@@ -602,6 +632,7 @@ export class SettingsView {
     await this.renderMineSpeed();
     await this.renderCardGenerateControls();
     await this.renderQuestTutorial();
+    await this.renderWishlistOptions();
     this.syncSoundToggle();
     this.renderSoundCategories();
     await this.syncDevToggle();
@@ -643,6 +674,29 @@ export class SettingsView {
 
     const first = this.tabButtons.keys().next().value ?? null;
     this.showTab(first, { silent: true });
+  }
+
+  /**
+   * Opens one section from a link of another page, then scrolls to the panel it targets.
+   *
+   * The router has already switched the settings view when this runs (the same button carries
+   * `data-nav-target="settings"`); this only picks the tab and brings the panel into view. The
+   * scroll waits one frame: scrolling to an element of a view that is still `aria-hidden` does
+   * nothing in a browser.
+   *
+   * @param {string} section - Tab name (`errors` for the support panel).
+   * @param {string} [anchorId=''] - Id of the panel to scroll to.
+   * @returns {void}
+   */
+  openFromLink(section, anchorId = '') {
+    if (typeof section !== 'string' || section === '') return;
+    this.showTab(section);
+    if (typeof anchorId !== 'string' || anchorId === '') return;
+    const anchor = document.getElementById(anchorId);
+    if (!anchor) return;
+    requestAnimationFrame(() => {
+      anchor.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
   }
 
   /**
@@ -3560,6 +3614,145 @@ export class SettingsView {
   }
 
   /**
+   * Fills the two wishlist switches from the stored preferences.
+   *
+   * The defaults mirror `AccountManager`: the "no dialog" flows (booster, purchase, pick) remove
+   * the obtained card by default, the trade one asks by default.
+   *
+   * @returns {Promise<void>} Resolves once the switches are painted.
+   */
+  async renderWishlistOptions() {
+    try {
+      const settings = await accountManager.getSettings();
+      this.wishlistAutoRemoveGain = settings.wishlistAutoRemoveGain !== false;
+      this.wishlistAutoRemoveTrade = settings.wishlistAutoRemoveTrade === true;
+    } catch (error) {
+      console.warn('[SettingsView] The wishlist options could not be read.', error);
+      this.wishlistAutoRemoveGain = true;
+      this.wishlistAutoRemoveTrade = false;
+    }
+    this.syncWishlistToggles();
+    this.closeWishlistClearConfirm();
+  }
+
+  /**
+   * Reflects both wishlist preferences on their switches and captions.
+   *
+   * @returns {void}
+   */
+  syncWishlistToggles() {
+    [
+      [this.wishlistGainToggle, this.wishlistGainStateElement, this.wishlistAutoRemoveGain],
+      [this.wishlistTradeToggle, this.wishlistTradeStateElement, this.wishlistAutoRemoveTrade],
+    ].forEach(([toggle, state, value]) => {
+      if (!toggle) return;
+      toggle.setAttribute('aria-checked', value ? 'true' : 'false');
+      if (state) state.textContent = i18n.t(value ? 'settings.dev.on' : 'settings.dev.off');
+    });
+  }
+
+  /**
+   * Flips one wishlist preference and persists it.
+   *
+   * @param {'gain'|'trade'} which - Switch that was clicked.
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleWishlistOptionToggle(which) {
+    if (this.isBusy) return;
+    const isGain = which === 'gain';
+    const previous = isGain ? this.wishlistAutoRemoveGain : this.wishlistAutoRemoveTrade;
+    const next = !previous;
+    if (isGain) this.wishlistAutoRemoveGain = next;
+    else this.wishlistAutoRemoveTrade = next;
+    this.syncWishlistToggles();
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings(
+        isGain ? { wishlistAutoRemoveGain: next } : { wishlistAutoRemoveTrade: next }
+      );
+      this.log(`Wishlist auto-removal (${which}) ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The wishlist preference could not be saved.', error);
+      if (isGain) this.wishlistAutoRemoveGain = previous;
+      else this.wishlistAutoRemoveTrade = previous;
+      this.syncWishlistToggles();
+      this.setFeedback('settings.wishlist.error', 'error');
+    }
+  }
+
+  /**
+   * Opens the confirmation of "empty the wishlist", with the NAMES of the cards.
+   *
+   * The names are resolved through the local catalogue: the wishlist stores collection keys, and
+   * a card of an extension this client does not know any more keeps its raw key as a label rather
+   * than disappearing from the list the player is about to clear.
+   *
+   * @returns {Promise<void>} Resolves once the panel is filled.
+   */
+  async openWishlistClearConfirm() {
+    if (!this.wishlistClearPanel || !this.wishlistClearList) return;
+    const keys = await wishlistManager.getCards();
+    if (keys.length === 0) {
+      this.setFeedback('settings.wishlist.empty', 'info');
+      return;
+    }
+
+    this.wishlistClearList.textContent = '';
+    for (const key of keys) {
+      let name = key;
+      try {
+        const card = await boosterManager.getCardByKey(key);
+        if (card) name = card.getName(cardLanguage.getLang());
+      } catch (error) {
+        console.warn(`[SettingsView] The wishlisted card "${key}" could not be read.`, error);
+      }
+      const item = document.createElement('li');
+      item.textContent = name;
+      this.wishlistClearList.appendChild(item);
+    }
+    if (this.wishlistClearIntro) {
+      this.wishlistClearIntro.textContent = i18n.t('settings.wishlist.clearIntro', {
+        count: keys.length,
+      });
+    }
+    this.setFeedback(null);
+    this.wishlistClearPanel.hidden = false;
+    if (this.wishlistClearButton) this.wishlistClearButton.disabled = true;
+  }
+
+  /**
+   * Closes the confirmation without touching the wishlist.
+   *
+   * @returns {void}
+   */
+  closeWishlistClearConfirm() {
+    if (this.wishlistClearPanel) this.wishlistClearPanel.hidden = true;
+    if (this.wishlistClearList) this.wishlistClearList.textContent = '';
+    if (this.wishlistClearButton) this.wishlistClearButton.disabled = false;
+  }
+
+  /**
+   * Empties the wishlist once the player confirmed.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async confirmWishlistClear() {
+    if (this.isBusy) return;
+    this.isBusy = true;
+    try {
+      await wishlistManager.clear();
+      this.closeWishlistClearConfirm();
+      this.setFeedback('settings.wishlist.cleared', 'info');
+    } catch (error) {
+      console.error('[SettingsView] The wishlist could not be cleared.', error);
+      this.setFeedback('settings.wishlist.error', 'error');
+    } finally {
+      this.isBusy = false;
+    }
+  }
+
+  /**
    * Flips one notification kind and persists it.
    *
    * The switch applies live first, exactly like the sound preference: a kind switched off stops
@@ -3721,6 +3914,13 @@ export class SettingsView {
     this.listen(this.animatedLayersToggle, 'click', () => void this.handleAnimatedLayersToggle());
     this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());
     this.listen(this.questTutorialToggle, 'click', () => void this.handleQuestTutorialToggle());
+    this.listen(this.wishlistGainToggle, 'click', () => void this.handleWishlistOptionToggle('gain'));
+    this.listen(this.wishlistTradeToggle, 'click', () =>
+      void this.handleWishlistOptionToggle('trade')
+    );
+    this.listen(this.wishlistClearButton, 'click', () => void this.openWishlistClearConfirm());
+    this.listen(this.wishlistClearCancel, 'click', () => this.closeWishlistClearConfirm());
+    this.listen(this.wishlistClearConfirm, 'click', () => void this.confirmWishlistClear());
     this.listen(this.changelogAnnounceToggle, 'click', () => void this.handleChangelogAnnounceToggle());
     this.listen(this.copyButton, 'click', () => this.handleCopyUuid());
     this.listen(this.authCodeCopyButton, 'click', () => void this.handleCopyAuthCode());

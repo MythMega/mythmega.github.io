@@ -234,6 +234,26 @@
   color: var(--color-error);
 }
 
+/* Pseudo carrying the marker of the test accounts: the save waits for an explicit confirmation,
+   because a cleanup deletes every account whose name contains it. */
+.profile__modal-warning {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-error) 10%, transparent);
+}
+
+.profile__modal-warning-text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
 /* --- Avatar picker --------------------------------------------------------- */
 
 .profile__icons-field {

@@ -684,9 +684,25 @@ export class TradeManager {
     const outgoing = Array.isArray(payload?.outgoing) ? payload.outgoing : [];
     const history = Array.isArray(payload?.history) ? payload.history : [];
     const { notifications, state } = await this.reconcile({ incoming, outgoing, history });
+    // A request this client already considers finished (a trade its received card got refused for)
+    // is dropped from every list, but the worker keeps counting its row as an open REQUEST until
+    // something closes it - and `POST /trades` then answers 409 forever. The row is closed here,
+    // once, so the player can trade again without waiting for the 24 h deadline.
+    await this.closeFinishedRequests([...incoming, ...outgoing], state);
+
     // A trade the game closed locally (its received card broke the rules) can never be claimed: it
     // leaves every list here, once, so no reader of the view model can offer it again.
     const listed = (trades) => trades.filter((trade) => !state.refused[trade?.id]);
+    // A trade this player already took their card from is FINISHED on their side, even while the
+    // worker keeps it active because the other player has not claimed yet. It moves to the history
+    // right away: the player is done with it, so no "waiting" row may sit in front of them (nor
+    // make them believe the next request is blocked).
+    const settled = (trade) => TradeManager.isSettledOnMySide(trade, state);
+    const active = (trades) => listed(trades).filter((trade) => !settled(trade));
+    const finished = (trades) =>
+      listed(trades)
+        .filter((trade) => settled(trade))
+        .map((trade) => ({ ...trade, status: TRADE_STATUSES.COMPLETED, settled_locally: true }));
 
     if (!silent) {
       this.log(
@@ -699,13 +715,79 @@ export class TradeManager {
       ready: true,
       enderEyes: state.enderEyes,
       maxEnderEyes: TRADE_MAX_ENDER_EYES,
-      incoming: listed(incoming),
-      outgoing: listed(outgoing),
-      history: listed(history),
-      // The statistics are local: the worker only describes the trades themselves.
+      incoming: active(incoming),
+      outgoing: active(outgoing),
+      // The trades finished on this side lead the history: they are the most recent ones.
+      history: [...finished([...incoming, ...outgoing]), ...listed(history)],
+      // The statistics are local: the worker only describes the trades themselves. A trade moved
+      // here is still `accepted` on the worker, so its local counters only move when it really
+      // becomes `completed` (see `reconcile`).
       stats: this.buildStatsView(state.stats),
       notifications,
     };
+  }
+
+  /**
+   * Tells whether this player's side of a trade is over, whatever the worker still says.
+   *
+   * Two sources, because a save can travel: the claim recorded locally when this player took their
+   * card (`state.claimed`), and the `claimed` flag the worker sends for this side (a device that
+   * never claimed - the trade was claimed elsewhere). The OTHER player's flag is deliberately
+   * ignored: their claim does not end my side of the exchange.
+   *
+   * @param {object} trade - Trade view returned by the worker.
+   * @param {object} state - Local trade state.
+   * @returns {boolean} True when this player has nothing left to do on that trade.
+   */
+  static isSettledOnMySide(trade, state) {
+    if (!trade || typeof trade.id !== 'string') return false;
+    if (state?.claimed?.[trade.id] === true) return true;
+    // An unknown role means the payload cannot be trusted: keeping the trade in the active lists
+    // is the safe answer (hiding a trade that still waits for this player would be worse).
+    const mine =
+      trade.my_role === 'initiator'
+        ? trade.initiator
+        : trade.my_role === 'responder'
+          ? trade.responder
+          : null;
+    return mine?.claimed === true;
+  }
+
+  /**
+   * Closes on the worker the open requests this client already gave up on.
+   *
+   * Only a row the local state marks as `refused` is closed: a request that is still meant to be
+   * running must never be cancelled behind the player's back. A 409 back means the row was already
+   * closed (or claimed meanwhile), which is the expected answer after the first attempt.
+   *
+   * @param {object[]} trades - Trades of the worker answer.
+   * @param {object} state - Local trade state (read for `refused`).
+   * @returns {Promise<void>} Resolves once every stale row had its chance.
+   */
+  async closeFinishedRequests(trades, state) {
+    const refused = state?.refused ?? {};
+    const openStatuses = [TRADE_STATUSES.PENDING, TRADE_STATUSES.PROPOSED];
+    for (const trade of trades) {
+      if (!trade || typeof trade.id !== 'string' || !refused[trade.id]) continue;
+      if (!openStatuses.includes(trade.status)) continue;
+      const isInitiator = trade.my_role === 'initiator';
+      try {
+        const credentials = await this.getCredentials();
+        await socialManager.request(isInitiator ? '/trades/cancel' : '/trades/respond', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uuid: credentials.uuid,
+            auth_code: credentials.authCode,
+            trade_id: trade.id,
+            ...(isInitiator ? {} : { action: 'deny' }),
+          }),
+        });
+        this.log(`Trade ${trade.id} closed on the worker: it was already finished here.`);
+      } catch (error) {
+        console.warn(`[TradeManager] The stale trade ${trade.id} could not be closed.`, error);
+      }
+    }
   }
 
   /**
@@ -1005,17 +1087,33 @@ export class TradeManager {
     }
     const card = buildTradeCard(entry);
 
-    const response = await socialManager.request('/trades', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        uuid: credentials.uuid,
-        auth_code: credentials.authCode,
-        responder_uuid: responderUuid,
-        rarity: entry.rarity,
-        card,
-      }),
-    });
+    const post = () =>
+      socialManager.request('/trades', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uuid: credentials.uuid,
+          auth_code: credentials.authCode,
+          responder_uuid: responderUuid,
+          rarity: entry.rarity,
+          card,
+        }),
+      });
+
+    let response;
+    try {
+      response = await post();
+    } catch (error) {
+      // 409: the worker still holds an open request. On THIS side it may already be finished (a
+      // claim made on another device, a request given up on): one refresh closes what can be
+      // closed, then the request is retried ONCE. A request that is really open answers 409 a
+      // second time, and that answer is the one reported - the trade is never sent twice.
+      if (error?.status !== 409) throw error;
+      await this.refresh({ silent: true }).catch((refreshError) => {
+        console.warn('[TradeManager] The trades could not be refreshed before the retry.', refreshError);
+      });
+      response = await post();
+    }
 
     const tradeId = response?.trade?.id;
     if (typeof tradeId !== 'string' || tradeId === '') {

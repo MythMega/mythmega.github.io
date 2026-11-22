@@ -101,6 +101,7 @@ function seed({
   sparks = 50,
   escrows = {},
   claimed = {},
+  refused = {},
   seen = {},
   lastRefreshAt = 0,
   enderEyes = 5,
@@ -121,6 +122,7 @@ function seed({
         ...buildDefaultTradeState(),
         escrows,
         claimed,
+        refused,
         seen,
         lastRefreshAt,
         enderEyes,
@@ -705,4 +707,128 @@ test('trade statistics live locally and count each transition once', async () =>
   assert.equal(again.stats.totals.completed, 1);
   assert.equal(again.stats.totals.cancelled, 1);
   assert.equal(again.stats.totals.sparks_spent, 9);
+});
+
+/**
+ * Builds one accepted trade where the received card is already in my hands.
+ *
+ * @param {string} id - Trade id.
+ * @param {boolean} claimedByMe - True when this side already claimed its card.
+ * @returns {object} The trade payload.
+ */
+function acceptedTrade(id, claimedByMe) {
+  return {
+    id,
+    status: TRADE_STATUSES.ACCEPTED,
+    rarity: 1,
+    sparks_cost: 1,
+    ender_eyes_cost: 1,
+    my_role: 'responder',
+    initiator: {
+      uuid: FRIEND,
+      username: 'Bonhomme',
+      card: { key: RECEIVED_KEY, name: 'Zombie', rarity: 1, set: 'A1', style: 'classic' },
+      claimed: false,
+    },
+    responder: {
+      uuid: UUID,
+      username: 'Myth',
+      card: { key: KEY, name: 'Creeper', rarity: 1, set: 'A1', style: 'classic' },
+      claimed: claimedByMe,
+    },
+    created_at: '2026-11-22 10:00:00',
+  };
+}
+
+test('a trade this side already claimed leaves the active lists for the history', async () => {
+  seed({ lastRefreshAt: Date.now() });
+  queue.push({
+    body: {
+      ender_eyes: 5,
+      incoming: [acceptedTrade('t7', true), acceptedTrade('t8', false)],
+      outgoing: [],
+      history: [],
+    },
+  });
+
+  const view = await tradeManager.refresh();
+
+  // t7 is over for this player: the worker only waits for the OTHER side. t8 still waits for me.
+  assert.deepEqual(view.incoming.map((trade) => trade.id), ['t8']);
+  assert.equal(view.history.length, 1);
+  assert.equal(view.history[0].id, 't7');
+  assert.equal(view.history[0].status, TRADE_STATUSES.COMPLETED);
+  assert.equal(view.history[0].settled_locally, true);
+  // The statistics must NOT count it yet: the worker has not completed it.
+  assert.equal(view.stats.totals.completed, 0);
+});
+
+test('the claim recorded locally settles a trade the worker still lists as accepted', async () => {
+  // A save restored from another device has no payload flag to trust, but the claim was recorded.
+  seed({ lastRefreshAt: Date.now(), claimed: { t9: true } });
+  queue.push({
+    body: { ender_eyes: 5, incoming: [acceptedTrade('t9', false)], outgoing: [], history: [] },
+  });
+
+  const view = await tradeManager.refresh();
+
+  assert.deepEqual(view.incoming, []);
+  assert.equal(view.history[0].id, 't9');
+  assert.equal(view.history[0].status, TRADE_STATUSES.COMPLETED);
+});
+
+test('a refused request still open on the worker is closed once', async () => {
+  seed({ refused: { t5: 'promo' } });
+  // The request this player sent, and gave up on locally: the worker still counts it as open.
+  const stale = {
+    ...acceptedTrade('t5', false),
+    status: TRADE_STATUSES.PENDING,
+    my_role: 'initiator',
+    initiator: { uuid: UUID, username: 'Myth', card: { key: KEY, name: 'Creeper', rarity: 1 }, claimed: false },
+    responder: { uuid: FRIEND, username: 'Bonhomme', card: null, claimed: false },
+  };
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [stale], history: [] } });
+  queue.push({ body: { trade_id: 't5', status: 'cancelled' } });
+
+  const view = await tradeManager.refresh();
+
+  assert.deepEqual(view.outgoing, []);
+  assert.deepEqual(calls.map((call) => call.method), ['GET', 'POST']);
+  assert.match(calls[1].url, /\/trades\/cancel$/);
+  assert.equal(JSON.parse(calls[1].body).trade_id, 't5');
+});
+
+test('a creation answered 409 is retried once after a refresh', async () => {
+  seed();
+  // The worker refuses because it still holds an open request; the refresh finds nothing to close,
+  // and the retry is the one that creates the trade.
+  queue.push({ status: 409, body: { error: "Vous avez déjà une demande d'échange en cours." } });
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [], history: [] } });
+  queue.push({ status: 201, body: { trade: { id: 't-retry' } } });
+
+  const response = await tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) });
+
+  assert.equal(response.trade.id, 't-retry');
+  assert.deepEqual(calls.map((call) => call.method), ['POST', 'GET', 'POST']);
+  // The card and the cost are locked ONCE, after the successful request.
+  assert.equal(readCollection(KEY).quantity, 1);
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 41);
+  assert.equal(readState(USER_STATE_KEYS.TRADES).escrows['t-retry'].sparks, 9);
+});
+
+test('a 409 that survives the retry is still reported as a conflict', async () => {
+  seed();
+  queue.push({ status: 409, body: {} });
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [], history: [] } });
+  queue.push({ status: 409, body: {} });
+
+  await assert.rejects(
+    () => tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) }),
+    (error) => error.status === 409
+  );
+
+  assert.deepEqual(calls.map((call) => call.method), ['POST', 'GET', 'POST']);
+  assert.equal(readCollection(KEY).quantity, 2, 'nothing was sent');
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
+  assert.deepEqual(readState(USER_STATE_KEYS.TRADES).escrows, {});
 });

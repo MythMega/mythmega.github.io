@@ -975,6 +975,19 @@
   gap: var(--space-1);
 }
 
+/* Friend counter above the list: "3 / 50" with the configured limit, accented when full. */
+.social__count {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.social__count[data-full='true'] {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
 .social__favorites-title {
   margin: 0;
   color: var(--color-text-muted);

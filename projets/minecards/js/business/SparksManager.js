@@ -47,6 +47,7 @@ import dateSyncManager from './DateSyncManager.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import Card from '../classes/Card.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import { wishlistManager } from './WishlistManager.js';
 // Leaf module: it holds nothing but the `-Promo` suffix, so asking "is this a promo card?" never
 // drags `PromoManager` (and the whole catalogue loader) into the currency module.
 import { isPromoSetId } from './PromoSet.js';
@@ -502,6 +503,9 @@ export class SparksManager {
       newKeys: result.isNew ? [card.uniqueKey] : [],
       source: 'purchase',
     });
+    // A purchase never asks either: the bought card leaves the wishlist when
+    // `wishlistAutoRemoveGain` is on. After the commit, so a failed buy changes nothing.
+    await wishlistManager.consumeGained([card.uniqueKey]);
     return result;
   }
 

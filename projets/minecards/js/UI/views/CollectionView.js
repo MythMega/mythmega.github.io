@@ -71,6 +71,7 @@ import {
   syncCardPrintEffects,
 } from '../components/CardEffectsToggle.js';
 import cardSourceManager, { createCardVisual } from '../../utils/CardSourceManager.js';
+import wishlistManager, { WISHLIST_MAX, WISHLIST_ERRORS } from '../../business/WishlistManager.js';
 import { CARD_RARITY, CARD_STYLE, getRarityLabel } from '../../classes/Card.js';
 
 /** Icon of the Sparks currency, relative to the application root. */
@@ -83,6 +84,9 @@ export const SPARKS_ICON_PATH = 'assets/img/sparks.png';
  * real ones without risking a collision, and `applyFilters()` recognises it explicitly.
  */
 export const COLLECTION_PROMO_FILTER = '__promo';
+
+/** Value of the wishlist filter button that keeps only the wishlisted cards (off by default). */
+const COLLECTION_WISHLIST_FILTER = 'wishlist';
 
 /** SVG namespace used to build the favourite icon without injecting markup. */
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
@@ -197,6 +201,10 @@ export class CollectionView {
 
     /** @type {object[]} Every catalog entry (owned or missing). */
     this.entries = [];
+    /** @type {Set<string>} Keys of the wishlist (see `WishlistManager`), applied to the stars. */
+    this.wishlist = new Set();
+    /** @type {boolean} True while a wish is being written (two fast clicks must not race). */
+    this.wishlistBusy = false;
     /** @type {object} Global completion counters. */
     this.completion = { total: 0, owned: 0 };
     /** @type {object} Per-extension metadata keyed by extension id. */
@@ -257,6 +265,8 @@ export class CollectionView {
       promoAll: false,
       sets: new Set(),
       status: COLLECTION_STATUS.OWNED,
+      /** Narrows the grid to the wishlisted cards; combines with every other criterion. */
+      wishlistOnly: false,
       rarities: new Set(),
       style: '',
       sort: COLLECTION_SORT.FILE_INDEX,
@@ -369,6 +379,21 @@ export class CollectionView {
           { value: COLLECTION_STATUS.OWNED, label: i18n.t('collection.filter.statusOwned') },
           { value: COLLECTION_STATUS.MISSING, label: i18n.t('collection.filter.statusMissing') },
           { value: COLLECTION_STATUS.SELLABLE, label: i18n.t('collection.filter.statusSellable') },
+        ],
+      }),
+      // The wishlist is a filter like the others, not a separate page: it narrows whatever else
+      // is selected instead of replacing it, so "owned + wishlist" keeps the wishes the player
+      // already has.
+      this.buildFilterGroup({
+        titleKey: 'collection.filter.wishlist',
+        name: 'wishlist',
+        value: this.filters.wishlistOnly ? COLLECTION_WISHLIST_FILTER : '',
+        options: [
+          { value: '', label: i18n.t('collection.filter.allCards') },
+          {
+            value: COLLECTION_WISHLIST_FILTER,
+            label: i18n.t('collection.filter.wishlistOnly'),
+          },
         ],
       }),
       // The rarities are a MULTIPLE choice, like the extensions: a player looking for their
@@ -523,6 +548,8 @@ export class CollectionView {
           return !this.filters.promoAll && this.filters.sets.has(value);
         case 'status':
           return this.filters.status === value;
+        case 'wishlist':
+          return this.filters.wishlistOnly === (value === COLLECTION_WISHLIST_FILTER);
         case 'rarity':
           if (value === '') return this.filters.rarities.size === 0;
           return this.filters.rarities.has(value);
@@ -561,6 +588,7 @@ export class CollectionView {
     let count = 0;
     if (this.filters.promoAll || this.filters.sets.size > 0) count += 1;
     if (this.filters.status) count += 1;
+    if (this.filters.wishlistOnly) count += 1;
     if (this.filters.rarities.size > 0) count += 1;
     if (this.filters.style) count += 1;
     return count;
@@ -599,6 +627,9 @@ export class CollectionView {
         return;
       case 'status':
         this.filters.status = value;
+        break;
+      case 'wishlist':
+        this.filters.wishlistOnly = value === COLLECTION_WISHLIST_FILTER;
         break;
       case 'rarity':
         this.applyRarityFilter(value);
@@ -692,6 +723,7 @@ export class CollectionView {
     this.filters.promoAll = false;
     this.filters.sets.clear();
     this.filters.status = COLLECTION_STATUS.OWNED;
+    this.filters.wishlistOnly = false;
     this.filters.rarities.clear();
     this.filters.style = '';
     this.filters.sort = COLLECTION_SORT.FILE_INDEX;
@@ -788,6 +820,13 @@ export class CollectionView {
       const heart = target?.closest('[data-collection-favorite]');
       if (heart && this.gridElement.contains(heart)) {
         void this.toggleFavorite(heart.dataset.collectionFavorite);
+        return;
+      }
+      // The star is delegated here too, for the same reason: it is a sibling of the tile, so a
+      // click on it must not fall through to `openDetail()` (and must not be ignored either).
+      const star = target?.closest('[data-collection-wishlist]');
+      if (star && this.gridElement.contains(star)) {
+        void this.toggleWishlist(star.dataset.collectionWishlist);
         return;
       }
       const tile = target?.closest('[data-collection-key]');
@@ -1023,7 +1062,11 @@ export class CollectionView {
     this.setFeedback(null);
     this.log('Loading the collection…');
     try {
-      const [view] = await Promise.all([collectionManager.getCollectionView(), this.loadFavorites()]);
+      const [view] = await Promise.all([
+        collectionManager.getCollectionView(),
+        this.loadFavorites(),
+        this.loadWishlist(),
+      ]);
       this.entries = view.entries ?? [];
       this.completion = view.completion ?? { total: 0, owned: 0 };
       this.sets = view.sets ?? {};
@@ -1055,6 +1098,124 @@ export class CollectionView {
     } catch (error) {
       console.warn('[CollectionView] The favourite cards could not be read.', error);
       this.favorites = new Set();
+    }
+  }
+
+  /**
+   * Reads the wishlist of the account.
+   *
+   * A read failure is not fatal either: the grid is still usable without its stars, so the
+   * collection is drawn with an empty wishlist instead of failing the whole view.
+   *
+   * @returns {Promise<void>} Resolves once the set is up to date.
+   */
+  async loadWishlist() {
+    try {
+      this.wishlist = new Set(await wishlistManager.getCards());
+    } catch (error) {
+      console.warn('[CollectionView] The wishlist could not be read.', error);
+      this.wishlist = new Set();
+    }
+  }
+
+  /**
+   * Builds the star button overlaid on a tile (owned or not: wanting a card you do not have is
+   * exactly what a wishlist is for).
+   *
+   * @param {object} entry - Collection entry.
+   * @returns {HTMLButtonElement} The button.
+   */
+  buildWishlistButton(entry) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'collection__wishlist';
+    button.dataset.collectionWishlist = entry.key;
+    button.appendChild(CollectionView.buildStarIcon());
+    this.applyWishlistState(button);
+    return button;
+  }
+
+  /**
+   * Builds the star icon of a wishlist button.
+   *
+   * Built node by node like the heart, so the filled/outlined state only depends on the
+   * `is-active` class of the button.
+   *
+   * @returns {SVGElement} The icon.
+   */
+  static buildStarIcon() {
+    const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const path = document.createElementNS(SVG_NAMESPACE, 'path');
+    path.setAttribute(
+      'd',
+      'M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z'
+    );
+    svg.appendChild(path);
+    return svg;
+  }
+
+  /**
+   * Writes the active state and the accessible label of one wishlist control.
+   *
+   * @param {HTMLElement} element - Element carrying a `data-collection-wishlist` key.
+   * @returns {void}
+   */
+  applyWishlistState(element) {
+    const key = element.dataset.collectionWishlist;
+    const active = this.wishlist.has(key);
+    const label = i18n.t(active ? 'collection.wishlist.remove' : 'collection.wishlist.add');
+    element.classList.toggle('is-active', active);
+    element.setAttribute('aria-pressed', String(active));
+    element.setAttribute('aria-label', label);
+    element.title = label;
+  }
+
+  /**
+   * Repaints every star of the grid.
+   *
+   * @returns {void}
+   */
+  syncWishlistControls() {
+    this.gridElement
+      ?.querySelectorAll('[data-collection-wishlist]')
+      .forEach((element) => this.applyWishlistState(element));
+  }
+
+  /**
+   * Adds the card to the wishlist, or removes it when it is already there.
+   *
+   * The list is bounded to `WISHLIST_MAX` distinct cards: a full wishlist refuses the addition and
+   * says how many cards it already holds instead of silently dropping the click.
+   *
+   * @param {string} key - Collection key.
+   * @returns {Promise<void>} Resolves once the toggle finished (or the refusal was reported).
+   */
+  async toggleWishlist(key) {
+    if (this.wishlistBusy || typeof key !== 'string') return;
+    this.wishlistBusy = true;
+    try {
+      const added = await wishlistManager.toggle(key);
+      this.wishlist = new Set(await wishlistManager.getCards());
+      this.syncWishlistControls();
+      // The star is the only way to leave a card out of the "wishlist only" grid: while that filter
+      // is on, the click must repaint the grid, not just the star.
+      if (this.filters.wishlistOnly) this.renderGrid();
+      Toast.success(added ? 'collection.wishlist.added' : 'collection.wishlist.removed');
+      this.log(
+        `Wish ${added ? 'added' : 'removed'}: "${key}" (${this.wishlist.size}/${WISHLIST_MAX}).`
+      );
+    } catch (error) {
+      console.error('[CollectionView] The wishlist could not be saved.', error);
+      Toast.error(
+        error?.code === WISHLIST_ERRORS.FULL
+          ? 'collection.wishlist.full'
+          : 'collection.wishlist.error'
+      );
+    } finally {
+      this.wishlistBusy = false;
     }
   }
 
@@ -1167,16 +1328,22 @@ export class CollectionView {
       Toast.success(added ? 'collection.favorite.added' : 'collection.favorite.removed');
       this.log(`Favourite ${added ? 'added' : 'removed'}: "${key}" (${favorites.length} pinned).`);
     } catch (error) {
-      console.error('[CollectionView] The favourite card could not be saved.', error);
-      // A full list that still has a slot for sale turns the refusal into the purchase offer, then
-      // retries the very heart the player touched once the slot is owned.
+      // A full list is NOT a failure: it is the normal state of an account that owns three slots,
+      // and the answer is the purchase offer below. It is checked before the console line, so the
+      // expected refusal never lands in the console as an error (only a real write failure does).
       if (error?.code === PROFILE_ERROR_CODES.FAVORITES_FULL) {
+        this.log('Favourite refused: every profile slot is taken, offering the next one.');
+        // A full list that still has a slot for sale turns the refusal into the purchase offer,
+        // then retries the very heart the player touched once the slot is owned.
         const opened = await slotPurchaseModal.open({
           kind: PROFILE_SLOT_KINDS.FAVORITES,
           onPurchased: () => void this.toggleFavorite(key),
         }).catch(() => false);
         if (opened) return;
+        Toast.error(getProfileErrorMessageKey(error));
+        return;
       }
+      console.error('[CollectionView] The favourite card could not be saved.', error);
       Toast.error(getProfileErrorMessageKey(error));
     } finally {
       this.favoriteBusy = false;
@@ -1256,6 +1423,9 @@ export class CollectionView {
       }
       if (filters.rarities.size > 0 && !filters.rarities.has(String(entry.rarity ?? ''))) return false;
       if (filters.style && entry.style !== filters.style) return false;
+      // The wishlist is a set of keys the player picked by hand: it is read from the live state,
+      // so adding or removing a wish repaints the same grid without reloading the collection.
+      if (filters.wishlistOnly && !this.wishlist.has(entry.key)) return false;
       if (filters.status === COLLECTION_STATUS.OWNED && !entry.owned) return false;
       if (filters.status === COLLECTION_STATUS.MISSING && entry.owned) return false;
       // "Sellable" is the trade view of a card: the first copy is the collection, only the
@@ -1429,6 +1599,9 @@ export class CollectionView {
     if (entry.owned) {
       cell.appendChild(this.buildFavoriteButton(entry));
     }
+    // The star is offered on EVERY card: the collection lists the whole catalogue, so that is
+    // where a player can wish for a card they do not own yet.
+    cell.appendChild(this.buildWishlistButton(entry));
     return cell;
   }
 

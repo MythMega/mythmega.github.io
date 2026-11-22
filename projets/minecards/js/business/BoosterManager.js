@@ -40,6 +40,7 @@ import { configLoader, DEFAULT_CARDSET_SETTINGS } from '../utils/ConfigLoader.js
 import { buildBoosterCode } from '../utils/BoosterCode.js';
 import { createSeededRandom } from '../utils/SeededRandom.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import { wishlistManager } from './WishlistManager.js';
 
 /** Default directory of the extension JSON files (overridable through `boosters.directory`). */
 export const BOOSTER_DIRECTORY = 'data/boosters';
@@ -1123,7 +1124,7 @@ export class BoosterManager {
     const drawsByRarity = BoosterManager.countByRarity(cards);
     const drawsByCard = BoosterManager.countByKey(cards);
 
-    return storageRepository.transaction(
+    const result = await storageRepository.transaction(
       [STORES.COLLECTION, STORES.USER_STATE],
       'readwrite',
       async (context) => {
@@ -1194,6 +1195,13 @@ export class BoosterManager {
         return { newKeys, quantity, sparks };
       }
     );
+
+    // An opening never asks: every drawn card leaves the wishlist silently when
+    // `wishlistAutoRemoveGain` is on (the default). Written AFTER the transaction, so a failed
+    // opening never touches the wishlist.
+    await wishlistManager.consumeGained(cards.map((card) => card.uniqueKey));
+
+    return result;
   }
 
   /**

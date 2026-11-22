@@ -16,6 +16,7 @@ import socialManager, {
 import likesManager, { LIKES_ERROR_CODES } from '../../business/LikesManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import boosterManager from '../../business/BoosterManager.js';
+import collectionManager from '../../business/CollectionManager.js';
 import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager.js';
 import TrophyDetail from '../components/TrophyDetail.js';
 import { decodeBinderCode } from '../../utils/BinderCode.js';
@@ -40,6 +41,7 @@ export class SocialView {
     this.panels = [...this.root.querySelectorAll('[data-social-panel]')];
     this.followList = query('[data-social-list]');
     this.emptyElement = query('[data-social-empty]');
+    this.countElement = query('[data-social-count]');
     this.feedbackElement = query('[data-social-feedback]');
     this.addButton = query('[data-social-add]');
     this.refreshButton = query('[data-social-refresh]');
@@ -61,6 +63,8 @@ export class SocialView {
     this.detailLike = query('[data-social-detail-like]');
     this.detailFavorites = query('[data-social-detail-favorites]');
     this.detailBinder = query('[data-social-detail-binder]');
+    this.detailWishlistButton = query('[data-social-detail-wishlist]');
+    this.detailWishlistPanel = query('[data-social-detail-wishlist-panel]');
     this.detailCloseButtons = this.root.querySelectorAll('[data-social-detail-close]');
 
     this.binderModal = query('[data-social-binder-modal]');
@@ -94,6 +98,8 @@ export class SocialView {
     this.likes = new Map();
     /** Favourites of each followed player (`{ cards, trophies, binder }`), read with the list. */
     this.favorites = new Map();
+    /** Wishlist keys of each followed player, read in the same batch as the cards. */
+    this.wishlists = new Map();
     /** Decoded binder of the opened friend, kept while their dialog is on screen. */
     this.openBinderPayload = null;
     /** Trophy catalogue indexed by id, loaded once for the pins of the card dialog. */
@@ -262,6 +268,8 @@ export class SocialView {
       if (event.target === this.detailModal) this.closeFriend();
     });
 
+    this.listen(this.detailWishlistButton, 'click', () => this.toggleDetailWishlist());
+
     this.listen(this.detailBinder, 'click', (event) => {
       const button = event.target instanceof Element
         ? event.target.closest('[data-social-binder-open]')
@@ -368,10 +376,14 @@ export class SocialView {
     this.root.setAttribute('aria-busy', 'true');
     this.setFeedback(announce ? 'social.refreshing' : null);
     try {
-      const { following, cards, favorites } = await socialManager.refreshFollowing({ force });
+      const { following, cards, favorites, wishlists } = await socialManager.refreshFollowing({
+        force,
+      });
       this.following = following;
+      await this.renderCount();
       this.cards = new Map(cards.map((card) => [card.uuid, card]));
       this.favorites = new Map(Object.entries(favorites ?? {}));
+      this.wishlists = new Map(Object.entries(wishlists ?? {}));
       // The hearts of the whole list come in one public request. A failure only hides them: the
       // Follow List itself must never depend on the likes endpoint.
       try {
@@ -400,6 +412,30 @@ export class SocialView {
       this.isLoading = false;
       this.root.removeAttribute('aria-busy');
     }
+  }
+
+  /**
+   * Paints the friend counter: how many players are followed, over the configured limit.
+   *
+   * The limit comes from `social.maxFriends` of `config.json` (`SocialManager.getMaxFriends()`),
+   * the same value `addFollow` enforces. It turns the accent colour once the list is full, so the
+   * refusal of the next follow is announced before the player tries.
+   *
+   * @returns {Promise<void>} Resolves once the counter is painted.
+   */
+  async renderCount() {
+    if (!this.countElement) return;
+    let max = 50;
+    try {
+      max = await socialManager.getMaxFriends();
+    } catch (error) {
+      console.warn('[SocialView] The friend limit could not be read.', error);
+    }
+    this.countElement.textContent = i18n.t('social.count', {
+      count: this.following.length,
+      max,
+    });
+    this.countElement.dataset.full = this.following.length >= max ? 'true' : 'false';
   }
 
   /**
@@ -677,6 +713,7 @@ export class SocialView {
     this.renderDetailLikes();
     await this.renderDetailFavorites(uuid);
     await this.renderDetailBinder(uuid);
+    await this.renderDetailWishlist(uuid);
 
     this.detailModal.hidden = false;
     try {
@@ -707,7 +744,89 @@ export class SocialView {
     this.detailFavorites.hidden = true;
     this.detailBinder.textContent = '';
     this.detailBinder.hidden = true;
+    this.detailWishlistButton.textContent = '';
+    this.detailWishlistButton.hidden = true;
+    this.detailWishlistPanel.textContent = '';
+    this.detailWishlistPanel.hidden = true;
     this.openBinderPayload = null;
+  }
+
+  /**
+   * Draws the wishlist of the opened friend, with what the player owns.
+   *
+   * The three states the operator asked for: a card the viewer does not own at all is shown dark,
+   * but its NAME is still there; a card owned once is greyed with "possédé : 1"; a card owned in
+   * several copies keeps its normal colour (it is the tradable one) with its count.
+   *
+   * The quantities come from the local collection: the wishlist itself only holds keys.
+   *
+   * @param {string} uuid - Followed UUID.
+   * @returns {Promise<void>} Resolves once the block is drawn (or hidden).
+   */
+  async renderDetailWishlist(uuid) {
+    const host = this.detailWishlistPanel;
+    if (!host || !this.detailWishlistButton) return;
+    host.textContent = '';
+    host.hidden = true;
+    this.detailWishlistButton.hidden = true;
+
+    const keys = this.wishlists.get(uuid) ?? [];
+    if (!Array.isArray(keys) || keys.length === 0) return;
+
+    const quantities = new Map();
+    try {
+      const view = await collectionManager.getCollectionView();
+      (view.entries ?? []).forEach((entry) => {
+        quantities.set(entry.key, entry.owned && entry.quantity > 0 ? entry.quantity : 0);
+      });
+    } catch (error) {
+      console.warn('[SocialView] The local collection could not be read for the wishlist.', error);
+    }
+
+    const section = this.buildFavoriteSection('social.wishlist.title');
+    const list = document.createElement('ul');
+    list.className = 'social__wishlist-list';
+    for (const key of keys) {
+      let name = key;
+      try {
+        const card = await boosterManager.getCardByKey(key);
+        if (card) name = card.getName(cardLanguage.getLang());
+      } catch (error) {
+        console.warn(`[SocialView] The wishlisted card \"${key}\" could not be read.`, error);
+      }
+      const quantity = quantities.get(key) ?? 0;
+      const item = document.createElement('li');
+      item.className = 'social__wishlist-item';
+      // `missing`: not owned at all, `single`: owned once, `many`: at least one copy is tradable.
+      item.dataset.state = quantity === 0 ? 'missing' : quantity === 1 ? 'single' : 'many';
+
+      const label = document.createElement('span');
+      label.className = 'social__wishlist-name';
+      label.textContent = name;
+      const count = document.createElement('span');
+      count.className = 'social__wishlist-count';
+      count.textContent =
+        quantity > 0
+          ? i18n.t('social.wishlist.owned', { count: quantity })
+          : i18n.t('social.wishlist.none');
+      item.append(label, count);
+      list.appendChild(item);
+    }
+    section.appendChild(list);
+    host.appendChild(section);
+
+    this.detailWishlistButton.textContent = i18n.t('social.wishlist.open', { count: keys.length });
+    this.detailWishlistButton.hidden = false;
+  }
+
+  /**
+   * Shows or hides the wishlist block of the opened friend.
+   *
+   * @returns {void}
+   */
+  toggleDetailWishlist() {
+    if (!this.detailWishlistPanel) return;
+    this.detailWishlistPanel.hidden = !this.detailWishlistPanel.hidden;
   }
 
   /**
@@ -1190,6 +1309,7 @@ export class SocialView {
       this.cards.delete(uuid);
       this.closeUnfollowConfirmation();
       this.closeFriend();
+      await this.renderCount();
       await this.renderList();
       this.setFeedback('social.unfollowed', 'info');
     } catch (error) {

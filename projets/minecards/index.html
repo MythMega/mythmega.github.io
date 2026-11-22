@@ -242,14 +242,16 @@
   <link rel="stylesheet" href="css/views/stats.css?v=8c9b1e5211">
   <link rel="stylesheet" href="css/views/minepick.css?v=920529bd87">
   <link rel="stylesheet" href="css/views/mineblock.css?v=4df308eb19">
-  <link rel="stylesheet" href="css/views/profile.css?v=5090b8ff20">
+  <link rel="stylesheet" href="css/views/profile.css?v=ad06736192">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
   <link rel="stylesheet" href="css/views/settings.css?v=98da47ccd0">
   <link rel="stylesheet" href="css/views/redeem.css?v=d0fa404527">
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
-  <link rel="stylesheet" href="css/views/social.css?v=5aa129336c">
+  <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
+  <link rel="stylesheet" href="css/views/social.css?v=7dc9e783d7">
+  <link rel="stylesheet" href="css/views/wishlist.css?v=6428044737">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
@@ -1216,6 +1218,12 @@
               <input class="field__input" type="text" data-profile-name maxlength="24" autocomplete="nickname" data-i18n-placeholder="profile.name.placeholder" placeholder="Votre nom de joueur…">
             </label>
             <p class="profile__modal-feedback" data-profile-name-feedback role="status" hidden></p>
+            <!-- Shown when the pseudo carries TESTUSERBDD: a cleanup of the database deletes every
+                 account whose name contains it, so the player has to say it is a test account. -->
+            <div class="profile__modal-warning" data-profile-name-test-warning role="alert" hidden>
+              <p class="profile__modal-warning-text" data-i18n="profile.name.testWarning">Ce pseudo contient « TESTUSERBDD », le marqueur des comptes de test : toutes les données d'un compte qui le contient sont supprimées lors du nettoyage de la base. Si ce n'est pas un compte de test, choisis un autre pseudo.</p>
+              <button type="button" class="btn btn--danger" data-profile-name-test-confirm data-i18n="profile.name.testConfirm">Oui, je suis un compte de test</button>
+            </div>
           </div>
           <div class="modal__actions">
             <button type="submit" class="btn btn--primary" data-profile-name-save data-i18n="profile.save">Enregistrer</button>
@@ -2089,6 +2097,42 @@
             <p class="settings__help" data-i18n="settings.questTutorial.help">Quand vous cliquez sur « Y aller » dans une quête, le jeu vous guide page par page jusqu'à l'endroit où elle se fait. Désactivez cette option pour y aller directement.</p>
           </section>
 
+          <!-- Wishlist housekeeping: the two automatic removals (a card obtained without asking: a
+               booster, a purchase, a Mine Pick; then the one received in a trade, which is OFF so
+               the post-trade dialog asks instead), then the explicit "empty the wishlist" button.
+               Its confirmation lists the names, built by SettingsView, and only clearing the list
+               touches the save. -->
+          <section class="panel settings__panel">
+            <h3 class="settings__title" data-i18n="settings.wishlist.title">Wishlist</h3>
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="settings.wishlist.autoGain">Retirer après un booster, un achat ou un pick</span>
+              <button type="button" class="switch" data-settings-wishlist-gain role="switch" aria-checked="true" data-i18n-aria-label="settings.wishlist.autoGain">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-wishlist-gain-state></span>
+              </button>
+            </div>
+            <div class="settings__toggle">
+              <span class="settings__toggle-label" data-i18n="settings.wishlist.autoTrade">Retirer après un échange</span>
+              <button type="button" class="switch" data-settings-wishlist-trade role="switch" aria-checked="false" data-i18n-aria-label="settings.wishlist.autoTrade">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-wishlist-trade-state></span>
+              </button>
+            </div>
+            <p class="settings__help" data-i18n="settings.wishlist.help">Une carte de la wishlist obtenue dans un booster, un achat ou un pick en sort d'elle-même. Pour un échange, le jeu vous demande à la réception de la carte, sauf si vous activez le second interrupteur.</p>
+            <div class="settings__actions">
+              <button type="button" class="btn btn--danger" data-settings-wishlist-clear data-i18n="settings.wishlist.clear">Vider la wishlist</button>
+            </div>
+            <div class="settings__wishlist-confirm" data-settings-wishlist-clear-panel hidden>
+              <p class="settings__help" data-settings-wishlist-clear-intro></p>
+              <ul class="settings__wishlist-list" data-settings-wishlist-clear-list></ul>
+              <p class="settings__wishlist-question" data-i18n="settings.wishlist.question">Êtes-vous sûr ?</p>
+              <div class="settings__actions">
+                <button type="button" class="btn btn--ghost" data-settings-wishlist-clear-cancel data-i18n="settings.wishlist.cancel">Annuler</button>
+                <button type="button" class="btn btn--danger" data-settings-wishlist-clear-confirm data-i18n="settings.wishlist.confirm">Vider</button>
+              </div>
+            </div>
+          </section>
+
           <!-- UTC clock: the header one is hidden on a phone, and this is the reference time of the
                game (daily booster reset, availability window of the promo codes). The value is written
                by SettingsView from the trusted clock, never from `Date.now()`. -->
@@ -2508,8 +2552,10 @@
           </section>
 
           <!-- Support: the two ways to reach the developer, right where a player comes to report
-               what broke. Plain links, so they work even when the rest of the page is broken. -->
-          <section class="panel settings__panel">
+               what broke. Plain links, so they work even when the rest of the page is broken. The
+               id is the anchor of the "write to us here" link of the data policy page
+               (`data-settings-anchor`). -->
+          <section class="panel settings__panel" id="settings-support">
             <h3 class="settings__title" data-i18n="settings.support.title">Support</h3>
             <p class="settings__help" data-i18n="settings.support.help">Une question, un bug, une sauvegarde perdue ? Écrivez-nous : joignez le code d'erreur ci-dessus et la description de ce qui s'est passé.</p>
             <div class="settings__actions">
@@ -2601,6 +2647,7 @@
               <button type="button" class="btn btn--ghost" data-social-update data-i18n="social.update">Update My Account</button>
             </div>
 
+            <p class="social__count" data-social-count></p>
             <ul class="social__list" data-social-list></ul>
             <p class="social__empty" data-social-empty data-i18n="social.empty">Aucun joueur suivi pour le moment. Ajoutez l'UUID d'un joueur qui a publié sa carte.</p>
           </section>
@@ -2693,9 +2740,11 @@
             <p class="social__detail-likes" data-social-detail-likes></p>
             <div class="social__detail-favorites" data-social-detail-favorites hidden></div>
             <div class="social__detail-binder" data-social-detail-binder hidden></div>
+            <div class="social__detail-wishlist" data-social-detail-wishlist-panel hidden></div>
             <p class="social__detail-meta" data-social-detail-meta></p>
           </div>
           <div class="modal__actions social__detail-actions">
+            <button type="button" class="btn btn--ghost" data-social-detail-wishlist hidden></button>
             <button type="button" class="btn btn--primary" data-social-detail-like data-i18n="social.like.action">Liker (+1)</button>
             <button type="button" class="btn btn--danger" data-social-detail-unfollow data-i18n="social.detail.unfollow">Ne plus suivre</button>
             <button type="button" class="btn btn--ghost" data-social-detail-close data-i18n="social.detail.close">Fermer</button>
@@ -3244,6 +3293,71 @@
       </div>
     </section>
 
+    <!-- 8. Politique de données: what the game stores, and where. Static text only, no script:
+         a `<section data-view>` is all the router needs, and the menu entry targets it. -->
+    <section class="view" id="view-data-policy" data-view="data-policy" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.dataPolicy.title">Politique de données</h2>
+      </div>
+
+      <div class="legal">
+        <section class="panel legal__panel">
+          <h3 class="stats__title" data-i18n="dataPolicy.browser.title">Ce qui reste dans votre navigateur</h3>
+          <p class="legal__text" data-i18n="dataPolicy.browser.text">MineCards fonctionne d'abord en local : votre partie est enregistrée dans ce navigateur, sur cet appareil. Rien ne part sur Internet tant que vous n'utilisez pas les fonctions en ligne.</p>
+          <ul class="legal__list">
+            <li data-i18n="dataPolicy.browser.item1">Votre collection, les doublons et l'historique de vos ouvertures.</li>
+            <li data-i18n="dataPolicy.browser.item2">Votre sauvegarde de partie : progression, Sparks, Ender Eyes et statistiques.</li>
+            <li data-i18n="dataPolicy.browser.item3">Votre profil : pseudo, icône, titre, favoris et binder épinglé.</li>
+            <li data-i18n="dataPolicy.browser.item4">Vos réglages : son, animations, affichage des cartes, langue.</li>
+            <li data-i18n="dataPolicy.browser.item5">Votre identifiant de joueur (UUID) et votre code secret, générés dans le navigateur.</li>
+          </ul>
+        </section>
+
+        <section class="panel legal__panel">
+          <h3 class="stats__title" data-i18n="dataPolicy.server.title">Ce qui est envoyé sur le serveur</h3>
+          <p class="legal__text" data-i18n="dataPolicy.server.text">Ces informations ne quittent l'appareil que si vous utilisez une fonction en ligne, et se limitent à ce que cette fonction demande :</p>
+          <ul class="legal__list">
+            <li data-i18n="dataPolicy.server.item1">Publier votre carte de dresseur : identifiant, code secret, pseudo, apparence de la carte, niveau, quelques compteurs de collection, favoris et binder.</li>
+            <li data-i18n="dataPolicy.server.item2">Sauvegarde en ligne : le fichier .save complet, dont les 5 dernières versions sont conservées.</li>
+            <li data-i18n="dataPolicy.server.item3">Likes : les amis que vous avez likés et le nombre de likes reçus.</li>
+            <li data-i18n="dataPolicy.server.item4">Échanges : les cartes proposées, leur statut et les dates.</li>
+            <li data-i18n="dataPolicy.server.item5">Aucun mot de passe, aucune adresse e-mail, aucune donnée bancaire.</li>
+          </ul>
+        </section>
+
+        <section class="panel legal__panel">
+          <h3 class="stats__title" data-i18n="dataPolicy.host.title">Qui héberge ces données</h3>
+          <p class="legal__text" data-i18n="dataPolicy.host.text">Les pages du jeu sont servies par GitHub Pages. Les fonctions en ligne tournent sur Cloudflare Workers, avec une base de données D1 hébergée par Cloudflare. L'heure UTC des remises à zéro quotidiennes est demandée à un service de temps public. Aucune publicité, aucun traceur, aucune revente de données.</p>
+        </section>
+
+        <section class="panel legal__panel">
+          <h3 class="stats__title" data-i18n="dataPolicy.rights.title">Effacer vos données</h3>
+          <p class="legal__text" data-i18n="dataPolicy.rights.text">Aucune donnée personnelle n'est envoyée : le jeu ne connaît ni votre nom, ni votre adresse e-mail, ni votre adresse IP. Aucune suppression n'est donc nécessaire.</p>
+          <p class="legal__text legal__contact">
+            <span data-i18n="dataPolicy.rights.contactBefore">Si vous voulez tout de même supprimer votre compte, écrivez-nous</span>
+            <button type="button" class="legal__link" data-nav-target="settings" data-settings-section="errors" data-settings-anchor="settings-support" data-i18n="dataPolicy.rights.contactLink">ici</button>
+            <span data-i18n="dataPolicy.rights.contactAfter">: la carte publiée et tout ce qui y est rattaché seront supprimés.</span>
+          </p>
+          <p class="legal__note" data-i18n="dataPolicy.updated">Dernière mise à jour : 22 novembre 2026.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- 9. Politique d'IA: reserved page, the text is a placeholder until it is written. -->
+    <section class="view" id="view-ai-policy" data-view="ai-policy" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.aiPolicy.title">Politique d'IA</h2>
+      </div>
+
+      <div class="legal">
+        <section class="panel legal__panel">
+          <p class="legal__placeholder" data-i18n="aiPolicy.paragraph1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+          <p class="legal__placeholder" data-i18n="aiPolicy.paragraph2">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Cras mattis consectetur purus sit amet fermentum.</p>
+          <p class="legal__placeholder" data-i18n="aiPolicy.paragraph3">Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Aenean lacinia bibendum nulla sed consectetur.</p>
+        </section>
+      </div>
+    </section>
+
   </main>
 
   <!-- Order: the reading destinations first, then the PRIMARY "Ouvrir" action in the middle (thumb
@@ -3298,8 +3412,20 @@
           <span data-i18n="nav.info">Info</span>
         </button>
       </li>
-      <li>
-        <button type="button" class="app-menu__item" data-nav-target="profile">
+                  <li>
+              <button type="button" class="app-menu__item" data-nav-target="data-policy">
+                <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <span data-i18n="nav.dataPolicy">Politique de données</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="app-menu__item" data-nav-target="ai-policy">
+                <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5l1.6 3.8L16.4 10.4l-3.8 1.6L11 15.8 9.4 12 5.6 10.4 9.4 8.8z"/><path d="M18 15l.8 1.9 1.9.8-1.9.8L18 20.4l-.8-1.9-1.9-.8 1.9-.8z"/></svg>
+                <span data-i18n="nav.aiPolicy">Politique d'IA</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="app-menu__item" data-nav-target="profile">
           <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
           <span data-i18n="nav.profile">Profil</span>
         </button>

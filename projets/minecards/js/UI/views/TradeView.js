@@ -32,6 +32,12 @@ import socialManager, {
 } from '../../business/SocialManager.js';
 import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
+import accountManager from '../../business/AccountManager.js';
+import wishlistManager from '../../business/WishlistManager.js';
+import {
+  askWishlistRemoval,
+  WISHLIST_POPUP_ANSWERS,
+} from '../components/WishlistRemovePopup.js';
 import tradeManager, {
   TRADE_EXPIRY_HOURS,
   TRADE_MAX_ENDER_EYES,
@@ -136,6 +142,10 @@ export class TradeView {
     /** @type {{sameExtension: boolean}|null} Rules read from `settings/config.json`. */
     this.tradeRules = null;
     this.friends = [];
+    /** Wishlist keys of the followed players, read in the same batch as their cards. */
+    this.wishlists = new Map();
+    /** Wishlist of the partner currently selected in the new-trade dialog. */
+    this.partnerWishlist = new Set();
     /** @type {Array<{uuid: string, username: string, iconPath: string, trades: number}>} Followed
      *   players of the new-trade dialog, busiest partner first. */
     this.partners = [];
@@ -230,7 +240,7 @@ export class TradeView {
     });
     this.listen(this.partnerButton, 'click', () => this.openPartnerPicker());
     this.listen(this.partnerSearch, 'input', () => this.renderPartners());
-    this.listen(this.partnerList, 'click', (event) => this.selectPartner(event));
+    this.listen(this.partnerList, 'click', (event) => void this.selectPartner(event));
     this.partnerCloseButtons.forEach((button) => {
       this.listen(button, 'click', () => this.closePartnerPicker());
     });
@@ -836,14 +846,16 @@ export class TradeView {
     this.newModal.hidden = false;
 
     try {
-      const [{ cards }, collection, partnerCounts] = await Promise.all([
+      const [{ cards, wishlists }, collection, partnerCounts] = await Promise.all([
         socialManager.refreshFollowing(),
         collectionManager.getCollectionView(),
         tradeManager.getPartnerCounts(),
       ]);
+      this.wishlists = new Map(Object.entries(wishlists ?? {}));
       this.friends = cards.filter((card) => card && typeof card.uuid === 'string');
       this.partners = this.buildPartners(this.friends, partnerCounts);
       this.partnerUuid = '';
+      this.partnerWishlist = new Set();
       this.partnerButton.disabled = this.partners.length === 0;
       this.updatePartnerDisplay();
       // Promo cards, rarity 6 and the extensions closed in `settings/cardsets.json` are already out.
@@ -855,17 +867,7 @@ export class TradeView {
         this.newError.textContent = i18n.t('trade.error.noFriends');
       }
 
-      if (this.collectionEntries.length === 0) {
-        const empty = document.createElement('p');
-        empty.className = 'trade__empty-cards';
-        empty.textContent = i18n.t('trade.error.noDuplicates');
-        this.cardList.appendChild(empty);
-      } else {
-        for (const entry of this.collectionEntries) {
-          this.cardList.appendChild(await this.buildSelectableCard(entry));
-        }
-      }
-      this.updateNewCost();
+      await this.renderNewTradeCards();
       this.partnerButton.focus();
     } catch (error) {
       console.error('[TradeView] The new-trade dialog could not be filled.', error);
@@ -875,12 +877,58 @@ export class TradeView {
   }
 
   /**
-   * Builds one selectable card of the new-trade dialog.
+   * Repaints the cards the new-trade dialog offers, the partner's wishlist first.
+   *
+   * Once a partner is chosen, the cards THEY wished for come first and carry a badge; the cards
+   * they wished for that this player cannot offer (not owned, or owned once) follow, greyed and
+   * `disabled`, so the wish is visible without pretending it can be exchanged. Without a partner
+   * the dialog is the plain list of the tradable cards.
+   *
+   * @returns {Promise<void>} Resolves once the list is filled.
+   */
+  async renderNewTradeCards() {
+    this.cardList.textContent = '';
+    this.selectedCardKey = '';
+    this.updateNewCost();
+
+    const wished = this.partnerWishlist;
+    const wanted = this.collectionEntries.filter((entry) => wished.has(entry.key));
+    const rest = this.collectionEntries.filter((entry) => !wished.has(entry.key));
+
+    for (const entry of wanted) {
+      this.cardList.appendChild(await this.buildSelectableCard(entry, { wished: true }));
+    }
+
+    // The wished cards that cannot be offered: they exist in the partner's wishlist but the local
+    // collection has nothing to give (or only its last copy). They sit right after the tradable
+    // wishes, greyed and disabled, before the cards the partner did not ask for.
+    const blocked = [...wished].filter(
+      (key) => !this.collectionEntries.some((entry) => entry.key === key)
+    );
+    for (const key of blocked) {
+      this.cardList.appendChild(await this.buildBlockedWishCard(key));
+    }
+
+    for (const entry of rest) {
+      this.cardList.appendChild(await this.buildSelectableCard(entry));
+    }
+
+    if (this.collectionEntries.length === 0 && blocked.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'trade__empty-cards';
+      empty.textContent = i18n.t('trade.error.noDuplicates');
+      this.cardList.appendChild(empty);
+    }
+  }
+
+  /**
+   * Builds one selectable card of a trade dialog.
    *
    * @param {object} entry - Owned collection entry.
+   * @param {{wished?: boolean}} [options] - `wished` marks a card the other player asked for.
    * @returns {Promise<HTMLElement>} The button.
    */
-  async buildSelectableCard(entry) {
+  async buildSelectableCard(entry, { wished = false } = {}) {
     const cost = getTradeCost(entry.rarity);
     const tile = await this.buildCardTile(
       {
@@ -900,6 +948,43 @@ export class TradeView {
     button.dataset.rarity = String(entry.rarity);
     button.setAttribute('aria-pressed', 'false');
     button.appendChild(tile);
+    if (wished) {
+      button.classList.add('is-wished');
+      const badge = document.createElement('span');
+      badge.className = 'trade__card-wish';
+      badge.textContent = i18n.t('trade.wishlist.badge');
+      button.appendChild(badge);
+    }
+    return button;
+  }
+
+  /**
+   * Builds a greyed card of the partner's wishlist that this player cannot offer.
+   *
+   * @param {string} key - Collection key wished by the partner.
+   * @returns {Promise<HTMLElement>} The disabled button.
+   */
+  async buildBlockedWishCard(key) {
+    let name = key;
+    try {
+      const card = await boosterManager.getCardByKey(key);
+      if (card) name = card.getName(i18n.getLang());
+    } catch (error) {
+      console.warn(`[TradeView] The wished card "${key}" could not be read.`, error);
+    }
+
+    const tile = await this.buildCardTile({ key, name }, {});
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'trade__card-button is-unavailable is-wished';
+    button.dataset.tradeWishBlocked = key;
+    button.disabled = true;
+    button.title = i18n.t('trade.wishlist.notTradable');
+    button.appendChild(tile);
+    const badge = document.createElement('span');
+    badge.className = 'trade__card-wish';
+    badge.textContent = i18n.t('trade.wishlist.notTradable');
+    button.appendChild(badge);
     return button;
   }
 
@@ -1153,13 +1238,17 @@ export class TradeView {
    * @param {MouseEvent} event - Click event.
    * @returns {void}
    */
-  selectPartner(event) {
+  async selectPartner(event) {
     const row =
       event.target instanceof Element ? event.target.closest('[data-trade-partner-uuid]') : null;
     if (!row) return;
     this.partnerUuid = row.dataset.tradePartnerUuid || '';
+    this.partnerWishlist = new Set(this.wishlists.get(this.partnerUuid) ?? []);
     this.updatePartnerDisplay();
     this.closePartnerPicker();
+    // The cards come back re-ordered, the partner's wishes first: choosing a partner is what makes
+    // their wishlist relevant, so the list follows the choice.
+    await this.renderNewTradeCards();
   }
 
   /**
@@ -1203,12 +1292,22 @@ export class TradeView {
       // Same rarity is mandatory; the same extension is only required when the configuration says
       // so (`trades.sameExtension`), in which case the offered card must match the other one's set.
       this.tradeRules = await tradeManager.getRules();
+      const wishedByInitiator = new Set(
+        await this.getWishlistOf(trade.initiator?.uuid ?? '')
+      );
       this.collectionEntries = (
         await tradeManager.getTradableEntries(collection, {
           rarity: trade.rarity,
           set: trade.initiator?.card?.set ?? '',
         })
-      ).filter((entry) => entry.key !== excluded);
+      )
+        .filter((entry) => entry.key !== excluded)
+        // The cards the requester wished for first, then the rest: the proposal is about giving
+        // them something they want, so their wishlist leads the list.
+        .sort(
+          (left, right) =>
+            Number(wishedByInitiator.has(right.key)) - Number(wishedByInitiator.has(left.key))
+        );
       if (this.collectionEntries.length === 0) {
         const empty = document.createElement('p');
         empty.className = 'trade__empty-cards';
@@ -1221,7 +1320,9 @@ export class TradeView {
         this.proposalCards.appendChild(empty);
       } else {
         for (const entry of this.collectionEntries) {
-          this.proposalCards.appendChild(await this.buildSelectableCard(entry));
+          this.proposalCards.appendChild(
+            await this.buildSelectableCard(entry, { wished: wishedByInitiator.has(entry.key) })
+          );
         }
       }
       this.updateProposalCost();
@@ -1443,6 +1544,10 @@ export class TradeView {
     this.isBusy = true;
     try {
       const received = await tradeManager.claimTrade(trade);
+      // A received card may be wishlisted: the dialog is shown BEFORE the animation, so the answer
+      // is stored while the trade is still the current screen. The option decides for the player
+      // when it is on (`wishlistAutoRemoveTrade`, OFF by default).
+      await this.handleReceivedWishlist(received);
       await this.reload();
       this.scheduleRefresh();
       // A finished exchange is when the partner is worth offering as a friend. The prompt is
@@ -1500,6 +1605,60 @@ export class TradeView {
       this.claimClose.disabled = false;
       this.animationTimer = null;
     }, CLAIM_ANIMATION_MS);
+  }
+
+  /**
+   * Reads the wishlist of one player from the Follow List cache.
+   *
+   * The cache is filled by `refreshFollowing()` in the same batch as the cards, so this never
+   * costs a request of its own.
+   *
+   * @param {string} uuid - Player UUID.
+   * @returns {Promise<string[]>} The wishlisted keys (empty for an unknown player).
+   */
+  async getWishlistOf(uuid) {
+    if (typeof uuid !== 'string' || uuid === '') return [];
+    try {
+      const { wishlists } = await socialManager.refreshFollowing();
+      this.wishlists = new Map(Object.entries(wishlists ?? {}));
+    } catch (error) {
+      console.warn('[TradeView] The wishlists could not be refreshed.', error);
+    }
+    return this.wishlists.get(uuid) ?? [];
+  }
+
+  /**
+   * Asks the player what to do with a wishlisted card just received in a trade.
+   *
+   * @param {object|null} received - Card payload received, or null when nothing was claimed.
+   * @returns {Promise<void>} Resolves once the wishlist reflects the answer.
+   */
+  async handleReceivedWishlist(received) {
+    if (!received || typeof received.key !== 'string' || received.key === '') return;
+    let state = 'absent';
+    try {
+      state = await wishlistManager.handleTradeReceived(received.key);
+    } catch (error) {
+      console.warn('[TradeView] The wishlist of the received card could not be read.', error);
+      return;
+    }
+    if (state !== 'ask') return;
+
+    const answer = await askWishlistRemoval({
+      cardName: received.name || received.card_id || received.key,
+    });
+    if (answer === WISHLIST_POPUP_ANSWERS.NO) return;
+
+    try {
+      await wishlistManager.remove(received.key);
+      if (answer === WISHLIST_POPUP_ANSWERS.ALWAYS) {
+        await accountManager.updateSettings({ wishlistAutoRemoveTrade: true });
+      }
+      Toast.success('trade.wishlist.removed');
+    } catch (error) {
+      console.error('[TradeView] The received card could not leave the wishlist.', error);
+      Toast.error('trade.wishlist.error');
+    }
   }
 
   /**

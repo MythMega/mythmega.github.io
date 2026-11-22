@@ -45,6 +45,7 @@
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
+import { wishlistManager } from './WishlistManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
@@ -594,6 +595,9 @@ export class MinePickManager {
       newKeys: result.isNew ? [card.uniqueKey] : [],
       source: MINE_PICK_SOURCE,
     });
+    // The picked card leaves the wishlist silently when `wishlistAutoRemoveGain` is on: the Mine
+    // Pick never shows the post-trade dialog.
+    await wishlistManager.consumeGained([card.uniqueKey]);
 
     return {
       card,

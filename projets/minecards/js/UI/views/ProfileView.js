@@ -115,6 +115,16 @@ import { createCardVisual } from '../../utils/CardSourceManager.js';
 /** View name, matching `data-view="profile"` in `index.html`. */
 export const PROFILE_VIEW_NAME = 'profile';
 
+/**
+ * Marker a pseudo must contain to belong to a TEST account.
+ *
+ * The backend deletes every account whose username contains it
+ * (`sql/schema/admin/clean_testuserbdd_accounts.sql` in minecard.backend), so a real player must
+ * never type it. The comparison ignores case, exactly like the `LIKE '%TESTUSERBDD%'` of that
+ * script: "testuserbdd_like1" is caught too.
+ */
+const TEST_ACCOUNT_MARKER = 'TESTUSERBDD';
+
 export class ProfileView {
   /**
    * @param {HTMLElement} rootElement - The profile `<section>`.
@@ -144,6 +154,10 @@ export class ProfileView {
     this.nameInput = this.root.querySelector('[data-profile-name]');
     this.nameSaveButton = this.root.querySelector('[data-profile-name-save]');
     this.nameFeedback = this.root.querySelector('[data-profile-name-feedback]');
+    // Warning shown when the typed pseudo carries the test-account marker: it holds its own
+    // confirmation button, so a rename that a cleanup would delete needs a second click.
+    this.nameTestWarning = this.root.querySelector('[data-profile-name-test-warning]');
+    this.nameTestConfirm = this.root.querySelector('[data-profile-name-test-confirm]');
     this.nameCloseButtons = this.root.querySelectorAll('[data-profile-name-close]');
     this.iconModal = this.root.querySelector('[data-profile-icon-modal]');
     this.iconGrid = this.root.querySelector('[data-profile-icon-grid]');
@@ -353,6 +367,8 @@ export class ProfileView {
       ['[data-profile-name-form]', this.nameForm],
       ['[data-profile-name]', this.nameInput],
       ['[data-profile-name-feedback]', this.nameFeedback],
+      ['[data-profile-name-test-warning]', this.nameTestWarning],
+      ['[data-profile-name-test-confirm]', this.nameTestConfirm],
       ['[data-profile-icon-modal]', this.iconModal],
       ['[data-profile-icon-grid]', this.iconGrid],
       ['[data-profile-icon-feedback]', this.iconFeedback],
@@ -464,6 +480,10 @@ export class ProfileView {
       event.preventDefault();
       void this.handleNameSubmit();
     });
+    // Editing the pseudo again withdraws the marker warning: what was acknowledged is no longer
+    // what the player is about to save.
+    this.listen(this.nameInput, 'input', () => this.setNameTestWarning(false));
+    this.listen(this.nameTestConfirm, 'click', () => void this.handleNameSubmit({ testAccountConfirmed: true }));
 
     this.iconCloseButtons.forEach((button) => {
       this.listen(button, 'click', () => this.closeIconPicker());
@@ -818,6 +838,8 @@ export class ProfileView {
    */
   openNameEditor() {
     if (!this.nameModal) return;
+    // No warning reset here: `closeNameEditor()` always hid it, and the dialog is only opened
+    // again from a closed state.
     this.setNameFeedback(null);
     this.nameInput.value = typeof this.profile?.name === 'string' ? this.profile.name : '';
     this.nameModal.hidden = false;
@@ -839,6 +861,34 @@ export class ProfileView {
     this.nameModal.hidden = true;
     this.nameModal.classList.remove('is-opening');
     this.setNameFeedback(null);
+    this.setNameTestWarning(false);
+  }
+
+  /**
+   * Tells whether a pseudo carries the marker of the test accounts.
+   *
+   * @param {string} name - Value typed in the dialog.
+   * @returns {boolean} True when a cleanup would delete that account.
+   */
+  static isTestAccountName(name) {
+    return String(name).toUpperCase().includes(TEST_ACCOUNT_MARKER);
+  }
+
+  /**
+   * Shows or hides the warning of the pseudo dialog.
+   *
+   * The warning is informational until the player confirms: the save only runs from its own
+   * button, so typing the marker can never silently create a disposable account.
+   *
+   * @param {boolean} visible - Whether to display it.
+   * @returns {void}
+   */
+  setNameTestWarning(visible) {
+    if (!this.nameTestWarning) return;
+    this.nameTestWarning.hidden = !visible;
+    if (!visible) return;
+    this.setNameFeedback(null);
+    this.nameTestConfirm?.focus();
   }
 
   /**
@@ -3368,8 +3418,17 @@ export class ProfileView {
    *
    * @returns {Promise<void>} Resolves once the save finished (or the refusal was reported).
    */
-  async handleNameSubmit() {
+  async handleNameSubmit({ testAccountConfirmed = false } = {}) {
     if (this.isSaving) return;
+
+    // A pseudo carrying TESTUSERBDD marks a disposable account: ask before saving it.
+    if (!testAccountConfirmed && ProfileView.isTestAccountName(this.nameInput.value)) {
+      this.setNameTestWarning(true);
+      this.log('Pseudo carries the test-account marker: confirmation required.');
+      return;
+    }
+    this.setNameTestWarning(false);
+
     this.isSaving = true;
     if (this.nameSaveButton) this.nameSaveButton.disabled = true;
     this.setNameFeedback(null);

@@ -1,0 +1,206 @@
+/* Wishlist: the star of a collection tile, the wishlist of a friend, the badges of a trade and the
+   post-trade dialog. One file because the four surfaces share the same subject and the same accent
+   colour; it loads after collection.css and social.css and only adds new classes. */
+
+/* --- Collection star ------------------------------------------------------ */
+
+.collection__wishlist {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.collection__wishlist svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.collection__wishlist:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.collection__wishlist:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.collection__wishlist.is-active {
+  color: var(--color-accent);
+  border-color: currentColor;
+}
+
+.collection__wishlist.is-active svg {
+  fill: currentColor;
+}
+
+/* --- Wishlist of a followed player ---------------------------------------- */
+
+.social__wishlist-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social__wishlist-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.social__wishlist-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The count sits UNDER the name, in small text, like the operator asked. */
+.social__wishlist-count {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* Not owned at all: the card is "black", its name stays readable. */
+.social__wishlist-item[data-state='missing'] {
+  background-color: #000;
+  border-color: #262626;
+}
+
+.social__wishlist-item[data-state='missing'] .social__wishlist-name {
+  color: #e6e6f0;
+}
+
+.social__wishlist-item[data-state='missing'] .social__wishlist-count {
+  color: #9a9aae;
+}
+
+/* Owned once: greyed, it is the copy the player plays with, not an extra one. */
+.social__wishlist-item[data-state='single'] {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+/* Owned in several copies: normal colour, the tradable state, with its count. */
+.social__wishlist-item[data-state='many'] {
+  border-color: var(--color-accent);
+}
+
+/* --- Trade dialogs -------------------------------------------------------- */
+
+.trade__card-button.is-wished {
+  position: relative;
+  border-color: var(--color-accent);
+}
+
+/* The badge is a chip over the card, not a line under it: the card list is a scroll box, and a
+   line below the tile is the first thing its bottom edge cuts. */
+.trade__card-wish {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-1);
+  z-index: 1;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.78);
+  color: var(--color-accent);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* A refused card keeps its explanation in the plain text colour: the accent is the wish itself. */
+.trade__card-button.is-unavailable .trade__card-wish {
+  color: var(--color-text);
+}
+
+/* A card the partner wished for but this player cannot offer: visible, not selectable.
+   The dimming goes on the card, not on the whole button: the label that explains the refusal
+   ("Non échangeable") has to stay readable, otherwise the greyed card looks like a bug. */
+.trade__card-button.is-unavailable {
+  cursor: not-allowed;
+}
+
+.trade__card-button.is-unavailable .trade__card {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.trade__card-button.is-unavailable:hover,
+.trade__card-button.is-unavailable:focus-visible {
+  border-color: transparent;
+}
+
+/* --- Post-trade dialog ---------------------------------------------------- */
+
+.wishlist-popup__body {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text);
+  font-size: var(--font-size-md, 1rem);
+  line-height: 1.5;
+}
+
+.wishlist-popup__actions {
+  flex-wrap: wrap;
+}
+
+/* --- Settings: empty-the-wishlist confirmation ---------------------------- */
+
+.settings__wishlist-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.settings__wishlist-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.settings__wishlist-question {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-text);
+}

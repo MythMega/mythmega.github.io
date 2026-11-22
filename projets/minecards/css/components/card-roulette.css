@@ -155,9 +155,16 @@
 .card-roulette__reveal-image {
   display: block;
   width: min(52%, 9.5rem);
+  /* A `<card-print>` has no intrinsic height: `:host` asks for 100% of a box whose height is its
+     content, which collapses the generated card into a flat strip. Publishing the artwork ratio
+     here (the same contract as `.gifts__image` and `.redeem__reward-image`) gives the box its
+     height for both sources, image and generated. */
   height: auto;
+  aspect-ratio: var(--card-ratio);
+  object-fit: contain;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
+  background-color: var(--color-surface-alt);
 }
 
 .card-roulette__reveal-name {

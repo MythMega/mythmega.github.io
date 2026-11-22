@@ -437,17 +437,20 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
     visibility: hidden;
   }
 
-  /* The description band keeps the blurred backdrop of the card maker, but the classic layout
-     plates it 93% black - a rule written for a 0.8rem paragraph. At this size the wash is a 40px
-     crop of the artwork: unblurred (a 28px radius averages the whole band into one flat dark) and
-     stronger, it carries the colour of the card instead of a black strip. */
+  /* Even at this size the classic description band keeps the same treatment as the larger
+     printings: a darkened plate and a blurred wash of the illustration, so the text stays
+     readable instead of floating over the artwork. */
   .profile-card-root .card-preview.card-layout-classic .card-body {
-    background-color: rgba(9, 9, 13, 0.5);
+    background-color: rgba(9, 9, 13, 0.93);
   }
 
+  /* A 28 px blur on a ~28 px band averages the whole crop into one flat colour, which is the
+     "black strip" the small cards used to show. A 6 px radius still reads as a blurred wash of
+     the illustration at this size, so the band stays darkened and blurred instead of collapsing. */
   .profile-card-root .card-preview.card-layout-classic .card-body::before {
-    filter: none;
-    opacity: 0.85;
+    filter: blur(6px) saturate(1.15);
+    opacity: 0.4;
+    transform: scale(1.2);
   }
 }
 

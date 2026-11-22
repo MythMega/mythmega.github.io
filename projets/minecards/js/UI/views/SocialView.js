@@ -7,11 +7,18 @@
 
 import i18n from '../../utils/I18n.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
+import cardLanguage from '../../utils/CardLanguage.js';
+import { createCardVisual } from '../../utils/CardSourceManager.js';
 import socialManager, {
   getSocialErrorMessageKey,
   safeSocialAssetPath,
 } from '../../business/SocialManager.js';
+import likesManager, { LIKES_ERROR_CODES } from '../../business/LikesManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
+import boosterManager from '../../business/BoosterManager.js';
+import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager.js';
+import TrophyDetail from '../components/TrophyDetail.js';
+import { decodeBinderCode } from '../../utils/BinderCode.js';
 import { ProfileCard } from '../components/ProfileCard.js';
 import TradeView from './TradeView.js';
 
@@ -50,7 +57,25 @@ export class SocialView {
     this.detailCardHost = query('[data-social-detail-card]');
     this.detailMeta = query('[data-social-detail-meta]');
     this.detailUnfollow = query('[data-social-detail-unfollow]');
+    this.detailLikes = query('[data-social-detail-likes]');
+    this.detailLike = query('[data-social-detail-like]');
+    this.detailFavorites = query('[data-social-detail-favorites]');
+    this.detailBinder = query('[data-social-detail-binder]');
     this.detailCloseButtons = this.root.querySelectorAll('[data-social-detail-close]');
+
+    this.binderModal = query('[data-social-binder-modal]');
+    this.binderTitle = query('[data-social-binder-title]');
+    this.binderPage = query('[data-social-binder-page]');
+    this.binderSlots = query('[data-social-binder-slots]');
+    this.binderCloseButtons = this.root.querySelectorAll('[data-social-binder-close]');
+
+    this.likeAllButton = query('[data-social-like-all]');
+    this.likeAllModal = query('[data-social-like-all-modal]');
+    this.likeAllProgress = query('[data-social-like-all-progress]');
+    this.likeAllRing = query('[data-social-like-all-ring]');
+    this.likeAllValue = query('[data-social-like-all-value]');
+    this.likeAllText = query('[data-social-like-all-text]');
+    this.likeAllCloseButtons = this.root.querySelectorAll('[data-social-like-all-close]');
 
     this.unfollowModal = query('[data-social-unfollow-modal]');
     this.unfollowTitle = query('[data-social-unfollow-title]');
@@ -65,6 +90,18 @@ export class SocialView {
 
     this.cards = new Map();
     this.following = [];
+    /** Likes received by each followed player, read in one batch with the list. */
+    this.likes = new Map();
+    /** Favourites of each followed player (`{ cards, trophies, binder }`), read with the list. */
+    this.favorites = new Map();
+    /** Decoded binder of the opened friend, kept while their dialog is on screen. */
+    this.openBinderPayload = null;
+    /** Trophy catalogue indexed by id, loaded once for the pins of the card dialog. */
+    this.trophyIndex = null;
+    /** Friends that already received the like of the UTC day, from the save and the worker. */
+    this.likedTargets = new Set();
+    /** True while the "Like tout le monde" batch runs: the button and the dialog follow it. */
+    this.likeAllRunning = false;
     this.openFriendUuid = '';
     this.pendingUnfollowUuid = '';
     this.profileCard = null;
@@ -109,6 +146,20 @@ export class SocialView {
       ['[data-social-detail-card]', this.detailCardHost],
       ['[data-social-detail-meta]', this.detailMeta],
       ['[data-social-detail-unfollow]', this.detailUnfollow],
+      ['[data-social-detail-likes]', this.detailLikes],
+      ['[data-social-detail-like]', this.detailLike],
+      ['[data-social-detail-favorites]', this.detailFavorites],
+      ['[data-social-detail-binder]', this.detailBinder],
+      ['[data-social-binder-modal]', this.binderModal],
+      ['[data-social-binder-title]', this.binderTitle],
+      ['[data-social-binder-page]', this.binderPage],
+      ['[data-social-binder-slots]', this.binderSlots],
+      ['[data-social-like-all]', this.likeAllButton],
+      ['[data-social-like-all-modal]', this.likeAllModal],
+      ['[data-social-like-all-progress]', this.likeAllProgress],
+      ['[data-social-like-all-ring]', this.likeAllRing],
+      ['[data-social-like-all-value]', this.likeAllValue],
+      ['[data-social-like-all-text]', this.likeAllText],
       ['[data-social-unfollow-modal]', this.unfollowModal],
       ['[data-social-unfollow-title]', this.unfollowTitle],
       ['[data-social-unfollow-body]', this.unfollowBody],
@@ -176,6 +227,13 @@ export class SocialView {
       void this.reload({ announce: true, force: true })
     );
     this.listen(this.updateButton, 'click', () => void this.publish());
+    this.listen(this.likeAllButton, 'click', () => void this.openLikeAll());
+    this.likeAllCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeLikeAll());
+    });
+    this.listen(this.likeAllModal, 'click', (event) => {
+      if (event.target === this.likeAllModal) this.closeLikeAll();
+    });
 
     this.listen(this.followList, 'click', (event) => {
       const button = event.target instanceof Element
@@ -199,8 +257,22 @@ export class SocialView {
       this.listen(button, 'click', () => this.closeFriend());
     });
     this.listen(this.detailUnfollow, 'click', () => this.openUnfollowConfirmation());
+    this.listen(this.detailLike, 'click', () => void this.likeFriend());
     this.listen(this.detailModal, 'click', (event) => {
       if (event.target === this.detailModal) this.closeFriend();
+    });
+
+    this.listen(this.detailBinder, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-social-binder-open]')
+        : null;
+      if (button) this.openFriendBinder();
+    });
+    this.binderCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeFriendBinder());
+    });
+    this.listen(this.binderModal, 'click', (event) => {
+      if (event.target === this.binderModal) this.closeFriendBinder();
     });
 
     this.unfollowCloseButtons.forEach((button) => {
@@ -213,7 +285,11 @@ export class SocialView {
 
     this.listen(document, 'keydown', (event) => {
       if (event.key !== 'Escape') return;
-      if (!this.unfollowModal.hidden) {
+      if (!this.likeAllModal.hidden) {
+        this.closeLikeAll();
+      } else if (!this.binderModal.hidden) {
+        this.closeFriendBinder();
+      } else if (!this.unfollowModal.hidden) {
         this.closeUnfollowConfirmation();
       } else if (!this.detailModal.hidden) {
         this.closeFriend();
@@ -292,10 +368,21 @@ export class SocialView {
     this.root.setAttribute('aria-busy', 'true');
     this.setFeedback(announce ? 'social.refreshing' : null);
     try {
-      const { following, cards } = await socialManager.refreshFollowing({ force });
+      const { following, cards, favorites } = await socialManager.refreshFollowing({ force });
       this.following = following;
       this.cards = new Map(cards.map((card) => [card.uuid, card]));
+      this.favorites = new Map(Object.entries(favorites ?? {}));
+      // The hearts of the whole list come in one public request. A failure only hides them: the
+      // Follow List itself must never depend on the likes endpoint.
+      try {
+        this.likes = new Map(Object.entries(await likesManager.getCounts(following)));
+      } catch (error) {
+        console.warn('[SocialView] The likes of the followed players could not be read.', error);
+        this.likes = new Map();
+      }
+      this.likedTargets = await likesManager.getLikedTargets();
       await this.renderList();
+      this.refreshLikeAllButton();
       const missing = following.filter((uuid) => !this.cards.has(uuid)).length;
       if (following.length === 0) {
         this.setFeedback(null);
@@ -399,6 +486,7 @@ export class SocialView {
     const stats = document.createElement('span');
     stats.className = 'social__stats';
     [
+      ['social.stat.likes', this.likes.get(card.uuid) ?? 0],
       ['social.stat.cards', card.different_cards],
       ['social.stat.boosters', card.open_booster],
       ['social.stat.points', card.points],
@@ -581,6 +669,14 @@ export class SocialView {
     });
     const updated = typeof card.updated_at === 'string' ? card.updated_at.replace(' ', ' · ') : '-';
     this.detailMeta.textContent = i18n.t('social.detail.updated', { date: updated });
+    // The header already read the authenticated state: reusing it avoids a second claim just for
+    // knowing whether the button must be disabled.
+    // The daily state of every friend comes from the save and from the worker: it is one read for
+    // the whole session, not one per dialog.
+    this.likedTargets = await likesManager.getLikedTargets();
+    this.renderDetailLikes();
+    await this.renderDetailFavorites(uuid);
+    await this.renderDetailBinder(uuid);
 
     this.detailModal.hidden = false;
     try {
@@ -603,8 +699,444 @@ export class SocialView {
    * @returns {void}
    */
   closeFriend() {
+    this.closeFriendBinder();
     this.detailModal.hidden = true;
     this.openFriendUuid = '';
+    this.detailLikes.textContent = '';
+    this.detailFavorites.textContent = '';
+    this.detailFavorites.hidden = true;
+    this.detailBinder.textContent = '';
+    this.detailBinder.hidden = true;
+    this.openBinderPayload = null;
+  }
+
+  /**
+   * Shows the button that opens the binder a friend pinned on their card.
+   *
+   * The worker only relays the share code, so the NAME of the page comes from the code itself:
+   * the button is labelled with it, and the page can be drawn without any binder route. A code
+   * this version cannot read (a damaged row, a format written by a future version) leaves the
+   * dialog exactly as it was, without a button that could only fail.
+   *
+   * @param {string} uuid - Followed UUID.
+   * @returns {Promise<void>} Resolves once the block is drawn (or hidden).
+   */
+  async renderDetailBinder(uuid) {
+    const host = this.detailBinder;
+    if (!host) return;
+    host.textContent = '';
+    host.hidden = true;
+    this.openBinderPayload = null;
+
+    const code = this.favorites.get(uuid)?.binder ?? '';
+    if (typeof code !== 'string' || code === '') return;
+
+    let payload;
+    try {
+      payload = await decodeBinderCode(code);
+    } catch (error) {
+      console.warn('[SocialView] The binder of the opened player could not be read.', error);
+      return;
+    }
+    this.openBinderPayload = payload;
+
+    const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+    const label = name !== '' ? name : i18n.t('social.binder.untitled');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn--ghost social__binder-button';
+    button.dataset.socialBinderOpen = '';
+    button.textContent = i18n.t('social.binder.button', { name: label });
+    button.setAttribute('aria-label', i18n.t('social.binder.openAria', { name: label }));
+    host.appendChild(button);
+    host.hidden = false;
+  }
+
+  /**
+   * Opens the binder of the friend whose card is shown.
+   *
+   * The page is drawn from the decoded code alone: the cover card is the backdrop and every slot
+   * holds the illustration of its card. The identity of the dialog stays the friend's card: the
+   * `user` block of the code is ignored on purpose.
+   *
+   * @returns {void}
+   */
+  openFriendBinder() {
+    const payload = this.openBinderPayload;
+    if (!payload || !this.binderModal) return;
+
+    const cards = Array.isArray(payload.cards) ? payload.cards : [];
+    const slots = Array.isArray(payload.slots) ? payload.slots : [];
+    const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+    this.binderTitle.textContent = name !== '' ? name : i18n.t('social.binder.untitled');
+
+    // The backdrop is the `Background` of the representative card, exactly like the read-only page
+    // of a shared binder.
+    const cover = cards[payload.cover ?? -1];
+    if (typeof cover?.b === 'string' && cover.b !== '') {
+      this.binderPage.style.setProperty('--binder-backdrop', `url("${cover.b}")`);
+    } else {
+      this.binderPage.style.removeProperty('--binder-backdrop');
+    }
+
+    this.binderSlots.textContent = '';
+    slots.forEach((index) => {
+      const master = index === null || index === undefined ? null : cards[index] ?? null;
+      const item = document.createElement('li');
+      item.className = 'social__binder-slot';
+      if (!master) {
+        item.classList.add('is-empty');
+      } else {
+        const image = document.createElement('img');
+        image.className = 'social__binder-card';
+        image.src = i18n.resolveImagePath(String(master.l ?? ''));
+        image.alt = this.binderCardName(master);
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        item.dataset.rarity = String(master.r ?? 1);
+        item.appendChild(image);
+      }
+      this.binderSlots.appendChild(item);
+    });
+
+    this.binderModal.hidden = false;
+    this.binderCloseButtons[0]?.focus();
+    this.log('Binder of the opened player displayed.');
+  }
+
+  /**
+   * Closes the binder dialog.
+   *
+   * @returns {void}
+   */
+  closeFriendBinder() {
+    if (!this.binderModal || this.binderModal.hidden) return;
+    this.binderModal.hidden = true;
+  }
+
+  /**
+   * Picks the display name of a card of a decoded binder.
+   *
+   * @param {object} master - Compact card of the share code.
+   * @returns {string} The name in the active language, falling back to the card id.
+   */
+  binderCardName(master) {
+    const names = master?.n && typeof master.n === 'object' ? master.n : {};
+    const lang = i18n.getLang();
+    return names[lang] || names.fr || names.en || Object.values(names)[0] || String(master?.i ?? '');
+  }
+
+  /**
+   * Paints the favourite cards and the featured trophies of the opened friend.
+   *
+   * Both lists come from the worker (`favorite` row of the account, written by the publication of
+   * the card) and are resolved LOCALLY: a card key through the booster catalogue, a trophy id
+   * through the trophy catalogue, so the dialog shows the same artwork the owner sees.
+   *
+   * @param {string} uuid - Followed UUID.
+   * @returns {Promise<void>} Resolves once the block is drawn (or hidden).
+   */
+  async renderDetailFavorites(uuid) {
+    const host = this.detailFavorites;
+    if (!host) return;
+    host.textContent = '';
+    const entry = this.favorites.get(uuid) ?? null;
+    const cards = Array.isArray(entry?.cards) ? entry.cards : [];
+    const trophies = Array.isArray(entry?.trophies) ? entry.trophies : [];
+    if (cards.length === 0 && trophies.length === 0) {
+      host.hidden = true;
+      return;
+    }
+
+    try {
+      if (cards.length > 0) host.appendChild(await this.buildFavoriteCardsSection(cards));
+      if (trophies.length > 0) {
+        await this.loadTrophyIndex();
+        host.appendChild(this.buildFavoriteTrophiesSection(trophies));
+      }
+      host.hidden = false;
+    } catch (error) {
+      console.warn('[SocialView] The favourites of the opened player could not be drawn.', error);
+      host.textContent = '';
+      host.hidden = true;
+    }
+  }
+
+  /**
+   * Builds the title of one favourites block.
+   *
+   * @param {string} labelKey - Translation key.
+   * @returns {HTMLElement} The section, ready to receive its list.
+   */
+  buildFavoriteSection(labelKey) {
+    const section = document.createElement('section');
+    section.className = 'social__favorites';
+    const title = document.createElement('h3');
+    title.className = 'social__favorites-title';
+    title.textContent = i18n.t(labelKey);
+    section.appendChild(title);
+    return section;
+  }
+
+  /**
+   * Builds the strip of favourite cards.
+   *
+   * A key the local catalogue does not know any more (rebalanced extension, older save) keeps its
+   * slot with the card back and the raw key as tooltip: hiding it would leave a pin nobody can see.
+   *
+   * @param {string[]} keys - Collection keys, in display order.
+   * @returns {Promise<HTMLElement>} The section holding the strip.
+   */
+  async buildFavoriteCardsSection(keys) {
+    const section = this.buildFavoriteSection('social.detail.favorites.cards');
+    const list = document.createElement('ul');
+    list.className = 'social__favorites-list';
+
+    for (const key of keys) {
+      let card = null;
+      try {
+        card = await boosterManager.getCardByKey(key);
+      } catch (error) {
+        console.warn(`[SocialView] The favourite card "${key}" could not be read.`, error);
+      }
+      const name = card ? card.getName(cardLanguage.getLang()) : key;
+      const item = document.createElement('li');
+      item.className = 'social__favorite social__favorite--card';
+      item.title = name;
+
+      if (card) {
+        item.dataset.rarity = String(card.rarity);
+        item.appendChild(createCardVisual(card, {
+          className: 'social__favorite-image',
+          alt: name,
+          mini: true,
+          loading: 'lazy',
+          decoding: 'async',
+        }));
+      } else {
+        const fallback = document.createElement('img');
+        fallback.className = 'social__favorite-image is-missing';
+        fallback.src = i18n.resolveImagePath('assets/img/card_back.png');
+        fallback.alt = key;
+        fallback.loading = 'lazy';
+        fallback.decoding = 'async';
+        item.appendChild(fallback);
+      }
+      list.appendChild(item);
+    }
+
+    section.appendChild(list);
+    return section;
+  }
+
+  /**
+   * Builds the strip of featured trophies.
+   *
+   * @param {string[]} ids - Trophy ids, in display order.
+   * @returns {HTMLElement} The section holding the strip.
+   */
+  buildFavoriteTrophiesSection(ids) {
+    const section = this.buildFavoriteSection('social.detail.favorites.trophies');
+    const list = document.createElement('ul');
+    list.className = 'social__favorites-list';
+
+    ids.forEach((id) => {
+      const trophy = this.trophyIndex?.get(id) ?? null;
+      const label = trophy ? TrophyDetail.trophyTitle(trophy) : id;
+      const item = document.createElement('li');
+      item.className = 'social__favorite social__favorite--trophy';
+      item.title = label;
+      if (trophy && typeof trophy.rarity === 'string') item.dataset.rarity = trophy.rarity;
+      // A featured trophy is unlocked by definition (the owner could only pin it): the medal is
+      // drawn as such even when this player has not earned it yet.
+      item.appendChild(TrophyDetail.buildMedal(
+        trophy ?? { icon: DEFAULT_TROPHY_ICON, rarity: '', unlocked: true },
+        'social__favorite-medal'
+      ));
+      list.appendChild(item);
+    });
+
+    section.appendChild(list);
+    return section;
+  }
+
+  /**
+   * Loads the trophy catalogue once, indexed by id.
+   *
+   * @returns {Promise<Map<string, object>>} Trophy id -> trophy entry.
+   */
+  async loadTrophyIndex() {
+    if (this.trophyIndex) return this.trophyIndex;
+    try {
+      const state = await trophyManager.evaluate({ notify: false });
+      this.trophyIndex = new Map((state?.trophies ?? []).map((trophy) => [trophy.id, trophy]));
+    } catch (error) {
+      console.warn('[SocialView] The trophy catalogue could not be read.', error);
+      this.trophyIndex = new Map();
+    }
+    return this.trophyIndex;
+  }
+
+  /**
+   * Writes the likes of the opened friend and the state of the like button.
+   *
+   * @returns {void}
+   */
+  renderDetailLikes() {
+    const uuid = this.openFriendUuid;
+    const count = this.likes.get(uuid) ?? 0;
+    const liked = uuid !== '' && this.likedTargets.has(uuid);
+    this.detailLikes.textContent =
+      uuid === '' ? '' : i18n.t('social.detail.likes', { count: this.formatNumber(count) });
+    this.detailLike.disabled = uuid === '' || liked;
+    this.detailLike.title = liked ? i18n.t('social.like.already') : '';
+  }
+
+  /**
+   * Gives the like of the UTC day to the opened friend.
+   *
+   * The worker refuses a second like the same day: the error is shown as is, and the button stays
+   * disabled for the rest of the session once the day is used.
+   *
+   * @returns {Promise<void>} Resolves once the list and the dialog are repainted.
+   */
+  async likeFriend() {
+    const uuid = this.openFriendUuid;
+    if (uuid === '' || this.isBusy || this.likedTargets.has(uuid)) return;
+
+    this.isBusy = true;
+    this.detailLike.disabled = true;
+    try {
+      const result = await likesManager.like(uuid);
+      this.likes.set(uuid, result.likes);
+      this.likedTargets.add(uuid);
+      const name = this.cards.get(uuid)?.username || i18n.t('profile.anonymous');
+      this.setFeedback('social.like.success', 'info', { name });
+      await this.renderList();
+      this.refreshLikeAllButton();
+    } catch (error) {
+      const messageKey =
+        error?.code === LIKES_ERROR_CODES.ALREADY_LIKED
+          ? 'social.like.already'
+          : error?.code === LIKES_ERROR_CODES.NO_ACCOUNT
+            ? 'social.like.noAccount'
+            : 'social.like.error';
+      console.warn('[SocialView] The like could not be given.', error);
+      this.setFeedback(messageKey, 'error');
+      if (error?.code === LIKES_ERROR_CODES.ALREADY_LIKED) this.likedTargets.add(uuid);
+    } finally {
+      this.isBusy = false;
+      this.renderDetailLikes();
+    }
+  }
+
+  /**
+   * Opens the "Like tout le monde" dialog and gives the like of the day to every followed player.
+   *
+   * The whole Follow List is sent in chunks of `LIKES_BATCH_SIZE` (`LikesManager.likeEveryone`), so
+   * the circular progress shows a REAL ratio and a hundred friends cost four requests instead of a
+   * hundred. The counts of the batch come back with it: the list is repainted without a second read.
+   *
+   * @returns {Promise<void>} Resolves once the batch finished (or its error was shown).
+   */
+  async openLikeAll() {
+    if (this.likeAllRunning) return;
+
+    const targets = this.following.filter((uuid) => uuid !== '' && this.cards.has(uuid));
+    if (targets.length === 0) {
+      this.setFeedback('social.likeAll.empty', 'warning');
+      return;
+    }
+
+    this.likedTargets = await likesManager.getLikedTargets();
+    const pending = targets.filter((uuid) => !this.likedTargets.has(uuid));
+    if (pending.length === 0) {
+      this.setFeedback('social.likeAll.done', 'info');
+      return;
+    }
+
+    this.likeAllRunning = true;
+    this.likeAllModal.hidden = false;
+    this.setLikeAllProgress(0);
+    this.likeAllText.textContent = i18n.t('social.likeAll.running', { done: 0, total: pending.length });
+    this.refreshLikeAllButton();
+
+    try {
+      const result = await likesManager.likeEveryone(targets, {
+        onProgress: ({ done, total }) => {
+          this.setLikeAllProgress(total === 0 ? 1 : done / total);
+          this.likeAllText.textContent = i18n.t('social.likeAll.running', { done, total });
+        },
+      });
+      Object.entries(result.likes).forEach(([uuid, count]) => this.likes.set(uuid, count));
+      this.likedTargets = await likesManager.getLikedTargets();
+      this.setLikeAllProgress(1);
+      const summary = i18n.t('social.likeAll.result', {
+        count: this.formatNumber(result.liked.length),
+        total: this.formatNumber(result.requested),
+      });
+      this.likeAllText.textContent =
+        result.unknown.length > 0
+          ? `${summary} ${i18n.t('social.likeAll.missing', { count: this.formatNumber(result.unknown.length) })}`
+          : summary;
+      await this.renderList();
+      this.renderDetailLikes();
+    } catch (error) {
+      console.warn('[SocialView] The batch of likes failed.', error);
+      this.likeAllText.textContent = i18n.t(
+        error?.code === LIKES_ERROR_CODES.NO_ACCOUNT
+          ? 'social.like.noAccount'
+          : 'social.likeAll.error'
+      );
+    } finally {
+      this.likeAllRunning = false;
+      this.refreshLikeAllButton();
+    }
+  }
+
+  /**
+   * Draws the circular progress of the batch.
+   *
+   * @param {number} value - Ratio between 0 and 1.
+   * @returns {void}
+   */
+  setLikeAllProgress(value) {
+    const ratio = Math.max(0, Math.min(1, Number(value) || 0));
+    const percent = Math.round(ratio * 100);
+    if (this.likeAllValue) this.likeAllValue.textContent = `${percent} %`;
+    if (this.likeAllProgress) this.likeAllProgress.setAttribute('aria-valuenow', String(percent));
+    if (this.likeAllRing) {
+      // The ring is a circle of radius 52: its full length is what the dash offset eats away.
+      const circumference = 2 * Math.PI * 52;
+      this.likeAllRing.style.strokeDasharray = `${circumference}`;
+      this.likeAllRing.style.strokeDashoffset = `${circumference * (1 - ratio)}`;
+    }
+  }
+
+  /**
+   * Closes the batch dialog. A running batch keeps going: only its window is hidden.
+   *
+   * @returns {void}
+   */
+  closeLikeAll() {
+    if (!this.likeAllModal || this.likeAllModal.hidden) return;
+    this.likeAllModal.hidden = true;
+  }
+
+  /**
+   * Disables the batch button when there is nobody left to like today.
+   *
+   * @returns {void}
+   */
+  refreshLikeAllButton() {
+    if (!this.likeAllButton) return;
+    const targets = this.following.filter((uuid) => this.cards.has(uuid));
+    const pending = targets.filter((uuid) => !this.likedTargets.has(uuid));
+    this.likeAllButton.disabled = this.likeAllRunning || pending.length === 0;
+    this.likeAllButton.title =
+      !this.likeAllRunning && targets.length > 0 && pending.length === 0
+        ? i18n.t('social.likeAll.done')
+        : '';
   }
 
   /**

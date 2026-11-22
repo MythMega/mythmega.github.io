@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v169';
+const VERSION = 'v175';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -215,6 +215,7 @@ const PRECACHE_URLS = [
   './js/business/GachaEngine.js',
   './js/business/FeatureManager.js',
   './js/business/GiftManager.js',
+  './js/business/LikesManager.js',
   './js/business/MinePickManager.js',
   './js/business/SetAnnouncementManager.js',
   './js/business/MiningManager.js',
@@ -308,6 +309,8 @@ const PRECACHE_URLS = [
   './assets/img/binders.png',
   './assets/img/binders_dark.png',
   './assets/img/sparks.png',
+  /* The heart of the like counter: a mask filled with its own ink, shipped once for every theme. */
+  './assets/img/heart.svg',
   /* The 41 frames of the mine chest, packed into one 1050 × 900 sheet (7 columns): one request of
      65 KB instead of an animated webp whose frames the view could not address one by one. */
   './assets/img/chest-sprite.webp',

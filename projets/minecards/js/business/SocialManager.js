@@ -19,6 +19,7 @@
 import storageRepository, { STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS, isUuid } from './AccountManager.js';
 import profileManager from './ProfileManager.js';
+import binderManager from './BinderManager.js';
 import trophyManager from './TrophyManager.js';
 import collectionManager from './CollectionManager.js';
 import profileCardManager, {
@@ -41,6 +42,9 @@ export const SOCIAL_API_BASE_URL = 'https://minecard-backend.jordanmorindev.work
 
 /** The worker accepts at most 100 UUIDs per read request. */
 export const SOCIAL_MAX_FOLLOWING = 100;
+
+/** Favourite slots of the worker (`favorite.card1` … `card7`, `trophy1` … `trophy7`). */
+export const SOCIAL_MAX_FAVORITES = 7;
 
 /** Length of the secret write code generated for a first publication. */
 export const SOCIAL_AUTH_CODE_LENGTH = 16;
@@ -229,11 +233,46 @@ function currentUtcDay() {
 }
 
 /**
+ * Normalizes one list of favourite ids read from the stored cache.
+ *
+ * @param {unknown} value - Raw list.
+ * @returns {string[]} The usable ids, at most seven.
+ */
+function normalizeFavoriteIds(value) {
+  if (!Array.isArray(value)) return [];
+  return Array.from(
+    new Set(
+      value
+        .filter((id) => typeof id === 'string')
+        .map((id) => id.trim())
+        .filter((id) => id !== '')
+    )
+  ).slice(0, SOCIAL_MAX_FAVORITES);
+}
+
+/**
+ * Normalizes the favourites of one player.
+ *
+ * @param {unknown} value - `{ cards, trophies, binder }` read from the worker or from the cache.
+ * @returns {{cards: string[], trophies: string[], binder: string}} A writable entry.
+ */
+function normalizeFavoriteEntry(value) {
+  const source = value && typeof value === 'object' ? value : {};
+  return {
+    cards: normalizeFavoriteIds(source.cards),
+    trophies: normalizeFavoriteIds(source.trophies),
+    // The share code of the binder pinned on the card: opaque here, the friend dialog decodes it.
+    binder: typeof source.binder === 'string' ? source.binder.trim() : '',
+  };
+}
+
+/**
  * Normalizes the stored social state.
  *
  * @param {unknown} raw - Value of `user_state["social"]`.
  * @returns {{authCode: string, following: string[], cardFetchedAt: Record<string, number>,
- *   cardCache: Record<string, object>}} A writable state.
+ *   cardCache: Record<string, object>, favoriteCache: Record<string, {cards: string[],
+ *   trophies: string[]}>}} A writable state.
  */
 function normalizeSocialState(raw) {
   const source = raw && typeof raw === 'object' ? raw : {};
@@ -258,6 +297,15 @@ function normalizeSocialState(raw) {
       ? source.cardCache
       : {};
   const cardCache = {};
+  // The favourites follow the same rule as the cards: only the followed players keep an entry, so
+  // an unfollowed player never leaves a pin behind in the saved state.
+  const storedFavorites =
+    source.favoriteCache &&
+    typeof source.favoriteCache === 'object' &&
+    !Array.isArray(source.favoriteCache)
+      ? source.favoriteCache
+      : {};
+  const favoriteCache = {};
   following.forEach((uuid) => {
     const timestamp = Number(storedFetchedAt[uuid]);
     if (Number.isFinite(timestamp) && timestamp > 0) cardFetchedAt[uuid] = timestamp;
@@ -265,12 +313,17 @@ function normalizeSocialState(raw) {
     if (card && typeof card === 'object' && !Array.isArray(card) && card.uuid === uuid) {
       cardCache[uuid] = card;
     }
+    const favorites = storedFavorites[uuid];
+    if (favorites && typeof favorites === 'object' && !Array.isArray(favorites)) {
+      favoriteCache[uuid] = normalizeFavoriteEntry(favorites);
+    }
   });
   return {
     authCode: normalizeAuthCode(source.authCode),
     following,
     cardFetchedAt,
     cardCache,
+    favoriteCache,
   };
 }
 
@@ -278,10 +331,11 @@ function normalizeSocialState(raw) {
  * Builds the default social state.
  *
  * @returns {{authCode: string, following: string[], cardFetchedAt: Record<string, number>,
- *   cardCache: Record<string, object>}} An empty state.
+ *   cardCache: Record<string, object>, favoriteCache: Record<string, {cards: string[],
+ *   trophies: string[]}>}} An empty state.
  */
 export function buildDefaultSocialState() {
-  return { authCode: '', following: [], cardFetchedAt: {}, cardCache: {} };
+  return { authCode: '', following: [], cardFetchedAt: {}, cardCache: {}, favoriteCache: {} };
 }
 
 export class SocialManager {
@@ -485,6 +539,9 @@ export class SocialManager {
       cardCache: Object.fromEntries(
         Object.entries(state.cardCache).filter(([followed]) => followed !== uuid)
       ),
+      favoriteCache: Object.fromEntries(
+        Object.entries(state.favoriteCache).filter(([followed]) => followed !== uuid)
+      ),
     });
     return true;
   }
@@ -501,20 +558,46 @@ export class SocialManager {
   }
 
   /**
+   * Reads the public cards of a list of UUIDs (at most 100), with their favourites.
+   *
+   * The worker answers `{ cards, favorites }` in ONE request: the pinned cards and trophies of a
+   * followed player arrive with the card itself, so the Follow List never needs a second call.
+   *
+   * @param {string[]} uuids - Player UUIDs.
+   * @returns {Promise<{cards: object[], favorites: Record<string, {cards: string[],
+   *   trophies: string[]}>}>} The cards the worker knows about, and the favourites it has.
+   */
+  async getCardsAndFavorites(uuids) {
+    const cleaned = Array.from(
+      new Set((Array.isArray(uuids) ? uuids : []).map(normalizeUuid).filter(Boolean))
+    ).slice(0, SOCIAL_MAX_FOLLOWING);
+    if (cleaned.length === 0) return { cards: [], favorites: {} };
+
+    const query = encodeURIComponent(cleaned.join(','));
+    const payload = await this.request(`/cards?uuids=${query}`);
+    const cards = Array.isArray(payload?.cards) ? payload.cards.filter(Boolean) : [];
+    const raw =
+      payload?.favorites && typeof payload.favorites === 'object' && !Array.isArray(payload.favorites)
+        ? payload.favorites
+        : {};
+    const favorites = {};
+    cleaned.forEach((uuid) => {
+      const entry = raw[uuid];
+      if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
+        favorites[uuid] = normalizeFavoriteEntry(entry);
+      }
+    });
+    return { cards, favorites };
+  }
+
+  /**
    * Reads the public cards of a list of UUIDs (at most 100).
    *
    * @param {string[]} uuids - Player UUIDs.
    * @returns {Promise<object[]>} The cards the worker knows about.
    */
   async getCardsByUuids(uuids) {
-    const cleaned = Array.from(
-      new Set((Array.isArray(uuids) ? uuids : []).map(normalizeUuid).filter(Boolean))
-    ).slice(0, SOCIAL_MAX_FOLLOWING);
-    if (cleaned.length === 0) return [];
-
-    const query = encodeURIComponent(cleaned.join(','));
-    const payload = await this.request(`/cards?uuids=${query}`);
-    return Array.isArray(payload?.cards) ? payload.cards.filter(Boolean) : [];
+    return (await this.getCardsAndFavorites(uuids)).cards;
   }
 
   /**
@@ -526,13 +609,14 @@ export class SocialManager {
    * request for every stale UUID, and the cache is only updated once that request succeeded.
    *
    * @param {{force?: boolean}} [options] - Refresh options.
-   * @returns {Promise<{following: string[], cards: object[]}>} The followed UUIDs and the cards
-   *   that are still published, in follow order.
+   * @returns {Promise<{following: string[], cards: object[], favorites: Record<string, {cards:
+   *   string[], trophies: string[]}>}>} The followed UUIDs, the cards that are still published and
+   *   their favourites, in follow order.
    */
   async refreshFollowing({ force = false } = {}) {
     const state = await this.getState();
-    const { following, cardFetchedAt, cardCache } = state;
-    if (following.length === 0) return { following, cards: [] };
+    const { following, cardFetchedAt, cardCache, favoriteCache } = state;
+    if (following.length === 0) return { following, cards: [], favorites: {} };
 
     let delayMinutes = 2;
     try {
@@ -549,11 +633,15 @@ export class SocialManager {
         .map((uuid) => [uuid, cardCache[uuid]])
         .filter(([, card]) => card && typeof card === 'object')
     );
+    // A player whose favourites were never read (a new follow, a save written by the version that
+    // predates them) is stale too: the pins cannot be guessed from the card.
+    const cachedFavorites = new Map(Object.entries(favoriteCache));
     const stale = following.filter((uuid) => {
       if (force) return true;
       // The timestamp alone is not enough: the card itself lives only in the view's snapshot. After
       // a reload, the first visit must fetch it even when the stored timestamp is still fresh.
       if (!cachedCards.has(uuid)) return true;
+      if (!cachedFavorites.has(uuid)) return true;
       const fetchedAt = cardFetchedAt[uuid];
       if (!Number.isFinite(fetchedAt)) return true;
       const age = now - fetchedAt;
@@ -564,7 +652,7 @@ export class SocialManager {
 
     let currentFollowing = following;
     if (stale.length > 0) {
-      const freshCards = await this.getCardsByUuids(stale);
+      const { cards: freshCards, favorites: freshFavorites } = await this.getCardsAndFavorites(stale);
       // The network read can take a while: the Follow List may have changed meanwhile (an unfollow
       // from the detail dialog, for example). Re-read before storing the timestamps so a stale
       // snapshot can never resurrect a player who was just removed.
@@ -572,6 +660,7 @@ export class SocialManager {
       currentFollowing = latest.following;
       const fetchedAt = { ...latest.cardFetchedAt };
       const latestCards = { ...latest.cardCache };
+      const latestFavorites = { ...latest.favoriteCache };
       // A follow added while the request was in flight already has its card in the latest cache.
       Object.entries(latest.cardCache).forEach(([uuid, card]) => {
         if (!cachedCards.has(uuid)) cachedCards.set(uuid, card);
@@ -582,21 +671,38 @@ export class SocialManager {
         if (currentFollowing.includes(uuid)) fetchedAt[uuid] = now;
         cachedCards.delete(uuid);
         delete latestCards[uuid];
+        cachedFavorites.delete(uuid);
+        delete latestFavorites[uuid];
       });
       freshCards.forEach((card) => {
         cachedCards.set(card.uuid, card);
         latestCards[card.uuid] = card;
       });
+      // An empty entry is stored on purpose for a player without favourites: it records that the
+      // read happened, so the next refresh reuses it instead of asking again on every visit.
+      stale.forEach((uuid) => {
+        if (!currentFollowing.includes(uuid)) return;
+        const favorites = freshFavorites[uuid] ?? { cards: [], trophies: [] };
+        cachedFavorites.set(uuid, favorites);
+        latestFavorites[uuid] = favorites;
+      });
       await storageRepository.setUserState(USER_STATE_KEYS.SOCIAL, {
         ...latest,
         cardFetchedAt: fetchedAt,
         cardCache: latestCards,
+        favoriteCache: latestFavorites,
       });
     }
 
+    const favorites = {};
+    currentFollowing.forEach((uuid) => {
+      const entry = cachedFavorites.get(uuid);
+      if (entry) favorites[uuid] = entry;
+    });
     return {
       following: currentFollowing,
       cards: currentFollowing.map((uuid) => cachedCards.get(uuid)).filter(Boolean),
+      favorites,
     };
   }
 
@@ -699,7 +805,42 @@ export class SocialManager {
       block_mined: Math.max(0, Math.trunc(Number(model.blocksMined) || 0)),
       picks: Math.max(0, Math.trunc(Number(model.picksMade) || 0)),
       points: Math.max(0, Math.trunc(Number(model.accountValue) || 0)),
+      // The favourites travel WITH the card: the worker stores them in the `favorite` row of the
+      // account, and every followed player receives them in the same batch read as the card. The
+      // lists are ALWAYS sent, even empty, so unpinning the last favourite clears it online too.
+      favorite_cards: normalizeFavoriteIds(profile?.favorites),
+      favorite_trophies: normalizeFavoriteIds(profile?.featured),
+      // The binder pinned in the profile goes with them, as the share code the game already knows
+      // how to build: the worker only relays it.
+      binder_code: await this.buildBinderCode(profile?.binder),
     };
+  }
+
+  /**
+   * Encodes the binder the profile pins on its trainer card.
+   *
+   * The payload embeds the author identity of the profile, exactly like the link the collection
+   * copies; a friend dialog ignores it and shows the card of the friend instead.
+   *
+   * @param {unknown} binderId - Id stored in `profile.binder`.
+   * @returns {Promise<string>} The share code, or an empty string when no binder is pinned (or the
+   *   page cannot be built any more: a card of the binder sold since).
+   */
+  async buildBinderCode(binderId) {
+    if (typeof binderId !== 'string' || binderId === '') return '';
+    try {
+      const binder = await binderManager.getBinder(binderId);
+      if (!binder) return '';
+      const profile = await profileManager.getProfile();
+      return await binderManager.encodeShare(binder, {
+        name: profile.name,
+        icon: profile.icon,
+        photo: profile.photo,
+      });
+    } catch (error) {
+      console.warn('[SocialManager] The binder pinned on the card could not be encoded.', error);
+      return '';
+    }
   }
 
   /**

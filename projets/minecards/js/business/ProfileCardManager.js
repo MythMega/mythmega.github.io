@@ -42,6 +42,7 @@ import minePickManager from './MinePickManager.js';
 import miningManager from './MiningManager.js';
 import sparksManager from './SparksManager.js';
 import accountValueManager from './AccountValueManager.js';
+import likesManager from './LikesManager.js';
 
 /**
  * Lowest and highest rarity OFFERED BY THE PROFILE CARD (`1` = Commune … `6` = Unique).
@@ -714,7 +715,14 @@ export class ProfileCardManager {
       ? trophyState.counters.unlocked
       : 0;
     const level = Number.isInteger(trophyState?.level?.level) ? trophyState.level.level : 1;
-    const accountValue = await accountValueManager.build({ entries, level });
+    // The likes arrive with the account value: one received heart is one point, so the card must
+    // publish the count the header already read (`0` before that first read, which the next
+    // publication picks up).
+    const accountValue = await accountValueManager.build({
+      entries,
+      level,
+      likes: likesManager.getLastState()?.likes ?? 0,
+    });
     const chosenRarity = stored.rarity;
     const titleColor = ProfileCardManager.resolveColor(
       stored.titleColor,

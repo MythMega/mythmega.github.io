@@ -37,7 +37,7 @@
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
-import { USER_STATE_KEYS } from './AccountManager.js';
+import { USER_STATE_KEYS, isUuid } from './AccountManager.js';
 import profileIconManager from './ProfileIconManager.js';
 import titleManager from './TitleManager.js';
 import featureManager, { FeatureManager, PROFILE_SLOT_KINDS } from './FeatureManager.js';
@@ -102,9 +102,10 @@ export function getProfileErrorMessageKey(error) {
 
 /**
  * Builds the profile every account starts with.
- *   * @returns {{name: string, icon: string, photo: string, title: string, usernameColor: string, favorites: string[], featured: string[]}}
-   *   An empty profile.
-   */
+ *
+ *   * @returns {{name: string, icon: string, photo: string, title: string, usernameColor: string,
+ *   favorites: string[], featured: string[], binder: string}} An empty profile.
+ */
 export function buildDefaultProfile() {
   return {
     name: '',
@@ -114,6 +115,9 @@ export function buildDefaultProfile() {
     usernameColor: USERNAME_DEFAULT_COLOR,
     favorites: [],
     featured: [],
+    // Id of the binder the trainer card shows (empty: none). The share code itself is encoded at
+    // publication time, so an edited binder never leaves a stale code on the worker.
+    binder: '',
   };
 }
 
@@ -180,8 +184,8 @@ export class ProfileManager {
    * Never throws on a malformed state: an imported save may come from any version, so anything
    * unusable is replaced by its default instead of failing the profile page.
    *
-   * @returns {Promise<{name: string, icon: string, photo: string, title: string, usernameColor: string, favorites: string[], featured: string[]}>}
-   *   The normalized profile.
+   * @returns {Promise<{name: string, icon: string, photo: string, title: string, usernameColor: string,
+   *   favorites: string[], featured: string[], binder: string}>} The normalized profile.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getProfile() {
@@ -404,6 +408,24 @@ export class ProfileManager {
   }
 
   /**
+   * Pins one binder on the trainer card, or unpins it with an empty id.
+   *
+   * The id is stored, never the share code: the code is encoded again from the binder itself at
+   * every publication, so editing the page always shows the current version to the followed
+   * players.
+   *
+   * @param {unknown} value - Binder id (empty string unpins).
+   * @returns {Promise<string>} The stored id.
+   * @throws {Error} When the write fails.
+   */
+  async setBinder(value) {
+    const binder = ProfileManager.sanitizeBinderId(value);
+    const current = await this.getProfile();
+    await this.persist({ ...current, binder });
+    return binder;
+  }
+
+  /**
    * Writes a profile and notifies the application.
    *
    * @param {object} profile - Profile to store (already normalized by the callers).
@@ -439,8 +461,8 @@ export class ProfileManager {
    *
    * @param {unknown} raw - Stored value.
    * @param {{maxFavorites?: number, maxFeaturedTrophies?: number}} [limits] - Configured limits.
-   * @returns {{name: string, icon: string, photo: string, title: string, usernameColor: string, favorites: string[], featured: string[]}}
-   *   A writable profile.
+   * @returns {{name: string, icon: string, photo: string, title: string, usernameColor: string,
+   *   favorites: string[], featured: string[], binder: string}} A writable profile.
    */
   static normalizeProfile(raw, limits = {}) {
     const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -455,7 +477,21 @@ export class ProfileManager {
       usernameColor: ProfileManager.sanitizeColorId(source.usernameColor),
       favorites: ProfileManager.sanitizeKeyList(source.favorites).slice(0, Math.max(maxFavorites, 0)),
       featured: ProfileManager.sanitizeKeyList(source.featured).slice(0, Math.max(maxFeatured, 0)),
+      binder: ProfileManager.sanitizeBinderId(source.binder),
     };
+  }
+
+  /**
+   * Cleans a raw binder id (no validation: used on read, not on write).
+   *
+   * The id is the one `BinderManager` generates (a v4 UUID): anything else is dropped, so a
+   * hand-edited save cannot point the trainer card at an arbitrary string.
+   *
+   * @param {unknown} value - Raw value.
+   * @returns {string} The id, or an empty string.
+   */
+  static sanitizeBinderId(value) {
+    return typeof value === 'string' && isUuid(value.trim()) ? value.trim() : '';
   }
 
   /**

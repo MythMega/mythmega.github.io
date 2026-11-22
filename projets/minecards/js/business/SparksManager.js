@@ -72,6 +72,7 @@ export const SPARKS_SOURCES = Object.freeze({
   ILLAGER: 'illager',
   QUEST: 'quest',
   TRADE: 'trade',
+  LIKES: 'likes',
   OTHER: 'other',
 });
 
@@ -86,6 +87,7 @@ export const SPARKS_EARNED_SOURCES = Object.freeze([
   SPARKS_SOURCES.ILLAGER,
   SPARKS_SOURCES.QUEST,
   SPARKS_SOURCES.TRADE,
+  SPARKS_SOURCES.LIKES,
   SPARKS_SOURCES.OTHER,
 ]);
 

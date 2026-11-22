@@ -128,6 +128,7 @@
   white-space: nowrap;
 }
 
+.binders__pin,
 .binders__share,
 .binders__remove {
   display: grid;
@@ -141,9 +142,26 @@
   touch-action: manipulation;
 }
 
-/* Two square cells, so the two glyphs sit on the same baseline however wide they are. */
+/* Three square cells, so the glyphs sit on the same baseline however wide they are. */
 .binders__share + .binders__remove {
   border-left: 1px solid var(--color-border);
+}
+
+/* The pin marks the binder the trainer card shows: an empty star when it is not, a filled one
+   when it is, in the accent colour of the game. */
+.binders__pin {
+  border-left: 1px solid var(--color-border);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+}
+
+.binders__pin.is-active {
+  color: var(--color-accent);
+}
+
+.binders__pin:hover,
+.binders__pin:focus-visible {
+  color: var(--color-accent);
 }
 
 .binders__share svg {

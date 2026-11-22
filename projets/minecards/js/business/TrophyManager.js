@@ -189,6 +189,10 @@ export const GLOBAL_TROPHY_STATS = Object.freeze({
    * a friend never takes a medal back (see `SocialManager.recordFriendsPeak`).
    */
   FRIENDS_PEAK: 'friendscount',
+  /** Likes this account received (`stats.likesReceived`, kept in step with the worker). */
+  LIKES_RECEIVED: 'likesreceived',
+  /** Likes this account gave (`stats.likesSent`, kept in step with the worker). */
+  LIKES_SENT: 'likessent',
   /** Player level, which is derived from the experience (see `buildLevelTrophies`). */
   PLAYER_LEVEL: 'xp',
 });
@@ -544,6 +548,12 @@ export class TrophyManager {
       Number.isInteger(stats?.friendsPeak) && stats.friendsPeak >= 0 ? stats.friendsPeak : 0,
       distinctFriends
     );
+    // Likes: both counters are written by `LikesManager` from what the worker answers, so a save
+    // that never went online simply reads zero.
+    const likesReceived =
+      Number.isInteger(stats?.likesReceived) && stats.likesReceived >= 0 ? stats.likesReceived : 0;
+    const likesSent =
+      Number.isInteger(stats?.likesSent) && stats.likesSent >= 0 ? stats.likesSent : 0;
 
     return {
       sets,
@@ -557,6 +567,8 @@ export class TrophyManager {
       cardsSold,
       completedTrades,
       friendsPeak,
+      likesReceived,
+      likesSent,
       // Mining counters, shared by the two mining families.
       totalMined: mining.totalMined,
       blocksMined: mining.blocksMined,
@@ -1152,6 +1164,10 @@ export class TrophyManager {
         return context.completedTrades ?? 0;
       case GLOBAL_TROPHY_STATS.FRIENDS_PEAK:
         return context.friendsPeak ?? 0;
+      case GLOBAL_TROPHY_STATS.LIKES_RECEIVED:
+        return context.likesReceived ?? 0;
+      case GLOBAL_TROPHY_STATS.LIKES_SENT:
+        return context.likesSent ?? 0;
       default:
         return null;
     }

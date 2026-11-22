@@ -225,6 +225,8 @@ export class CollectionView {
     this.devMode = false;
     /** @type {object[]} The binders of the player, in creation order. */
     this.binders = [];
+    /** @type {string} Id of the binder the trainer card shows (`profile.binder`), empty if none. */
+    this.pinnedBinder = '';
     /**
      * @type {{id: string|null, name: string, cover: string|null, slots: Array<string|null>}|null}
      *   The page being edited. It is a DRAFT: nothing reaches the storage before "Enregistrer", so
@@ -821,6 +823,12 @@ export class CollectionView {
         void this.shareBinder(share.dataset.collectionBinderShare);
         return;
       }
+      // The pin: the one binder a followed player opens from the friend dialog.
+      const pin = target?.closest('[data-collection-binder-pin]');
+      if (pin && this.bindersList.contains(pin)) {
+        void this.togglePinnedBinder(pin.dataset.collectionBinderPin);
+        return;
+      }
       const remove = target?.closest('[data-collection-binder-remove]');
       if (remove && this.bindersList.contains(remove)) {
         void this.deleteBinder(remove.dataset.collectionBinderRemove);
@@ -1043,6 +1051,7 @@ export class CollectionView {
     try {
       const profile = await profileManager.getProfile();
       this.favorites = new Set(profile.favorites);
+      this.pinnedBinder = typeof profile.binder === 'string' ? profile.binder : '';
     } catch (error) {
       console.warn('[CollectionView] The favourite cards could not be read.', error);
       this.favorites = new Set();
@@ -2085,6 +2094,23 @@ export class CollectionView {
     const actions = document.createElement('div');
     actions.className = 'binders__actions';
 
+    // The pin marks the binder the trainer card shows: `profile.binder` stores its id, and the
+    // publication encodes it into the `binder_code` column. One binder at a time, so pinning one
+    // unpins the previous.
+    const pinned = this.pinnedBinder === binder.id;
+    const pin = document.createElement('button');
+    pin.type = 'button';
+    pin.className = 'binders__pin';
+    pin.classList.toggle('is-active', pinned);
+    pin.dataset.collectionBinderPin = binder.id;
+    pin.textContent = pinned ? '★' : '☆';
+    pin.setAttribute('aria-pressed', String(pinned));
+    pin.setAttribute(
+      'aria-label',
+      i18n.t(pinned ? 'binders.unpinAria' : 'binders.pinAria', { name: binder.name })
+    );
+    pin.title = i18n.t(pinned ? 'binders.unpin' : 'binders.pin');
+
     // "Open" is a NAMED button rather than a third glyph: it is not the same gesture as the share
     // one (nothing is copied here, the page is simply put on screen), and two arrows would say
     // neither. It opens the read-only page of the binder (`collection.html?code=…`) in a new tab.
@@ -2111,7 +2137,7 @@ export class CollectionView {
     remove.textContent = '×';
     remove.setAttribute('aria-label', i18n.t('binders.deleteAria', { name: binder.name }));
 
-    actions.append(view, share, remove);
+    actions.append(view, pin, share, remove);
     item.append(open, actions);
     return item;
   }
@@ -2507,6 +2533,12 @@ export class CollectionView {
         this.binderModal.hidden = true;
         this.binderDraft = null;
       }
+      // A deleted page cannot stay pinned on the trainer card. Written directly: `binderBusy` is
+      // held by this deletion, so the toggle would refuse to run.
+      if (this.pinnedBinder === id) {
+        await profileManager.setBinder('');
+        this.pinnedBinder = '';
+      }
       Toast.success('binders.deleted');
       await this.renderBindersList();
       this.log(`Binder "${id}" deleted.`);
@@ -2515,6 +2547,30 @@ export class CollectionView {
       Toast.error('binders.error.delete');
     } finally {
       this.binderBusy = false;
+    }
+  }
+
+  /**
+   * Pins one binder on the trainer card, or unpins it when it already is.
+   *
+   * Only the id is stored: `SocialManager` encodes the page again at every publication, so the
+   * code a followed player receives always matches the binder as it is now.
+   *
+   * @param {string} id - Binder id.
+   * @returns {Promise<void>} Resolves once the profile is written and the list repainted.
+   */
+  async togglePinnedBinder(id) {
+    if (this.binderBusy) return;
+    const next = this.pinnedBinder === id ? '' : id;
+    try {
+      await profileManager.setBinder(next);
+      this.pinnedBinder = next;
+      await this.renderBindersList();
+      Toast.success(next === '' ? 'binders.unpinned' : 'binders.pinned');
+      this.log(`Pinned binder: ${next === '' ? 'none' : next}.`);
+    } catch (error) {
+      console.error('[CollectionView] The binder of the trainer card could not be changed.', error);
+      Toast.error('binders.error.pin');
     }
   }
 

@@ -26,6 +26,7 @@ import accountManager from './business/AccountManager.js';
 import dateSyncManager from './business/DateSyncManager.js';
 import boosterManager from './business/BoosterManager.js';
 import sparksManager from './business/SparksManager.js';
+import likesManager from './business/LikesManager.js';
 import profileManager from './business/ProfileManager.js';
 import trophyManager from './business/TrophyManager.js';
 import i18n from './utils/I18n.js';
@@ -129,6 +130,15 @@ export const HEADER_SPARKS_SELECTORS = Object.freeze({
 export const HEADER_ENDER_EYES_SELECTORS = Object.freeze({
   VALUE: '[data-header-ender-eyes-value]',
 });
+
+/** Selectors of the like counter of the header (hidden until an authenticated read succeeds). */
+export const HEADER_LIKES_SELECTORS = Object.freeze({
+  WIDGET: '[data-header-likes]',
+  TRACK: '[data-header-likes-track]',
+});
+
+/** Longest roll of the like counter, in steps: above it the new number is simply written. */
+export const HEADER_LIKES_MAX_ROLL = 10;
 
 /** Selectors of the daily reward button of the header and of its "something to claim" dot. */
 export const DAILY_REWARDS_SELECTORS = Object.freeze({
@@ -585,6 +595,7 @@ export class App {
     this.bindHeaderIdentity();
     await this.refreshHeaderSparks();
     await this.refreshHeaderEnderEyes();
+    void this.refreshHeaderLikes();
     this.bindChangelogBadge();
     this.bindInventory();
     this.bindDailyRewards();
@@ -1682,6 +1693,7 @@ export class App {
     eventBus.on(EVENTS.CLOCK_TICK, (payload) => this.handleClockTick(payload));
     eventBus.on(EVENTS.SPARKS_UPDATED, (payload) => this.renderHeaderSparks(payload?.balance));
     eventBus.on(EVENTS.TRADES_UPDATED, (payload) => this.renderHeaderEnderEyes(payload?.balance));
+    eventBus.on(EVENTS.LIKES_UPDATED, (payload) => this.renderHeaderLikes(payload?.likes));
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => this.handleAccountRemoved());
     eventBus.on(EVENTS.SAVE_IMPORTED, (payload) => this.handleSaveImported(payload));
     eventBus.on(EVENTS.QUEST_GUIDE_REQUESTED, (payload) => void this.guideToQuest(payload));
@@ -1909,6 +1921,89 @@ export class App {
   }
 
   /**
+   * Reads the likes received (and claims the like bonus) for the header counter.
+   *
+   * The read is authenticated because it consumes the whole units of `bonus_from_like`: an account
+   * that was never published online has no secret code, the worker refuses it, and the widget stays
+   * hidden. A failure is never fatal: the rest of the header keeps working.
+   *
+   * @returns {Promise<void>} Resolves once the counter was drawn or hidden.
+   */
+  async refreshHeaderLikes() {
+    try {
+      // `sync()` publishes `LIKES_UPDATED`, which is what paints the counter: rendering here too
+      // would rebuild the strip a second time and leave the roll translated on a single row.
+      await likesManager.sync();
+    } catch (error) {
+      this.hideHeaderLikes();
+      console.info('[App] The like counter of the header is unavailable.', error?.message ?? error);
+    }
+  }
+
+  /**
+   * Writes the likes received in the header, rolling the number up when it grew.
+   *
+   * The value is never 0-hidden: once the first read succeeded the counter stays, because a player
+   * without a like still has the feature. The strip of numbers only holds the steps of the roll
+   * (at most `HEADER_LIKES_MAX_ROLL`); a bigger jump writes the final value directly.
+   *
+   * @param {number|null|undefined} likes - New count.
+   * @returns {void}
+   */
+  renderHeaderLikes(likes) {
+    const widget = document.querySelector(HEADER_LIKES_SELECTORS.WIDGET);
+    const track = document.querySelector(HEADER_LIKES_SELECTORS.TRACK);
+    if (!widget || !track) return;
+
+    const target = Math.max(0, Math.trunc(Number(likes) || 0));
+    // The first successful read rolls from zero: the widget then shows how many hearts it holds,
+    // instead of appearing on a static number after a page load.
+    const previous = Number.isInteger(this.headerLikes) ? this.headerLikes : 0;
+    const steps =
+      target > previous && target - previous <= HEADER_LIKES_MAX_ROLL ? target - previous : 0;
+
+    // The strip is laid out before being moved: the roll then only translates the track, which
+    // keeps the animation on the compositor and leaves the pill untouched.
+    // A render can land while the previous roll is still pending: cancelling it keeps the strip
+    // and the transform of ONE render, instead of a queued frame moving a freshly rebuilt track.
+    if (this.likesFrame) cancelAnimationFrame(this.likesFrame);
+    this.likesFrame = null;
+    track.style.transition = 'none';
+    track.style.transform = 'translateY(0)';
+    track.textContent = '';
+    const first = steps > 0 ? previous + 1 : target;
+    for (let value = first; value <= target; value += 1) {
+      const row = document.createElement('span');
+      row.className = 'app-header__likes-digit';
+      row.textContent = String(value);
+      track.appendChild(row);
+    }
+
+    widget.hidden = false;
+    this.headerLikes = target;
+    if (steps === 0) return;
+    this.likesFrame = requestAnimationFrame(() => {
+      this.likesFrame = null;
+      track.style.transition = '';
+      // The strip holds `steps` rows, so the LAST one sits `steps - 1` rows below the window's top.
+      track.style.transform = `translateY(-${steps - 1}em)`;
+    });
+  }
+
+  /**
+   * Hides the like counter, for an account that cannot read it.
+   *
+   * @returns {void}
+   */
+  hideHeaderLikes() {
+    const widget = document.querySelector(HEADER_LIKES_SELECTORS.WIDGET);
+    if (widget) widget.hidden = true;
+    if (this.likesFrame) cancelAnimationFrame(this.likesFrame);
+    this.likesFrame = null;
+    this.headerLikes = null;
+  }
+
+  /**
    * Writes the Ender Eyes balance in the header.
    *
    * @param {number|null|undefined} balance - Last known balance, or null before the first read.
@@ -1935,6 +2030,7 @@ export class App {
    */
   handleAccountRemoved() {
     console.info('[App] Account removed: releasing the clock and the views.');
+    this.hideHeaderLikes();
     this.releaseAccountRuntime();
   }
 
@@ -1953,6 +2049,7 @@ export class App {
     console.info(
       `[App] Save imported (uuid: ${payload?.uuid ?? 'unknown'}): releasing the clock and the views.`
     );
+    this.hideHeaderLikes();
     this.releaseAccountRuntime();
   }
 

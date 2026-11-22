@@ -76,6 +76,8 @@ export class StatsView {
     this.levelElement = this.root.querySelector('[data-stats-level]');
     this.questsElement = this.root.querySelector('[data-stats-quests]');
     this.connectionsElement = this.root.querySelector('[data-stats-connections]');
+    this.likesSentElement = this.root.querySelector('[data-stats-likes-sent]');
+    this.likesReceivedElement = this.root.querySelector('[data-stats-likes-received]');
     this.completionGlobalElement = this.root.querySelector('[data-stats-completion-global]');
     this.completionSetsElement = this.root.querySelector('[data-stats-completion-sets]');
     this.rarityElement = this.root.querySelector('[data-stats-rarity]');
@@ -145,6 +147,8 @@ export class StatsView {
       ['[data-stats-level]', this.levelElement],
       ['[data-stats-quests]', this.questsElement],
       ['[data-stats-connections]', this.connectionsElement],
+      ['[data-stats-likes-sent]', this.likesSentElement],
+      ['[data-stats-likes-received]', this.likesReceivedElement],
       ['[data-stats-completion-global]', this.completionGlobalElement],
       ['[data-stats-completion-sets]', this.completionSetsElement],
       ['[data-stats-rarity]', this.rarityElement],
@@ -346,6 +350,14 @@ export class StatsView {
     this.levelElement.textContent = String(safeLevel);
     this.questsElement.textContent = String(quests);
     this.connectionsElement.textContent = String(connections);
+    // Both counters are kept by `LikesManager` from what the worker answers, so a save that never
+    // went online simply shows zero.
+    const likesSent =
+      Number.isInteger(stats?.likesSent) && stats.likesSent >= 0 ? stats.likesSent : 0;
+    const likesReceived =
+      Number.isInteger(stats?.likesReceived) && stats.likesReceived >= 0 ? stats.likesReceived : 0;
+    this.likesSentElement.textContent = String(likesSent);
+    this.likesReceivedElement.textContent = String(likesReceived);
   }
 
   /**

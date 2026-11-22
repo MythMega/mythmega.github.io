@@ -103,5 +103,21 @@
         "gold": 10,
         "diamond": 25,
         "emerald": 100
+    },
+    "likesreceived": {
+        "_comment": "number of likes received; medals in 'assets/img/trophy/Global/likesreceived/'",
+        "bronze": 10,
+        "silver": 50,
+        "gold": 100,
+        "diamond": 250,
+        "emerald": 1000
+    },
+    "likessent": {
+        "_comment": "number of likes sent; medals in 'assets/img/trophy/Global/likessent/'",
+        "bronze": 3,
+        "silver": 15,
+        "gold": 75,
+        "diamond": 150,
+        "emerald": 500
     }
 }

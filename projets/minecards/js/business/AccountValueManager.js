@@ -10,6 +10,7 @@
  *
  * THE FORMULA (always in Spark-equivalent units)
  *   total = Sparks
+ *         + Σ like received × 1
  *         + Σ owned copy × its sale price (promo cards use their fixed 10-Spark sale price)
  *         + Σ distinct owned card × rarity³ × 10
  *         + level × 10
@@ -21,6 +22,8 @@
  *
  * WHY EACH TERM
  *   - Sparks are already the unit of the result.
+ *   - One received like is worth one point (`ACCOUNT_VALUE_RULES.like`): the hearts a player
+ *     collected are part of the account, like the level below, and they are counted one for one.
  *   - Every COPY in the collection is worth what selling it would credit, not what buying it
  *     costs: the value describes the collection's liquidation value. A promo is worth its fixed
  *     duplicate price, exactly as `SparksManager.sellCard()` charges.
@@ -67,6 +70,7 @@ import featureManager, {
 /** Flat weights of the parts of the formula that are not read from a price table. */
 export const ACCOUNT_VALUE_RULES = Object.freeze({
   level: 10,
+  like: 1,
   customCurrency: 25,
   distinctCard: 10,
   maxRarity: 6,
@@ -247,14 +251,17 @@ export class AccountValueManager {
    * @param {object} [options] - Calculation options.
    * @param {object[]} [options.entries=[]] - Collection entries.
    * @param {number} [options.level=1] - Current player level.
-   * @returns {Promise<{total: number, sparks: number, cardSaleValue: number,
+   * @param {number} [options.likes=0] - Likes received by the player (one point each). `0` until
+   *   the first authenticated read of the likes succeeded, which only costs the likes term of a
+   *   card published in that very first second.
+   * @returns {Promise<{total: number, sparks: number, likeValue: number, cardSaleValue: number,
    *   distinctRarityValue: number, levelValue: number, resourceValue: number,
    *   customCurrencyValue: number, bonusBoosterValue: number, bundleValue: number,
    *   profileCustomizationValue: number, bonusBoosters: number, bundles: number}>}
    *   The value and every term of the formula.
    * @throws {Error} When one of the account sources cannot be read.
    */
-  async build({ entries = [], level = 1 } = {}) {
+  async build({ entries = [], level = 1, likes = 0 } = {}) {
     const [
       sparks,
       prices,
@@ -292,10 +299,12 @@ export class AccountValueManager {
     const bonusBoosters = amountOf(quota?.bonusTotal);
     const bundles = amountOf(mining?.bundles);
     const levelValue = Math.max(1, amountOf(level)) * ACCOUNT_VALUE_RULES.level;
+    const likeValue = amountOf(likes) * ACCOUNT_VALUE_RULES.like;
     const boosterPrice = amountOf(boosters?.extraBoosterPriceSparks);
     const bundlePrice = amountOf(miningSettings?.bundlePriceSparks);
     const values = {
       sparks,
+      likeValue,
       cardSaleValue: AccountValueManager.cardSaleValue(entries, prices?.sellPrice),
       distinctRarityValue: AccountValueManager.distinctRarityValue(entries),
       levelValue,

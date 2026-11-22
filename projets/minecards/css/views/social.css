@@ -936,3 +936,205 @@
 .trade__partner-empty[hidden] {
   display: none;
 }
+
+/* Likes received by the opened friend: the count sits under the card, and the like action takes
+   the first place of the footer, away from the destructive "unfollow". */
+.social__detail-likes {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.modal__actions.social__detail-actions {
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.social__detail-like:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Favourites of the opened friend: the pins of their profile, resolved locally so the dialog shows
+   the real artwork of the cards and the medals of the trophies. They sit under the card, above the
+   publication date. */
+.social__detail-favorites {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.social__detail-favorites[hidden] {
+  display: none;
+}
+
+.social__favorites {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.social__favorites-title {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.social__favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social__favorite {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 60px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-alt);
+}
+
+.social__favorite--trophy {
+  height: 44px;
+  border-radius: 50%;
+}
+
+.social__favorite-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.social__favorite-image.is-missing {
+  opacity: 0.5;
+}
+
+.social__favorite-medal {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* "Like tout le monde": the ring is drawn by `SocialView` (dash array/offset on the fill circle),
+   so the dialog shows the ratio of the chunks already accepted, not a spinner. */
+.social__like-all {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+.social__progress {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+}
+
+.social__progress-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.social__progress-track,
+.social__progress-fill {
+  fill: none;
+  stroke-width: 10;
+}
+
+.social__progress-track {
+  stroke: var(--color-border);
+}
+
+.social__progress-fill {
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 180ms ease;
+}
+
+.social__progress-value {
+  position: absolute;
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.social__like-all-text {
+  margin: 0;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social__progress-fill {
+    transition: none;
+  }
+}
+
+/* The binder the opened friend pinned on their card: one button, labelled with the name the share
+   code carries, under the favourites. */
+.social__detail-binder {
+  margin-top: var(--space-3);
+}
+
+.social__detail-binder[hidden] {
+  display: none;
+}
+
+.social__binder-button {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The page itself, in its own dialog: the backdrop is the `Background` of the representative card
+   (set as `--binder-backdrop` by the view), and the slots are always laid out on rows of three,
+   exactly like the read-only page of a shared binder. */
+.social__binder {
+  background-color: var(--color-surface-alt);
+  background-image: var(--binder-backdrop, none);
+  background-size: cover;
+  background-position: center;
+}
+
+.social__binder-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social__binder-slot {
+  overflow: hidden;
+  aspect-ratio: var(--card-ratio, 3 / 4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.social__binder-slot.is-empty {
+  border-style: dashed;
+  background-color: transparent;
+}
+
+.social__binder-card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

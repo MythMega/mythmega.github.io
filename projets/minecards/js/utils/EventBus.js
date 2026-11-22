@@ -66,6 +66,10 @@ export const EVENTS = Object.freeze({
    * `AutoClaimManager` once at least one `AutoClaim` code was granted: the popup displays the gift
    * wherever the player is. The rewards are already credited when it is emitted. */
   AUTO_CLAIM_GRANTED: 'AUTO_CLAIM_GRANTED',
+  /** Payload: `{ likes, sparks, bonus, likesSent }`. Emitted by `LikesManager.sync()` after the
+   * authenticated read of the header: the likes received by the player and the Sparks the bonus
+   * paid. The counter stays hidden when the read fails, so listeners only ever see real values. */
+  LIKES_UPDATED: 'LIKES_UPDATED',
   SPARKS_UPDATED: 'SPARKS_UPDATED',
   /** Payload: `{ balance }`. Emitted by `TradeManager` after the Ender Eyes balance was read from
    * the worker or spent: the header counter and the inventory listen to it. Ender Eyes are

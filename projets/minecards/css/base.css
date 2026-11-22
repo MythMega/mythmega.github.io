@@ -1503,3 +1503,49 @@ html[data-native-scrollbars="true"] .scroll-hint {
     scroll-behavior: auto !important;
   }
 }
+
+/* Likes received: the heart is filled with its own token, because the accent ink is blue in half
+   the palettes and a heart must read as one in every theme. */
+.app-header__stat--likes {
+  --color-like: #ff5c8a;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A chip of the bar is a flex row: the `hidden` attribute alone would not hide it. */
+.app-header__stat--likes[hidden] {
+  display: none;
+}
+
+.app-header__stat-icon--heart {
+  -webkit-mask-image: url("../assets/img/heart.svg");
+  mask-image: url("../assets/img/heart.svg");
+  background-color: var(--color-like);
+}
+
+/* The counter is a one-row window on a strip of numbers: the roll slides the strip up. */
+.app-header__likes-value {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.app-header__likes-track {
+  display: block;
+  transition: transform 900ms cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+.app-header__likes-digit {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-header__likes-track {
+    transition: none;
+  }
+}

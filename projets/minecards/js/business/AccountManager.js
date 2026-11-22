@@ -73,6 +73,9 @@ export const USER_STATE_KEYS = Object.freeze({
   // Social publication: the secret write code of the trainer card and the followed UUIDs
   // (see `SocialManager`). The code stays in clear because the worker needs it on every update.
   SOCIAL: 'social',
+  // The UTC day whose like was given (`LikesManager`): once it is used, the client never asks the
+  // worker for another one, whatever the player it would like.
+  LIKES: 'likes',
   // Trades with followed players (see `TradeManager`): the cached Ender Eyes balance, the cards
   // and Sparks currently escrowed, and the statuses already announced.
   TRADES: 'trades',
@@ -209,6 +212,10 @@ export function buildDefaultStats() {
     daysConnected: 0,
     cardsSold: 0,
     friendsPeak: 0,
+    // Likes given and received: `LikesManager` keeps them in step with the worker, which is what
+    // the `likessent` and `likesreceived` trophies count.
+    likesSent: 0,
+    likesReceived: 0,
     sparksEarned: 0,
     sparksSpent: 0,
     sparksEarnedBySource: {},

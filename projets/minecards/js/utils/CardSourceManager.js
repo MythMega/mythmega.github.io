@@ -178,10 +178,7 @@ function buildGenerated(card, options) {
   // produces the shadow-bearing autonomous element this helper expects.
   const visual = new CardPrint();
   applyCommonOptions(visual, card, options);
-  visual.setCard(card, {
-    mini: options.mini === true,
-    lang: options.lang ?? cardLanguage.getLang(),
-  });
+  visual.setCard(card, { lang: options.lang ?? cardLanguage.getLang() });
   visual.setAnimatedLayers(state.animatedLayers);
   visual.setAnimatedLayersView(options.animatedLayers === true);
   return visual;
@@ -198,7 +195,6 @@ function buildGenerated(card, options) {
 function applyCommonOptions(element, card, options) {
   if (options.className) element.className = options.className;
   if (card) element.dataset.cardVisual = card.uniqueKey;
-  element.dataset.cardMini = String(options.mini === true);
   element.dataset.cardAnimated = String(options.animatedLayers === true);
 
   if (options.ariaHidden === true) {
@@ -219,7 +215,6 @@ function applyCommonOptions(element, card, options) {
  * @param {string} [options.className] - Class the caller's stylesheet sizes the visual with.
  * @param {string} [options.alt] - Accessible name (empty for a decorative visual).
  * @param {boolean} [options.ariaHidden=false] - Hide the visual from assistive technologies.
- * @param {boolean} [options.mini=false] - Hide the card texts (generated source only).
  * @param {boolean} [options.animatedLayers=false] - Allow the layers to move (detail popups and
  *   booster reveals only; the grids stay still).
  * @param {string} [options.lang] - Language of the generated text.
@@ -238,7 +233,7 @@ export function createCardVisual(card, options = {}) {
  *
  * @param {HTMLElement|null} element - Image or card element.
  * @param {object|null} card - Card to display.
- * @param {object} [options] - Display options (`alt`, `mini`, `animatedLayers`, `lang`).
+ * @param {object} [options] - Display options (`alt`, `animatedLayers`, `lang`).
  * @returns {HTMLElement|null} The same element.
  */
 export function updateCardVisual(element, card, options = {}) {
@@ -248,10 +243,7 @@ export function updateCardVisual(element, card, options = {}) {
     element.dataset.cardAnimated = String(options.animatedLayers === true);
   }
   if (element instanceof CardPrint || element.localName === 'card-print') {
-    element.setCard(card, {
-      mini: options.mini ?? element.hasAttribute('mini'),
-      lang: options.lang ?? cardLanguage.getLang(),
-    });
+    element.setCard(card, { lang: options.lang ?? cardLanguage.getLang() });
     element.setAnimatedLayers(state.animatedLayers);
     if (options.animatedLayers !== undefined) {
       element.setAnimatedLayersView(options.animatedLayers === true);
@@ -294,7 +286,7 @@ function copyPresentation(from, to) {
     to.setAttribute('aria-hidden', from.getAttribute('aria-hidden'));
   }
   for (const [key, value] of Object.entries(from.dataset)) {
-    if (key !== 'cardVisual' && key !== 'cardMini') to.dataset[key] = value;
+    if (key !== 'cardVisual') to.dataset[key] = value;
   }
 }
 
@@ -314,14 +306,12 @@ export function replaceCardVisual(current, card, options = {}) {
   }
 
   const alt = options.alt ?? (current.hasAttribute('aria-hidden') ? '' : current.getAttribute('aria-label') ?? current.getAttribute('alt') ?? '');
-  const mini = options.mini ?? current.dataset.cardMini === 'true';
   const animatedLayers = options.animatedLayers ?? current.dataset.cardAnimated === 'true';
   const replacement = wantsGenerated
-    ? buildGenerated(card, { ...options, alt, mini, animatedLayers })
-    : buildImage(card, { ...options, alt, mini, animatedLayers });
+    ? buildGenerated(card, { ...options, alt, animatedLayers })
+    : buildImage(card, { ...options, alt, animatedLayers });
   copyPresentation(current, replacement);
   replacement.dataset.cardVisual = card.uniqueKey;
-  replacement.dataset.cardMini = String(mini);
   replacement.dataset.cardAnimated = String(animatedLayers);
   current.replaceWith(replacement);
   return replacement;
@@ -347,7 +337,6 @@ export function repaintCardVisuals() {
       : element.getAttribute('aria-label') ?? element.getAttribute('alt') ?? '';
     replaceCardVisual(element, card, {
       alt,
-      mini: element.dataset.cardMini === 'true',
       animatedLayers: element.dataset.cardAnimated === 'true',
     });
   });

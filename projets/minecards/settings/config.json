@@ -47,6 +47,11 @@
     }
   },
 
+  "cardRender": {
+    "_comment": "Card render mode a NEW account starts with. 'default' is either 'images' (the final PNG/WebP), 'custom' (the design edited in the advanced developer panel) or the id of a preset of 'settings/cardrender.json'; null keeps the images, which is the historical behaviour. The game ships 'dynamic', the 'Minecards dynamic' preset of that file: a new account renders the generated card, the picker of Settings > Appearance shows that mode as the active one, and the preset is also the starting design of the advanced panel. A stored choice always wins, and an id that no longer exists falls back to the images-like default below, so removing a preset never leaves an account without a card.",
+    "default": "dynamic"
+  },
+
   "cardGenerate": {
     "_comment": "Everything the generated card is made of. Two panels of the settings screen read this block. `animation`: how far the layers zoom (`zoom`, in percent of their size, 110 by default), how much the background blurs at the deepest point (`blur`, in pixels), the speed slider bounds and the quick speed presets offered above it (`speeds`, percentages of the reference 30-second cycle). Each layer can also be frozen per layout from the account settings; the underlay is never blurred and keeps its pixel-art rendering. `construction`: the classic layout geometry (frame `borderWidth` in pixels, header and description heights as percentages of the card) and one entry per rarity (`1` common through `6` unique) with its frame colour, accent colour, top-right symbol and symbol colour. Colours are six-digit hex codes. Distances and percentages are clamped to their declared range, a missing rarity is completed from the shipped row, and a missing block falls back to these defaults; a card can therefore never lose its frame or its symbol. The account stores the developer's overrides under `settings.cardGenerate`; `js/utils/CardGenerateManager.js` publishes the colours and geometry as custom properties on <html>, and `CardPrint` reads the symbols while rendering. The old `animatedLayers.speed` block is still accepted as a fallback for configurations written before this module existed.",
     "animation": {

@@ -12,10 +12,12 @@
  *   that box instead of duplicating the layout of ten views. Its shadow root keeps the card maker's
  *   `.card-*` rules away from the game's stylesheets, exactly like `ProfileCard`.
  *
- * MINI AND FULL
- *   The `mini` attribute hides the header and the description. A thumbnail is therefore the
- *   artwork, the frame and the foil; the name, the set and the description appear when the card is
- *   opened large (`js/UI/components/CardDetailPopup.js` or the detail of a view).
+ * ONE CONSTRUCTION
+ *   Every generated card is built the same way, whatever the box it fills: the name, the artwork
+ *   and the description keep their bands and their blurred backdrop from a 56px thumbnail to the
+ *   large card of a detail. The only adaptation is the SIZE - below 4.5rem the series and the
+ *   rarity symbol are hidden, the two lines that fit nowhere down there - and it lives in the
+ *   stylesheet, next to the lines it silences.
  *
  * THE FOIL
  *   The card carries the two foil layers of the card maker and one brilliance line. They read
@@ -127,16 +129,6 @@ export class CardPrint extends HTMLElementBase {
    * @returns {void}
    */
   build() {
-    // Inline first: the two stylesheets below load asynchronously, and a thumbnail must not show
-    // its texts for the frame(s) before they arrive.
-    const miniStyle = document.createElement('style');
-    miniStyle.textContent =
-      ':host([mini]) .card-header, :host([mini]) .card-body { display: none; } ' +
-      ':host([mini]) .profile-card-root { --corner-clip: polygon(0 1px, 1px 0, ' +
-      'calc(100% - 1px) 0, 100% 1px, 100% calc(100% - 1px), calc(100% - 1px) 100%, ' +
-      '1px 100%, 0 calc(100% - 1px)); }';
-    this.root.appendChild(miniStyle);
-
     STYLESHEETS.forEach((path) => {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -206,22 +198,16 @@ export class CardPrint extends HTMLElementBase {
    *
    * @param {object|null} card - Card to draw.
    * @param {object} [options] - Display options.
-   * @param {boolean} [options.mini=false] - Hide the name, the set and the description.
    * @param {string} [options.lang] - Language of the texts.
    * @param {{color: string, accent: string, symbol: string, symbolColor: string}} [options.appearance]
    *   Rarity appearance to use instead of the account design (a preview of another mode).
    * @returns {CardPrint} This element, for chaining.
    */
-  setCard(card, { mini = this.hasAttribute('mini'), lang = null, appearance = null } = {}) {
+  setCard(card, { lang = null, appearance = null } = {}) {
     this.card = card;
     this.appearance = appearance && typeof appearance === 'object' ? appearance : null;
     this.lang = typeof lang === 'string' && lang !== '' ? lang : cardLanguage.getLang();
     this.setAttribute('lang', this.lang);
-    if (mini) {
-      this.setAttribute('mini', '');
-    } else {
-      this.removeAttribute('mini');
-    }
     this.render();
     return this;
   }

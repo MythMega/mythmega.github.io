@@ -54,7 +54,11 @@ import {
   CARD_SOURCE_VALUES,
   DEFAULT_CARD_SOURCE,
 } from '../utils/CardSourceManager.js';
-import { CARD_RENDER_MODE, DEFAULT_CARD_RENDER_MODE } from '../utils/CardRenderManager.js';
+import {
+  CARD_RENDER_MODE,
+  DEFAULT_CARD_RENDER_MODE,
+  getShippedDefaultMode,
+} from '../utils/CardRenderManager.js';
 
 /** `user_state` keys, exactly as defined in `main.md` section 2. */
 export const USER_STATE_KEYS = Object.freeze({
@@ -395,12 +399,19 @@ export class AccountManager {
         ? glowManager.sanitizeLevel(overrides.glowTrophies)
         : glowManager.getSettings().default;
 
+    // A mode can be SHIPPED as the default (`cardRender.default` of `config.json`): "dynamic"
+    // today, the "Minecards dynamic" preset of `cardrender.json`. The preset is a COMPLETE design,
+    // so it is used as the starting card itself - a new account renders it without ever opening
+    // the settings, and the advanced panel starts from its values instead of the shipped design.
+    // A null id, or one no longer declared, keeps the historical images.
+    const shippedPreset = await getShippedDefaultMode();
+
     // The animated layers have their own speed, in PERCENT of the reference 30-second cycle. The
     // bounds and the default live in `config.json` so the tuned speed can become the shipped
     // default without touching the manager.
     const animatedLayersRange = await configLoader.getAnimatedLayersSettings();
     const animatedLayersSpeed = AccountManager.sanitizeAnimatedLayersSpeed(
-      overrides.animatedLayersSpeed,
+      overrides.animatedLayersSpeed ?? shippedPreset?.speedPercent,
       animatedLayersRange
     );
     // The generated card has its own design module (`cardGenerate` of `config.json`): the stored
@@ -408,9 +419,13 @@ export class AccountManager {
     // produces a complete card.
     const cardGenerateSettings = await configLoader.getCardGenerateSettings();
     const cardGenerate = AccountManager.sanitizeCardGenerateSettings(
-      overrides.cardGenerate,
+      overrides.cardGenerate ?? shippedPreset?.design ?? null,
       cardGenerateSettings
     );
+    // What a card of this account looks like when nothing is stored: the shipped preset, or the
+    // final images that have always been the fallback.
+    const defaultCardSource = shippedPreset ? CARD_SOURCE.GENERATE : DEFAULT_CARD_SOURCE;
+    const defaultCardRenderMode = shippedPreset ? shippedPreset.id : DEFAULT_CARD_RENDER_MODE;
 
     // The notifications have their own block (`notifications` of `config.json`): the duration is in
     // SECONDS and every known kind starts enabled. A new account therefore hears about everything
@@ -480,19 +495,25 @@ export class AccountManager {
       // the setting is effective.
       cardSource: CARD_SOURCE_VALUES.includes(overrides.cardSource)
         ? overrides.cardSource
-        : DEFAULT_CARD_SOURCE,
+        : defaultCardSource,
       // Which entry of the "Card render" picker produced that source: `images`, `custom` (the
       // design edited in the advanced panel) or the id of a preset of `cardrender.json`. A save
       // written before the picker existed derives it from the source it already stores.
       cardRenderMode:
         typeof overrides.cardRenderMode === 'string' && overrides.cardRenderMode.trim() !== ''
           ? overrides.cardRenderMode.trim()
-          : overrides.cardSource === CARD_SOURCE.GENERATE
-            ? CARD_RENDER_MODE.CUSTOM
-            : DEFAULT_CARD_RENDER_MODE,
-      // The generated-card animation is a developer option and is OFF by default: a card must stay
-      // still unless the player explicitly asks for moving layers.
-      animatedLayers: overrides.animatedLayers === true,
+          : shippedPreset
+            ? defaultCardRenderMode
+            : overrides.cardSource === CARD_SOURCE.GENERATE
+              ? CARD_RENDER_MODE.CUSTOM
+              : defaultCardRenderMode,
+      // The generated-card animation follows the shipped mode (the "dynamic" preset animates),
+      // then the player's own switch. Without a shipped preset it stays OFF: a card must stay still
+      // unless someone asked for moving layers.
+      animatedLayers:
+        typeof overrides.animatedLayers === 'boolean'
+          ? overrides.animatedLayers
+          : shippedPreset?.animatedLayers === true,
       animatedLayersSpeed,
       cardGenerate,
       // The advanced developer options are a separate privilege. The allowlist is checked by the

@@ -85,8 +85,6 @@ export class CardComponent {
     this.flipOnClick = flipOnClick !== false;
     this.animatedLayers = animatedLayers === true;
     this.isFlipped = false;
-    /** @type {boolean} True when the card is displayed as a thumbnail. */
-    this.mini = false;
 
     /** @type {HTMLElement|null} */
     this.element = null;
@@ -158,7 +156,6 @@ export class CardComponent {
     const image = createCardVisual(this.card, {
       className: 'card-reveal__image',
       alt: this.card.getName(cardLanguage.getLang()),
-      mini: this.mini,
       animatedLayers: this.animatedLayers,
       loading: 'eager',
       decoding: 'async',
@@ -244,7 +241,6 @@ export class CardComponent {
     if (visual) {
       updateCardVisual(visual, this.card, {
         alt: `${name} (${rarityLabel})`,
-        mini: this.mini,
         lang,
       });
       this.image = visual;
@@ -261,23 +257,6 @@ export class CardComponent {
     if (this.element) {
       this.applyAriaLabel();
     }
-  }
-
-  /**
-   * Shows or hides the generated card texts for a thumbnail or a large display.
-   *
-   * The same element is reused by the spotlight and the summary, so the mode has to follow the
-   * place it is currently mounted in rather than the options it was born with.
-   *
-   * @param {boolean} mini - True to hide the name, the set and the description.
-   * @returns {void}
-   */
-  setMini(mini) {
-    this.mini = mini === true;
-    const visual = this.element?.querySelector('.card-reveal__image') ?? this.image;
-    if (!visual) return;
-    updateCardVisual(visual, this.card, { mini: this.mini });
-    this.image = visual;
   }
 
   /**

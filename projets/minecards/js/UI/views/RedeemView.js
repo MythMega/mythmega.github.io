@@ -446,7 +446,6 @@ export class RedeemView {
       const image = createCardVisual(reward.card, {
         className: 'redeem__reward-image',
         alt: reward.card.getName(cardLanguage.getLang()),
-        mini: true,
         loading: 'lazy',
       });
       if (image instanceof HTMLImageElement) {

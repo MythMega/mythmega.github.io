@@ -953,7 +953,8 @@ export class CollectionView {
 
   /**
    * Handles the keyboard shortcuts: Escape closes the topmost popup, and the open card can be
-   * sold (`S` / `V`, `Shift` for every duplicate), bought (`B` / `A`) or pinned (`P` / `F`).
+   * sold (`S` / `V`, `Shift` for every duplicate), bought (`B` / `A`), pinned (`P` / `F`) or
+   * wished for (`W`).
    *
    * The keys mirror the buttons of the detail modal, they never replace them: the same guards
    * apply (`handleSell`, `handleBuy` and `toggleFavorite` own the economy rules).
@@ -1017,6 +1018,13 @@ export class CollectionView {
     if ((key === 'p' || key === 'f') && entry.owned) {
       event.preventDefault();
       void this.toggleFavorite(entry.key);
+      return;
+    }
+    // The star of the tile, on the card the detail shows: a wish can be made for a card the player
+    // does not own (that is the point of a wishlist), so there is no ownership guard here.
+    if (key === 'w') {
+      event.preventDefault();
+      void this.toggleWishlist(entry.key);
     }
   }
 
@@ -1556,7 +1564,6 @@ export class CollectionView {
           alt: name,
           // A collection tile shows the whole card, at the size of the final image it replaces:
           // it is not a thumbnail, so the generated card keeps its name and description.
-          mini: false,
           loading: 'lazy',
         })
       : document.createElement('img');
@@ -1713,7 +1720,6 @@ export class CollectionView {
     const image = createCardVisual(card, {
       className: 'collection-modal__image',
       alt,
-      mini: false,
       animatedLayers: true,
       loading: 'eager',
       decoding: 'async',
@@ -2242,7 +2248,6 @@ export class CollectionView {
         className: 'binders__thumb-image',
         alt: '',
         ariaHidden: true,
-        mini: false,
         loading: 'lazy',
       });
       thumb.appendChild(image);
@@ -2505,7 +2510,6 @@ export class CollectionView {
         className: 'binder-editor__cover-image',
         alt: '',
         ariaHidden: true,
-        mini: false,
       });
       const text = document.createElement('span');
       text.textContent = cover.card.getName(cardLanguage.getLang());
@@ -2548,7 +2552,6 @@ export class CollectionView {
           className: 'binder-slot__image',
           alt: '',
           ariaHidden: true,
-          mini: false,
           loading: 'lazy',
         });
         button.appendChild(image);
@@ -2838,7 +2841,6 @@ export class CollectionView {
           className: 'binder-picker__image',
           alt: '',
           ariaHidden: true,
-          mini: false,
           loading: 'lazy',
         });
 

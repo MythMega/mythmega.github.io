@@ -586,7 +586,6 @@ export class MinePickView {
       className: 'minepick__mini-image',
       alt: this.describeCard(card),
       // Mine Pick shows cards, not textless thumbnails, even in the compact history.
-      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });
@@ -804,8 +803,6 @@ export class MinePickView {
         animatedLayers: true,
       });
       const element = component.render();
-      // Every card of the Mine Pick workflow keeps its texts, stage included.
-      component.setMini(false);
       element.dataset.minepickCard = String(cardIndex);
       // The rarity is duplicated on the stage element as a plain class: the ring of the card is
       // drawn by `minepick.css`, which must not have to know the internal classes of `CardComponent`.

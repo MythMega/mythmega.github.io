@@ -1791,7 +1791,6 @@ export class SettingsView {
         background: new URL(CARD_RENDER_SAMPLE.background, document.baseURI).href,
       },
       {
-        mini: false,
         lang: i18n.getLang(),
         appearance: design.construction.rarities[CARD_RENDER_SAMPLE.rarity],
       }

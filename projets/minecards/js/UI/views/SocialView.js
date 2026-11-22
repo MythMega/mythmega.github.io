@@ -64,7 +64,8 @@ export class SocialView {
     this.detailFavorites = query('[data-social-detail-favorites]');
     this.detailBinder = query('[data-social-detail-binder]');
     this.detailWishlistButton = query('[data-social-detail-wishlist]');
-    this.detailWishlistPanel = query('[data-social-detail-wishlist-panel]');
+    /** @type {Array<{key: string, card: object|null, quantity: number}>} Wishlist of the opened friend. */
+    this.detailWishlistEntries = [];
     this.detailCloseButtons = this.root.querySelectorAll('[data-social-detail-close]');
 
     this.binderModal = query('[data-social-binder-modal]');
@@ -268,7 +269,7 @@ export class SocialView {
       if (event.target === this.detailModal) this.closeFriend();
     });
 
-    this.listen(this.detailWishlistButton, 'click', () => this.toggleDetailWishlist());
+    this.listen(this.detailWishlistButton, 'click', () => this.openDetailWishlist());
 
     this.listen(this.detailBinder, 'click', (event) => {
       const button = event.target instanceof Element
@@ -746,8 +747,7 @@ export class SocialView {
     this.detailBinder.hidden = true;
     this.detailWishlistButton.textContent = '';
     this.detailWishlistButton.hidden = true;
-    this.detailWishlistPanel.textContent = '';
-    this.detailWishlistPanel.hidden = true;
+    this.detailWishlistEntries = [];
     this.openBinderPayload = null;
   }
 
@@ -764,10 +764,8 @@ export class SocialView {
    * @returns {Promise<void>} Resolves once the block is drawn (or hidden).
    */
   async renderDetailWishlist(uuid) {
-    const host = this.detailWishlistPanel;
-    if (!host || !this.detailWishlistButton) return;
-    host.textContent = '';
-    host.hidden = true;
+    this.detailWishlistEntries = [];
+    if (!this.detailWishlistButton) return;
     this.detailWishlistButton.hidden = true;
 
     const keys = this.wishlists.get(uuid) ?? [];
@@ -783,50 +781,138 @@ export class SocialView {
       console.warn('[SocialView] The local collection could not be read for the wishlist.', error);
     }
 
-    const section = this.buildFavoriteSection('social.wishlist.title');
-    const list = document.createElement('ul');
-    list.className = 'social__wishlist-list';
     for (const key of keys) {
-      let name = key;
+      let card = null;
       try {
-        const card = await boosterManager.getCardByKey(key);
-        if (card) name = card.getName(cardLanguage.getLang());
+        card = await boosterManager.getCardByKey(key);
       } catch (error) {
         console.warn(`[SocialView] The wishlisted card \"${key}\" could not be read.`, error);
       }
-      const quantity = quantities.get(key) ?? 0;
-      const item = document.createElement('li');
-      item.className = 'social__wishlist-item';
-      // `missing`: not owned at all, `single`: owned once, `many`: at least one copy is tradable.
-      item.dataset.state = quantity === 0 ? 'missing' : quantity === 1 ? 'single' : 'many';
-
-      const label = document.createElement('span');
-      label.className = 'social__wishlist-name';
-      label.textContent = name;
-      const count = document.createElement('span');
-      count.className = 'social__wishlist-count';
-      count.textContent =
-        quantity > 0
-          ? i18n.t('social.wishlist.owned', { count: quantity })
-          : i18n.t('social.wishlist.none');
-      item.append(label, count);
-      list.appendChild(item);
+      this.detailWishlistEntries.push({ key, card, quantity: quantities.get(key) ?? 0 });
     }
-    section.appendChild(list);
-    host.appendChild(section);
 
     this.detailWishlistButton.textContent = i18n.t('social.wishlist.open', { count: keys.length });
     this.detailWishlistButton.hidden = false;
   }
 
   /**
-   * Shows or hides the wishlist block of the opened friend.
+   * Opens the wishlist of the opened friend in its own dialog.
+   *
+   * The cards are drawn with the very tiles of the trade dialogs (`trade__card` + the wish badge of
+   * `trade__card-wish`), so a wish reads the same wherever the player meets it. Each tile keeps the
+   * three states of the wishlist: a card the viewer does not own at all is dimmed but still named, a
+   * single copy is greyed with its count, and several copies keep the normal colour.
+   *
+   * Written by hand rather than `dialog.showModal()`: the game's dialogs are plain overlays closed
+   * by Escape, a backdrop click and their close button, exactly like `WishlistRemovePopup`.
    *
    * @returns {void}
    */
-  toggleDetailWishlist() {
-    if (!this.detailWishlistPanel) return;
-    this.detailWishlistPanel.hidden = !this.detailWishlistPanel.hidden;
+  openDetailWishlist() {
+    const entries = this.detailWishlistEntries ?? [];
+    if (entries.length === 0) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal wishlist-cards-popup';
+    overlay.dataset.socialWishlistPopup = '';
+
+    const dialog = document.createElement('div');
+    dialog.className = 'modal__dialog';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'social-wishlist-popup-title');
+
+    const title = document.createElement('h2');
+    title.className = 'modal__title';
+    title.id = 'social-wishlist-popup-title';
+    title.textContent = i18n.t('social.wishlist.title');
+
+    const grid = document.createElement('ul');
+    grid.className = 'wishlist-cards-popup__grid';
+    entries.forEach(({ key, card, quantity }) => {
+      const name = card ? card.getName(cardLanguage.getLang()) : key;
+      const item = document.createElement('li');
+      item.className = 'wishlist-cards-popup__item';
+      // `missing`: not owned at all, `single`: owned once, `many`: at least one copy is tradable.
+      item.dataset.state = quantity === 0 ? 'missing' : quantity === 1 ? 'single' : 'many';
+      if (card) item.dataset.rarity = String(card.rarity);
+      item.title = name;
+
+      const tile = document.createElement('div');
+      tile.className = 'trade__card';
+      if (card) {
+        tile.appendChild(createCardVisual(card, {
+          className: 'trade__card-image',
+          alt: name,
+          loading: 'lazy',
+          decoding: 'async',
+        }));
+      } else {
+        const fallback = document.createElement('img');
+        fallback.className = 'trade__card-image is-missing';
+        fallback.src = i18n.resolveImagePath('assets/img/card_back.png');
+        fallback.alt = key;
+        fallback.loading = 'lazy';
+        fallback.decoding = 'async';
+        tile.appendChild(fallback);
+      }
+
+      const body = document.createElement('span');
+      body.className = 'trade__card-body';
+      const label = document.createElement('strong');
+      label.className = 'trade__card-name';
+      label.textContent = name;
+      const detail = document.createElement('span');
+      detail.className = 'trade__card-detail';
+      detail.textContent =
+        quantity > 0
+          ? i18n.t('social.wishlist.owned', { count: quantity })
+          : i18n.t('social.wishlist.none');
+      body.append(label, detail);
+      tile.appendChild(body);
+
+      const badge = document.createElement('span');
+      badge.className = 'trade__card-wish';
+      badge.textContent = i18n.t('trade.wishlist.badge');
+
+      item.append(tile, badge);
+      grid.appendChild(item);
+    });
+
+    const actions = document.createElement('div');
+    actions.className = 'modal__actions';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'btn btn--primary';
+    close.dataset.socialWishlistClose = '';
+    close.textContent = i18n.t('social.detail.close');
+    actions.appendChild(close);
+
+    dialog.append(title, grid, actions);
+    overlay.appendChild(dialog);
+
+    let closed = false;
+    const dismiss = () => {
+      if (closed) return;
+      closed = true;
+      document.removeEventListener('keydown', onKey, true);
+      overlay.remove();
+    };
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        dismiss();
+      }
+    };
+
+    close.addEventListener('click', dismiss);
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) dismiss();
+    });
+    document.addEventListener('keydown', onKey, true);
+
+    document.body.appendChild(overlay);
+    close.focus();
   }
 
   /**
@@ -1028,7 +1114,6 @@ export class SocialView {
         item.appendChild(createCardVisual(card, {
           className: 'social__favorite-image',
           alt: name,
-          mini: true,
           loading: 'lazy',
           decoding: 'async',
         }));

@@ -242,6 +242,14 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
   animation: generated-card-glare 5.4s var(--easing-standard, ease-in-out) infinite alternate;
 }
 
+/* A card HELD and turned: the line leaves its loop and follows the pointer (`CardTilt` writes the
+   0..1 values and the flag on the host, which is the only thing a shadow stylesheet can observe
+   from the outside), so the glare lines up with the rotation instead of sweeping on its own. */
+:host([data-card-glare-drag]) .card-glare {
+  animation: none;
+  background-position: calc(var(--card-tilt-x, 0.5) * 100%) calc(var(--card-tilt-y, 0.5) * 100%);
+}
+
 /* The line has its own base strength, like `--gleam-strength` of the image source: the two foil
    layers answer to the foil slider, the line to the brillance one. Common cards carry no foil at
    all, which is the card maker's own palette. */
@@ -417,27 +425,30 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
   display: none;
 }
 
-/* A thumbnail is the artwork and its frame, never the wording: the texts come
-   back when the same card is opened large. */
-:host([mini]) .card-header,
-:host([mini]) .card-body {
-  display: none;
-}
+/* The three smallest thumbnails of the game - the gift, the code reward and the daily reward, all
+   under 4.5rem - keep the name and the description, and drop the two lines that fit nowhere at
+   that size: the series under the name and the rarity symbol on its right. `visibility` (and not
+   `display`) keeps them in the layout, so the name sits exactly where a larger card has it.
+   The full path of the card is written so this rule outranks the per-layout ones above: a
+   `@container` adds no specificity of its own. */
+@container (max-width: 4.5rem) {
+  .profile-card-root .card-preview .card-series,
+  .profile-card-root .card-preview .card-rarity {
+    visibility: hidden;
+  }
 
-/* The card maker chamfers every corner by 10px. That value is authored for a 360px card; on a
-   thumbnail next to a 1px frame it is a third of the box, and the slot reads as a lozenge instead
-   of a card. A mini card therefore keeps a 1px chamfer at most, whatever its width. */
-:host([mini]) .profile-card-root {
-  --corner-clip: polygon(
-    0 1px,
-    1px 0,
-    calc(100% - 1px) 0,
-    100% 1px,
-    100% calc(100% - 1px),
-    calc(100% - 1px) 100%,
-    1px 100%,
-    0 calc(100% - 1px)
-  );
+  /* The description band keeps the blurred backdrop of the card maker, but the classic layout
+     plates it 93% black - a rule written for a 0.8rem paragraph. At this size the wash is a 40px
+     crop of the artwork: unblurred (a 28px radius averages the whole band into one flat dark) and
+     stronger, it carries the colour of the card instead of a black strip. */
+  .profile-card-root .card-preview.card-layout-classic .card-body {
+    background-color: rgba(9, 9, 13, 0.5);
+  }
+
+  .profile-card-root .card-preview.card-layout-classic .card-body::before {
+    filter: none;
+    opacity: 0.85;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

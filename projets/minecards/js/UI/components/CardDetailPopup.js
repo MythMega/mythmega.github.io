@@ -185,7 +185,6 @@ export class CardDetailPopup {
     const image = createCardVisual(card, {
       className: 'card-modal__image',
       alt,
-      mini: false,
       animatedLayers: true,
       loading: 'eager',
       decoding: 'async',

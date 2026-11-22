@@ -47,6 +47,27 @@ export async function getCardRenderModes() {
 }
 
 /**
+ * The render mode the game SHIPS as the default (`cardRender.default` of `config.json`).
+ *
+ * The id names a preset of `cardrender.json` (`dynamic` today) or says that nothing is shipped
+ * (`images`, or null). An id no longer declared resolves to null as well: removing a preset can
+ * never leave an account without a card, it just brings the images back.
+ *
+ * @returns {Promise<object|null>} The shipped preset, or null when the images are the default.
+ */
+export async function getShippedDefaultMode() {
+  let configured = null;
+  try {
+    configured = (await configLoader.getCardRenderSettings()).default;
+  } catch (error) {
+    console.warn('[CardRenderManager] The shipped card render mode could not be read.', error);
+    return null;
+  }
+  if (typeof configured !== 'string' || configured === CARD_RENDER_MODE.IMAGES) return null;
+  return findMode(await getCardRenderModes(), configured);
+}
+
+/**
  * Tells whether a preset may be offered to this account.
  *
  * @param {{requiresDeveloperMode?: boolean}} mode - Preset to test.
@@ -159,6 +180,7 @@ export const cardRenderManager = {
   CARD_RENDER_MODE,
   DEFAULT_CARD_RENDER_MODE,
   getModes: getCardRenderModes,
+  getShippedDefaultMode,
   isModeAvailable,
   findMode,
   getModeLabel,

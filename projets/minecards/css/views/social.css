@@ -61,6 +61,18 @@
   flex: 1 1 auto;
 }
 
+/* The two like actions carry the heart of `assets/img/Heart.webp`, as a decorative pseudo-element:
+   the label itself is rewritten by `data-i18n`, which would drop an `<img>` written in the markup. */
+[data-social-detail-like]::before,
+[data-social-like-all]::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 1.1em;
+  height: 1.1em;
+  background: url("../../assets/img/Heart.webp") center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
 .social__list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));

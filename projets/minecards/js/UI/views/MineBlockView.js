@@ -1417,7 +1417,6 @@ export class MineBlockView {
     const picture = createCardVisual(offer.card, {
       className: 'mineblock__detail-image',
       alt: `${offer.card.getName(lang)}, ${rarityLabel}`,
-      mini: false,
       animatedLayers: true,
       loading: 'eager',
       decoding: 'async',
@@ -1921,7 +1920,6 @@ export class MineBlockView {
       ariaHidden: true,
       // A real printing, like the offer of the Illager Shop: the shop shows the card itself, not a
       // textless thumbnail whose name only the line next to it carries.
-      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });

@@ -322,7 +322,6 @@ export class CardRoulettePopup {
         className: `${CARD_ROULETTE_CLASS}__tile-image`,
         alt: '',
         ariaHidden: true,
-        mini: true,
         loading: 'eager',
         decoding: 'async',
       });
@@ -352,7 +351,6 @@ export class CardRoulettePopup {
       replaceCardVisual(image, winner, {
         className: image.className,
         alt: winner.getName(cardLanguage.getLang()),
-        mini: false,
         loading: 'eager',
         decoding: 'async',
       });

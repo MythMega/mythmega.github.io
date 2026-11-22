@@ -65,6 +65,8 @@ export class CardTilt {
     this.originalBoxShadow = element.style.boxShadow;
     this.originalTouchAction = element.style.touchAction;
     this.originalDraggable = 'draggable' in element ? element.draggable : null;
+    /** @type {HTMLElement|null} Generated card (a `<card-print>`) this tilt drives, if any. */
+    this.cardHost = null;
     this.onPointerDown = this.handlePointerDown.bind(this);
     this.onPointerMove = this.handlePointerMove.bind(this);
     this.onPointerUp = this.handlePointerUp.bind(this);
@@ -88,6 +90,13 @@ export class CardTilt {
     this.element.addEventListener('pointercancel', this.onPointerUp);
     this.element.addEventListener('lostpointercapture', this.onPointerUp);
     this.element.addEventListener('dragstart', this.onDragStart);
+    // A generated card paints its own brilliance INSIDE its shadow tree, where this stylesheet
+    // cannot see the tilt: the host is what the shadow rules can observe, so it is the one that
+    // receives the pointer values below.
+    this.cardHost =
+      this.element.localName === 'card-print'
+        ? this.element
+        : this.element.querySelector?.('card-print') ?? null;
     return this;
   }
 
@@ -135,6 +144,47 @@ export class CardTilt {
     const rotateY = (ratioX * max).toFixed(2);
     this.element.style.transform =
       `perspective(${PERSPECTIVE_PX}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    this.publishGlare((ratioX + 1) / 2, (ratioY + 1) / 2);
+  }
+
+  /**
+   * Publishes where the light sits while the card is handled.
+   *
+   * The two values are 0..1 positions on each axis: the stylesheets of the card (`card-shine.css`
+   * for the image source, `generated-card.css` for the generated one) read them as the position of
+   * the reflection, so the glare follows the rotation instead of sweeping on its own. They are
+   * removed on release, which hands the light back to its animation.
+   *
+   * @param {number} x - Horizontal position, 0 (left) to 1 (right).
+   * @param {number} y - Vertical position, 0 (top) to 1 (bottom).
+   * @returns {void}
+   */
+  publishGlare(x, y) {
+    const horizontal = x.toFixed(3);
+    const vertical = y.toFixed(3);
+    // On the tilted element (the image source reads it from there) AND on the generated card host:
+    // a custom property inherits through a shadow boundary, but the shadow rule that switches the
+    // animation off needs the attribute, which only the host can carry.
+    this.element.style.setProperty('--card-tilt-x', horizontal);
+    this.element.style.setProperty('--card-tilt-y', vertical);
+    if (!this.cardHost) return;
+    this.cardHost.setAttribute('data-card-glare-drag', '');
+    this.cardHost.style.setProperty('--card-tilt-x', horizontal);
+    this.cardHost.style.setProperty('--card-tilt-y', vertical);
+  }
+
+  /**
+   * Gives the light back to its animation.
+   *
+   * @returns {void}
+   */
+  clearGlare() {
+    this.element.style.removeProperty('--card-tilt-x');
+    this.element.style.removeProperty('--card-tilt-y');
+    if (!this.cardHost) return;
+    this.cardHost.removeAttribute('data-card-glare-drag');
+    this.cardHost.style.removeProperty('--card-tilt-x');
+    this.cardHost.style.removeProperty('--card-tilt-y');
   }
 
   /**
@@ -149,6 +199,7 @@ export class CardTilt {
     this.isDragging = false;
     this.element.classList.remove('is-dragging');
     this.element.style.transform = '';
+    this.clearGlare();
     try {
       if (this.element.hasPointerCapture(event.pointerId)) {
         this.element.releasePointerCapture(event.pointerId);
@@ -168,6 +219,7 @@ export class CardTilt {
     this.element.removeEventListener('dragstart', this.onDragStart);
     this.element.classList.remove('card-tilt', 'is-dragging');
     this.element.style.transform = '';
+    this.clearGlare();
     this.element.style.boxShadow = this.originalBoxShadow;
     this.element.style.touchAction = this.originalTouchAction;
     if (this.originalDraggable !== null) this.element.draggable = this.originalDraggable;

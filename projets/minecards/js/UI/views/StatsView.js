@@ -528,7 +528,6 @@ export class StatsView {
         alt: entry.card.getName(cardLanguage.getLang()),
         // A full printing, like a collection tile: the top card is a panel of its own, not a
         // textless thumbnail.
-        mini: false,
         loading: 'lazy',
       });
       if (image instanceof HTMLImageElement) {
@@ -857,7 +856,6 @@ export class StatsView {
         ariaHidden: true,
         // The same printing as a booster of the Mine Pick board: the name and the description are
         // part of the card, whatever the size of the tile.
-        mini: false,
         loading: 'lazy',
         decoding: 'async',
       });
@@ -990,7 +988,6 @@ export class StatsView {
       alt: '',
       ariaHidden: true,
       // A real printing, texts included: the history shows the cards of the pack, not icons.
-      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });
@@ -1108,7 +1105,6 @@ export class StatsView {
       className: 'stats__history-image',
       alt: card.getName(cardLanguage.getLang()),
       // Same printing as the two histories above.
-      mini: false,
       loading: 'lazy',
       decoding: 'async',
     });

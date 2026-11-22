@@ -356,7 +356,6 @@ export class TrophyDetail {
           className: 'trophy-card__image',
           alt: '',
           ariaHidden: true,
-          mini: true,
           loading: 'lazy',
           decoding: 'async',
         });

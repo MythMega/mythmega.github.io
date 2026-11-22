@@ -233,7 +233,6 @@ export class AutoClaimPopup {
       replaceCardVisual(image, firstCard, {
         className: image.className,
         alt: firstCard.getName(cardLanguage.getLang()),
-        mini: true,
         loading: 'eager',
         decoding: 'async',
       });

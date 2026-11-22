@@ -233,11 +233,11 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=38b9ac149a">
-  <link rel="stylesheet" href="css/base.css?v=33a4fc1624">
+  <link rel="stylesheet" href="css/base.css?v=a5f02e927f">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=2a7719d47d">
   <link rel="stylesheet" href="css/views/shop.css?v=ee425ac9f0">
-  <link rel="stylesheet" href="css/views/collection.css?v=25f89ebf80">
+  <link rel="stylesheet" href="css/views/collection.css?v=f51fbd617d">
   <link rel="stylesheet" href="css/views/binders.css?v=7bfae5196f">
   <link rel="stylesheet" href="css/views/stats.css?v=8c9b1e5211">
   <link rel="stylesheet" href="css/views/minepick.css?v=920529bd87">
@@ -245,18 +245,18 @@
   <link rel="stylesheet" href="css/views/profile.css?v=ad06736192">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
-  <link rel="stylesheet" href="css/views/settings.css?v=98da47ccd0">
+  <link rel="stylesheet" href="css/views/settings.css?v=7c455f2eba">
   <link rel="stylesheet" href="css/views/redeem.css?v=d0fa404527">
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=7dc9e783d7">
-  <link rel="stylesheet" href="css/views/wishlist.css?v=6428044737">
+  <link rel="stylesheet" href="css/views/social.css?v=5f503ffdf2">
+  <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
-  <link rel="stylesheet" href="css/components/card-shine.css?v=9503ab62cf">
-  <link rel="stylesheet" href="css/components/generated-card.css?v=138b037948">
+  <link rel="stylesheet" href="css/components/card-shine.css?v=8a3ac2a48e">
+  <link rel="stylesheet" href="css/components/generated-card.css?v=01b3487bc1">
   <link rel="stylesheet" href="css/components/modal.css?v=bbf68d6c89">
   <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
@@ -408,7 +408,7 @@
          where the pseudo and the brand are hidden, it keeps the place right of the avatar. The
          seconds are dropped on a portrait screen (see `css/base.css`). -->
     <time class="app-header__clock" data-header-clock data-i18n-title="settings.clock.title" title="Heure UTC">
-      <span data-header-clock-time>--:--</span><span class="app-header__clock-seconds" data-header-clock-seconds>:--</span>
+      <span data-header-clock-time>--:--</span><span class="app-header__clock-seconds" data-header-clock-seconds>:--</span><span class="app-header__clock-zone" data-i18n="header.clock.utc">UTC</span>
     </time>
     <div class="app-header__brand">
       <!-- The name of the game and its tagline, after the identity of the player. The whole brand
@@ -440,7 +440,7 @@
            until the authenticated read succeeds, so an account that was never published online
            (or an unreachable worker) shows no counter instead of a stray zero. -->
       <div class="app-header__stat app-header__stat--likes" data-header-likes hidden data-i18n-title="header.likes.title" title="Likes reçus">
-        <span class="app-header__stat-icon app-header__stat-icon--mask app-header__stat-icon--heart" aria-hidden="true"></span>
+        <img class="app-header__stat-icon app-header__stat-icon--heart" src="assets/img/Hardcore_Heart.webp" alt="" aria-hidden="true">
         <span class="sr-only" data-i18n="header.likes.short">Likes</span>
         <span class="app-header__likes-value" data-header-likes-value><span class="app-header__likes-track" data-header-likes-track>0</span></span>
       </div>
@@ -2140,6 +2140,7 @@
             <h3 class="settings__title" data-i18n="settings.clock.title">Heure UTC</h3>
             <p class="settings__clock">
               <time class="settings__clock-value" data-settings-utc>--:--:--</time>
+              <span class="settings__clock-zone" data-i18n="header.clock.utc">UTC</span>
               <span class="settings__clock-day" data-settings-utc-day></span>
             </p>
             <p class="settings__help" data-info-hint="settings-clock" data-i18n="settings.clock.help">L'heure de référence du jeu : les boosters quotidiens se réinitialisent à minuit UTC.</p>
@@ -2740,7 +2741,6 @@
             <p class="social__detail-likes" data-social-detail-likes></p>
             <div class="social__detail-favorites" data-social-detail-favorites hidden></div>
             <div class="social__detail-binder" data-social-detail-binder hidden></div>
-            <div class="social__detail-wishlist" data-social-detail-wishlist-panel hidden></div>
             <p class="social__detail-meta" data-social-detail-meta></p>
           </div>
           <div class="modal__actions social__detail-actions">
@@ -3098,6 +3098,7 @@
             <li><kbd>Espace</kbd><span data-i18n="info.keyboard.mine">Miner une fois le bloc affiché.</span></li>
             <li><kbd>Maj</kbd> + <kbd>Espace</kbd><span data-i18n="info.keyboard.hold">Miner en continu tant que la combinaison reste enfoncée.</span></li>
             <li><kbd>S</kbd><span data-i18n="info.keyboard.trader">Ouvrir le Marchand itinérant depuis la Mine.</span></li>
+            <li><kbd>W</kbd><span data-i18n="info.keyboard.wishlist">Ajouter la carte ouverte à la wishlist (ou l'en retirer).</span></li>
             <li><kbd>Échap</kbd><span data-i18n="info.keyboard.escape">Fermer la fenêtre ouverte (boutique, inventaire, détail d'une carte).</span></li>
           </ul>
           <p class="info__note" data-i18n="info.keyboard.help">Les raccourcis sont ignorés quand le curseur est dans un champ de texte ou sur un autre bouton : ils ne volent jamais une frappe.</p>

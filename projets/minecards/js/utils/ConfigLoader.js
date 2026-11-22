@@ -609,8 +609,21 @@ export const DEFAULT_BOOSTER_RENDER_SETTINGS = Object.freeze({
  */
 export const DEFAULT_NOTIFICATION_SETTINGS = Object.freeze({
   duration: Object.freeze({ min: 1, max: 8, step: 1, default: 3 }),
-  types: Object.freeze(['collection', 'experience', 'title']),
+  // Every kind `settings/config.json` may declare. A kind missing HERE is refused by
+  // `AccountManager.updateSettings()` even though the settings screen offers it, which is what made
+  // the "quest" and "trade" switches answer "settings could not be saved": the shipped list has to
+  // follow the file it validates.
+  types: Object.freeze(['collection', 'experience', 'title', 'quest', 'trade']),
 });
+
+/**
+ * Default card render mode (`cardRender` of `config.json`).
+ *
+ * `default` is the id of the mode a new account renders with (`images`, `custom` or the id of a
+ * preset of `cardrender.json`), or null to keep the historical images. The game ships a preset id
+ * so the look of a card is a design decision, not the leftover of the first implementation.
+ */
+export const DEFAULT_CARD_RENDER_SETTINGS = Object.freeze({ default: null });
 
 /**
  * Default bounds of the Follow List refresh delay (`settings.social.refresh` of `config.json`).
@@ -1384,6 +1397,24 @@ export class ConfigLoader {
     const known = DEFAULT_NOTIFICATION_SETTINGS.types;
     const types = known.filter((type) => declared.includes(type));
     return { duration, types: types.length > 0 ? types : known.slice() };
+  }
+
+  /**
+   * Card render mode a new account starts with (`cardRender.default` of `config.json`).
+   *
+   * The value is either `images`, `custom`, or the id of a preset of `settings/cardrender.json`;
+   * null keeps the historical images. The id is returned as written: an unknown one is resolved by
+   * `AccountManager` (it simply finds no preset), so the configuration can never break a card.
+   *
+   * @returns {Promise<{default: string|null}>} The shipped mode id, or null.
+   * @throws {Error} See `load()`.
+   */
+  async getCardRenderSettings() {
+    const config = await this.getConfig();
+    const block = config?.cardRender;
+    const value = block && typeof block === 'object' ? block.default : null;
+    const id = typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
+    return { default: id ?? DEFAULT_CARD_RENDER_SETTINGS.default };
   }
 
   /**

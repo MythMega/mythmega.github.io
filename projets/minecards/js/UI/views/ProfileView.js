@@ -2061,7 +2061,6 @@ export class ProfileView {
           className: 'profile-picker__image',
           alt: '',
           ariaHidden: true,
-          mini: true,
           loading: 'lazy',
           decoding: 'async',
         });
@@ -2278,7 +2277,6 @@ export class ProfileView {
         ariaHidden: true,
         // A real printing, like a collection tile: the favourite strip shows the whole card, not
         // a textless thumbnail.
-        mini: false,
         loading: 'lazy',
         decoding: 'async',
       });
@@ -3328,7 +3326,6 @@ export class ProfileView {
       const image = createCardVisual(card, {
         className: 'profile-modal__card',
         alt: name,
-        mini: false,
         animatedLayers: true,
         loading: 'eager',
         decoding: 'async',

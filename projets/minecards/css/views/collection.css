@@ -220,12 +220,15 @@
   font-weight: 700;
 }
 
-/* Promo chip: mirrors the quantity badge, on the opposite corner, in the "promo" tone. Same pill
-   shape and weight, so a promo card reads as one more kind of card, not as a warning. */
+/* Promo chip: the same pill as the quantity badge, in the "promo" tone, but CENTRED at the top of
+   the tile instead of on a corner: it is a mark on the card itself, and the two corners already
+   carry the star and the quantity. Same shape and weight, so a promo card reads as one more kind of
+   card, not as a warning. */
 .collection__promo {
   position: absolute;
   top: var(--space-1);
-  left: var(--space-1);
+  left: 50%;
+  translate: -50% 0;
   padding: 2px var(--space-2);
   border-radius: var(--radius-pill);
   background-color: var(--color-promo);

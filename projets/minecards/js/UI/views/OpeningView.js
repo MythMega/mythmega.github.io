@@ -1807,8 +1807,6 @@ export class OpeningView {
 
     this.spotlightStage.textContent = '';
     const element = component.render();
-    // The same element may come back from a summary thumbnail: the spotlight always shows the texts.
-    component.setMini(false);
     if (animation !== 'none') {
       element.classList.remove('is-entering-next', 'is-entering-prev');
       void element.offsetWidth;
@@ -2325,8 +2323,6 @@ export class OpeningView {
       const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
       tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
       const thumbnail = component.render();
-      // The booster workflow always shows the complete card, never a textless miniature.
-      component.setMini(false);
       // The summary is a list of thumbnails, not the reveal itself: it stays still.
       component.setAnimatedLayers(false);
       thumbnail.setAttribute('aria-hidden', 'true');
@@ -2383,8 +2379,6 @@ export class OpeningView {
         const rarityLabel = getRarityLabel(component.card.rarity, (key) => i18n.t(key));
         tile.setAttribute('aria-label', `${name} (${rarityLabel})`);
         const thumbnail = component.render();
-        // A recap tile keeps the complete card too: no miniature in the opening workflow.
-        component.setMini(false);
         component.setAnimatedLayers(false);
         thumbnail.setAttribute('aria-hidden', 'true');
         thumbnail.tabIndex = -1;
@@ -2473,7 +2467,6 @@ export class OpeningView {
     const image = createCardVisual(card, {
       className: 'card-modal__image',
       alt,
-      mini: false,
       animatedLayers: true,
       loading: 'eager',
       decoding: 'async',

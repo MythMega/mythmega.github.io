@@ -111,12 +111,14 @@
 .card-shine::before,
 .card-shine::after,
 .card-shine__gleam {
+  /* The window is pinned to the box on all four sides instead of being sized by the art ratio and
+     re-centred with a percentage `translate`. Safari resolved that ratio-driven height a frame after
+     the translate, which painted every layer a few pixels BELOW the artwork (the reflection looked
+     shifted down); an inset needs no second pass, so both engines put the light on the card.
+     The ratio is no loss: every illustration of the game is 720x1000 - the very ratio of the card
+     face (see `--card-ratio`) - so the box of the `object-fit: contain` image IS this window. */
   position: absolute;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  aspect-ratio: var(--card-reveal-art-ratio, var(--card-ratio, 720 / 1000));
-  translate: 0 -50%;
+  inset: 0;
   z-index: 1;
   pointer-events: none;
   background-repeat: no-repeat;
@@ -357,6 +359,15 @@
   opacity: calc(var(--gleam-strength, 0.72) * var(--glare-intensity, 1));
   mix-blend-mode: overlay;
   animation: card-shine-gleam var(--gleam-duration, 5.4s) var(--easing-standard) infinite alternate;
+}
+
+/* A card HELD and turned: the line leaves its loop and follows the pointer, so the light reads as a
+   reflection of the room instead of an animation. `CardTilt` publishes 0..1 on both axes for the
+   duration of the drag (and the `is-dragging` class on the tilted element), then removes them, and
+   the loop resumes from where its keyframes are. */
+.card-tilt.is-dragging .card-shine__gleam {
+  animation: none;
+  background-position: calc(var(--card-tilt-x, 0.5) * 100%) calc(var(--card-tilt-y, 0.5) * 100%);
 }
 
 /* Switched off from the collection: the reflection leaves without a trace. */

@@ -224,6 +224,22 @@ body {
   color: var(--color-text-muted);
 }
 
+/* The time of the game is UTC and says so: the clock of the device never sets a reset here. It
+   hides with the seconds on a phone, where the settings menu keeps the full reference time. */
+.app-header__clock-zone {
+  margin-left: 0.35em;
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 767px), (orientation: portrait) {
+  .app-header__clock-zone {
+    display: none;
+  }
+}
+
 /* An untrusted time (no provider answered) is flagged like the settings clock. */
 body[data-connection="offline"] .app-header__clock {
   border-color: var(--color-warning);
@@ -1504,10 +1520,7 @@ html[data-native-scrollbars="true"] .scroll-hint {
   }
 }
 
-/* Likes received: the heart is filled with its own token, because the accent ink is blue in half
-   the palettes and a heart must read as one in every theme. */
 .app-header__stat--likes {
-  --color-like: #ff5c8a;
   flex: 0 0 auto;
   color: var(--color-text);
   font-weight: 700;
@@ -1519,10 +1532,10 @@ html[data-native-scrollbars="true"] .scroll-hint {
   display: none;
 }
 
+/* The heart of the counter is a sprite (`assets/img/Hardcore_Heart.webp`), not a mask: keep its
+   pixels crisp at the size of the bar. */
 .app-header__stat-icon--heart {
-  -webkit-mask-image: url("../assets/img/heart.svg");
-  mask-image: url("../assets/img/heart.svg");
-  background-color: var(--color-like);
+  image-rendering: pixelated;
 }
 
 /* The counter is a one-row window on a strip of numbers: the roll slides the strip up. */

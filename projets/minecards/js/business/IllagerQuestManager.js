@@ -53,6 +53,16 @@ export { ILLAGER_QUEST_TYPES };
 /** Name of the event published when a quest progresses or is claimed. */
 export const ILLAGER_QUESTS_EVENT = 'ILLAGER_QUESTS_UPDATED';
 
+/**
+ * Boosters a player opens before the "new quest" notification is allowed.
+ *
+ * The first minutes of a run are already full of things to read (the starters, the first pack, the
+ * onboarding): announcing a dated quest there only competes with them. Nothing is lost by waiting -
+ * a skipped quest is NOT marked as announced, so it is told as soon as the counter passes this
+ * threshold - and the quest itself stays available the whole time.
+ */
+export const QUEST_ANNOUNCEMENT_MIN_BOOSTERS = 3;
+
 /** Error codes raised by this manager. */
 export const ILLAGER_QUEST_ERRORS = Object.freeze({
   NO_DAY: 'NO_DAY',
@@ -628,6 +638,11 @@ export class IllagerQuestManager {
 
     this.unsubscribers.push(
       eventBus.on(EVENTS.BOOSTER_OPENED, (payload) => {
+        // The availability check waits for a few boosters: running it here announces the skipped
+        // quests as soon as the threshold is passed, instead of at the next launch.
+        this.announceAvailable().catch((error) => {
+          console.warn('[IllagerQuestManager] The available quests could not be announced.', error);
+        });
         if (payload?.source !== 'daily') return;
         safely(this.record(ILLAGER_QUEST_TYPES.OPEN_BOOSTER_DAILY, 1));
       }),
@@ -739,6 +754,9 @@ export class IllagerQuestManager {
 
     const available = (this.quests ?? []).filter((quest) => this.isActive(quest, day));
     if (available.length === 0) return [];
+    // The `announced` list is only written once the threshold is reached: a quest skipped here is
+    // still announced later, and never twice.
+    if (!(await this.hasOpenedEnoughBoosters())) return [];
 
     const outcome = await storageRepository.transaction(
       STORES.USER_STATE,
@@ -770,6 +788,29 @@ export class IllagerQuestManager {
       });
     });
     return outcome.fresh;
+  }
+
+  /**
+   * Tells whether the player opened enough boosters to hear about the dated quests.
+   *
+   * Read from the global statistics (`stats.boostersOpened`), so the rule is the same on every
+   * device and survives a reload: see `QUEST_ANNOUNCEMENT_MIN_BOOSTERS`.
+   *
+   * @returns {Promise<boolean>} True when the announcements are allowed.
+   */
+  async hasOpenedEnoughBoosters() {
+    try {
+      const stats = await storageRepository.transaction(
+        STORES.USER_STATE,
+        'readonly',
+        (context) => context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS)
+      );
+      const opened = Number(stats?.boostersOpened);
+      return Number.isFinite(opened) && opened >= QUEST_ANNOUNCEMENT_MIN_BOOSTERS;
+    } catch (error) {
+      console.warn('[IllagerQuestManager] The opened-booster count could not be read.', error);
+      return false;
+    }
   }
 
   /**

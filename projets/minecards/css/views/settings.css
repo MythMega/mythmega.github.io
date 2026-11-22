@@ -271,6 +271,13 @@
   color: var(--color-text);
 }
 
+.settings__clock-zone {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
 .settings__clock-day {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);

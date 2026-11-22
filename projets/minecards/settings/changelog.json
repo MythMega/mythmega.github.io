@@ -950,6 +950,14 @@
                 "Type": "Fix",
                 "IsImportant": false,
                 "Text": {
+                    "Fr": "La brillance (glare) des cartes suit désormais la rotation 3D de la carte.",
+                    "En": "The card glare now follows the 3D tilt of the card."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
                     "Fr": "Herobrine supprimé.",
                     "En": "Removed Herobrine."
                 }

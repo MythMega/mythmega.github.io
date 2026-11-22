@@ -546,7 +546,6 @@ export class DailyRewardPopup {
       className: `${DAILY_REWARD_CLASS}__detail-card-image`,
       alt: '',
       ariaHidden: true,
-      mini: true,
       loading: 'lazy',
       decoding: 'async',
     });

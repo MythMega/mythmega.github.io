@@ -55,68 +55,6 @@
   fill: currentColor;
 }
 
-/* --- Wishlist of a followed player ---------------------------------------- */
-
-.social__wishlist-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.social__wishlist-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  font-size: var(--font-size-sm);
-  color: var(--color-text);
-}
-
-.social__wishlist-name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* The count sits UNDER the name, in small text, like the operator asked. */
-.social__wishlist-count {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-/* Not owned at all: the card is "black", its name stays readable. */
-.social__wishlist-item[data-state='missing'] {
-  background-color: #000;
-  border-color: #262626;
-}
-
-.social__wishlist-item[data-state='missing'] .social__wishlist-name {
-  color: #e6e6f0;
-}
-
-.social__wishlist-item[data-state='missing'] .social__wishlist-count {
-  color: #9a9aae;
-}
-
-/* Owned once: greyed, it is the copy the player plays with, not an extra one. */
-.social__wishlist-item[data-state='single'] {
-  border-color: var(--color-border);
-  color: var(--color-text-muted);
-}
-
-/* Owned in several copies: normal colour, the tradable state, with its count. */
-.social__wishlist-item[data-state='many'] {
-  border-color: var(--color-accent);
-}
-
 /* --- Trade dialogs -------------------------------------------------------- */
 
 .trade__card-button.is-wished {
@@ -161,6 +99,40 @@
 .trade__card-button.is-unavailable:hover,
 .trade__card-button.is-unavailable:focus-visible {
   border-color: transparent;
+}
+
+/* --- Wishlist of a friend (social dialog) -------------------------------- */
+/* The cards reuse the tiles of the trade dialogs (`.trade__card`, `.trade__card-wish`): a wish looks
+   the same wherever the player meets it. The grid is the only new part. */
+.wishlist-cards-popup__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--space-2);
+  max-height: min(60vh, 30rem);
+  margin: 0 0 var(--space-3);
+  padding: 0 var(--space-1) var(--space-1) 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.wishlist-cards-popup__item {
+  position: relative;
+  display: flex;
+}
+
+.wishlist-cards-popup__item .trade__card {
+  flex: 1 1 auto;
+}
+
+/* A card the viewer does not own at all stays dimmed (its name is still readable below it), a
+   single copy is greyed, several copies keep the normal colour: the three states of the wishlist. */
+.wishlist-cards-popup__item[data-state='missing'] .trade__card-image {
+  opacity: 0.5;
+  filter: grayscale(0.7);
+}
+
+.wishlist-cards-popup__item[data-state='single'] .trade__card-image {
+  filter: grayscale(0.35);
 }
 
 /* --- Post-trade dialog ---------------------------------------------------- */

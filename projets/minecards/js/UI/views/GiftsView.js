@@ -302,7 +302,6 @@ export class GiftsView {
       const image = createCardVisual(info.card, {
         className: 'gifts__image',
         alt: info.card.getName(cardLanguage.getLang()),
-        mini: true,
         loading: 'lazy',
       });
       if (image instanceof HTMLImageElement) {

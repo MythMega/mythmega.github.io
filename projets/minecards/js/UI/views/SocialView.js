@@ -858,10 +858,10 @@ export class SocialView {
     this.detailModal.hidden = false;
     try {
       if (!this.profileCard) {
-        // Same 3D drag as the player's own card: the controller goes on the HOST of the card
-        // (its exact footprint), never on the dialog body, so the wide strip and the actions
-        // below it do not rotate with the card.
+        // Same 3D drag as the player's own card. The dialog scrolls on a phone, so only the
+        // sideways axis belongs to the card: a vertical swipe keeps scrolling the dialog.
         attachCardTilt(this.detailCardHost);
+        this.detailCardHost.style.touchAction = 'pan-y';
         this.profileCard = new ProfileCard(this.detailCardHost);
       }
       const model = await socialManager.buildRemoteCardModel(card);

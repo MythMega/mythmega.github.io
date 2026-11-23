@@ -339,9 +339,14 @@
   gap: var(--space-3);
 }
 
+/* Host of the followed card. It is also the tilt surface, so it takes the card's own footprint
+   (`fit-content`, like the profile panel): a host as wide as the dialog would paint the cardstock
+   shadow around an empty strip and would rotate from the wrong centre. */
 .social__detail-card {
   display: block;
-  width: 100%;
+  align-self: center;
+  width: fit-content;
+  max-width: 100%;
   overflow: hidden;
 }
 

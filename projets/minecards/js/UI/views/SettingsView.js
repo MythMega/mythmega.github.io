@@ -1715,10 +1715,8 @@ export class SettingsView {
     this.cardRenderModes.forEach((mode) => {
       if (!isModeAvailable(mode, { devMode: this.devMode })) return;
       const label = getModeLabel(mode, lang);
-      entries.push({
-        id: mode.id,
-        label: mode.id === this.cardRenderDefaultId ? `${label}${defaultSuffix}` : label,
-      });
+      const suffix = mode.id === this.cardRenderDefaultId ? defaultSuffix : '';
+      entries.push({ id: mode.id, label: `${label}${suffix}` });
     });
     if (this.advancedDevMode) {
       entries.push({ id: CARD_RENDER_MODE.CUSTOM, label: i18n.t('settings.cardRender.custom') });
@@ -2121,10 +2119,8 @@ export class SettingsView {
     this.uuidElement.textContent = this.uuid ?? i18n.t('common.unknown');
     this.uuidElement.setAttribute('title', this.uuid ?? '');
     this.authCode = await socialManager.getAuthCode();
-    // The code is masked (`type="password"`) but stays a real input value, so the copy button keeps
-    // reading `this.authCode` and a long press still selects nothing readable on screen.
+    // Masked input (`type="password"`): the copy button still copies `this.authCode`.
     this.authCodeElement.value = this.authCode;
-    this.authCodeElement.removeAttribute('title');
     this.authCodeCopyButton.disabled = this.authCode === '';
     this.authCodeEmptyElement.hidden = this.authCode !== '';
     this.authCodeInput.value = this.authCode;

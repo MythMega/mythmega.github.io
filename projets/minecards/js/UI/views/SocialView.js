@@ -14,6 +14,7 @@ import socialManager, {
   safeSocialAssetPath,
 } from '../../business/SocialManager.js';
 import likesManager, { LIKES_ERROR_CODES } from '../../business/LikesManager.js';
+import accountManager from '../../business/AccountManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import collectionManager from '../../business/CollectionManager.js';
@@ -82,6 +83,13 @@ export class SocialView {
     this.likeAllText = query('[data-social-like-all-text]');
     this.likeAllCloseButtons = this.root.querySelectorAll('[data-social-like-all-close]');
 
+    this.historyButton = query('[data-social-history]');
+    this.historyModal = query('[data-social-history-modal]');
+    this.historyReceived = query('[data-social-history-received]');
+    this.historySent = query('[data-social-history-sent]');
+    this.historyFeedback = query('[data-social-history-feedback]');
+    this.historyCloseButtons = this.root.querySelectorAll('[data-social-history-close]');
+
     this.unfollowModal = query('[data-social-unfollow-modal]');
     this.unfollowTitle = query('[data-social-unfollow-title]');
     this.unfollowBody = query('[data-social-unfollow-body]');
@@ -109,6 +117,8 @@ export class SocialView {
     this.likedTargets = new Set();
     /** True while the "Like tout le monde" batch runs: the button and the dialog follow it. */
     this.likeAllRunning = false;
+    /** True while the history request runs: the button refuses a second opening. */
+    this.isHistoryLoading = false;
     this.openFriendUuid = '';
     this.pendingUnfollowUuid = '';
     this.profileCard = null;
@@ -167,6 +177,11 @@ export class SocialView {
       ['[data-social-like-all-ring]', this.likeAllRing],
       ['[data-social-like-all-value]', this.likeAllValue],
       ['[data-social-like-all-text]', this.likeAllText],
+      ['[data-social-history]', this.historyButton],
+      ['[data-social-history-modal]', this.historyModal],
+      ['[data-social-history-received]', this.historyReceived],
+      ['[data-social-history-sent]', this.historySent],
+      ['[data-social-history-feedback]', this.historyFeedback],
       ['[data-social-unfollow-modal]', this.unfollowModal],
       ['[data-social-unfollow-title]', this.unfollowTitle],
       ['[data-social-unfollow-body]', this.unfollowBody],
@@ -235,6 +250,13 @@ export class SocialView {
     );
     this.listen(this.updateButton, 'click', () => void this.publish());
     this.listen(this.likeAllButton, 'click', () => void this.openLikeAll());
+    this.listen(this.historyButton, 'click', () => void this.openLikeHistory());
+    this.historyCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeLikeHistory());
+    });
+    this.listen(this.historyModal, 'click', (event) => {
+      if (event.target === this.historyModal) this.closeLikeHistory();
+    });
     this.likeAllCloseButtons.forEach((button) => {
       this.listen(button, 'click', () => this.closeLikeAll());
     });
@@ -294,7 +316,9 @@ export class SocialView {
 
     this.listen(document, 'keydown', (event) => {
       if (event.key !== 'Escape') return;
-      if (!this.likeAllModal.hidden) {
+      if (!this.historyModal.hidden) {
+        this.closeLikeHistory();
+      } else if (!this.likeAllModal.hidden) {
         this.closeLikeAll();
       } else if (!this.binderModal.hidden) {
         this.closeFriendBinder();
@@ -1341,6 +1365,219 @@ export class SocialView {
       !this.likeAllRunning && targets.length > 0 && pending.length === 0
         ? i18n.t('social.likeAll.done')
         : '';
+  }
+
+  /**
+   * Opens the like history: the ten last likes received and the ten last likes sent.
+   *
+   * The history comes from `like_daily_target`, read by the worker in one authenticated request.
+   * The likers this account does not follow yet are followed right away (`followLikers`), so a
+   * received heart is a friend gained; the limit of the Follow List only skips the extra ones.
+   *
+   * @returns {Promise<void>} Resolves once the dialog is drawn (or its error is shown).
+   */
+  async openLikeHistory() {
+    if (this.isHistoryLoading) return;
+    this.isHistoryLoading = true;
+    this.historyModal.hidden = false;
+    this.setHistoryFeedback(null);
+    this.renderHistoryPlaceholder();
+
+    try {
+      const history = await likesManager.getHistory();
+      const added = await this.followLikers(history.received);
+      if (added > 0) {
+        this.following = await socialManager.getFollowing();
+        await this.renderCount();
+        await this.reload();
+      }
+      this.renderHistoryList(
+        this.historyReceived,
+        history.received,
+        'social.history.received.empty'
+      );
+      this.renderHistoryList(this.historySent, history.sent, 'social.history.sent.empty');
+      if (added > 0) this.setHistoryFeedback('social.history.added', 'info', { count: added });
+    } catch (error) {
+      console.warn('[SocialView] The like history could not be loaded.', error);
+      this.renderHistoryList(this.historyReceived, [], 'social.history.received.empty');
+      this.renderHistoryList(this.historySent, [], 'social.history.sent.empty');
+      this.setHistoryFeedback(
+        error?.code === LIKES_ERROR_CODES.NO_ACCOUNT
+          ? 'social.history.noAccount'
+          : 'social.history.error',
+        'error'
+      );
+    } finally {
+      this.isHistoryLoading = false;
+    }
+  }
+
+  /**
+   * Follows every liker of a history that is not followed yet.
+   *
+   * A liker without a published card has no name to show, and `addFollow` would refuse them: they
+   * are skipped without a request. A full Follow List (or a network failure) only skips that one
+   * player, the history itself is still drawn.
+   *
+   * @param {Array<{uuid: string, username: string}>} entries - The likes received.
+   * @returns {Promise<number>} How many players were added to the Follow List.
+   */
+  async followLikers(entries) {
+    const followed = new Set(await socialManager.getFollowing());
+    const ownUuid = await accountManager.getUuid();
+    let added = 0;
+    for (const entry of entries) {
+      if (entry.username === '' || entry.uuid === ownUuid || followed.has(entry.uuid)) continue;
+      try {
+        await socialManager.addFollow(entry.uuid);
+        followed.add(entry.uuid);
+        added += 1;
+      } catch (error) {
+        console.info('[SocialView] A liker could not be followed.', entry.uuid, error?.code ?? error);
+      }
+    }
+    return added;
+  }
+
+  /**
+   * Closes the like history dialog.
+   *
+   * @returns {void}
+   */
+  closeLikeHistory() {
+    if (!this.historyModal || this.historyModal.hidden) return;
+    this.historyModal.hidden = true;
+    this.setHistoryFeedback(null);
+  }
+
+  /**
+   * Paints a loading row on both sides of the history.
+   *
+   * @returns {void}
+   */
+  renderHistoryPlaceholder() {
+    [this.historyReceived, this.historySent].forEach((host) => {
+      if (!host) return;
+      host.textContent = '';
+      const item = document.createElement('li');
+      item.className = 'social__history-empty';
+      item.textContent = i18n.t('social.history.loading');
+      host.appendChild(item);
+    });
+  }
+
+  /**
+   * Paints one side of the history.
+   *
+   * @param {HTMLElement|null} host - List to fill.
+   * @param {object[]} entries - Normalized entries.
+   * @param {string} emptyKey - Translation key shown when there is nothing to list.
+   * @returns {void}
+   */
+  renderHistoryList(host, entries, emptyKey) {
+    if (!host) return;
+    host.textContent = '';
+    if (entries.length === 0) {
+      const item = document.createElement('li');
+      item.className = 'social__history-empty';
+      item.textContent = i18n.t(emptyKey);
+      host.appendChild(item);
+      return;
+    }
+    entries.forEach((entry) => host.appendChild(this.buildHistoryRow(entry)));
+  }
+
+  /**
+   * Builds one row of the history: the avatar of the other player, their name, the moment of the
+   * like, and a badge when they are not a friend.
+   *
+   * @param {{uuid: string, username: string, profilePicture: string, rarity: number, day: string,
+   *   likedAt: string}} entry - Normalized entry.
+   * @returns {HTMLLIElement} The row.
+   */
+  buildHistoryRow(entry) {
+    const item = document.createElement('li');
+    item.className = 'social__history-item';
+    item.dataset.rarity = String(entry.rarity);
+
+    const avatar = document.createElement('span');
+    avatar.className = 'social__history-avatar';
+    avatar.dataset.rarity = String(entry.rarity);
+    const path = safeSocialAssetPath(entry.profilePicture);
+    if (path !== '') {
+      const image = document.createElement('img');
+      image.className = 'social__history-avatar-image';
+      image.src = i18n.resolveImagePath(path);
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.addEventListener('error', () => image.remove());
+      avatar.appendChild(image);
+    } else {
+      const fallback = document.createElement('span');
+      fallback.textContent = (entry.username || '?').slice(0, 1).toUpperCase();
+      avatar.appendChild(fallback);
+    }
+
+    const identity = document.createElement('span');
+    identity.className = 'social__history-identity';
+    const name = document.createElement('span');
+    name.className = 'social__history-name';
+    name.textContent = entry.username || i18n.t('profile.anonymous');
+    const date = document.createElement('span');
+    date.className = 'social__history-date';
+    date.textContent = this.formatDateTime(entry.likedAt) || this.formatDate(entry.day);
+    identity.append(name, date);
+
+    item.append(avatar, identity);
+    if (!this.following.includes(entry.uuid)) {
+      const badge = document.createElement('span');
+      badge.className = 'social__history-badge';
+      badge.textContent = i18n.t('social.history.notFriend');
+      item.appendChild(badge);
+    }
+    return item;
+  }
+
+  /**
+   * Formats the worker timestamp of a like, with its time.
+   *
+   * @param {unknown} value - Raw `liked_at` (`YYYY-MM-DD HH:MM:SS`, UTC).
+   * @returns {string} A localized date and time, or an empty string.
+   */
+  formatDateTime(value) {
+    if (typeof value !== 'string' || value === '') return '';
+    const iso = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value)
+      ? `${value.replace(' ', 'T')}Z`
+      : value;
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) return '';
+    return new Intl.DateTimeFormat(i18n.getLang(), {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    }).format(date);
+  }
+
+  /**
+   * Displays a feedback line inside the like history dialog.
+   *
+   * @param {string|null} key - Translation key, or null to clear.
+   * @param {'info'|'warning'|'error'} [tone='info'] - Visual tone.
+   * @param {object|null} [params=null] - Interpolation values.
+   * @returns {void}
+   */
+  setHistoryFeedback(key, tone = 'info', params = null) {
+    if (!this.historyFeedback) return;
+    if (!key) {
+      this.historyFeedback.hidden = true;
+      this.historyFeedback.textContent = '';
+      this.historyFeedback.removeAttribute('data-tone');
+      return;
+    }
+    this.historyFeedback.hidden = false;
+    this.historyFeedback.textContent = i18n.t(key, params);
+    this.historyFeedback.dataset.tone = tone;
   }
 
   /**

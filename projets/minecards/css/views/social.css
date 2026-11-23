@@ -1163,3 +1163,116 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* Like history: two short lists in one dialog, the hearts received and the hearts sent. Each row
+   reuses the round identity of an avatar, so a liker reads like the friend card it may become. */
+.social__history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.social__history-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.social__history-title {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.social__history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social__history-item {
+  --social-history-rarity: var(--color-border);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--social-history-rarity);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.social__history-item[data-rarity="1"] { --social-history-rarity: #a0a0b0; }
+.social__history-item[data-rarity="2"] { --social-history-rarity: #4dd0e1; }
+.social__history-item[data-rarity="3"] { --social-history-rarity: var(--color-rarity-super); }
+.social__history-item[data-rarity="4"] { --social-history-rarity: var(--color-rarity-legendary); }
+.social__history-item[data-rarity="5"] { --social-history-rarity: var(--color-rarity-mythic); }
+.social__history-item[data-rarity="6"] { --social-history-rarity: var(--color-rarity-unique); }
+
+.social__history-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  overflow: hidden;
+  border: 2px solid var(--social-history-rarity);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.social__history-avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.social__history-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.social__history-name {
+  overflow: hidden;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social__history-date {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.social__history-badge {
+  padding: 2px var(--space-2);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+}
+
+.social__history-empty {
+  padding: var(--space-3);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}

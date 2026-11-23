@@ -250,7 +250,7 @@
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=5f503ffdf2">
+  <link rel="stylesheet" href="css/views/social.css?v=a8a4121a0d">
   <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
@@ -2645,6 +2645,7 @@
               <button type="button" class="btn btn--primary" data-social-add data-i18n="social.add">Add</button>
               <button type="button" class="btn btn--ghost" data-social-refresh data-i18n="social.refresh">Refresh</button>
               <button type="button" class="btn btn--ghost" data-social-like-all data-i18n="social.likeAll.action">Liker tout le monde</button>
+              <button type="button" class="btn btn--ghost" data-social-history data-i18n="social.history.action">Historique des likes</button>
               <button type="button" class="btn btn--ghost" data-social-update data-i18n="social.update">Update My Account</button>
             </div>
 
@@ -2771,6 +2772,30 @@
           </div>
           <div class="modal__actions">
             <button type="button" class="btn btn--ghost" data-social-like-all-close data-i18n="social.likeAll.close">Fermer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Like history: the ten last likes received and the ten last likes sent, read from the
+           `like_daily_target` rows of the worker. A liker this account does not follow yet is
+           followed when the dialog opens, so a received heart is a friend gained. -->
+      <div class="modal" data-social-history-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="social-history-title">
+          <button type="button" class="modal__close" data-social-history-close aria-label="×">×</button>
+          <h2 class="modal__title" id="social-history-title" data-i18n="social.history.title">Historique des likes</h2>
+          <div class="modal__body social__history">
+            <p class="feedback" data-social-history-feedback role="status" hidden></p>
+            <section class="social__history-group">
+              <h3 class="social__history-title" data-i18n="social.history.received">10 derniers likes reçus</h3>
+              <ul class="social__history-list" data-social-history-received></ul>
+            </section>
+            <section class="social__history-group">
+              <h3 class="social__history-title" data-i18n="social.history.sent">10 derniers likes envoyés</h3>
+              <ul class="social__history-list" data-social-history-sent></ul>
+            </section>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-social-history-close data-i18n="social.detail.close">Fermer</button>
           </div>
         </div>
       </div>

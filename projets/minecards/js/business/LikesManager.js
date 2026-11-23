@@ -36,6 +36,9 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 /** Maximum number of UUIDs one batch read may ask for (mirrors the worker). */
 export const LIKES_MAX_BATCH = 100;
 
+/** Number of entries each side of the like history asks for (mirrors the worker). */
+export const LIKES_HISTORY_LIMIT = 10;
+
 /**
  * Friends per batch like request. The worker accepts 100, but one request of 100 leaves the popup
  * frozen on 0 % until it ends: chunks of 25 make the circular progress advance for real. Five
@@ -90,6 +93,33 @@ function readUuidList(uuids) {
         .filter((uuid) => uuid !== '')
     )
   );
+}
+
+/**
+ * Normalizes one side of the like history returned by the worker.
+ *
+ * The worker already rounds every field; the checks here only keep a damaged answer from painting
+ * a nameless row or a broken avatar.
+ *
+ * @param {unknown} value - `received` or `sent` of the worker payload.
+ * @returns {Array<{uuid: string, username: string, profilePicture: string, rarity: number,
+ *   day: string, likedAt: string}>} The entries, newest first, at most `LIKES_HISTORY_LIMIT`.
+ */
+function readHistoryEntries(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((entry) => entry && typeof entry === 'object' && !Array.isArray(entry))
+    .filter((entry) => typeof entry.uuid === 'string' && entry.uuid.trim() !== '')
+    .map((entry) => ({
+      uuid: entry.uuid.trim(),
+      username: typeof entry.username === 'string' ? entry.username.trim() : '',
+      profilePicture:
+        typeof entry.profile_picture_id === 'string' ? entry.profile_picture_id.trim() : '',
+      rarity: Math.min(6, Math.max(1, Math.trunc(Number(entry.card_rarity) || 1))),
+      day: typeof entry.day === 'string' ? entry.day : '',
+      likedAt: typeof entry.liked_at === 'string' ? entry.liked_at : '',
+    }))
+    .slice(0, LIKES_HISTORY_LIMIT);
 }
 
 export class LikesManager {
@@ -426,6 +456,36 @@ export class LikesManager {
     await this.recordStats({ sent: result.liked.length });
     this.log(`Liked ${result.liked.length} friend(s) out of ${targets.length}.`);
     return result;
+  }
+
+  /**
+   * Reads the ten last likes this player RECEIVED and the ten last likes it SENT.
+   *
+   * One authenticated request: the worker reads both sides of `like_daily_target` in a single
+   * batch, and joins the public card of the other player so the Social page can name a liker (and
+   * follow one) without a second call.
+   *
+   * @returns {Promise<{received: object[], sent: object[]}>} Both sides of the history.
+   * @throws {LikesError} With `NO_ACCOUNT` when the account was never published online.
+   * @throws {SocialError} When the worker refuses the read.
+   */
+  async getHistory() {
+    const credentials = await this.getCredentials();
+    if (!credentials.uuid || !credentials.authCode) {
+      throw new LikesError(
+        LIKES_ERROR_CODES.NO_ACCOUNT,
+        'No online account exists for this player.'
+      );
+    }
+
+    const payload = await socialManager.request(
+      `/likes/history?uuid=${encodeURIComponent(credentials.uuid)}` +
+        `&auth_code=${encodeURIComponent(credentials.authCode)}`
+    );
+    return {
+      received: readHistoryEntries(payload?.received),
+      sent: readHistoryEntries(payload?.sent),
+    };
   }
 
   /**

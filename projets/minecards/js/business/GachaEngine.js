@@ -43,6 +43,17 @@ const DEFAULT_CARDS_PER_BOOSTER = 5;
  */
 export const MIN_GODPACK_FULL_ART = 3;
 
+/**
+ * Rarities whose full art printings are forced into a god pack, most prestigious first.
+ *
+ * A god pack is the jackpot of the extension, so two of its cards are always mythic printings; an
+ * extension that declares no mythic full art falls back to its legendary ones.
+ */
+const GODPACK_FORCED_RARITIES = Object.freeze([5, 4]);
+
+/** Number of cards forced from `GODPACK_FORCED_RARITIES` into every god pack. */
+export const GODPACK_FORCED_CARDS = 2;
+
 export class GachaEngine {
   /**
    * @param {object} [options] - Engine options.
@@ -126,11 +137,31 @@ export class GachaEngine {
   }
 
   /**
+   * Returns the full art printings a god pack forces in priority.
+   *
+   * Mythic printings come first; an extension without a mythic full art falls back to its legendary
+   * ones. An extension with neither returns an empty array: the god pack then keeps its plain
+   * uniform draw.
+   *
+   * @param {Card[]} pool - Full art cards of the extension.
+   * @returns {Card[]} The pool the forced cards are picked from, or an empty array.
+   */
+  static getForcedGodpackPool(pool) {
+    for (const rarity of GODPACK_FORCED_RARITIES) {
+      const cards = pool.filter((card) => card.rarity === rarity);
+      if (cards.length > 0) return cards;
+    }
+    return [];
+  }
+
+  /**
    * Draws a complete "god pack": every card is a full art printing, whatever its rarity.
    *
-   * The rarity table is deliberately ignored here (`cardsPerBooster` full art cards are picked
-   * uniformly, duplicates allowed), which is exactly what the mode promises. The pack configuration
-   * is still validated so a corrupted extension fails BEFORE the quota is consumed.
+   * The rarity table is deliberately ignored here, which is exactly what the mode promises:
+   * `GODPACK_FORCED_CARDS` cards are mythic printings (legendary ones when the extension declares
+   * no mythic full art), and the remaining slots are picked uniformly in the full art pool,
+   * duplicates allowed. The forced cards come last so the reveal ends on them. The pack
+   * configuration is still validated so a corrupted extension fails BEFORE the quota is consumed.
    *
    * @param {object} boosterSetData - Parsed extension JSON or resolved set object.
    * @param {Record<string, Array<{rarity: number, weight: number}>>} rarityConfig - Slot table.
@@ -154,7 +185,33 @@ export class GachaEngine {
           `printing(s): at least ${minDistinct} are required for a god pack.`
       );
     }
-    return Array.from({ length: cardsPerBooster }, () => pool[Math.floor(this.getRandomFloat() * pool.length)]);
+    const forcedPool = GachaEngine.getForcedGodpackPool(pool);
+    const forced = this.drawDistinct(forcedPool, Math.min(GODPACK_FORCED_CARDS, cardsPerBooster));
+    const fillers = Array.from({ length: cardsPerBooster - forced.length }, () =>
+      pool[Math.floor(this.getRandomFloat() * pool.length)]
+    );
+    return [...fillers, ...forced];
+  }
+
+  /**
+   * Picks cards in a pool without repeating a printing until that pool is exhausted.
+   *
+   * A pool smaller than `count` repeats cards: a god pack of five cards cannot show five distinct
+   * mythic printings when the extension declares fewer of them.
+   *
+   * @param {Card[]} pool - Cards to pick from.
+   * @param {number} count - Number of cards to pick.
+   * @returns {Card[]} The picked cards, in draw order (empty when the pool is empty).
+   */
+  drawDistinct(pool, count) {
+    const cards = [];
+    if (pool.length === 0) return cards;
+    let remaining = [];
+    for (let index = 0; index < count; index += 1) {
+      if (remaining.length === 0) remaining = [...pool];
+      cards.push(remaining.splice(Math.floor(this.getRandomFloat() * remaining.length), 1)[0]);
+    }
+    return cards;
   }
 
   /**

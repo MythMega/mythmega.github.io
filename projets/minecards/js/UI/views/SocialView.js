@@ -14,7 +14,6 @@ import socialManager, {
   safeSocialAssetPath,
 } from '../../business/SocialManager.js';
 import likesManager, { LIKES_ERROR_CODES } from '../../business/LikesManager.js';
-import accountManager from '../../business/AccountManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import collectionManager from '../../business/CollectionManager.js';
@@ -22,6 +21,7 @@ import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager
 import TrophyDetail from '../components/TrophyDetail.js';
 import { decodeBinderCode } from '../../utils/BinderCode.js';
 import { ProfileCard } from '../components/ProfileCard.js';
+import cardDetailPopup from '../components/CardDetailPopup.js';
 import TradeView from './TradeView.js';
 
 /** View name, matching `data-view="social"` in `index.html`. */
@@ -119,6 +119,10 @@ export class SocialView {
     this.likeAllRunning = false;
     /** True while the history request runs: the button refuses a second opening. */
     this.isHistoryLoading = false;
+    /** Last history read from the worker, kept so a follow can repaint the dialog in place. */
+    this.likeHistory = { received: [], sent: [] };
+    /** Favourite cards of the opened friend, resolved through the local catalogue. */
+    this.favoriteCards = new Map();
     this.openFriendUuid = '';
     this.pendingUnfollowUuid = '';
     this.profileCard = null;
@@ -292,6 +296,27 @@ export class SocialView {
     });
 
     this.listen(this.detailWishlistButton, 'click', () => this.openDetailWishlist());
+    this.listen(this.detailFavorites, 'click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const card = event.target.closest('[data-social-favorite-card]');
+      if (card) {
+        this.openFavoriteCard(card.dataset.socialFavoriteCard);
+        return;
+      }
+      const trophy = event.target.closest('[data-social-favorite-trophy]');
+      if (trophy) this.openFavoriteTrophy(trophy.dataset.socialFavoriteTrophy);
+    });
+
+    // The "add as friend" buttons of the received likes are built on every history paint: one
+    // delegated listener serves them all.
+    this.listen(this.historyReceived, 'click', (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest('[data-social-history-follow]')
+        : null;
+      if (button) {
+        void this.followFromHistory(button.dataset.socialHistoryFollow, button);
+      }
+    });
 
     this.listen(this.detailBinder, 'click', (event) => {
       const button = event.target instanceof Element
@@ -746,6 +771,17 @@ export class SocialView {
         this.profileCard = new ProfileCard(this.detailCardHost);
       }
       const model = await socialManager.buildRemoteCardModel(card);
+      // The pinned trophies of the friend close the description exactly like the owner's own card:
+      // the worker only relays their ids, so they are resolved through the local trophy catalogue.
+      // A pinned trophy is unlocked by definition, which is what draws its halo.
+      const featuredIds = this.favorites.get(uuid)?.trophies ?? [];
+      if (featuredIds.length > 0) {
+        await this.loadTrophyIndex();
+        model.featuredTrophies = featuredIds
+          .map((id) => this.trophyIndex.get(id))
+          .filter(Boolean)
+          .map((trophy) => ({ ...trophy, unlocked: true }));
+      }
       this.profileCard.setLayout(model.layout);
       await this.profileCard.render(model);
       this.profileCard.applyStage();
@@ -1120,6 +1156,7 @@ export class SocialView {
     const section = this.buildFavoriteSection('social.detail.favorites.cards');
     const list = document.createElement('ul');
     list.className = 'social__favorites-list';
+    this.favoriteCards = new Map();
 
     for (const key of keys) {
       let card = null;
@@ -1132,10 +1169,17 @@ export class SocialView {
       const item = document.createElement('li');
       item.className = 'social__favorite social__favorite--card';
       item.title = name;
+      this.favoriteCards.set(key, card);
 
+      // Every tile is a button: the info of the card opens in the same dialog as the collection.
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'social__favorite-button';
+      button.dataset.socialFavoriteCard = key;
+      button.setAttribute('aria-label', name);
       if (card) {
         item.dataset.rarity = String(card.rarity);
-        item.appendChild(createCardVisual(card, {
+        button.appendChild(createCardVisual(card, {
           className: 'social__favorite-image',
           alt: name,
           loading: 'lazy',
@@ -1148,8 +1192,9 @@ export class SocialView {
         fallback.alt = key;
         fallback.loading = 'lazy';
         fallback.decoding = 'async';
-        item.appendChild(fallback);
+        button.appendChild(fallback);
       }
+      item.appendChild(button);
       list.appendChild(item);
     }
 
@@ -1175,17 +1220,142 @@ export class SocialView {
       item.className = 'social__favorite social__favorite--trophy';
       item.title = label;
       if (trophy && typeof trophy.rarity === 'string') item.dataset.rarity = trophy.rarity;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'social__favorite-button';
+      button.dataset.socialFavoriteTrophy = id;
+      button.setAttribute('aria-label', label);
       // A featured trophy is unlocked by definition (the owner could only pin it): the medal is
       // drawn as such even when this player has not earned it yet.
-      item.appendChild(TrophyDetail.buildMedal(
+      button.appendChild(TrophyDetail.buildMedal(
         trophy ?? { icon: DEFAULT_TROPHY_ICON, rarity: '', unlocked: true },
         'social__favorite-medal'
       ));
+      item.appendChild(button);
       list.appendChild(item);
     });
 
     section.appendChild(list);
     return section;
+  }
+
+  /**
+   * Opens the detail of a favourite card in the shared card dialog.
+   *
+   * The friend only relayed a collection key: the card itself is read from the local catalogue,
+   * exactly like the collection page, so the rarity, the set and the illustration are the ones
+   * every other screen shows.
+   *
+   * @param {string} key - Collection key.
+   * @returns {void}
+   */
+  openFavoriteCard(key) {
+    const card = this.favoriteCards?.get(key) ?? null;
+    if (!card) {
+      console.warn(`[SocialView] The favourite card "${key}" is not in the local catalogue.`);
+      return;
+    }
+    void cardDetailPopup.open(card);
+  }
+
+  /**
+   * Opens the sheet of a favourite trophy: what it takes to earn it, and where this player stands.
+   *
+   * The friend could only pin a trophy they earned, so their side is settled; ours is read from the
+   * local catalogue, with the description of the requirement, our progress bar and a comparison of
+   * the two accounts.
+   *
+   * @param {string} id - Trophy id.
+   * @returns {void}
+   */
+  openFavoriteTrophy(id) {
+    const trophy = this.trophyIndex?.get(id) ?? null;
+    if (!trophy) {
+      console.warn(`[SocialView] The favourite trophy "${id}" is not in the local catalogue.`);
+      return;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal';
+    overlay.dataset.socialTrophyDetail = '';
+
+    const dialog = document.createElement('div');
+    dialog.className = 'modal__dialog modal__dialog--wide';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'social-trophy-detail-title');
+
+    const title = document.createElement('h2');
+    title.className = 'modal__title';
+    title.id = 'social-trophy-detail-title';
+    title.textContent = TrophyDetail.trophyTitle(trophy);
+
+    const body = document.createElement('div');
+    body.className = 'modal__body';
+    const friendName = this.cards.get(this.openFriendUuid)?.username || i18n.t('profile.anonymous');
+    const owner = document.createElement('p');
+    owner.className = 'social__compare-owner';
+    owner.textContent = i18n.t('social.favorite.trophy.owner', { name: friendName });
+    body.appendChild(owner);
+    body.appendChild(TrophyDetail.buildDetailBody(trophy));
+
+    const comparison = document.createElement('section');
+    comparison.className = 'social__compare-block';
+    const heading = document.createElement('h3');
+    heading.className = 'social__favorites-title';
+    heading.textContent = i18n.t('social.favorite.trophy.compare');
+    comparison.appendChild(heading);
+    const rows = document.createElement('dl');
+    rows.className = 'card-modal__details';
+    rows.appendChild(TrophyDetail.buildDetailRow(
+      i18n.t('social.favorite.trophy.friend'),
+      i18n.t('trophy.unlocked')
+    ));
+    rows.appendChild(TrophyDetail.buildDetailRow(
+      i18n.t('social.favorite.trophy.you'),
+      trophy.unlocked
+        ? i18n.t('trophy.unlocked')
+        : i18n.t('social.favorite.trophy.progress', {
+          percent: Math.round((trophy.progress ?? 0) * 100),
+        })
+    ));
+    comparison.appendChild(rows);
+    body.appendChild(comparison);
+
+    const actions = document.createElement('div');
+    actions.className = 'modal__actions';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'btn btn--primary';
+    close.dataset.socialTrophyClose = '';
+    close.textContent = i18n.t('social.detail.close');
+    actions.appendChild(close);
+
+    dialog.append(title, body, actions);
+    overlay.appendChild(dialog);
+
+    let closed = false;
+    const dismiss = () => {
+      if (closed) return;
+      closed = true;
+      document.removeEventListener('keydown', onKey, true);
+      overlay.remove();
+    };
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        dismiss();
+      }
+    };
+
+    close.addEventListener('click', dismiss);
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) dismiss();
+    });
+    document.addEventListener('keydown', onKey, true);
+
+    document.body.appendChild(overlay);
+    close.focus();
   }
 
   /**
@@ -1371,8 +1541,8 @@ export class SocialView {
    * Opens the like history: the ten last likes received and the ten last likes sent.
    *
    * The history comes from `like_daily_target`, read by the worker in one authenticated request.
-   * The likers this account does not follow yet are followed right away (`followLikers`), so a
-   * received heart is a friend gained; the limit of the Follow List only skips the extra ones.
+   * A liker this account does not follow yet carries a button of its own: following is a decision,
+   * never a side effect of opening the dialog.
    *
    * @returns {Promise<void>} Resolves once the dialog is drawn (or its error is shown).
    */
@@ -1384,24 +1554,12 @@ export class SocialView {
     this.renderHistoryPlaceholder();
 
     try {
-      const history = await likesManager.getHistory();
-      const added = await this.followLikers(history.received);
-      if (added > 0) {
-        this.following = await socialManager.getFollowing();
-        await this.renderCount();
-        await this.reload();
-      }
-      this.renderHistoryList(
-        this.historyReceived,
-        history.received,
-        'social.history.received.empty'
-      );
-      this.renderHistoryList(this.historySent, history.sent, 'social.history.sent.empty');
-      if (added > 0) this.setHistoryFeedback('social.history.added', 'info', { count: added });
+      this.likeHistory = await likesManager.getHistory();
+      this.renderHistory();
     } catch (error) {
       console.warn('[SocialView] The like history could not be loaded.', error);
-      this.renderHistoryList(this.historyReceived, [], 'social.history.received.empty');
-      this.renderHistoryList(this.historySent, [], 'social.history.sent.empty');
+      this.likeHistory = { received: [], sent: [] };
+      this.renderHistory();
       this.setHistoryFeedback(
         error?.code === LIKES_ERROR_CODES.NO_ACCOUNT
           ? 'social.history.noAccount'
@@ -1414,30 +1572,56 @@ export class SocialView {
   }
 
   /**
-   * Follows every liker of a history that is not followed yet.
+   * Follows the liker whose button was clicked, then repaints the history in place.
    *
-   * A liker without a published card has no name to show, and `addFollow` would refuse them: they
-   * are skipped without a request. A full Follow List (or a network failure) only skips that one
-   * player, the history itself is still drawn.
+   * The player stays free to ignore a liker: nothing here runs on its own. A refusal (a full Follow
+   * List, a vanished card) only reports itself in the dialog.
    *
-   * @param {Array<{uuid: string, username: string}>} entries - The likes received.
-   * @returns {Promise<number>} How many players were added to the Follow List.
+   * @param {string} uuid - UUID of the liker.
+   * @param {HTMLButtonElement} button - Button that was clicked (disabled while the call runs).
+   * @returns {Promise<void>} Resolves once the row is repainted (or the refusal shown).
    */
-  async followLikers(entries) {
-    const followed = new Set(await socialManager.getFollowing());
-    const ownUuid = await accountManager.getUuid();
-    let added = 0;
-    for (const entry of entries) {
-      if (entry.username === '' || entry.uuid === ownUuid || followed.has(entry.uuid)) continue;
-      try {
-        await socialManager.addFollow(entry.uuid);
-        followed.add(entry.uuid);
-        added += 1;
-      } catch (error) {
-        console.info('[SocialView] A liker could not be followed.', entry.uuid, error?.code ?? error);
-      }
+  async followFromHistory(uuid, button) {
+    if (uuid === '' || this.isBusy) return;
+    this.isBusy = true;
+    button.disabled = true;
+    const name = this.likeHistory.received
+      .find((entry) => entry.uuid === uuid)?.username
+      || i18n.t('profile.anonymous');
+    try {
+      await socialManager.addFollow(uuid);
+      this.following = await socialManager.getFollowing();
+      await this.renderCount();
+      this.renderHistory();
+      this.setHistoryFeedback('social.history.followed', 'info', { name });
+      // The Follow List showed the friend without their card: a full reload paints it below the
+      // dialog, exactly like a follow added from the toolbar.
+      void this.reload();
+    } catch (error) {
+      console.warn('[SocialView] The liker could not be followed.', error);
+      this.setHistoryFeedback(getSocialErrorMessageKey(error), 'error');
+      button.disabled = false;
+    } finally {
+      this.isBusy = false;
     }
-    return added;
+  }
+
+  /**
+   * Paints both sides of the history from the last response.
+   *
+   * Only the received side offers to add a liker: a heart received from a stranger must never
+   * become a friend without a click.
+   *
+   * @returns {void}
+   */
+  renderHistory() {
+    this.renderHistoryList(
+      this.historyReceived,
+      this.likeHistory.received,
+      'social.history.received.empty',
+      { offerFollow: true }
+    );
+    this.renderHistoryList(this.historySent, this.likeHistory.sent, 'social.history.sent.empty');
   }
 
   /**
@@ -1473,9 +1657,11 @@ export class SocialView {
    * @param {HTMLElement|null} host - List to fill.
    * @param {object[]} entries - Normalized entries.
    * @param {string} emptyKey - Translation key shown when there is nothing to list.
+   * @param {object} [options] - Row options.
+   * @param {boolean} [options.offerFollow=false] - Offers to add the likers that are not friends.
    * @returns {void}
    */
-  renderHistoryList(host, entries, emptyKey) {
+  renderHistoryList(host, entries, emptyKey, { offerFollow = false } = {}) {
     if (!host) return;
     host.textContent = '';
     if (entries.length === 0) {
@@ -1485,18 +1671,20 @@ export class SocialView {
       host.appendChild(item);
       return;
     }
-    entries.forEach((entry) => host.appendChild(this.buildHistoryRow(entry)));
+    entries.forEach((entry) => host.appendChild(this.buildHistoryRow(entry, { offerFollow })));
   }
 
   /**
    * Builds one row of the history: the avatar of the other player, their name, the moment of the
-   * like, and a badge when they are not a friend.
+   * like, and, when they are not a friend, either an "add as friend" button or a badge.
    *
    * @param {{uuid: string, username: string, profilePicture: string, rarity: number, day: string,
    *   likedAt: string}} entry - Normalized entry.
+   * @param {object} [options] - Row options.
+   * @param {boolean} [options.offerFollow=false] - Draws the button instead of the badge.
    * @returns {HTMLLIElement} The row.
    */
-  buildHistoryRow(entry) {
+  buildHistoryRow(entry, { offerFollow = false } = {}) {
     const item = document.createElement('li');
     item.className = 'social__history-item';
     item.dataset.rarity = String(entry.rarity);
@@ -1532,10 +1720,20 @@ export class SocialView {
 
     item.append(avatar, identity);
     if (!this.following.includes(entry.uuid)) {
-      const badge = document.createElement('span');
-      badge.className = 'social__history-badge';
-      badge.textContent = i18n.t('social.history.notFriend');
-      item.appendChild(badge);
+      if (offerFollow && entry.username !== '') {
+        const follow = document.createElement('button');
+        follow.type = 'button';
+        follow.className = 'btn btn--ghost social__history-follow';
+        follow.dataset.socialHistoryFollow = entry.uuid;
+        follow.textContent = i18n.t('social.history.addFriend');
+        follow.setAttribute('aria-label', i18n.t('social.history.addFriendNamed', { name: entry.username }));
+        item.appendChild(follow);
+      } else {
+        const badge = document.createElement('span');
+        badge.className = 'social__history-badge';
+        badge.textContent = i18n.t('social.history.notFriend');
+        item.appendChild(badge);
+      }
     }
     return item;
   }

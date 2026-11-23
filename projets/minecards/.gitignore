@@ -4,6 +4,8 @@ generate_useritem_code.py
 
 # Local-only admin pages: they must never be published.
 admin/codes.html
+admin/openings.html
+admin/openings.js
 
 # Python caches
 __pycache__/

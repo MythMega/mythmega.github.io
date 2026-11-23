@@ -20,6 +20,7 @@
  */
 
 import { compressJson, decompressJson } from '../js/utils/Compression.js';
+import { downloadOnlineSave } from './save-sync.js';
 
 /** SHA-256 (hex) of the admin password, identical to `admin/index.html`. */
 const PASSWORD_HASH = '19768d6a62452099c450e0e7d1ba4be25597c2669dcab5fea88fe73ae74ca39e';
@@ -2433,6 +2434,29 @@ byId('file-input').addEventListener('change', () => {
   const [file] = byId('file-input').files ?? [];
   byId('file-input').value = '';
   void loadFile(file);
+});
+
+// Online load: the worker needs the UUID and the secret code of the account, then hands the
+// `.save` text back. It is wrapped in a `File` so the local import path validates it exactly like
+// a dragged file.
+byId('online-load').addEventListener('click', async () => {
+  const feedback = byId('online-feedback');
+  const button = byId('online-load');
+  button.disabled = true;
+  setFeedback(feedback, 'Téléchargement de la sauvegarde en ligne…');
+  try {
+    const { content, savedAt } = await downloadOnlineSave({
+      uuid: byId('online-uuid').value,
+      authCode: byId('online-code').value,
+    });
+    const day = typeof savedAt === 'string' && savedAt.length >= 10 ? savedAt.slice(0, 10) : 'online';
+    await loadFile(new File([content], `backup_cards_${day}.save`, { type: 'application/octet-stream' }));
+    setFeedback(feedback, null);
+  } catch (error) {
+    setFeedback(feedback, error.message, 'error');
+  } finally {
+    button.disabled = false;
+  }
 });
 
 const dropzone = byId('dropzone');

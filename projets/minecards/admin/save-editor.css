@@ -1249,6 +1249,19 @@
   }
 }
 
+/* --- Online load ------------------------------------------------------------ */
+.online-load {
+  display: grid;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+@media (min-width: 720px) {
+  .online-load {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;

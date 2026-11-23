@@ -233,7 +233,7 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=38b9ac149a">
-  <link rel="stylesheet" href="css/base.css?v=a5f02e927f">
+  <link rel="stylesheet" href="css/base.css?v=cff31aa0b3">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=2a7719d47d">
   <link rel="stylesheet" href="css/views/shop.css?v=ee425ac9f0">
@@ -250,7 +250,7 @@
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=a8a4121a0d">
+  <link rel="stylesheet" href="css/views/social.css?v=7a3a60f21a">
   <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
@@ -425,7 +425,7 @@
            counters competing with the identity for the width of the bar. The balance sits first,
            on the left of the actions, in the group that stays pinned to the right edge. -->
       <div class="app-header__stat app-header__stat--sparks" data-header-sparks data-i18n-title="header.sparks.title" title="Solde de Sparks">
-        <img class="app-header__stat-icon" src="assets/img/sparks.png" alt="" aria-hidden="true">
+        <img class="app-header__stat-icon app-header__stat-icon--sparks" src="assets/img/sparks.png" alt="" aria-hidden="true">
         <span class="sr-only" data-i18n="header.sparks.short">Sparks</span>
         <span class="app-header__sparks-value" data-header-sparks-value>0</span>
       </div>
@@ -2777,8 +2777,8 @@
       </div>
 
       <!-- Like history: the ten last likes received and the ten last likes sent, read from the
-           `like_daily_target` rows of the worker. A liker this account does not follow yet is
-           followed when the dialog opens, so a received heart is a friend gained. -->
+           `like_daily_target` rows of the worker. A liker this account does not follow yet carries
+           an "add as friend" button: the player decides, the dialog never follows on its own. -->
       <div class="modal" data-social-history-modal hidden>
         <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="social-history-title">
           <button type="button" class="modal__close" data-social-history-close aria-label="×">×</button>

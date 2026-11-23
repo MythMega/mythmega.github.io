@@ -87,9 +87,18 @@ async function api(path, options = {}) {
     throw new Error('Serveur local injoignable : lancez « python admin/data_editors.py ».');
   }
   let payload = null;
+  const type = response.headers.get('Content-Type') ?? '';
   try {
     payload = await response.json();
   } catch (error) {
+    // The game's static server (`start_server.cmd`) answers HTML 404 on `/api/...`: say which
+    // program this page needs instead of a bare parse error.
+    if (!type.includes('application/json')) {
+      throw new Error(
+        'Cette page a besoin de son propre serveur : lancez « python admin/data_editors.py » ' +
+          'puis ouvrez http://127.0.0.1:8770/admin/data_editors.html (le serveur du jeu ne fournit pas /api).'
+      );
+    }
     throw new Error(`Réponse illisible du serveur (HTTP ${response.status}).`);
   }
   if (!response.ok || payload?.error) {
@@ -1170,13 +1179,17 @@ async function saveFile() {
 function setMode(mode) {
   if (mode === state.mode) return;
   if (mode === 'form') {
-    try {
-      state.value = JSON.parse(el.code.value);
-      state.text = el.code.value;
-      el.code.value = state.text;
-    } catch (error) {
-      showFeedback('JSON invalide : le formulaire ne peut pas être construit.', 'error');
-      return;
+    // An empty buffer is not broken JSON: it is the state of the page before a file is loaded
+    // (or when the server could not be reached). Only a non-empty buffer is parsed here.
+    const raw = el.code.value;
+    if (raw.trim() !== '') {
+      try {
+        state.value = JSON.parse(raw);
+        state.text = raw;
+      } catch (error) {
+        showFeedback('JSON invalide : le formulaire ne peut pas être construit.', 'error');
+        return;
+      }
     }
     renderForm();
   } else {

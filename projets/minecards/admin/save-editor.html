@@ -47,6 +47,31 @@
         <p class="feedback" id="file-feedback" role="status" hidden></p>
       </section>
 
+      <!-- Online backup: the worker hands a save back only to the UUID *and* secret code pair, so
+           the read asks for both. Nothing is written here: the file is downloaded, then opened. -->
+      <section class="card">
+        <h2 class="card__title">Charger une sauvegarde en ligne</h2>
+        <p class="muted">
+          Le service de sauvegarde du jeu demande l’UUID du compte et son code secret (16 caractères,
+          affichés ensemble dans les réglages du jeu) : une lecture avec le seul UUID est refusée. Le
+          fichier téléchargé est ensuite ouvert ici, sans être importé dans le jeu.
+        </p>
+        <div class="online-load">
+          <label class="field">
+            <span class="field__label">UUID du compte</span>
+            <input class="field__input" type="text" id="online-uuid" autocomplete="off" spellcheck="false"
+              placeholder="123e4567-e89b-42d3-a456-426614174000">
+          </label>
+          <label class="field">
+            <span class="field__label">Code secret</span>
+            <input class="field__input" type="text" id="online-code" autocomplete="off" spellcheck="false"
+              maxlength="16" placeholder="16 lettres ou chiffres">
+          </label>
+          <button type="button" class="btn btn--primary" id="online-load">Charger en ligne</button>
+        </div>
+        <p class="feedback" id="online-feedback" role="status" hidden></p>
+      </section>
+
       <div class="workspace" id="workspace" hidden>
         <section class="save-summary" aria-label="Résumé de la sauvegarde">
           <div class="save-summary__identity">

@@ -1236,6 +1236,20 @@ export class App {
         reveal('[data-profile-card-publish]');
         highlight('[data-profile-card-publish]');
         return;
+      case ILLAGER_QUEST_TYPES.UPLOAD_SAVE:
+        show(SETTINGS_VIEW_NAME);
+        if (tutorial) await pause();
+        this.settingsView?.showTab('account');
+        if (tutorial) await pause();
+        reveal('[data-settings-online-upload]');
+        highlight('[data-settings-online-upload]');
+        return;
+      case ILLAGER_QUEST_TYPES.CHANGE_CARD_RENDERING:
+        show(SETTINGS_VIEW_NAME);
+        if (tutorial) await pause();
+        this.settingsView?.showTab('appearance');
+        highlight('[data-settings-card-render]');
+        return;
       default:
         return;
     }

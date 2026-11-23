@@ -27,6 +27,7 @@ import socialManager, { SOCIAL_API_BASE_URL } from './SocialManager.js';
 import { saveFile, getSaveErrorMessageKey } from '../classes/SaveFile.js';
 import { ERROR_SEVERITY } from '../utils/ErrorLog.js';
 import { reportError } from '../utils/ErrorReporter.js';
+import eventBus, { EVENTS } from '../utils/EventBus.js';
 
 /**
  * Maximum size of one uploaded save, in bytes (the worker refuses above it).
@@ -170,9 +171,14 @@ export class SaveSyncManager {
       body: JSON.stringify({ uuid, auth_code: authCode, save: file.content }),
     });
 
+    const savedAt = typeof payload?.saved_at === 'string' ? payload.saved_at : null;
+    const kept = Number.isInteger(payload?.kept) ? payload.kept : 0;
+    // Published only once the worker accepted the file, so a refused upload never moves the
+    // `UploadSave` quest counter.
+    eventBus.emit(EVENTS.SAVE_UPLOADED, { savedAt, kept });
     return {
-      savedAt: typeof payload?.saved_at === 'string' ? payload.saved_at : null,
-      kept: Number.isInteger(payload?.kept) ? payload.kept : 0,
+      savedAt,
+      kept,
       byteLength: file.byteLength,
     };
   }

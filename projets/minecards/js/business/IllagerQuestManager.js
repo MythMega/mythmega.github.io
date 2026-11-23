@@ -18,7 +18,8 @@
  *   move a counter are the ones the rest of the app already publishes (`MINING_UPDATED`,
  *   `BOOSTER_OPENED`, `DAILY_REWARDS_UPDATED`, `CARDS_OBTAINED` from the Mine Pick) plus the flows
  *   that had no event of their own (`CARD_SOLD`, `BINDER_SHARED`, `PROFILE_CARD_EXPORTED`,
- *   `CHANGELOG_OPENED`, `TITLE_SELECTED`, `SAVE_EXPORTED`) and the button of a `CustomWebsiteOpen`
+ *   `CHANGELOG_OPENED`, `TITLE_SELECTED`, `SAVE_EXPORTED`, `SAVE_UPLOADED`,
+ *   `CARD_RENDER_MODE_CHANGED`) and the button of a `CustomWebsiteOpen`
  *   quest, which records its own visit. The social objectives follow the same rule: `FOLLOW_ADDED`,
  *   `TRADE_COMPLETED` and `PROFILE_CARD_PUBLISHED` are published by `SocialManager`/`TradeManager`
  *   once the server accepted the action, so a refused call never moves a counter.
@@ -673,6 +674,12 @@ export class IllagerQuestManager {
       ),
       eventBus.on(EVENTS.SAVE_EXPORTED, () =>
         safely(this.record(ILLAGER_QUEST_TYPES.DOWNLOAD_SAVE_BACKUP, 1))
+      ),
+      eventBus.on(EVENTS.SAVE_UPLOADED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.UPLOAD_SAVE, 1))
+      ),
+      eventBus.on(EVENTS.CARD_RENDER_MODE_CHANGED, () =>
+        safely(this.record(ILLAGER_QUEST_TYPES.CHANGE_CARD_RENDERING, 1))
       ),
       eventBus.on(EVENTS.FOLLOW_ADDED, () =>
         safely(this.record(ILLAGER_QUEST_TYPES.ADD_FRIEND, 1))

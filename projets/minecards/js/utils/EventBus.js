@@ -162,6 +162,12 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ filename }`. Emitted by `SaveFile` once a save backup was written to a file: the
    * `DownloadCurrentSaveBackup` quest counts the download. */
   SAVE_EXPORTED: 'SAVE_EXPORTED',
+  /** Payload: `{ savedAt, kept }`. Emitted by `SaveSyncManager` once the current game was sent to
+   * the online backup: the `UploadSave` quest counts the upload. */
+  SAVE_UPLOADED: 'SAVE_UPLOADED',
+  /** Payload: `{ modeId }`. Emitted by `SettingsView` once a card render mode was stored on the
+   * account: the `ChangeCardRendering` quest counts the change. */
+  CARD_RENDER_MODE_CHANGED: 'CARD_RENDER_MODE_CHANGED',
   /** Payload: `{ questId, type }`. Emitted by `MineBlockView` when the player clicks "Y aller" on
    * an Illager quest: the application walks to the screen where that quest happens (or jumps
    * straight there when `settings.questNavigationTutorial` is off). */

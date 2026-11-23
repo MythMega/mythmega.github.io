@@ -1877,6 +1877,9 @@ export class SettingsView {
     try {
       await accountManager.updateSettings(payload);
       this.log(`Card render mode set to "${modeId}" and saved.`);
+      // The `ChangeCardRendering` quest counts a mode that was actually stored, never a picker that
+      // only moved before a failed write.
+      eventBus.emit(EVENTS.CARD_RENDER_MODE_CHANGED, { modeId });
     } catch (error) {
       console.error('[SettingsView] The card render mode could not be saved.', error);
       this.cardRenderMode = previous.cardRenderMode;

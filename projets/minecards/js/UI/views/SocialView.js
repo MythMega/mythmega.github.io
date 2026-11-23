@@ -10,7 +10,9 @@ import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import cardLanguage from '../../utils/CardLanguage.js';
 import { createCardVisual } from '../../utils/CardSourceManager.js';
 import socialManager, {
+  SOCIAL_ERROR_CODES,
   getSocialErrorMessageKey,
+  isPseudoRefusal,
   safeSocialAssetPath,
 } from '../../business/SocialManager.js';
 import likesManager, { LIKES_ERROR_CODES } from '../../business/LikesManager.js';
@@ -20,12 +22,33 @@ import collectionManager from '../../business/CollectionManager.js';
 import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager.js';
 import TrophyDetail from '../components/TrophyDetail.js';
 import { decodeBinderCode } from '../../utils/BinderCode.js';
+import { attachCardTilt } from '../../utils/CardTilt.js';
 import { ProfileCard } from '../components/ProfileCard.js';
+import renamePseudoDialog from '../components/RenamePseudoDialog.js';
 import cardDetailPopup from '../components/CardDetailPopup.js';
 import TradeView from './TradeView.js';
 
 /** View name, matching `data-view="social"` in `index.html`. */
 export const SOCIAL_VIEW_NAME = 'social';
+
+/**
+ * Normalizes a search text or a player name for the friend filter.
+ *
+ * Lowercases and strips the diacritics of both sides, so `Barriere` finds `Barrière` and
+ * `MYTH` finds `Myth`. Control characters of a pasted value are replaced by a space, exactly
+ * like `ProfileManager.sanitizeName()`, so the comparison never depends on an invisible byte.
+ *
+ * @param {unknown} value - Typed query or stored pseudo.
+ * @returns {string} The comparable text (empty when the value carries nothing).
+ */
+function normalizeFriendQuery(value) {
+  return String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 export class SocialView {
   /**
@@ -43,6 +66,8 @@ export class SocialView {
     this.followList = query('[data-social-list]');
     this.emptyElement = query('[data-social-empty]');
     this.countElement = query('[data-social-count]');
+    this.searchInput = query('[data-social-search]');
+    this.searchFeedback = query('[data-social-search-feedback]');
     this.feedbackElement = query('[data-social-feedback]');
     this.addButton = query('[data-social-add]');
     this.refreshButton = query('[data-social-refresh]');
@@ -89,6 +114,8 @@ export class SocialView {
     this.historySent = query('[data-social-history-sent]');
     this.historyFeedback = query('[data-social-history-feedback]');
     this.historyCloseButtons = this.root.querySelectorAll('[data-social-history-close]');
+    this.historyTabs = [...this.root.querySelectorAll('[data-social-history-tab]')];
+    this.historyPanels = [...this.root.querySelectorAll('[data-social-history-panel]')];
 
     this.unfollowModal = query('[data-social-unfollow-modal]');
     this.unfollowTitle = query('[data-social-unfollow-title]');
@@ -121,6 +148,15 @@ export class SocialView {
     this.isHistoryLoading = false;
     /** Last history read from the worker, kept so a follow can repaint the dialog in place. */
     this.likeHistory = { received: [], sent: [] };
+    /**
+     * Rows of the Follow List with the text each one answers to, rebuilt by `renderList()`.
+     *
+     * The search field hides these rows instead of rebuilding them: a keystroke must not redraw
+     * a hundred friend cards (and reload their avatars) again.
+     *
+     * @type {Array<{row: HTMLLIElement, haystack: string}>}
+     */
+    this.friendRows = [];
     /** Favourite cards of the opened friend, resolved through the local catalogue. */
     this.favoriteCards = new Map();
     this.openFriendUuid = '';
@@ -155,6 +191,8 @@ export class SocialView {
     const missing = [
       ['[data-social-list]', this.followList],
       ['[data-social-empty]', this.emptyElement],
+      ['[data-social-search]', this.searchInput],
+      ['[data-social-search-feedback]', this.searchFeedback],
       ['[data-social-feedback]', this.feedbackElement],
       ['[data-social-add]', this.addButton],
       ['[data-social-refresh]', this.refreshButton],
@@ -248,6 +286,8 @@ export class SocialView {
       this.listen(tab, 'click', () => this.showTab(tab.dataset.socialTab));
     });
 
+    this.listen(this.searchInput, 'input', () => this.applyFriendFilter());
+
     this.listen(this.addButton, 'click', () => this.openAddModal());
     this.listen(this.refreshButton, 'click', () =>
       void this.reload({ announce: true, force: true })
@@ -255,6 +295,9 @@ export class SocialView {
     this.listen(this.updateButton, 'click', () => void this.publish());
     this.listen(this.likeAllButton, 'click', () => void this.openLikeAll());
     this.listen(this.historyButton, 'click', () => void this.openLikeHistory());
+    this.historyTabs.forEach((tab) => {
+      this.listen(tab, 'click', () => this.showHistoryTab(tab.dataset.socialHistoryTab));
+    });
     this.historyCloseButtons.forEach((button) => {
       this.listen(button, 'click', () => this.closeLikeHistory());
     });
@@ -467,9 +510,11 @@ export class SocialView {
   /**
    * Paints the friend counter: how many players are followed, over the configured limit.
    *
-   * The limit comes from `social.maxFriends` of `config.json` (`SocialManager.getMaxFriends()`),
-   * the same value `addFollow` enforces. It turns the accent colour once the list is full, so the
-   * refusal of the next follow is announced before the player tries.
+   * The limit comes from the level of the account (`SocialManager.getMaxFriends()`, that is
+   * `social.baseMaxFriend` grown by `social.friendStepIncrease` every `social.friendStepLevelGap`
+   * levels, capped by `social.maxFriends`), the same value `addFollow` enforces. It turns the
+   * accent colour once the list is full, so the refusal of the next follow is announced before
+   * the player tries.
    *
    * @returns {Promise<void>} Resolves once the counter is painted.
    */
@@ -489,20 +534,51 @@ export class SocialView {
   }
 
   /**
-   * Paints the followed players in follow order.
+   * Paints the followed players in follow order, then applies the current search.
+   *
+   * The rows are built once and kept in `friendRows`: filtering only toggles `hidden`, so a
+   * keystroke never rebuilds a friend card (nor reloads its avatar) again.
    *
    * @returns {Promise<void>} Resolves once every row is built.
    */
   async renderList() {
     this.followList.textContent = '';
-    const rows = await Promise.all(
-      this.following
-        .map((uuid) => this.cards.get(uuid))
-        .filter(Boolean)
-        .map((card) => this.buildFriendRow(card))
-    );
+    const cards = this.following.map((uuid) => this.cards.get(uuid)).filter(Boolean);
+    const rows = await Promise.all(cards.map((card) => this.buildFriendRow(card)));
+    this.friendRows = cards.map((card, index) => ({
+      row: rows[index],
+      haystack: normalizeFriendQuery(card.username),
+    }));
     rows.forEach((row) => this.followList.appendChild(row));
-    this.emptyElement.hidden = rows.length > 0;
+    this.applyFriendFilter();
+  }
+
+  /**
+   * Hides the followed players whose pseudo does not contain the typed search.
+   *
+   * An empty field shows the whole Follow List. The number of matching friends is written under
+   * the field, so a missing card is explained instead of looking like a lost friend.
+   *
+   * @returns {void}
+   */
+  applyFriendFilter() {
+    const query = normalizeFriendQuery(this.searchInput?.value);
+    let visible = 0;
+    this.friendRows.forEach(({ row, haystack }) => {
+      const match = query === '' || haystack.includes(query);
+      row.hidden = !match;
+      if (match) visible += 1;
+    });
+
+    const total = this.friendRows.length;
+    if (this.searchFeedback) {
+      const filtering = query !== '' && total > 0;
+      this.searchFeedback.hidden = !filtering;
+      this.searchFeedback.textContent = filtering
+        ? i18n.t(visible === 0 ? 'social.search.none' : 'social.search.found', { visible, total })
+        : '';
+    }
+    this.emptyElement.hidden = total > 0;
   }
 
   /**
@@ -691,7 +767,7 @@ export class SocialView {
   }
 
   /**
-   * Validates, checks and saves a followed UUID.
+   * Validates, checks and saves a followed player, typed as a pseudo or a UUID.
    *
    * @returns {Promise<void>} Resolves once the flow finishes.
    */
@@ -730,7 +806,21 @@ export class SocialView {
       this.setFeedback('social.publish.success', 'info');
     } catch (error) {
       console.error('[SocialView] The trainer card could not be published.', error);
-      this.setFeedback(getSocialErrorMessageKey(error), 'error');
+      if (isPseudoRefusal(error)) {
+        // The card cannot go out under this name: the dialog asks for another pseudo and sends
+        // it again itself, so the player never has to press "Update My Account" twice.
+        this.setFeedback(null);
+        void renamePseudoDialog.open({
+          reason: error.code === SOCIAL_ERROR_CODES.USERNAME_TAKEN ? 'taken' : 'reserved',
+          onConfirm: async () => {
+            await socialManager.publishOwnCard();
+            this.setFeedback('social.publish.success', 'info');
+          },
+          onCancel: () => this.setFeedback('social.publish.cancelled', 'warning'),
+        });
+      } else {
+        this.setFeedback(getSocialErrorMessageKey(error), 'error');
+      }
     } finally {
       this.isBusy = false;
       this.updateButton.disabled = false;
@@ -750,9 +840,9 @@ export class SocialView {
     this.openFriendUuid = uuid;
     this.detailUnfollow.disabled = false;
 
-    this.detailTitle.textContent = i18n.t('social.detail.title', {
-      name: card.username || i18n.t('profile.anonymous'),
-    });
+    // The title is the pseudo itself: the card under it already says what it is, so "Carte de"
+    // only pushed the name the player came to read to the right of a redundant word.
+    this.detailTitle.textContent = card.username || i18n.t('profile.anonymous');
     const updated = typeof card.updated_at === 'string' ? card.updated_at.replace(' ', ' · ') : '-';
     this.detailMeta.textContent = i18n.t('social.detail.updated', { date: updated });
     // The header already read the authenticated state: reusing it avoids a second claim just for
@@ -768,6 +858,10 @@ export class SocialView {
     this.detailModal.hidden = false;
     try {
       if (!this.profileCard) {
+        // Same 3D drag as the player's own card: the controller goes on the HOST of the card
+        // (its exact footprint), never on the dialog body, so the wide strip and the actions
+        // below it do not rotate with the card.
+        attachCardTilt(this.detailCardHost);
         this.profileCard = new ProfileCard(this.detailCardHost);
       }
       const model = await socialManager.buildRemoteCardModel(card);
@@ -1604,6 +1698,28 @@ export class SocialView {
     } finally {
       this.isBusy = false;
     }
+  }
+
+  /**
+   * Shows one side of the like history.
+   *
+   * Both lists are painted on every read, so switching tabs is instant and never re-asks the
+   * worker: only the visibility of the panels changes.
+   *
+   * @param {string} name - `data-social-history-tab` value (`received` or `sent`).
+   * @returns {void}
+   */
+  showHistoryTab(name) {
+    if (typeof name !== 'string') return;
+    this.historyTabs.forEach((tab) => {
+      const active = tab.dataset.socialHistoryTab === name;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    this.historyPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.socialHistoryPanel !== name;
+    });
   }
 
   /**

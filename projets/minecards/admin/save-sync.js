@@ -10,7 +10,9 @@
  * The online service is the one the game already uses (`SaveSyncManager`, same worker, same
  * routes). It is READ-ONLY here: nothing is uploaded and no local database is touched. The worker
  * asks for the account's secret code as well as its UUID, so a UUID alone never exposes a save:
- * the pair is the same one the trainer card shows (`Settings` > compte).
+ * the pair is the same one the trainer card shows (`Settings` > compte). The account may be
+ * designated by its pseudo instead of its UUID: the pseudo is unique in the database, and the
+ * worker's public lookup route translates it before the save is asked for.
  *
  * The downloaded text is the exact `.save` content (Base64 of a deflate stream), so it decodes
  * with the very helpers the game uses (`js/utils/Compression.js`).
@@ -50,23 +52,69 @@ export function normalizeSaveAuthCode(value) {
 }
 
 /**
+ * Resolves a typed pseudo or UUID to the account UUID the save routes are keyed by.
+ *
+ * A v4 UUID is used as-is. Anything else is a pseudo: the worker's public lookup route
+ * (`GET /lookup`) translates it, because a pseudo is unique in the database. Only an account
+ * that published its trainer card has a pseudo, which the message says when nobody matches.
+ *
+ * @param {unknown} value - Pseudo or UUID typed in the page.
+ * @returns {Promise<string>} The lowercase UUID of the account.
+ * @throws {Error} When the field is empty, malformed, or designates nobody.
+ */
+export async function resolveSaveIdentifier(value) {
+  const text = typeof value === 'string' ? value.trim() : '';
+  if (text === '') {
+    throw new Error("Indiquez l’UUID ou le pseudo du compte.");
+  }
+  const uuid = normalizeSaveUuid(text);
+  if (uuid !== '') return uuid;
+  if (text.length > 24) {
+    throw new Error("Pseudo ou UUID invalide : un pseudo fait au plus 24 caractères.");
+  }
+
+  let response;
+  try {
+    response = await fetch(`${SAVE_SYNC_BASE_URL}/lookup?query=${encodeURIComponent(text)}`, {
+      cache: 'no-store',
+    });
+  } catch (error) {
+    throw new Error("Serveur de sauvegarde injoignable (réseau).", { cause: error });
+  }
+
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch (error) {
+    payload = null;
+  }
+  if (!response.ok) {
+    throw new Error(`Le serveur de sauvegarde a répondu HTTP ${response.status}.`);
+  }
+  const found = typeof payload?.uuid === 'string' ? normalizeSaveUuid(payload.uuid) : '';
+  if (payload?.found !== true || found === '') {
+    throw new Error(
+      "Aucun joueur ne porte ce pseudo : seuls les comptes ayant publié leur carte de dresseur sont trouvables."
+    );
+  }
+  return found;
+}
+
+/**
  * Downloads the newest online save of one account.
  *
  * The worker requires the UUID and the secret code even for a read: the game never exposes a
  * backup from an UUID alone, and this page does not try to bypass that rule.
  *
  * @param {object} credentials - Credentials typed in the page.
- * @param {string} credentials.uuid - Account UUID.
+ * @param {string} credentials.identifier - Account pseudo or UUID.
  * @param {string} credentials.authCode - Account secret code (16 letters or digits).
  * @returns {Promise<{content: string, savedAt: string|null}>} The `.save` text and its upload date.
  * @throws {Error} When a credential is malformed, nothing is online, or the service fails.
  */
-export async function downloadOnlineSave({ uuid, authCode }) {
-  const cleanUuid = normalizeSaveUuid(uuid);
+export async function downloadOnlineSave({ identifier, authCode }) {
+  const cleanUuid = await resolveSaveIdentifier(identifier);
   const cleanCode = normalizeSaveAuthCode(authCode);
-  if (cleanUuid === '') {
-    throw new Error('UUID invalide : attendu un UUID v4 (celui du compte, affiché dans les réglages du jeu).');
-  }
   if (cleanCode === '') {
     throw new Error('Code secret invalide : 16 lettres ou chiffres, affiché à côté de l’UUID dans les réglages du jeu.');
   }

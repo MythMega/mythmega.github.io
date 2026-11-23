@@ -63,8 +63,13 @@ import featureManager, {
 } from '../../business/FeatureManager.js';
 import sparksManager from '../../business/SparksManager.js';
 import slotPurchaseModal from '../components/SlotPurchaseModal.js';
+import renamePseudoDialog from '../components/RenamePseudoDialog.js';
 import accountManager from '../../business/AccountManager.js';
-import socialManager, { getSocialErrorMessageKey } from '../../business/SocialManager.js';
+import socialManager, {
+  SOCIAL_ERROR_CODES,
+  getSocialErrorMessageKey,
+  isPseudoRefusal,
+} from '../../business/SocialManager.js';
 import { writeToClipboard } from '../../utils/Clipboard.js';
 
 /**
@@ -3232,9 +3237,25 @@ export class ProfileView {
       this.log(`Trainer card published (${result.action}).`);
     } catch (error) {
       console.error('[ProfileView] The trainer card could not be published.', error);
-      const key = getSocialErrorMessageKey(error);
-      this.setCardFeedback(key, 'error');
-      Toast.error(key);
+      if (isPseudoRefusal(error)) {
+        // The pseudo has to change before the card can go out. The dialog lives outside the
+        // views, so the very same one is opened from the Social page, and it re-sends the card
+        // once the new pseudo is stored.
+        this.setCardFeedback(null);
+        void renamePseudoDialog.open({
+          reason: error.code === SOCIAL_ERROR_CODES.USERNAME_TAKEN ? 'taken' : 'reserved',
+          onConfirm: async () => {
+            await socialManager.publishOwnCard();
+            this.setCardFeedback('social.publish.success', 'info');
+            Toast.success('social.publish.success');
+          },
+          onCancel: () => this.setCardFeedback('social.publish.cancelled', 'warning'),
+        });
+      } else {
+        const key = getSocialErrorMessageKey(error);
+        this.setCardFeedback(key, 'error');
+        Toast.error(key);
+      }
     } finally {
       this.isPublishingCard = false;
       this.cardPublishButton.disabled = false;

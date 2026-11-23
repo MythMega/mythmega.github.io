@@ -2446,7 +2446,7 @@ byId('online-load').addEventListener('click', async () => {
   setFeedback(feedback, 'Téléchargement de la sauvegarde en ligne…');
   try {
     const { content, savedAt } = await downloadOnlineSave({
-      uuid: byId('online-uuid').value,
+      identifier: byId('online-uuid').value,
       authCode: byId('online-code').value,
     });
     const day = typeof savedAt === 'string' && savedAt.length >= 10 ? savedAt.slice(0, 10) : 'online';

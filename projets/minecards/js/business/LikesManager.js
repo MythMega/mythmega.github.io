@@ -37,7 +37,7 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 export const LIKES_MAX_BATCH = 100;
 
 /** Number of entries each side of the like history asks for (mirrors the worker). */
-export const LIKES_HISTORY_LIMIT = 10;
+export const LIKES_HISTORY_LIMIT = 20;
 
 /**
  * Friends per batch like request. The worker accepts 100, but one request of 100 leaves the popup

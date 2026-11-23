@@ -52,15 +52,16 @@
       <section class="card">
         <h2 class="card__title">Charger une sauvegarde en ligne</h2>
         <p class="muted">
-          Le service de sauvegarde du jeu demande l’UUID du compte et son code secret (16 caractères,
-          affichés ensemble dans les réglages du jeu) : une lecture avec le seul UUID est refusée. Le
-          fichier téléchargé est ensuite ouvert ici, sans être importé dans le jeu.
+          Le service de sauvegarde du jeu demande l’identifiant du compte et son code secret (16 caractères,
+          affichés ensemble dans les réglages du jeu) : une lecture avec le seul identifiant est refusée.
+          L’identifiant peut être le pseudo (unique dans la base) ou l’UUID du compte. Le fichier
+          téléchargé est ensuite ouvert ici, sans être importé dans le jeu.
         </p>
         <div class="online-load">
           <label class="field">
-            <span class="field__label">UUID du compte</span>
+            <span class="field__label">Pseudo ou UUID du compte</span>
             <input class="field__input" type="text" id="online-uuid" autocomplete="off" spellcheck="false"
-              placeholder="123e4567-e89b-42d3-a456-426614174000">
+              placeholder="Pseudo ou 123e4567-e89b-42d3-a456-426614174000">
           </label>
           <label class="field">
             <span class="field__label">Code secret</span>

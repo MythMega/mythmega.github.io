@@ -23,7 +23,11 @@
  */
 
 import accountManager from './AccountManager.js';
-import socialManager, { SOCIAL_API_BASE_URL } from './SocialManager.js';
+import socialManager, {
+  SOCIAL_API_BASE_URL,
+  SOCIAL_ERROR_CODES,
+  SocialError,
+} from './SocialManager.js';
 import { saveFile, getSaveErrorMessageKey } from '../classes/SaveFile.js';
 import { ERROR_SEVERITY } from '../utils/ErrorLog.js';
 import { reportError } from '../utils/ErrorReporter.js';
@@ -49,6 +53,7 @@ export const SAVE_SYNC_ERROR_CODES = Object.freeze({
   AUTH_MISSING: 'authMissing',
   AUTH_REJECTED: 'authRejected',
   INVALID_CREDENTIALS: 'invalidCredentials',
+  PLAYER_NOT_FOUND: 'playerNotFound',
   NO_SAVE: 'noSave',
   TOO_LARGE: 'tooLarge',
   NETWORK: 'network',
@@ -186,13 +191,14 @@ export class SaveSyncManager {
   /**
    * Reads the date of the newest online save, without its content.
    *
-   * @param {{uuid?: string, authCode?: string}} [credentials] - Explicit credentials (onboarding
-   *   screen); the local account is used when absent.
+   * @param {{identifier?: string, authCode?: string}} [credentials] - Explicit credentials
+   *   (onboarding screen: the pseudo OR the UUID of another account); the local account is used
+   *   when absent.
    * @returns {Promise<{exists: boolean, savedAt: string|null}>} The date of the last upload.
    * @throws {SaveSyncError} When the credentials are invalid or the request fails.
    */
-  async getLastSaveDate({ uuid = null, authCode = null } = {}) {
-    const resolved = await this.resolveCredentials({ uuid, authCode });
+  async getLastSaveDate({ identifier = null, authCode = null } = {}) {
+    const resolved = await this.resolveCredentials({ identifier, authCode });
     const query = `uuid=${encodeURIComponent(resolved.uuid)}&auth_code=${encodeURIComponent(resolved.authCode)}`;
     const payload = await this.request(`/saves/last?${query}`, { method: 'GET' });
     return {
@@ -208,15 +214,15 @@ export class SaveSyncManager {
    * the settings and every view depend on the new data.
    *
    * @param {object} [options] - Download options.
-   * @param {string|null} [options.uuid] - Explicit UUID (onboarding screen).
+   * @param {string|null} [options.identifier] - Explicit pseudo or UUID (onboarding screen).
    * @param {string|null} [options.authCode] - Explicit secret code (onboarding screen).
    * @returns {Promise<{uuid: string, savedAt: string|null}>} Resolves only when the download
    *   failed; a successful load reloads the page.
    * @throws {SaveSyncError} When nothing is online, the credentials are refused, or the file is
    *   not a valid save.
    */
-  async downloadLastSave({ uuid = null, authCode = null } = {}) {
-    const resolved = await this.resolveCredentials({ uuid, authCode });
+  async downloadLastSave({ identifier = null, authCode = null } = {}) {
+    const resolved = await this.resolveCredentials({ identifier, authCode });
     const query = `uuid=${encodeURIComponent(resolved.uuid)}&auth_code=${encodeURIComponent(resolved.authCode)}`;
     const payload = await this.request(`/saves/last/file?${query}`, { method: 'GET' });
     if (payload?.exists !== true || typeof payload.save !== 'string' || payload.save === '') {
@@ -262,23 +268,56 @@ export class SaveSyncManager {
   /**
    * Resolves the credentials of a request: explicit ones (onboarding), or the local account.
    *
-   * @param {{uuid: string|null, authCode: string|null}} credentials - Raw values.
+   * The typed identifier may be a pseudo or a UUID, and nothing tells the player which one to
+   * use: a v4 UUID is kept as is, anything else is resolved by the worker, the only side that
+   * knows which account owns a name.
+   *
+   * @param {{identifier: string|null, authCode: string|null}} credentials - Raw values.
    * @returns {Promise<{uuid: string, authCode: string}>} The validated pair.
-   * @throws {SaveSyncError} When the pair is missing or malformed.
+   * @throws {SaveSyncError} When the pair is missing or malformed, or the pseudo designates
+   *   nobody.
    */
-  async resolveCredentials({ uuid, authCode }) {
-    const typedUuid = uuid === null ? null : normalizeSyncUuid(uuid);
-    const typedCode = authCode === null ? null : normalizeSyncAuthCode(authCode);
-    if (typedUuid !== null || typedCode !== null) {
-      if (!typedUuid || !typedCode) {
-        throw new SaveSyncError(
-          SAVE_SYNC_ERROR_CODES.INVALID_CREDENTIALS,
-          'The UUID must be a v4 UUID and the code 16 letters or digits.'
-        );
-      }
-      return { uuid: typedUuid, authCode: typedCode };
+  async resolveCredentials({ identifier, authCode }) {
+    const typedIdentifier =
+      identifier === null || identifier === undefined ? null : String(identifier).trim();
+    const typedCode =
+      authCode === null || authCode === undefined ? null : normalizeSyncAuthCode(authCode);
+    if (typedIdentifier === null && authCode === null) return this.ensureCredentials();
+    if (!typedIdentifier || !typedCode) {
+      throw new SaveSyncError(
+        SAVE_SYNC_ERROR_CODES.INVALID_CREDENTIALS,
+        'The identifier must be a pseudo or a v4 UUID, and the code 16 letters or digits.'
+      );
     }
-    return this.ensureCredentials();
+    const typedUuid = normalizeSyncUuid(typedIdentifier);
+    if (typedUuid !== '') return { uuid: typedUuid, authCode: typedCode };
+    return { uuid: await this.resolvePseudoIdentifier(typedIdentifier), authCode: typedCode };
+  }
+
+  /**
+   * Resolves a pseudo typed on the onboarding screen to the account UUID it designates.
+   *
+   * The lookup is the public route the game already uses to add a friend: it answers the UUID of
+   * the account that published this pseudo, and the online save still requires the secret code,
+   * so knowing a pseudo never exposes a save.
+   *
+   * @param {string} identifier - Typed pseudo.
+   * @returns {Promise<string>} The lowercase UUID of the account.
+   * @throws {SaveSyncError} When nobody uses this pseudo, or the lookup fails.
+   */
+  async resolvePseudoIdentifier(identifier) {
+    try {
+      return await socialManager.resolvePlayerIdentifier(identifier);
+    } catch (error) {
+      if (!(error instanceof SocialError)) throw error;
+      const code =
+        error.code === SOCIAL_ERROR_CODES.PLAYER_NOT_FOUND
+          ? SAVE_SYNC_ERROR_CODES.PLAYER_NOT_FOUND
+          : error.code === SOCIAL_ERROR_CODES.NETWORK
+            ? SAVE_SYNC_ERROR_CODES.NETWORK
+            : SAVE_SYNC_ERROR_CODES.INVALID_CREDENTIALS;
+      throw new SaveSyncError(code, 'The pseudo could not be resolved.', { cause: error });
+    }
   }
 
   /**

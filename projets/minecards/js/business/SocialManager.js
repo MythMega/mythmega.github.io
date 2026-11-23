@@ -19,6 +19,7 @@
 import storageRepository, { STORES } from '../models/StorageRepository.js';
 import accountManager, { USER_STATE_KEYS, isUuid } from './AccountManager.js';
 import profileManager from './ProfileManager.js';
+import { isReservedName } from './ReservedNamesManager.js';
 import binderManager from './BinderManager.js';
 import trophyManager from './TrophyManager.js';
 import collectionManager from './CollectionManager.js';
@@ -45,6 +46,23 @@ export const SOCIAL_API_BASE_URL = 'https://minecard-backend.jordanmorindev.work
 /** The worker accepts at most 100 UUIDs per read request. */
 export const SOCIAL_MAX_FOLLOWING = 100;
 
+/** Maximum length of a pseudo, in characters (the display name refuses more than this). */
+export const SOCIAL_MAX_PSEUDO_LENGTH = 24;
+
+/**
+ * Friend allowance shipped with the game, used when `settings/config.json` cannot answer.
+ *
+ * `maxFriends` is the cap, `baseMaxFriend` the allowance of a level 1 account, and every
+ * `friendStepLevelGap` levels add `friendStepIncrease` friends. With those values a fresh
+ * account follows 40 players and a level 40 account 100.
+ */
+export const SOCIAL_DEFAULT_FRIEND_LIMITS = Object.freeze({
+  maxFriends: 100,
+  baseMaxFriend: 40,
+  friendStepIncrease: 15,
+  friendStepLevelGap: 10,
+});
+
 /** Favourite slots of the worker (`favorite.card1` … `card7`, `trophy1` … `trophy7`). */
 export const SOCIAL_MAX_FAVORITES = 7;
 
@@ -62,6 +80,9 @@ export const SOCIAL_ERROR_CODES = Object.freeze({
   ALREADY_FOLLOWED: 'alreadyFollowed',
   NOT_PUBLISHED: 'notPublished',
   FOLLOW_LIMIT: 'limit',
+  PLAYER_NOT_FOUND: 'playerNotFound',
+  USERNAME_TAKEN: 'usernameTaken',
+  RESERVED_USERNAME: 'reservedUsername',
   AUTH_MISSING: 'authMissing',
   AUTH_REJECTED: 'authRejected',
   INVALID_AUTH_CODE: 'invalidAuthCode',
@@ -86,6 +107,24 @@ export class SocialError extends Error {
 }
 
 /**
+ * Tells whether a publication was refused because of its pseudo.
+ *
+ * Both codes mean the same thing to the player: the name cannot be published as it is, and
+ * another one has to be chosen. The views open the rename dialog for them, instead of showing
+ * a generic HTTP failure nobody can act on.
+ *
+ * @param {unknown} error - Error thrown by `publishOwnCard()`.
+ * @returns {boolean} True for a taken or a reserved pseudo.
+ */
+export function isPseudoRefusal(error) {
+  return (
+    error instanceof SocialError &&
+    (error.code === SOCIAL_ERROR_CODES.USERNAME_TAKEN ||
+      error.code === SOCIAL_ERROR_CODES.RESERVED_USERNAME)
+  );
+}
+
+/**
  * Resolves the translation key describing a social failure.
  *
  * @param {unknown} error - Error thrown by this manager.
@@ -105,6 +144,33 @@ export function getSocialErrorMessageKey(error) {
 function normalizeUuid(value) {
   const text = typeof value === 'string' ? value.trim().toLowerCase() : '';
   return isUuid(text) ? text : '';
+}
+
+/**
+ * Reads a positive integer from the social configuration.
+ *
+ * @param {unknown} value - Raw configuration value.
+ * @param {number} fallback - Value used when the setting is missing or unusable.
+ * @returns {number} The integer, always at least 1.
+ */
+function readPositiveInt(value, fallback) {
+  const number = Math.trunc(Number(value));
+  return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+
+/**
+ * Reads a non-negative integer from the social configuration.
+ *
+ * A step of 0 is legitimate: it simply switches the growth off. Only a missing or corrupted
+ * value falls back to the shipped default.
+ *
+ * @param {unknown} value - Raw configuration value.
+ * @param {number} fallback - Value used when the setting is missing or unusable.
+ * @returns {number} The integer, 0 accepted.
+ */
+function readNonNegativeInt(value, fallback) {
+  const number = Math.trunc(Number(value));
+  return Number.isFinite(number) && number >= 0 ? number : fallback;
 }
 
 /**
@@ -457,37 +523,112 @@ export class SocialManager {
   /**
    * Reads how many players may be followed at once.
    *
-   * The limit is a design value (`social.maxFriends` of `settings/config.json`, 50 by default) and
-   * never exceeds the batch size the worker accepts. A missing or corrupted value falls back to
-   * the default instead of locking the Follow List.
+   * The allowance GROWS with the level: `social.baseMaxFriend` is what a fresh account has, every
+   * `social.friendStepLevelGap` levels add `social.friendStepIncrease` friends, and
+   * `social.maxFriends` is the cap (which never exceeds the batch size the worker accepts). With
+   * the shipped values a level 1 account follows 40 players and a level 40 account 100.
+   *
+   * A missing or corrupted value falls back to the shipped defaults instead of locking the Follow
+   * List, and a level that cannot be evaluated counts as 1.
    *
    * @returns {Promise<number>} The maximum number of followed players.
    */
   async getMaxFriends() {
     try {
       const config = await configLoader.getConfig();
-      const value = Math.trunc(Number(config?.social?.maxFriends));
-      if (!Number.isFinite(value) || value < 1) return 50;
-      return Math.min(SOCIAL_MAX_FOLLOWING, value);
+      const level = await this.getLevel();
+      return SocialManager.friendLimitForLevel(level, config?.social);
     } catch (error) {
-      console.warn('[SocialManager] The friend limit could not be read, using 50.', error);
-      return 50;
+      console.warn('[SocialManager] The friend limit could not be read, using the base allowance.', error);
+      return SocialManager.friendLimitForLevel(1, SOCIAL_DEFAULT_FRIEND_LIMITS);
     }
+  }
+
+  /**
+   * Reads the player level the friend allowance grows with.
+   *
+   * The trophy evaluation is the one every level-gated feature uses (`BinderManager`), so the
+   * Follow List can never disagree with the level shown on the profile.
+   *
+   * @returns {Promise<number>} The level (always at least 1).
+   */
+  async getLevel() {
+    try {
+      const state = await trophyManager.getSummary();
+      const level = Number(state?.level?.level);
+      return Number.isFinite(level) && level >= 1 ? Math.floor(level) : 1;
+    } catch (error) {
+      console.warn('[SocialManager] The player level could not be evaluated, using 1.', error);
+      return 1;
+    }
+  }
+
+  /**
+   * Friend allowance of one level: the base at level 1, one step every gap levels, up to the cap.
+   *
+   * Static because it is pure arithmetic: the counter of the Follow List and the refusal of
+   * `addFollow` must read the same number, and the progression can be checked without a save.
+   *
+   * @param {number} level - Account level (1 when unknown).
+   * @param {object} [limits] - The `social` block of `settings/config.json`.
+   * @returns {number} The number of players the account may follow (always at least 1).
+   */
+  static friendLimitForLevel(level, limits = {}) {
+    const fallback = SOCIAL_DEFAULT_FRIEND_LIMITS;
+    const cap = Math.min(
+      SOCIAL_MAX_FOLLOWING,
+      readPositiveInt(limits.maxFriends, fallback.maxFriends)
+    );
+    const base = Math.min(cap, readPositiveInt(limits.baseMaxFriend, cap));
+    const gap = readPositiveInt(limits.friendStepLevelGap, fallback.friendStepLevelGap);
+    const step = readNonNegativeInt(limits.friendStepIncrease, fallback.friendStepIncrease);
+    const current = Number.isFinite(Number(level)) ? Math.max(1, Math.floor(Number(level))) : 1;
+    const gained = Math.floor(current / gap) * step;
+    return Math.max(1, Math.min(cap, base + gained));
+  }
+
+  /**
+   * Resolves a pseudo or a UUID typed by the player to the account UUID it designates.
+   *
+   * A v4 UUID is used as is, without a request. Anything else is a pseudo, translated by the
+   * worker (`GET /lookup`), the only place that knows which account owns a name: the pseudo is
+   * unique in the database, so it can designate a player on its own.
+   *
+   * @param {unknown} value - Pseudo or UUID typed by the player.
+   * @returns {Promise<string>} The lowercase UUID of the player.
+   * @throws {SocialError} When the text is empty, too long, or designates nobody.
+   */
+  async resolvePlayerIdentifier(value) {
+    const text = typeof value === 'string' ? value.trim() : '';
+    const direct = normalizeUuid(text);
+    if (direct !== '') return direct;
+    if (text === '' || text.length > SOCIAL_MAX_PSEUDO_LENGTH) {
+      throw new SocialError(
+        SOCIAL_ERROR_CODES.INVALID_UUID,
+        'The field must contain a v4 UUID or a pseudo.'
+      );
+    }
+    const payload = await this.request(
+      '/lookup?query=' + encodeURIComponent(text)
+    );
+    const found = normalizeUuid(payload?.uuid);
+    if (payload?.found !== true || found === '') {
+      throw new SocialError(SOCIAL_ERROR_CODES.PLAYER_NOT_FOUND, 'No player uses this pseudo.');
+    }
+    return found;
   }
 
   /**
    * Follows one player after checking that their card is published.
    *
-   * @param {unknown} value - UUID typed by the player.
+   * @param {unknown} value - Pseudo or UUID typed by the player.
    * @returns {Promise<object>} The public card of the followed player.
-   * @throws {SocialError} When the UUID is invalid, is the local account, was already followed, the
-   *   follow list is full, the card is not published, or the request fails.
+   * @throws {SocialError} When the pseudo or UUID is invalid, designates nobody, is the local
+   *   account, was already followed, the follow list is full, the card is not published, or the
+   *   request fails.
    */
   async addFollow(value) {
-    const uuid = normalizeUuid(value);
-    if (uuid === '') {
-      throw new SocialError(SOCIAL_ERROR_CODES.INVALID_UUID, 'The UUID is not a valid v4 UUID.');
-    }
+    const uuid = await this.resolvePlayerIdentifier(value);
     const ownUuid = await accountManager.getUuid();
     if (ownUuid && uuid === ownUuid) {
       throw new SocialError(SOCIAL_ERROR_CODES.SELF, 'The account cannot follow itself.');
@@ -838,6 +979,17 @@ export class SocialManager {
     }
 
     const payload = await this.buildPayload(uuid, state.authCode);
+
+    // A reserved pseudo never reaches the worker: the check is a policy of the official client,
+    // and the publication is its second door (the profile editor is the first). The views turn
+    // this code into the dialog that asks for another name, exactly like the 409 of the worker.
+    if (await isReservedName(payload.username, uuid)) {
+      throw new SocialError(
+        SOCIAL_ERROR_CODES.RESERVED_USERNAME,
+        'The pseudo contains a reserved name.'
+      );
+    }
+
     try {
       const response = await this.request('/cards', {
         method: 'POST',
@@ -848,6 +1000,15 @@ export class SocialManager {
       eventBus.emit(EVENTS.PROFILE_CARD_PUBLISHED, { action });
       return { action, card: response?.card ?? null };
     } catch (error) {
+      // The unique index of the pseudo refused the publication: the player reads it as a pseudo
+      // already taken, not as a mysterious HTTP failure, and their previous card stays online.
+      if (error instanceof SocialError && error.status === 409) {
+        throw new SocialError(
+          SOCIAL_ERROR_CODES.USERNAME_TAKEN,
+          'Another account already uses this pseudo.',
+          { status: 409, serverMessage: error.serverMessage }
+        );
+      }
       if (error instanceof SocialError && error.status === 403) {
         throw new SocialError(
           SOCIAL_ERROR_CODES.AUTH_REJECTED,

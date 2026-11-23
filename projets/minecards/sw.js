@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v195';
+const VERSION = 'v199';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -186,6 +186,7 @@ const PRECACHE_URLS = [
   './js/UI/components/ChangelogPopup.js',
   './js/UI/components/NotificationCenter.js',
   './js/UI/components/ProfileCard.js',
+  './js/UI/components/RenamePseudoDialog.js',
   './js/UI/components/SetAnnouncementPopup.js',
   './js/UI/components/SlotPurchaseModal.js',
   './js/UI/components/Toast.js',
@@ -232,6 +233,7 @@ const PRECACHE_URLS = [
   './js/business/PromoSet.js',
   './js/business/RandomCardReward.js',
   './js/business/RedeemManager.js',
+  './js/business/ReservedNamesManager.js',
   './js/business/SocialManager.js',
   './js/business/TradeManager.js',
   './js/business/WishlistManager.js',

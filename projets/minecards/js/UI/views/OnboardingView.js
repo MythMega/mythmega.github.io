@@ -20,7 +20,6 @@ import saveSyncManager, {
   formatSyncTimestamp,
   getSaveSyncErrorMessageKey,
   normalizeSyncAuthCode,
-  normalizeSyncUuid,
 } from '../../business/SaveSyncManager.js';
 import { hasPendingRedeem } from '../../utils/DeepLink.js';
 
@@ -427,9 +426,9 @@ export class OnboardingView {
       return;
     }
 
-    const uuid = normalizeSyncUuid(this.onlineUuidInput.value);
+    const identifier = this.onlineUuidInput.value.trim();
     const authCode = normalizeSyncAuthCode(this.onlineCodeInput.value);
-    if (!uuid || !authCode) {
+    if (!identifier || !authCode) {
       this.setOnlineFeedback('save.sync.error.invalidCredentials', 'error');
       return;
     }
@@ -437,12 +436,12 @@ export class OnboardingView {
     this.setBusy(true);
     this.setOnlineFeedback('save.sync.checking', 'info');
     try {
-      const { exists, savedAt } = await saveSyncManager.getLastSaveDate({ uuid, authCode });
+      const { exists, savedAt } = await saveSyncManager.getLastSaveDate({ identifier, authCode });
       if (!exists) {
         this.setOnlineFeedback('save.sync.none', 'info');
         return;
       }
-      this.onlineCredentials = { uuid, authCode };
+      this.onlineCredentials = { identifier, authCode };
       this.onlineSavedAt = savedAt;
       this.onlineStep = 'confirm';
       this.renderOnlineStep();

@@ -250,7 +250,7 @@
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=7a3a60f21a">
+  <link rel="stylesheet" href="css/views/social.css?v=7424c137c2">
   <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
   <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
@@ -2649,6 +2649,14 @@
               <button type="button" class="btn btn--ghost" data-social-update data-i18n="social.update">Update My Account</button>
             </div>
 
+            <div class="social__search">
+              <label class="field" for="social-search">
+                <span class="field__label" data-i18n="social.search.label">Rechercher un ami</span>
+                <input class="field__input" type="search" id="social-search" data-social-search autocomplete="off" spellcheck="false" data-i18n-placeholder="social.search.placeholder" placeholder="Pseudo">
+              </label>
+              <p class="social__search-feedback" data-social-search-feedback role="status" hidden></p>
+            </div>
+
             <p class="social__count" data-social-count></p>
             <ul class="social__list" data-social-list></ul>
             <p class="social__empty" data-social-empty data-i18n="social.empty">Aucun joueur suivi pour le moment. Ajoutez l'UUID d'un joueur qui a publié sa carte.</p>
@@ -2720,8 +2728,8 @@
           <h2 class="modal__title" id="social-add-title" data-i18n="social.add.title">Suivre un joueur</h2>
           <form class="social__add-form" data-social-add-form novalidate>
             <label class="field" for="social-add-input">
-              <span class="field__label" data-i18n="social.add.label">UUID du joueur</span>
-              <input class="field__input" id="social-add-input" type="text" data-social-add-input autocomplete="off" autocapitalize="none" spellcheck="false" data-i18n-placeholder="social.add.placeholder" placeholder="00000000-0000-4000-8000-000000000000">
+              <span class="field__label" data-i18n="social.add.label">Pseudo ou UUID du joueur</span>
+              <input class="field__input" id="social-add-input" type="text" data-social-add-input autocomplete="off" autocapitalize="none" spellcheck="false" data-i18n-placeholder="social.add.placeholder" placeholder="Pseudo ou 00000000-0000-4000-8000-000000000000">
             </label>
             <p class="social__add-error" data-social-add-error role="alert" hidden></p>
             <div class="modal__actions">
@@ -2776,21 +2784,26 @@
         </div>
       </div>
 
-      <!-- Like history: the ten last likes received and the ten last likes sent, read from the
-           `like_daily_target` rows of the worker. A liker this account does not follow yet carries
-           an "add as friend" button: the player decides, the dialog never follows on its own. -->
+      <!-- Like history: the last likes received and the last likes sent, read from the
+           `like_daily_target` rows of the worker. One tab per side, so a long history never
+           becomes one endless column. A liker this account does not follow yet carries an "add
+           as friend" button: the player decides, the dialog never follows on its own. -->
       <div class="modal" data-social-history-modal hidden>
         <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="social-history-title">
           <button type="button" class="modal__close" data-social-history-close aria-label="×">×</button>
           <h2 class="modal__title" id="social-history-title" data-i18n="social.history.title">Historique des likes</h2>
           <div class="modal__body social__history">
             <p class="feedback" data-social-history-feedback role="status" hidden></p>
-            <section class="social__history-group">
-              <h3 class="social__history-title" data-i18n="social.history.received">10 derniers likes reçus</h3>
+            <div class="social__tabs social__history-tabs" role="tablist" data-social-history-tabs data-i18n-aria-label="social.history.tabsLabel" aria-label="Likes reçus ou envoyés">
+              <button type="button" class="social__tab is-active" id="social-history-tab-received" role="tab" data-social-history-tab="received" aria-controls="social-history-panel-received" aria-selected="true" data-i18n="social.history.tab.received">Reçus</button>
+              <button type="button" class="social__tab" id="social-history-tab-sent" role="tab" data-social-history-tab="sent" aria-controls="social-history-panel-sent" aria-selected="false" tabindex="-1" data-i18n="social.history.tab.sent">Envoyés</button>
+            </div>
+            <section class="social__history-group" id="social-history-panel-received" role="tabpanel" aria-labelledby="social-history-tab-received" data-social-history-panel="received">
+              <h3 class="social__history-title" data-i18n="social.history.received">Derniers likes reçus</h3>
               <ul class="social__history-list" data-social-history-received></ul>
             </section>
-            <section class="social__history-group">
-              <h3 class="social__history-title" data-i18n="social.history.sent">10 derniers likes envoyés</h3>
+            <section class="social__history-group" id="social-history-panel-sent" role="tabpanel" aria-labelledby="social-history-tab-sent" data-social-history-panel="sent" hidden>
+              <h3 class="social__history-title" data-i18n="social.history.sent">Derniers likes envoyés</h3>
               <ul class="social__history-list" data-social-history-sent></ul>
             </section>
           </div>
@@ -3383,6 +3396,29 @@
         </section>
       </div>
     </section>
+
+    <!-- Pseudo fix dialog: opened when a publication is refused because the pseudo is already
+         taken or reserved. It lives OUTSIDE every view on purpose, so the two screens that
+         publish a card (Social and Profile) may open the very same instance: a dialog inside a
+         hidden `.view` would never be seen from the other screen. -->
+    <div class="modal" data-rename-pseudo-modal hidden>
+      <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="rename-pseudo-title">
+        <button type="button" class="modal__close" data-rename-pseudo-close aria-label="×">×</button>
+        <h2 class="modal__title" id="rename-pseudo-title" data-i18n="social.rename.title">Changer de pseudo</h2>
+        <form class="social__add-form" data-rename-pseudo-form novalidate>
+          <p class="feedback" data-rename-pseudo-reason role="status"></p>
+          <label class="field" for="rename-pseudo-input">
+            <span class="field__label" data-i18n="social.rename.label">Nouveau pseudo</span>
+            <input class="field__input" id="rename-pseudo-input" type="text" maxlength="24" data-rename-pseudo-input autocomplete="off" autocapitalize="none" spellcheck="false">
+          </label>
+          <p class="feedback" data-rename-pseudo-error role="alert" hidden></p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-rename-pseudo-cancel data-i18n="social.cancel">Annuler</button>
+            <button type="submit" class="btn btn--primary" data-rename-pseudo-submit data-i18n="social.rename.retry">Réessayer</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
   </main>
 

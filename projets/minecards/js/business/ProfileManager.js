@@ -37,11 +37,12 @@
 import { storageRepository, STORES } from '../models/StorageRepository.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
-import { USER_STATE_KEYS, isUuid } from './AccountManager.js';
+import accountManager, { USER_STATE_KEYS, isUuid } from './AccountManager.js';
 import profileIconManager from './ProfileIconManager.js';
 import titleManager from './TitleManager.js';
 import featureManager, { FeatureManager, PROFILE_SLOT_KINDS } from './FeatureManager.js';
 import { USERNAME_DEFAULT_COLOR, isColorId } from './ColorManager.js';
+import { isReservedName } from './ReservedNamesManager.js';
 
 /**
  * `user_state` key holding the profile.
@@ -73,6 +74,7 @@ export const PROFILE_ERROR_CODES = Object.freeze({
   FAVORITES_FULL: 'favoritesFull',
   FEATURED_FULL: 'featuredFull',
   INVALID_KEY: 'invalidKey',
+  RESERVED_NAME: 'reserved',
 });
 
 /** Error raised by the profile manager, carrying a stable `code` for the UI. */
@@ -233,8 +235,8 @@ export class ProfileManager {
    *   colour is checked by `ColorManager`; an unknown orientation falls back to `auto`.
    * @returns {Promise<object>} The stored profile after the update.
    * @throws {TypeError} When `payload` is not a plain object.
-   * @throws {ProfileError} When the name is too long, the URL is not an absolute http(s) URL, or the
-   *   icon or the title does not belong to the catalogue.
+   * @throws {ProfileError} When the name is too long or contains a reserved word, the URL is not
+   *   an absolute http(s) URL, or the icon or the title does not belong to the catalogue.
    * @throws {Error} When the write fails.
    */
   async setIdentity(payload = {}) {
@@ -246,7 +248,17 @@ export class ProfileManager {
     const next = { ...current };
 
     if (Object.prototype.hasOwnProperty.call(payload, 'name')) {
-      next.name = ProfileManager.normalizeName(payload.name);
+      const name = ProfileManager.normalizeName(payload.name);
+      // A reserved pseudo is refused only when the player CHOOSES it: a profile restored from a
+      // save that already carries one (written by an older version or by another client) stays
+      // editable for its avatar and its title instead of locking the whole identity screen.
+      if (name !== current.name && (await isReservedName(name, await accountManager.getUuid()))) {
+        throw new ProfileError(
+          PROFILE_ERROR_CODES.RESERVED_NAME,
+          `The pseudo ${JSON.stringify(name)} contains a reserved name.`
+        );
+      }
+      next.name = name;
     }
     if (Object.prototype.hasOwnProperty.call(payload, 'icon')) {
       next.icon = await ProfileManager.normalizeIcon(payload.icon);

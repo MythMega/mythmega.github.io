@@ -316,6 +316,13 @@ body[data-connection="offline"] .settings__clock-value {
   user-select: all;
 }
 
+/* The secret code is a masked input: it keeps the box of the UUID, adds the spacing of the dots
+   and drops the "select all" that only made sense on a readable text node. */
+.settings__auth-code-value {
+  letter-spacing: 0.12em;
+  user-select: auto;
+}
+
 /* --- Social publication code ----------------------------------------------- */
 
 .settings__auth-code {

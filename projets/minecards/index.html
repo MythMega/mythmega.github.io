@@ -245,7 +245,7 @@
   <link rel="stylesheet" href="css/views/profile.css?v=ad06736192">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
-  <link rel="stylesheet" href="css/views/settings.css?v=7c455f2eba">
+  <link rel="stylesheet" href="css/views/settings.css?v=364cd49860">
   <link rel="stylesheet" href="css/views/redeem.css?v=d0fa404527">
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
@@ -2350,7 +2350,7 @@
               <h4 class="settings__subtitle" data-i18n="settings.account.authCode.title">Code secret de publication</h4>
               <p class="settings__help" data-i18n="settings.account.authCode.help">Ce code autorise la mise à jour de votre carte de dresseur en ligne. Il reste sur cet appareil et n'est jamais renvoyé par le serveur.</p>
               <p class="settings__uuid">
-                <code class="settings__uuid-value" data-settings-auth-code>-</code>
+                <input class="settings__uuid-value settings__auth-code-value" type="password" readonly autocomplete="off" spellcheck="false" placeholder="-" aria-label="Code secret de publication" data-settings-auth-code data-i18n-aria-label="settings.account.authCode.title">
                 <button type="button" class="btn btn--ghost" data-settings-auth-code-copy data-i18n="settings.account.authCode.copy">Copier</button>
               </p>
               <p class="settings__help" data-settings-auth-code-empty data-i18n="settings.account.authCode.empty">Aucun code pour le moment : il sera créé à la première publication de votre carte.</p>

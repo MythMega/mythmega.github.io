@@ -1070,6 +1070,7 @@
   "settings.cardSource.help": "Mode développeur avancé : construisez la carte à partir de ses données JSON (Custom), ou gardez l'image finale (Default). Les miniatures cachent les textes jusqu'à l'ouverture en grand.",
   "settings.cardRender.title": "Rendu des cartes",
   "settings.cardRender.images": "Images",
+  "settings.cardRender.defaultSuffix": " (défaut)",
   "settings.cardRender.custom": "Personnalisé",
   "settings.cardRender.preview": "Aperçu du mode sélectionné",
   "settings.cardRender.help": "« Images » garde l'illustration finale de chaque carte. Les autres modes la reconstruisent à partir de ses données et de la palette du mode ; ils sont enregistrés avec votre compte.",

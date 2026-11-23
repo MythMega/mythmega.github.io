@@ -102,6 +102,7 @@ import {
   findMode,
   getCardRenderModes,
   getModeLabel,
+  getShippedDefaultMode,
   isModeAvailable,
 } from '../../utils/CardRenderManager.js';
 import { CardPrint } from '../components/CardPrint.js';
@@ -384,6 +385,8 @@ export class SettingsView {
     this.cardRenderMode = DEFAULT_CARD_RENDER_MODE;
     /** @type {Array<object>} Card render presets (`settings/cardrender.json`). */
     this.cardRenderModes = [];
+    /** @type {string} Id of the preset the game SHIPS as the default (`cardRender.default`). */
+    this.cardRenderDefaultId = '';
     /** @type {boolean} Whether the generated card layers move (off by default). */
     this.animatedLayers = false;
     /** @type {number} Animation speed, in percent of the reference 30-second cycle. */
@@ -1688,6 +1691,8 @@ export class SettingsView {
    */
   async renderCardRenderSelector() {
     this.cardRenderModes = await getCardRenderModes();
+    const shipped = await getShippedDefaultMode();
+    this.cardRenderDefaultId = shipped?.id ?? '';
     this.buildCardRenderButtons();
   }
 
@@ -1705,10 +1710,15 @@ export class SettingsView {
     this.cardRenderButtons.clear();
 
     const lang = i18n.getLang();
+    const defaultSuffix = i18n.t('settings.cardRender.defaultSuffix');
     const entries = [{ id: CARD_RENDER_MODE.IMAGES, label: i18n.t('settings.cardRender.images') }];
     this.cardRenderModes.forEach((mode) => {
       if (!isModeAvailable(mode, { devMode: this.devMode })) return;
-      entries.push({ id: mode.id, label: getModeLabel(mode, lang) });
+      const label = getModeLabel(mode, lang);
+      entries.push({
+        id: mode.id,
+        label: mode.id === this.cardRenderDefaultId ? `${label}${defaultSuffix}` : label,
+      });
     });
     if (this.advancedDevMode) {
       entries.push({ id: CARD_RENDER_MODE.CUSTOM, label: i18n.t('settings.cardRender.custom') });
@@ -2111,8 +2121,10 @@ export class SettingsView {
     this.uuidElement.textContent = this.uuid ?? i18n.t('common.unknown');
     this.uuidElement.setAttribute('title', this.uuid ?? '');
     this.authCode = await socialManager.getAuthCode();
-    this.authCodeElement.textContent = this.authCode || '-';
-    this.authCodeElement.setAttribute('title', this.authCode);
+    // The code is masked (`type="password"`) but stays a real input value, so the copy button keeps
+    // reading `this.authCode` and a long press still selects nothing readable on screen.
+    this.authCodeElement.value = this.authCode;
+    this.authCodeElement.removeAttribute('title');
     this.authCodeCopyButton.disabled = this.authCode === '';
     this.authCodeEmptyElement.hidden = this.authCode !== '';
     this.authCodeInput.value = this.authCode;

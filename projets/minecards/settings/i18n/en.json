@@ -994,6 +994,7 @@
   "settings.cardSource.help": "Advanced developer mode: build the card from its JSON data (Custom), or keep the final image (Default). Thumbnails hide the card texts until the card is opened large.",
   "settings.cardRender.title": "Card render",
   "settings.cardRender.images": "Images",
+  "settings.cardRender.defaultSuffix": " (default)",
   "settings.cardRender.custom": "Custom",
   "settings.cardRender.preview": "Preview of the selected mode",
   "settings.cardRender.help": "“Images” keeps the final artwork of every card. The other modes rebuild it from its data and the palette of the mode; they are saved with your account.",

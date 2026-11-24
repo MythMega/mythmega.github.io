@@ -55,6 +55,7 @@
  */
 
 import { configLoader } from '../utils/ConfigLoader.js';
+import { formatCompactNumber } from '../utils/CompactNumber.js';
 import sparksManager, { PROMO_SELL_PRICE } from './SparksManager.js';
 import miningManager from './MiningManager.js';
 import illagerShopManager from './IllagerShopManager.js';
@@ -351,25 +352,16 @@ export class AccountValueManager {
 /**
  * Formats an account value for the compact line of the profile card.
  *
- * The decimals are TRUNCATED, not rounded: the documented example 1,435,789 must read `1.43 M`.
- * The suffix is `M` for millions and `Md` (French) / `B` (English) for billions.
+ * The wording is the one every big counter of the game uses (`js/utils/CompactNumber.js`):
+ * `K` from 10 000, `M` from a million and `Md` (French) / `B` (English) from a billion, with one
+ * TRUNCATED decimal. The documented example 1,435,789 therefore reads `1.4M`.
  *
  * @param {number} value - Account value in points.
  * @param {string} [lang='fr'] - Active language (`fr` or `en`).
  * @returns {string} The compact label value, without the "Points" prefix.
  */
 export function formatAccountValue(value, lang = 'fr') {
-  const amount = Number.isFinite(value) ? Math.max(0, value) : 0;
-  const isFrench = String(lang).toLowerCase().startsWith('fr');
-  if (amount >= 1_000_000_000) {
-    const billions = Math.floor((amount / 1_000_000_000) * 100) / 100;
-    return `${billions.toFixed(2)} ${isFrench ? 'Md' : 'B'}`;
-  }
-  if (amount >= 1_000_000) {
-    const millions = Math.floor((amount / 1_000_000) * 100) / 100;
-    return `${millions.toFixed(2)} M`;
-  }
-  return Math.floor(amount).toLocaleString(isFrench ? 'fr' : 'en');
+  return formatCompactNumber(value, lang);
 }
 
 /** Shared instance used by the profile card. */

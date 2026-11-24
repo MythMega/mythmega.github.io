@@ -1563,7 +1563,13 @@ export class OpeningView {
    * @returns {Promise<void>} Resolves once the preview shows the selection.
    */
   async updatePreview() {
-    if (this.previewFailed || !this.selectedSetId) return;
+    if (!this.selectedSetId) return;
+    // A 3D preview that failed leaves the FLAT picture on screen: it is the only thing a new
+    // selection can move now, so it has to follow it instead of keeping the first extension.
+    if (this.previewFailed) {
+      this.showPreviewFallback(this.sets.get(this.selectedSetId) ?? null);
+      return;
+    }
     if (!this.previewRenderer) {
       await this.initPreview();
       return;
@@ -1582,14 +1588,14 @@ export class OpeningView {
   showPreviewFallback(set) {
     // A flat display: the upright, cropped icon rather than the artwork of the 3D model.
     const picture = set?.icon ?? set?.texture;
+    this.previewFallback.hidden = !picture;
     if (picture) {
       this.previewFallback.src = i18n.resolveImagePath(picture);
-      this.previewFallback.alt = set.name ?? '';
-      this.previewFallback.hidden = false;
-      // An empty canvas host keeps its 38vh row and pushes the picture to the bottom of the stage;
-      // the flat display takes that room instead.
-      this.previewViewport.hidden = true;
+      this.previewFallback.alt = set?.name ?? '';
     }
+    // An empty canvas host keeps its 38vh row and pushes the picture to the bottom of the stage;
+    // the flat display takes that room instead.
+    this.previewViewport.hidden = true;
     this.log('2D booster preview displayed.');
   }
 

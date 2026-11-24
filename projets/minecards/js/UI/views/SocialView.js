@@ -8,6 +8,7 @@
 import i18n from '../../utils/I18n.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import cardLanguage from '../../utils/CardLanguage.js';
+import { formatCompactNumber } from '../../utils/CompactNumber.js';
 import { createCardVisual } from '../../utils/CardSourceManager.js';
 import socialManager, {
   SOCIAL_ERROR_CODES,
@@ -818,12 +819,15 @@ export class SocialView {
   /**
    * Formats a counter with the separators of the active language.
    *
+   * The counts of an account (likes, cards, boosters, points) are big numbers: they wear the same
+   * compact label as the likes of the header and the points of the profile card (`10.2K`).
+   *
    * @param {unknown} value - Raw counter.
    * @returns {string} The formatted non-negative integer.
    */
   formatNumber(value) {
     const count = Math.max(0, Math.trunc(Number(value) || 0));
-    return new Intl.NumberFormat(i18n.getLang()).format(count);
+    return formatCompactNumber(count, i18n.getLang());
   }
 
   /**

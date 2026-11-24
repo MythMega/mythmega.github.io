@@ -825,7 +825,9 @@ export class TradeView {
       this.openConfirm({
         titleKey: 'trade.confirm.cancel.title',
         bodyKey: 'trade.confirm.cancel.body',
-        confirmKey: 'trade.action.cancel',
+        // Not the label of the row button: the dialog already comes FROM "Annuler", so its own
+        // button has to say what it does ("Annuler l'échange") while the dismiss button steps back.
+        confirmKey: 'trade.confirm.cancel.confirm',
         tone: 'danger',
         action: () => this.cancel(trade),
       });

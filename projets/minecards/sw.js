@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v212';
+const VERSION = 'v213';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -259,6 +259,7 @@ const PRECACHE_URLS = [
   './js/utils/CardSourceManager.js',
   './js/utils/CardTilt.js',
   './js/utils/Clipboard.js',
+  './js/utils/CompactNumber.js',
   './js/utils/Compression.js',
   './js/utils/ConfigLoader.js',
   './js/utils/DeepLink.js',

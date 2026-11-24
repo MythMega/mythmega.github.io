@@ -1,6 +1,5 @@
 {
   "app.title": "MineCards",
-  "app.tagline": "Open boosters, complete your collection.",
   "app.loading": "Loading…",
   "app.noscript": "This application requires JavaScript to run.",
   "app.fatal.title": "Unable to start",
@@ -1654,6 +1653,7 @@
   "notif.trade.completed.body": "You received {card}.",
 
   "menu.label": "Menu",
+  "menu.title": "MineCards - Menu",
   "menu.open": "Open the menu",
   "nav.social": "Social",
 
@@ -1806,6 +1806,8 @@
   "trade.confirm.deny.body": "The request will be cancelled and the other player gets their card, Sparks and Ender Eyes back.",
   "trade.confirm.cancel.title": "Cancel this trade?",
   "trade.confirm.cancel.body": "Everything committed (card, Sparks and Ender Eyes) is returned to both players.",
+  "trade.confirm.back": "Back",
+  "trade.confirm.cancel.confirm": "Cancel trade",
   "trade.confirm.withdraw.title": "Withdraw this counter-offer?",
   "trade.confirm.withdraw.body": "The trade goes back to the initial request and your card, Sparks and Ender Eyes are returned to you.",
   "trade.confirm.accept.title": "Accept this counter-offer?",

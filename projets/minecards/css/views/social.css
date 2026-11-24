@@ -759,9 +759,23 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr));
   gap: var(--space-2);
+  /* Tall screens cap the list; a short one shortens it, and the two bands around it stay visible. */
   max-height: 27rem;
+  min-height: 3rem;
+  flex: 0 1 auto;
   overflow-y: auto;
   padding: var(--space-1);
+  overscroll-behavior: contain;
+}
+
+/* Portrait: the artwork of a card is drawn at HALF width, so twice as many tiles fit in the same
+   height and the head and the foot of the dialog keep their room. Only the picture shrinks: the
+   name and the details of the tile stay readable. */
+@media (orientation: portrait) {
+  .trade__card-grid .trade__card-image {
+    width: 50%;
+    margin-inline: auto;
+  }
 }
 
 /* Search and sort of the card chooser: two compact controls above the scroll box. */
@@ -830,16 +844,37 @@
   box-shadow: 0 0 0 2px var(--color-accent);
 }
 
-.trade__form {
+/* The new-trade dialog is a FIXED FRAME: its head (title, partner, search and sort) and its foot
+   (cost, error, buttons) are always on screen, and only the grid of cards scrolls between them.
+   The dialog used to scroll as a whole, so on a phone the send button could sit below the fold. */
+.trade__dialog {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  overflow: hidden;
 }
 
+.trade__dialog .modal__title {
+  flex: 0 0 auto;
+}
+
+.trade__form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-3);
+  /* A flex item refuses to go under its content by default: without this the grid could not
+     shrink, and the whole dialog would scroll again. */
+  min-height: 0;
+}
+
+/* The only part of the form allowed to give way: the grid scrolls, everything else keeps its
+   height. `flex-shrink` alone is not enough on its own children, hence `min-height: 0`. */
 .trade__cards-block {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   gap: var(--space-2);
+  min-height: 0;
 }
 
 /* A price followed by its currency icons, in a history row or a card tile. */

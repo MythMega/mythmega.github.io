@@ -1,6 +1,5 @@
 {
   "app.title": "MineCards",
-  "app.tagline": "Ouvrez des boosters, complétez votre collection.",
   "app.loading": "Chargement…",
   "app.noscript": "Cette application nécessite JavaScript pour fonctionner.",
   "app.fatal.title": "Démarrage impossible",
@@ -1654,6 +1653,7 @@
   "notif.trade.completed.body": "Vous avez reçu {card}.",
 
   "menu.label": "Menu",
+  "menu.title": "MineCards - Menu",
   "menu.open": "Ouvrir le menu",
   "nav.social": "Social",
 
@@ -1807,6 +1807,8 @@
   "trade.confirm.deny.body": "La demande sera annulée et l'autre joueur récupérera sa carte, ses Sparks et ses Œils de l'End.",
   "trade.confirm.cancel.title": "Annuler cet échange ?",
   "trade.confirm.cancel.body": "Tout ce qui est engagé (carte, Sparks et Œils de l'End) sera rendu aux deux joueurs.",
+  "trade.confirm.back": "Retour",
+  "trade.confirm.cancel.confirm": "Annuler l'échange",
   "trade.confirm.withdraw.title": "Retirer cette proposition ?",
   "trade.confirm.withdraw.body": "L'échange revient à la demande initiale et votre carte, vos Sparks et vos Œils de l'End vous sont rendus.",
   "trade.confirm.accept.title": "Accepter cette contre-proposition ?",

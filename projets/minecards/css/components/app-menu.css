@@ -83,6 +83,8 @@
   width: 100%;
   min-height: var(--touch-target);
   padding: var(--space-2) var(--space-2);
+  /* A long label ("Récompenses de connexion") wraps inside the panel instead of widening it. */
+  line-height: 1.2;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   background-color: transparent;
@@ -141,6 +143,13 @@
 .app-menu__icon--social {
   -webkit-mask-image: url("../../assets/img/social.svg");
   mask-image: url("../../assets/img/social.svg");
+}
+
+/* The chest of the inventory: the same file the bar paints, so the row and the button it replaces
+   read as one action. */
+.app-menu__icon--inventory {
+  -webkit-mask-image: url("../../assets/img/inventory.svg");
+  mask-image: url("../../assets/img/inventory.svg");
 }
 
 .app-menu__badge {

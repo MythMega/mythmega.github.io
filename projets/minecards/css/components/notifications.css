@@ -213,3 +213,11 @@
     transition: none;
   }
 }
+
+/* A notification that OPENS something instead of only closing itself (a trade step leads to the
+   trade tab) says so: its title is underlined like a link. The whole card stays clickable -
+   closing a message is still a click - but a desktop player now knows this one goes somewhere. */
+.notification.is-actionable .notification__title {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}

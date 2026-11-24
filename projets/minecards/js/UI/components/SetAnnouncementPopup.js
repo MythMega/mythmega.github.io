@@ -235,9 +235,10 @@ export class SetAnnouncementPopup {
     this.closeButton.setAttribute('aria-label', i18n.t('setannounce.dismiss'));
 
     const booster = this.root.querySelector('[data-set-announcement-booster]');
-    booster.hidden = !set.texture;
-    if (set.texture) {
-      booster.src = set.texture;
+    const picture = set.icon ?? set.texture;
+    booster.hidden = !picture;
+    if (picture) {
+      booster.src = picture;
       booster.alt = set.name ?? '';
     }
 

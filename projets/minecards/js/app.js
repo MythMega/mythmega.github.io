@@ -33,6 +33,7 @@ import i18n from './utils/I18n.js';
 import cardLanguage from './utils/CardLanguage.js';
 import themeManager from './utils/ThemeManager.js';
 import { applyThemeIcons } from './utils/ThemeIcons.js';
+import { formatCompactNumber } from './utils/CompactNumber.js';
 import animationManager from './utils/AnimationManager.js';
 import foilManager from './utils/FoilManager.js';
 import glowManager from './utils/GlowManager.js';
@@ -48,6 +49,7 @@ import eventBus, { EVENTS } from './utils/EventBus.js';
 import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
 import notificationCenter from './UI/components/NotificationCenter.js';
 import { AppMenu } from './UI/components/AppMenu.js';
+import tradeIndicators from './UI/components/TradeIndicators.js';
 import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
@@ -110,12 +112,28 @@ const BOOT_REPAIR_KEY = 'minecards:bootRepair';
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
 /**
+ * Collects every element matching any of the given selectors.
+ *
+ * The same action can be offered on two surfaces (the bar and the floating menu, which replaces a
+ * button the bar had to drop): binding the whole list keeps one handler per button without
+ * repeating the wiring.
+ *
+ * @param {ParentNode} root - Subtree scanned.
+ * @param {string[]} selectors - Selectors to collect.
+ * @returns {Element[]} The matching elements, in document order.
+ */
+function findAll(root, selectors) {
+  return selectors.flatMap((selector) => [...root.querySelectorAll(selector)]);
+}
+
+/**
  * Selectors of the inventory dialog: the one button of the header that still carries numbers, and
  * the dialog it opens (boosters left, blocks and picks of the day, bonus boosters, block bundles,
  * Sparks).
  */
 export const INVENTORY_SELECTORS = Object.freeze({
   BUTTON: '[data-header-inventory]',
+  MENU_BUTTON: '[data-menu-inventory]',
   MODAL: '[data-inventory-modal]',
   BODY: '[data-inventory-modal-body]',
   CLOSE: '[data-inventory-modal-close]',
@@ -144,6 +162,8 @@ export const HEADER_LIKES_MAX_ROLL = 10;
 export const DAILY_REWARDS_SELECTORS = Object.freeze({
   BUTTON: '[data-header-daily-rewards]',
   DOT: '[data-header-daily-rewards-dot]',
+  MENU_BUTTON: '[data-menu-daily-rewards]',
+  MENU_DOT: '[data-menu-daily-rewards-dot]',
 });
 
 /**
@@ -160,6 +180,12 @@ export const DEFAULT_PLAYER_NAME = 'Steve';
 
 /** Selector of the pseudo of the brand (`<pseudo> - MineCards`, see `css/base.css`). */
 export const HEADER_PLAYER_SELECTOR = '[data-header-player]';
+
+/** Selector of the application bar, whose width decides what it can still show. */
+export const HEADER_SELECTOR = '.app-header';
+
+/** Selector of the row of chips of the bar, the part that must never wrap. */
+export const HEADER_STATS_SELECTOR = '.app-header__stats';
 
 export const HEADER_IDENTITY_SELECTORS = Object.freeze({
   ROOT: '[data-header-identity]',
@@ -272,6 +298,12 @@ export class App {
     this.inventoryBound = false;
     /** @type {boolean} True once the daily reward button and its events are wired. */
     this.dailyRewardsBound = false;
+    /** @type {boolean} True once the bar measures its own width. */
+    this.headerCompactionBound = false;
+    /** @type {HTMLElement|null} The bar measured by `updateHeaderCompaction()`. */
+    this.headerElement = null;
+    /** @type {number|null} Pending measurement, one animation frame. */
+    this.headerCompactionFrame = null;
     /** @type {number|null} Pending offer of the daily reward after a reveal. */
     this.dailyRewardOfferTimer = null;
     /** @type {number|null} Pending removal of the guided quest destination highlight. */
@@ -589,6 +621,13 @@ export class App {
     this.appMenu = new AppMenu();
     this.appMenu.init();
 
+    // The dots of the trades (menu button, Social row, Échanges tab) follow the refreshes of
+    // `TradeManager` from `TRADE_ATTENTION`, and the notifications they announce open the trade
+    // tab through the router. Bound here, before the first refresh, so the boot already shows
+    // what is waiting.
+    tradeIndicators.init();
+    notificationCenter.setActionHandler((action) => this.handleNotificationAction(action));
+
     // The header listens before the time synchronization so the very first CLOCK_TICK emission is
     // already displayed.
     this.bindHeader();
@@ -597,6 +636,7 @@ export class App {
     await this.refreshHeaderEnderEyes();
     void this.refreshHeaderLikes();
     this.bindChangelogBadge();
+    this.bindHeaderCompaction();
     this.bindInventory();
     this.bindDailyRewards();
     this.bindViewLifecycle();
@@ -1581,12 +1621,30 @@ export class App {
   async refreshTrades() {
     try {
       const view = await tradeManager.refresh({ silent: true });
-      view.notifications.forEach((item) => notificationCenter.push(item));
+      tradeIndicators.pushNotifications(view.notifications);
       if (view.notifications.length > 0) {
         console.info(`[App] ${view.notifications.length} trade update(s) announced.`);
       }
     } catch (error) {
       console.warn('[App] The trades could not be refreshed at startup.', error);
+    }
+  }
+
+  /**
+   * Opens what a clicked notification describes.
+   *
+   * The notifications themselves carry no navigation: an item only names a destination
+   * (`{ view, tab }`), and this method is the one place that knows how the shell goes there. A
+   * trade notification leads to "Social > Échanges", the tab that owns the trade it announces.
+   *
+   * @param {{view?: string, tab?: string}|null} action - Action of the clicked notification.
+   * @returns {void}
+   */
+  handleNotificationAction(action) {
+    if (!action || typeof action.view !== 'string') return;
+    this.router?.show(action.view);
+    if (action.view === SOCIAL_VIEW_NAME && typeof action.tab === 'string') {
+      this.socialView?.showTab(action.tab);
     }
   }
 
@@ -1913,7 +1971,7 @@ export class App {
     const value = document.querySelector(HEADER_SPARKS_SELECTORS.VALUE);
     if (!value) return;
     const amount = Number.isFinite(balance) ? Math.max(0, balance) : 0;
-    value.textContent = String(amount);
+    value.textContent = formatCompactNumber(amount, i18n.getLang());
   }
 
   /**
@@ -1989,7 +2047,7 @@ export class App {
     for (let value = first; value <= target; value += 1) {
       const row = document.createElement('span');
       row.className = 'app-header__likes-digit';
-      row.textContent = String(value);
+      row.textContent = formatCompactNumber(value, i18n.getLang());
       track.appendChild(row);
     }
 
@@ -2179,6 +2237,81 @@ export class App {
   }
 
   /**
+   * Drops the parts of the bar that the floating menu can carry.
+   *
+   * The bar is ONE row and never wraps (`css/base.css`), so "not wide enough" is the overflow of
+   * that row: it is measured on the bar itself, which also catches a long pseudo or a five-digit
+   * counter - widths no media query can know. The clock goes first (the menu prints the same UTC
+   * time), then the inventory and the daily rewards, which the menu lists as rows of their own.
+   *
+   * @returns {void}
+   */
+  bindHeaderCompaction() {
+    if (this.headerCompactionBound) return;
+    const header = document.querySelector(HEADER_SELECTOR);
+    if (!header) return;
+    this.headerCompactionBound = true;
+    this.headerElement = header;
+    this.updateHeaderCompaction();
+    window.addEventListener('resize', () => this.scheduleHeaderCompaction());
+    // The width the bar NEEDS moves without the bar being resized: a longer pseudo, a language
+    // switch, a counter that gains a digit. Each of those repaints the header, so it is re-measured.
+    [EVENTS.LANG_CHANGED, EVENTS.PROFILE_UPDATED, EVENTS.SPARKS_UPDATED, EVENTS.LIKES_UPDATED].forEach(
+      (name) => eventBus.on(name, () => this.scheduleHeaderCompaction())
+    );
+  }
+
+  /**
+   * Measures the bar on the next frame.
+   *
+   * Those events can fire several times in one tick (a save import repaints the whole header): one
+   * measurement per frame is enough, and it runs after the browser has laid the bar out.
+   *
+   * @returns {void}
+   */
+  scheduleHeaderCompaction() {
+    if (this.headerCompactionFrame !== null) return;
+    this.headerCompactionFrame = window.requestAnimationFrame(() => {
+      this.headerCompactionFrame = null;
+      this.updateHeaderCompaction();
+    });
+  }
+
+  /**
+   * Applies the widest step that keeps the bar on one row.
+   *
+   * @returns {void}
+   */
+  updateHeaderCompaction() {
+    const header = this.headerElement;
+    if (!header) return;
+    header.dataset.compact = 'full';
+    if (!this.isHeaderTight()) return;
+    header.dataset.compact = 'clock';
+    if (!this.isHeaderTight()) return;
+    header.dataset.compact = 'actions';
+  }
+
+  /**
+   * Indicates whether the bar is too tight for what it shows.
+   *
+   * The bar never wraps and never grows: the brand shrinks into an ellipsis, and the chips keep
+   * their width. What no longer fits therefore overflows its scroll box, which is what is measured
+   * here - first on the bar (the counters pushing the brand out), then on the row of chips left to
+   * itself. The one pixel of slack absorbs the rounding of a fractional layout.
+   *
+   * @returns {boolean} True when something no longer fits.
+   */
+  isHeaderTight() {
+    const header = this.headerElement;
+    if (!header) return false;
+    if (header.scrollWidth > header.clientWidth + 1) return true;
+    const stats = header.querySelector(HEADER_STATS_SELECTOR);
+    if (!stats) return false;
+    return stats.scrollWidth > stats.clientWidth + 1;
+  }
+
+  /**
    * Wires the daily reward button of the header and the automatic offer.
    *
    * Two entry points, as the feature asks: the button (always available) and the end of a booster
@@ -2189,13 +2322,21 @@ export class App {
    */
   bindDailyRewards() {
     if (this.dailyRewardsBound) return;
-    const button = document.querySelector(DAILY_REWARDS_SELECTORS.BUTTON);
-    if (!button) {
+    const buttons = findAll(document, [
+      DAILY_REWARDS_SELECTORS.BUTTON,
+      DAILY_REWARDS_SELECTORS.MENU_BUTTON,
+    ]);
+    if (buttons.length === 0) {
       console.warn('[App] The daily reward button is missing from index.html.');
       return;
     }
     this.dailyRewardsBound = true;
-    button.addEventListener('click', () => void dailyRewardPopup.open());
+    buttons.forEach((button) =>
+      button.addEventListener('click', () => {
+        this.appMenu?.setOpen(false);
+        void dailyRewardPopup.open();
+      })
+    );
     eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, () => void this.refreshDailyRewardBadge());
     eventBus.on(EVENTS.REVEAL_FINISHED, () => this.scheduleDailyRewardOffer());
     eventBus.on(EVENTS.ACCOUNT_REMOVED, () => void this.refreshDailyRewardBadge());
@@ -2224,14 +2365,20 @@ export class App {
    * @returns {Promise<void>} Resolves once the header is refreshed.
    */
   async refreshDailyRewardBadge() {
-    const dot = document.querySelector(DAILY_REWARDS_SELECTORS.DOT);
-    if (!dot) return;
+    const dots = findAll(document, [
+      DAILY_REWARDS_SELECTORS.DOT,
+      DAILY_REWARDS_SELECTORS.MENU_DOT,
+    ]);
+    if (dots.length === 0) return;
+    let claimable = false;
     try {
-      dot.hidden = !(await dailyRewardManager.hasClaimable());
+      claimable = await dailyRewardManager.hasClaimable();
     } catch (error) {
       console.warn('[App] The daily reward could not be checked.', error);
-      dot.hidden = true;
     }
+    dots.forEach((dot) => {
+      dot.hidden = !claimable;
+    });
   }
 
   /**
@@ -2325,15 +2472,25 @@ export class App {
    */
   bindInventory() {
     if (this.inventoryBound) return;
-    const button = document.querySelector(INVENTORY_SELECTORS.BUTTON);
+    // Two entry points: the chest of the bar and the row of the floating menu, which replaces it
+    // when the bar is not wide enough to keep it.
+    const buttons = findAll(document, [
+      INVENTORY_SELECTORS.BUTTON,
+      INVENTORY_SELECTORS.MENU_BUTTON,
+    ]);
     const modal = document.querySelector(INVENTORY_SELECTORS.MODAL);
     const close = document.querySelector(INVENTORY_SELECTORS.CLOSE);
-    if (!button || !modal) {
+    if (buttons.length === 0 || !modal) {
       console.warn('[App] The inventory markup is missing from index.html.');
       return;
     }
     this.inventoryBound = true;
-    button.addEventListener('click', () => void this.openInventory());
+    buttons.forEach((button) =>
+      button.addEventListener('click', () => {
+        this.appMenu?.setOpen(false);
+        void this.openInventory();
+      })
+    );
     close?.addEventListener('click', () => this.closeInventory());
     modal.addEventListener('click', (event) => {
       if (event.target === modal) this.closeInventory();
@@ -2531,10 +2688,11 @@ export class App {
       const icon = document.createElement('span');
       icon.className = 'inventory__icon inventory__icon--booster';
       icon.setAttribute('aria-hidden', 'true');
-      if (set?.texture) {
+      const picture = set?.icon ?? set?.texture;
+      if (picture) {
         const artwork = document.createElement('img');
-        artwork.className = 'inventory__booster booster-art';
-        artwork.src = i18n.resolveImagePath(set.texture);
+        artwork.className = 'inventory__booster';
+        artwork.src = i18n.resolveImagePath(picture);
         artwork.alt = '';
         icon.appendChild(artwork);
       }

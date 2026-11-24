@@ -193,6 +193,8 @@ export const GLOBAL_TROPHY_STATS = Object.freeze({
   LIKES_RECEIVED: 'likesreceived',
   /** Likes this account gave (`stats.likesSent`, kept in step with the worker). */
   LIKES_SENT: 'likessent',
+  /** Best friendship XP earned with one player (`stats.bestfriend`, see `FriendshipManager`). */
+  BESTFRIEND: 'bestfriend',
   /** Player level, which is derived from the experience (see `buildLevelTrophies`). */
   PLAYER_LEVEL: 'xp',
 });
@@ -554,6 +556,9 @@ export class TrophyManager {
       Number.isInteger(stats?.likesReceived) && stats.likesReceived >= 0 ? stats.likesReceived : 0;
     const likesSent =
       Number.isInteger(stats?.likesSent) && stats.likesSent >= 0 ? stats.likesSent : 0;
+    // Best friendship: the highest XP of the account, mirrored by `FriendshipManager`.
+    const bestfriend =
+      Number.isInteger(stats?.bestfriend) && stats.bestfriend >= 0 ? stats.bestfriend : 0;
 
     return {
       sets,
@@ -569,6 +574,7 @@ export class TrophyManager {
       friendsPeak,
       likesReceived,
       likesSent,
+      bestfriend,
       // Mining counters, shared by the two mining families.
       totalMined: mining.totalMined,
       blocksMined: mining.blocksMined,
@@ -1168,6 +1174,8 @@ export class TrophyManager {
         return context.likesReceived ?? 0;
       case GLOBAL_TROPHY_STATS.LIKES_SENT:
         return context.likesSent ?? 0;
+      case GLOBAL_TROPHY_STATS.BESTFRIEND:
+        return context.bestfriend ?? 0;
       default:
         return null;
     }

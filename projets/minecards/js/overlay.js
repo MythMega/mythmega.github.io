@@ -163,7 +163,8 @@ function parseCode(code) {
  *
  * @param {string} setId - Extension id.
  * @param {number[]} positions - Positions of the drawn cards in the booster `Cards` array.
- * @returns {Promise<{name: string, texture: string, cards: Array}|null>} The resolved pack, or
+    * @returns {Promise<{name: string, texture: string, icon: string, cards: Array}|null>} The
+   *   resolved pack, or
  *   null when the booster file is missing/unreadable or a position is out of range.
  */
 async function loadPack(setId, positions) {
@@ -189,9 +190,15 @@ async function loadPack(setId, positions) {
     });
   }
 
+  // `texture` is the artwork of the 3D model (stored upside down, with the margins its UV map
+  // expects); `icon` is the flat, upright, cropped picture used when 3D is not available.
+  const texture = String(data.BoosterTexture ?? '').replace(/^\.\//, '');
+  const icon = String(data.BoosterIcon ?? '').replace(/^\.\//, '');
+
   return {
     name: data.Name ?? setId,
-    texture: String(data.BoosterTexture ?? '').replace(/^\.\//, ''),
+    texture,
+    icon: icon || texture,
     cards,
   };
 }
@@ -432,7 +439,8 @@ class BoosterOverlay {
     const texturePath = resolveAssetPath(this.pack.texture, this.lang);
     const ready = await this.setupThree(texturePath);
     if (!ready) {
-      this.showBoosterFallback(texturePath);
+      // The 2D fallback is a flat display: it shows the icon, already upright and cropped.
+      this.showBoosterFallback(resolveAssetPath(this.pack.icon, this.lang));
     }
   }
 
@@ -516,15 +524,18 @@ class BoosterOverlay {
   }
 
   /**
-   * Shows the booster texture as a floating 2D fallback.
+   * Shows the icon of the pack as a floating 2D fallback.
    *
-   * @param {string} texturePath - Booster texture path.
+   * @param {string} iconPath - Booster icon path.
    * @returns {void}
    */
-  showBoosterFallback(texturePath) {
-    if (!this.boosterFallback || !texturePath) return;
-    this.boosterFallback.src = texturePath;
+  showBoosterFallback(iconPath) {
+    if (!this.boosterFallback || !iconPath) return;
+    this.boosterFallback.src = iconPath;
     this.boosterFallback.hidden = false;
+    // The square that held the WebGL canvas stays empty in this mode: left in the column, it pushes
+    // the flat booster and the headline to the bottom of the screen.
+    if (this.boosterContainer) this.boosterContainer.hidden = true;
   }
 
   /**

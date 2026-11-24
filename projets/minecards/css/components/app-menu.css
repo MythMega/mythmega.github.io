@@ -83,6 +83,8 @@
   width: 100%;
   min-height: var(--touch-target);
   padding: var(--space-2) var(--space-2);
+  /* A long label ("Récompenses de connexion") wraps inside the panel instead of widening it. */
+  line-height: 1.2;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   background-color: transparent;
@@ -143,6 +145,13 @@
   mask-image: url("../../assets/img/social.svg");
 }
 
+/* The chest of the inventory: the same file the bar paints, so the row and the button it replaces
+   read as one action. */
+.app-menu__icon--inventory {
+  -webkit-mask-image: url("../../assets/img/inventory.svg");
+  mask-image: url("../../assets/img/inventory.svg");
+}
+
 .app-menu__badge {
   margin-left: auto;
   width: 0.5rem;
@@ -154,6 +163,13 @@
 
 .app-menu__badge[hidden] {
   display: none;
+}
+
+/* A trade is running: the dot of the bottom bar (`css/base.css`), on the right of the "Social" row.
+   `.app-menu__item` is already `position: relative`, the base rule of a trade dot needs nothing. */
+.app-menu__item[data-trade-dot]::after {
+  top: calc(50% - 0.25rem);
+  right: var(--space-2);
 }
 
 body.is-focus .app-menu,

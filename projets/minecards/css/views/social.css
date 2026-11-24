@@ -40,6 +40,17 @@
   color: var(--color-accent-contrast);
 }
 
+/* A trade is running: the dot of the bottom bar (`css/base.css`), in the top right corner of the
+   "Échanges" pill. The tab is not positioned, the base rule of a trade dot needs an anchor. */
+.social__tab[data-trade-dot] {
+  position: relative;
+}
+
+.social__tab[data-trade-dot]::after {
+  top: 3px;
+  right: 6px;
+}
+
 .social__panel {
   display: flex;
   flex-direction: column;
@@ -342,6 +353,75 @@
 /* Host of the followed card. It is also the tilt surface, so it takes the card's own footprint
    (`fit-content`, like the profile panel): a host as wide as the dialog would paint the cardstock
    shadow around an empty strip and would rotate from the wrong centre. */
+/* Friendship stars: one filled star per reached tier, the rest empty, then the percentage of the
+   way to the next star. The colour follows the number of filled stars (bronze to emerald). */
+.friendship-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  line-height: 1;
+}
+
+.friendship-level__stars {
+  display: inline-flex;
+  gap: 0.05rem;
+  letter-spacing: 0.02em;
+}
+
+.friendship-level__star {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  opacity: 0.45;
+}
+
+.friendship-level__star.is-filled {
+  color: #c07a3e;
+  opacity: 1;
+}
+
+.friendship-level[data-stars="2"] .friendship-level__star.is-filled {
+  color: #b8c4d0;
+}
+
+.friendship-level[data-stars="3"] .friendship-level__star.is-filled {
+  color: #f0c24b;
+}
+
+.friendship-level[data-stars="4"] .friendship-level__star.is-filled {
+  color: #57d9e8;
+}
+
+.friendship-level[data-stars="5"] .friendship-level__star.is-filled {
+  color: #3ddc84;
+}
+
+.friendship-level__percent,
+.friendship-level__xp {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The raw counters behind the percentage: a step below it, so the pair reads as one label. */
+.friendship-level__xp {
+  opacity: 0.8;
+}
+
+.social__detail-friendship {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--space-2);
+}
+
+.social__detail-friendship[hidden] {
+  display: none;
+}
+
+.social__identity .friendship-level {
+  margin-top: 0.1rem;
+}
+
 .social__detail-card {
   display: block;
   align-self: center;
@@ -679,9 +759,66 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 8.5rem), 1fr));
   gap: var(--space-2);
+  /* Tall screens cap the list; a short one shortens it, and the two bands around it stay visible. */
   max-height: 27rem;
+  min-height: 3rem;
+  flex: 0 1 auto;
   overflow-y: auto;
   padding: var(--space-1);
+  overscroll-behavior: contain;
+}
+
+/* Portrait: the artwork of a card is drawn at HALF width, so twice as many tiles fit in the same
+   height and the head and the foot of the dialog keep their room. Only the picture shrinks: the
+   name and the details of the tile stay readable. */
+@media (orientation: portrait) {
+  .trade__card-grid .trade__card-image {
+    width: 50%;
+    margin-inline: auto;
+  }
+}
+
+/* Search and sort of the card chooser: two compact controls above the scroll box. */
+.trade__cards-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-2);
+}
+
+.trade__cards-controls .field__input {
+  width: 100%;
+}
+
+.trade__cards-sort {
+  min-width: 7.5rem;
+  cursor: pointer;
+}
+
+/* A section heading inside the grid: it spans every column and only names the greyed block. */
+.trade__cards-heading {
+  grid-column: 1 / -1;
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* The filter hides tiles through the `hidden` attribute: the display rule above must not win. */
+.trade__card-button[hidden] {
+  display: none;
+}
+
+.trade__card-button.is-untradable {
+  position: relative;
+}
+
+.trade__card-button.is-untradable .trade__card-wish {
+  max-width: calc(100% - 0.9rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .trade__card-button {
@@ -707,16 +844,45 @@
   box-shadow: 0 0 0 2px var(--color-accent);
 }
 
-.trade__form {
+/* The new-trade dialog is a FIXED FRAME: its head (title, partner, search and sort) and its foot
+   (cost, error, buttons) are always on screen, and only the grid of cards scrolls between them.
+   The dialog used to scroll as a whole, so on a phone the send button could sit below the fold. */
+.trade__dialog {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  overflow: hidden;
 }
 
+.trade__dialog .modal__title {
+  flex: 0 0 auto;
+}
+
+.trade__form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-3);
+  /* A flex item refuses to go under its content by default: without this the grid could not
+     shrink, and the whole dialog would scroll again. */
+  min-height: 0;
+}
+
+/* The only part of the form allowed to give way: the grid scrolls, everything else keeps its
+   height. `flex-shrink` alone is not enough on its own children, hence `min-height: 0`. */
 .trade__cards-block {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   gap: var(--space-2);
+  min-height: 0;
+}
+
+/* A price followed by its currency icons, in a history row or a card tile. */
+.trade__cost {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .trade__cost-line {
@@ -861,6 +1027,18 @@
   opacity: 0.6;
 }
 
+.trade__partner-identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.trade__partner-identity .trade__partner-name {
+  flex: 0 0 auto;
+}
+
 .trade__partner-name {
   flex: 1 1 auto;
   min-width: 0;
@@ -868,6 +1046,10 @@
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.trade__partner-stars[hidden] {
+  display: none;
 }
 
 .trade__partner-name.is-placeholder {

@@ -1411,6 +1411,8 @@ export class OpeningView {
     this.boosterLoading.hidden = false;
     this.boosterHint.hidden = true;
     this.boosterFallback.hidden = true;
+    // Same as the preview: the canvas host is what gives the stage its height while 3D runs.
+    this.boosterViewport.hidden = false;
     this.boosterViewport.textContent = '';
     this.log(`Preparing the 3D scene for "${result.setId}"…`);
 
@@ -1496,6 +1498,8 @@ export class OpeningView {
     const set = this.sets.get(setId) ?? null;
     this.previewLoading.hidden = false;
     this.previewFallback.hidden = true;
+    // The canvas host comes back with the 3D scene: the flat image of a failed attempt takes it away.
+    this.previewViewport.hidden = false;
     this.previewViewport.textContent = '';
     this.log(`Preparing the booster preview for "${setId}"…`);
 
@@ -1559,7 +1563,13 @@ export class OpeningView {
    * @returns {Promise<void>} Resolves once the preview shows the selection.
    */
   async updatePreview() {
-    if (this.previewFailed || !this.selectedSetId) return;
+    if (!this.selectedSetId) return;
+    // A 3D preview that failed leaves the FLAT picture on screen: it is the only thing a new
+    // selection can move now, so it has to follow it instead of keeping the first extension.
+    if (this.previewFailed) {
+      this.showPreviewFallback(this.sets.get(this.selectedSetId) ?? null);
+      return;
+    }
     if (!this.previewRenderer) {
       await this.initPreview();
       return;
@@ -1571,15 +1581,21 @@ export class OpeningView {
   /**
    * Shows the 2D image of an extension when the 3D preview cannot be displayed at all.
    *
-   * @param {{texture: string|null, name: string}|null} set - Loaded extension, if any.
+   * @param {{texture: string|null, icon: string|null, name: string}|null} set - Loaded extension,
+   *   if any.
    * @returns {void}
    */
   showPreviewFallback(set) {
-    if (set?.texture) {
-      this.previewFallback.src = i18n.resolveImagePath(set.texture);
-      this.previewFallback.alt = set.name ?? '';
-      this.previewFallback.hidden = false;
+    // A flat display: the upright, cropped icon rather than the artwork of the 3D model.
+    const picture = set?.icon ?? set?.texture;
+    this.previewFallback.hidden = !picture;
+    if (picture) {
+      this.previewFallback.src = i18n.resolveImagePath(picture);
+      this.previewFallback.alt = set?.name ?? '';
     }
+    // An empty canvas host keeps its 38vh row and pushes the picture to the bottom of the stage;
+    // the flat display takes that room instead.
+    this.previewViewport.hidden = true;
     this.log('2D booster preview displayed.');
   }
 
@@ -1609,16 +1625,21 @@ export class OpeningView {
   /**
    * Shows the 2D fallback (booster texture, tap to open).
    *
-   * @param {{texture: string|null, name: string}|null} set - Loaded extension, if any.
+   * @param {{texture: string|null, icon: string|null, name: string}|null} set - Loaded extension,
+   *   if any.
    * @returns {void}
    */
   showBoosterFallback(set) {
     this.isFallbackMode = true;
     this.setFeedback('opening.scene.fallback', 'info');
-    if (set?.texture) {
-      this.boosterFallback.src = i18n.resolveImagePath(set.texture);
+    const picture = set?.icon ?? set?.texture;
+    if (picture) {
+      this.boosterFallback.src = i18n.resolveImagePath(picture);
       this.boosterFallback.alt = set.name ?? '';
       this.boosterFallback.hidden = false;
+      // The canvas host is empty in this mode: left visible, its 50vh row would leave the flat
+      // booster hanging at the bottom of the stage.
+      this.boosterViewport.hidden = true;
     }
     this.boosterHint.hidden = false;
     this.boosterHint.textContent = i18n.t('opening.scene.fallback');

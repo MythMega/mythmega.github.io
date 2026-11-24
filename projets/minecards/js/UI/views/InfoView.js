@@ -31,6 +31,8 @@ import dateSyncManager from '../../business/DateSyncManager.js';
 import { configLoader } from '../../utils/ConfigLoader.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import setAnnouncementPopup from '../components/SetAnnouncementPopup.js';
+import { getTradeCost, loadTradePrices } from '../../business/TradeManager.js';
+import { buildPrice } from '../components/PriceIcons.js';
 
 /** View name, matching `data-view="info"` in `index.html`. */
 export const INFO_VIEW_NAME = 'info';
@@ -58,6 +60,7 @@ export class InfoView {
     this.experienceElement = this.root.querySelector('[data-info-experience]');
     this.experienceTrophiesElement = this.root.querySelector('[data-info-experience-trophies]');
     this.experienceLevelElement = this.root.querySelector('[data-info-experience-level]');
+    this.tradeCostsElement = this.root.querySelector('[data-info-trade-costs]');
 
     this.assertMarkup();
 
@@ -110,6 +113,7 @@ export class InfoView {
       ['[data-info-experience]', this.experienceElement],
       ['[data-info-experience-trophies]', this.experienceTrophiesElement],
       ['[data-info-experience-level]', this.experienceLevelElement],
+      ['[data-info-trade-costs]', this.tradeCostsElement],
     ]
       .filter(([, element]) => !element)
       .map(([selector]) => selector);
@@ -149,6 +153,7 @@ export class InfoView {
     await this.loadSets();
     await this.renderSetsPanel();
     await this.renderExperience();
+    await this.renderTradeCosts();
     this.isInitialized = true;
     this.log('Ready.');
   }
@@ -187,6 +192,7 @@ export class InfoView {
       if (payload?.view === INFO_VIEW_NAME && this.isInitialized) {
         void this.renderSelected();
         void this.renderSetsPanel();
+        void this.renderTradeCosts();
       }
     }));
     this.unsubscribers.push(eventBus.on(EVENTS.LANG_CHANGED, () => {
@@ -194,6 +200,7 @@ export class InfoView {
       void this.renderSelected();
       void this.renderSetsPanel();
       void this.renderExperience();
+      void this.renderTradeCosts();
     }));
     // The card language only changes the card names of the drop rates, not the labels: the same
     // re-render covers both, which is simpler than a second partial one.
@@ -426,6 +433,72 @@ export class InfoView {
     } catch (error) {
       console.error('[InfoView] The experience panel could not be rendered.', error);
       this.setFeedback('info.error.load', 'error');
+    }
+  }
+
+  /**
+   * Renders the trade price table, read from `trades.prices`.
+   *
+   * One row per rarity and one column per friendship level (0 to 5 stars); a cell shows the Ender
+   * Eyes then the Sparks of one side of the trade, each amount followed by its currency icon. The
+   * values come from the very `getTradeCost()` the trade dialog uses, so the page cannot advertise
+   * a price the game would not charge. A rarity the table marks `null` (rarity 6 below four stars)
+   * reads "Not tradable" instead of a price.
+   *
+   * @returns {Promise<void>} Resolves once the table is drawn (or the error displayed).
+   */
+  async renderTradeCosts() {
+    if (!this.tradeCostsElement) return;
+    try {
+      const prices = await loadTradePrices();
+      const stars = [0, 1, 2, 3, 4, 5];
+      this.tradeCostsElement.textContent = '';
+
+      const head = document.createElement('thead');
+      const headRow = document.createElement('tr');
+      const corner = document.createElement('th');
+      corner.scope = 'col';
+      corner.textContent = i18n.t('info.trades.costs.rarity');
+      headRow.appendChild(corner);
+      stars.forEach((level) => {
+        const cell = document.createElement('th');
+        cell.scope = 'col';
+        cell.textContent = i18n.t('info.trades.costs.stars', { stars: level });
+        headRow.appendChild(cell);
+      });
+      head.appendChild(headRow);
+
+      const body = document.createElement('tbody');
+      for (let rarity = 1; rarity <= 6; rarity += 1) {
+        const row = document.createElement('tr');
+        const label = document.createElement('th');
+        label.scope = 'row';
+        label.textContent = getRarityLabel(rarity, (key) => i18n.t(key));
+        row.appendChild(label);
+        stars.forEach((level) => {
+          const cost = getTradeCost(rarity, level, prices);
+          const cell = document.createElement('td');
+          if (!cost.tradable) {
+            const untradable = document.createElement('span');
+            untradable.className = 'price--untradable';
+            untradable.textContent = i18n.t('info.trades.costs.untradable');
+            cell.appendChild(untradable);
+            cell.title = untradable.textContent;
+          } else {
+            cell.appendChild(buildPrice(cost));
+            cell.title = i18n.t('info.trades.costs.cell', {
+              eyes: cost.enderEyes,
+              sparks: cost.sparks,
+            });
+          }
+          row.appendChild(cell);
+        });
+        body.appendChild(row);
+      }
+      this.tradeCostsElement.append(head, body);
+      this.log('Trade prices rendered.');
+    } catch (error) {
+      console.error('[InfoView] The trade prices could not be rendered.', error);
     }
   }
 

@@ -478,10 +478,10 @@ export class MinePickView {
 
     const figure = document.createElement('div');
     figure.className = 'minepick__row-figure';
-    if (entry.texture) {
+    if (entry.icon) {
       const image = document.createElement('img');
       image.className = 'minepick__booster-image';
-      image.src = i18n.resolveImagePath(entry.texture);
+      image.src = i18n.resolveImagePath(entry.icon);
       image.alt = '';
       image.loading = 'lazy';
       image.decoding = 'async';

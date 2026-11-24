@@ -2288,8 +2288,6 @@ export class MineBlockView {
     picture.dataset.kind = reward.type.toLowerCase();
     if (reward.texture) {
       picture.src = i18n.resolveImagePath(reward.texture);
-      // The artwork of a pack is stored upside down (see `css/base.css`).
-      if (picture.dataset.kind === 'booster') picture.classList.add('booster-art');
       picture.addEventListener('error', () => {
         // A missing picture must not leave a broken image in the line: the name still says it.
         picture.hidden = true;

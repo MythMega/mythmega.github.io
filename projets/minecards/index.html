@@ -233,31 +233,32 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=38b9ac149a">
-  <link rel="stylesheet" href="css/base.css?v=cff31aa0b3">
+  <link rel="stylesheet" href="css/base.css?v=53a1e73574">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=2a7719d47d">
-  <link rel="stylesheet" href="css/views/shop.css?v=ee425ac9f0">
+  <link rel="stylesheet" href="css/views/shop.css?v=e8f742295b">
   <link rel="stylesheet" href="css/views/collection.css?v=f51fbd617d">
   <link rel="stylesheet" href="css/views/binders.css?v=7bfae5196f">
   <link rel="stylesheet" href="css/views/stats.css?v=8c9b1e5211">
-  <link rel="stylesheet" href="css/views/minepick.css?v=920529bd87">
-  <link rel="stylesheet" href="css/views/mineblock.css?v=4df308eb19">
-  <link rel="stylesheet" href="css/views/profile.css?v=ad06736192">
+  <link rel="stylesheet" href="css/views/minepick.css?v=ed9120335b">
+  <link rel="stylesheet" href="css/views/mineblock.css?v=a6a86514ec">
+  <link rel="stylesheet" href="css/views/profile.css?v=f7443d44bd">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
   <link rel="stylesheet" href="css/views/settings.css?v=7c455f2eba">
   <link rel="stylesheet" href="css/views/redeem.css?v=d0fa404527">
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
-  <link rel="stylesheet" href="css/views/info.css?v=f921aa656e">
+  <link rel="stylesheet" href="css/views/info.css?v=2c738a9ac8">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=9356350e4d">
+  <link rel="stylesheet" href="css/views/social.css?v=54a53eddc9">
   <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
-  <link rel="stylesheet" href="css/components/app-menu.css?v=bf312570b3">
-  <link rel="stylesheet" href="css/components/booster-3d.css?v=a4506b13b4">
+  <link rel="stylesheet" href="css/components/app-menu.css?v=acdaa533da">
+  <link rel="stylesheet" href="css/components/booster-3d.css?v=07939f43ff">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
   <link rel="stylesheet" href="css/components/card-shine.css?v=8a3ac2a48e">
-  <link rel="stylesheet" href="css/components/generated-card.css?v=6f6c24c3ad">
-  <link rel="stylesheet" href="css/components/modal.css?v=bbf68d6c89">
+  <link rel="stylesheet" href="css/components/generated-card.css?v=a58e907671">
+  <link rel="stylesheet" href="css/components/modal.css?v=f88f7859b9">
+  <link rel="stylesheet" href="css/components/price.css?v=9449cbd5d1">
   <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
   <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
@@ -265,7 +266,7 @@
   <link rel="stylesheet" href="css/components/card-roulette.css?v=a22e30bd46">
   <link rel="stylesheet" href="css/components/error-popup.css?v=6639af2fdc">
   <link rel="stylesheet" href="css/components/image-loader.css?v=40c1405fc5">
-  <link rel="stylesheet" href="css/components/notifications.css?v=5550d74c4a">
+  <link rel="stylesheet" href="css/components/notifications.css?v=5b890c2a16">
   <link rel="stylesheet" href="css/components/install-prompt.css?v=11cabfc4d6">
   <link rel="stylesheet" href="css/components/info-hint.css?v=848c08b3f4">
   <!-- Animation modes: loaded LAST on purpose, they only override the animation of an opening
@@ -410,15 +411,6 @@
     <time class="app-header__clock" data-header-clock data-i18n-title="settings.clock.title" title="Heure UTC">
       <span data-header-clock-time>--:--</span><span class="app-header__clock-seconds" data-header-clock-seconds>:--</span><span class="app-header__clock-zone" data-i18n="header.clock.utc">UTC</span>
     </time>
-    <div class="app-header__brand">
-      <!-- The name of the game and its tagline, after the identity of the player. The whole brand
-           is dropped on a phone, so nothing has to be hidden a second time. -->
-      <h1 class="app-header__title">
-        <span class="app-header__brand-name" data-i18n="app.title">MineCards</span>
-      </h1>
-      <p class="app-header__tagline" data-i18n="app.tagline">Ouvrez des boosters, complétez votre collection.</p>
-    </div>
-
     <div class="app-header__stats">
       <!-- The header keeps the actions and the Sparks balance. What the day still grants and what
            the player owns lives in the inventory dialog: one button, one place, instead of five
@@ -448,7 +440,7 @@
         <span class="app-header__stat-icon app-header__stat-icon--mask app-header__stat-icon--shop" aria-hidden="true"></span>
         <span class="sr-only" data-i18n="header.shop.title">Boutique</span>
       </button>
-      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-header-inventory aria-haspopup="dialog" data-i18n-title="header.inventory.title" data-i18n-aria-label="header.inventory.title" title="Inventaire">
+      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-header-inventory data-header-compact-hide aria-haspopup="dialog" data-i18n-title="header.inventory.title" data-i18n-aria-label="header.inventory.title" title="Inventaire">
         <!-- The shipped `assets/img/inventory.svg`, painted as a mask so it follows the ink of the
              palette like the inline glyphs next to it (see `css/base.css`). -->
         <span class="app-header__stat-icon app-header__stat-icon--mask app-header__stat-icon--inventory" aria-hidden="true"></span>
@@ -456,7 +448,7 @@
       </button>
       <!-- Daily connection rewards: an ACTION, not a counter. The dot says there is something to
            claim today; the dialog itself is built by `DailyRewardPopup`, appended to `<body>`. -->
-      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-header-daily-rewards aria-haspopup="dialog" data-i18n-title="header.dailyRewards.title" data-i18n-aria-label="header.dailyRewards.title" title="Récompenses de connexion">
+      <button type="button" class="app-header__stat app-header__stat--action app-header__stat--icon" data-header-daily-rewards data-header-compact-hide aria-haspopup="dialog" data-i18n-title="header.dailyRewards.title" data-i18n-aria-label="header.dailyRewards.title" title="Récompenses de connexion">
         <svg class="app-header__stat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11h16v9H4z"/><path d="M3.5 8h17v3h-17z"/><path d="M12 8v12"/><path d="M12 8S10.5 4.2 8.5 4.2a2 2 0 0 0 0 3.8M12 8s1.5-3.8 3.5-3.8a2 2 0 0 1 0 3.8"/></svg>
         <span class="sr-only" data-i18n="header.dailyRewards.title">Récompenses de connexion</span>
         <span class="app-header__stat-dot" data-header-daily-rewards-dot hidden></span>
@@ -771,7 +763,7 @@
       <div class="shop__layout">
         <section class="panel shop__product" data-shop-booster-section>
           <div class="shop__product-head">
-            <img class="shop__product-art shop__product-art--flipped" src="assets/img/booster.png" alt="" aria-hidden="true" decoding="async">
+            <img class="shop__product-art" src="assets/img/booster.png" alt="" aria-hidden="true" decoding="async">
             <div class="shop__product-copy">
               <h3 class="shop__title" data-i18n="shop.booster.title">Booster mensuel</h3>
               <p class="shop__stock">
@@ -1035,6 +1027,12 @@
             <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16v12H4z"/><path d="M8 11h8M8 14.5h5"/><path d="M6 7V5h12v2"/></svg>
             <span data-i18n="nav.titles">Titre</span>
           </button>
+          <!-- How the account looks to the players who follow it, with the local data only: the
+               same dialog as a friend's card, opened here with a back button and the publication. -->
+          <button type="button" class="btn btn--ghost btn--small" data-profile-online>
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg>
+            <span data-i18n="profile.online.open">Profil en ligne</span>
+          </button>
         </div>
       </div>
 
@@ -1098,11 +1096,15 @@
 
         </section>
 
+        <!-- The two pinned panels share their height in BOTH layouts: they are the two rows of one
+             grid on a phone (equal rows) and the two columns of one row on a wide screen. -->
+        <div class="profile__pinned">
         <!-- Highlighted trophies: up to `profile.maxFeaturedTrophies` unlocked ones, all on one row. -->
-        <section class="panel profile__panel">
+        <section class="panel profile__panel profile__panel--featured">
           <h3 class="stats__title" data-i18n="profile.featured.title">Trophées mis en avant</h3>
+          <p class="profile__help" data-profile-featured-count></p>
           <p class="profile__help" data-info-hint="profile-featured" data-profile-featured-help data-i18n="profile.featured.help">Épinglez jusqu'à 1 trophée débloqué pour l'afficher en haut de votre profil. Les emplacements suivants s'achètent avec des Sparks.</p>
-          <ul class="profile__strip" data-profile-featured></ul>
+          <ul class="profile__strip profile__strip--trophies" data-profile-featured></ul>
           <p class="profile__empty" data-profile-featured-empty hidden data-i18n="profile.featured.empty">Aucun trophée mis en avant pour le moment. Épinglez-en un depuis l'onglet Trophées.</p>
         </section>
 
@@ -1112,6 +1114,16 @@
           <p class="profile__help" data-profile-favorites-count></p>
           <ul class="profile__strip profile__strip--cards" data-profile-favorites></ul>
           <p class="profile__empty" data-profile-favorites-empty hidden data-i18n="profile.favorites.empty">Ajoutez jusqu'à 5 cartes en favori depuis la collection, avec le cœur affiché sur les cartes que vous possédez.</p>
+        </section>
+        </div>
+
+        <!-- Wishlist: the cards the player hopes to receive. Wider than the two panels above, so
+             ten cards fit on one row on a wide screen and wrap to two rows of five on a phone. -->
+        <section class="panel profile__panel profile__panel--wide">
+          <h3 class="stats__title" data-i18n="profile.wishlist.title">Cartes en wishlist</h3>
+          <p class="profile__help" data-profile-wishlist-count></p>
+          <ul class="profile__strip profile__strip--wishlist" data-profile-wishlist></ul>
+          <p class="profile__empty" data-profile-wishlist-empty hidden data-i18n="profile.wishlist.empty">Ajoutez jusqu'à 10 cartes à votre wishlist depuis la collection, avec le bouton cœur. Vos amis la voient et savent quoi vous proposer en échange.</p>
         </section>
 
         <!-- Profile card: the account itself, drawn as a trading card by `ProfileCard` (a shadow
@@ -1321,6 +1333,46 @@
           <div class="modal__actions">
             <button type="button" class="btn btn--primary" data-profile-card-modal-download data-i18n="profile.card.download">Télécharger la carte</button>
             <button type="button" class="btn btn--ghost" data-profile-card-modal-close data-i18n="profile.card.close">Fermer la carte</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Online profile: the dialog of a followed friend, opened on the player's OWN data, with a
+           back button and the publication of the trainer card. The card is a second `ProfileCard`
+           instance (a host of its own): moving the page card here would leave its panel empty. -->
+      <div class="modal" data-profile-online-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="profile-online-title">
+          <button type="button" class="modal__close" data-profile-online-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-online-title" data-profile-online-title></h2>
+          <div class="modal__body profile-online">
+            <div class="profile-card-preview__host profile-online__card" data-profile-online-card></div>
+            <p class="profile-online__meta" data-profile-online-meta></p>
+            <ul class="social__stats profile-online__stats" data-profile-online-stats></ul>
+            <div class="social__detail-favorites" data-profile-online-favorites hidden></div>
+            <div class="profile-online__binder" data-profile-online-binder hidden></div>
+            <div class="social__detail-favorites" data-profile-online-wishlist hidden></div>
+            <p class="profile__help" data-i18n="profile.online.help">Voici ce que les joueurs qui vous suivent voient. « Publier » met à jour votre carte en ligne avec votre profil, vos favoris, vos trophées et votre wishlist actuels.</p>
+            <p class="profile__modal-feedback" data-profile-online-feedback role="status" hidden></p>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--primary" data-profile-online-publish data-i18n="profile.online.publish">Publier</button>
+            <button type="button" class="btn btn--ghost" data-profile-online-close data-i18n="profile.online.back">Retour</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Binder pinned on the online profile: the same read-only page as the one opened from a
+           followed player's card, drawn from the share code of the binder. It sits ABOVE the
+           online dialog, so both overlays stay open behind it. -->
+      <div class="modal" data-profile-binder-modal hidden>
+        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="profile-binder-title">
+          <button type="button" class="modal__close" data-profile-binder-close aria-label="×">×</button>
+          <h2 class="modal__title" id="profile-binder-title" data-profile-binder-title></h2>
+          <div class="modal__body social__binder" data-profile-binder-page>
+            <ul class="social__binder-slots" data-profile-binder-slots></ul>
+          </div>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--ghost" data-profile-binder-close data-i18n="social.detail.close">Fermer</button>
           </div>
         </div>
       </div>
@@ -2746,6 +2798,7 @@
           <button type="button" class="modal__close" data-social-detail-close aria-label="×">×</button>
           <h2 class="modal__title" id="social-detail-title" data-social-detail-title></h2>
           <div class="modal__body">
+            <div class="social__detail-friendship" data-social-detail-friendship></div>
             <div class="social__detail-card" data-social-detail-card></div>
             <p class="social__detail-likes" data-social-detail-likes></p>
             <div class="social__detail-favorites" data-social-detail-favorites hidden></div>
@@ -2849,7 +2902,7 @@
 
       <!-- New trade: a followed player, one duplicate of rarity 1-5, and the cost of the exchange. -->
       <div class="modal" data-trade-new-modal hidden>
-        <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="trade-new-title">
+        <div class="modal__dialog modal__dialog--wide trade__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-new-title">
           <button type="button" class="modal__close" data-trade-new-close aria-label="×">×</button>
           <h2 class="modal__title" id="trade-new-title" data-i18n="trade.new.title">Proposer un échange</h2>
           <form class="trade__form" data-trade-new-form novalidate>
@@ -2857,14 +2910,26 @@
               <span class="field__label" id="trade-friend-label" data-i18n="trade.new.friend">Joueur suivi</span>
               <button type="button" class="trade__partner-button" data-trade-partner-open aria-haspopup="dialog" aria-labelledby="trade-friend-label">
                 <span class="trade__partner-avatar" data-trade-partner-avatar aria-hidden="true" hidden></span>
-                <span class="trade__partner-name" data-trade-partner-label>Choisir un joueur suivi</span>
+                <span class="trade__partner-identity">
+                  <span class="trade__partner-name" data-trade-partner-label>Choisir un joueur suivi</span>
+                  <span class="trade__partner-stars" data-trade-partner-stars hidden></span>
+                </span>
                 <span class="trade__partner-count" data-trade-partner-count></span>
                 <span class="trade__partner-chevron" aria-hidden="true">›</span>
               </button>
             </div>
             <div class="trade__cards-block">
               <span class="field__label" data-i18n="trade.new.card">Carte à donner</span>
+              <div class="trade__cards-controls">
+                <input class="field__input" type="search" data-trade-cards-search autocomplete="off" spellcheck="false" data-i18n-placeholder="trade.cards.search" data-i18n-aria-label="trade.cards.search" placeholder="Rechercher une carte">
+                <select class="field__input trade__cards-sort" data-trade-cards-sort data-i18n-aria-label="trade.cards.sortLabel" aria-label="Trier par">
+                  <option value="rarity" data-i18n="trade.cards.sort.rarity">Rareté</option>
+                  <option value="quantity" data-i18n="trade.cards.sort.quantity">Exemplaires</option>
+                  <option value="number" data-i18n="trade.cards.sort.number">Numéro</option>
+                </select>
+              </div>
               <div class="trade__card-grid" data-trade-cards></div>
+              <p class="trade__empty-cards" data-trade-cards-empty role="status" hidden></p>
             </div>
             <p class="trade__cost-line" data-trade-new-cost></p>
             <p class="social__add-error" data-trade-new-error role="alert" hidden></p>
@@ -2923,7 +2988,7 @@
             <p class="social__add-error" data-trade-confirm-error role="alert" hidden></p>
           </div>
           <div class="modal__actions">
-            <button type="button" class="btn btn--ghost" data-trade-confirm-close data-i18n="social.cancel">Annuler</button>
+            <button type="button" class="btn btn--ghost" data-trade-confirm-close data-i18n="trade.confirm.back">Retour</button>
             <button type="button" class="btn btn--primary" data-trade-confirm-action></button>
           </div>
         </div>
@@ -3174,11 +3239,18 @@
           <h3 class="stats__title" data-i18n="info.trades.title">Échanges</h3>
           <p class="info__text" data-i18n="info.trades.intro">L'onglet Échanges de la page Social permet de troquer une carte avec un ami qui a publié sa carte de dresseur. Chaque joueur propose une carte, et les deux cartes changent de main en même temps.</p>
           <ol class="info__steps">
-            <li data-i18n="info.trades.step1">Chaque joueur paie le même prix : 1 Œil de l'End par point de rareté et rareté² Sparks. Une carte de rareté 3 coûte donc 3 Œils et 9 Sparks.</li>
+            <li data-i18n="info.trades.step1">Chaque joueur paie le même prix : des Œils de l'End selon la rareté et son amitié avec le partenaire, et rareté² Sparks réduits du pourcentage d'amitié. Le tableau ci-dessous donne le prix exact.</li>
             <li data-i18n="info.trades.step2">Les deux cartes doivent avoir la même rareté. La rareté 6 ne s'échange jamais.</li>
             <li data-i18n="info.trades.step3">Le stock d'Œils de l'End monte à 5 au maximum et remonte de 1 par jour, à minuit UTC. Un joueur qui découvre les échanges commence avec 5 Œils.</li>
             <li data-i18n="info.trades.step4">Une demande reste ouverte 24 h. Passé ce délai elle expire et les deux joueurs sont remboursés ; un refus ou une annulation rembourse aussi tout le monde.</li>
           </ol>
+          <h4 class="info__subtitle" data-i18n="info.trades.costs.title">Prix selon la rareté et l'amitié</h4>
+          <!-- Read LIVE from `trades.prices` of `settings/config.json` by `InfoView`: the table can
+               never promise a price the trade dialog would not charge. -->
+          <div class="info__table-wrap">
+            <table class="info__table" data-info-trade-costs></table>
+          </div>
+          <p class="info__note" data-i18n="info.trades.costs.help">Chaque cellule donne les Œils / les Sparks payés par un joueur. Les prix, comme le pourcentage de réduction des Sparks, sont lus dans trades.prices de settings/config.json selon les étoiles d'amitié ; la réduction s'arrondit au Spark inférieur.</p>
           <p class="info__note" data-i18n="info.trades.help">Une seule demande ouverte à la fois par joueur. Une fois la contre-proposition acceptée, chacun récupère la carte reçue depuis l'onglet Échanges, et les compteurs de la page Statistiques suivent ces échanges.</p>
         </section>
 
@@ -3209,6 +3281,7 @@
             <li data-i18n="info.accountValue.sparks">Le solde de Sparks actuel.</li>
             <li data-i18n="info.accountValue.cards">La valeur de revente de chaque copie possédée dans la collection, selon sa rareté (10 Sparks pour une carte promo).</li>
             <li data-i18n="info.accountValue.distinct">Pour chaque carte différente possédée, le cube de sa rareté multiplié par 10 : une Commune (rareté 1) ajoute 10, une Mythique (rareté 5) ajoute 1 250.</li>
+            <li data-i18n="info.accountValue.friendship">L'XP d'amitié totale, tous amis confondus, à raison d'un point par XP.</li>
             <li data-i18n="info.accountValue.level">Le niveau du joueur multiplié par 10.</li>
             <li data-i18n="info.accountValue.resources">La quantité de chaque ressource minée multipliée par sa valeur au Marchand itinérant.</li>
             <li data-i18n="info.accountValue.currencies">La quantité de chaque monnaie personnalisée possédée multipliée par 25.</li>
@@ -3463,11 +3536,29 @@
   <!-- Floating menu of the shell: the reading destinations that used to compete with the bottom
        bar. It opens on the right, above the bar, and every row is still a router destination. -->
   <div class="app-menu" id="app-menu" data-app-menu hidden>
-    <p class="app-menu__title" data-i18n="menu.label">Menu</p>
+    <!-- The name of the game opens the menu: the bar itself no longer prints it. -->
+    <p class="app-menu__title" data-i18n="menu.title">MineCards - Menu</p>
     <time class="app-menu__clock" data-app-menu-clock data-i18n-title="settings.clock.title" title="Heure UTC">
       <span data-app-menu-clock-time>--:--</span><span class="app-menu__clock-seconds" data-app-menu-clock-seconds>:--</span>
     </time>
     <ul class="app-menu__list">
+      <!-- The two actions the bar drops when it is too narrow for them: they keep their own row
+           here, so the inventory and the daily reward are never unreachable on a small screen. -->
+      <li>
+        <button type="button" class="app-menu__item" data-menu-inventory aria-haspopup="dialog"
+          data-i18n-title="header.inventory.title" title="Inventaire">
+          <span class="app-menu__icon app-menu__icon--mask app-menu__icon--inventory" aria-hidden="true"></span>
+          <span data-i18n="header.inventory.title">Inventaire</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="app-menu__item" data-menu-daily-rewards aria-haspopup="dialog"
+          data-i18n-title="header.dailyRewards.title" title="Récompenses de connexion">
+          <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11h16v9H4z"/><path d="M3.5 8h17v3h-17z"/><path d="M12 8v12"/><path d="M12 8S10.5 4.2 8.5 4.2a2 2 0 0 0 0 3.8M12 8s1.5-3.8 3.5-3.8a2 2 0 0 1 0 3.8"/></svg>
+          <span data-i18n="header.dailyRewards.title">Récompenses de connexion</span>
+          <span class="app-menu__badge" data-menu-daily-rewards-dot hidden aria-hidden="true"></span>
+        </button>
+      </li>
       <li>
         <button type="button" class="app-menu__item" data-nav-target="info">
           <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
@@ -3510,7 +3601,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=75954f2804"></script>
+  <script type="module" src="js/app.js?v=8b41e930c6"></script>
 
 </body>
 </html>

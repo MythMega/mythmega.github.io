@@ -286,8 +286,8 @@ export class ShopView {
   /** Draws the artwork and the name of the selected booster. @returns {void} */
   renderSelection() {
     const set = this.sets.find((entry) => entry.setId === this.selectedSetId) ?? null;
-    if (set?.texture) {
-      this.setIcon.src = i18n.resolveImagePath(set.texture);
+    if (set?.icon ?? set?.texture) {
+      this.setIcon.src = i18n.resolveImagePath(set.icon ?? set.texture);
       this.setIcon.hidden = false;
     } else {
       this.setIcon.removeAttribute('src');

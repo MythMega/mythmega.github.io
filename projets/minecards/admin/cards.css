@@ -82,6 +82,63 @@
   min-width: 136px;
 }
 
+/* "Problème" narrows the table to the cards that need a fix, so it reads as a filter that is
+   currently on, not as one more neutral action. */
+.filter-toggle[aria-pressed="true"] {
+  color: var(--accent-contrast);
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.filter-toggle:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* --- Problems -------------------------------------------------------------- */
+
+.cell-problems {
+  width: 210px;
+}
+
+.issue-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.issue {
+  display: inline-block;
+  padding: 0.16rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.issue--error {
+  color: #ffb8b8;
+  background-color: rgb(255 96 96 / 12%);
+  border-color: rgb(255 96 96 / 42%);
+}
+
+.issue--warning {
+  color: #ffd79a;
+  background-color: rgb(255 190 80 / 12%);
+  border-color: rgb(255 190 80 / 40%);
+}
+
+#cards-table tbody tr.is-issue-error td:first-child {
+  box-shadow: inset 3px 0 0 rgb(255 96 96 / 80%);
+}
+
+#cards-table tbody tr.is-issue-warning td:first-child {
+  box-shadow: inset 3px 0 0 rgb(255 190 80 / 70%);
+}
+
 /* --- Tabs and source ------------------------------------------------------- */
 
 .source-card {

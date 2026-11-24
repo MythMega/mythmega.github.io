@@ -31,8 +31,20 @@
  *   picker orders the followed players by that record.
  *
  * COST (`getTradeCost`)
- *   1 Ender Eye per rarity + rarity² Sparks, per side. Rarity 6 is never tradable, which the worker
- *   enforces with a CHECK constraint as well.
+ *   Read from `settings/config.json` -> `trades.prices`, per side: `Eye` gives the Ender Eye price
+ *   of every rarity for each friendship level (a `null` entry means that rarity cannot be traded
+ *   at that level), and `Sparks` gives the percentage taken off the base `rarity² Sparks` price.
+ *   The reduction is rounded down and may reach zero. The table is read once per page
+ *   (`loadTradePrices`) and falls back to the old rules (1 Eye per rarity, 10 % per star) when the
+ *   file cannot be read. Rarity 6 is tradable only from four friendship stars, where its `Eye`
+ *   price stops being `null`; the worker must enforce the same rule.
+ *
+ * PAID PRICE (`user_state["trades"].paid`)
+ *   The worker only knows the FULL price (`sparks_cost`), while the discount is applied here when
+ *   the card is locked. The escrow therefore holds what was really debited, and a copy of its
+ *   Sparks (`paid`, trade id -> sparks) outlives the escrow so the history and the statistics keep
+ *   showing and counting the Sparks that actually left the balance, even after a reload. The Ender
+ *   Eyes are never discounted: the worker's price is already the real one.
  *
  * TRADE RULES (`getRules`)
  *   Two cards are always exchanged at the SAME rarity: that rule is not configurable. On top of it,
@@ -52,6 +64,7 @@ import storageRepository, { STORES } from '../models/StorageRepository.js';
 import configLoader from '../utils/ConfigLoader.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
+import friendshipManager from './FriendshipManager.js';
 import socialManager, { SOCIAL_ERROR_CODES, SocialError } from './SocialManager.js';
 import i18n from '../utils/I18n.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -62,9 +75,15 @@ export const TRADE_MAX_ENDER_EYES = 5;
 /** Ender Eyes granted per elapsed UTC day. */
 export const TRADE_ENDER_EYES_PER_DAY = 1;
 
-/** Rarities a trade can involve. Rarity 6 (Unique) is never tradable. */
+/**
+ * Rarities a trade can involve.
+ *
+ * Rarity 6 (Unique) IS tradable, but only from four friendship stars: its Ender Eye price is `null`
+ * in `trades.prices.Eye` below that level, and `getTradeCost()` then reports the trade as not
+ * tradable. The worker must accept the same rule.
+ */
 export const TRADE_MIN_RARITY = 1;
-export const TRADE_MAX_RARITY = 5;
+export const TRADE_MAX_RARITY = 6;
 
 /** Deadlines and outcomes, mirrored from the worker so the UI can explain them. */
 export const TRADE_EXPIRY_HOURS = 24;
@@ -101,6 +120,7 @@ export const TRADE_ERROR_CODES = Object.freeze({
   NO_ACCOUNT: 'noAccount',
   NO_AUTH_CODE: 'noAuthCode',
   NOT_DUPLICATE: 'notDuplicate',
+  NOT_TRADABLE: 'notTradable',
   NOT_ENOUGH_SPARKS: 'notEnoughSparks',
   NOT_ENOUGH_ENDER_EYES: 'notEnoughEnderEyes',
   INVALID_RARITY: 'invalidRarity',
@@ -164,15 +184,122 @@ export function isPromoCard(card) {
   return /-promo$/i.test(set);
 }
 
+/** Friendship levels the price tables describe (0 to 5 stars). */
+const PRICE_LEVELS = 6;
+
+/** Highest rarity the price tables describe (6 = Unique). */
+const PRICE_RARITIES = 6;
+
+/**
+ * Builds the fallback price table, used when `trades.prices` cannot be read.
+ *
+ * It is the rule the game applied before the table existed: one Ender Eye per rarity, then 10 %
+ * off the Sparks per friendship star.
+ *
+ * @returns {{eye: Array<Array<number|null>>, sparks: number[]}} A complete table.
+ */
+function buildDefaultTradePrices() {
+  const eye = Array.from({ length: PRICE_LEVELS }, () =>
+    Array.from({ length: PRICE_RARITIES + 1 }, (unused, rarity) =>
+      rarity === 0 || rarity === PRICE_RARITIES ? null : rarity
+    )
+  );
+  const sparks = Array.from({ length: PRICE_LEVELS }, (unused, level) => level * 10);
+  return { eye, sparks };
+}
+
+/** Fallback prices: the legacy rule, used only when the configuration cannot be read. */
+export const DEFAULT_TRADE_PRICES = Object.freeze(buildDefaultTradePrices());
+
+/** Parsed `trades.prices`, loaded once per page by `loadTradePrices()`. */
+let loadedTradePrices = null;
+
+/**
+ * Reads the `trades.prices` block of `settings/config.json`.
+ *
+ * `Eye` is keyed `friendshiplevel.<0-5>` then `rarity.<1-6>`; a `null` price marks a rarity that
+ * cannot be traded at that friendship level. `Sparks` is keyed `friendshiplevel.<0-5>` and holds
+ * the percentage taken off the base `rarity² Sparks` price. Every missing or malformed entry is
+ * filled with the legacy rule (one Eye per rarity, 10 % per star), so a partially unreadable file
+ * still yields a complete table. Rarity 6 is the one exception: the legacy rule never opened it,
+ * so a missing entry leaves it `null` (not tradable) rather than opening it by accident.
+ *
+ * @param {unknown} prices - `trades.prices` of the configuration.
+ * @returns {{eye: Array<Array<number|null>>, sparks: number[]}} The normalized table.
+ */
+export function parseTradePrices(prices) {
+  const source = prices && typeof prices === 'object' ? prices : {};
+  const eye = Array.from({ length: PRICE_LEVELS }, (unused, level) => {
+    const row = Array(PRICE_RARITIES + 1).fill(undefined);
+    const eyes = source.Eye?.[`friendshiplevel.${level}`];
+    const entries = eyes && typeof eyes === 'object' ? eyes : {};
+    for (let rarity = 1; rarity <= PRICE_RARITIES; rarity += 1) {
+      const raw = entries[`rarity.${rarity}`];
+      if (raw === null) {
+        row[rarity] = null;
+        continue;
+      }
+      const value = raw === '' || raw === undefined ? NaN : Number(raw);
+      row[rarity] = Number.isFinite(value) && value >= 0
+        ? Math.trunc(value)
+        : (rarity === PRICE_RARITIES ? null : rarity);
+    }
+    return row;
+  });
+  const sparks = Array.from({ length: PRICE_LEVELS }, (unused, level) => {
+    const percent = Number(source.Sparks?.[`friendshiplevel.${level}`]);
+    return Number.isFinite(percent) ? Math.min(100, Math.max(0, Math.trunc(percent))) : level * 10;
+  });
+  return { eye, sparks };
+}
+
+/**
+ * Loads the trade price table once per page.
+ *
+ * @returns {Promise<{eye: Array<Array<number|null>>, sparks: number[]}>} The prices in use.
+ */
+export async function loadTradePrices() {
+  if (loadedTradePrices) return loadedTradePrices;
+  try {
+    const settings = await configLoader.getTradeSettings();
+    loadedTradePrices = parseTradePrices(settings?.prices);
+  } catch (error) {
+    console.warn('[TradeManager] The trade prices could not be read, shipped rules are used.', error);
+    loadedTradePrices = DEFAULT_TRADE_PRICES;
+  }
+  return loadedTradePrices;
+}
+
 /**
  * Cost of one side of a trade.
  *
- * @param {number} rarity - Shared rarity (1-5).
- * @returns {{sparks: number, enderEyes: number}} The cost.
+ * The Ender Eyes come from `trades.prices.Eye` (rarity and friendship stars), the Sparks from the
+ * base `rarity²` price minus the percentage of `trades.prices.Sparks`, rounded down: a discounted
+ * price may reach zero.
+ *
+ * @param {number} rarity - Shared rarity (1-6).
+ * @param {number} [stars=0] - Friendship stars with the other player (0 to 5).
+ * @param {{eye: Array<Array<number|null>>, sparks: number[]}} [prices] - Table to use; the loaded
+ *   configuration by default.
+ * @returns {{sparks: number, enderEyes: number, tradable: boolean}} The cost; `tradable` is false
+ *   when the table marks the rarity as not tradable at that friendship level (rarity 6 below four
+ *   stars), or when it holds no usable Eye price for it.
  */
-export function getTradeCost(rarity) {
-  const value = Math.trunc(Number(rarity) || 0);
-  return { sparks: value * value, enderEyes: value };
+export function getTradeCost(rarity, stars = 0, prices = loadedTradePrices ?? DEFAULT_TRADE_PRICES) {
+  const value = Math.max(0, Math.trunc(Number(rarity) || 0));
+  const level = Math.min(PRICE_LEVELS - 1, Math.max(0, Math.trunc(Number(stars) || 0)));
+  const configured = prices?.eye?.[level]?.[value];
+  // No entry at all falls back to the legacy rule, except for rarity 6 which it never opened.
+  const eyes = configured === undefined ? (value === PRICE_RARITIES ? null : value) : configured;
+  if (eyes === null || !Number.isFinite(eyes) || eyes < 0) {
+    return { sparks: 0, enderEyes: 0, tradable: false };
+  }
+  const reduction = Math.min(100, Math.max(0, Math.trunc(Number(prices?.sparks?.[level]) || 0)));
+  return {
+    sparks: Math.max(0, Math.floor((value * value * (100 - reduction)) / 100)),
+    enderEyes: Math.trunc(eyes),
+    tradable: true,
+  };
 }
 
 /**
@@ -317,8 +444,9 @@ function normalizeEyes(value) {
  *
  * @param {unknown} raw - Value of `user_state["trades"]`.
  * @returns {{enderEyes: number, enderEyesDay: string, escrows: Record<string, object>,
- *   claimed: Record<string, boolean>, seen: Record<string, string>,
- *   refused: Record<string, string>, stats: object, lastRefreshAt: number}} A writable state.
+ *   paid: Record<string, {sparks: number}>, claimed: Record<string, boolean>,
+ *   seen: Record<string, string>, refused: Record<string, string>, stats: object,
+ *   lastRefreshAt: number}} A writable state.
  */
 function normalizeTradeState(raw) {
   const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
@@ -337,6 +465,15 @@ function normalizeTradeState(raw) {
         enderEyes: Number.isFinite(eyes) && eyes > 0 ? Math.trunc(eyes) : 0,
         createdAt: Number.isFinite(Number(escrow.createdAt)) ? Number(escrow.createdAt) : 0,
       };
+    });
+  }
+
+  // The Sparks this player really paid for a trade, kept after its escrow was settled or refunded.
+  const paid = {};
+  if (source.paid && typeof source.paid === 'object' && !Array.isArray(source.paid)) {
+    Object.entries(source.paid).forEach(([tradeId, entry]) => {
+      if (!entry || typeof entry !== 'object') return;
+      paid[tradeId] = { sparks: normalizeCounter(entry.sparks) };
     });
   }
 
@@ -367,6 +504,7 @@ function normalizeTradeState(raw) {
     enderEyes: normalizeEyes(source.enderEyes),
     enderEyesDay: typeof source.enderEyesDay === 'string' ? source.enderEyesDay : '',
     escrows,
+    paid,
     claimed,
     seen,
     refused,
@@ -380,14 +518,16 @@ function normalizeTradeState(raw) {
 /**
  * Builds the default trade state.
  *
- * @returns {{enderEyes: number, enderEyesDay: string, escrows: object, claimed: object, seen: object,
- *   refused: object, stats: object, lastRefreshAt: number}} An empty state.
+ * @returns {{enderEyes: number, enderEyesDay: string, escrows: object, paid: object,
+ *   claimed: object, seen: object, refused: object, stats: object, lastRefreshAt: number}} An
+ *   empty state.
  */
 export function buildDefaultTradeState() {
   return {
     enderEyes: TRADE_MAX_ENDER_EYES,
     enderEyesDay: '',
     escrows: {},
+    paid: {},
     claimed: {},
     seen: {},
     refused: {},
@@ -561,6 +701,8 @@ export class TradeManager {
       const [settings, sets] = await Promise.all([
         configLoader.getTradeSettings(),
         configLoader.getCardSets(),
+        // The dialog paints its prices right after this call: the table has to be warm by then.
+        loadTradePrices(),
       ]);
       sameExtension = settings.sameExtension === true;
       tradableSets = new Set(sets.filter((set) => set.trade !== false).map((set) => set.id));
@@ -668,6 +810,7 @@ export class TradeManager {
    *   notifications: object[]}>} The refreshed view model.
    */
   async refresh({ silent = false } = {}) {
+    await loadTradePrices();
     let credentials;
     try {
       credentials = await this.getCredentials();
@@ -711,14 +854,21 @@ export class TradeManager {
       );
     }
 
+    // What was really paid: the local escrow froze the discounted price, while the worker only
+    // knows the full one. A row must show the Sparks that left the balance.
+    const paidCost = (trade) => {
+      const entry = state.paid[trade?.id];
+      return entry ? { ...trade, sparks_cost: entry.sparks } : trade;
+    };
+
     return {
       ready: true,
       enderEyes: state.enderEyes,
       maxEnderEyes: TRADE_MAX_ENDER_EYES,
-      incoming: active(incoming),
-      outgoing: active(outgoing),
+      incoming: active(incoming).map(paidCost),
+      outgoing: active(outgoing).map(paidCost),
       // The trades finished on this side lead the history: they are the most recent ones.
-      history: [...finished([...incoming, ...outgoing]), ...listed(history)],
+      history: [...finished([...incoming, ...outgoing]), ...listed(history)].map(paidCost),
       // The statistics are local: the worker only describes the trades themselves. A trade moved
       // here is still `accepted` on the worker, so its local counters only move when it really
       // becomes `completed` (see `reconcile`).
@@ -751,6 +901,34 @@ export class TradeManager {
           ? trade.responder
           : null;
     return mine?.claimed === true;
+  }
+
+  /**
+   * Summarizes what the trade lists ask of this player.
+   *
+   * Only the LIVE trades count: a closed one is history, and one this player already settled (their
+   * card was claimed) is finished even while the worker keeps it active for the other side.
+   *
+   * @param {object[]} trades - Incoming and outgoing trades of a worker answer.
+   * @param {object} state - Local trade state (read for `claimed`).
+   * @returns {{active: boolean, ready: boolean}} `active` when a trade is still running, `ready`
+   *   when one of them waits for this player to claim the card received.
+   */
+  static buildAttention(trades, state) {
+    const rows = Array.isArray(trades) ? trades : [];
+    let active = false;
+    let ready = false;
+    for (const trade of rows) {
+      if (!trade || typeof trade.id !== 'string') continue;
+      if (TRADE_REFUND_STATUSES.includes(trade.status)) continue;
+      if (trade.status === TRADE_STATUSES.COMPLETED) continue;
+      if (TradeManager.isSettledOnMySide(trade, state)) continue;
+      active = true;
+      // `accepted` is the only status that leaves something to DO here: the card received is in the
+      // worker, waiting for the claim that moves it into the collection.
+      if (trade.status === TRADE_STATUSES.ACCEPTED) ready = true;
+    }
+    return { active, ready };
   }
 
   /**
@@ -823,6 +1001,8 @@ export class TradeManager {
     const seen = { ...state.seen };
     const notifications = [];
     const known = state.lastRefreshAt > 0;
+    /** Trades that completed during this refresh and still owe their friendship XP. */
+    const awards = [];
     let eyes = state.enderEyes;
     // `getState()` returns fresh objects: the rows can be incremented in place and written back.
     const stats = state.stats;
@@ -859,7 +1039,13 @@ export class TradeManager {
       const previous = seen[trade.id];
       if (known && previous && previous !== trade.status) {
         if (trade.status === TRADE_STATUSES.COMPLETED) {
-          this.recordOutcome(stats, trade, TRADE_STATUSES.COMPLETED);
+          const award = this.recordOutcome(
+            stats,
+            trade,
+            TRADE_STATUSES.COMPLETED,
+            state.paid[trade.id] ?? null
+          );
+          if (award) awards.push(award);
           // One event per trade: the transition is observed once, and the `TradeComplete` quest
           // then counts a finished exchange instead of every later refresh.
           eventBus.emit(EVENTS.TRADE_COMPLETED, { tradeId: trade.id });
@@ -884,7 +1070,19 @@ export class TradeManager {
       lastRefreshAt: Date.now(),
     };
     await storageRepository.setUserState(USER_STATE_KEYS.TRADES, nextState);
+    if (awards.length > 0) await friendshipManager.recordTrades(awards);
+    // Trades completed before this feature are seeded from the worker history (`10 x rarity`, once
+    // per trade id) and, for what the history no longer holds, from the count per partner at the
+    // flat rate. The counters above keep the already tracked ones out of both seeds.
+    await friendshipManager.syncTradeHistory(stats.byPartner, trades);
     eventBus.emit(EVENTS.TRADES_UPDATED, { balance: nextState.enderEyes });
+    // The dots of the shell follow the same answer: a trade still running and a card waiting to be
+    // claimed are two different states of the bar. A trade this player already settled is ignored
+    // here, exactly like the lists of the view (see `refresh`).
+    eventBus.emit(
+      EVENTS.TRADE_ATTENTION,
+      TradeManager.buildAttention([...incoming, ...outgoing], nextState)
+    );
     return { notifications, state: nextState };
   }
 
@@ -892,21 +1090,27 @@ export class TradeManager {
    * Increments the local statistics of one finished trade.
    *
    * Only a COMPLETED trade records Sparks and Ender Eyes spent: a refunded trade gives them back,
-   * so counting them would make the totals lie.
+   * so counting them would make the totals lie. The Sparks are the ones this player really paid:
+   * the local escrow froze the discounted price, while the worker only reports the full one.
    *
    * @param {object} stats - Local statistics, mutated in place.
    * @param {object} trade - Trade view returned by the worker.
    * @param {'completed'|'cancelled'|'declined'|'expired'} outcome - Observed outcome.
-   * @returns {void}
+   * @param {{sparks: number}|null} [paid] - Sparks stored when the card was locked, when this
+   *   device was the one that paid.
+   * @returns {{uuid: string, rarity: number, tradeId: string}|null} The partner, rarity and trade
+   *   identifier when the trade completed, null for every other outcome.
    */
-  recordOutcome(stats, trade, outcome) {
+  recordOutcome(stats, trade, outcome, paid = null) {
     const rarity = Math.trunc(Number(trade.rarity));
     if (!Number.isInteger(rarity) || rarity < TRADE_MIN_RARITY || rarity > TRADE_MAX_RARITY) {
-      return;
+      return null;
     }
     const completed = outcome === TRADE_STATUSES.COMPLETED;
-    const sparks = completed ? Math.max(0, Math.trunc(Number(trade.sparks_cost) || 0)) : 0;
-    const eyes = completed ? Math.max(0, Math.trunc(Number(trade.ender_eyes_cost) || 0)) : 0;
+    const sparks = completed
+      ? normalizeCounter(paid?.sparks ?? trade.sparks_cost)
+      : 0;
+    const eyes = completed ? normalizeCounter(trade.ender_eyes_cost) : 0;
     const count = (row) => {
       row[outcome] += 1;
       if (!completed) return;
@@ -929,8 +1133,10 @@ export class TradeManager {
       );
       if (partnerUuid !== '') {
         stats.byPartner[partnerUuid] = normalizeCounter(stats.byPartner[partnerUuid]) + 1;
+        return { uuid: partnerUuid, rarity, tradeId: trade.id };
       }
     }
+    return null;
   }
 
   /**
@@ -1003,7 +1209,13 @@ export class TradeManager {
     const other = isInitiator ? trade.responder : trade.initiator;
     const otherName = other?.username || i18n.t('profile.anonymous');
     const cardName = other?.card?.name || '';
-    const base = { type: 'trade', badge: i18n.t('notif.trade.badge') };
+    // Every trade notification leads to the tab that owns the trade: the step it describes is
+    // answered there, and a player reading it ten seconds later is one click away from it.
+    const base = {
+      type: 'trade',
+      badge: i18n.t('notif.trade.badge'),
+      action: { view: 'social', tab: 'trade' },
+    };
 
     const localized = (titleKey, messageKey, params) => ({
       ...base,
@@ -1078,7 +1290,15 @@ export class TradeManager {
     }
     await this.assertTradable(entry);
     const credentials = await this.getCredentials();
-    const cost = getTradeCost(entry.rarity);
+    const stars = await friendshipManager.getStars(responderUuid);
+    await loadTradePrices();
+    const cost = getTradeCost(entry.rarity, stars);
+    if (!cost.tradable) {
+      throw new TradeError(
+        TRADE_ERROR_CODES.NOT_TRADABLE,
+        'This rarity is not tradable at this friendship level.'
+      );
+    }
     if ((await this.getState()).enderEyes < cost.enderEyes) {
       throw new TradeError(TRADE_ERROR_CODES.NOT_ENOUGH_ENDER_EYES, 'Not enough Ender Eyes.');
     }
@@ -1096,6 +1316,9 @@ export class TradeManager {
           auth_code: credentials.authCode,
           responder_uuid: responderUuid,
           rarity: entry.rarity,
+          // The worker cannot read the local friendship XP: it receives the stars that gated the
+          // price and refuses rarity 6 below four of them.
+          friendship_stars: stars,
           card,
         }),
       });
@@ -1140,21 +1363,30 @@ export class TradeManager {
   /**
    * Publishes a proposal, replacing a previous one when B already answered.
    *
-   * @param {{tradeId: string, entry: object, otherSet?: string|null}} options - Trade, offered card
-   *   and the extension of the card already offered by the other player (what
-   *   `trades.sameExtension` compares against).
+   * @param {{tradeId: string, entry: object, otherSet?: string|null, partnerUuid?: string}} options
+   *   - Trade, offered card, the extension of the card already offered by the other player (what
+   *   `trades.sameExtension` compares against) and the UUID of that player, which carries the
+   *   friendship discount.
    * @returns {Promise<object>} The worker payload.
    * @throws {TradeError} On an invalid rarity or an offer the rules forbid.
    * @throws {SocialError} When the worker refuses the proposal.
    */
-  async proposeTrade({ tradeId, entry, otherSet = null }) {
+  async proposeTrade({ tradeId, entry, otherSet = null, partnerUuid = '' }) {
     if (!entry || !Number.isInteger(entry.rarity)) {
       throw new TradeError(TRADE_ERROR_CODES.INVALID_RARITY, 'The card has no usable rarity.');
     }
     await this.assertTradable(entry, { otherSet });
     const credentials = await this.getCredentials();
     const card = buildTradeCard(entry);
-    const cost = getTradeCost(entry.rarity);
+    const stars = await friendshipManager.getStars(partnerUuid);
+    await loadTradePrices();
+    const cost = getTradeCost(entry.rarity, stars);
+    if (!cost.tradable) {
+      throw new TradeError(
+        TRADE_ERROR_CODES.NOT_TRADABLE,
+        'This rarity is not tradable at this friendship level.'
+      );
+    }
     // A replaced proposal gives its Eyes back, so they count towards the new one.
     const state = await this.getState();
     const previous = state.escrows[tradeId];
@@ -1173,6 +1405,7 @@ export class TradeManager {
         auth_code: credentials.authCode,
         trade_id: tradeId,
         action: 'propose',
+        friendship_stars: stars,
         card,
       }),
     });
@@ -1437,6 +1670,11 @@ export class TradeManager {
                 createdAt: Date.now(),
               },
             },
+            // The paid Sparks outlive the escrow: the history and the statistics read them back.
+            paid: TradeManager.trim({
+              ...state.paid,
+              [tradeId]: { sparks: Math.max(0, Math.trunc(sparks) || 0) },
+            }),
           },
           USER_STATE_KEYS.TRADES
         );

@@ -11,6 +11,7 @@
  */
 
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import { installFakeStorage, readState, resetStorage } from './helpers/fake_storage.mjs';
@@ -49,6 +50,32 @@ const realFetch = globalThis.fetch;
 dateSyncManager.isTimeTrusted = () => true;
 dateSyncManager.getCurrentUtcDay = () => currentDay;
 
+/** Settings files the friendship XP path reads, served from the working tree. */
+const SETTINGS_FILES = ['settings/config.json', 'settings/global_trophy.json'];
+
+/**
+ * Serves one of the shipped settings files, without recording it as a like request.
+ *
+ * A like credits friendship XP (`FriendshipManager`), and the first gain of a page re-evaluates the
+ * trophies once a tier is crossed: it therefore reads the thresholds of
+ * `settings/global_trophy.json` (and the paths of `settings/config.json`). Those reads belong to the
+ * configuration, not to the likes API, so they are answered here and `calls` keeps meaning "what the
+ * like flows sent" - a like that asked for anything else still fails on the missing response.
+ *
+ * @param {string} url - Requested URL.
+ * @returns {Promise<object>|null} The response, or null when the URL is not a settings file.
+ */
+function serveSettings(url) {
+  const file = SETTINGS_FILES.find((candidate) => String(url).endsWith(candidate));
+  if (!file) return null;
+  const body = JSON.parse(readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'));
+  return {
+    ok: true,
+    status: 200,
+    json: async () => body,
+  };
+}
+
 /**
  * Serves the queued responses and records every request.
  *
@@ -57,6 +84,9 @@ dateSyncManager.getCurrentUtcDay = () => currentDay;
  * @returns {Promise<object>} A `Response`-like object.
  */
 async function fetchStub(url, options = {}) {
+  const settings = serveSettings(url);
+  if (settings) return settings;
+
   calls.push({ url: String(url), options });
   const next = responses.shift();
   if (!next) throw new Error(`Unexpected request: ${url}`);

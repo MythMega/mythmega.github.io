@@ -90,6 +90,39 @@
   max-width: 24rem;
 }
 
+/* Trade prices: one row per rarity, one column per friendship star. The wrapper scrolls on a
+   phone rather than letting six columns push the page sideways. */
+.info__table-wrap {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.info__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-xs);
+  text-align: center;
+}
+
+.info__table th,
+.info__table td {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.info__table thead th {
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.info__table tbody th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* One price cell: "1 [eye] + 0 [sparks]". The icons are inline so the number stays next to its
+   currency whatever the zoom. */
 .info__subtitle {
   margin: var(--space-3) 0 0 0;
   font-size: var(--font-size-sm);

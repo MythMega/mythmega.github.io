@@ -187,12 +187,15 @@ body {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  flex-wrap: wrap;
+  /* ONE row, always. The bar never wraps and its height never follows its content: what no longer
+     fits is dropped by `App.updateHeaderCompaction()` (the clock, then the two actions the floating
+     menu carries). */
+  flex-wrap: nowrap;
   min-height: var(--header-height);
   padding: var(--space-2) var(--space-4);
   padding-top: calc(var(--space-2) + env(safe-area-inset-top, 0px));
   /* The identity of the header is anchored to the left edge of the bar (it hangs a few pixels below
-     it, see `.app-header__identity`), so the brand and the counters start after it. */
+     it, see `.app-header__identity`), so the rest of the bar starts after it. */
   padding-left: calc(var(--space-4) + 3.75rem);
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -200,7 +203,7 @@ body {
 }
 
 /* The trusted UTC clock. On a wide screen it follows the pseudo, right of it; on a phone the player
-   and the brand are hidden, so it keeps the place right of the avatar. It reads as one of the chips
+   is hidden, so it keeps the place right of the avatar. It reads as one of the chips
    of the bar, but it is not a target: nothing opens when it is clicked. The seconds are dropped on
    a portrait screen, where the bar is tight and the minute is enough (see the media query below). */
 .app-header__clock {
@@ -254,23 +257,23 @@ body[data-connection="offline"] .app-header__clock {
   }
 }
 
-.app-header__brand {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  min-width: 0;
+/* The bar COLLAPSES instead of growing a second row. `data-compact` is written by
+   `App.updateHeaderCompaction()`, which measures the width the bar actually needs, so a long pseudo
+   or a five-digit counter collapses it too - not only a narrow window.
+     - `clock`  : the trusted time goes first, and the floating menu prints the same one;
+     - `actions`: the inventory and the daily rewards follow, since the menu lists both of them. */
+.app-header[data-compact="clock"] .app-header__clock,
+.app-header[data-compact="actions"] .app-header__clock {
+  display: none;
 }
 
-.app-header__title {
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  letter-spacing: 0.02em;
+.app-header[data-compact="actions"] [data-header-compact-hide] {
+  display: none;
 }
 
-/* The pseudo of the player, first after the avatar. It shares the header line with the clock, the
-   title and the counters, so a long name shrinks and is cut instead of pushing them: the clock
-   stays next to it and the title of the game stays readable. It carries the typography of the
-   title it used to live in, now that it is a direct child of the bar. */
+/* The pseudo of the player, first after the avatar. It shares the header line with the clock and
+   the counters, so a long name shrinks and is cut instead of pushing them: the clock stays next to
+   it. The name of the game is NOT printed in the bar any more: it opens the floating menu. */
 .app-header__player {
   flex: 0 1 auto;
   min-width: 0;
@@ -285,14 +288,6 @@ body[data-connection="offline"] .app-header__clock {
 
 .app-header__player[hidden] {
   display: none;
-}
-
-.app-header__tagline {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Identity of the header: the avatar of the player, the level on its corner, and that level's
@@ -412,7 +407,9 @@ body[data-connection="offline"] .app-header__clock {
   align-items: center;
   gap: var(--space-2);
   margin-left: auto;
-  flex-wrap: wrap;
+  /* A single row of chips: a counter that gains a digit must never wrap the bar onto a second row
+     (it is what the compaction in `js/app.js` measures and answers). */
+  flex-wrap: nowrap;
 }
 
 .app-header__stat {
@@ -420,6 +417,9 @@ body[data-connection="offline"] .app-header__clock {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  /* A chip is one line of text and one icon: a number broken over two lines would make the bar
+     taller than `--header-height`. */
+  white-space: nowrap;
   padding: var(--space-1) var(--space-3);
   min-height: calc(var(--touch-target) - 12px);
   background-color: var(--color-surface-alt);
@@ -594,19 +594,15 @@ svg.app-header__stat-icon {
   mask-image: url("../assets/img/shop.svg");
 }
 
-/* A wide screen drops the tagline, so the brand and the three actions share one line even when a
-   long player name is written in front of the name of the game. */
+/* A wide screen lays the counters out as one grid, so a long player name in front of them costs
+   nothing to the alignment. */
 @media (min-width: 1024px) {
-  .app-header__tagline {
-    display: none;
-  }
-
   /* Every element of the header row, the counters and the clock alike, is the SAME box: one row of
      a grid whose columns are all `1fr` takes the width of the WIDEST of them - the longest label of
      the current language, or the clock of the moment - and stretches them to one height. A flex row
      cannot: it sizes each chip to its own content, which is why "Quotidiens 3" used to be half as
      wide again as "Bonus 0", and the clock, which counts nothing at all, was the narrowest of all.
-     The row keeps its place in the header line: pushed to the right of the brand, on one line. */
+     The row keeps its place in the header line: pushed to the right, on one line. */
   .app-header__stats {
     display: grid;
     grid-auto-flow: column;
@@ -637,19 +633,14 @@ svg.app-header__stat-icon {
   border-radius: var(--radius-md);
 }
 
-/* THE BOOSTER ARTWORKS ARE STORED UPSIDE DOWN (see `css/components/booster-3d.css`): every flat
-   display of one turns it back. `rotate` instead of `transform`, so the floating and pop
-   animations that animate `transform` keep working and compose with it. The 3D model reads the
-   texture directly and never wears this class. */
-.booster-art {
-  rotate: 180deg;
-}
-
-/* The glyph of a row: a themed PNG, a drawn glyph or the artwork of a booster. */
+/* The glyph of a row: a themed PNG, a drawn glyph or the artwork of a booster.
+   A flex row, not a grid: an implicit grid track sized itself to the intrinsic height of a tall
+   booster icon and let it hang out of the box, while a flex item takes the box the icon reserves. */
 .inventory__icon {
-  display: grid;
+  display: flex;
   flex: 0 0 auto;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
   width: 1.5rem;
   height: 1.5rem;
   color: var(--icon-ink);
@@ -743,14 +734,12 @@ body[data-connection="offline"] .app-header {
   }
 }
 
-/* Mobile header: the pseudo and the whole brand are hidden, which leaves the avatar, the clock and
-   the counters on one row. The clock keeps its place right of the avatar and drops its seconds
-   (see the orientation query above). */
+/* Mobile header: the pseudo is hidden, which leaves the avatar, the clock and the counters on one
+   row. The clock keeps its place right of the avatar and drops its seconds (see the orientation
+   query above). */
 @media (max-width: 767px) {
-  /* A phone shows no brand at all: the name of the game is in the browser tab and in the installed
-     app, and the bar is worth more to the counters and to the identity than to a title repeated on
-     every screen. */
-  .app-header__brand,
+  /* A phone shows no pseudo: it is on the profile page, and the bar is worth more to the counters
+     and to the identity than to a name repeated on every screen. */
   .app-header__player {
     display: none;
   }
@@ -766,10 +755,6 @@ body[data-connection="offline"] .app-header {
 
   .app-header__avatar-level {
     font-size: 0.5625rem;
-  }
-
-  .app-header__tagline {
-    display: none;
   }
 
   /* The three actions of a phone stay pinned to the RIGHT edge, next to the avatar anchored on the
@@ -928,48 +913,49 @@ body.is-focus {
   white-space: nowrap;
 }
 
-/* PHONE: five destinations in ~360 px. The equal split of the wide screen squeezes each column, and
-   a label wider than its column is not clipped by default: it simply overflows and lands on the
-   label next to it. So on a phone the columns are sized by their CONTENT and the leftover space is
-   spread around them, so every label stays whole. The columns keep the thumb-sized height of
-   `.app-nav__item`, and the gaps between them are the usual 4 px plus the share of `space-evenly`. */
+/* PHONE: the primary action stays in the MIDDLE of the bar and takes 20% of the row; the four
+   destinations share the remaining 80% equally, two on each side, so the two halves are identical
+   and the action can never drift off centre. The share is 20 and not 30 because it is MEASURED: at
+   360 px a 30% column left 46 px of text for "Collection", which needs 50, so the longest label
+   was cut with an ellipsis; 20% leaves 55 px and every label fits, while the accent background and
+   the lift of the primary button still make it the loudest of the five.
+   The columns are fractions rather than content: a label wider than its column is clipped with an
+   ellipsis instead of running under its neighbour, and `min-width: 0` is what lets a grid column
+   shrink below its text. */
 @media (max-width: 480px) {
   .app-nav {
-    grid-auto-columns: max-content;
-    justify-content: space-evenly;
+    grid-template-columns: 1fr 1fr 20% 1fr 1fr;
+    justify-content: normal;
+    /* 4 px instead of 8 px on each side: the four side columns gain 1.6 px each, which is the
+       margin the longest label needs so a phone whose font measures a hair wider never ellipsises
+       it. The padding stays symmetric, so the primary action stays in the middle. */
+    padding-inline: var(--space-1);
   }
 
   .app-nav__item {
+    min-width: 0;
     font-size: 0.6875rem;
+  }
+
+  .app-nav__item span {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
-/* Very narrow (a 320 px phone, the outer screen of a foldable): five labels in a row still need more
-   width than the bar has at a readable size, so the labels step aside and the icons keep the bar.
-   The text is not removed: it is clipped the way `.sr-only` does it, so a screen reader still
-   announces "Collection" and still hears it as the name of the button. Tap targets are back to an
-   equal share of the row. */
+/* Very narrow (a 320 px phone, the outer screen of a foldable): the labels keep their place, one
+   step smaller and with the padding of their button tightened. Measured at 320 px with the 20%
+   column of the primary action: a side column is 57 px wide, "Collection" - the longest label of
+   the bar - needs 51 px at 10px, and the 2 px of padding left per side give it 53: nothing is cut
+   and 2 px stay as a margin, because a phone without the desktop font would measure differently.
+   The columns are untouched: the primary action is still centred and still owns its 20%. */
 @media (max-width: 339px) {
-  .app-nav {
-    grid-auto-columns: minmax(0, 1fr);
-    justify-content: normal;
-  }
-
   .app-nav__item {
     position: relative;
-  }
-
-  /* Every label of the bar. */
-  .app-nav__item span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+    padding-inline: var(--space-1);
+    font-size: 0.625rem;
   }
 }
 
@@ -1004,6 +990,42 @@ body.is-focus {
   background-color: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
   color: var(--color-accent-contrast);
+}
+
+/* --- Trade dots ---------------------------------------------------------- */
+
+/* The same dot marks three places of the shell, painted by `TradeIndicators`: the menu button of
+   the bar (below), the "Social" row of the floating menu (`components/app-menu.css`) and the
+   "Échanges" tab of the Social page (`views/social.css`). Orange means a trade is running, green
+   means one of them waits for THIS player to claim the card received. The dot is decorative: the
+   state it shows is already written in the tab itself, so the pseudo-element carries no text. */
+[data-trade-dot]::after {
+  content: '';
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #ff8a00;
+  box-shadow: 0 0 0 1px var(--color-surface), 0 0 6px #ff8a00;
+  pointer-events: none;
+}
+
+[data-trade-dot="ready"]::after {
+  background-color: var(--color-success);
+  box-shadow: 0 0 0 1px var(--color-surface), 0 0 6px var(--color-success);
+}
+
+/* On the bar the dot sits on the top right corner of the ICON, not of the button: the button is a
+   whole column of the grid, and a dot in the corner of the column would float far from the picture
+   it describes. */
+.app-nav__item[data-trade-dot] {
+  position: relative;
+}
+
+.app-nav__item[data-trade-dot]::after {
+  top: 3px;
+  left: 50%;
+  margin-left: 7px;
 }
 
 /* --- Views --------------------------------------------------------------- */

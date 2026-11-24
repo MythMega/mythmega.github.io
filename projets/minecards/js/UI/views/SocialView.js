@@ -8,6 +8,7 @@
 import i18n from '../../utils/I18n.js';
 import eventBus, { EVENTS } from '../../utils/EventBus.js';
 import cardLanguage from '../../utils/CardLanguage.js';
+import { formatCompactNumber } from '../../utils/CompactNumber.js';
 import { createCardVisual } from '../../utils/CardSourceManager.js';
 import socialManager, {
   SOCIAL_ERROR_CODES,
@@ -16,6 +17,7 @@ import socialManager, {
   safeSocialAssetPath,
 } from '../../business/SocialManager.js';
 import likesManager, { LIKES_ERROR_CODES } from '../../business/LikesManager.js';
+import friendshipManager from '../../business/FriendshipManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import collectionManager from '../../business/CollectionManager.js';
@@ -26,10 +28,14 @@ import { attachCardTilt } from '../../utils/CardTilt.js';
 import { ProfileCard } from '../components/ProfileCard.js';
 import renamePseudoDialog from '../components/RenamePseudoDialog.js';
 import cardDetailPopup from '../components/CardDetailPopup.js';
+import { buildFriendshipLevel } from '../components/FriendshipLevel.js';
 import TradeView from './TradeView.js';
 
 /** View name, matching `data-view="social"` in `index.html`. */
 export const SOCIAL_VIEW_NAME = 'social';
+
+/** How long the like history read that feeds the friendship XP stays fresh, in milliseconds. */
+const FRIENDSHIP_LIKES_SYNC_MS = 5 * 60_000;
 
 /**
  * Normalizes a search text or a player name for the friend filter.
@@ -86,6 +92,7 @@ export class SocialView {
     this.detailMeta = query('[data-social-detail-meta]');
     this.detailUnfollow = query('[data-social-detail-unfollow]');
     this.detailLikes = query('[data-social-detail-likes]');
+    this.detailFriendship = query('[data-social-detail-friendship]');
     this.detailLike = query('[data-social-detail-like]');
     this.detailFavorites = query('[data-social-detail-favorites]');
     this.detailBinder = query('[data-social-detail-binder]');
@@ -136,6 +143,12 @@ export class SocialView {
     this.favorites = new Map();
     /** Wishlist keys of each followed player, read in the same batch as the cards. */
     this.wishlists = new Map();
+    /** Friendship XP per player, read with the list to paint the stars of every row. */
+    this.friendshipXp = new Map();
+    /** Friendship thresholds, read once from `settings/global_trophy.json`. */
+    this.friendshipTiers = [];
+    /** Last time the like history was read for the friendship XP (throttled). */
+    this.likesSyncedAt = 0;
     /** Decoded binder of the opened friend, kept while their dialog is on screen. */
     this.openBinderPayload = null;
     /** Trophy catalogue indexed by id, loaded once for the pins of the card dialog. */
@@ -206,6 +219,7 @@ export class SocialView {
       ['[data-social-detail-meta]', this.detailMeta],
       ['[data-social-detail-unfollow]', this.detailUnfollow],
       ['[data-social-detail-likes]', this.detailLikes],
+      ['[data-social-detail-friendship]', this.detailFriendship],
       ['[data-social-detail-like]', this.detailLike],
       ['[data-social-detail-favorites]', this.detailFavorites],
       ['[data-social-detail-binder]', this.detailBinder],
@@ -419,6 +433,12 @@ export class SocialView {
    * @returns {void}
    */
   subscribeToEvents() {
+    // A trade just completed elsewhere (the trade tab, a background refresh, another screen): the
+    // friendship XP it credits must repaint the stars, including the ones of an open friend.
+    this.unsubscribers.push(eventBus.on(EVENTS.TRADES_UPDATED, () => {
+      if (!this.isInitialized || this.isLoading) return;
+      void this.refreshFriendshipLevels();
+    }));
     this.unsubscribers.push(eventBus.on(EVENTS.VIEW_CHANGED, (payload) => {
       if (payload?.view === SOCIAL_VIEW_NAME) this.handleViewActivated();
       if (payload?.previousView === SOCIAL_VIEW_NAME) {
@@ -486,6 +506,9 @@ export class SocialView {
         this.likes = new Map();
       }
       this.likedTargets = await likesManager.getLikedTargets();
+      // The friendship stars read the local trade counters and the last likes: both are local or
+      // heavily throttled, so painting the list never waits on the worker.
+      await this.syncFriendship();
       await this.renderList();
       this.refreshLikeAllButton();
       const missing = following.filter((uuid) => !this.cards.has(uuid)).length;
@@ -505,6 +528,103 @@ export class SocialView {
       this.isLoading = false;
       this.root.removeAttribute('aria-busy');
     }
+  }
+
+  /**
+   * Feeds the friendship XP with the last likes, then reads the stars.
+   *
+   * The trades are seeded by `TradeManager.refresh`, the only place that knows both the worker
+   * history (the rarity and the id of every past exchange) and the local counters, so seeding from
+   * a count alone would pay those trades the flat rate instead. The like history is a worker
+   * request, so it is read at most once per `FRIENDSHIP_LIKES_SYNC_MS` and silently skipped for an
+   * account that was never published online.
+   *
+   * @returns {Promise<void>} Resolves once the stars can be painted.
+   */
+  async syncFriendship() {
+    if (Date.now() - this.likesSyncedAt >= FRIENDSHIP_LIKES_SYNC_MS) {
+      try {
+        const history = await likesManager.getHistory();
+        await this.recordHistoryFriendship(history);
+        this.likesSyncedAt = Date.now();
+      } catch (error) {
+        if (error?.code !== LIKES_ERROR_CODES.NO_ACCOUNT) {
+          console.warn('[SocialView] The like history could not feed the friendship XP.', error);
+        }
+      }
+    }
+
+    try {
+      const { tiers, xp } = await friendshipManager.getOverview();
+      this.friendshipTiers = tiers;
+      this.friendshipXp = new Map(Object.entries(xp));
+    } catch (error) {
+      console.warn('[SocialView] The friendship levels could not be read.', error);
+    }
+  }
+
+  /**
+   * Re-reads the friendship XP and repaints the stars that are on screen.
+   *
+   * Used when a trade completes while the page is already displayed: waiting for the next manual
+   * refresh would leave the old percentage in front of the player.
+   *
+   * @returns {Promise<void>} Resolves once the stars are repainted.
+   */
+  async refreshFriendshipLevels() {
+    try {
+      const { tiers, xp } = await friendshipManager.getOverview();
+      this.friendshipTiers = tiers;
+      this.friendshipXp = new Map(Object.entries(xp));
+      if (this.following.length > 0) await this.renderList();
+      if (this.openFriendUuid !== '') this.renderDetailFriendship(this.openFriendUuid);
+    } catch (error) {
+      console.warn('[SocialView] The friendship levels could not be refreshed.', error);
+    }
+  }
+
+  /**
+   * Credits the likes of one history read, in both directions.
+   *
+   * @param {{received?: object[], sent?: object[]}} history - Value of `likesManager.getHistory()`.
+   * @returns {Promise<void>} Resolves once the XP and the local map are updated.
+   */
+  async recordHistoryFriendship(history) {
+    try {
+      await friendshipManager.recordLikes(history?.received ?? [], 'received');
+      await friendshipManager.recordLikes(history?.sent ?? [], 'sent');
+      this.friendshipXp = new Map(Object.entries(await friendshipManager.getXpMap()));
+    } catch (error) {
+      console.warn('[SocialView] The like history could not feed the friendship XP.', error);
+    }
+  }
+
+  /**
+   * Reads the star level of one player from the loaded thresholds.
+   *
+   * @param {string} uuid - Player UUID.
+   * @returns {object} The object `buildFriendshipLevel()` expects.
+   */
+  friendshipProgress(uuid) {
+    const xp = this.friendshipXp.get(uuid) ?? 0;
+    return friendshipManager.describeXp(xp, this.friendshipTiers);
+  }
+
+  /**
+   * Draws the friendship stars of the opened friend, under the dialog title.
+   *
+   * @param {string} uuid - Followed UUID.
+   * @returns {void}
+   */
+  renderDetailFriendship(uuid) {
+    if (!this.detailFriendship) return;
+    this.detailFriendship.textContent = '';
+    if (typeof uuid !== 'string' || uuid === '') {
+      this.detailFriendship.hidden = true;
+      return;
+    }
+    this.detailFriendship.appendChild(buildFriendshipLevel(this.friendshipProgress(uuid)));
+    this.detailFriendship.hidden = false;
   }
 
   /**
@@ -671,7 +791,13 @@ export class SocialView {
     updated.textContent = updatedDate ? i18n.t('social.friend.updated', { date: updatedDate }) : '';
     if (!updatedDate) updated.hidden = true;
 
-    identity.append(headline, title, stats, updated);
+    identity.append(
+      headline,
+      title,
+      buildFriendshipLevel(this.friendshipProgress(card.uuid)),
+      stats,
+      updated
+    );
 
     const chevron = document.createElement('span');
     chevron.className = 'social__chevron';
@@ -693,12 +819,15 @@ export class SocialView {
   /**
    * Formats a counter with the separators of the active language.
    *
+   * The counts of an account (likes, cards, boosters, points) are big numbers: they wear the same
+   * compact label as the likes of the header and the points of the profile card (`10.2K`).
+   *
    * @param {unknown} value - Raw counter.
    * @returns {string} The formatted non-negative integer.
    */
   formatNumber(value) {
     const count = Math.max(0, Math.trunc(Number(value) || 0));
-    return new Intl.NumberFormat(i18n.getLang()).format(count);
+    return formatCompactNumber(count, i18n.getLang());
   }
 
   /**
@@ -843,6 +972,7 @@ export class SocialView {
     // The title is the pseudo itself: the card under it already says what it is, so "Carte de"
     // only pushed the name the player came to read to the right of a redundant word.
     this.detailTitle.textContent = card.username || i18n.t('profile.anonymous');
+    this.renderDetailFriendship(uuid);
     const updated = typeof card.updated_at === 'string' ? card.updated_at.replace(' ', ' · ') : '-';
     this.detailMeta.textContent = i18n.t('social.detail.updated', { date: updated });
     // The header already read the authenticated state: reusing it avoids a second claim just for
@@ -895,6 +1025,8 @@ export class SocialView {
     this.detailModal.hidden = true;
     this.openFriendUuid = '';
     this.detailLikes.textContent = '';
+    this.detailFriendship.textContent = '';
+    this.detailFriendship.hidden = true;
     this.detailFavorites.textContent = '';
     this.detailFavorites.hidden = true;
     this.detailBinder.textContent = '';
@@ -1502,8 +1634,10 @@ export class SocialView {
       const result = await likesManager.like(uuid);
       this.likes.set(uuid, result.likes);
       this.likedTargets.add(uuid);
+      this.friendshipXp = new Map(Object.entries(await friendshipManager.getXpMap()));
       const name = this.cards.get(uuid)?.username || i18n.t('profile.anonymous');
       this.setFeedback('social.like.success', 'info', { name });
+      this.renderDetailFriendship(uuid);
       await this.renderList();
       this.refreshLikeAllButton();
     } catch (error) {
@@ -1562,6 +1696,7 @@ export class SocialView {
       });
       Object.entries(result.likes).forEach(([uuid, count]) => this.likes.set(uuid, count));
       this.likedTargets = await likesManager.getLikedTargets();
+      this.friendshipXp = new Map(Object.entries(await friendshipManager.getXpMap()));
       this.setLikeAllProgress(1);
       const summary = i18n.t('social.likeAll.result', {
         count: this.formatNumber(result.liked.length),
@@ -1649,6 +1784,7 @@ export class SocialView {
 
     try {
       this.likeHistory = await likesManager.getHistory();
+      await this.recordHistoryFriendship(this.likeHistory);
       this.renderHistory();
     } catch (error) {
       console.warn('[SocialView] The like history could not be loaded.', error);
@@ -1723,7 +1859,7 @@ export class SocialView {
   }
 
   /**
-   * Paints both sides of the history from the last response.
+   * Paints both sides of the last 25 likes from the last response.
    *
    * Only the received side offers to add a liker: a heart received from a stranger must never
    * become a friend without a click.

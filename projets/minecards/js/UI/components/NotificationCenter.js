@@ -102,6 +102,40 @@ export class NotificationCenter {
     this.durationMs = NOTIFICATION_DURATION_MS;
     /** @type {Set<string>} Kinds the player allows (`settings.notificationTypes`). */
     this.enabledTypes = new Set(Object.values(NOTIFICATION_TYPES));
+    /** @type {Function|null} What an actionable notification does when it is clicked. */
+    this.actionHandler = null;
+  }
+
+  /**
+   * Registers what an actionable notification does.
+   *
+   * The component never navigates by itself: an item carries a plain `action` object and the
+   * application decides what it means (see `handleNotificationAction()` of `js/app.js`), which
+   * keeps this renderer free of any dependency on the router or on a view.
+   *
+   * @param {Function|null} handler - Receives the `action` of the clicked item.
+   * @returns {void}
+   */
+  setActionHandler(handler) {
+    this.actionHandler = typeof handler === 'function' ? handler : null;
+  }
+
+  /**
+   * Runs the action of one notification.
+   *
+   * A throwing handler must never keep the notification on screen: it is logged and the message is
+   * dismissed anyway, exactly like a notification without an action.
+   *
+   * @param {object} action - Action of the dismissed item.
+   * @returns {void}
+   */
+  runAction(action) {
+    if (!this.actionHandler || !action || typeof action !== 'object') return;
+    try {
+      this.actionHandler(action);
+    } catch (error) {
+      console.warn('[NotificationCenter] The notification action failed.', error);
+    }
   }
 
   /**
@@ -222,6 +256,8 @@ export class NotificationCenter {
    * @param {string} item.title - Main line (already translated / already a data name).
    * @param {string} [item.message=''] - Secondary line.
    * @param {number|null} [item.progress=null] - Completion ratio (0-1) drawn as a bar.
+   * @param {object|null} [item.action=null] - What a click opens instead of only dismissing (a
+   *   trade notification leads to the trade tab). Handled by `setActionHandler()`.
    * @param {boolean} [options.priority=false] - True to jump the queue (collection discoveries).
    * @returns {void}
    */
@@ -240,6 +276,10 @@ export class NotificationCenter {
       title: typeof item.title === 'string' ? item.title : '',
       message: typeof item.message === 'string' ? item.message : '',
       progress: Number.isFinite(item.progress) ? Math.max(0, Math.min(item.progress, 1)) : null,
+      action:
+        item.action && typeof item.action === 'object' && !Array.isArray(item.action)
+          ? { ...item.action }
+          : null,
       /** @type {boolean} True when the item jumped the queue (kept in its own order band). */
       priority: priority === true,
     };
@@ -344,8 +384,12 @@ export class NotificationCenter {
     soundManager.playUi(UI_SOUNDS.NOTIFICATION_SHOW);
 
     // The item is clickable and swiped: the listeners die with the element, so they are removed
-    // from the binding list as soon as the notification leaves.
-    this.bind(element, 'click', () => this.dismiss(element));
+    // from the binding list as soon as the notification leaves. A click on an actionable item
+    // opens what it describes (the trade tab), then dismisses it like any other message.
+    this.bind(element, 'click', () => {
+      if (item.action) this.runAction(item.action);
+      this.dismiss(element);
+    });
     this.bind(element, 'keydown', (event) => this.handleKeydown(event, element));
     this.bind(element, 'touchstart', (event) => this.handleTouchStart(event), { passive: true });
     this.bind(element, 'touchmove', (event) => this.handleTouchMove(event), { passive: true });
@@ -370,6 +414,9 @@ export class NotificationCenter {
     element.tabIndex = 0;
     // The whole card dismisses the notification, so the accessible name says so.
     element.setAttribute('aria-label', item.title);
+    // An actionable message is a link to somewhere: it says so with the cursor, so a desktop
+    // player knows the click does more than closing it.
+    if (item.action) element.classList.add('is-actionable');
 
     if (item.badge !== '') {
       const badge = document.createElement('span');
@@ -447,6 +494,7 @@ export class NotificationCenter {
     const key = event?.key;
     if (key !== 'Enter' && key !== ' ' && key !== 'Spacebar') return;
     event.preventDefault();
+    if (this.currentItem?.action) this.runAction(this.currentItem.action);
     this.dismiss(element);
   }
 

@@ -195,8 +195,48 @@
         "id": "level-25",
         "requiredLevel": 25,
         "text": {
+            "fr": "Aussi sur Terraria",
+            "en": "Also on Terraria"
+        }
+    },
+    {
+        "id": "level-26",
+        "requiredLevel": 26,
+        "text": {
+            "fr": "Créateur Datapack",
+            "en": "Datapack Maker"
+        }
+    },
+    {
+        "id": "level-27",
+        "requiredLevel": 27,
+        "text": {
+            "fr": "Bûche de Bouleau",
+            "en": "Birch log"
+        }
+    },
+    {
+        "id": "level-28",
+        "requiredLevel": 28,
+        "text": {
             "fr": "Bâton de débogage",
             "en": "Debug Stick"
+        }
+    },
+    {
+        "id": "level-29",
+        "requiredLevel": 29,
+        "text": {
+            "fr": "Alimenté en redstone",
+            "en": "Redstone powered"
+        }
+    },
+    {
+        "id": "level-30",
+        "requiredLevel": 30,
+        "text": {
+            "fr": "Etoile du Nether",
+            "en": "Nether Star"
         }
     }
 ]

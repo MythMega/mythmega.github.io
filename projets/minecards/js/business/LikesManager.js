@@ -28,6 +28,7 @@
 
 import socialManager from './SocialManager.js';
 import accountManager, { USER_STATE_KEYS } from './AccountManager.js';
+import friendshipManager from './FriendshipManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import dateSyncManager from './DateSyncManager.js';
 import storageRepository, { STORES } from '../models/StorageRepository.js';
@@ -37,7 +38,7 @@ import eventBus, { EVENTS } from '../utils/EventBus.js';
 export const LIKES_MAX_BATCH = 100;
 
 /** Number of entries each side of the like history asks for (mirrors the worker). */
-export const LIKES_HISTORY_LIMIT = 20;
+export const LIKES_HISTORY_LIMIT = 25;
 
 /**
  * Friends per batch like request. The worker accepts 100, but one request of 100 leaves the popup
@@ -377,6 +378,7 @@ export class LikesManager {
 
     const result = { targetUuid: uuid, likes: readCount(payload?.likes) };
     await this.rememberLikes([uuid]);
+    await friendshipManager.recordLikes([{ uuid, day: this.getUtcDay() }], 'sent');
     await this.recordStats({ sent: 1 });
     this.log(`Liked ${uuid} (${result.likes} like(s)).`);
     return result;
@@ -453,13 +455,17 @@ export class LikesManager {
       onProgress?.({ done, total: targets.length });
     }
 
+    await friendshipManager.recordLikes(
+      result.liked.map((uuid) => ({ uuid, day: this.getUtcDay() })),
+      'sent'
+    );
     await this.recordStats({ sent: result.liked.length });
     this.log(`Liked ${result.liked.length} friend(s) out of ${targets.length}.`);
     return result;
   }
 
   /**
-   * Reads the ten last likes this player RECEIVED and the ten last likes it SENT.
+   * Reads the last 25 likes this player RECEIVED and the last 25 likes it SENT.
    *
    * One authenticated request: the worker reads both sides of `like_daily_target` in a single
    * batch, and joins the public card of the other player so the Social page can name a liker (and

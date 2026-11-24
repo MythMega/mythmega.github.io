@@ -456,6 +456,124 @@
   scroll-snap-type: none;
 }
 
+/* Pinned trophies wear the very same grid as the favourites (one column per slot), so the five
+   of them hold on one line. The tiles are a step smaller than before: a medal, a two-line name
+   and a compact rarity badge still read at that width. */
+.profile__strip--trophies {
+  display: grid;
+  grid-template-columns: repeat(var(--featured-columns, 5), minmax(0, 1fr));
+  padding-right: 0;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.profile__strip--trophies .profile__tile {
+  width: 100%;
+  min-width: 0;
+}
+
+.profile__strip--trophies .profile__tile-open {
+  justify-content: center;
+  gap: 0.1rem;
+  padding: var(--space-1);
+  overflow: hidden;
+}
+
+.profile__strip--trophies .trophy__rarity {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile__strip--trophies .profile__tile--trophy .trophy__icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.profile__strip--trophies .trophy__rarity {
+  padding: 0 0.25rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.02em;
+}
+
+.profile__strip--trophies .profile__tile-title {
+  font-size: 0.6rem;
+  line-height: 1.2;
+  -webkit-line-clamp: 2;
+}
+
+.profile__strip--trophies .profile__tile--trophy .profile__tile-title {
+  min-height: 2.4em;
+}
+
+.profile__strip--trophies .profile__tile-slot-label,
+.profile__strip--trophies .profile__tile-buy-price {
+  font-size: 0.55rem;
+}
+
+.profile__strip--trophies .profile__tile--slot .profile__tile-open {
+  min-height: 0;
+}
+
+/* The two pinned panels are one grid: two equal rows on a phone, two columns on a wide screen,
+   so the trophies and the favourites always have the same height. The trophy strip fills the
+   height it is given instead of leaving a hole under the medals. */
+.profile__pinned {
+  display: grid;
+  gap: var(--space-4);
+  grid-auto-rows: 1fr;
+}
+
+/* The trophy boxes keep a COMPACT height: the panel still shares the height of the favourites
+   (`.profile__pinned`), but the medals no longer stretch to fill it, which left very tall empty
+   frames around a small medal. */
+.profile__panel--featured .profile__strip--trophies {
+  flex: 0 0 auto;
+  grid-auto-rows: 5rem;
+  align-content: start;
+}
+
+.profile__strip--wishlist .profile__tile--slot {
+  width: 100%;
+  min-width: 0;
+}
+
+/* The unpin button of a wish sits INSIDE its tile: the wishlist grid touches the panel edges, so a
+   button hanging over the corner would overflow the last column. */
+.profile__strip--wishlist .profile__tile-action {
+  top: 2px;
+  right: 2px;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.profile__strip--wishlist .profile__tile-action .profile__icon {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+/* Wishlist: wider than the two panels above. Ten cards on one row on a wide screen, two rows of
+   five on a phone, and the full width of the page on both. */
+.profile__strip--wishlist {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding-right: 0;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.profile__strip--wishlist .profile__tile--card {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .profile__strip--wishlist {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+}
+
 .profile__tile {
   position: relative;
   flex: 0 0 auto;
@@ -515,6 +633,13 @@
   object-fit: contain;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface);
+}
+
+/* A wish the player does not own yet: the illustration loses its colours, so the wished cards
+   they already have stay the only coloured ones of the strip. */
+.profile__tile--unowned .profile__tile-image {
+  filter: grayscale(1) brightness(0.8);
+  opacity: 0.85;
 }
 
 /* The name of a pinned trophy, clamped to THREE lines. A trophy name can be a sentence ("Le premier
@@ -670,7 +795,14 @@
   .profile {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
+    align-items: stretch;
+  }
+
+  .profile__pinned {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    align-items: stretch;
   }
 
   .profile__identity {
@@ -683,6 +815,53 @@
   .profile__xp-fill {
     transition: none;
   }
+}
+
+/* --- Online profile (the friend dialog, on the player's own data) ---------- */
+
+.profile-online {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.profile-online__card {
+  display: block;
+  width: 100%;
+  /* The card centres itself with `--profile-card-offset` (see `ProfileCard.applyStage`): a flex
+     `center` would move the authored 360 px box before its scale, clipping its left edge on a
+     phone. No max-height here: the dialog itself scrolls, and the card must be shown in FULL like
+     the one of a followed player. */
+}
+
+/* The recap blocks span the whole dialog, like the blocks of a followed player's card. */
+.profile-online [data-profile-online-favorites],
+.profile-online [data-profile-online-wishlist] {
+  width: 100%;
+}
+
+.profile-online__binder {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.profile-online__meta {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.profile-online__stats {
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* --- Profile card --------------------------------------------------------- */
@@ -1263,6 +1442,43 @@
 
 /* --- Profile: slot picker ------------------------------------------------- */
 
+/* Search field and one-click filters above the card list of the picker. */
+.profile-picker-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.profile-picker__search {
+  width: 100%;
+}
+
+.profile-picker__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.profile-picker__filter {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.profile-picker__filter.is-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
 .profile-picker {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
@@ -1295,6 +1511,16 @@
 .profile-picker__choice:focus-visible {
   border-color: var(--color-accent);
   transform: translateY(-2px);
+}
+
+/* Same rule as the wishlist strip: a card that is not owned is in black and white. */
+.profile-picker__choice.is-unowned .profile-picker__image {
+  filter: grayscale(1) brightness(0.8);
+  opacity: 0.85;
+}
+
+.profile-picker__choice.is-unowned .profile-picker__label {
+  color: var(--color-text-muted);
 }
 
 .profile-picker__image {

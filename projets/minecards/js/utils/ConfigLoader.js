@@ -1882,7 +1882,8 @@ export class ConfigLoader {
    * A missing section or a malformed value falls back to `DEFAULT_TRADE_SETTINGS`: only an explicit
    * `false` reopens the exchanges between two extensions.
    *
-   * @returns {Promise<{sameExtension: boolean}>} The trade rules.
+   * @returns {Promise<{sameExtension: boolean, prices: object}>} The trade rules. `prices` is the
+   *   raw `trades.prices` block, normalized by `TradeManager.parseTradePrices()`.
    * @throws {Error} See `load()`.
    */
   async getTradeSettings() {
@@ -1890,6 +1891,7 @@ export class ConfigLoader {
     const trades = config.trades || {};
     return {
       sameExtension: trades.sameExtension === true,
+      prices: trades.prices && typeof trades.prices === 'object' ? trades.prices : {},
     };
   }
 

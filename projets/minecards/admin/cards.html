@@ -86,6 +86,7 @@
               </select>
             </label>
             <button type="button" class="btn btn--ghost sort-direction" id="sort-direction" aria-label="Trier par ordre croissant">Croissant ↑</button>
+            <button type="button" class="btn btn--ghost filter-toggle" id="problems-filter" aria-pressed="false" title="Afficher uniquement les cartes à problème : image introuvable, élément manquant ou underlay vide. La pagination est désactivée.">Problème</button>
             <label class="control control--page-size">
               <span class="control__label">Par page</span>
               <select class="field__select" id="page-size">
@@ -113,6 +114,7 @@
               <thead>
                 <tr>
                   <th scope="col" class="cell-num">N°</th>
+                  <th scope="col" class="cell-problems" id="problems-column" hidden>Problème</th>
                   <th scope="col">Index</th>
                   <th scope="col">Nom FR</th>
                   <th scope="col">Nom EN</th>
@@ -124,7 +126,7 @@
               </thead>
               <tbody id="cards-body">
                 <tr>
-                  <td class="table-placeholder" colspan="8">Chargement…</td>
+                  <td class="table-placeholder" colspan="9">Chargement…</td>
                 </tr>
               </tbody>
             </table>

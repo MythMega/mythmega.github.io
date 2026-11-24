@@ -412,8 +412,8 @@ async function loadMiningResources(config) {
  * file is simply skipped: a missing promo is the normal case, never an error.
  *
  * @param {object} config - Parsed configuration (directories only).
- * @returns {Promise<Array<{setId: string, name: string, promo: boolean, texture: string|null, cards: Array<{index: string, layout: string, name: string|null, path: string|null}>}>>}
- *   The catalog.
+  * @returns {Promise<Array<{setId: string, name: string, promo: boolean, texture: string|null, icon: string|null, cards: Array<{index: string, layout: string, name: string|null, path: string|null}>}>>}
+   *   The catalog.
  * @throws {Error} When the catalogue cannot be read or a declared extension file is missing.
  */
 async function loadCatalog(config) {
@@ -439,6 +439,11 @@ async function loadCatalog(config) {
       promo: false,
       texture: typeof raw?.BoosterTexture === 'string' && raw.BoosterTexture.trim() !== ''
         ? raw.BoosterTexture.trim()
+        : null,
+      // The flat, upright picture of the pack, used by every thumbnail of the tool; `texture` is
+      // kept for the 3D model only.
+      icon: typeof raw?.BoosterIcon === 'string' && raw.BoosterIcon.trim() !== ''
+        ? raw.BoosterIcon.trim()
         : null,
       cards: collectCardRows(raw),
     });
@@ -674,7 +679,7 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS, resourceSlug = null) {
     let source = null;
     let caption = '';
     if (selected === REWARD_KINDS.BOOSTER) {
-      source = resolveAdminAsset(set?.texture ?? DEFAULT_BOOSTER_TEXTURE);
+      source = resolveAdminAsset(set?.icon ?? set?.texture ?? DEFAULT_BOOSTER_TEXTURE);
       caption = set ? `${set.name} (${set.setId})` : '';
     } else if (selected === REWARD_KINDS.BUNDLE) {
       source = resolveAdminAsset('assets/img/bundle.png');

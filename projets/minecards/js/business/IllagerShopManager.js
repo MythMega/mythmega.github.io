@@ -471,7 +471,7 @@ export class IllagerShopManager {
           slug: null,
           card: null,
           setId,
-          texture: await IllagerShopManager.boosterTexture(setId),
+          texture: await IllagerShopManager.boosterIcon(setId),
         });
         continue;
       }
@@ -497,18 +497,20 @@ export class IllagerShopManager {
   }
 
   /**
-   * Returns the artwork of the pack of an extension, for the thumbnail of an offer.
+   * Returns the flat picture of the pack of an extension, for the thumbnail of an offer.
    *
-   * The picture is owned by the extension file (`BoosterTexture`). A set that is not released yet,
-   * or whose file cannot be read, has none: the offer still sells it and shows its name alone.
+   * The picture is owned by the extension file (`BoosterIcon`, and its texture as a fallback): the
+   * thumbnail is a small flat display, so it takes the upright, cropped icon rather than the
+   * artwork the 3D model samples. A set that is not released yet, or whose file cannot be read, has
+   * none: the offer still sells it and shows its name alone.
    *
    * @param {string} setId - Extension id.
    * @returns {Promise<string|null>} A path relative to the application root, or null.
    */
-  static async boosterTexture(setId) {
+  static async boosterIcon(setId) {
     try {
       const set = await boosterManager.getBoosterSet(setId);
-      return set.texture ?? null;
+      return set.icon ?? set.texture ?? null;
     } catch {
       return null;
     }

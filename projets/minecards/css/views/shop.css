@@ -89,12 +89,6 @@
   filter: drop-shadow(0 6px 10px rgb(0 0 0 / 35%));
 }
 
-/* The source booster artwork is upside down: flip every booster image shown by the shop. */
-.shop__product-art--flipped,
-.shop__booster-art img {
-  transform: rotate(180deg);
-}
-
 .shop__product-copy {
   display: grid;
   gap: var(--space-1);

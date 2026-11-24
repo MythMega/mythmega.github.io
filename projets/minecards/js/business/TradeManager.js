@@ -904,6 +904,34 @@ export class TradeManager {
   }
 
   /**
+   * Summarizes what the trade lists ask of this player.
+   *
+   * Only the LIVE trades count: a closed one is history, and one this player already settled (their
+   * card was claimed) is finished even while the worker keeps it active for the other side.
+   *
+   * @param {object[]} trades - Incoming and outgoing trades of a worker answer.
+   * @param {object} state - Local trade state (read for `claimed`).
+   * @returns {{active: boolean, ready: boolean}} `active` when a trade is still running, `ready`
+   *   when one of them waits for this player to claim the card received.
+   */
+  static buildAttention(trades, state) {
+    const rows = Array.isArray(trades) ? trades : [];
+    let active = false;
+    let ready = false;
+    for (const trade of rows) {
+      if (!trade || typeof trade.id !== 'string') continue;
+      if (TRADE_REFUND_STATUSES.includes(trade.status)) continue;
+      if (trade.status === TRADE_STATUSES.COMPLETED) continue;
+      if (TradeManager.isSettledOnMySide(trade, state)) continue;
+      active = true;
+      // `accepted` is the only status that leaves something to DO here: the card received is in the
+      // worker, waiting for the claim that moves it into the collection.
+      if (trade.status === TRADE_STATUSES.ACCEPTED) ready = true;
+    }
+    return { active, ready };
+  }
+
+  /**
    * Closes on the worker the open requests this client already gave up on.
    *
    * Only a row the local state marks as `refused` is closed: a request that is still meant to be
@@ -1048,6 +1076,13 @@ export class TradeManager {
     // flat rate. The counters above keep the already tracked ones out of both seeds.
     await friendshipManager.syncTradeHistory(stats.byPartner, trades);
     eventBus.emit(EVENTS.TRADES_UPDATED, { balance: nextState.enderEyes });
+    // The dots of the shell follow the same answer: a trade still running and a card waiting to be
+    // claimed are two different states of the bar. A trade this player already settled is ignored
+    // here, exactly like the lists of the view (see `refresh`).
+    eventBus.emit(
+      EVENTS.TRADE_ATTENTION,
+      TradeManager.buildAttention([...incoming, ...outgoing], nextState)
+    );
     return { notifications, state: nextState };
   }
 
@@ -1174,7 +1209,13 @@ export class TradeManager {
     const other = isInitiator ? trade.responder : trade.initiator;
     const otherName = other?.username || i18n.t('profile.anonymous');
     const cardName = other?.card?.name || '';
-    const base = { type: 'trade', badge: i18n.t('notif.trade.badge') };
+    // Every trade notification leads to the tab that owns the trade: the step it describes is
+    // answered there, and a player reading it ten seconds later is one click away from it.
+    const base = {
+      type: 'trade',
+      badge: i18n.t('notif.trade.badge'),
+      action: { view: 'social', tab: 'trade' },
+    };
 
     const localized = (titleKey, messageKey, params) => ({
       ...base,

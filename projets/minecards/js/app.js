@@ -48,6 +48,7 @@ import eventBus, { EVENTS } from './utils/EventBus.js';
 import { capturePendingRedeem, consumePendingRedeem } from './utils/DeepLink.js';
 import notificationCenter from './UI/components/NotificationCenter.js';
 import { AppMenu } from './UI/components/AppMenu.js';
+import tradeIndicators from './UI/components/TradeIndicators.js';
 import { SpaRouter } from './UI/SpaRouter.js';
 import { OnboardingView } from './UI/views/OnboardingView.js';
 import { OpeningView, OPENING_VIEW_NAME } from './UI/views/OpeningView.js';
@@ -588,6 +589,13 @@ export class App {
     // navigation: every entry still carries `data-nav-target` and is handled by the router.
     this.appMenu = new AppMenu();
     this.appMenu.init();
+
+    // The dots of the trades (menu button, Social row, Échanges tab) follow the refreshes of
+    // `TradeManager` from `TRADE_ATTENTION`, and the notifications they announce open the trade
+    // tab through the router. Bound here, before the first refresh, so the boot already shows
+    // what is waiting.
+    tradeIndicators.init();
+    notificationCenter.setActionHandler((action) => this.handleNotificationAction(action));
 
     // The header listens before the time synchronization so the very first CLOCK_TICK emission is
     // already displayed.
@@ -1581,12 +1589,30 @@ export class App {
   async refreshTrades() {
     try {
       const view = await tradeManager.refresh({ silent: true });
-      view.notifications.forEach((item) => notificationCenter.push(item));
+      tradeIndicators.pushNotifications(view.notifications);
       if (view.notifications.length > 0) {
         console.info(`[App] ${view.notifications.length} trade update(s) announced.`);
       }
     } catch (error) {
       console.warn('[App] The trades could not be refreshed at startup.', error);
+    }
+  }
+
+  /**
+   * Opens what a clicked notification describes.
+   *
+   * The notifications themselves carry no navigation: an item only names a destination
+   * (`{ view, tab }`), and this method is the one place that knows how the shell goes there. A
+   * trade notification leads to "Social > Échanges", the tab that owns the trade it announces.
+   *
+   * @param {{view?: string, tab?: string}|null} action - Action of the clicked notification.
+   * @returns {void}
+   */
+  handleNotificationAction(action) {
+    if (!action || typeof action.view !== 'string') return;
+    this.router?.show(action.view);
+    if (action.view === SOCIAL_VIEW_NAME && typeof action.tab === 'string') {
+      this.socialView?.showTab(action.tab);
     }
   }
 
@@ -2531,10 +2557,11 @@ export class App {
       const icon = document.createElement('span');
       icon.className = 'inventory__icon inventory__icon--booster';
       icon.setAttribute('aria-hidden', 'true');
-      if (set?.texture) {
+      const picture = set?.icon ?? set?.texture;
+      if (picture) {
         const artwork = document.createElement('img');
-        artwork.className = 'inventory__booster booster-art';
-        artwork.src = i18n.resolveImagePath(set.texture);
+        artwork.className = 'inventory__booster';
+        artwork.src = i18n.resolveImagePath(picture);
         artwork.alt = '';
         icon.appendChild(artwork);
       }

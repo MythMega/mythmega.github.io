@@ -248,7 +248,13 @@ export class BoosterManager {
         // (`Name` in the booster JSON, e.g. "Genesis Blocks"; a single neutral value, so no
         // per-language variant is needed). Falls back to the series/id when absent.
         name: setData.Name ?? setData.Serie ?? setId,
+        // Two pictures per pack, and they are not interchangeable. `texture` is the full artwork the
+        // UV map of `assets/boostermodel.glb` samples: it is stored upside down on purpose and has
+        // empty margins the model needs. `icon` is the flat picture of every OTHER display (shop,
+        // inventory, Mine Pick, announcements): already upright and cropped on the pack itself.
+        // A set that declares no icon falls back to its texture, which the views then rotate.
         texture: BoosterManager.normalizeAssetPath(setData.BoosterTexture),
+        icon: BoosterManager.normalizeAssetPath(setData.BoosterIcon),
         importMode: setData.ImportMode ?? null,
         raw: setData,
         cards,
@@ -271,8 +277,9 @@ export class BoosterManager {
    * pools and rarity tables as a real opening, so both can never disagree.
    *
    * @param {string} setId - Extension identifier (e.g. "A1").
-   * @returns {{setId: string, name: string, texture: string|null, cards: Array, rarityConfig: Array,
-   *   cardsByRarity: object, raw: object}|null} The loaded extension, or null when unknown.
+   * @returns {{setId: string, name: string, texture: string|null, icon: string|null, cards: Array,
+   *   rarityConfig: Array, cardsByRarity: object, raw: object}|null} The loaded extension, or null
+   *   when unknown. `texture` feeds the 3D model, `icon` every flat display.
    */
   getLoadedSet(setId) {
     if (typeof setId !== 'string') return null;
@@ -457,8 +464,8 @@ export class BoosterManager {
    *
    * @param {object} [options] - Listing options.
    * @param {boolean} [options.includeUpcoming=false] - Also list the sets inside the preview window.
-   * @returns {Promise<Array<{setId: string, name: string, texture: string|null, cardCount: number,
-   *   releaseDate: string|null, released: boolean, daysUntilRelease: number}>>}
+   * @returns {Promise<Array<{setId: string, name: string, texture: string|null, icon: string|null,
+   *   cardCount: number, releaseDate: string|null, released: boolean, daysUntilRelease: number}>>}
    *   A lightweight description of every listed extension.
    * @throws {Error} When the extensions cannot be loaded.
    */
@@ -473,6 +480,7 @@ export class BoosterManager {
         setId: set.setId,
         name: set.name,
         texture: set.texture,
+        icon: set.icon,
         cardCount: set.cards.length,
         releaseDate: availability.releaseDate,
         released: availability.released,

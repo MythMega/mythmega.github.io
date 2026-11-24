@@ -1571,12 +1571,15 @@ export class OpeningView {
   /**
    * Shows the 2D image of an extension when the 3D preview cannot be displayed at all.
    *
-   * @param {{texture: string|null, name: string}|null} set - Loaded extension, if any.
+   * @param {{texture: string|null, icon: string|null, name: string}|null} set - Loaded extension,
+   *   if any.
    * @returns {void}
    */
   showPreviewFallback(set) {
-    if (set?.texture) {
-      this.previewFallback.src = i18n.resolveImagePath(set.texture);
+    // A flat display: the upright, cropped icon rather than the artwork of the 3D model.
+    const picture = set?.icon ?? set?.texture;
+    if (picture) {
+      this.previewFallback.src = i18n.resolveImagePath(picture);
       this.previewFallback.alt = set.name ?? '';
       this.previewFallback.hidden = false;
     }
@@ -1609,14 +1612,16 @@ export class OpeningView {
   /**
    * Shows the 2D fallback (booster texture, tap to open).
    *
-   * @param {{texture: string|null, name: string}|null} set - Loaded extension, if any.
+   * @param {{texture: string|null, icon: string|null, name: string}|null} set - Loaded extension,
+   *   if any.
    * @returns {void}
    */
   showBoosterFallback(set) {
     this.isFallbackMode = true;
     this.setFeedback('opening.scene.fallback', 'info');
-    if (set?.texture) {
-      this.boosterFallback.src = i18n.resolveImagePath(set.texture);
+    const picture = set?.icon ?? set?.texture;
+    if (picture) {
+      this.boosterFallback.src = i18n.resolveImagePath(picture);
       this.boosterFallback.alt = set.name ?? '';
       this.boosterFallback.hidden = false;
     }

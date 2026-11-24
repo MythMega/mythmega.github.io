@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v209';
+const VERSION = 'v211';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -196,6 +196,7 @@ const PRECACHE_URLS = [
   './js/UI/components/TrophyDetail.js',
   './js/UI/components/ViewHelp.js',
   './js/UI/components/WishlistRemovePopup.js',
+  './js/UI/components/TradeIndicators.js',
   './js/UI/views/TradeView.js',
   './js/UI/views/CollectionView.js',
   './js/UI/views/GiftsView.js',

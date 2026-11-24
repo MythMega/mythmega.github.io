@@ -637,14 +637,6 @@ svg.app-header__stat-icon {
   border-radius: var(--radius-md);
 }
 
-/* THE BOOSTER ARTWORKS ARE STORED UPSIDE DOWN (see `css/components/booster-3d.css`): every flat
-   display of one turns it back. `rotate` instead of `transform`, so the floating and pop
-   animations that animate `transform` keep working and compose with it. The 3D model reads the
-   texture directly and never wears this class. */
-.booster-art {
-  rotate: 180deg;
-}
-
 /* The glyph of a row: a themed PNG, a drawn glyph or the artwork of a booster. */
 .inventory__icon {
   display: grid;
@@ -928,15 +920,23 @@ body.is-focus {
   white-space: nowrap;
 }
 
-/* PHONE: the primary action stays in the MIDDLE of the bar and takes 30% of the row; the four
-   destinations share the remaining 70% equally, two on each side, so the two halves are identical
-   and the action can never drift off centre. The columns are fractions rather than content: a
-   label wider than its column is clipped with an ellipsis instead of running under its neighbour,
-   and `min-width: 0` is what lets a grid column shrink below its text. */
+/* PHONE: the primary action stays in the MIDDLE of the bar and takes 20% of the row; the four
+   destinations share the remaining 80% equally, two on each side, so the two halves are identical
+   and the action can never drift off centre. The share is 20 and not 30 because it is MEASURED: at
+   360 px a 30% column left 46 px of text for "Collection", which needs 50, so the longest label
+   was cut with an ellipsis; 20% leaves 55 px and every label fits, while the accent background and
+   the lift of the primary button still make it the loudest of the five.
+   The columns are fractions rather than content: a label wider than its column is clipped with an
+   ellipsis instead of running under its neighbour, and `min-width: 0` is what lets a grid column
+   shrink below its text. */
 @media (max-width: 480px) {
   .app-nav {
-    grid-template-columns: 1fr 1fr 30% 1fr 1fr;
+    grid-template-columns: 1fr 1fr 20% 1fr 1fr;
     justify-content: normal;
+    /* 4 px instead of 8 px on each side: the four side columns gain 1.6 px each, which is the
+       margin the longest label needs so a phone whose font measures a hair wider never ellipsises
+       it. The padding stays symmetric, so the primary action stays in the middle. */
+    padding-inline: var(--space-1);
   }
 
   .app-nav__item {
@@ -952,27 +952,17 @@ body.is-focus {
   }
 }
 
-/* Very narrow (a 320 px phone, the outer screen of a foldable): five labels in a row still need more
-   width than the bar has at a readable size, so the labels step aside and the icons keep the bar.
-   The text is not removed: it is clipped the way `.sr-only` does it, so a screen reader still
-   announces "Collection" and still hears it as the name of the button. The 30% column of the
-   primary action and the equal halves around it are kept: only the labels change. */
+/* Very narrow (a 320 px phone, the outer screen of a foldable): the labels keep their place, one
+   step smaller and with the padding of their button tightened. Measured at 320 px with the 20%
+   column of the primary action: a side column is 57 px wide, "Collection" - the longest label of
+   the bar - needs 51 px at 10px, and the 2 px of padding left per side give it 53: nothing is cut
+   and 2 px stay as a margin, because a phone without the desktop font would measure differently.
+   The columns are untouched: the primary action is still centred and still owns its 20%. */
 @media (max-width: 339px) {
   .app-nav__item {
     position: relative;
-  }
-
-  /* Every label of the bar. */
-  .app-nav__item span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+    padding-inline: var(--space-1);
+    font-size: 0.625rem;
   }
 }
 
@@ -1007,6 +997,42 @@ body.is-focus {
   background-color: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
   color: var(--color-accent-contrast);
+}
+
+/* --- Trade dots ---------------------------------------------------------- */
+
+/* The same dot marks three places of the shell, painted by `TradeIndicators`: the menu button of
+   the bar (below), the "Social" row of the floating menu (`components/app-menu.css`) and the
+   "Échanges" tab of the Social page (`views/social.css`). Orange means a trade is running, green
+   means one of them waits for THIS player to claim the card received. The dot is decorative: the
+   state it shows is already written in the tab itself, so the pseudo-element carries no text. */
+[data-trade-dot]::after {
+  content: '';
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #ff8a00;
+  box-shadow: 0 0 0 1px var(--color-surface), 0 0 6px #ff8a00;
+  pointer-events: none;
+}
+
+[data-trade-dot="ready"]::after {
+  background-color: var(--color-success);
+  box-shadow: 0 0 0 1px var(--color-surface), 0 0 6px var(--color-success);
+}
+
+/* On the bar the dot sits on the top right corner of the ICON, not of the button: the button is a
+   whole column of the grid, and a dot in the corner of the column would float far from the picture
+   it describes. */
+.app-nav__item[data-trade-dot] {
+  position: relative;
+}
+
+.app-nav__item[data-trade-dot]::after {
+  top: 3px;
+  left: 50%;
+  margin-left: 7px;
 }
 
 /* --- Views --------------------------------------------------------------- */

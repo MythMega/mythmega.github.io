@@ -312,7 +312,7 @@ export class MinePickManager {
    *
    * @param {object} [options] - Board options.
    * @param {boolean} [options.force=false] - Rebuild the board even when it is cached.
-   * @returns {Promise<Array<{index: number, setId: string, name: string, texture: string|null,
+   * @returns {Promise<Array<{index: number, setId: string, name: string, icon: string|null,
    *   godpack: boolean, cards: Array, order: number[]}>>} The ten boosters of the day. `order` is
    *   the position in which the view deals the cards (a seeded permutation of `cards`).
    * @throws {Error} When the account, `config.json` or the extension files cannot be read.
@@ -388,7 +388,9 @@ export class MinePickManager {
         index: board.length,
         setId,
         name: loadedSet.name,
-        texture: loadedSet.texture,
+        // The board is a flat display: it shows the upright, cropped icon of the pack, never the
+        // artwork the 3D model samples.
+        icon: loadedSet.icon ?? loadedSet.texture,
         godpack: isGodpack,
         cards,
         order: [],

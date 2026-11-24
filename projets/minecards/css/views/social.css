@@ -40,6 +40,17 @@
   color: var(--color-accent-contrast);
 }
 
+/* A trade is running: the dot of the bottom bar (`css/base.css`), in the top right corner of the
+   "Échanges" pill. The tab is not positioned, the base rule of a trade dot needs an anchor. */
+.social__tab[data-trade-dot] {
+  position: relative;
+}
+
+.social__tab[data-trade-dot]::after {
+  top: 3px;
+  right: 6px;
+}
+
 .social__panel {
   display: flex;
   flex-direction: column;

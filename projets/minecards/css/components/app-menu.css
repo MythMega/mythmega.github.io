@@ -156,6 +156,13 @@
   display: none;
 }
 
+/* A trade is running: the dot of the bottom bar (`css/base.css`), on the right of the "Social" row.
+   `.app-menu__item` is already `position: relative`, the base rule of a trade dot needs nothing. */
+.app-menu__item[data-trade-dot]::after {
+  top: calc(50% - 0.25rem);
+  right: var(--space-2);
+}
+
 body.is-focus .app-menu,
 body.is-onboarding .app-menu {
   display: none;

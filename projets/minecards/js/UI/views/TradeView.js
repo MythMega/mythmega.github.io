@@ -25,7 +25,7 @@
 
 import i18n from '../../utils/I18n.js';
 import Toast from '../components/Toast.js';
-import notificationCenter from '../components/NotificationCenter.js';
+import tradeIndicators from '../components/TradeIndicators.js';
 import socialManager, {
   getSocialErrorMessageKey,
   safeSocialAssetPath,
@@ -499,8 +499,9 @@ export class TradeView {
    * @returns {void}
    */
   pushNotifications(notifications) {
-    if (!Array.isArray(notifications)) return;
-    notifications.forEach((item) => notificationCenter.push(item));
+    // Shared with the background refresh of `js/app.js`: the same rule drops a trade message while
+    // the trade tab is on screen (see `TradeIndicators.pushNotifications`).
+    tradeIndicators.pushNotifications(notifications);
   }
 
   /**

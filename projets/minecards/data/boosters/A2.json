@@ -4,6 +4,7 @@
   "Serie": "A2",
   "ImportMode": "AlreadyExportedData",
   "BoosterTexture": "./assets/boosters/A2.png",
+  "BoosterIcon": "./assets/boosters/A2_icon_mini.webp",
   "Rarity": {
     "1": [ { "rarity": 1, "weight": 0.9 }, { "rarity": 2, "weight": 0.1 } ],
     "2": [ { "rarity": 1, "weight": 0.7 }, { "rarity": 2, "weight": 0.2 }, { "rarity": 3, "weight": 0.1 } ],

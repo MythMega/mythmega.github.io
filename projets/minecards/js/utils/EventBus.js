@@ -79,6 +79,11 @@ export const EVENTS = Object.freeze({
    * the worker or spent: the header counter and the inventory listen to it. Ender Eyes are
    * server-authoritative (max 5, +1 per UTC day), so this is a cache of the last known value. */
   TRADES_UPDATED: 'TRADES_UPDATED',
+  /** Payload: `{ active, ready }`. Emitted by `TradeManager` after every refresh: `active` is true
+   * when at least one trade is still running, `ready` when one of them waits for THIS player to
+   * claim the card it received. The dots of the shell (`TradeIndicators`) are painted from it:
+   * orange for a running trade, green for a card to collect. */
+  TRADE_ATTENTION: 'TRADE_ATTENTION',
   /** Payload: `{ uuid }`. Emitted by `SocialManager` once a player is stored in the Follow List:
    * the `AddFriend` quest counts a successful follow (never a follow that failed the check). */
   FOLLOW_ADDED: 'FOLLOW_ADDED',

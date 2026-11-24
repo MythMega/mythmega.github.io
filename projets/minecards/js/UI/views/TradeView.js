@@ -34,13 +34,19 @@ import collectionManager from '../../business/CollectionManager.js';
 import boosterManager from '../../business/BoosterManager.js';
 import accountManager from '../../business/AccountManager.js';
 import wishlistManager from '../../business/WishlistManager.js';
+import sparksManager from '../../business/SparksManager.js';
+import { buildPrice } from '../components/PriceIcons.js';
 import {
   askWishlistRemoval,
   WISHLIST_POPUP_ANSWERS,
 } from '../components/WishlistRemovePopup.js';
+import friendshipManager from '../../business/FriendshipManager.js';
+import { buildFriendshipLevel } from '../components/FriendshipLevel.js';
 import tradeManager, {
   TRADE_EXPIRY_HOURS,
   TRADE_MAX_ENDER_EYES,
+  TRADE_MAX_RARITY,
+  TRADE_MIN_RARITY,
   TRADE_STATUSES,
   getTradeCost,
   getTradeErrorMessageKey,
@@ -54,6 +60,47 @@ const CLAIM_ANIMATION_MS = 7800;
 
 /** How long after one of our own actions the lists are fetched again, in milliseconds. */
 const TRADE_AUTO_REFRESH_MS = 500;
+
+/** Sorts offered by the card chooser, matching the `data-trade-cards-sort` values. */
+const CARD_SORT_MODES = Object.freeze(['rarity', 'quantity', 'number']);
+
+/**
+ * Normalizes a card search text: lowercased, without diacritics or repeated spaces.
+ *
+ * @param {unknown} value - Typed query.
+ * @returns {string} The comparable text.
+ */
+function normalizeCardQuery(value) {
+  return String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Builds the searchable text of one card: its name in the active language, its id and its key.
+ *
+ * @param {{card?: object, cardId?: string, key?: string}} entry - Collection entry, or a bare key.
+ * @returns {string} The normalized text.
+ */
+function cardHaystack(entry) {
+  const name =
+    typeof entry?.card?.getName === 'function' ? entry.card.getName(i18n.getLang()) : '';
+  return normalizeCardQuery([name, entry?.cardId ?? '', entry?.key ?? ''].join(' '));
+}
+
+/**
+ * Reads the printed number of a card ("SERIE-A1 / W001").
+ *
+ * @param {object} entry - Collection entry.
+ * @returns {string} The printed index, or the card id when the catalogue has none.
+ */
+function cardNumber(entry) {
+  const index = typeof entry?.card?.index === 'string' ? entry.card.index.trim() : '';
+  return index || String(entry?.cardId ?? '');
+}
 
 export class TradeView {
   /**
@@ -95,7 +142,11 @@ export class TradeView {
     this.partnerAvatar = modalQuery('[data-trade-partner-avatar]');
     this.partnerLabel = modalQuery('[data-trade-partner-label]');
     this.partnerCount = modalQuery('[data-trade-partner-count]');
+    this.partnerStarsElement = modalQuery('[data-trade-partner-stars]');
     this.cardList = modalQuery('[data-trade-cards]');
+    this.cardSearch = modalQuery('[data-trade-cards-search]');
+    this.cardSort = modalQuery('[data-trade-cards-sort]');
+    this.cardEmpty = modalQuery('[data-trade-cards-empty]');
     this.newError = modalQuery('[data-trade-new-error]');
     this.newConfirm = modalQuery('[data-trade-new-confirm]');
     this.newCost = modalQuery('[data-trade-new-cost]');
@@ -151,8 +202,28 @@ export class TradeView {
     this.partners = [];
     /** UUID chosen in the partner picker (empty until the player picks one). */
     this.partnerUuid = '';
+    /** Friendship XP per player, read with the dialog so the partner stars can be painted. */
+    this.friendshipXp = new Map();
+    /** Friendship thresholds, shared with the global trophy file. */
+    this.friendshipTiers = [];
+    /** Stars of the partner selected in the new-trade dialog, which discount the Sparks. */
+    this.partnerStars = 0;
+    /** Stars of the requester in the proposal dialog, which discount the Sparks as well. */
+    this.proposalStars = 0;
     this.imageCache = new Map();
     this.selectedCardKey = '';
+    /** Text typed in the card chooser, normalized on every filter. */
+    this.cardQuery = '';
+    /** Sort chosen in the chooser: `rarity`, `quantity` or `number`. */
+    this.cardSortMode = 'rarity';
+    /** Collection snapshot of the open new-trade dialog, used to explain the greyed cards. */
+    this.collectionView = null;
+    /** Sparks balance read with the collection, null when it could not be read. */
+    this.sparksBalance = null;
+    /** Tiles of the chooser, grouped: wished, blocked wishes, others, untradable. */
+    this.cardGroups = { wished: [], blocked: [], rest: [], untradable: [] };
+    /** Heading that introduces the greyed block, or null when there is none. */
+    this.cardHeading = null;
     this.proposalTrade = null;
     this.proposalCardKey = '';
     this.pendingConfirm = null;
@@ -199,10 +270,14 @@ export class TradeView {
       ['[data-trade-new-modal]', this.newModal],
       ['[data-trade-new-form]', this.newForm],
       ['[data-trade-partner-open]', this.partnerButton],
+      ['[data-trade-partner-stars]', this.partnerStarsElement],
       ['[data-trade-partner-modal]', this.partnerModal],
       ['[data-trade-partner-search]', this.partnerSearch],
       ['[data-trade-partner-list]', this.partnerList],
       ['[data-trade-cards]', this.cardList],
+      ['[data-trade-cards-search]', this.cardSearch],
+      ['[data-trade-cards-sort]', this.cardSort],
+      ['[data-trade-cards-empty]', this.cardEmpty],
       ['[data-trade-new-confirm]', this.newConfirm],
       ['[data-trade-proposal-modal]', this.proposalModal],
       ['[data-trade-proposal-cards]', this.proposalCards],
@@ -248,6 +323,16 @@ export class TradeView {
       if (event.target === this.partnerModal) this.closePartnerPicker();
     });
     this.listen(this.cardList, 'click', (event) => this.selectCard(event, 'new'));
+    this.listen(this.cardSearch, 'input', () => {
+      this.cardQuery = this.cardSearch.value;
+      this.applyCardFilter();
+    });
+    this.listen(this.cardSort, 'change', () => {
+      this.cardSortMode = CARD_SORT_MODES.includes(this.cardSort.value)
+        ? this.cardSort.value
+        : 'rarity';
+      this.applyCardOrder();
+    });
     this.newCloseButtons.forEach((button) => {
       this.listen(button, 'click', () => this.closeNewTrade());
     });
@@ -525,10 +610,10 @@ export class TradeView {
     rarity.textContent = i18n.t(`rarity.${trade.rarity}`);
     const cost = document.createElement('span');
     cost.className = 'trade__cost';
-    cost.textContent = i18n.t('trade.cost', {
-      eyes: trade.ender_eyes_cost,
-      sparks: trade.sparks_cost,
-    });
+    cost.append(
+      document.createTextNode(i18n.t('trade.costLabel')),
+      buildPrice({ enderEyes: trade.ender_eyes_cost, sparks: trade.sparks_cost })
+    );
     const date = document.createElement('span');
     date.textContent = this.formatDate(trade.created_at);
     meta.append(rarity, cost, date);
@@ -601,7 +686,7 @@ export class TradeView {
    */
   async buildCardTile(
     payload,
-    { label = '', compact = false, quantity = 0, cost = '', artOnly = false } = {}
+    { label = '', compact = false, quantity = 0, cost = null, artOnly = false } = {}
   ) {
     const tile = document.createElement('div');
     tile.className = compact ? 'trade__card trade__card--compact' : 'trade__card';
@@ -645,12 +730,13 @@ export class TradeView {
     if (quantity > 0 || cost) {
       const detail = document.createElement('span');
       detail.className = 'trade__card-detail';
-      detail.textContent = [
-        quantity > 0 ? i18n.t('trade.quantity', { count: quantity }) : '',
-        cost,
-      ]
-        .filter(Boolean)
-        .join(' · ');
+      if (quantity > 0) {
+        detail.textContent = i18n.t('trade.quantity', { count: quantity });
+      }
+      if (cost) {
+        if (quantity > 0) detail.append(' · ');
+        detail.appendChild(cost);
+      }
       body.appendChild(detail);
     }
     tile.appendChild(body);
@@ -838,6 +924,10 @@ export class TradeView {
       return;
     }
     this.selectedCardKey = '';
+    this.cardQuery = '';
+    this.cardSearch.value = '';
+    this.cardSortMode = 'rarity';
+    this.cardSort.value = 'rarity';
     this.newError.hidden = true;
     this.newError.textContent = '';
     this.newConfirm.disabled = false;
@@ -846,11 +936,18 @@ export class TradeView {
     this.newModal.hidden = false;
 
     try {
-      const [{ cards, wishlists }, collection, partnerCounts] = await Promise.all([
-        socialManager.refreshFollowing(),
-        collectionManager.getCollectionView(),
-        tradeManager.getPartnerCounts(),
-      ]);
+      const [{ cards, wishlists }, collection, partnerCounts, sparks, friendship] =
+        await Promise.all([
+          socialManager.refreshFollowing(),
+          collectionManager.getCollectionView(),
+          tradeManager.getPartnerCounts(),
+          sparksManager.getBalance().catch(() => null),
+          friendshipManager.getOverview(),
+        ]);
+      this.collectionView = collection;
+      this.sparksBalance = sparks;
+      this.friendshipTiers = friendship.tiers;
+      this.friendshipXp = new Map(Object.entries(friendship.xp));
       this.wishlists = new Map(Object.entries(wishlists ?? {}));
       this.friends = cards.filter((card) => card && typeof card.uuid === 'string');
       this.partners = this.buildPartners(this.friends, partnerCounts);
@@ -858,7 +955,8 @@ export class TradeView {
       this.partnerWishlist = new Set();
       this.partnerButton.disabled = this.partners.length === 0;
       this.updatePartnerDisplay();
-      // Promo cards, rarity 6 and the extensions closed in `settings/cardsets.json` are already out.
+      // Promo cards and the extensions closed in `settings/cardsets.json` are already out; rarity 6
+      // stays in, its price table decides whether the friendship is high enough.
       this.tradeRules = await tradeManager.getRules();
       this.collectionEntries = await tradeManager.getTradableEntries(collection);
 
@@ -877,59 +975,80 @@ export class TradeView {
   }
 
   /**
-   * Repaints the cards the new-trade dialog offers, the partner's wishlist first.
+   * Repaints the cards the new-trade dialog offers.
    *
-   * Once a partner is chosen, the cards THEY wished for come first and carry a badge; the cards
-   * they wished for that this player cannot offer (not owned, or owned once) follow, greyed and
-   * `disabled`, so the wish is visible without pretending it can be exchanged. Without a partner
-   * the dialog is the plain list of the tradable cards.
+   * Groups, top to bottom: the partner's wishes that can be offered (badge), the wishes that
+   * cannot (no copy or only the last one), the other tradable cards, then every owned card the
+   * rules or the balance refuse, greyed and disabled under their own heading. The search hides
+   * tiles in place and the sort only re-orders each group, so a keystroke never rebuilds the grid.
    *
    * @returns {Promise<void>} Resolves once the list is filled.
    */
   async renderNewTradeCards() {
     this.cardList.textContent = '';
+    this.cardGroups = { wished: [], blocked: [], rest: [], untradable: [] };
+    this.cardHeading = null;
     this.selectedCardKey = '';
     this.updateNewCost();
 
     const wished = this.partnerWishlist;
-    const wanted = this.collectionEntries.filter((entry) => wished.has(entry.key));
-    const rest = this.collectionEntries.filter((entry) => !wished.has(entry.key));
+    // Every refusal is read once: the cards that fail a rule or the price leave the selectable
+    // list, so an unaffordable card is greyed at the bottom instead of appearing twice.
+    const refused = this.buildUntradableEntries(this.collectionView);
+    const refusedReasons = new Map(refused.map(({ entry, reasonKey }) => [entry.key, reasonKey]));
+    const refusedKeys = new Set(refusedReasons.keys());
+    const offerable = this.collectionEntries.filter((entry) => !refusedKeys.has(entry.key));
+    const tradableKeys = new Set(offerable.map((entry) => entry.key));
+    const wishedEntries = offerable.filter((entry) => wished.has(entry.key));
+    const otherEntries = offerable.filter((entry) => !wished.has(entry.key));
 
-    for (const entry of wanted) {
-      this.cardList.appendChild(await this.buildSelectableCard(entry, { wished: true }));
+    for (const entry of wishedEntries) {
+      this.cardGroups.wished.push({
+        button: await this.buildSelectableCard(entry, { wished: true, stars: this.partnerStars }),
+        entry,
+        haystack: cardHaystack(entry),
+      });
+    }
+    for (const key of wished) {
+      if (!tradableKeys.has(key)) {
+        this.cardGroups.blocked.push(
+          await this.buildBlockedWishCard(key, refusedReasons.get(key) ?? null)
+        );
+      }
+    }
+    for (const entry of otherEntries) {
+      this.cardGroups.rest.push({
+        button: await this.buildSelectableCard(entry, { stars: this.partnerStars }),
+        entry,
+        haystack: cardHaystack(entry),
+      });
     }
 
-    // The wished cards that cannot be offered: they exist in the partner's wishlist but the local
-    // collection has nothing to give (or only its last copy). They sit right after the tradable
-    // wishes, greyed and disabled, before the cards the partner did not ask for.
-    const blocked = [...wished].filter(
-      (key) => !this.collectionEntries.some((entry) => entry.key === key)
-    );
-    for (const key of blocked) {
-      this.cardList.appendChild(await this.buildBlockedWishCard(key));
+    // A wish that cannot be offered is already explained above: it must not appear twice.
+    const untradable = refused.filter(({ entry }) => !wished.has(entry.key));
+    if (untradable.length > 0) this.cardHeading = this.buildUntradableHeading();
+    for (const { entry, reasonKey } of untradable) {
+      this.cardGroups.untradable.push({
+        button: await this.buildUntradableCard(entry, reasonKey),
+        entry,
+        haystack: cardHaystack(entry),
+      });
     }
 
-    for (const entry of rest) {
-      this.cardList.appendChild(await this.buildSelectableCard(entry));
-    }
-
-    if (this.collectionEntries.length === 0 && blocked.length === 0) {
-      const empty = document.createElement('p');
-      empty.className = 'trade__empty-cards';
-      empty.textContent = i18n.t('trade.error.noDuplicates');
-      this.cardList.appendChild(empty);
-    }
+    this.applyCardOrder();
+    this.applyCardFilter();
   }
 
   /**
    * Builds one selectable card of a trade dialog.
    *
    * @param {object} entry - Owned collection entry.
-   * @param {{wished?: boolean}} [options] - `wished` marks a card the other player asked for.
+   * @param {{wished?: boolean, stars?: number}} [options] - `wished` marks a card the other player
+   *   asked for, `stars` is the friendship level whose discount applies to the Sparks.
    * @returns {Promise<HTMLElement>} The button.
    */
-  async buildSelectableCard(entry, { wished = false } = {}) {
-    const cost = getTradeCost(entry.rarity);
+  async buildSelectableCard(entry, { wished = false, stars = 0 } = {}) {
+    const cost = getTradeCost(entry.rarity, stars);
     const tile = await this.buildCardTile(
       {
         key: entry.key,
@@ -938,7 +1057,7 @@ export class TradeView {
       },
       {
         quantity: entry.quantity,
-        cost: i18n.t('trade.costShort', { eyes: cost.enderEyes, sparks: cost.sparks }),
+        cost: buildPrice(cost),
       }
     );
     const button = document.createElement('button');
@@ -962,9 +1081,10 @@ export class TradeView {
    * Builds a greyed card of the partner's wishlist that this player cannot offer.
    *
    * @param {string} key - Collection key wished by the partner.
-   * @returns {Promise<HTMLElement>} The disabled button.
+   * @param {string|null} [reasonKey=null] - Exact refusal, when the collection explains it.
+   * @returns {Promise<{button: HTMLElement, entry: null, haystack: string}>} The disabled tile.
    */
-  async buildBlockedWishCard(key) {
+  async buildBlockedWishCard(key, reasonKey = null) {
     let name = key;
     try {
       const card = await boosterManager.getCardByKey(key);
@@ -979,13 +1099,200 @@ export class TradeView {
     button.className = 'trade__card-button is-unavailable is-wished';
     button.dataset.tradeWishBlocked = key;
     button.disabled = true;
-    button.title = i18n.t('trade.wishlist.notTradable');
+    const reason = i18n.t(reasonKey ?? 'trade.wishlist.notTradable');
+    button.title = reason;
     button.appendChild(tile);
     const badge = document.createElement('span');
     badge.className = 'trade__card-wish';
-    badge.textContent = i18n.t('trade.wishlist.notTradable');
+    badge.textContent = reason;
+    button.appendChild(badge);
+    return { button, entry: null, haystack: normalizeCardQuery(`${name} ${key}`) };
+  }
+
+  /**
+   * Lists the owned cards the current rules and balance refuse, with the reason of each refusal.
+   *
+   * Missing cards are not listed: the collection view holds every catalogue card, and a wall of
+   * silhouettes would bury the cards the player actually owns.
+   *
+   * @param {object} collectionView - Result of `CollectionManager.getCollectionView()`.
+   * @returns {Array<{entry: object, reasonKey: string}>} The refused owned entries.
+   */
+  buildUntradableEntries(collectionView) {
+    const entries = Array.isArray(collectionView?.entries) ? collectionView.entries : [];
+    return entries
+      .filter((entry) => entry?.owned === true && Number(entry.quantity) > 0)
+      .map((entry) => ({ entry, reasonKey: this.getUntradableReason(entry) }))
+      .filter(({ reasonKey }) => reasonKey !== '');
+  }
+
+  /**
+   * Explains why one owned card cannot be offered.
+   *
+   * The order of the checks is the order a player reads: the card itself (promo, closed extension,
+   * rarity), then the copy count, then the price of the exchange.
+   *
+   * @param {object} entry - Owned collection entry.
+   * @returns {string} Translation key of the reason, or an empty string when the card is tradable.
+   */
+  getUntradableReason(entry, stars = this.partnerStars) {
+    if (entry.promo === true) return 'trade.cards.reason.promo';
+    if (!tradeManager.isSetTradable(entry.set, this.tradeRules)) return 'trade.cards.reason.set';
+    if (
+      !Number.isInteger(entry.rarity) ||
+      entry.rarity < TRADE_MIN_RARITY ||
+      entry.rarity > TRADE_MAX_RARITY
+    ) {
+      return 'trade.cards.reason.rarity';
+    }
+    if (!Number.isInteger(entry.quantity) || entry.quantity < 2) return 'trade.cards.reason.single';
+    const cost = getTradeCost(entry.rarity, stars);
+    // Rarity 6 has no Ender Eye price below four stars: the table itself says so.
+    if (!cost.tradable) return 'trade.cards.reason.friendship';
+    if (!this.hasEnoughEyes(cost)) return 'trade.cards.reason.eyes';
+    if (Number.isFinite(this.sparksBalance) && this.sparksBalance < cost.sparks) {
+      return 'trade.cards.reason.sparks';
+    }
+    return '';
+  }
+
+  /**
+   * Builds one greyed card of the untradable block.
+   *
+   * @param {object} entry - Owned collection entry.
+   * @param {string} reasonKey - Translation key of the refusal.
+   * @param {number} [stars=this.partnerStars] - Friendship level whose price applies.
+   * @returns {Promise<HTMLElement>} The disabled button.
+   */
+  async buildUntradableCard(entry, reasonKey, stars = this.partnerStars) {
+    const cost = getTradeCost(entry.rarity, stars);
+    const tile = await this.buildCardTile(
+      {
+        key: entry.key,
+        card_id: entry.cardId,
+        name: entry.card?.getName?.(i18n.getLang()) || entry.cardId,
+      },
+      {
+        quantity: entry.quantity,
+        // An untradable card carries no price: the badge already says why it cannot be offered.
+        cost: cost.tradable ? buildPrice(cost) : null,
+      }
+    );
+    const reason = i18n.t(reasonKey);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'trade__card-button is-unavailable is-untradable';
+    button.dataset.tradeUntradable = entry.key;
+    button.disabled = true;
+    button.title = reason;
+    button.appendChild(tile);
+    const badge = document.createElement('span');
+    badge.className = 'trade__card-wish';
+    badge.textContent = reason;
     button.appendChild(badge);
     return button;
+  }
+
+  /**
+   * Builds the heading that introduces the greyed block.
+   *
+   * @returns {HTMLElement} The heading inserted in the grid.
+   */
+  buildUntradableHeading() {
+    const heading = document.createElement('p');
+    heading.className = 'trade__cards-heading';
+    heading.textContent = i18n.t('trade.cards.untradable');
+    return heading;
+  }
+
+  /**
+   * Orders two tiles of the chooser for the sort chosen in the dialog.
+   *
+   * The partner's wishes always keep their own group (they are drawn first): this comparator only
+   * orders the tiles INSIDE one group.
+   *
+   * @param {{entry: object|null, haystack: string}} left - First tile.
+   * @param {{entry: object|null, haystack: string}} right - Second tile.
+   * @param {string} mode - `rarity`, `quantity` or `number`.
+   * @returns {number} Negative when `left` comes first.
+   */
+  compareCardTiles(left, right, mode) {
+    const first = left.entry;
+    const second = right.entry;
+    if (!first || !second) return left.haystack.localeCompare(right.haystack);
+    const byNumber = () =>
+      cardNumber(first).localeCompare(cardNumber(second), i18n.getLang(), {
+        numeric: true,
+        sensitivity: 'base',
+      });
+    if (mode === 'quantity') {
+      return second.quantity - first.quantity || second.rarity - first.rarity || byNumber();
+    }
+    if (mode === 'number') return byNumber() || second.rarity - first.rarity;
+    return second.rarity - first.rarity || byNumber();
+  }
+
+  /**
+   * Sorts one group of tiles.
+   *
+   * @param {Array<{entry: object|null, haystack: string}>} tiles - Group to sort.
+   * @returns {Array<{entry: object|null, haystack: string}>} A sorted copy.
+   */
+  sortCardTiles(tiles) {
+    return [...tiles].sort((left, right) => this.compareCardTiles(left, right, this.cardSortMode));
+  }
+
+  /**
+   * Re-appends the tiles in display order: tradable wishes, blocked wishes, other tradable cards,
+   * then the greyed block under its heading.
+   *
+   * @returns {void}
+   */
+  applyCardOrder() {
+    const nodes = [
+      ...this.sortCardTiles(this.cardGroups.wished),
+      ...this.sortCardTiles(this.cardGroups.blocked),
+      ...this.sortCardTiles(this.cardGroups.rest),
+    ].map((tile) => tile.button);
+    if (this.cardHeading) nodes.push(this.cardHeading);
+    nodes.push(...this.sortCardTiles(this.cardGroups.untradable).map((tile) => tile.button));
+    nodes.forEach((node) => this.cardList.appendChild(node));
+  }
+
+  /**
+   * Hides the tiles that do not match the search field and updates the empty state.
+   *
+   * @returns {void}
+   */
+  applyCardFilter() {
+    const query = normalizeCardQuery(this.cardQuery);
+    let visible = 0;
+    let visibleUntradable = 0;
+    Object.entries(this.cardGroups).forEach(([group, tiles]) => {
+      tiles.forEach((tile) => {
+        const match = query === '' || tile.haystack.includes(query);
+        tile.button.hidden = !match;
+        if (!match) return;
+        visible += 1;
+        if (group === 'untradable') visibleUntradable += 1;
+      });
+    });
+    if (this.cardHeading) this.cardHeading.hidden = visibleUntradable === 0;
+    this.updateCardEmptyState(visible, query === '');
+  }
+
+  /**
+   * Shows or clears the message of an empty chooser.
+   *
+   * @param {number} visible - Number of tiles currently displayed.
+   * @param {boolean} unfiltered - True when the search field is empty.
+   * @returns {void}
+   */
+  updateCardEmptyState(visible, unfiltered) {
+    if (!this.cardEmpty) return;
+    this.cardEmpty.hidden = visible > 0;
+    this.cardEmpty.textContent =
+      visible > 0 ? '' : i18n.t(unfiltered ? 'trade.error.noDuplicates' : 'trade.cards.noMatch');
   }
 
   /**
@@ -1029,16 +1336,16 @@ export class TradeView {
       this.newCost.textContent = '';
       return;
     }
-    const cost = getTradeCost(entry.rarity);
+    const cost = getTradeCost(entry.rarity, this.partnerStars);
     const enoughEyes = this.hasEnoughEyes(cost);
-    this.newCost.textContent = i18n.t('trade.costDetail', {
-      rarity: i18n.t(`rarity.${entry.rarity}`),
-      eyes: cost.enderEyes,
-      sparks: cost.sparks,
-    });
+    this.newCost.textContent = '';
+    this.newCost.append(
+      document.createTextNode(`${i18n.t('trade.costRarity', { rarity: i18n.t(`rarity.${entry.rarity}`) })} `),
+      buildPrice(cost)
+    );
     this.newCost.dataset.tone = enoughEyes ? 'info' : 'error';
     if (!enoughEyes) {
-      this.newCost.textContent += ` · ${i18n.t('trade.error.notEnoughEnderEyes')}`;
+      this.newCost.append(` · ${i18n.t('trade.error.notEnoughEnderEyes')}`);
     }
   }
 
@@ -1059,7 +1366,7 @@ export class TradeView {
       this.setNewError('trade.error.noFriends');
       return;
     }
-    if (!this.hasEnoughEyes(getTradeCost(entry.rarity))) {
+    if (!this.hasEnoughEyes(getTradeCost(entry.rarity, this.partnerStars))) {
       this.setNewError('trade.error.notEnoughEnderEyes');
       return;
     }
@@ -1100,7 +1407,10 @@ export class TradeView {
     this.newModal.hidden = true;
     this.closePartnerPicker();
     this.selectedCardKey = '';
+    this.cardQuery = '';
+    this.cardSearch.value = '';
     this.partnerUuid = '';
+    this.partnerStars = 0;
     this.updatePartnerDisplay();
     this.newError.hidden = true;
     this.newError.textContent = '';
@@ -1197,11 +1507,15 @@ export class TradeView {
     name.className = 'trade__partner-name';
     name.textContent = partner.username;
 
+    const identity = document.createElement('span');
+    identity.className = 'trade__partner-identity';
+    identity.append(name, buildFriendshipLevel(this.friendProgress(partner.uuid)));
+
     const count = document.createElement('span');
     count.className = 'trade__partner-count';
     count.textContent = i18n.t('trade.partner.trades', { count: partner.trades });
 
-    button.append(avatar, name, count);
+    button.append(avatar, identity, count);
     item.appendChild(button);
     return item;
   }
@@ -1267,6 +1581,24 @@ export class TradeView {
     this.partnerCount.textContent = partner
       ? i18n.t('trade.partner.trades', { count: partner.trades })
       : '';
+    const progress = partner === null ? null : this.friendProgress(partner.uuid);
+    this.partnerStars = progress?.stars ?? 0;
+    if (this.partnerStarsElement) {
+      this.partnerStarsElement.textContent = '';
+      this.partnerStarsElement.hidden = partner === null;
+      if (progress) this.partnerStarsElement.appendChild(buildFriendshipLevel(progress));
+    }
+  }
+
+  /**
+   * Reads the star level of one player from the loaded thresholds.
+   *
+   * @param {string} uuid - Player UUID.
+   * @returns {object} The object `buildFriendshipLevel()` expects.
+   */
+  friendProgress(uuid) {
+    const xp = this.friendshipXp.get(uuid) ?? 0;
+    return friendshipManager.describeXp(xp, this.friendshipTiers);
   }
 
   /**
@@ -1288,6 +1620,10 @@ export class TradeView {
 
     try {
       const collection = await collectionManager.getCollectionView();
+      const friendship = await friendshipManager.getOverview();
+      this.friendshipTiers = friendship.tiers;
+      this.friendshipXp = new Map(Object.entries(friendship.xp));
+      this.proposalStars = this.friendProgress(trade.initiator?.uuid ?? '').stars;
       const excluded = trade.initiator?.card?.key ?? '';
       // Same rarity is mandatory; the same extension is only required when the configuration says
       // so (`trades.sameExtension`), in which case the offered card must match the other one's set.
@@ -1320,8 +1656,17 @@ export class TradeView {
         this.proposalCards.appendChild(empty);
       } else {
         for (const entry of this.collectionEntries) {
+          // The same split as the new-trade dialog: a rare card the responder cannot pay for (rarity
+          // 6 below four stars, missing Eyes or Sparks) is greyed with its reason instead of being
+          // offered at a price the dialog would then refuse.
+          const reasonKey = this.getUntradableReason(entry, this.proposalStars);
           this.proposalCards.appendChild(
-            await this.buildSelectableCard(entry, { wished: wishedByInitiator.has(entry.key) })
+            reasonKey
+              ? await this.buildUntradableCard(entry, reasonKey, this.proposalStars)
+              : await this.buildSelectableCard(entry, {
+                  wished: wishedByInitiator.has(entry.key),
+                  stars: this.proposalStars,
+                })
           );
         }
       }
@@ -1349,12 +1694,17 @@ export class TradeView {
       this.proposalCost.textContent = '';
       return;
     }
-    const cost = getTradeCost(entry.rarity);
-    this.proposalCost.textContent = i18n.t('trade.costDetail', {
-      rarity: i18n.t(`rarity.${entry.rarity}`),
-      eyes: cost.enderEyes,
-      sparks: cost.sparks,
-    });
+    const cost = getTradeCost(entry.rarity, this.proposalStars);
+    if (!cost.tradable) {
+      this.proposalCost.textContent = i18n.t('trade.cards.reason.friendship');
+      this.proposalConfirm.disabled = true;
+      return;
+    }
+    this.proposalCost.textContent = '';
+    this.proposalCost.append(
+      document.createTextNode(`${i18n.t('trade.costRarity', { rarity: i18n.t(`rarity.${entry.rarity}`) })} `),
+      buildPrice(cost)
+    );
     this.proposalConfirm.disabled = false;
   }
 
@@ -1382,6 +1732,7 @@ export class TradeView {
         tradeId: this.proposalTrade.id,
         entry,
         otherSet: this.proposalTrade?.initiator?.card?.set ?? '',
+        partnerUuid: this.proposalTrade?.initiator?.uuid ?? '',
       });
       this.closeProposal();
       Toast.success('trade.proposed');
@@ -1413,6 +1764,7 @@ export class TradeView {
     this.proposalModal.hidden = true;
     this.proposalTrade = null;
     this.proposalCardKey = '';
+    this.proposalStars = 0;
     this.proposalError.hidden = true;
     this.proposalError.textContent = '';
   }

@@ -80,6 +80,9 @@ export const USER_STATE_KEYS = Object.freeze({
   // The UTC day whose like was given (`LikesManager`): once it is used, the client never asks the
   // worker for another one, whatever the player it would like.
   LIKES: 'likes',
+  // Friendship XP per followed player (see `FriendshipManager`): the trade and like bond behind
+  // the friendship stars and the `bestfriend` trophy. Kept in `user_state` so a `.save` carries it.
+  FRIENDSHIP: 'friendship',
   // Trades with followed players (see `TradeManager`): the cached Ender Eyes balance, the cards
   // and Sparks currently escrowed, and the statuses already announced.
   TRADES: 'trades',

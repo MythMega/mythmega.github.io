@@ -35,6 +35,7 @@ import trophyManager, { DEFAULT_TROPHY_ICON } from '../../business/TrophyManager
 import profileIconManager from '../../business/ProfileIconManager.js';
 import titleManager, { TitleManager } from '../../business/TitleManager.js';
 import collectionManager from '../../business/CollectionManager.js';
+import { decodeBinderCode } from '../../utils/BinderCode.js';
 import TrophyDetail, { TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
 import { applyCardGlow } from '../../utils/Shine.js';
 import { attachCardTilt } from '../../utils/CardTilt.js';
@@ -63,6 +64,7 @@ import featureManager, {
 } from '../../business/FeatureManager.js';
 import sparksManager from '../../business/SparksManager.js';
 import slotPurchaseModal from '../components/SlotPurchaseModal.js';
+import wishlistManager, { WISHLIST_MAX } from '../../business/WishlistManager.js';
 import renamePseudoDialog from '../components/RenamePseudoDialog.js';
 import accountManager from '../../business/AccountManager.js';
 import socialManager, {
@@ -182,6 +184,34 @@ export class ProfileView {
     this.favoritesElement = this.root.querySelector('[data-profile-favorites]');
     this.favoritesCountElement = this.root.querySelector('[data-profile-favorites-count]');
     this.favoritesEmptyElement = this.root.querySelector('[data-profile-favorites-empty]');
+    this.wishlistElement = this.root.querySelector('[data-profile-wishlist]');
+    this.wishlistCountElement = this.root.querySelector('[data-profile-wishlist-count]');
+    this.wishlistEmptyElement = this.root.querySelector('[data-profile-wishlist-empty]');
+    this.featuredCountElement = this.root.querySelector('[data-profile-featured-count]');
+    // Online profile: the friend dialog opened on the local card, with its own publication button.
+    this.onlineButton = this.root.querySelector('[data-profile-online]');
+    this.onlineModal = this.root.querySelector('[data-profile-online-modal]');
+    this.onlineTitle = this.root.querySelector('[data-profile-online-title]');
+    this.onlineCardHost = this.root.querySelector('[data-profile-online-card]');
+    this.onlineMetaElement = this.root.querySelector('[data-profile-online-meta]');
+    this.onlineStatsElement = this.root.querySelector('[data-profile-online-stats]');
+    this.onlineFavoritesElement = this.root.querySelector('[data-profile-online-favorites]');
+    this.onlineBinderElement = this.root.querySelector('[data-profile-online-binder]');
+    this.onlineWishlistElement = this.root.querySelector('[data-profile-online-wishlist]');
+    this.binderModal = this.root.querySelector('[data-profile-binder-modal]');
+    this.binderTitle = this.root.querySelector('[data-profile-binder-title]');
+    this.binderPage = this.root.querySelector('[data-profile-binder-page]');
+    this.binderSlots = this.root.querySelector('[data-profile-binder-slots]');
+    this.binderCloseButtons = this.root.querySelectorAll('[data-profile-binder-close]');
+    /** @type {object|null} Decoded binder pinned on the online profile (opened by its button). */
+    this.onlineBinderPayload = null;
+    this.onlineFeedback = this.root.querySelector('[data-profile-online-feedback]');
+    this.onlinePublishButton = this.root.querySelector('[data-profile-online-publish]');
+    this.onlineCloseButtons = this.root.querySelectorAll('[data-profile-online-close]');
+    /** @type {ProfileCard|null} Card of the online profile dialog (a second instance). */
+    this.onlineCard = null;
+    /** @type {boolean} True while the online profile is being published (guards double clicks). */
+    this.isPublishingOnline = false;
     this.cardBackgroundsElement = this.root.querySelector('[data-profile-card-backgrounds]');
     this.cardBackgroundsHelpElement = this.root.querySelector('[data-profile-card-backgrounds-help]');
     this.cardStage = this.root.querySelector('[data-profile-card-stage]');
@@ -265,6 +295,8 @@ export class ProfileView {
     this.entriesByKey = new Map();
     /** @type {object|null} Last value returned by `CollectionManager.getCollectionView()`. */
     this.collection = null;
+    /** @type {string[]} Wishlisted collection keys, in display order (`WishlistManager`). */
+    this.wishlist = [];
     /** @type {ProfileCard|null} The card of the profile (built on first render). */
     this.profileCard = null;
     /**
@@ -386,6 +418,12 @@ export class ProfileView {
       ['[data-profile-featured]', this.featuredElement],
       ['[data-profile-featured-help]', this.featuredHelpElement],
       ['[data-profile-favorites]', this.favoritesElement],
+      ['[data-profile-wishlist]', this.wishlistElement],
+      ['[data-profile-online]', this.onlineButton],
+      ['[data-profile-online-modal]', this.onlineModal],
+      ['[data-profile-online-card]', this.onlineCardHost],
+      ['[data-profile-online-stats]', this.onlineStatsElement],
+      ['[data-profile-online-publish]', this.onlinePublishButton],
       ['[data-profile-card-backgrounds]', this.cardBackgroundsElement],
       ['[data-profile-card-backgrounds-help]', this.cardBackgroundsHelpElement],
       ['[data-profile-card-stage]', this.cardStage],
@@ -470,6 +508,26 @@ export class ProfileView {
     this.listen(this.statsButton, 'click', () => this.onNavigate?.(STATS_VIEW_NAME));
     this.listen(this.trophiesButton, 'click', () => this.onNavigate?.(TROPHIES_VIEW_NAME));
     this.listen(this.titlesButton, 'click', () => this.onNavigate?.(TITLES_VIEW_NAME));
+    this.listen(this.onlineButton, 'click', () => void this.openOnlineProfile());
+    this.listen(this.onlinePublishButton, 'click', () => void this.publishOnlineProfile());
+    this.onlineCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeOnlineProfile());
+    });
+    this.listen(this.onlineModal, 'click', (event) => {
+      if (event?.target === this.onlineModal) this.closeOnlineProfile();
+    });
+    this.listen(this.onlineBinderElement, 'click', (event) => {
+      const open = event.target instanceof Element
+        ? event.target.closest('[data-profile-binder-open]')
+        : null;
+      if (open) this.openProfileBinder();
+    });
+    this.binderCloseButtons.forEach((button) => {
+      this.listen(button, 'click', () => this.closeProfileBinder());
+    });
+    this.listen(this.binderModal, 'click', (event) => {
+      if (event?.target === this.binderModal) this.closeProfileBinder();
+    });
     this.listen(this.nameEditButton, 'click', () => this.openNameEditor());
     this.listen(this.titleEditButton, 'click', () => this.onNavigate?.(TITLES_VIEW_NAME));
     this.listen(this.iconEditButton, 'click', () => this.openIconPicker());
@@ -565,6 +623,22 @@ export class ProfileView {
       if (open) void this.openCardDetail(open.dataset.favoriteOpen);
     });
 
+    this.listen(this.wishlistElement, 'click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const remove = event.target.closest('[data-wishlist-remove]');
+      if (remove) {
+        void this.removeWishlist(remove.dataset.wishlistRemove);
+        return;
+      }
+      const pick = event.target.closest('[data-profile-slot-pick]');
+      if (pick) {
+        void this.openSlotPicker(pick.dataset.profileSlotPick);
+        return;
+      }
+      const open = event.target.closest('[data-wishlist-open]');
+      if (open) void this.openCardDetail(open.dataset.wishlistOpen, { removeFavorite: false });
+    });
+
     this.listen(this.modal, 'click', (event) => {
       // A click on the backdrop (never on the dialog itself) closes the modal.
       if (event?.target === this.modal) this.closeDetail();
@@ -572,6 +646,15 @@ export class ProfileView {
     this.listen(this.modalClose, 'click', () => this.closeDetail());
     this.listen(document, 'keydown', (event) => {
       if (event?.key !== 'Escape') return;
+      // The binder page sits on top of the online profile: it closes first.
+      if (this.binderModal && !this.binderModal.hidden) {
+        this.closeProfileBinder();
+        return;
+      }
+      if (this.onlineModal && !this.onlineModal.hidden) {
+        this.closeOnlineProfile();
+        return;
+      }
       // The enlargement of the card is on top of everything: Escape closes it first.
       if (this.cardBuyModal && !this.cardBuyModal.hidden) {
         this.closeBuyModal();
@@ -679,6 +762,9 @@ export class ProfileView {
       // way out.
       window.requestAnimationFrame(() => {
         this.buyPreviewCard?.applyStage();
+        // The online profile is a second card: an orientation change must refit it too, or it
+        // keeps the scale of the width it was opened at.
+        this.onlineCard?.applyStage();
       });
     });
 
@@ -692,7 +778,11 @@ export class ProfileView {
       }
       const choice = event.target.closest('[data-profile-slot-choice]');
       if (choice) {
-        void this.applySlotChoice(choice.dataset.profileSlotChoice, choice.dataset.profileSlotValue);
+        void this.applySlotChoice(
+          choice.dataset.profileSlotChoice,
+          choice.dataset.profileSlotValue,
+          choice.dataset.profileSlotTarget || 'favorites'
+        );
       }
     });
 
@@ -759,7 +849,7 @@ export class ProfileView {
       // openings (`TrophyManager` subscribes to `BOOSTER_OPENED`) and the automatic boot evaluation
       // own the announcements, so a save that unlocks a dozen trophies shows one toast, not twelve.
       const [profile, trophyState, collection, preferences, catalog, purchases, titleColors,
-        usernameColors, borderColors, colorCatalog, settings] = await Promise.all([
+        usernameColors, borderColors, colorCatalog, settings, wishlistCards] = await Promise.all([
         profileManager.getProfile(),
         trophyManager.evaluate({ notify: false }),
         collectionManager.getCollectionView(),
@@ -771,6 +861,7 @@ export class ProfileView {
         featureManager.getBorderColors(),
         colorManager.listColors(),
         accountManager.getSettings(),
+        wishlistManager.getCards().catch(() => []),
       ]);
       this.profile = profile;
       // The developer mode is what makes the picker show the avatars nobody can use yet: without
@@ -809,6 +900,7 @@ export class ProfileView {
       this.selectedUsernameColor = typeof profile.usernameColor === 'string'
         ? profile.usernameColor
         : AUTO_COLOR_ID;
+      this.wishlist = Array.isArray(wishlistCards) ? wishlistCards : [];
       this.entriesByKey = new Map((collection.entries ?? []).map((entry) => [entry.key, entry]));
       this.sets = new Map(Object.entries(collection.sets ?? {}));
       this.icons = await profileIconManager.listIcons({
@@ -824,6 +916,7 @@ export class ProfileView {
       this.renderLevel(trophyState.level);
       await this.renderFeatured(trophyState, profile);
       await this.renderFavorites(profile);
+      this.renderWishlist();
       await this.renderProfileCard();
     } catch (error) {
       console.error('[ProfileView] The profile could not be loaded.', error);
@@ -1860,6 +1953,8 @@ export class ProfileView {
       .map((id) => byId.get(id))
       .filter((trophy) => Boolean(trophy));
     const slotState = await featureManager.getSlotState(PROFILE_SLOT_KINDS.FEATURED);
+    // Same grid as the favourites: every slot on one row, as small as the row needs.
+    this.featuredElement.style.setProperty('--featured-columns', String(Math.max(slotState.max, 1)));
     // Every slot is always drawn: the owned ones are either a trophy or an empty slot the player
     // can fill, the others carry their price and can be bought one after the other.
     const slots = Math.max(slotState.owned, pinned.length);
@@ -1873,6 +1968,12 @@ export class ProfileView {
     }
     this.renderLockedSlots(this.featuredElement, slotState, slots, PROFILE_SLOT_KINDS.FEATURED);
 
+    if (this.featuredCountElement) {
+      this.featuredCountElement.textContent = i18n.t('profile.featured.count', {
+        count: pinned.length,
+        max: slotState.owned,
+      });
+    }
     if (this.featuredHelpElement) {
       this.featuredHelpElement.textContent = i18n.t('profile.featured.help', {
         max: slotState.owned,
@@ -2034,6 +2135,11 @@ export class ProfileView {
    */
   openSlotPicker(kind) {
     if (!this.profile || !this.modal || !this.modalBody || !this.modalTitle) return;
+    // Cards (favourites and wishlist) get the searchable picker; trophies keep the plain list.
+    if (kind === PROFILE_SLOT_KINDS.FAVORITES || kind === 'wishlist') {
+      this.openCardPicker(kind === 'wishlist' ? 'wishlist' : 'favorites');
+      return;
+    }
     const normalized = kind === PROFILE_SLOT_KINDS.FAVORITES
       ? PROFILE_SLOT_KINDS.FAVORITES
       : PROFILE_SLOT_KINDS.FEATURED;
@@ -2119,13 +2225,146 @@ export class ProfileView {
   }
 
   /**
+   * Opens the searchable picker of a card list (favourites or wishlist).
+   *
+   * The favourites only offer OWNED cards that are not favourites yet. The wishlist offers every
+   * other card of the catalogue, with the three one-click filters the operator asked for: not owned
+   * (the default), owned, or all. Both lists share the same search field.
+   *
+   * @param {'favorites'|'wishlist'} target - List the chosen card is added to.
+   * @returns {void}
+   */
+  openCardPicker(target) {
+    if (!this.profile || !this.modal || !this.modalBody || !this.modalTitle) return;
+    const isWishlist = target === 'wishlist';
+    this.modalTitle.textContent = i18n.t(
+      isWishlist ? 'profile.wishlist.add' : 'profile.slots.pick.favoritesTitle'
+    );
+    this.modalBody.textContent = '';
+
+    const excluded = isWishlist
+      ? new Set(this.wishlist ?? [])
+      : new Set(this.profile.favorites ?? []);
+
+    const toolbar = document.createElement('div');
+    toolbar.className = 'profile-picker-toolbar';
+
+    const search = document.createElement('input');
+    search.type = 'search';
+    search.className = 'field__input profile-picker__search';
+    search.placeholder = i18n.t('profile.picker.search');
+    search.setAttribute('aria-label', i18n.t('profile.picker.search'));
+    search.autocomplete = 'off';
+    search.spellcheck = false;
+    toolbar.appendChild(search);
+
+    /** @type {{value: string}} Active filter of the wishlist picker. */
+    const filters = { value: isWishlist ? 'missing' : 'owned' };
+    /** @type {HTMLButtonElement[]} Filter buttons, kept to repaint their active state. */
+    const filterButtons = [];
+    if (isWishlist) {
+      const row = document.createElement('div');
+      row.className = 'profile-picker__filters';
+      [
+        ['all', 'profile.wishlist.filter.all'],
+        ['missing', 'profile.wishlist.filter.missing'],
+        ['owned', 'profile.wishlist.filter.owned'],
+      ].forEach(([value, key]) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'profile-picker__filter';
+        button.dataset.profilePickerFilter = value;
+        button.textContent = i18n.t(key);
+        row.appendChild(button);
+        filterButtons.push(button);
+      });
+      toolbar.appendChild(row);
+    }
+
+    const list = document.createElement('ul');
+    list.className = 'profile-picker';
+    const empty = document.createElement('p');
+    empty.className = 'profile-picker__empty';
+    empty.textContent = i18n.t('profile.picker.empty');
+    empty.hidden = true;
+
+    // Rebuilt in place on every keystroke and every filter click: the catalogue is read once from
+    // `entriesByKey`, the two predicates only decide what stays visible.
+    const draw = () => {
+      filterButtons.forEach((button) => {
+        const active = button.dataset.profilePickerFilter === filters.value;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      const query = search.value.trim().toLowerCase();
+      const entries = Array.from(this.entriesByKey.values())
+        .filter((entry) => entry?.card && !excluded.has(entry.key))
+        .filter((entry) => {
+          if (!isWishlist) return entry.owned === true;
+          if (filters.value === 'owned') return entry.owned === true;
+          if (filters.value === 'missing') return entry.owned !== true;
+          return true;
+        })
+        .filter((entry) => query === ''
+          || entry.card.getName(cardLanguage.getLang()).toLowerCase().includes(query))
+        .sort((a, b) => a.card.getName(cardLanguage.getLang())
+          .localeCompare(b.card.getName(cardLanguage.getLang())));
+
+      list.textContent = '';
+      entries.forEach((entry) => {
+        const name = entry.card.getName(cardLanguage.getLang());
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'profile-picker__choice';
+        button.dataset.profileSlotChoice = 'card';
+        button.dataset.profileSlotValue = entry.key;
+        button.dataset.profileSlotTarget = isWishlist ? 'wishlist' : 'favorites';
+        if (isWishlist && entry.owned !== true) button.classList.add('is-unowned');
+        button.setAttribute('aria-label', name);
+        button.title = name;
+
+        button.appendChild(createCardVisual(entry.card, {
+          className: 'profile-picker__image',
+          alt: '',
+          ariaHidden: true,
+          loading: 'lazy',
+          decoding: 'async',
+        }));
+
+        const label = document.createElement('span');
+        label.className = 'profile-picker__label';
+        label.textContent = name;
+
+        button.appendChild(label);
+        item.appendChild(button);
+        list.appendChild(item);
+      });
+      empty.hidden = entries.length > 0;
+    };
+
+    search.addEventListener('input', draw);
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        filters.value = button.dataset.profilePickerFilter;
+        draw();
+      });
+    });
+
+    this.modalBody.append(toolbar, list, empty);
+    draw();
+    this.openModal(`card-picker:${target}`);
+  }
+
+  /**
    * Fills an empty slot with the chosen trophy or card.
    *
    * @param {string} kind - `trophy` or `card`.
    * @param {string} value - Trophy id or collection key.
+   * @param {'favorites'|'wishlist'} [target='favorites'] - Card list the choice belongs to.
    * @returns {Promise<void>} Resolves once the choice is stored (or the failure reported).
    */
-  async applySlotChoice(kind, value) {
+  async applySlotChoice(kind, value, target = 'favorites') {
     if (!this.profile || typeof value !== 'string' || value === '') return;
     try {
       if (kind === 'trophy') {
@@ -2135,6 +2374,13 @@ export class ProfileView {
         this.profile = { ...this.profile, featured: result.featured };
         await this.renderFeatured(this.trophyState, this.profile);
         Toast.success('profile.featured.pinned');
+      } else if (kind === 'card' && target === 'wishlist') {
+        const wishes = new Set(this.wishlist ?? []);
+        if (wishes.has(value)) return;
+        await wishlistManager.add(value);
+        this.wishlist = await wishlistManager.getCards();
+        this.renderWishlist();
+        Toast.success('profile.wishlist.added');
       } else if (kind === 'card') {
         const favorites = new Set(this.profile.favorites ?? []);
         if (favorites.has(value)) return;
@@ -2246,6 +2492,78 @@ export class ProfileView {
   }
 
   /**
+   * Renders the wishlist: the cards the player hopes to receive, in the order they were added.
+   *
+   * The list is shown as the same grid as the favourites, one step wider: ten cards on one row on
+   * a wide screen, two rows of five on a phone. A wish the catalogue no longer holds keeps its raw
+   * key instead of disappearing.
+   *
+   * @returns {void}
+   */
+  renderWishlist() {
+    if (!this.wishlistElement) return;
+    const keys = Array.isArray(this.wishlist) ? this.wishlist : [];
+    if (this.wishlistCountElement) {
+      this.wishlistCountElement.textContent = i18n.t('profile.wishlist.count', {
+        count: keys.length,
+        max: WISHLIST_MAX,
+      });
+    }
+    if (this.wishlistEmptyElement) {
+      this.wishlistEmptyElement.hidden = keys.length > 0;
+      this.wishlistEmptyElement.textContent = i18n.t('profile.wishlist.empty', { max: WISHLIST_MAX });
+    }
+
+    this.wishlistElement.textContent = '';
+    keys.forEach((key, index) => {
+      const entry = this.entriesByKey.get(key);
+      this.wishlistElement.appendChild(this.buildCardTile(key, entry, index, {
+        action: 'wishlistOpen',
+        removeAction: 'wishlistRemove',
+        // A wish the player does not own yet is shown in black and white, like a missing card of
+        // the collection: the colour is what says "you have it".
+        monochrome: entry?.owned !== true,
+      }));
+    });
+    if (keys.length < WISHLIST_MAX) {
+      this.wishlistElement.appendChild(this.buildWishlistAddTile(keys.length));
+    }
+  }
+
+  /**
+   * Builds the "add a wish" tile that closes the wishlist strip.
+   *
+   * @param {number} index - Position in the grid (drives the staggered entry animation).
+   * @returns {HTMLLIElement} The tile.
+   */
+  buildWishlistAddTile(index) {
+    const label = i18n.t('profile.wishlist.add');
+    const item = document.createElement('li');
+    item.className = 'profile__tile profile__tile--slot';
+    item.style.setProperty('--tile-index', String(index));
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'profile__tile-open profile__tile-slot-empty';
+    button.dataset.profileSlotPick = 'wishlist';
+    button.setAttribute('aria-label', label);
+    button.title = label;
+
+    const plus = document.createElement('span');
+    plus.className = 'profile__tile-slot-plus';
+    plus.textContent = '+';
+    plus.setAttribute('aria-hidden', 'true');
+
+    const text = document.createElement('span');
+    text.className = 'profile__tile-slot-label';
+    text.textContent = i18n.t('profile.wishlist.addShort');
+
+    button.append(plus, text);
+    item.appendChild(button);
+    return item;
+  }
+
+  /**
    * Builds one favourite tile: a button showing the illustration only, which opens the card detail.
    *
    * The name is deliberately NOT displayed (the panel must fit on one screen); it stays the
@@ -2254,14 +2572,19 @@ export class ProfileView {
    * @param {string} key - Collection key.
    * @param {object|undefined} entry - Collection entry, when the card still exists.
    * @param {number} index - Position in the grid (drives the staggered entry animation).
+   * @param {{action?: string, removeAction?: string, monochrome?: boolean}} [options] - `data-*`
+   *   flag the tile carries: `favoriteOpen` (the default) or `wishlistOpen`; `removeAction` adds
+   *   the floating unpin button under that `data-*` flag (the wishlist uses `wishlistRemove`);
+   *   `monochrome` paints the illustration in black and white (an unowned wish).
    * @returns {HTMLLIElement} The tile.
    */
-  buildCardTile(key, entry, index) {
+  buildCardTile(key, entry, index, { action = 'favoriteOpen', removeAction = '', monochrome = false } = {}) {
     const card = entry?.card ?? null;
     const name = card ? card.getName(cardLanguage.getLang()) : key;
 
     const item = document.createElement('li');
     item.className = 'profile__tile profile__tile--card';
+    if (monochrome) item.classList.add('profile__tile--unowned');
     item.style.setProperty('--tile-index', String(index));
     if (card) {
       item.dataset.rarity = String(card.rarity);
@@ -2271,7 +2594,7 @@ export class ProfileView {
     const open = document.createElement('button');
     open.type = 'button';
     open.className = 'profile__tile-open';
-    open.dataset.favoriteOpen = key;
+    open.dataset[action] = key;
     open.setAttribute('aria-label', name);
     open.title = name;
 
@@ -2295,6 +2618,15 @@ export class ProfileView {
     }
 
     item.appendChild(open);
+    if (removeAction !== '') {
+      item.appendChild(TrophyDetail.buildIconButton({
+        className: 'profile__tile-action',
+        datasetKey: removeAction,
+        value: key,
+        icon: TROPHY_UNPIN_ICON,
+        label: i18n.t('profile.wishlist.remove'),
+      }));
+    }
     return item;
   }
 
@@ -3263,6 +3595,352 @@ export class ProfileView {
   }
 
   /**
+   * Opens the online profile: the friend dialog, on the player's own local data.
+   *
+   * Nothing is read from the worker here. The card is the model already built for the page, and
+   * the counters are the ones that card carries, so the dialog can never show a stale online copy
+   * of an account that has changed since its last publication.
+   *
+   * @returns {Promise<void>} Resolves once the dialog is displayed.
+   */
+  async openOnlineProfile() {
+    if (!this.profile || !this.onlineModal) return;
+    this.onlineTitle.textContent = this.profile.name || i18n.t('profile.anonymous');
+    this.setOnlineFeedback(null);
+    if (!this.lastCardModel) await this.renderProfileCard();
+    this.renderOnlineStats();
+    await this.renderOnlineHighlights();
+    this.onlineModal.hidden = false;
+    this.onlineModal.classList.remove('is-opening');
+    void this.onlineModal.offsetWidth;
+    this.onlineModal.classList.add('is-opening');
+    await this.renderOnlineCard();
+    // One tick later, once the dialog has its final scrollbar: the stage is refitted to the width
+    // the card really has, instead of the one measured while the dialog was still filling up.
+    window.setTimeout(() => this.onlineCard?.applyStage(), 0);
+  }
+
+  /**
+   * Fills the level, the rarity and the counters of the online profile.
+   *
+   * @returns {void}
+   */
+  renderOnlineStats() {
+    const model = this.lastCardModel;
+    if (!model) return;
+    if (this.onlineMetaElement) {
+      this.onlineMetaElement.textContent = i18n.t('profile.online.meta', {
+        level: model.level,
+        rarity: getRarityLabel(model.rarity, (key) => i18n.t(key)),
+      });
+    }
+    if (!this.onlineStatsElement) return;
+    const format = (value) => new Intl.NumberFormat(i18n.getLang())
+      .format(Math.max(0, Math.trunc(Number(value) || 0)));
+    this.onlineStatsElement.textContent = '';
+    [
+      ['social.stat.cards', model.distinctCards],
+      ['social.stat.boosters', model.boostersOpened],
+      ['social.stat.points', model.accountValue],
+    ].forEach(([key, value]) => {
+      const stat = document.createElement('li');
+      stat.className = 'social__stat';
+      const amount = document.createElement('strong');
+      amount.className = 'social__stat-value';
+      amount.textContent = format(value);
+      const label = document.createElement('span');
+      label.className = 'social__stat-label';
+      label.textContent = i18n.t(key);
+      stat.append(amount, label);
+      this.onlineStatsElement.appendChild(stat);
+    });
+  }
+
+  /**
+   * Draws the recap a followed player sees: pinned trophies, favourite cards, the binder pinned on
+   * the card and the wishlist.
+   *
+   * Everything is read locally, from the very collections the panels above already use, so the
+   * dialog can never show a copy that drifted from the account.
+   *
+   * @returns {Promise<void>} Resolves once the recap is drawn.
+   */
+  async renderOnlineHighlights() {
+    if (!this.onlineFavoritesElement) return;
+    this.onlineFavoritesElement.textContent = '';
+
+    const pinned = (this.profile?.featured ?? [])
+      .map((id) => this.trophyState?.trophies?.find((trophy) => trophy.id === id) ?? null)
+      .filter(Boolean);
+    if (pinned.length > 0) {
+      this.onlineFavoritesElement.appendChild(
+        this.buildOnlineSection('profile.online.featured', pinned.map((trophy) => ({
+          kind: 'trophy',
+          trophy,
+        })))
+      );
+    }
+
+    const favorites = (this.profile?.favorites ?? [])
+      .map((key) => ({ key, card: this.entriesByKey.get(key)?.card ?? null }))
+      .filter(({ card }) => Boolean(card));
+    if (favorites.length > 0) {
+      this.onlineFavoritesElement.appendChild(
+        this.buildOnlineSection('social.detail.favorites.cards', favorites.map(({ key, card }) => ({
+          kind: 'card',
+          key,
+          card,
+        })))
+      );
+    }
+    this.onlineFavoritesElement.hidden = this.onlineFavoritesElement.children.length === 0;
+
+    if (this.onlineBinderElement) {
+      this.onlineBinderElement.textContent = '';
+      this.onlineBinderElement.hidden = true;
+      this.onlineBinderPayload = null;
+      const binderId = this.profile?.binder;
+      if (typeof binderId === 'string' && binderId !== '') {
+        try {
+          // The same share code the publication sends, decoded locally: the page of the dialog is
+          // then drawn exactly like the binder of a followed player.
+          const code = await socialManager.buildBinderCode(binderId);
+          if (code !== '') {
+            this.onlineBinderPayload = await decodeBinderCode(code);
+            const name = typeof this.onlineBinderPayload.name === 'string'
+              && this.onlineBinderPayload.name.trim() !== ''
+              ? this.onlineBinderPayload.name.trim()
+              : i18n.t('social.binder.untitled');
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn--ghost social__binder-button';
+            button.dataset.profileBinderOpen = '';
+            button.textContent = i18n.t('social.binder.button', { name });
+            button.setAttribute('aria-label', i18n.t('social.binder.openAria', { name }));
+            this.onlineBinderElement.appendChild(button);
+            this.onlineBinderElement.hidden = false;
+          }
+        } catch (error) {
+          console.warn('[ProfileView] The pinned binder could not be read.', error);
+        }
+      }
+    }
+
+    if (this.onlineWishlistElement) {
+      this.onlineWishlistElement.textContent = '';
+      const wishes = (this.wishlist ?? [])
+        .map((key) => ({ key, card: this.entriesByKey.get(key)?.card ?? null }))
+        .filter(({ card }) => Boolean(card));
+      if (wishes.length > 0) {
+        this.onlineWishlistElement.appendChild(
+          this.buildOnlineSection('profile.wishlist.title', wishes.map(({ key, card }) => ({
+            kind: 'card',
+            key,
+            card,
+          })))
+        );
+      }
+      this.onlineWishlistElement.hidden = this.onlineWishlistElement.children.length === 0;
+    }
+  }
+
+  /**
+   * Builds one recap block of the online profile: its title and one row of small tiles.
+   *
+   * @param {string} labelKey - Translation key of the section title.
+   * @param {Array<{kind: 'card'|'trophy', key?: string, card?: object, trophy?: object}>} items
+   *   Tiles to draw.
+   * @returns {HTMLElement} The section.
+   */
+  buildOnlineSection(labelKey, items) {
+    const section = document.createElement('section');
+    section.className = 'social__favorites';
+    const title = document.createElement('h3');
+    title.className = 'social__favorites-title';
+    title.textContent = i18n.t(labelKey);
+    const list = document.createElement('ul');
+    list.className = 'social__favorites-list';
+    items.forEach((item) => {
+      const cell = document.createElement('li');
+      cell.className = 'social__favorite';
+      if (item.kind === 'trophy') {
+        const name = TrophyDetail.trophyTitle(item.trophy);
+        cell.classList.add('social__favorite--trophy');
+        cell.title = name;
+        cell.appendChild(TrophyDetail.buildMedal(item.trophy, 'social__favorite-medal'));
+      } else {
+        const name = item.card.getName(cardLanguage.getLang());
+        cell.title = name;
+        cell.dataset.rarity = String(item.card.rarity);
+        cell.appendChild(createCardVisual(item.card, {
+          className: 'social__favorite-image',
+          alt: name,
+          loading: 'lazy',
+          decoding: 'async',
+        }));
+      }
+      list.appendChild(cell);
+    });
+    section.append(title, list);
+    return section;
+  }
+
+  /**
+   * Draws the trainer card of the online profile in its own `ProfileCard` instance.
+   *
+   * @returns {Promise<void>} Resolves once the card is painted.
+   */
+  async renderOnlineCard() {
+    if (!this.onlineCardHost || !this.lastCardModel) return;
+    try {
+      if (!this.onlineCard) this.onlineCard = new ProfileCard(this.onlineCardHost);
+      this.onlineCard.setLayout(this.cardLayout);
+      await this.onlineCard.render(this.lastCardModel);
+      this.onlineCard.applyStage();
+    } catch (error) {
+      console.error('[ProfileView] The online profile card could not be drawn.', error);
+    }
+  }
+
+  /**
+   * Publishes the trainer card from the online profile dialog.
+   *
+   * @returns {Promise<void>} Resolves once the worker answered (or the failure is displayed).
+   */
+  async publishOnlineProfile() {
+    if (!this.onlinePublishButton || this.isPublishingOnline) return;
+    this.isPublishingOnline = true;
+    this.onlinePublishButton.disabled = true;
+    this.setOnlineFeedback('social.publish.loading');
+    try {
+      await socialManager.publishOwnCard();
+      this.setOnlineFeedback('social.publish.success', 'info');
+      this.setCardFeedback('social.publish.success', 'info');
+      Toast.success('social.publish.success');
+    } catch (error) {
+      console.error('[ProfileView] The online profile could not be published.', error);
+      if (isPseudoRefusal(error)) {
+        this.setOnlineFeedback(null);
+        void renamePseudoDialog.open({
+          reason: error.code === SOCIAL_ERROR_CODES.USERNAME_TAKEN ? 'taken' : 'reserved',
+          onConfirm: async () => {
+            await socialManager.publishOwnCard();
+            this.setOnlineFeedback('social.publish.success', 'info');
+            Toast.success('social.publish.success');
+          },
+          onCancel: () => this.setOnlineFeedback('social.publish.cancelled', 'warning'),
+        });
+      } else {
+        const key = getSocialErrorMessageKey(error);
+        this.setOnlineFeedback(key, 'error');
+        Toast.error(key);
+      }
+    } finally {
+      this.isPublishingOnline = false;
+      this.onlinePublishButton.disabled = false;
+    }
+  }
+
+  /**
+   * Closes the online profile dialog.
+   *
+   * @returns {void}
+   */
+  closeOnlineProfile() {
+    if (!this.onlineModal || this.onlineModal.hidden) return;
+    this.closeProfileBinder();
+    this.onlineModal.hidden = true;
+    this.onlineModal.classList.remove('is-opening');
+    this.setOnlineFeedback(null);
+  }
+
+  /**
+   * Opens the binder pinned on the online profile, in the same read-only page a followed player's
+   * binder uses (name, cover backdrop and one tile per slot).
+   *
+   * @returns {void}
+   */
+  openProfileBinder() {
+    const payload = this.onlineBinderPayload;
+    if (!payload || !this.binderModal) return;
+    const cards = Array.isArray(payload.cards) ? payload.cards : [];
+    const slots = Array.isArray(payload.slots) ? payload.slots : [];
+    const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+    this.binderTitle.textContent = name !== '' ? name : i18n.t('social.binder.untitled');
+
+    // The backdrop is the `Background` of the representative card, exactly like the read-only page
+    // of a shared binder.
+    const cover = cards[payload.cover ?? -1];
+    if (typeof cover?.b === 'string' && cover.b !== '') {
+      this.binderPage.style.setProperty('--binder-backdrop', `url("${cover.b}")`);
+    } else {
+      this.binderPage.style.removeProperty('--binder-backdrop');
+    }
+
+    this.binderSlots.textContent = '';
+    slots.forEach((index) => {
+      const master = index === null || index === undefined ? null : cards[index] ?? null;
+      const item = document.createElement('li');
+      item.className = 'social__binder-slot';
+      if (!master) {
+        item.classList.add('is-empty');
+      } else {
+        const image = document.createElement('img');
+        image.className = 'social__binder-card';
+        image.src = i18n.resolveImagePath(String(master.l ?? ''));
+        image.alt = this.binderCardName(master);
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        item.dataset.rarity = String(master.r ?? 1);
+        item.appendChild(image);
+      }
+      this.binderSlots.appendChild(item);
+    });
+
+    this.binderModal.hidden = false;
+    this.binderModal.classList.remove('is-opening');
+    void this.binderModal.offsetWidth;
+    this.binderModal.classList.add('is-opening');
+    this.binderCloseButtons[0]?.focus();
+    this.log('Binder of the online profile displayed.');
+  }
+
+  /**
+   * Closes the binder page of the online profile.
+   *
+   * @returns {void}
+   */
+  closeProfileBinder() {
+    if (!this.binderModal || this.binderModal.hidden) return;
+    this.binderModal.hidden = true;
+    this.binderModal.classList.remove('is-opening');
+    this.binderCloseButtons[0]?.blur();
+  }
+
+  /**
+   * Picks the display name of a card of a decoded binder.
+   *
+   * @param {object} master - Compact card of the share code.
+   * @returns {string} The name in the active language, falling back to the card id.
+   */
+  binderCardName(master) {
+    const names = master?.n && typeof master.n === 'object' ? master.n : {};
+    const lang = i18n.getLang();
+    return names[lang] || names.fr || names.en || Object.values(names)[0] || String(master?.i ?? '');
+  }
+
+  /**
+   * Shows (or hides) the message of the online profile dialog.
+   *
+   * @param {string|null} key - i18n key, or null.
+   * @param {'info'|'error'} [tone='info'] - Visual tone.
+   * @returns {void}
+   */
+  setOnlineFeedback(key, tone = 'info') {
+    ProfileView.setDialogFeedback(this.onlineFeedback, key, tone);
+  }
+
+  /**
    * Enlarges the card by moving its stage into the modal.
    *
    * Moving the host (never rebuilding it) keeps the shadow tree, the selected layout and the
@@ -3332,9 +4010,11 @@ export class ProfileView {
    * Opens the detail modal for one favourite card.
    *
    * @param {string} key - Collection key.
+   * @param {{removeFavorite?: boolean}} [options] - False for a card opened from the wishlist: it is
+   *   not a favourite, so the removal button would be a lie.
    * @returns {Promise<void>} Resolves once the modal is displayed.
    */
-  async openCardDetail(key) {
+  async openCardDetail(key, { removeFavorite = true } = {}) {
     const entry = this.entriesByKey.get(key);
     if (!this.modal || !this.modalBody || !this.modalTitle) return;
 
@@ -3381,12 +4061,14 @@ export class ProfileView {
     rows.forEach(([term, value]) => list.appendChild(TrophyDetail.buildDetailRow(term, value)));
     this.modalBody.appendChild(list);
 
-    const remove = document.createElement('button');
-    remove.type = 'button';
-    remove.className = 'btn profile-modal__remove';
-    remove.dataset.favoriteRemove = key;
-    remove.textContent = i18n.t('profile.favorites.remove');
-    this.modalBody.appendChild(remove);
+    if (removeFavorite) {
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'btn profile-modal__remove';
+      remove.dataset.favoriteRemove = key;
+      remove.textContent = i18n.t('profile.favorites.remove');
+      this.modalBody.appendChild(remove);
+    }
 
     this.openModal(`card:${key}`);
   }
@@ -3507,6 +4189,24 @@ export class ProfileView {
     } catch (error) {
       console.error('[ProfileView] The favourite could not be removed.', error);
       Toast.error(getProfileErrorMessageKey(error));
+    }
+  }
+
+  /**
+   * Removes one card from the wishlist (the floating unpin button of its tile).
+   *
+   * @param {string} key - Collection key.
+   * @returns {Promise<void>} Resolves once the removal is stored (or the failure reported).
+   */
+  async removeWishlist(key) {
+    try {
+      await wishlistManager.remove(key);
+      this.wishlist = await wishlistManager.getCards();
+      this.renderWishlist();
+      Toast.success('profile.wishlist.removed');
+    } catch (error) {
+      console.error('[ProfileView] The wish could not be removed.', error);
+      Toast.error('profile.error.load');
     }
   }
 

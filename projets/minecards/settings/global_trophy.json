@@ -104,6 +104,14 @@
         "diamond": 25,
         "emerald": 100
     },
+    "bestfriend": {
+        "_comment": "highest friendship XP earned with one friend; the same tiers drive the friendship stars (see FriendshipManager)",
+        "bronze": 50,
+        "silver": 250,
+        "gold": 1000,
+        "diamond": 2500,
+        "emerald": 10000
+    },
     "likesreceived": {
         "_comment": "number of likes received; medals in 'assets/img/trophy/Global/likesreceived/'",
         "bronze": 10,

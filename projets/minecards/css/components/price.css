@@ -1,0 +1,33 @@
+/* A trade price: Ender Eyes "+" Sparks, each amount carrying the icon of its currency. Kept small
+   enough for a table cell and for the cost line of a trade dialog, and pixelated so the Minecraft
+   illustrations stay crisp. */
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.price__amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.price__icon {
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.price__sep {
+  margin: 0 0.15rem;
+  color: var(--color-text-muted);
+}
+
+.price--untradable {
+  color: var(--color-text-muted);
+  font-style: italic;
+}

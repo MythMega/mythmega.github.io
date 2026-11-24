@@ -963,5 +963,143 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 12,
+        "Version": "1.0.11",
+        "Titles": {
+            "Fr": "Confort Ensemble Update",
+            "En": "Confort Together Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Système de niveau d'amitié : chaque ami a son propre niveau, qui monte avec les échanges et les likes.",
+                    "En": "Friendship level system: every friend has their own level, which rises with trades and likes."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Prix d'échange dynamique selon le niveau d'amitié, avec toutes les explications dans la page « Infos ».",
+                    "En": "Trade prices that change with the friendship level, with full explanations on the “Info” page."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Sélecteur de cartes de la wishlist directement dans le profil.",
+                    "En": "Wishlist card picker directly in the profile."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Prévisualisation de votre carte de profil en ligne dans le profil.",
+                    "En": "Preview of your online profile card in the profile."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Meilleure sélection des cartes favorites.",
+                    "En": "Better favourite card selection."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Redesign des trophées épinglés sur la carte de profil.",
+                    "En": "Redesign of the pinned trophies on the profile card."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Beaucoup d'explications sur les échanges dans la page « Infos ».",
+                    "En": "Many explanations about trades on the “Info” page."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Beaucoup d'explications sur les amis et les likes dans la page « Infos ».",
+                    "En": "Many explanations about friends and likes on the “Info” page."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "XP d'amitié prise en compte dans le calcul des points de profil.",
+                    "En": "Friendship XP now counts in the profile points calculation."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Correction du rendu du menu de jeu sur mobile.",
+                    "En": "Fixed the layout of the game menu on mobile."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Interface d'échange : recherche de carte, tri par rareté, nombre d'exemplaires ou numéro, et cartes non échangeables affichées en noir et blanc en bas de la liste.",
+                    "En": "Trade interface: card search, sorting by rarity, copy count or number, and non-tradable cards shown in black and white at the bottom of the list."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Historique des likes : les 25 derniers likes reçus et envoyés, séparés en deux onglets, avec la possibilité d'ajouter en ami les joueurs qui vous ont liké.",
+                    "En": "Like history: the last 25 likes received and sent, split into two tabs, with the option to add the players who liked you as friends."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Carte de profil des amis : rotation 3D de la carte et trophées épinglés affichés dessus.",
+                    "En": "Friend profile card: 3D rotation of the card and pinned trophies displayed on it."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Règle de pseudo : impossible de publier sa carte avec un pseudo déjà pris, et certains pseudos sont refusés.",
+                    "En": "Username rules: a card cannot be published with a username that is already taken, and some usernames are refused."
+                }
+            },
+            {
+                "Type": "QoL",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Liste d'amis : champ de recherche et filtre, ajout d'un ami avec son pseudo (l'UUID fonctionne aussi).",
+                    "En": "Friend list: search and filter field, add a friend with their username (the UUID still works)."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
+            }
+        ]
     }
 ]

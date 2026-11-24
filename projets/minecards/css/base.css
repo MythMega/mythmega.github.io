@@ -928,33 +928,36 @@ body.is-focus {
   white-space: nowrap;
 }
 
-/* PHONE: five destinations in ~360 px. The equal split of the wide screen squeezes each column, and
-   a label wider than its column is not clipped by default: it simply overflows and lands on the
-   label next to it. So on a phone the columns are sized by their CONTENT and the leftover space is
-   spread around them, so every label stays whole. The columns keep the thumb-sized height of
-   `.app-nav__item`, and the gaps between them are the usual 4 px plus the share of `space-evenly`. */
+/* PHONE: the primary action stays in the MIDDLE of the bar and takes 30% of the row; the four
+   destinations share the remaining 70% equally, two on each side, so the two halves are identical
+   and the action can never drift off centre. The columns are fractions rather than content: a
+   label wider than its column is clipped with an ellipsis instead of running under its neighbour,
+   and `min-width: 0` is what lets a grid column shrink below its text. */
 @media (max-width: 480px) {
   .app-nav {
-    grid-auto-columns: max-content;
-    justify-content: space-evenly;
+    grid-template-columns: 1fr 1fr 30% 1fr 1fr;
+    justify-content: normal;
   }
 
   .app-nav__item {
+    min-width: 0;
     font-size: 0.6875rem;
+  }
+
+  .app-nav__item span {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
 /* Very narrow (a 320 px phone, the outer screen of a foldable): five labels in a row still need more
    width than the bar has at a readable size, so the labels step aside and the icons keep the bar.
    The text is not removed: it is clipped the way `.sr-only` does it, so a screen reader still
-   announces "Collection" and still hears it as the name of the button. Tap targets are back to an
-   equal share of the row. */
+   announces "Collection" and still hears it as the name of the button. The 30% column of the
+   primary action and the equal halves around it are kept: only the labels change. */
 @media (max-width: 339px) {
-  .app-nav {
-    grid-auto-columns: minmax(0, 1fr);
-    justify-content: normal;
-  }
-
   .app-nav__item {
     position: relative;
   }

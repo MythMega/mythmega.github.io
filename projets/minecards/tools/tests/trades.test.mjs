@@ -23,6 +23,7 @@ import {
   resetStorage,
   readCollection,
   readState,
+  writeState,
   STORES,
 } from './helpers/fake_storage.mjs';
 import { USER_STATE_KEYS } from '../../js/business/AccountManager.js';
@@ -34,6 +35,7 @@ import tradeManager, {
   buildDefaultTradeState,
   getTradeCost,
   getTradeErrorMessageKey,
+  parseTradePrices,
   TRADE_ERROR_CODES,
   TRADE_MAX_ENDER_EYES,
   TRADE_STATUSES,
@@ -55,8 +57,15 @@ let queue = [];
 /** Original `fetch`, restored when the suite ends. */
 const realFetch = globalThis.fetch;
 
-/** Files of `settings/` the trade rules are read from (never counted as worker requests). */
-const LOCAL_FILES = new Set(['settings/config.json', 'settings/cardsets.json']);
+/**
+ * Files of `settings/` the trade rules and the friendship tiers are read from (never counted as
+ * worker requests).
+ */
+const LOCAL_FILES = new Set([
+  'settings/config.json',
+  'settings/cardsets.json',
+  'settings/global_trophy.json',
+]);
 
 /**
  * Serves one canned response per call.
@@ -166,10 +175,47 @@ function buildEntry(rarity = 3) {
   };
 }
 
-test('a trade costs one Ender Eye per rarity and rarity squared Sparks', () => {
-  assert.deepEqual(getTradeCost(1), { sparks: 1, enderEyes: 1 });
-  assert.deepEqual(getTradeCost(4), { sparks: 16, enderEyes: 4 });
-  assert.deepEqual(getTradeCost(5), { sparks: 25, enderEyes: 5 });
+test('a trade costs the configured Ender Eyes and rarity squared Sparks', () => {
+  const config = JSON.parse(
+    readFileSync(new URL('../../settings/config.json', import.meta.url), 'utf8')
+  );
+  const prices = parseTradePrices(config.trades?.prices);
+  assert.deepEqual(getTradeCost(1, 0, prices), { sparks: 1, enderEyes: 1, tradable: true });
+  assert.deepEqual(getTradeCost(4, 0, prices), { sparks: 16, enderEyes: 4, tradable: true });
+  assert.deepEqual(getTradeCost(5, 0, prices), { sparks: 25, enderEyes: 5, tradable: true });
+});
+
+test('an unreadable price table falls back to the legacy rules and keeps rarity 6 closed', () => {
+  // The configuration is missing entirely (or unreadable): one Eye per rarity, 10 % off per star,
+  // and rarity 6 stays out of reach - the legacy rule never opened it.
+  for (const prices of [parseTradePrices(null), parseTradePrices({})]) {
+    assert.deepEqual(getTradeCost(3, 2, prices), { sparks: 7, enderEyes: 3, tradable: true });
+    assert.deepEqual(getTradeCost(6, 5, prices), { sparks: 0, enderEyes: 0, tradable: false });
+    assert.equal(prices.eye[5][6], null);
+  }
+
+  // A partially unreadable file fills only what it cannot read: an explicit rarity 6 price opens it
+  // at that level, a malformed one stays closed, and an unreadable Sparks row keeps the legacy 10 %.
+  const partial = parseTradePrices({
+    Eye: { 'friendshiplevel.1': { 'rarity.6': 4 } },
+    Sparks: { 'friendshiplevel.1': 'not a number' },
+  });
+  assert.deepEqual(getTradeCost(3, 1, partial), { sparks: 8, enderEyes: 3, tradable: true });
+  assert.deepEqual(getTradeCost(6, 1, partial), { sparks: 32, enderEyes: 4, tradable: true });
+  assert.deepEqual(getTradeCost(6, 0, partial), { sparks: 0, enderEyes: 0, tradable: false });
+
+  const malformed = parseTradePrices({
+    Eye: { 'friendshiplevel.0': { 'rarity.6': 'nope', 'rarity.5': null } },
+  });
+  assert.equal(malformed.eye[0][6], null);
+  assert.equal(malformed.eye[0][5], null);
+
+  // A table built by hand without any row for rarity 6 keeps it closed too.
+  assert.deepEqual(getTradeCost(6, 4, { eye: [], sparks: [] }), {
+    sparks: 0,
+    enderEyes: 0,
+    tradable: false,
+  });
 });
 
 test('a missing Ender Eyes balance starts at the full stock of 5', async () => {
@@ -213,7 +259,7 @@ test('the local Ender Eyes stock refills by one per UTC day, capped at 5', async
   assert.equal((await tradeManager.getState()).enderEyes, 1);
 });
 
-test('only duplicates of rarity 1 to 5 are tradable, promos excluded', () => {
+test('only duplicates are tradable, promos excluded (rarity 6 included)', () => {
   const entries = TradeManager.listTradableEntries({
     entries: [
       { key: 'dup3', cardId: 'A', rarity: 3, quantity: 2, owned: true },
@@ -224,9 +270,11 @@ test('only duplicates of rarity 1 to 5 are tradable, promos excluded', () => {
       { key: 'missing', cardId: 'F', rarity: 2, quantity: 0, owned: false },
     ],
   });
+  // Rarity 6 is offered like the others: the trade dialog refuses it below four friendship stars,
+  // because the price table has no Ender Eye price for it there.
   assert.deepEqual(
     entries.map((entry) => entry.key),
-    ['dup3', 'dup1']
+    ['unique', 'dup3', 'dup1']
   );
 });
 
@@ -831,4 +879,89 @@ test('a 409 that survives the retry is still reported as a conflict', async () =
   assert.equal(readCollection(KEY).quantity, 2, 'nothing was sent');
   assert.equal(readState(USER_STATE_KEYS.SPARKS), 50);
   assert.deepEqual(readState(USER_STATE_KEYS.TRADES).escrows, {});
+});
+
+test('the history and the statistics count the Sparks really paid after the discount', async () => {
+  seed({ lastRefreshAt: Date.now(), seen: { t10: TRADE_STATUSES.ACCEPTED } });
+  // Three stars with that friend (the 50 + 250 + 1000 XP tiers): the trade of rarity 3 costs 6
+  // Sparks instead of 9, and that is what leaves the balance.
+  writeState(USER_STATE_KEYS.FRIENDSHIP, {
+    xp: { [FRIEND]: 1000 },
+    trades: {},
+    tradeIds: [],
+    seenLikes: [],
+  });
+
+  queue.push({ status: 201, body: { trade: { id: 't10' } } });
+  await tradeManager.createTrade({ responderUuid: FRIEND, entry: buildEntry(3) });
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 44);
+  const stored = readState(USER_STATE_KEYS.TRADES);
+  assert.equal(stored.escrows.t10.sparks, 6);
+  assert.equal(stored.paid.t10.sparks, 6);
+
+  // The worker only knows the full price, and it completes the trade.
+  const completed = {
+    id: 't10',
+    status: TRADE_STATUSES.COMPLETED,
+    rarity: 3,
+    sparks_cost: 9,
+    ender_eyes_cost: 3,
+    my_role: 'initiator',
+    initiator: { uuid: UUID, username: 'Myth', card: { key: KEY, name: 'Creeper' }, claimed: true },
+    responder: { uuid: FRIEND, username: 'Bonhomme', card: null, claimed: true },
+    created_at: '2026-11-23 10:00:00',
+  };
+  queue.push({ body: { ender_eyes: 2, incoming: [], outgoing: [], history: [completed] } });
+  const view = await tradeManager.refresh();
+
+  assert.equal(view.stats.totals.completed, 1);
+  assert.equal(view.stats.totals.sparks_spent, 6, 'the statistics count the paid Sparks');
+  assert.equal(view.stats.by_rarity['3'].sparks_spent, 6);
+  assert.equal(view.history[0].sparks_cost, 6, 'the history shows the paid Sparks');
+  assert.equal(view.history[0].ender_eyes_cost, 3);
+
+  // A reload paints the same price: it is stored with the trade, not with the escrow.
+  queue.push({ body: { ender_eyes: 2, incoming: [], outgoing: [], history: [completed] } });
+  const again = await tradeManager.refresh();
+  assert.equal(again.history[0].sparks_cost, 6);
+  assert.equal(again.stats.totals.sparks_spent, 6);
+});
+
+test('past trades seed their friendship XP from the worker history at ten per rarity', async () => {
+  seed();
+  const history = [
+    {
+      id: 'h1',
+      status: TRADE_STATUSES.COMPLETED,
+      rarity: 4,
+      sparks_cost: 16,
+      ender_eyes_cost: 4,
+      my_role: 'initiator',
+      initiator: { uuid: UUID, username: 'Myth', card: null, claimed: true },
+      responder: { uuid: FRIEND, username: 'Bonhomme', card: null, claimed: true },
+      created_at: '2026-11-10 10:00:00',
+    },
+    {
+      id: 'h2',
+      status: TRADE_STATUSES.COMPLETED,
+      rarity: 2,
+      sparks_cost: 4,
+      ender_eyes_cost: 2,
+      my_role: 'responder',
+      initiator: { uuid: FRIEND, username: 'Bonhomme', card: null, claimed: true },
+      responder: { uuid: UUID, username: 'Myth', card: null, claimed: true },
+      created_at: '2026-11-09 10:00:00',
+    },
+  ];
+
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [], history } });
+  await tradeManager.refresh();
+  // 10 x 4 for the first row and 10 x 2 for the second, without any local counter to read.
+  assert.equal(readState(USER_STATE_KEYS.FRIENDSHIP).xp[FRIEND], 40 + 20);
+
+  queue.push({ body: { ender_eyes: 5, incoming: [], outgoing: [], history } });
+  await tradeManager.refresh();
+  const friendship = readState(USER_STATE_KEYS.FRIENDSHIP);
+  assert.equal(friendship.xp[FRIEND], 60, 'reading the same history again pays nothing');
+  assert.deepEqual(friendship.tradeIds, ['h1', 'h2']);
 });

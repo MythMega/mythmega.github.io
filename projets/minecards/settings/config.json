@@ -102,7 +102,27 @@
   },
   "trades": {
     "_comment": "Card exchanges with a followed player (js/business/TradeManager.js). 'sameExtension': when true, the two cards of one trade must come from the SAME extension (an A2 card against an A2 card); when false, two cards of any extension may be exchanged. The rarity is ALWAYS identical on both sides, whatever this option says, and a promo card is NEVER tradable, whatever this option or the per-extension flags say: promos only enter a collection through a code or a gift. Whether an extension may be traded at all is the 'trade' flag of its entry in 'settings/cardsets.json' (a missing flag means allowed). These rules are read once per page by TradeManager; the trade lists only ever offer the cards the rules accept, and an offer that breaks them is refused before anything leaves the local save.",
-    "sameExtension": true
+    "sameExtension": true,
+    "prices" : {
+      "Eye": {
+        "_comment": "depending on friendshiplevel (0-5) (friend star), we have different price for each rarity. If null => untradable",
+        "friendshiplevel.0": {"rarity.1": 1, "rarity.2": 2, "rarity.3": 3, "rarity.4": 4, "rarity.5": 5, "rarity.6": null },
+        "friendshiplevel.1": {"rarity.1": 1, "rarity.2": 2, "rarity.3": 2, "rarity.4": 4, "rarity.5": 5, "rarity.6": null },
+        "friendshiplevel.2": {"rarity.1": 1, "rarity.2": 1, "rarity.3": 2, "rarity.4": 3, "rarity.5": 4, "rarity.6": null },
+        "friendshiplevel.3": {"rarity.1": 1, "rarity.2": 1, "rarity.3": 2, "rarity.4": 2, "rarity.5": 4, "rarity.6": null },
+        "friendshiplevel.4": {"rarity.1": 1, "rarity.2": 1, "rarity.3": 2, "rarity.4": 2, "rarity.5": 4, "rarity.6": 5 },
+        "friendshiplevel.5": {"rarity.1": 1, "rarity.2": 1, "rarity.3": 1, "rarity.4": 2, "rarity.5": 3, "rarity.6": 5 }
+      },
+      "Sparks": {
+        "_comment": "percentage of reduction (round to lower integer, result can be 0) of sparks prices.",
+        "friendshiplevel.0": 0,
+        "friendshiplevel.1": 5,
+        "friendshiplevel.2": 15,
+        "friendshiplevel.3": 25,
+        "friendshiplevel.4": 50,
+        "friendshiplevel.5": 67
+      }
+    }
   },
 
   "glow": {

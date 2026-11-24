@@ -28,6 +28,11 @@ Sommaire :
 21. Overlay de stream
 22. PWA et hors-ligne
 23. Outils annexes (admin, gamemaster)
+24. Rapport d'erreur et préchargement des images
+25. Illager Shop et monnaies personnalisées
+26. Amis, likes et niveau d'amitié
+27. Échanges entre joueurs
+28. Wishlist
 
 ---
 
@@ -287,6 +292,10 @@ Vue : popup de `MineBlockView`, logique via `TraderManager`, réglages dans la s
 - **Page de lecture** (`js/binder-share.js`) : autonome, sans compte ni base ni catalogue. Auteur en
   pastille (avec repli « Joueur anonyme »), panneau centré, détail d'une carte en modale, foil et
   brillance rendus par `js/utils/Shine.js`.
+- **Binder épinglé sur le profil** : la popup « Profil en ligne » montre un bouton qui ouvre la
+  page du binder (nom, décor de la carte représentative, 30 emplacements), avec le même rendu que
+  la page ouverte depuis la fiche d'un ami. Le bouton n'apparaît que si le binder est toujours
+  publiable (code de partage non vide).
 - La vente d'une carte réconcilie les binders (`BINDER_LIMIT_REACHED`, placements excédentaires
   retirés en partant de la fin).
 
@@ -688,3 +697,70 @@ Vue : `js/UI/views/SettingsView.js`. Panneaux :
   seule transaction. Sans quête disponible, le bouton est grisé mais cliquable : le dialogue affiche
   `assets/img/no_quest.webp` et le compte à rebours du prochain `StartDate`. Les Sparks des quêtes
   ont leur propre source dans les statistiques (`SPARKS_SOURCES.QUEST`).
+## 26. Amis, likes et niveau d'amitié
+
+- **Suivre un joueur** : la page Social (`SocialManager`) lit la carte de dresseur publiée d'un
+  compte, par son pseudo ou son UUID. Lui-même doit avoir publié sa carte, et le nombre d'amis
+  augmente avec le niveau (`social.baseMaxFriend`, +`friendStepIncrease` tous les
+  `friendStepLevelGap` niveaux, plafonné par `maxFriends`).
+- **Liker** : un like par ami et par jour UTC, depuis la liste, la fiche de l'ami ou « Liker tout le
+  monde ». Les compteurs sont publics ; le bonus en Sparks, lui, reste local et n'est réclamé que
+  par la lecture authentifiée. L'historique des likes envoyés et reçus est lisible dans la page.
+- **XP d'amitié** (`FriendshipManager`, `user_state["friendship"]`) : un échange terminé rapporte
+  **10 × rareté** XP, un like envoyé ou reçu **1 XP**. Un échange déjà terminé avant l'arrivée du
+  système est converti depuis l'historique du worker, une seule fois par identifiant ; ce que
+  l'historique ne contient plus est payé au tarif fixe de 25 XP par échange. Les likes sont
+  dédoublonnés par `direction:uuid|jour`.
+- **Niveaux** : une étoile par palier de l'entrée `bestfriend` de `settings/global_trophy.json`
+  (50 / 250 / 1000 / 2500 / 10000 dans le fichier, repli sur 25 / 100 / 250 / 500 / 1500 s'il est
+  illisible), cinq étoiles au maximum, chacune dans la couleur de son
+  palier (bronze à émeraude). Les étoiles, le pourcentage vers la suivante et les compteurs bruts
+  (`XP / palier`) sont affichés dans la liste et dans la fiche de l'ami. La meilleure XP de l'amitié
+  est recopiée dans `stats.bestfriend`, que lit le trophée global `bestfriend`.
+
+## 27. Échanges entre joueurs
+
+- **Où** : l'onglet Échanges de la page Social, avec un ami dont la carte est publiée. Une seule
+  demande ouverte par joueur à la fois ; elle reste 24 h, puis expire et rembourse tout le monde.
+- **Quelles cartes** : deux cartes de **même rareté** (1 à 6). La rareté 6 ne s'échange qu'à
+  partir de **4 étoiles d'amitié** : son prix en Œils est `null` en dessous dans `trades.prices`,
+  ce que le jeu lit comme « non échangeable » (la table de la page Informations l'affiche ainsi).
+  Les promos ne s'échangent jamais ; `trades.sameExtension` de `settings/config.json` peut en plus imposer la même
+  extension, et le drapeau `trade` d'une extension dans `settings/cardsets.json` peut la fermer.
+- **Prix, par joueur** : lus dans `trades.prices` de `settings/config.json`. `Eye` donne les Œils
+  de l'End par rareté et par niveau d'amitié (`friendshiplevel.0` à `5`, une entrée `null` valant
+  « non échangeable » à ce niveau), `Sparks` le pourcentage retiré du prix de base rareté²
+  (arrondi au Spark inférieur, 0 possible). La table exacte est affichée sur la page Informations.
+  Tous les prix (coût d'une carte dans les dialogues, ligne de contre-proposition, historique) sont
+  dessinés par `js/UI/components/PriceIcons.js` : le nombre, l'icône de l'Œil, « + », le nombre puis
+  l'icône des Sparks, avec le prix complet en `title` et en libellé accessible.
+  Une entrée manquante ou illisible retombe sur l'ancienne règle (un Œil par rareté, 10 % par
+  étoile), sauf la rareté 6 qui reste **fermée** tant que le fichier ne l'ouvre pas explicitement.
+- **Escrow local** : à l'envoi, la carte, ses Sparks et ses Œils quittent la sauvegarde
+  (`user_state["trades"].escrows`). Un refus, une annulation, un retrait de contre-proposition ou une
+  expiration les rend dans la même transaction qui supprime l'escrow, donc un rechargement ne peut
+  jamais rembourser deux fois.
+- **Fin de l'échange** : le worker fait passer la demande à `completed` ; chacun récupère la carte
+  reçue depuis l'onglet Échanges, et c'est ce moment qui compte les statistiques et crédite l'XP
+  d'amitié (une fois par identifiant d'échange). L'historique et les compteurs affichent le prix
+  réellement payé après réduction, pas le prix plein du worker.
+- **Œils de l'End** : stock local, 5 au maximum, +1 par jour UTC, 5 pour une sauvegarde qui n'en
+  porte pas encore.
+
+## 28. Wishlist
+
+- **À quoi ça sert** : dire aux joueurs qui vous suivent quelles cartes vous cherchez, pour qu'ils
+  vous les proposent en échange (ou vous les envoient). La liste part avec la publication de la
+  carte de dresseur, apparaît dans la fiche d'ami et dans la section « Cartes en wishlist » du
+  profil. Elle ne réserve rien et ne coûte rien.
+- **Comment la changer** : jusqu'à **10 cartes différentes** (`user_state["wishlist"]`, dans l'ordre
+  d'ajout), depuis la fiche d'une carte de la collection avec le bouton cœur, avec la touche `W` sur
+  une carte ouverte, ou depuis le profil : la tuile « Ajouter » ferme la grille tant que la liste
+  n'est pas pleine et ouvre un sélecteur avec un champ de recherche et trois filtres en un clic
+  (**Non possédée** par défaut, **Possédée**, **Toutes**). Les cartes non possédées sont affichées
+  en noir et blanc, dans la grille comme dans le sélecteur, pour distinguer d'un coup d'œil celles
+  qui manquent encore. Chaque carte de la grille porte un bouton flottant qui la retire ; retirer la
+  dernière puis publier vide la liste en ligne.
+- **Après obtention** : une carte obtenue par booster, achat ou Mine Pick quitte la wishlist toute
+  seule (`wishlistAutoRemoveGain`, activé par défaut). Pour un échange, le jeu demande
+  (`wishlistAutoRemoveTrade`, désactivé par défaut), sauf si l'option est activée.

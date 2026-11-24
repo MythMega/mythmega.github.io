@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v200';
+const VERSION = 'v209';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -137,6 +137,7 @@ const PRECACHE_URLS = [
   './css/components/card-reveal.css',
   './css/components/card-shine.css',
   './css/components/modal.css',
+  './css/components/price.css',
   './css/components/changelog-popup.css',
   './css/components/toast.css',
   './css/components/auto-claim.css',
@@ -165,6 +166,7 @@ const PRECACHE_URLS = [
   './js/UI/SpaRouter.js',
   './js/UI/components/AutoClaimPopup.js',
   './js/UI/components/AppMenu.js',
+  './js/UI/components/PriceIcons.js',
   './js/UI/components/Booster3DRenderer.js',
   './js/UI/components/CardComponent.js',
   './js/UI/components/CardDetailPopup.js',
@@ -187,6 +189,7 @@ const PRECACHE_URLS = [
   './js/UI/components/NotificationCenter.js',
   './js/UI/components/ProfileCard.js',
   './js/UI/components/RenamePseudoDialog.js',
+  './js/UI/components/FriendshipLevel.js',
   './js/UI/components/SetAnnouncementPopup.js',
   './js/UI/components/SlotPurchaseModal.js',
   './js/UI/components/Toast.js',
@@ -220,6 +223,7 @@ const PRECACHE_URLS = [
   './js/business/GachaEngine.js',
   './js/business/FeatureManager.js',
   './js/business/GiftManager.js',
+  './js/business/FriendshipManager.js',
   './js/business/LikesManager.js',
   './js/business/MinePickManager.js',
   './js/business/SetAnnouncementManager.js',

@@ -11,6 +11,7 @@
  * THE FORMULA (always in Spark-equivalent units)
  *   total = Sparks
  *         + Σ like received × 1
+ *         + Σ friendship XP with every friend × 1
  *         + Σ owned copy × its sale price (promo cards use their fixed 10-Spark sale price)
  *         + Σ distinct owned card × rarity³ × 10
  *         + level × 10
@@ -24,6 +25,8 @@
  *   - Sparks are already the unit of the result.
  *   - One received like is worth one point (`ACCOUNT_VALUE_RULES.like`): the hearts a player
  *     collected are part of the account, like the level below, and they are counted one for one.
+ *   - The friendship XP of every friend is worth one point per XP (`ACCOUNT_VALUE_RULES.friendship`):
+ *     a bond is progression too, and its total is the sum over the friends.
  *   - Every COPY in the collection is worth what selling it would credit, not what buying it
  *     costs: the value describes the collection's liquidation value. A promo is worth its fixed
  *     duplicate price, exactly as `SparksManager.sellCard()` charges.
@@ -56,6 +59,7 @@ import sparksManager, { PROMO_SELL_PRICE } from './SparksManager.js';
 import miningManager from './MiningManager.js';
 import illagerShopManager from './IllagerShopManager.js';
 import dateSyncManager from './DateSyncManager.js';
+import friendshipManager from './FriendshipManager.js';
 import { colorManager } from './ColorManager.js';
 import profileIconManager from './ProfileIconManager.js';
 import featureManager, {
@@ -71,6 +75,7 @@ import featureManager, {
 export const ACCOUNT_VALUE_RULES = Object.freeze({
   level: 10,
   like: 1,
+  friendship: 1,
   customCurrency: 25,
   distinctCard: 10,
   maxRarity: 6,
@@ -254,7 +259,8 @@ export class AccountValueManager {
    * @param {number} [options.likes=0] - Likes received by the player (one point each). `0` until
    *   the first authenticated read of the likes succeeded, which only costs the likes term of a
    *   card published in that very first second.
-   * @returns {Promise<{total: number, sparks: number, likeValue: number, cardSaleValue: number,
+   * @returns {Promise<{total: number, sparks: number, likeValue: number, friendshipValue: number,
+   *   cardSaleValue: number,
    *   distinctRarityValue: number, levelValue: number, resourceValue: number,
    *   customCurrencyValue: number, bonusBoosterValue: number, bundleValue: number,
    *   profileCustomizationValue: number, bonusBoosters: number, bundles: number}>}
@@ -276,6 +282,7 @@ export class AccountValueManager {
       profileSettings,
       colorCatalog,
       iconCatalog,
+      friendshipXp,
     ] = await Promise.all([
       sparksManager.getBalance(),
       sparksManager.getPrices(),
@@ -290,6 +297,7 @@ export class AccountValueManager {
       configLoader.getProfileSettings(),
       colorManager.listColors(),
       profileIconManager.loadCatalog(),
+      friendshipManager.getXpMap(),
     ]);
 
     const resourceTypes = new Map(
@@ -300,11 +308,16 @@ export class AccountValueManager {
     const bundles = amountOf(mining?.bundles);
     const levelValue = Math.max(1, amountOf(level)) * ACCOUNT_VALUE_RULES.level;
     const likeValue = amountOf(likes) * ACCOUNT_VALUE_RULES.like;
+    const friendshipValue = Object.values(friendshipXp ?? {}).reduce(
+      (total, xp) => total + amountOf(xp),
+      0
+    ) * ACCOUNT_VALUE_RULES.friendship;
     const boosterPrice = amountOf(boosters?.extraBoosterPriceSparks);
     const bundlePrice = amountOf(miningSettings?.bundlePriceSparks);
     const values = {
       sparks,
       likeValue,
+      friendshipValue,
       cardSaleValue: AccountValueManager.cardSaleValue(entries, prices?.sellPrice),
       distinctRarityValue: AccountValueManager.distinctRarityValue(entries),
       levelValue,

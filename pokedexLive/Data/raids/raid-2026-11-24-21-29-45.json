@@ -1,0 +1,131 @@
+{
+  "bossName": "Drattak",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salamence_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Salamence_shiny.gif",
+  "bossRarity": "RARE",
+  "shiny": true,
+  "pvMax": 180000,
+  "date": "2026-11-24 21:29:45",
+  "durationSec": 2904,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 180000,
+      "countAtk": 4,
+      "baseDmg": 45818,
+      "level": 20,
+      "raidCount": 1180,
+      "luck": 0.98214674
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 9501,
+      "countAtk": 1,
+      "baseDmg": 9501,
+      "level": 16,
+      "raidCount": 381,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 189501
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-24 21:39:23",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 135000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-24 21:47:05",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 90000,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-24 21:50:26",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9501,
+      "pvAfter": 80499,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-24 21:52:02",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 35499,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-24 22:18:09",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 45000,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    }
+  ]
+}

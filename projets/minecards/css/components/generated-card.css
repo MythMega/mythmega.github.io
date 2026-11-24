@@ -198,6 +198,16 @@ html[data-card-source='generate'] .card-shine:has(card-print) > .card-shine__gle
   background-repeat: no-repeat;
 }
 
+/* The background illustration is pixel art too, exactly like the underlay: it is drawn with the
+   same nearest-neighbour rendering, so the blocks of the set stay crisp instead of being averaged
+   into a blur. `:host` keeps the rule inside the `<card-print>` shadow root: this file is also
+   linked by the document, where the rule would otherwise reach any other profile card stage. */
+:host .profile-card-root .card-preview .card-art {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
 /* ----------------------------------------------------------------------------
    Foil: the two layers of the card maker, scaled by the player's foil setting.
    `--foil-intensity` and `--glare-intensity` are published on <html> by

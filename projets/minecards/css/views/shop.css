@@ -182,6 +182,10 @@
 
 .shop__booster-art {
   display: grid;
+  /* Two explicit tracks take the box the square reserves: an implicit row sized itself to the
+     intrinsic height of the booster icon and let it hang out of the frame. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   place-items: center;
   flex: 0 0 auto;
   width: 4rem;

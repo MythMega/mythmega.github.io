@@ -533,6 +533,9 @@ class BoosterOverlay {
     if (!this.boosterFallback || !iconPath) return;
     this.boosterFallback.src = iconPath;
     this.boosterFallback.hidden = false;
+    // The square that held the WebGL canvas stays empty in this mode: left in the column, it pushes
+    // the flat booster and the headline to the bottom of the screen.
+    if (this.boosterContainer) this.boosterContainer.hidden = true;
   }
 
   /**

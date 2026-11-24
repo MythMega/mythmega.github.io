@@ -150,6 +150,10 @@
 .minepick__row-figure {
   grid-area: figure;
   display: grid;
+  /* The two tracks follow the aspect ratio of the box: an implicit row would grow to the intrinsic
+     height of the booster icon and print it outside of the frame. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   place-items: center;
   align-self: start;
   width: 100%;

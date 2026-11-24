@@ -1386,6 +1386,9 @@
 .illager-quest__reward-icon {
   width: 1.25rem;
   height: 1.25rem;
+  /* A pack is a tall picture: contained, it keeps its proportions inside the square reserved for
+     the resources instead of being stretched by it. */
+  object-fit: contain;
   image-rendering: pixelated;
 }
 

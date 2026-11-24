@@ -55,6 +55,25 @@ const GODPACK_MIN_FULL_ART = 3;
 /** Display labels of the layouts found in the card files. */
 const LAYOUT_LABELS = Object.freeze({ classic: 'Classique', fullart: 'Full art' });
 
+/** Layouts a catalogue entry may declare (`tools/lint/rules/data.mjs` checks the same two). */
+const LAYOUT_VALUES = new Set(['classic', 'fullart']);
+
+/**
+ * Properties a catalogue entry must carry to be printable.
+ *
+ * The same list as the data linter, so the browser and `npm run check` never disagree on what a
+ * complete card entry is.
+ */
+const REQUIRED_FIELDS = Object.freeze([
+  'Index',
+  'Name_FR',
+  'Name_EN',
+  'Desc_FR',
+  'Desc_EN',
+  'Style',
+  'Path',
+]);
+
 /** French number formatting shared by the statistics and the simulation. */
 const NUMBER_FORMATTER = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
 const PERCENT_FORMATTER = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 });
@@ -100,6 +119,7 @@ const state = {
   sortDir: 'asc',
   pageSize: 25,
   page: 1,
+  problems: false,
 };
 
 /** Configuration loaded once the page is unlocked. @type {object|null} */
@@ -156,6 +176,8 @@ const sortSelect = document.getElementById('sort-select');
 const sortDirection = document.getElementById('sort-direction');
 const pageSizeSelect = document.getElementById('page-size');
 const resetFilters = document.getElementById('reset-filters');
+const problemsFilter = document.getElementById('problems-filter');
+const problemsColumn = document.getElementById('problems-column');
 const catalogFeedback = document.getElementById('catalog-feedback');
 const tableTitle = document.getElementById('table-title');
 const tableSummary = document.getElementById('table-summary');
@@ -457,6 +479,14 @@ function normalizeCard(card, index, setId) {
   const rarityLabel = RARITY_LABELS[rarity] ?? '-';
   const layout = typeof card?.Layout === 'string' ? card.Layout : '';
 
+  // Everything the "Problème" filter reports without opening a single image: a property the game
+  // needs and the entry does not carry, and an underlay that was left empty (a warning, because the
+  // game draws that card without one).
+  const isBlank = (value) => typeof value !== 'string' || value.trim() === '';
+  const missingFields = REQUIRED_FIELDS.filter((field) => isBlank(card?.[field]));
+  if (!LAYOUT_VALUES.has(layout.trim().toLowerCase())) missingFields.push('Layout');
+  if (!(rarity >= 1 && rarity <= 6)) missingFields.push('Rarity');
+
   let generatedCard = null;
   let generatedError = '';
   try {
@@ -478,6 +508,11 @@ function normalizeCard(card, index, setId) {
     enImage: resolveImagePath(card?.Path, 'en'),
     generatedCard,
     generatedError,
+    background: typeof card?.Background === 'string' ? card.Background.trim() : '',
+    underlay: typeof card?.Underlay === 'string' ? card.Underlay.trim() : '',
+    missingFields,
+    underlayEmpty: isBlank(card?.Underlay),
+    imageFailures: [],
     searchText: normalizeText([num, cardIndex, nameFr, nameEn, rarityLabel, layout].join(' ')),
   };
 }
@@ -540,6 +575,8 @@ async function loadSource() {
         ? data.Serie.trim()
         : id;
     sourceStatus.textContent = `${kindLabel} ${id} · ${name} · ${releaseText}`;
+    // A new source starts with no image checked: the filter re-tests it when it is on.
+    if (state.problems) await checkCardImages(state.cards);
     render();
     renderAnalysis();
   } catch (error) {
@@ -1195,7 +1232,7 @@ function renderSimulation() {
 function setTablePlaceholder(message) {
   const row = document.createElement('tr');
   const cell = document.createElement('td');
-  cell.colSpan = 8;
+  cell.colSpan = 9;
   cell.className = 'table-placeholder';
   cell.textContent = message;
   row.append(cell);
@@ -1218,7 +1255,9 @@ function compareCards(left, right) {
 }
 
 /**
- * Applies the search and rarity filters, then the selected sort.
+ * Applies the search, rarity and problem filters, then the selected sort.
+ *
+ * The problem filter keeps every card that needs a fix, warnings (an empty underlay) included.
  *
  * @returns {object[]} The cards to paginate.
  */
@@ -1226,10 +1265,88 @@ function getFilteredCards() {
   const query = normalizeText(state.query.trim());
   const filtered = state.cards.filter((card) => {
     if (state.rarity !== 'all' && card.rarity !== Number(state.rarity)) return false;
+    if (state.problems && getCardIssues(card).length === 0) return false;
     return query === '' || card.searchText.includes(query);
   });
   const direction = state.sortDir === 'asc' ? 1 : -1;
   return filtered.sort((left, right) => compareCards(left, right) * direction);
+}
+
+/**
+ * Lists the problems of one catalogue entry.
+ *
+ * Errors make the card wrong (a property the game needs is absent, an image does not load); the
+ * empty underlay is only a warning, since the game prints that card without one.
+ *
+ * @param {object} card - Normalised card.
+ * @returns {Array<{level: 'error'|'warning', label: string}>} The problems, in display order.
+ */
+function getCardIssues(card) {
+  const issues = [];
+  card.missingFields.forEach((field) => issues.push({ level: 'error', label: `${field} manquant` }));
+  if (card.generatedError !== '') {
+    issues.push({ level: 'error', label: 'Carte générée indisponible' });
+  }
+  card.imageFailures.forEach((label) => {
+    issues.push({ level: 'error', label });
+  });
+  // A card with no `Path` already reports the property; an empty underlay is the one warning the
+  // browser raises on a complete entry.
+  if (card.underlayEmpty) issues.push({ level: 'warning', label: 'Underlay vide' });
+  return issues;
+}
+
+/** Answer of one image request, keyed by URL, so a file is downloaded and tested only once. @type {Map<string, Promise<boolean>>} */
+const imageProbes = new Map();
+
+/**
+ * Checks that one image can be loaded by the browser.
+ *
+ * @param {string} url - Image URL, or an empty string for a card that has none.
+ * @returns {Promise<boolean>} True when the file loaded, false when it is absent or unreadable.
+ */
+function probeImage(url) {
+  if (url === '') return Promise.resolve(false);
+  const cached = imageProbes.get(url);
+  if (cached) return cached;
+  const probe = new Promise((resolve) => {
+    const image = new Image();
+    image.addEventListener('load', () => resolve(true), { once: true });
+    image.addEventListener('error', () => resolve(false), { once: true });
+    image.src = url;
+  });
+  imageProbes.set(url, probe);
+  return probe;
+}
+
+/**
+ * Loads every picture a card names and records the ones that do not answer.
+ *
+ * Three files are tested: the final illustration of each language and the two layers the generated
+ * card paints (`Background` and `Underlay`). The two languages often name the same file (`<lang>`
+ * replaced by the same path): one failure is then reported once, as `FR/EN`.
+ *
+ * @param {object[]} cards - Normalised cards of the current source.
+ * @returns {Promise<void>} Resolves once every image was answered.
+ */
+async function checkCardImages(cards) {
+  await Promise.all(cards.map(async (card) => {
+    /** Every file to test, with the message that names it in the table. */
+    const targets = [];
+    // A card with no `Path` at all is reported as a missing property, not as a missing file.
+    if (card.frImage !== '') {
+      const shared = card.enImage === card.frImage;
+      targets.push([card.frImage, shared ? 'Image FR/EN introuvable' : 'Image FR introuvable']);
+      if (!shared) targets.push([card.enImage, 'Image EN introuvable']);
+    }
+    if (card.background !== '') targets.push([card.background, 'Background introuvable']);
+    if (card.underlay !== '') targets.push([card.underlay, 'Underlay introuvable']);
+
+    const answers = await Promise.all(targets.map(([url]) => probeImage(url)));
+    card.imageFailures = answers
+      .map((loaded, index) => (loaded ? '' : targets[index][1]))
+      .filter((label) => label !== '');
+  }));
 }
 
 /**
@@ -1316,6 +1433,33 @@ function buildGeneratedCell(card) {
 }
 
 /**
+ * Builds the problem cell of one card, shown only while the problem filter is on.
+ *
+ * @param {object} card - Normalised card.
+ * @returns {HTMLTableCellElement} The cell, with one badge per problem.
+ */
+function buildIssuesCell(card) {
+  const cell = document.createElement('td');
+  cell.className = 'cell-problems';
+  const issues = getCardIssues(card);
+  if (issues.length === 0) {
+    cell.textContent = '-';
+    return cell;
+  }
+
+  const list = document.createElement('span');
+  list.className = 'issue-list';
+  issues.forEach((issue) => {
+    const badge = document.createElement('span');
+    badge.className = `issue issue--${issue.level}`;
+    badge.textContent = issue.label;
+    list.append(badge);
+  });
+  cell.append(list);
+  return cell;
+}
+
+/**
  * Builds one table row.
  *
  * @param {object} card - Normalised card.
@@ -1323,6 +1467,12 @@ function buildGeneratedCell(card) {
  */
 function buildRow(card) {
   const row = document.createElement('tr');
+  const issues = getCardIssues(card);
+  if (issues.some((issue) => issue.level === 'error')) {
+    row.classList.add('is-issue-error');
+  } else if (issues.length > 0) {
+    row.classList.add('is-issue-warning');
+  }
 
   const numCell = document.createElement('td');
   numCell.className = 'cell-num';
@@ -1364,6 +1514,9 @@ function buildRow(card) {
     buildImageCell(card, 'en'),
     buildGeneratedCell(card),
   );
+  // The problem column sits right after the number: the filter turns the table into a list of
+  // things to fix, and a badge on the far right would need a horizontal scroll to be read.
+  if (state.problems) row.insertBefore(buildIssuesCell(card), indexCell);
   return row;
 }
 
@@ -1374,36 +1527,50 @@ function buildRow(card) {
  */
 function render() {
   cardsTabCount.textContent = formatNumber(state.cards.length);
+  problemsColumn.hidden = !state.problems;
   const filtered = getFilteredCards();
   const total = filtered.length;
-  const pageSize = state.pageSize === PAGE_SIZE_ALL ? Math.max(total, 1) : state.pageSize;
+  // The problem filter has no page limit: every card that needs a fix is on the same table.
+  const allOnOnePage = state.problems || state.pageSize === PAGE_SIZE_ALL;
+  const pageSize = allOnOnePage ? Math.max(total, 1) : state.pageSize;
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   state.page = Math.min(Math.max(state.page, 1), pageCount);
-  const start = state.pageSize === PAGE_SIZE_ALL ? 0 : (state.page - 1) * pageSize;
+  const start = allOnOnePage ? 0 : (state.page - 1) * pageSize;
   const visible = filtered.slice(start, start + pageSize);
 
   if (visible.length === 0) {
     setTablePlaceholder(state.cards.length === 0
       ? 'Aucune carte dans ce set.'
-      : 'Aucune carte ne correspond aux filtres.');
+      : state.problems
+        ? 'Aucun problème détecté dans ce set.'
+        : 'Aucune carte ne correspond aux filtres.');
   } else {
     const fragment = document.createDocumentFragment();
     visible.forEach((card) => fragment.append(buildRow(card)));
     cardsBody.replaceChildren(fragment);
   }
 
-  const matching = state.cards.length === total
-    ? `${total} ${cardWord(total)}`
-    : `${total} ${cardWord(total)} sur ${state.cards.length}`;
-  tableSummary.textContent = matching;
+  if (state.problems) {
+    const issues = filtered.flatMap(getCardIssues);
+    const errors = issues.filter((issue) => issue.level === 'error').length;
+    const warnings = issues.length - errors;
+    tableSummary.textContent = total === 0
+      ? `${state.cards.length} ${cardWord(state.cards.length)} vérifiée${state.cards.length > 1 ? 's' : ''} · aucun problème détecté`
+      : `${total} ${cardWord(total)} avec un problème · ${formatNumber(errors)} erreur${errors > 1 ? 's' : ''} · ${formatNumber(warnings)} avertissement${warnings > 1 ? 's' : ''}`;
+  } else {
+    const matching = state.cards.length === total
+      ? `${total} ${cardWord(total)}`
+      : `${total} ${cardWord(total)} sur ${state.cards.length}`;
+    tableSummary.textContent = matching;
+  }
 
-  pagination.hidden = total === 0;
+  pagination.hidden = total === 0 || allOnOnePage;
   paginationInfo.textContent = total === 0
     ? 'Aucune carte'
-    : state.pageSize === PAGE_SIZE_ALL
+    : allOnOnePage
       ? `${total} ${cardWord(total)} affichée${total > 1 ? 's' : ''}`
       : `${start + 1}–${start + visible.length} sur ${total}`;
-  pageLabel.textContent = state.pageSize === PAGE_SIZE_ALL
+  pageLabel.textContent = allOnOnePage
     ? 'Tout'
     : `Page ${state.page} / ${pageCount}`;
   pageFirst.disabled = state.page <= 1;
@@ -1459,13 +1626,46 @@ function openLightbox(card, language) {
 }
 
 /**
+ * Turns the problem filter on or off.
+ *
+ * Turning it on removes the page limit, loads every illustration of the set (the only way to know
+ * that one is missing) and keeps the cards whose entry, image or underlay has a problem.
+ *
+ * @param {boolean} enabled - Whether the filter must be active.
+ * @returns {Promise<void>} Resolves once the table shows the result of the check.
+ */
+async function toggleProblemFilter(enabled) {
+  state.problems = enabled;
+  state.page = 1;
+  problemsFilter.setAttribute('aria-pressed', String(enabled));
+  pageSizeSelect.disabled = enabled;
+  if (!enabled) {
+    render();
+    return;
+  }
+
+  const token = loadToken;
+  problemsFilter.disabled = true;
+  tableSummary.textContent = 'Vérification des images…';
+  pagination.hidden = true;
+  setTablePlaceholder('Vérification des images…');
+  try {
+    await checkCardImages(state.cards);
+  } finally {
+    problemsFilter.disabled = false;
+  }
+  if (token !== loadToken) return;
+  render();
+}
+
+/**
  * Moves to a page, clamped by the current result count.
  *
  * @param {number} page - Requested page.
  * @returns {void}
  */
 function goToPage(page) {
-  if (state.pageSize === PAGE_SIZE_ALL) return;
+  if (state.problems || state.pageSize === PAGE_SIZE_ALL) return;
   state.page = page;
   render();
 }
@@ -1650,13 +1850,20 @@ resetFilters.addEventListener('click', () => {
   state.sortDir = 'asc';
   state.pageSize = 25;
   state.page = 1;
+  state.problems = false;
   searchInput.value = '';
   rarityFilter.value = 'all';
   sortSelect.value = 'num';
   pageSizeSelect.value = '25';
+  pageSizeSelect.disabled = false;
+  problemsFilter.setAttribute('aria-pressed', 'false');
   sortDirection.textContent = 'Croissant ↑';
   sortDirection.setAttribute('aria-label', 'Trier par ordre croissant');
   render();
+});
+
+problemsFilter.addEventListener('click', () => {
+  void toggleProblemFilter(problemsFilter.getAttribute('aria-pressed') !== 'true');
 });
 
 pageFirst.addEventListener('click', () => goToPage(1));

@@ -1411,6 +1411,8 @@ export class OpeningView {
     this.boosterLoading.hidden = false;
     this.boosterHint.hidden = true;
     this.boosterFallback.hidden = true;
+    // Same as the preview: the canvas host is what gives the stage its height while 3D runs.
+    this.boosterViewport.hidden = false;
     this.boosterViewport.textContent = '';
     this.log(`Preparing the 3D scene for "${result.setId}"…`);
 
@@ -1496,6 +1498,8 @@ export class OpeningView {
     const set = this.sets.get(setId) ?? null;
     this.previewLoading.hidden = false;
     this.previewFallback.hidden = true;
+    // The canvas host comes back with the 3D scene: the flat image of a failed attempt takes it away.
+    this.previewViewport.hidden = false;
     this.previewViewport.textContent = '';
     this.log(`Preparing the booster preview for "${setId}"…`);
 
@@ -1582,6 +1586,9 @@ export class OpeningView {
       this.previewFallback.src = i18n.resolveImagePath(picture);
       this.previewFallback.alt = set.name ?? '';
       this.previewFallback.hidden = false;
+      // An empty canvas host keeps its 38vh row and pushes the picture to the bottom of the stage;
+      // the flat display takes that room instead.
+      this.previewViewport.hidden = true;
     }
     this.log('2D booster preview displayed.');
   }
@@ -1624,6 +1631,9 @@ export class OpeningView {
       this.boosterFallback.src = i18n.resolveImagePath(picture);
       this.boosterFallback.alt = set.name ?? '';
       this.boosterFallback.hidden = false;
+      // The canvas host is empty in this mode: left visible, its 50vh row would leave the flat
+      // booster hanging at the bottom of the stage.
+      this.boosterViewport.hidden = true;
     }
     this.boosterHint.hidden = false;
     this.boosterHint.textContent = i18n.t('opening.scene.fallback');

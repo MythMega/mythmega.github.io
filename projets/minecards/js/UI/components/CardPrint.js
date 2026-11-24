@@ -47,7 +47,7 @@ const FULL_ART_MAX_SENTENCES = 2;
 /** Stylesheets injected into the shadow root, in cascade order. */
 const STYLESHEETS = Object.freeze([
   'css/components/profile-card.css',
-  'css/components/generated-card.css?v=f8b0c12d15',
+  'css/components/generated-card.css?v=a58e907671',
 ]);
 
 /**

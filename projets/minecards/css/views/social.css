@@ -844,9 +844,10 @@
   box-shadow: 0 0 0 2px var(--color-accent);
 }
 
-/* The new-trade dialog is a FIXED FRAME: its head (title, partner, search and sort) and its foot
-   (cost, error, buttons) are always on screen, and only the grid of cards scrolls between them.
-   The dialog used to scroll as a whole, so on a phone the send button could sit below the fold. */
+/* The trade dialogs are a FIXED FRAME: their head (title, partner, search and sort) and their foot
+   (cost, error, buttons) are always on screen, and only the cards - or the rows of the partner
+   picker - scroll between them. A dialog used to scroll as a whole, so on a phone the send button
+   could sit below the fold. */
 .trade__dialog {
   display: flex;
   flex-direction: column;
@@ -1110,12 +1111,22 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  max-height: min(50vh, 24rem);
+  /* Same fixed frame as the card chooser: only the rows scroll, between the search field above
+     and the buttons below. A short screen shrinks the list instead of hiding those two bands. */
+  max-height: 27rem;
+  min-height: 3rem;
   margin: 0;
   padding: var(--space-1);
   overflow-y: auto;
   overscroll-behavior: contain;
   list-style: none;
+}
+
+/* Portrait: the picker takes less of the screen, so the dialog keeps its head and its foot clear. */
+@media (orientation: portrait) {
+  .trade__partner-list {
+    max-height: 40vh;
+  }
 }
 
 .trade__partner-row {

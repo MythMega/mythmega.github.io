@@ -250,7 +250,7 @@
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=2c738a9ac8">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=54a53eddc9">
+  <link rel="stylesheet" href="css/views/social.css?v=3231597193">
   <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
   <link rel="stylesheet" href="css/components/app-menu.css?v=acdaa533da">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=07939f43ff">
@@ -400,13 +400,16 @@
   </noscript>
 
   <header class="app-header">
+    <!-- The one level-1 heading of the page: the bar shows no brand any more (the menu carries the
+         name), so this one keeps the outline and the accessible name without painting it back. -->
+    <h1 class="sr-only" data-i18n="app.title">MineCards</h1>
     <!-- The pseudo opens the flow, right of the avatar anchored at the left edge of the bar. It is
          written by `App.renderHeaderPlayer()` from the saved profile ("Steve" until one is
-         chosen). A phone hides it with the brand, see `css/base.css`. -->
+         chosen). A phone hides it, see `css/base.css`. -->
     <span class="app-header__player" data-header-player hidden></span>
     <!-- UTC clock: the single trusted time of the game (`DateSyncManager`), written every second
          by `App.renderHeaderClock()`. On a wide screen it sits right of the pseudo; on a phone,
-         where the pseudo and the brand are hidden, it keeps the place right of the avatar. The
+         where that pseudo is hidden, it keeps the place right of the avatar. The
          seconds are dropped on a portrait screen (see `css/base.css`). -->
     <time class="app-header__clock" data-header-clock data-i18n-title="settings.clock.title" title="Heure UTC">
       <span data-header-clock-time>--:--</span><span class="app-header__clock-seconds" data-header-clock-seconds>:--</span><span class="app-header__clock-zone" data-i18n="header.clock.utc">UTC</span>
@@ -2944,7 +2947,7 @@
       <!-- Partner picker: the followed players, searchable and sorted by completed trades. Nested
            inside the new-trade dialog, so choosing a player only closes this overlay. -->
       <div class="modal" data-trade-partner-modal hidden>
-        <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-partner-title">
+        <div class="modal__dialog trade__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-partner-title">
           <button type="button" class="modal__close" data-trade-partner-close aria-label="×">×</button>
           <h2 class="modal__title" id="trade-partner-title" data-i18n="trade.partner.title">Choisir un joueur</h2>
           <div class="trade__partner-search">

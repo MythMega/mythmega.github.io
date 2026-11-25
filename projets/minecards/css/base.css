@@ -683,6 +683,12 @@ svg.app-header__stat-icon {
   font-variant-numeric: tabular-nums;
 }
 
+/* The "use" action of an owned item (the Ender Pearl): a small button at the end of its row. */
+.inventory__use {
+  flex: 0 0 auto;
+  margin-left: var(--space-2);
+}
+
 .inventory__heading {
   margin: var(--space-3) 0 0;
   font-size: var(--font-size-sm);

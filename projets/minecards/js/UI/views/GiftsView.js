@@ -291,6 +291,7 @@ export class GiftsView {
     const isCard = info.type === GIFT_TYPES.CARD;
     const isSparks = info.type === GIFT_TYPES.SPARKS;
     const isBundle = info.type === 'bundle';
+    const isPearl = info.type === GIFT_TYPES.PEARL;
 
     const item = document.createElement('li');
     item.className = 'gifts__item';
@@ -330,7 +331,9 @@ export class GiftsView {
         ? i18n.t('gifts.item.sparks', { count: gift.quantity })
         : isBundle
           ? i18n.t('gifts.item.bundle', { count: gift.quantity })
-          : i18n.t('gifts.item.booster', {
+          : isPearl
+            ? i18n.t('gifts.item.pearl', { count: gift.quantity })
+            : i18n.t('gifts.item.booster', {
               set: info.setName ?? i18n.t('gifts.item.unknown', { key: gift.key }),
             });
     head.appendChild(title);

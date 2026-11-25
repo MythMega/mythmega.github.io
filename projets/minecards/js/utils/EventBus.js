@@ -79,6 +79,9 @@ export const EVENTS = Object.freeze({
    * the worker or spent: the header counter and the inventory listen to it. Ender Eyes are
    * server-authoritative (max 5, +1 per UTC day), so this is a cache of the last known value. */
   TRADES_UPDATED: 'TRADES_UPDATED',
+  /** Payload: `{ count }`. Emitted by `EnderPearlManager` when the stock of Ender Pearls changed
+   * (a code, a gift, a daily reward, or a pearl used): the inventory dialog repaints its row. */
+  PEARLS_UPDATED: 'PEARLS_UPDATED',
   /** Payload: `{ active, ready }`. Emitted by `TradeManager` after every refresh: `active` is true
    * when at least one trade is still running, `ready` when one of them waits for THIS player to
    * claim the card it received. The dots of the shell (`TradeIndicators`) are painted from it:

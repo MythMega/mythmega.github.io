@@ -94,6 +94,45 @@ const DEFAULT_CONFIG = {
   },
 };
 
+/**
+ * Mirror of the "revamp 3D texture placement" switch of the game settings.
+ *
+ * The overlay has no settings screen and imports nothing from the application, so the switch it
+ * follows in the game is repeated here: OFF, the shipped (mirrored) texture placement is kept, and
+ * a streamer who wants the readable back panel turns this constant on by hand.
+ */
+const REWAMP_TEXTURE_PLACEMENT = false;
+
+/**
+ * Makes the artwork readable on the back of the pack.
+ *
+ * The `.glb` is one closed mesh whose two panels carry the SAME unwrap, so the back shows the
+ * artwork mirrored. The artwork is stored rotated in the texture, so the width of the pack on screen
+ * is read from the U axis of the map: flipping U on the back panel's vertices (their normal points
+ * along -Z inside the model) restores it, and the front panel shares no vertex with it.
+ *
+ * Duplicated from `js/UI/components/Booster3DRenderer.js` on purpose: the overlay imports nothing
+ * from the application.
+ *
+ * @param {object} geometry - Geometry of a mesh of the booster.
+ * @returns {boolean} True when at least one vertex was corrected.
+ */
+function straightenBackPanel(geometry) {
+  const normal = geometry?.getAttribute?.('normal');
+  const uv = geometry?.getAttribute?.('uv');
+  if (!normal || !uv) return false;
+
+  let flipped = 0;
+  for (let index = 0; index < normal.count; index += 1) {
+    if (normal.getZ(index) > -0.9) continue;
+    uv.setX(index, 1 - uv.getX(index));
+    flipped += 1;
+  }
+  if (flipped === 0) return false;
+  uv.needsUpdate = true;
+  return true;
+}
+
 /** Small local dictionary: the overlay never loads the game translation files. */
 const STRINGS = {
   fr: {
@@ -487,6 +526,13 @@ class BoosterOverlay {
       gltf.scene.rotation.set(Math.PI / 2, (3 * Math.PI) / 2, 0);
       const box = new THREE.Box3().setFromObject(gltf.scene);
       gltf.scene.position.sub(box.getCenter(new THREE.Vector3()));
+      // The back panel is unwrapped mirrored (see `straightenBackPanel`): only corrected when the
+      // revamp switch is on, exactly like the game scene.
+      if (REWAMP_TEXTURE_PLACEMENT) {
+        gltf.scene.traverse((child) => {
+          if (child.isMesh) straightenBackPanel(child.geometry);
+        });
+      }
       pivot.add(gltf.scene);
 
       if (texturePath) {

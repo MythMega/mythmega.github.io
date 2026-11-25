@@ -174,6 +174,38 @@ export const DEFAULT_RENDER_SETTINGS = Object.freeze({
 });
 
 /**
+ * Makes the artwork readable on the back of the pack.
+ *
+ * The `.glb` is one closed mesh painted with one texture, and its two panels carry the SAME unwrap
+ * (a point of the front and the point facing it on the back read the same `u` and `v`). Seen from
+ * behind, that layout mirrors the artwork horizontally: the reversed text.
+ *
+ * The width of the pack maps to the V axis of the texture, not to U, so the correction is a flip of
+ * V on the back panel's own vertices. That panel is the one whose normal points along +Z inside the
+ * model: once the booster is stood upright (+Z ends up facing away from the camera), it is exactly
+ * the face the player sees when the booster has turned around. The front panel shares no vertex with
+ * it, so its own mapping, its normal map and its lighting are untouched.
+ *
+ * @param {object} geometry - Geometry of a mesh of the booster.
+ * @returns {boolean} True when at least one vertex was corrected.
+ */
+function straightenBackPanel(geometry) {
+  const normal = geometry?.getAttribute?.('normal');
+  const uv = geometry?.getAttribute?.('uv');
+  if (!normal || !uv) return false;
+
+  let flipped = 0;
+  for (let index = 0; index < normal.count; index += 1) {
+    if (normal.getZ(index) > -0.9) continue;
+    uv.setX(index, 1 - uv.getX(index));
+    flipped += 1;
+  }
+  if (flipped === 0) return false;
+  uv.needsUpdate = true;
+  return true;
+}
+
+/**
  * Properties never copied when a standard material is converted to a physical one.
  *
  * They belong to the object identity of the material (`uuid`, `id`, `version`), to its compiled
@@ -204,7 +236,10 @@ export class Booster3DRenderer {
    *   so the booster merely turns on its own while the player picks an extension.
    * @param {object|null} [options.renderSettings=null] - Lighting/material recipe of the active
    *   render mode (see `BoosterRenderManager`); the classic recipe is used when omitted.
-   * @param {string} [options.label='booster'] - Label used in the logs.
+ * @param {boolean} [options.rewampTexturePlacement=false] - Applies the back-panel correction of
+   *   `straightenBackPanel`. OFF by default: it is the "revamp 3D texture placement" switch of the
+   *   developer settings, and a scene built without it keeps the historical (mirrored) artwork.
+ * @param {string} [options.label='booster'] - Label used in the logs.
    */
   constructor({
     container,
@@ -215,6 +250,7 @@ export class Booster3DRenderer {
     onUnavailable = null,
     interactive = true,
     renderSettings = null,
+    rewampTexturePlacement = false,
     label = 'booster',
   } = {}) {
     if (!container || typeof container.appendChild !== 'function') {
@@ -228,6 +264,8 @@ export class Booster3DRenderer {
     this.onOpenStart = onOpenStart;
     this.onUnavailable = onUnavailable;
     this.interactive = interactive !== false;
+    /** @type {boolean} Whether the back panel is unwrapped for a readable artwork. */
+    this.rewampTexturePlacement = rewampTexturePlacement === true;
     this.label = label;
     /** @type {object} Active lighting/material recipe (merged over the classic defaults). */
     this.renderSettings = { ...DEFAULT_RENDER_SETTINGS, ...(renderSettings ?? {}) };
@@ -718,6 +756,19 @@ export class Booster3DRenderer {
     }
 
     this.model = gltf.scene;
+
+    // The back panel is unwrapped mirrored (see `straightenBackPanel`): correct it once, on the mesh
+    // itself, so every render mode and every texture swap inherits the fix. This is the
+    // "revamp 3D texture placement" developer switch: OFF, the shipped texture placement is kept.
+    if (this.rewampTexturePlacement) {
+      let corrected = 0;
+      this.model.traverse((child) => {
+        if (child.isMesh && straightenBackPanel(child.geometry)) corrected += 1;
+      });
+      if (corrected > 0) this.log(`Back panel straightened on ${corrected} mesh(es).`);
+    } else {
+      this.log('Back panel revamp is off: keeping the shipped texture placement.');
+    }
 
     // The model is authored lying on its back: a quarter turn about X stands it up, then a quarter
     // turn about Y brings its face to the camera. Both are EXACT right angles: the hand-tuned values

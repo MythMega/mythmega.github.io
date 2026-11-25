@@ -498,6 +498,21 @@ export class RedeemView {
       return item;
     }
 
+    if (reward.type === 'pearl') {
+      const image = document.createElement('img');
+      image.className = 'redeem__reward-image';
+      image.loading = 'lazy';
+      image.alt = '';
+      image.src = 'assets/img/items/Ender_Pearl.webp';
+      image.addEventListener('error', () => image.remove());
+      item.appendChild(image);
+      const line = document.createElement('p');
+      line.className = 'redeem__reward-line';
+      line.textContent = i18n.t('redeem.reward.pearl', { count: reward.quantity });
+      item.appendChild(line);
+      return item;
+    }
+
     if (reward.type === 'resource') {
       const image = document.createElement('img');
       image.className = 'redeem__reward-image';

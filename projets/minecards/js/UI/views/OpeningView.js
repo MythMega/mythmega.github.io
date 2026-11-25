@@ -1526,6 +1526,7 @@ export class OpeningView {
       container: this.boosterViewport,
       texturePath: texture,
       renderSettings: boosterRenderManager.getRenderSettings(),
+      rewampTexturePlacement: boosterRenderManager.isTextureRewampEnabled(),
       label: result.setId,
       onOpenStart: () => this.handleBoosterOpenStart(),
       onOpenRequest: () => this.handleBoosterOpenGesture(),
@@ -1579,6 +1580,7 @@ export class OpeningView {
       texturePath: set?.texture ?? null,
       interactive: false,
       renderSettings: boosterRenderManager.getRenderSettings(),
+      rewampTexturePlacement: boosterRenderManager.isTextureRewampEnabled(),
       label: `preview:${setId}`,
     });
     this.previewInitPromise = (async () => {

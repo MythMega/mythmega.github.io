@@ -196,6 +196,8 @@ export class SettingsView {
     this.renderPanel = query('[data-settings-render-panel]');
     this.renderContainer = query('[data-settings-render]');
     this.renderDetailElement = query('[data-settings-render-detail]');
+    this.textureRewampToggle = query('[data-settings-texture-rewamp]');
+    this.textureRewampStateElement = query('[data-settings-texture-rewamp-state]');
     this.changelogElement = query('[data-settings-changelog]');
     this.errorLogElement = query('[data-settings-error-log]');
     this.errorLogReleaseElement = query('[data-settings-error-release]');
@@ -379,6 +381,8 @@ export class SettingsView {
     this.devMode = false;
     /** @type {boolean} Advanced mode after checking the developer allowlist. */
     this.advancedDevMode = false;
+    /** @type {boolean} "revamp 3D texture placement" switch (developer experiment, off by default). */
+    this.textureRewamp = false;
     /** @type {string} Effective card source (`image` or `generate`), derived from the render mode. */
     this.cardSource = CARD_SOURCE.IMAGE;
     /** @type {string} Entry of the "Card render" picker that produced `cardSource`. */
@@ -520,6 +524,8 @@ export class SettingsView {
       ['[data-settings-render-panel]', this.renderPanel],
       ['[data-settings-render]', this.renderContainer],
       ['[data-settings-render-detail]', this.renderDetailElement],
+      ['[data-settings-texture-rewamp]', this.textureRewampToggle],
+      ['[data-settings-texture-rewamp-state]', this.textureRewampStateElement],
       ['[data-settings-sound]', this.soundToggle],
       ['[data-settings-sound-state]', this.soundStateElement],
       ['[data-settings-sound-categories]', this.soundCategoriesElement],
@@ -921,6 +927,55 @@ export class SettingsView {
   syncRenderPanelVisibility() {
     if (this.renderPanel) {
       this.renderPanel.hidden = !this.devMode;
+    }
+  }
+
+  /**
+   * Reflects the "revamp 3D texture placement" preference on its switch.
+   *
+   * The correction of the back panel of the booster is an experiment on the shipped texture
+   * placement: it is OFF unless the switch is on, so a scene built without it keeps the historical
+   * (mirrored) artwork. `BoosterRenderManager` carries the value to the next scene.
+   *
+   * @param {boolean} enabled - Whether the corrected texture placement is asked for.
+   * @returns {void}
+   */
+  applyTextureRewamp(enabled) {
+    this.textureRewamp = enabled === true;
+    if (this.textureRewampToggle) {
+      this.textureRewampToggle.setAttribute('aria-checked', this.textureRewamp ? 'true' : 'false');
+    }
+    if (this.textureRewampStateElement) {
+      this.textureRewampStateElement.textContent = i18n.t(
+        this.textureRewamp ? 'settings.dev.on' : 'settings.dev.off'
+      );
+    }
+    boosterRenderManager.setTextureRewamp(this.textureRewamp);
+  }
+
+  /**
+   * Flips the texture-placement revamp and persists it.
+   *
+   * Only the developer render panel shows the switch, and the value reaches the live scenes through
+   * `BoosterRenderManager`: the next booster built (preview or opening) uses it.
+   *
+   * @returns {Promise<void>} Resolves once the flow finished (success or failure).
+   */
+  async handleTextureRewampToggle() {
+    if (this.isBusy || !this.devMode) return;
+
+    const previous = this.textureRewamp;
+    const next = !previous;
+    this.applyTextureRewamp(next);
+    this.setFeedback(null);
+
+    try {
+      await accountManager.updateSettings({ boosterTextureRewamp: next });
+      this.log(`3D texture placement revamp ${next ? 'enabled' : 'disabled'} and saved.`);
+    } catch (error) {
+      console.error('[SettingsView] The texture placement preference could not be saved.', error);
+      this.applyTextureRewamp(previous);
+      this.setFeedback('settings.error.dev', 'error');
     }
   }
 
@@ -2833,6 +2888,7 @@ export class SettingsView {
           ? settings.cardRenderMode
           : DEFAULT_CARD_RENDER_MODE;
       this.animatedLayers = settings.animatedLayers === true;
+      this.textureRewamp = settings.boosterTextureRewamp === true;
       if (Number.isFinite(settings.animatedLayersSpeed)) {
         this.animatedLayersSpeed = settings.animatedLayersSpeed;
       }
@@ -2853,6 +2909,7 @@ export class SettingsView {
     this.syncAuthCodeEditor();
     this.syncCardSourceButtons();
     this.syncAnimatedLayersLabel();
+    this.applyTextureRewamp(this.textureRewamp);
     this.syncAnimatedLayersSpeedSlider();
     this.syncCardGenerateControls();
     this.applyCardGenerate();
@@ -3920,6 +3977,7 @@ export class SettingsView {
       if (slider) void this.handleSoundCategoryVolumeChange();
     });
     this.listen(this.devToggle, 'click', () => void this.handleDevToggle());
+    this.listen(this.textureRewampToggle, 'click', () => void this.handleTextureRewampToggle());
     this.listen(this.advancedDevToggle, 'click', () => void this.handleAdvancedDevToggle());
     this.listen(this.animatedLayersToggle, 'click', () => void this.handleAnimatedLayersToggle());
     this.listen(this.nativeScrollbarsToggle, 'click', () => void this.handleNativeScrollbarsToggle());

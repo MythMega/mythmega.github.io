@@ -150,6 +150,18 @@ export function canonicalBundle() {
 }
 
 /**
+ * Canonical item string of an Ender Pearl.
+ *
+ * The item is fixed and the quantity is the number of pearls, exactly like Sparks: the game
+ * resolves it through the catalogue entry added by `RedeemManager.buildUserItemCatalog()`.
+ *
+ * @returns {string} The canonical item (`pearl`).
+ */
+export function canonicalPearl() {
+  return 'pearl';
+}
+
+/**
  * Canonical item string of one harvested mining resource.
  *
  * The quantity is carried by the code itself, exactly like Sparks; the slug identifies the line of
@@ -551,7 +563,9 @@ export class UserItemCode {
               ? { type: 'bundle', key: 'bundle', quantity, card: null }
               : target.type === 'resource'
                 ? { type: 'resource', key: target.slug, quantity, card: null }
-                : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
+                : target.type === 'pearl'
+                  ? { type: 'pearl', key: 'pearl', quantity, card: null }
+                  : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
 
     return { status: USER_ITEM_STATUSES.OK, rewards: [reward], storeKey: normalized };
   }

@@ -31,6 +31,7 @@ import userItemCode, {
   canonicalCard,
   canonicalDailyReward,
   canonicalMiningResource,
+  canonicalPearl,
   canonicalSparks,
 } from '../js/business/UserItemCode.js';
 
@@ -74,6 +75,8 @@ const REWARD_KINDS = Object.freeze({
   DAILY_REWARD: 'dailyreward',
   SKIP_DAY: 'skipday',
   RESOURCE: 'resource',
+  // An item of the inventory (the Ender Pearl): fixed item, quantity in the code.
+  PEARL: 'pearl',
 });
 
 /** Pack drawn when an extension declares no texture of its own (the shared pack of the game). */
@@ -530,6 +533,7 @@ function buildKindSelect(value) {
     { value: REWARD_KINDS.DAILY_REWARD, label: 'Récompense de connexion' },
     { value: REWARD_KINDS.SKIP_DAY, label: 'Skip 1 jour' },
     { value: REWARD_KINDS.RESOURCE, label: 'Ressource minière' },
+    { value: REWARD_KINDS.PEARL, label: "Perle de l'End" },
   ].forEach(({ value: optionValue, label }) => {
     if (optionValue === REWARD_KINDS.RESOURCE && miningResources.length === 0) return;
     const option = document.createElement('option');
@@ -684,6 +688,9 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS, resourceSlug = null) {
     } else if (selected === REWARD_KINDS.BUNDLE) {
       source = resolveAdminAsset('assets/img/bundle.png');
       caption = 'Bundle de blocs';
+    } else if (selected === REWARD_KINDS.PEARL) {
+      source = resolveAdminAsset("assets/img/items/Ender_Pearl.webp");
+      caption = "Perle de l'End";
     } else if (selected === REWARD_KINDS.RESOURCE) {
       const slug = fields.querySelector('[data-role="resource"]')?.value ?? '';
       const resource = miningResources.find((entry) => entry.slug === slug) ?? null;
@@ -769,6 +776,10 @@ function buildRewardRow(kind = REWARD_KINDS.SPARKS, resourceSlug = null) {
         buildField('Cartes', quantity)
       );
       fields.appendChild(wrapper);
+    } else if (selected === REWARD_KINDS.PEARL) {
+      fields.appendChild(
+        buildField("Perles de l'End", buildQuantityInput(1, "Nombre de perles de l'End"))
+      );
     } else if (selected === REWARD_KINDS.DAILY_REWARD) {
       fields.appendChild(
         buildField(
@@ -840,6 +851,14 @@ function readReward(row) {
       canonical: canonicalBundle(),
       quantity,
       label: `${quantity} × bundle(s) de blocs`,
+    };
+  }
+
+  if (kind === REWARD_KINDS.PEARL) {
+    return {
+      canonical: canonicalPearl(),
+      quantity,
+      label: `${quantity} × perle(s) de l'End`,
     };
   }
 

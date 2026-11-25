@@ -69,6 +69,7 @@ import dateSyncManager from './DateSyncManager.js';
 import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
+import enderPearlManager, { PEARL_ITEM_ID } from './EnderPearlManager.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -79,7 +80,13 @@ export const GIFT_SHEET_URL_TEMPLATES = Object.freeze([
 ]);
 
 /** Gift types accepted in the sheet. */
-export const GIFT_TYPES = Object.freeze({ BOOSTER: 'booster', CARD: 'card', SPARKS: 'sparks' });
+export const GIFT_TYPES = Object.freeze({
+  BOOSTER: 'booster',
+  CARD: 'card',
+  SPARKS: 'sparks',
+  // An inventory item: the key column names it (`pearl`) and the quantity is the number of items.
+  PEARL: 'pearl',
+});
 
 /**
  * Cell value that turns a row into a broadcast to every account (step 9).
@@ -124,6 +131,7 @@ export const GIFT_IGNORE_REASONS = Object.freeze({
   EMPTY_KEY: 'emptyKey',
   UNKNOWN_SET: 'unknownSet',
   UNKNOWN_CARD: 'unknownCard',
+  UNKNOWN_ITEM: 'unknownItem',
 });
 
 /**
@@ -446,6 +454,9 @@ export class GiftManager {
     if (type === 'bundle') {
       return { type, key, setName: null, card: null, unknown: false };
     }
+    if (type === GIFT_TYPES.PEARL) {
+      return { type, key, setName: null, card: null, unknown: key !== PEARL_ITEM_ID };
+    }
     return { type, key, setName: null, card: null, unknown: true };
   }
 
@@ -488,6 +499,12 @@ export class GiftManager {
     // Sparks need no catalog key: the quantity is the whole reward.
     if (type === GIFT_TYPES.SPARKS) {
       return { ok: true, target: { type, key: key || 'sparks', quantity } };
+    }
+
+    // An inventory item is named by its id, which is also its canonical key.
+    if (type === GIFT_TYPES.PEARL) {
+      if (key !== PEARL_ITEM_ID) return { ok: false, reason: GIFT_IGNORE_REASONS.UNKNOWN_ITEM };
+      return { ok: true, target: { type, key } };
     }
 
     if (key === '') {
@@ -614,6 +631,8 @@ export class GiftManager {
                 [item.setId]: (quota.bonusBoosters[item.setId] ?? 0) + item.quantity,
               },
             };
+          } else if (item.type === GIFT_TYPES.PEARL) {
+            await enderPearlManager.grantPearls(item.quantity, context);
           } else if (item.type === GIFT_TYPES.SPARKS) {
             if (sparks === 0) {
               // Read once, lazily: a run without a Sparks gift never touches the balance.

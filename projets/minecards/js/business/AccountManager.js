@@ -86,6 +86,9 @@ export const USER_STATE_KEYS = Object.freeze({
   // Trades with followed players (see `TradeManager`): the cached Ender Eyes balance, the cards
   // and Sparks currently escrowed, and the statuses already announced.
   TRADES: 'trades',
+  // Inventory of the ITEMS of the game, keyed by item id (see `EnderPearlManager`): the Ender
+  // Pearls today (`{ pearl: 2 }`). Kept in `user_state` so a `.save` carries them.
+  ITEMS: 'items',
   // Wishlist (see `WishlistManager`): the collection keys of the cards the player hopes to receive.
   // Published with the trainer card, so a followed player can see it and favour them in a trade.
   WISHLIST: 'wishlist',
@@ -530,6 +533,9 @@ export class AccountManager {
       // The "new version" dialog is ON by default: a save that already exists should hear about what
       // changed, and the switch of the release-notes tab is there to silence it (see `app.js`).
       announceChangelog: overrides.announceChangelog !== false,
+      // The back panel of the 3D booster is re-unwrapped only when the developer switch asks for it:
+      // it is an experiment on the shipped texture placement, so it starts OFF.
+      boosterTextureRewamp: overrides.boosterTextureRewamp === true,
     };
   }
 
@@ -850,7 +856,8 @@ export class AccountManager {
    *   notificationDuration: number, notificationTypes: Record<string, boolean>,
    *   devMode: boolean, cardSource: string, animatedLayers: boolean,
    *   animatedLayersSpeed: number, advancedDevMode: boolean, boosterRenderMode: string,
-   *   nativeScrollbars: boolean, announceChangelog: boolean}>} The stored preferences.
+   *   nativeScrollbars: boolean, announceChangelog: boolean, boosterTextureRewamp: boolean}>}
+   *   The stored preferences.
    * @throws {Error} When the read or the configuration loading fails.
    */
   async getSettings() {
@@ -994,6 +1001,12 @@ export class AccountManager {
         typeof stored.announceChangelog === 'boolean'
           ? stored.announceChangelog
           : defaults.announceChangelog,
+      // Same rule as `devMode`: only an explicit `true` turns the re-unwrapped back panel of the 3D
+      // booster on, so a save written before the switch existed keeps the shipped placement.
+      boosterTextureRewamp:
+        typeof stored.boosterTextureRewamp === 'boolean'
+          ? stored.boosterTextureRewamp
+          : defaults.boosterTextureRewamp,
     };
   }
 
@@ -1184,6 +1197,16 @@ export class AccountManager {
         );
       }
       merged.announceChangelog = announceChangelog;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(partialSettings, 'boosterTextureRewamp')) {
+      const { boosterTextureRewamp } = partialSettings;
+      if (typeof boosterTextureRewamp !== 'boolean') {
+        throw new TypeError(
+          `settings.boosterTextureRewamp must be a boolean (received: ${JSON.stringify(boosterTextureRewamp)}).`
+        );
+      }
+      merged.boosterTextureRewamp = boosterTextureRewamp;
     }
 
     if (Object.prototype.hasOwnProperty.call(partialSettings, 'foilIntensity')) {

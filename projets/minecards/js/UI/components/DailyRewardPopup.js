@@ -851,6 +851,9 @@ export class DailyRewardPopup {
     if (result.kind === DAILY_REWARD_KINDS.BUNDLE) {
       return i18n.t('daily.gain.bundle', { count: result.quantity });
     }
+    if (result.kind === DAILY_REWARD_KINDS.PEARL) {
+      return i18n.t('daily.gain.pearl', { count: result.quantity });
+    }
     if (result.kind === DAILY_REWARD_KINDS.RESOURCE) {
       return i18n.t('daily.reward.resource', {
         count: result.quantity,
@@ -891,6 +894,8 @@ export class DailyRewardPopup {
         return i18n.t('daily.reward.booster', { count: reward.quantity });
       case DAILY_REWARD_KINDS.BUNDLE:
         return i18n.t('daily.reward.bundle', { count: reward.quantity });
+      case DAILY_REWARD_KINDS.PEARL:
+        return i18n.t('daily.reward.pearl', { count: reward.quantity });
       case DAILY_REWARD_KINDS.CARD:
         if (!day.card) return i18n.t('daily.reward.cardUnknown', { index: reward.cardId });
         return i18n.t('daily.reward.card', {

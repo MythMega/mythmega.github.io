@@ -2235,6 +2235,17 @@
             <div class="lang-switch settings__choices" data-settings-render role="group" data-i18n-aria-label="settings.render.title" aria-label="Rendu du booster"></div>
             <p class="settings__help" data-info-hint="settings-render" data-i18n="settings.render.help">Réservé au mode développeur : choisissez la façon dont le booster 3D réfléchit la lumière. Le mode est enregistré et s'applique à l'aperçu comme à l'ouverture.</p>
             <p class="settings__help" data-settings-render-detail></p>
+            <!-- Experiment on the texture placement of the 3D booster: the back panel is unwrapped
+                 mirrored in the .glb, so its artwork reads backwards. The correction is OFF by
+                 default and only this developer switch turns it on. -->
+            <div class="settings__dev">
+              <h4 class="settings__subtitle" data-i18n="settings.textureRewamp.title">rewamp 3D texture placement</h4>
+              <button type="button" class="switch" data-settings-texture-rewamp role="switch" aria-checked="false" data-i18n-aria-label="settings.textureRewamp.title">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+                <span class="switch__state" data-settings-texture-rewamp-state></span>
+              </button>
+              <p class="settings__help" data-i18n="settings.textureRewamp.help">Réécrit le placement de la texture du dos du booster 3D pour que son artwork se lise à l'endroit pendant la rotation. Désactivé par défaut ; s'applique à la prochaine scène 3D construite.</p>
+            </div>
           </section>
 
           <!-- Card Generate: an advanced developer module, hidden unless both switches above are

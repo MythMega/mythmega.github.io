@@ -84,6 +84,7 @@ import {
   canonicalCard,
   canonicalDailyReward,
   canonicalMiningResource,
+  canonicalPearl,
   canonicalSparks,
   userItemCode,
   UserItemCode,
@@ -98,6 +99,7 @@ import promoManager, { isPromoSetId, PROMO_SET_SUFFIX } from './PromoManager.js'
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager from './IllagerShopManager.js';
 import dailyRewardManager from './DailyRewardManager.js';
+import enderPearlManager from './EnderPearlManager.js';
 import miningManager from './MiningManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -120,6 +122,8 @@ export const REDEEM_REWARD_TYPES = Object.freeze({
   // accepted: the code files ship `Currency`.
   CUSTOM_CURRENCY: 'CustomCurrency',
   CURRENCY: 'Currency',
+  // An item of the inventory, named by its id alone (`Pearl`). The quantity is the number of items.
+  PEARL: 'Pearl',
 });
 
 /** Kinds of code handled by `resolveCode()` (step 10 adds `useritem`). */
@@ -754,6 +758,16 @@ export class RedeemManager {
         continue;
       }
 
+      // An inventory item (the Ender Pearl today). `ItemId` names it; a pearl is the only item the
+      // game declares, and an unknown id would grant nothing the inventory can show.
+      if (
+        String(rewardType).trim().toLowerCase() === 'pearl' ||
+        String(rewardType).trim().toLowerCase() === 'enderpearl'
+      ) {
+        rewards.push({ type: 'pearl', key: 'pearl', quantity, card: null });
+        continue;
+      }
+
       // `Currency` is how the code files spell it, `CustomCurrency` the long form: both name the
       // same reward, and the id is the only thing that identifies a currency.
       if (
@@ -872,6 +886,8 @@ export class RedeemManager {
       descriptors.push({ canonical: canonicalDailyReward(), target: { type: 'dailyreward' } });
       // A block bundle is fixed too: the code quantity is the number of bundles granted.
       descriptors.push({ canonical: canonicalBundle(), target: { type: 'bundle' } });
+      // An inventory item (Ender Pearl) works the same way: fixed item, quantity carried by the code.
+      descriptors.push({ canonical: canonicalPearl(), target: { type: 'pearl' } });
       // Every harvestable resource shares one canonical prefix: the code quantity is the amount and
       // the slug is the line of `mining.resources` it credits. Sparks are excluded (they already have
       // their own canonical item) and so is any duplicate declared by several blocks.
@@ -1193,6 +1209,8 @@ export class RedeemManager {
             await miningManager.grantResources({ [reward.key]: reward.quantity }, context);
           } else if (reward.type === 'bundle') {
             await miningManager.grantBundles(reward.quantity, context);
+          } else if (reward.type === 'pearl') {
+            await enderPearlManager.grantPearls(reward.quantity, context);
           } else {
             const granted = await boosterManager.addCardToCollection(
               reward.card,

@@ -36,6 +36,12 @@ export class BoosterRenderManager {
     this.mode = this.defaultMode;
     /** @type {object} Currently applied recipe (a mode descriptor). */
     this.settings = this.modes[0];
+    /**
+     * @type {boolean} "revamp 3D texture placement" (developer settings): when on, the back panel of
+     * the booster is re-unwrapped so its artwork reads the right way round. OFF by default, so a
+     * scene built without the switch keeps the shipped placement.
+     */
+    this.textureRewamp = false;
   }
 
   /**
@@ -133,6 +139,29 @@ export class BoosterRenderManager {
    */
   getAvailableModes() {
     return this.modes.map((entry) => entry.id);
+  }
+
+  /**
+   * Enables or disables the back-panel texture correction.
+   *
+   * The value is read by every `Booster3DRenderer` built afterwards (`OpeningView`), so flipping
+   * the developer switch affects the next scene, never the one already on screen.
+   *
+   * @param {boolean} enabled - Whether the corrected texture placement is asked for.
+   * @returns {void}
+   */
+  setTextureRewamp(enabled) {
+    this.textureRewamp = enabled === true;
+    this.log(`3D texture placement revamp ${this.textureRewamp ? 'enabled' : 'disabled'}.`);
+  }
+
+  /**
+   * Tells whether the back-panel texture correction is enabled.
+   *
+   * @returns {boolean} True when the "revamp 3D texture placement" switch is on.
+   */
+  isTextureRewampEnabled() {
+    return this.textureRewamp;
   }
 
   /**

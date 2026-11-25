@@ -49,6 +49,7 @@ import miningManager, {
 } from './MiningManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager, { ILLAGER_SHOP_EVENT } from './IllagerShopManager.js';
+import enderPearlManager, { PEARL_TEXTURE } from './EnderPearlManager.js';
 import {
   isRandomCardRewardType,
   parseRandomCardSpec,
@@ -92,6 +93,9 @@ export const DAILY_REWARD_KINDS = Object.freeze({
   // A currency of the Illager Shop, named by its id alone (`AllaysCurrency`): the shop owns its
   // name, its texture and the day it expires, so a chapter only has to hand out an amount.
   CUSTOM_CURRENCY: 'currency',
+  // An item of the inventory (`Type: "Ender Pearl"`): the quantity is the number of items, and the
+  // player decides when to spend them (see `EnderPearlManager`).
+  PEARL: 'pearl',
 });
 
 /**
@@ -376,6 +380,22 @@ export class DailyRewardManager {
     }
     if (type.toLowerCase() === 'bundle') {
       return { kind: DAILY_REWARD_KINDS.BUNDLE, type, quantity, slug: null, cardId: null };
+    }
+    // The Ender Pearl is declared by its name (`Ender Pearl`) like a resource, but it is granted to
+    // the inventory, not to the mine: it therefore has a kind of its own.
+    if (
+      type.toLowerCase() === 'ender pearl' ||
+      type.toLowerCase() === 'ender_pearl' ||
+      type.toLowerCase() === 'enderpearl' ||
+      type.toLowerCase() === 'pearl'
+    ) {
+      return {
+        kind: DAILY_REWARD_KINDS.PEARL,
+        type,
+        quantity,
+        slug: 'pearl',
+        cardId: null,
+      };
     }
     if (type.toLowerCase() === 'card') {
       const cardId = typeof raw.CardID === 'string' ? raw.CardID.trim() : '';
@@ -663,6 +683,8 @@ export class DailyRewardManager {
         // The texture of a currency belongs to the Illager Shop data, never to the chapter. Until
         // those files are read the tile simply stays empty, which is what an unknown id gives anyway.
         return illagerShopManager.getCurrency(reward.currencyId)?.texture ?? '';
+      case DAILY_REWARD_KINDS.PEARL:
+        return PEARL_TEXTURE;
       default:
         return '';
     }
@@ -928,6 +950,8 @@ export class DailyRewardManager {
           await miningManager.grantResources({ [plan.reward.slug]: plan.quantity }, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.CUSTOM_CURRENCY) {
           await illagerShopManager.grantCurrency(plan.reward.currencyId, plan.quantity, context);
+        } else if (plan.kind === DAILY_REWARD_KINDS.PEARL) {
+          await enderPearlManager.grantPearls(plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
           await dateSyncManager.addBonusBoosters(plan.setId, plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BUNDLE) {
@@ -988,6 +1012,8 @@ export class DailyRewardManager {
       eventBus.emit(EVENTS.SPARKS_UPDATED, { balance: committed.balance });
     } else if (plan.kind === DAILY_REWARD_KINDS.CUSTOM_CURRENCY) {
       eventBus.emit(ILLAGER_SHOP_EVENT, { currencyId: plan.reward.currencyId });
+    } else if (plan.kind === DAILY_REWARD_KINDS.PEARL) {
+      eventBus.emit(EVENTS.PEARLS_UPDATED, { count: await enderPearlManager.getCount() });
     } else if (
       plan.kind === DAILY_REWARD_KINDS.RESOURCE ||
       plan.kind === DAILY_REWARD_KINDS.BUNDLE

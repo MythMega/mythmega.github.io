@@ -39,7 +39,16 @@ const TROPHY_RARITIES = new Set(['bronze', 'silver', 'gold', 'diamond', 'emerald
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Reward kinds a redeem code understands. */
-const REWARD_TYPES = new Set(['Booster', 'Bundle', 'Card', 'Sparks', 'Currency', 'CustomCurrency']);
+const REWARD_TYPES = new Set([
+  'Booster',
+  'Bundle',
+  'Card',
+  'Sparks',
+  'Currency',
+  'CustomCurrency',
+  // An item of the inventory (the Ender Pearl): the quantity is the number of items.
+  'Pearl',
+]);
 
 /** Reward kinds a trade of the Illager Shop understands. */
 const ILLAGER_REWARD_TYPES = new Set(['Sparks', 'Ultima', 'Card', 'Booster']);
@@ -665,7 +674,7 @@ export default [
             if (typeof type === 'string' && RANDOM_CARD_TYPES.has(type.trim().toLowerCase())) {
               checkRandomCardData(reward.Data, cardKeys, fail);
             } else if (!REWARD_TYPES.has(type)) {
-              fail(`code "${code}" has reward type ${JSON.stringify(type)}, expected Booster, Bundle, Card, Sparks or a random card`);
+              fail(`code "${code}" has reward type ${JSON.stringify(type)}, expected Booster, Bundle, Card, Sparks, Pearl or a random card`);
             } else if (type === 'Booster' && !setIds.has(reward.ItemId)) {
               fail(`code "${code}" rewards booster "${reward.ItemId}", which is not a set of ${CARDSETS_FILE}`);
             }
@@ -1621,6 +1630,16 @@ export default [
 
         const type = reward.Type.trim().toLowerCase();
         if (type === 'sparks' || type === 'booster' || type === 'bundle') return;
+        // An inventory item (the Ender Pearl) is named by its own type: it is not a resource of the
+        // mine, so it must be accepted before the resource check below.
+        if (
+          type === 'ender pearl' ||
+          type === 'ender_pearl' ||
+          type === 'enderpearl' ||
+          type === 'pearl'
+        ) {
+          return;
+        }
         if (RANDOM_CARD_TYPES.has(type)) {
           checkRandomCardData(reward.Data, cardKeys, (message) => fail(`${label}: ${message}`));
           return;

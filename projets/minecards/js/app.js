@@ -26,6 +26,7 @@ import accountManager from './business/AccountManager.js';
 import dateSyncManager from './business/DateSyncManager.js';
 import boosterManager from './business/BoosterManager.js';
 import sparksManager from './business/SparksManager.js';
+import enderPearlManager, { PEARL_TEXTURE } from './business/EnderPearlManager.js';
 import likesManager from './business/LikesManager.js';
 import profileManager from './business/ProfileManager.js';
 import trophyManager from './business/TrophyManager.js';
@@ -592,6 +593,9 @@ export class App {
     } catch (error) {
       console.warn('[App] The stored booster render mode is unavailable, keeping the default.', error);
     }
+    // "revamp 3D texture placement": a developer experiment, OFF unless its switch is on. The
+    // renderer reads it when a scene is built, so it is handed over before the opening shows up.
+    boosterRenderManager.setTextureRewamp(settings.boosterTextureRewamp === true);
     // Game notifications: the duration and the per-kind switches live in the same settings block,
     // and are applied here so the very first opening already obeys them.
     notificationCenter.setDurationSeconds(settings.notificationDuration);
@@ -2516,12 +2520,13 @@ export class App {
     const quota = dateSyncManager.getQuotaSnapshot();
     const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
     const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
-    const [blocks, picks, bundles, sparks, tradeState] = await Promise.all([
+    const [blocks, picks, bundles, sparks, tradeState, pearls] = await Promise.all([
       this.readBlocksLeft(),
       this.readPicksLeft(),
       this.readOwnedBundles(),
       this.readSparksBalance(),
       tradeManager.getState(),
+      enderPearlManager.getCount(),
     ]);
     const enderEyes = Number.isInteger(tradeState?.enderEyes)
       ? tradeState.enderEyes
@@ -2555,6 +2560,34 @@ export class App {
     );
     body.appendChild(bundlesList);
 
+    // Items: what a code, a gift or a daily reward put in the bag and that the player decides when
+    // to spend. An Ender Pearl is used from here and nowhere else.
+    body.appendChild(App.buildInventoryHeading('inventory.items'));
+    const items = document.createElement('ul');
+    items.className = 'inventory__list';
+    const pearlRow = App.buildInventoryRow({
+      icon: 'pearl',
+      labelKey: 'inventory.enderPearls',
+      value: pearls,
+    });
+    const pearlButton = document.createElement('button');
+    pearlButton.type = 'button';
+    pearlButton.className = 'btn btn--ghost btn--small inventory__use';
+    pearlButton.textContent = i18n.t('inventory.use');
+    // The button is only actionable when it would DO something: a pearl gives one Eye, and the
+    // stock of Eyes is capped, so a full stock (or an empty bag) greys it out and says why.
+    const eyesFull = enderEyes >= TRADE_MAX_ENDER_EYES;
+    pearlButton.disabled = pearls < 1 || eyesFull;
+    if (eyesFull) {
+      pearlButton.title = i18n.t('inventory.pearlFull', { max: TRADE_MAX_ENDER_EYES });
+    } else if (pearls < 1) {
+      pearlButton.title = i18n.t('inventory.pearlEmpty');
+    }
+    pearlButton.addEventListener('click', () => void this.useEnderPearl());
+    pearlRow.appendChild(pearlButton);
+    items.appendChild(pearlRow);
+    body.appendChild(items);
+
     body.appendChild(App.buildInventoryHeading('inventory.wallet'));
     const wallet = document.createElement('ul');
     wallet.className = 'inventory__list';
@@ -2581,6 +2614,23 @@ export class App {
     const modal = document.querySelector(INVENTORY_SELECTORS.MODAL);
     if (modal && !modal.hidden) {
       modal.hidden = true;
+    }
+  }
+
+  /**
+   * Spends one Ender Pearl and repaints the inventory.
+   *
+   * The dialog is rebuilt rather than patched: the pearl count, the Eye stock and the enabled state
+   * of the button all change at once, and one read of the save is cheaper than three updates.
+   *
+   * @returns {Promise<void>} Resolves once the dialog was repainted (or the refusal was logged).
+   */
+  async useEnderPearl() {
+    try {
+      await enderPearlManager.usePearl();
+      await this.openInventory();
+    } catch (error) {
+      console.warn('[App] The Ender Pearl could not be used.', error);
     }
   }
 
@@ -2730,8 +2780,9 @@ export class App {
   /**
    * Builds one row of the inventory dialog.
    *
-   * @param {{icon: 'daily'|'blocks'|'picks'|'bundle'|'sparks', labelKey: string, value: number}}
-   *   row - Icon kind, translation key of the label and number to print.
+   * @param {{icon: 'daily'|'blocks'|'picks'|'bundle'|'sparks'|'endereye'|'pearl',
+   *   labelKey: string, value: number|string}} row - Icon kind, translation key of the label and
+   *   number to print.
    * @returns {HTMLLIElement} The row.
    */
   static buildInventoryRow({ icon, labelKey, value }) {
@@ -2754,6 +2805,8 @@ export class App {
         image.src = 'assets/img/endereye.webp';
       } else if (icon === 'bundle') {
         image.src = 'assets/img/bundle.png';
+      } else if (icon === 'pearl') {
+        image.src = PEARL_TEXTURE;
       } else {
         // The daily boosters ship in two inks; `applyThemeIcons` paints the one of the palette.
         image.dataset.icon = 'daily_boosters';

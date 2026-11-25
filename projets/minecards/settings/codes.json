@@ -172,5 +172,29 @@
             "StartDate": null,
             "EndDate": "2026-11-23"
         }
+    },
+    {
+        "_comment": "Code à usage unique : 2 perles de l'End dans l'inventaire. Une perle ajoute 1 Œil de l'End quand le joueur l'utilise (maximum 5).",
+        "Code": "TW0PEARLS",
+        "Rewards": [
+            {
+                "RewardType": "Pearl",
+                "Quantity": 2
+            }
+        ],
+        "Availabilities" : null,
+        "Repeatable": false
+    },
+    {
+        "_comment": "Code à usage unique : 1 perle de l'End dans l'inventaire.",
+        "Code": "END3RMAN",
+        "Rewards": [
+            {
+                "RewardType": "Pearl",
+                "Quantity": 1
+            }
+        ],
+        "Availabilities" : null,
+        "Repeatable": false
     }
 ]

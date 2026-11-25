@@ -1109,5 +1109,31 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 13,
+        "Version": "1.0.12",
+        "Titles": {
+            "Fr": "Ender Vizion Update",
+            "En": "Ender Vizion Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouvel item : la perle de l'End. L'utiliser vous restore 1 oeil de l'End, utile pour échanger plus. Trouvez les dans votre inventaire",
+                    "En": "New item : Ender Pearl. Use it to restore 1 Ender Eye. usefull for trading more. Find it in your inventory"
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Fix (ENFIN) du booster pack 3D qui n'était pas droit.",
+                    "En": "(Finally) Fixed the 3D booster not displaying correctly."
+                }
+            }
+        ]
     }
 ]

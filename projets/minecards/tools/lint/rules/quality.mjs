@@ -60,6 +60,15 @@ const ASSET_EXTENSIONS = new Set([
   '.glb',
 ]);
 
+/**
+ * Extensions of the WORKING FILES an asset folder may also hold: the GIMP, Photoshop, Krita,
+ * Illustrator and Blender sources of the assets. They are not assets themselves - nothing serves
+ * them - but they live beside the files they produce, so they are allowed there and are still
+ * checked for being readable and non-empty. A `.xcf` is the editable original of a picture that
+ * will be published later, not a typo of an asset name.
+ */
+const SOURCE_EXTENSIONS = new Set(['.xcf', '.psd', '.kra', '.ai', '.blend']);
+
 /** Extensions a picture named by a catalogue may use. */
 const IMAGE_EXTENSIONS = new Set(['.png', '.webp', '.jpg', '.jpeg', '.gif', '.svg']);
 
@@ -564,7 +573,7 @@ export default [
         listFilesUnder(context, folder).forEach((file) => {
           if (requireKnownExtension) {
             const extension = path.extname(file).toLowerCase();
-            if (!ASSET_EXTENSIONS.has(extension)) {
+            if (!ASSET_EXTENSIONS.has(extension) && !SOURCE_EXTENSIONS.has(extension)) {
               context.report({
                 file,
                 line: 1,

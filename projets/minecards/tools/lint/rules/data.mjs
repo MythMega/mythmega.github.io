@@ -53,6 +53,9 @@ const REWARD_TYPES = new Set([
 /** Reward kinds a trade of the Illager Shop understands. */
 const ILLAGER_REWARD_TYPES = new Set(['Sparks', 'Ultima', 'Card', 'Booster']);
 
+/** Modes a daily connection chapter can run in (`DailyRewardManager.DAILY_REWARD_MODES`). */
+const DAILY_REWARD_MODES = new Set(['progressive', 'defined']);
+
 /**
  * Objectives an Illager quest can ask for.
  *
@@ -1503,6 +1506,30 @@ export default [
         }
         if (!isFilled(chapter.RewardListName)) {
           fail(`chapter "${id}" has no RewardListName`);
+        }
+
+        // "progressive" hands out the NEXT reward of the run, "defined" the reward of the CALENDAR
+        // day: a day the player misses is lost. An unknown mode falls back to progressive in the
+        // game, which would quietly turn a defined chapter into a forgiving one.
+        if (chapter.Mode !== undefined) {
+          const mode = String(chapter.Mode).trim().toLowerCase();
+          if (!DAILY_REWARD_MODES.has(mode)) {
+            fail(`chapter "${id}" Mode ${JSON.stringify(chapter.Mode)} is not "progressive" or "defined"`);
+          }
+        }
+        if (chapter.HiddenBeforeUnlock !== undefined && typeof chapter.HiddenBeforeUnlock !== 'boolean') {
+          fail(
+            `chapter "${id}" HiddenBeforeUnlock ${JSON.stringify(chapter.HiddenBeforeUnlock)} is not a boolean`
+          );
+        }
+        // The banner of the board: a local file of the project, or the absolute URL of one.
+        if (chapter.Image !== undefined) {
+          const image = isFilled(chapter.Image) ? chapter.Image.trim() : '';
+          if (image === '') {
+            fail(`chapter "${id}" has an empty Image`);
+          } else if (!/^(https?:)?\/\//i.test(image) && !context.exists(image)) {
+            fail(`chapter "${id}" Image "${image}" does not exist in the project`);
+          }
         }
 
         // The window is inclusive on both ends, so a one-day chapter is legal (Start === End).

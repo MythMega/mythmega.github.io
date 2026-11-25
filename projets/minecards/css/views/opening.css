@@ -592,3 +592,77 @@
   font: inherit;
   text-align: center;
 }
+
+/* --- Store as bonus: quantity of the gesture ----------------------------- */
+
+/* A numeric up/down control under the extension buttons: the player picks how many daily boosters
+   the gesture moves, from one to three (and never more than the allowance left). */
+.store-quantity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.store-quantity[hidden] {
+  display: none;
+}
+
+.store-quantity__label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.store-quantity__control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.store-quantity__step {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.store-quantity__step:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.store-quantity__input {
+  width: 3.5rem;
+  height: var(--touch-target);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.store-quantity__input::-webkit-outer-spin-button,
+.store-quantity__input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}

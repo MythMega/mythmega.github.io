@@ -171,14 +171,14 @@ export const DAILY_REWARDS_SELECTORS = Object.freeze({
  * ring that carries the progress of that level.
  */
 /**
- * Pseudo the brand of the header shows until the player chose one.
+ * Pseudo the header shows until the player chose one.
  *
- * The name of the character the game is about: a header without a pseudo reads "Steve - MineCards",
- * which is still a name, where an empty slot would read as a profile that failed to load.
+ * The name of the character the game is about: a header without a pseudo reads "Steve", which is
+ * still a name, where an empty slot would read as a profile that failed to load.
  */
 export const DEFAULT_PLAYER_NAME = 'Steve';
 
-/** Selector of the pseudo of the brand (`<pseudo> - MineCards`, see `css/base.css`). */
+/** Selector of the pseudo of the header, right of the avatar (see `css/base.css`). */
 export const HEADER_PLAYER_SELECTOR = '[data-header-player]';
 
 /** Selector of the application bar, whose width decides what it can still show. */
@@ -1812,10 +1812,10 @@ export class App {
   /**
    * Writes the pseudo of the player in the header, first after the avatar.
    *
-   * The wide bar reads `avatar, pseudo, clock, MineCards, tagline` (see `css/base.css`): the pseudo
-   * names the player as soon as the game is open, and the clock follows it. A player who never chose
-   * a name is `Steve`, and an account that is leaving (reset, imported save) falls back to it, so
-   * the header never keeps the name of a save that is gone.
+   * The wide bar reads `pseudo, clock, counters` (see `css/base.css`): the pseudo names the player
+   * as soon as the game is open, and the clock follows it. A player who never chose a name is
+   * `Steve`, and an account that is leaving (reset, imported save) falls back to it, so the header
+   * never keeps the name of a save that is gone.
    *
    * @param {object|null} profile - Stored profile (`{name}`), or null after a reset.
    * @returns {void}
@@ -2295,9 +2295,9 @@ export class App {
   /**
    * Indicates whether the bar is too tight for what it shows.
    *
-   * The bar never wraps and never grows: the brand shrinks into an ellipsis, and the chips keep
+   * The bar never wraps and never grows: the pseudo shrinks into an ellipsis, and the chips keep
    * their width. What no longer fits therefore overflows its scroll box, which is what is measured
-   * here - first on the bar (the counters pushing the brand out), then on the row of chips left to
+   * here - first on the bar (the counters pushing the pseudo out), then on the row of chips left to
    * itself. The one pixel of slack absorbs the rounding of a fractional layout.
    *
    * @returns {boolean} True when something no longer fits.

@@ -131,11 +131,13 @@ const TAP_MAX_MOVEMENT_PX = 14;
 /**
  * Distance of the camera from the booster, i.e. how much the model is zoomed out.
  *
- * The original value was `3.2`; it is 10 % larger here, which shrinks the booster by 10 % in the
- * scene. That compensates the 10 % taller (and 10 % narrower) viewport of `css/components/
- * booster-3d.css`, so the booster keeps the same room around it and never touches the sides.
+ * Stood upright, the model measured 2.51 units tall while this camera (40 degrees of vertical field
+ * of view) shows 2.56 units at the distance it used to sit at: the booster touched the top and
+ * bottom edges of the stage. `4.2` shows about 3.06 units, i.e. a margin of roughly 9 % above and
+ * below the pack. The value also covers the 10 % taller (and 10 % narrower) viewport of
+ * `css/components/booster-3d.css`.
  */
-const CAMERA_DISTANCE = 3.52;
+const CAMERA_DISTANCE = 4.2;
 
 /* ------------------------------------------------------------------------------------------------
  * LIGHTING / MATERIALS
@@ -392,7 +394,10 @@ export class Booster3DRenderer {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-    this.camera.position.set(0, 0.2, CAMERA_DISTANCE);
+    // No vertical offset: the model is now centred on its own origin, so the camera has to look at
+    // that origin for the booster to sit in the middle of the stage. The former `y: 0.2` framed the
+    // off-centre model and pushed the centred one toward the bottom edge.
+    this.camera.position.set(0, 0, CAMERA_DISTANCE);
 
     // Linear tone mapping: its only effect is the exposure multiplier, colours stay untouched.
     this.renderer.toneMapping = THREE.LinearToneMapping;
@@ -697,6 +702,7 @@ export class Booster3DRenderer {
    * @throws {Error} When the model cannot be parsed.
    */
   async loadModel(GLTFLoader, buffer) {
+    const THREE = this.THREE;
     this.log(`parsing model "${this.modelPath}"…`);
     const loader = new GLTFLoader();
     const gltf = await this.parseModel(loader, buffer);
@@ -713,8 +719,16 @@ export class Booster3DRenderer {
 
     this.model = gltf.scene;
 
-    // Redressement du modèle source
-    this.model.rotation.set(1.522, 4.75, 0);
+    // The model is authored lying on its back: a quarter turn about X stands it up, then a quarter
+    // turn about Y brings its face to the camera. Both are EXACT right angles: the hand-tuned values
+    // this line used to carry (1.522 / 4.75) left a lean of about 3 degrees, which read as a wobble
+    // once the pivot spun.
+    this.model.rotation.set(Math.PI / 2, (3 * Math.PI) / 2, 0);
+
+    // The pack is not modelled around its own origin (its box sits ~0.14 off-centre): without this
+    // the pivot swung the booster around a point beside it instead of turning it on its own axis.
+    const box = new THREE.Box3().setFromObject(this.model);
+    this.model.position.sub(box.getCenter(new THREE.Vector3()));
 
     this.pivot.add(this.model);
     this.log(`Model loaded (${meshCount} mesh(es)).`);

@@ -373,6 +373,11 @@ export class GameNotifier {
         type: NOTIFICATION_TYPES.TITLE,
         badge: i18n.t('notif.title.badge'),
         title: i18n.t('notif.title.unlocked', { title: TitleManager.titleText(title, cardLanguage.getLang()) }),
+        // A single evaluation can unlock several titles: they merge into one line.
+        merge: {
+          key: 'title',
+          title: (count) => i18n.t('notif.title.multiple', { count }),
+        },
       });
     });
   }
@@ -417,6 +422,11 @@ export class GameNotifier {
       title: i18n.t('notif.quest.completed', {
         quest: GameNotifier.questName(typeKey, labels),
       }),
+      // Several quests can reach their goal together: one line replaces the stack.
+      merge: {
+        key: 'quest.ready',
+        title: (count) => i18n.t('notif.quest.completedMany', { count }),
+      },
     });
   }
 
@@ -440,6 +450,11 @@ export class GameNotifier {
       title: i18n.t('notif.quest.available', {
         quest: GameNotifier.questName(typeKey, labels),
       }),
+      // Quests opening on the same day arrive together: one line replaces the stack.
+      merge: {
+        key: 'quest.available',
+        title: (count) => i18n.t('notif.quest.availableMany', { count }),
+      },
     });
   }
 
@@ -481,6 +496,8 @@ export class GameNotifier {
       variant: NOTIFICATION_VARIANTS.LEVEL,
       badge: i18n.t('notif.experience.levelBadge'),
       title: i18n.t('notif.experience.level', { level: next }),
+      // Consecutive level-ups merge into the latest one, which carries the highest level reached.
+      merge: { key: 'experience.level' },
     });
     this.log(`Level up announced: ${previous} -> ${next}.`);
   }

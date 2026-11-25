@@ -481,8 +481,12 @@ class BoosterOverlay {
       scene.add(pivot);
 
       const gltf = await new GLTFLoader().loadAsync(MODEL_PATH);
-      // Same redress rotation as the game scene, so the booster shows its face and spins on its side.
-      gltf.scene.rotation.set(1.522, 4.75, 0);
+      // Same redress as the game scene: exact right angles (a hand-tuned 1.522 / 4.75 left a ~3
+      // degree lean that read as a wobble), then the pack is re-centred on its own origin so the
+      // pivot turns it on its axis instead of swinging it around a point beside it.
+      gltf.scene.rotation.set(Math.PI / 2, (3 * Math.PI) / 2, 0);
+      const box = new THREE.Box3().setFromObject(gltf.scene);
+      gltf.scene.position.sub(box.getCenter(new THREE.Vector3()));
       pivot.add(gltf.scene);
 
       if (texturePath) {

@@ -21,6 +21,11 @@
  *   the queue AND interrupts the message on screen, which goes back to the front of its own band and
  *   is shown again (for a full duration) once the discoveries have been read.
  *
+ * GROUPING
+ *   Items that carry a `merge` rule of the same kind fold into ONE line while they wait (several
+ *   quests opening the same day, several titles of one evaluation, a run of level-ups). The display
+ *   pass runs at the end of the task, so a whole burst is folded before anything is painted.
+ *
  * DISMISSAL
  *   A notification disappears on its own after the chosen duration, and immediately when it
  *   is clicked, tapped, activated from the keyboard (Enter/Space) or swiped sideways on a touch
@@ -104,6 +109,8 @@ export class NotificationCenter {
     this.enabledTypes = new Set(Object.values(NOTIFICATION_TYPES));
     /** @type {Function|null} What an actionable notification does when it is clicked. */
     this.actionHandler = null;
+    /** @type {boolean} True when a display pass is already scheduled for the end of the task. */
+    this.showScheduled = false;
   }
 
   /**
@@ -229,10 +236,9 @@ export class NotificationCenter {
   /**
    * Anchors the stack just below the header.
    *
-   * `--header-height` only describes the brand row of the header: the row of counters (daily/bonus
-   * boosters, Sparks, UTC clock) wraps UNDER it on a narrow screen, and the header is sticky, so its
-   * real height is measured instead of guessed. The measurement also covers the safe-area inset the
-   * header reserves for a notched device.
+   * `--header-height` measures the bar alone: its padding, its safe area and its sticky position
+   * make the real bottom differ from that token, so it is measured instead of guessed. The
+   * measurement also covers the safe-area inset the header reserves for a notched device.
    *
    * @param {HTMLElement} container - Stack element.
    * @returns {void}
@@ -258,6 +264,11 @@ export class NotificationCenter {
    * @param {number|null} [item.progress=null] - Completion ratio (0-1) drawn as a bar.
    * @param {object|null} [item.action=null] - What a click opens instead of only dismissing (a
    *   trade notification leads to the trade tab). Handled by `setActionHandler()`.
+   * @param {object} [item.merge] - Coalescing rule of the item (see `mergeIntoWaiting()`); an item
+   *   without one never merges.
+   * @param {string} [item.merge.key] - Kind of message this one may merge with (e.g. `title`).
+   * @param {(count: number) => string} [item.merge.title] - Text shown once several items merged;
+   *   without it the merged line keeps the title of the LATEST item (a level-up keeps its level).
    * @param {boolean} [options.priority=false] - True to jump the queue (collection discoveries).
    * @returns {void}
    */
@@ -282,6 +293,8 @@ export class NotificationCenter {
           : null,
       /** @type {boolean} True when the item jumped the queue (kept in its own order band). */
       priority: priority === true,
+      /** @type {{key: string, title: Function|null}|null} Coalescing rule of the item. */
+      merge: this.readMergeRule(item.merge),
     };
 
     // A silenced family never enters the queue: dropping it here also keeps a disabled collection
@@ -290,6 +303,10 @@ export class NotificationCenter {
       this.log(`Dropped "${normalized.title}" (${normalized.type} is switched off).`);
       return;
     }
+
+    // Several notifications of the SAME kind arriving together (the titles of one evaluation, the
+    // quests that open the same day) read as one line instead of a stack of near-identical ones.
+    if (normalized.merge && this.mergeIntoWaiting(normalized)) return;
 
     // Queued FIRST: if the new item has to interrupt the message on screen, dismissing that message
     // displays the head of the queue — which must be the new item, not the interrupted one.
@@ -304,7 +321,26 @@ export class NotificationCenter {
     }
 
     this.log(`Queued "${normalized.title}" (${normalized.type}, priority: ${priority}).`);
-    this.showNext();
+    this.scheduleShowNext();
+  }
+
+  /**
+   * Schedules the display pass at the end of the current task.
+   *
+   * The notifications of one burst are pushed synchronously (every quest that opens, every title
+   * of one evaluation). Waiting for the end of the task lets `mergeIntoWaiting()` fold them BEFORE
+   * the first one is painted, so the player reads one grouped line instead of a first item followed
+   * by its group. The delay is a microtask, never visible.
+   *
+   * @returns {void}
+   */
+  scheduleShowNext() {
+    if (this.showScheduled) return;
+    this.showScheduled = true;
+    queueMicrotask(() => {
+      this.showScheduled = false;
+      this.showNext();
+    });
   }
 
   /**
@@ -330,6 +366,46 @@ export class NotificationCenter {
     } else {
       this.queue.splice(index, 0, item);
     }
+  }
+
+  /**
+   * Reads the coalescing rule of an item.
+   *
+   * A rule is a plain key plus, optionally, the function that writes the merged title: the
+   * component never translates anything itself, so the caller stays in charge of the wording (see
+   * `GameNotifier`).
+   *
+   * @param {object|null|undefined} merge - `merge` field of the pushed item.
+   * @returns {{key: string, title: Function|null}|null} The rule, or null.
+   */
+  readMergeRule(merge) {
+    if (!merge || typeof merge !== 'object') return null;
+    if (typeof merge.key !== 'string' || merge.key === '') return null;
+    return {
+      key: merge.key,
+      title: typeof merge.title === 'function' ? merge.title : null,
+    };
+  }
+
+  /**
+   * Folds an item into a waiting item of the same kind, when there is one.
+   *
+   * Only the QUEUE is searched: the notification on screen is already painted, so a new arrival
+   * starts a new group instead of rewriting it. The merged item keeps its place and its priority
+   * band; only its count and its title change.
+   *
+   * @param {object} item - Normalized item being pushed.
+   * @returns {boolean} True when the item was folded into another one.
+   */
+  mergeIntoWaiting(item) {
+    const waiting = this.queue.find(
+      (queued) => queued.priority === item.priority && queued.merge?.key === item.merge.key
+    );
+    if (!waiting) return false;
+    waiting.count = (Number.isInteger(waiting.count) ? waiting.count : 1) + 1;
+    waiting.title = item.merge.title ? item.merge.title(waiting.count) : item.title;
+    this.log(`Merged "${item.title}" into a waiting ${item.merge.key} (${waiting.count}).`);
+    return true;
   }
 
   /**

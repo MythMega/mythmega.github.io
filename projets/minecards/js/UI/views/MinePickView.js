@@ -1261,8 +1261,9 @@ export class MinePickView {
     if (this.boardStage) this.boardStage.hidden = showPick;
     if (this.pickStage) this.pickStage.hidden = !showPick;
     // The pick is a ritual: from the moment the pack is dealt until the player goes back to the
-    // list, the brand, the counters, the bottom bar, the "how does it work" pill and the title of
-    // the view step aside so nothing competes with the cards (`setFocusMode`, `css/base.css`). The
+    // list, the pseudo and the clock of the header, the counters, the bottom bar, the "how does it
+    // work" pill and the title of the view step aside so nothing competes with the cards
+    // (`setFocusMode`, `css/base.css`). The
     // "Retour aux boosters" button of the stage keeps a way out at every instant, including on the
     // result screen, which is part of the same stage.
     setFocusMode(showPick);

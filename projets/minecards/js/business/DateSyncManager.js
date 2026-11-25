@@ -926,46 +926,58 @@ export class DateSyncManager {
   }
 
   /**
-   * Moves one booster of the daily allowance into the bonus bucket of an extension.
+   * Moves daily boosters into the bonus bucket of an extension.
    *
    * The daily allowance is the only bucket that expires: the reset replaces it at midnight UTC
    * whether it was spent or not. A player who cannot open a pack today keeps it by attaching it to
    * an extension, which is precisely what a bonus booster is. The move is a single read-modify-write
    * so a double tap can neither store the same booster twice nor store two for one tap.
    *
+   * A gesture may move several boosters at once (the store dialog offers one to three), and it is
+   * capped by the allowance left INSIDE the transaction: asking for more than what remains moves
+   * what remains, never more.
+   *
    * No trusted clock is required: the allowance is only ever granted by a trusted reset, so moving
    * a part of it while the time is frozen cannot create a booster out of nothing.
    *
-   * @param {string} setId - Extension that receives the booster.
-   * @returns {Promise<{stored: boolean, quota: object}>} Whether a booster was moved, and the quota
-   *   afterwards (`stored: false` when the allowance is already spent).
-   * @throws {TypeError|RangeError} When `setId` is not a declared extension.
+   * @param {string} setId - Extension that receives the boosters.
+   * @param {number} [quantity=1] - How many daily boosters the gesture moves (a positive integer).
+   * @returns {Promise<{stored: boolean, storedCount: number, quota: object}>} How many boosters were
+   *   moved (`0` when the allowance is already spent), and the quota afterwards.
+   * @throws {TypeError|RangeError} When `setId` is not a declared extension or `quantity` is not a
+   *   positive integer.
    * @throws {Error} When the transaction fails.
    */
-  async storeDailyBooster(setId) {
+  async storeDailyBooster(setId, quantity = 1) {
     const key = this.assertKnownSet(setId);
+    const amount = this.assertPositiveInteger(quantity);
     await this.ensureDailyReset();
 
     const result = await storageRepository.transaction(STORES.USER_STATE, 'readwrite', async (context) => {
       const quota = this.normalizeQuota(await context.get(STORES.USER_STATE, USER_STATE_KEYS.QUOTA));
-      if (quota.dailyRemaining <= 0) {
-        return { stored: false, quota };
+      const moved = Math.min(amount, quota.dailyRemaining);
+      if (moved <= 0) {
+        return { stored: false, storedCount: 0, quota };
       }
 
       const next = {
         ...quota,
-        dailyRemaining: quota.dailyRemaining - 1,
-        bonusBoosters: { ...quota.bonusBoosters, [key]: (quota.bonusBoosters[key] ?? 0) + 1 },
+        dailyRemaining: quota.dailyRemaining - moved,
+        bonusBoosters: { ...quota.bonusBoosters, [key]: (quota.bonusBoosters[key] ?? 0) + moved },
       };
       await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.QUOTA);
-      return { stored: true, quota: next };
+      return { stored: true, storedCount: moved, quota: next };
     });
 
     this.quota = result.quota;
     if (result.stored) {
       this.emitQuotaUpdated(key);
     }
-    return { stored: result.stored, quota: this.getQuotaSnapshot(key) };
+    return {
+      stored: result.stored,
+      storedCount: result.storedCount,
+      quota: this.getQuotaSnapshot(key),
+    };
   }
 
   /**

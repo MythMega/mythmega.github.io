@@ -233,9 +233,9 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=38b9ac149a">
-  <link rel="stylesheet" href="css/base.css?v=53a1e73574">
+  <link rel="stylesheet" href="css/base.css?v=d450b2834a">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
-  <link rel="stylesheet" href="css/views/opening.css?v=2a7719d47d">
+  <link rel="stylesheet" href="css/views/opening.css?v=60233821fe">
   <link rel="stylesheet" href="css/views/shop.css?v=e8f742295b">
   <link rel="stylesheet" href="css/views/collection.css?v=f51fbd617d">
   <link rel="stylesheet" href="css/views/binders.css?v=7bfae5196f">
@@ -252,7 +252,7 @@
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
   <link rel="stylesheet" href="css/views/social.css?v=3231597193">
   <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
-  <link rel="stylesheet" href="css/components/app-menu.css?v=acdaa533da">
+  <link rel="stylesheet" href="css/components/app-menu.css?v=db6cbdefac">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=07939f43ff">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
   <link rel="stylesheet" href="css/components/card-shine.css?v=8a3ac2a48e">
@@ -266,7 +266,7 @@
   <link rel="stylesheet" href="css/components/card-roulette.css?v=a22e30bd46">
   <link rel="stylesheet" href="css/components/error-popup.css?v=6639af2fdc">
   <link rel="stylesheet" href="css/components/image-loader.css?v=40c1405fc5">
-  <link rel="stylesheet" href="css/components/notifications.css?v=5b890c2a16">
+  <link rel="stylesheet" href="css/components/notifications.css?v=c902ce7950">
   <link rel="stylesheet" href="css/components/install-prompt.css?v=11cabfc4d6">
   <link rel="stylesheet" href="css/components/info-hint.css?v=848c08b3f4">
   <!-- Animation modes: loaded LAST on purpose, they only override the animation of an opening
@@ -738,6 +738,16 @@
           <button type="button" class="modal__close" data-opening-store-close aria-label="×">×</button>
           <h2 class="modal__title" id="opening-store-title" data-opening-store-title></h2>
           <div class="modal__body" data-opening-store-body></div>
+          <!-- Quantity of the gesture: one to three daily boosters at once, never more than the
+               allowance left. Hidden when a single booster can be moved. -->
+          <div class="store-quantity" data-opening-store-quantity hidden>
+            <span class="store-quantity__label" data-i18n="opening.store.quantity">Boosters à stocker</span>
+            <div class="store-quantity__control">
+              <button type="button" class="store-quantity__step" data-opening-store-step="-1" data-i18n-aria-label="opening.store.less" aria-label="Moins">−</button>
+              <input class="store-quantity__input" type="number" inputmode="numeric" min="1" max="3" step="1" value="1" data-opening-store-count data-i18n-aria-label="opening.store.quantity" aria-label="Boosters à stocker">
+              <button type="button" class="store-quantity__step" data-opening-store-step="1" data-i18n-aria-label="opening.store.more" aria-label="Plus">+</button>
+            </div>
+          </div>
           <div class="modal__actions" data-opening-store-sets></div>
         </div>
       </div>
@@ -3539,14 +3549,42 @@
   <!-- Floating menu of the shell: the reading destinations that used to compete with the bottom
        bar. It opens on the right, above the bar, and every row is still a router destination. -->
   <div class="app-menu" id="app-menu" data-app-menu hidden>
-    <!-- The name of the game opens the menu: the bar itself no longer prints it. -->
+    <!-- The name of the game titles the menu: the bar itself no longer prints it. -->
     <p class="app-menu__title" data-i18n="menu.title">MineCards - Menu</p>
     <time class="app-menu__clock" data-app-menu-clock data-i18n-title="settings.clock.title" title="Heure UTC">
-      <span data-app-menu-clock-time>--:--</span><span class="app-menu__clock-seconds" data-app-menu-clock-seconds>:--</span>
+      <span class="app-menu__clock-utc" data-i18n="header.clock.utc">UTC</span> <span data-app-menu-clock-time>--:--</span><span class="app-menu__clock-seconds" data-app-menu-clock-seconds>:--</span>
     </time>
     <ul class="app-menu__list">
+      <!-- Settings opens the menu: it is the destination a player looks for most often, and the bar
+           itself has no button of its own for it. -->
+      <li>
+        <button type="button" class="app-menu__item" data-nav-target="settings">
+          <span class="app-menu__icon app-menu__icon--mask app-menu__icon--settings" aria-hidden="true"></span>
+          <span data-i18n="nav.settings">Paramètres</span>
+          <span class="app-menu__badge" data-settings-badge hidden aria-hidden="true"></span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="app-menu__item" data-nav-target="info">
+          <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+          <span data-i18n="nav.info">Info</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="app-menu__item" data-nav-target="data-policy">
+          <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <span data-i18n="nav.dataPolicy">Politique de données</span>
+        </button>
+      </li>
+      <li>
+        <button type="button" class="app-menu__item" data-nav-target="ai-policy">
+          <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5l1.6 3.8L16.4 10.4l-3.8 1.6L11 15.8 9.4 12 5.6 10.4 9.4 8.8z"/><path d="M18 15l.8 1.9 1.9.8-1.9.8L18 20.4l-.8-1.9-1.9-.8 1.9-.8z"/></svg>
+          <span data-i18n="nav.aiPolicy">Politique d'IA</span>
+        </button>
+      </li>
       <!-- The two actions the bar drops when it is too narrow for them: they keep their own row
-           here, so the inventory and the daily reward are never unreachable on a small screen. -->
+           under the AI policy, so the inventory and the daily reward are never unreachable on a
+           small screen. -->
       <li>
         <button type="button" class="app-menu__item" data-menu-inventory aria-haspopup="dialog"
           data-i18n-title="header.inventory.title" title="Inventaire">
@@ -3563,34 +3601,9 @@
         </button>
       </li>
       <li>
-        <button type="button" class="app-menu__item" data-nav-target="info">
-          <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
-          <span data-i18n="nav.info">Info</span>
-        </button>
-      </li>
-                  <li>
-              <button type="button" class="app-menu__item" data-nav-target="data-policy">
-                <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                <span data-i18n="nav.dataPolicy">Politique de données</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="app-menu__item" data-nav-target="ai-policy">
-                <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5l1.6 3.8L16.4 10.4l-3.8 1.6L11 15.8 9.4 12 5.6 10.4 9.4 8.8z"/><path d="M18 15l.8 1.9 1.9.8-1.9.8L18 20.4l-.8-1.9-1.9-.8 1.9-.8z"/></svg>
-                <span data-i18n="nav.aiPolicy">Politique d'IA</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="app-menu__item" data-nav-target="profile">
+        <button type="button" class="app-menu__item" data-nav-target="profile">
           <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
           <span data-i18n="nav.profile">Profil</span>
-        </button>
-      </li>
-      <li>
-        <button type="button" class="app-menu__item" data-nav-target="settings">
-          <span class="app-menu__icon app-menu__icon--mask app-menu__icon--settings" aria-hidden="true"></span>
-          <span data-i18n="nav.settings">Réglages</span>
-          <span class="app-menu__badge" data-settings-badge hidden aria-hidden="true"></span>
         </button>
       </li>
       <li>
@@ -3604,7 +3617,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=8b41e930c6"></script>
+  <script type="module" src="js/app.js?v=feb544965e"></script>
 
 </body>
 </html>

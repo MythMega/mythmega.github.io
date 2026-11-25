@@ -45,6 +45,7 @@ const CARD = new Card({
 const originalKnownSets = dateSyncManager.knownSets;
 const originalGetCurrentUtcDay = dateSyncManager.getCurrentUtcDay;
 const originalGetRemainingBoosters = dateSyncManager.getRemainingBoosters;
+const originalTimeTrusted = dateSyncManager.timeTrusted;
 const originalConsumeBooster = dateSyncManager.consumeBooster;
 const originalGetBoosterSettings = configLoader.getBoosterSettings;
 const originalGetSparksSettings = configLoader.getSparksSettings;
@@ -53,6 +54,7 @@ test.afterEach(() => {
   dateSyncManager.knownSets = originalKnownSets;
   dateSyncManager.getCurrentUtcDay = originalGetCurrentUtcDay;
   dateSyncManager.getRemainingBoosters = originalGetRemainingBoosters;
+  dateSyncManager.timeTrusted = originalTimeTrusted;
   dateSyncManager.consumeBooster = originalConsumeBooster;
   configLoader.getBoosterSettings = originalGetBoosterSettings;
   configLoader.getSparksSettings = originalGetSparksSettings;
@@ -195,4 +197,51 @@ test('refunding a bonus booster restores its bucket', async () => {
 
   assert.equal(readState(USER_STATE_KEYS.QUOTA).bonusBoosters[SET_ID], 1);
   assert.equal(readState(USER_STATE_KEYS.SPARKS), 1000);
+});
+
+test('storing several daily boosters moves them in one gesture', async () => {
+  seedBoosterState();
+  dateSyncManager.knownSets = [SET_ID];
+  dateSyncManager.timeTrusted = false;
+
+  const result = await dateSyncManager.storeDailyBooster(SET_ID, 2);
+
+  assert.equal(result.stored, true);
+  assert.equal(result.storedCount, 2);
+  assert.equal(readState(USER_STATE_KEYS.QUOTA).dailyRemaining, 1);
+  assert.equal(readState(USER_STATE_KEYS.QUOTA).bonusBoosters[SET_ID], 2);
+});
+
+test('a store gesture never moves more than the allowance left', async () => {
+  seedBoosterState();
+  dateSyncManager.knownSets = [SET_ID];
+  dateSyncManager.timeTrusted = false;
+
+  const result = await dateSyncManager.storeDailyBooster(SET_ID, 5);
+
+  assert.equal(result.stored, true);
+  assert.equal(result.storedCount, 3);
+  assert.equal(readState(USER_STATE_KEYS.QUOTA).dailyRemaining, 0);
+  assert.equal(readState(USER_STATE_KEYS.QUOTA).bonusBoosters[SET_ID], 3);
+});
+
+test('an empty allowance refuses the gesture without writing anything', async () => {
+  resetStorage({
+    user_state: {
+      [USER_STATE_KEYS.QUOTA]: {
+        lastResetDay: DAY,
+        dailyRemaining: 0,
+        bonusBoosters: {},
+      },
+    },
+  });
+  dateSyncManager.knownSets = [SET_ID];
+  dateSyncManager.timeTrusted = false;
+
+  const result = await dateSyncManager.storeDailyBooster(SET_ID, 1);
+
+  assert.equal(result.stored, false);
+  assert.equal(result.storedCount, 0);
+  assert.equal(readState(USER_STATE_KEYS.QUOTA).dailyRemaining, 0);
+  assert.deepEqual(readState(USER_STATE_KEYS.QUOTA).bonusBoosters, {});
 });

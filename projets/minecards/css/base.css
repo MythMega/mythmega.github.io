@@ -822,10 +822,11 @@ body.is-onboarding .app-main {
 /* --- Focus mode: the RITUAL screens hide the chrome too ------------------- */
 
 /* `js/utils/FocusMode.js` turns this on while a booster is opened (from the moment the pack is
-   drawn) and while the card of a Mine Pick pack is chosen: the brand, the counters, the bottom bar
-   and the "Comment ça marche ?" pill all step aside, so the only things left on the screen are the
-   pack and its cards. The title of the view goes with them - "Ouverture" says nothing about what is
-   happening in the scene, and on a phone every line of height is a card that fits.
+   drawn) and while the card of a Mine Pick pack is chosen: the pseudo and its clock, the counters,
+   the bottom bar and the "Comment ça marche ?" pill all step aside, so the only things left on the
+   screen are the pack and its cards. The title of the view goes with them - "Ouverture" says
+   nothing about what is happening in the scene, and on a phone every line of height is a card that
+   fits.
 
    The same rules as `is-onboarding` (which hides the same two blocks), extended to the two elements
    that belong to the VIEW rather than to the shell: a focus screen is one where a page header and a

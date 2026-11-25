@@ -9,9 +9,9 @@
 .notifications {
   position: fixed;
   /* Under the header, which owns the safe-area inset at the top of the screen.
-     `--header-height` only describes the brand row: the counters row wraps under it on a narrow
-     screen, so `NotificationCenter` replaces this default with the MEASURED bottom of the header
-     (`--notifications-top`) every time it displays something. */
+     `--header-height` measures the bar alone: its padding, its safe area and its sticky position
+     make the real bottom differ from that token, so `NotificationCenter` replaces this default with
+     the MEASURED bottom of the header (`--notifications-top`) every time it displays something. */
   --notifications-top: calc(var(--header-height) + env(safe-area-inset-top, 0px));
   top: calc(var(--notifications-top) + var(--space-3));
   right: var(--space-3);

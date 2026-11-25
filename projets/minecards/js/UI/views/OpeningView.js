@@ -61,6 +61,9 @@ const IDLE_DISPOSE_DELAY_MS = 30000;
 /** Minimum horizontal swipe distance on the spotlight card, in pixels. */
 const SWIPE_THRESHOLD_PX = 24;
 
+/** Most daily boosters one "store as bonus" gesture may move. */
+const MAX_STORE_QUANTITY = 3;
+
 /** Beat of the automatic reveal while Space is held, in milliseconds (the overlay's own pace). */
 const SPACE_AUTO_ADVANCE_MS = 900;
 
@@ -78,6 +81,20 @@ const CONFETTI_COLORS = [
   'var(--color-success)',
   'var(--color-text)',
 ];
+
+/**
+ * Clamps the quantity of a "store as bonus" gesture to what the dialog may move.
+ *
+ * @param {unknown} value - Raw value of the numeric control (a string from the input).
+ * @param {number} max - Highest quantity allowed by the allowance left.
+ * @returns {number} An integer between 1 and `max`.
+ */
+export function clampStoreQuantity(value, max) {
+  const limit = Number.isFinite(max) ? Math.max(1, Math.floor(max)) : 1;
+  const parsed = Number.parseInt(String(value), 10);
+  if (!Number.isFinite(parsed)) return 1;
+  return Math.min(limit, Math.max(1, parsed));
+}
 
 export class OpeningView {
   /**
@@ -180,6 +197,11 @@ export class OpeningView {
     this.storeBody = this.root.querySelector('[data-opening-store-body]');
     this.storeSets = this.root.querySelector('[data-opening-store-sets]');
     this.storeClose = this.root.querySelector('[data-opening-store-close]');
+    this.storeQuantity = this.root.querySelector('[data-opening-store-quantity]');
+    this.storeCount = this.root.querySelector('[data-opening-store-count]');
+    this.storeSteps = Array.from(this.root.querySelectorAll('[data-opening-store-step]'));
+    /** @type {number} Highest quantity the open store dialog accepts. */
+    this.storeMax = 1;
 
     this.assertMarkup();
 
@@ -300,6 +322,8 @@ export class OpeningView {
       ['[data-opening-store-title]', this.storeTitle],
       ['[data-opening-store-body]', this.storeBody],
       ['[data-opening-store-sets]', this.storeSets],
+      ['[data-opening-store-quantity]', this.storeQuantity],
+      ['[data-opening-store-count]', this.storeCount],
       ['[data-opening-copy-code]', this.copyCodeButton],
       ['[data-opening-share]', this.shareButton],
       ['[data-opening-actions-more]', this.actionsMore],
@@ -552,6 +576,18 @@ export class OpeningView {
       // listener stable however many extensions the catalogue declares.
       this.listen(this.storeSets, 'click', (event) => this.handleStoreChoice(event));
     }
+    this.storeSteps.forEach((button) => {
+      const delta = Number(button.dataset.openingStoreStep);
+      this.listen(button, 'click', () => {
+        soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
+        this.applyStoreQuantity(this.readStoreQuantity() + delta);
+      });
+    });
+    if (this.storeCount) {
+      // A value typed by hand is clamped on change, never on every keystroke (an empty field must
+      // stay typable).
+      this.listen(this.storeCount, 'change', () => this.applyStoreQuantity(this.storeCount.value));
+    }
     this.listen(document, 'keydown', (event) => this.handleDocumentKeyDown(event));
     this.listen(document, 'keyup', (event) => this.handleDocumentKeyUp(event));
     // A window that loses the focus never sends the keyup: the automatic reveal must stop anyway.
@@ -610,8 +646,9 @@ export class OpeningView {
     const showScene = stage === 'scene';
     this.selectStage.hidden = showScene;
     this.sceneStage.hidden = !showScene;
-    // The ritual takes the whole screen: the brand, the counters, the bottom bar, the "how does it
-    // work" pill and the title of the view go away for as long as the scene is up, and come back on
+    // The ritual takes the whole screen: the pseudo and the clock of the header, the counters, the
+    // bottom bar, the "how does it work" pill and the title of the view go away for as long as the
+    // scene is up, and come back on
     // the way out (`setFocusMode`, `css/base.css`). It is toggled HERE because this method is the
     // exact boundary: the pack is drawn, then `showStage('scene')`; the summary is dismissed, then
     // `showStage('select')`.
@@ -1236,9 +1273,10 @@ export class OpeningView {
       this.setFeedback('opening.store.noSet', 'error');
       return;
     }
-    // A single extension is not a choice: the booster goes there without a question.
-    if (choices.length === 1) {
-      await this.storeDailyBooster(choices[0]);
+    // A single extension and a single booster is not a choice: it goes there without a question.
+    // With more boosters left, the dialog still opens so the quantity can be picked.
+    if (choices.length === 1 && daily === 1) {
+      await this.storeDailyBooster(choices[0], 1);
       return;
     }
 
@@ -1256,6 +1294,9 @@ export class OpeningView {
     if (!this.storeModal || !this.storeTitle || !this.storeBody || !this.storeSets) return;
     this.storeTitle.textContent = i18n.t('opening.store.title');
     this.storeBody.textContent = i18n.t('opening.store.body', { count: daily });
+    this.storeMax = Math.min(MAX_STORE_QUANTITY, Math.max(1, daily));
+    if (this.storeQuantity) this.storeQuantity.hidden = this.storeMax <= 1;
+    this.applyStoreQuantity(1);
     this.storeSets.replaceChildren();
     (this.storeChoices ?? []).forEach((choice) => {
       const button = document.createElement('button');
@@ -1283,26 +1324,54 @@ export class OpeningView {
     const choice = this.storeChoices?.find((entry) => entry.setId === button.dataset.openingStoreSet);
     if (!choice) return;
     soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
-    void this.storeDailyBooster(choice);
+    void this.storeDailyBooster(choice, this.readStoreQuantity());
   }
 
   /**
-   * Moves one daily booster into the bonus bucket of an extension.
+   * Reads and clamps the quantity of the numeric control.
    *
-   * One booster per gesture: the player keeps the choice of where the next one goes, and a single
-   * tap can never empty the allowance into the wrong extension.
+   * @returns {number} An integer between 1 and `storeMax`.
+   */
+  readStoreQuantity() {
+    return clampStoreQuantity(this.storeCount?.value, this.storeMax);
+  }
+
+  /**
+   * Writes a quantity into the numeric control and disables the steps at the bounds.
    *
-   * @param {{setId: string, name: string}} choice - Extension that receives the booster.
+   * @param {unknown} value - Requested quantity.
+   * @returns {void}
+   */
+  applyStoreQuantity(value) {
+    if (!this.storeCount) return;
+    const next = clampStoreQuantity(value, this.storeMax);
+    this.storeCount.value = String(next);
+    this.storeCount.max = String(this.storeMax);
+    this.storeSteps.forEach((button) => {
+      const delta = Number(button.dataset.openingStoreStep);
+      button.disabled = delta < 0 ? next <= 1 : next >= this.storeMax;
+    });
+  }
+
+  /**
+   * Moves daily boosters into the bonus bucket of an extension.
+   *
+   * The quantity comes from the numeric control of the dialog: one to three boosters, capped again
+   * by the allowance left inside the transaction, so a gesture can never move more than asked.
+   *
+   * @param {{setId: string, name: string}} choice - Extension that receives the boosters.
+   * @param {number} [quantity=1] - How many daily boosters the gesture moves.
    * @returns {Promise<void>} Resolves once the write finished (success or failure).
    */
-  async storeDailyBooster({ setId, name }) {
+  async storeDailyBooster({ setId, name }, quantity = 1) {
     if (this.isStoring) return;
+    const wanted = clampStoreQuantity(quantity, MAX_STORE_QUANTITY);
     this.isStoring = true;
     this.setFeedback(null);
-    this.log(`Storing a daily booster as a bonus for "${setId}"…`);
+    this.log(`Storing ${wanted} daily booster(s) as a bonus for "${setId}"…`);
 
     try {
-      const { stored, quota } = await dateSyncManager.storeDailyBooster(setId);
+      const { stored, storedCount, quota } = await dateSyncManager.storeDailyBooster(setId, wanted);
       if (!stored) {
         // Two tabs, or a reset that happened between the click and the write: the allowance is
         // already gone, and the button follows the quota on its way out.
@@ -1310,7 +1379,9 @@ export class OpeningView {
         return;
       }
       const total = quota.bonusBySet[setId] ?? 0;
-      Toast.success('opening.store.done', { params: { set: name, total } });
+      Toast.success(storedCount > 1 ? 'opening.store.doneMany' : 'opening.store.done', {
+        params: { count: storedCount, set: name, total },
+      });
       this.closeStoreModal();
       // The board is offered only after a booster was opened, so a player who stores their
       // allowance instead would never see it. Taking care of the day's boosters is the moment.

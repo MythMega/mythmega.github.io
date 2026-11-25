@@ -6,9 +6,9 @@
  *
  * Two moments of the game are rituals rather than pages: opening a booster - from the moment the
  * player has chosen one, not from the moment the page is displayed - and choosing the card of a
- * Mine Pick booster, once the pack has been dealt. During those, the brand, the counters, the bottom
- * bar, the "Comment ça marche ?" pill and the title of the view are all between the player and the
- * only thing they are looking at, so they are hidden.
+ * Mine Pick booster, once the pack has been dealt. During those, the pseudo and the clock of the
+ * header, the counters, the bottom bar, the "Comment ça marche ?" pill and the title of the view all
+ * sit between the player and the only thing they are looking at, so they are hidden.
  *
  * The state is ONE class on `<body>`, `is-focus`, and `css/base.css` is the only thing that knows
  * what it hides (the same shape as `is-onboarding`, which hides the very same chrome). The shell

@@ -61,6 +61,11 @@
   pointer-events: none;
 }
 
+/* The "UTC" label always precedes the time: the menu clock never reads as a local one. */
+.app-menu__clock-utc {
+  font-weight: 700;
+}
+
 .app-menu__clock-seconds {
   color: var(--color-text-muted);
   opacity: 0.75;

@@ -1,7 +1,11 @@
 [
     {
+        "_comment": "Mode progressive -> when you connect another day you get the next, mode defined -> you skip a reward and get the next if you miss a day.",
         "ID": "dailyconnectreward_1",
         "RewardListName": "Genesis Departure",
+        "Image": "https://raw.githubusercontent.com/MythMega/mythmega.github.io.assets/refs/heads/master/assets/cardzzz/01-serie-a/Dappled.webp",
+        "Mode": "progressive",
+        "HiddenBeforeUnlock": false,
         "Dates": {
             "Start": "30-10-2026",
             "End": "05-12-2026"

@@ -253,15 +253,31 @@ export class AutoClaimPopup {
       const line = document.createElement('p');
       line.className = 'auto-claim__reward';
       line.dataset.type = reward.type;
-      line.textContent =
-        reward.type === 'sparks'
-          ? i18n.t('redeem.reward.sparks', { count: reward.quantity })
-          : i18n.t('autoclaim.reward.booster', { count: reward.quantity });
+      line.textContent = this.describeReward(reward);
       list.appendChild(line);
     });
     // No card and no other line would leave an empty popup: the message alone is enough, but the
     // container must not keep a gap.
     list.hidden = otherRewards.length === 0;
+  }
+
+  /**
+   * Describes one line of the reward list.
+   *
+   * The type of the reward is what decides its sentence: a code can credit Sparks, an Ender Pearl
+   * or a bonus booster, and reading one of them as another would announce the wrong gift.
+   *
+   * @param {{type: string, quantity: number}} reward - Totalled reward of the claim.
+   * @returns {string} The translated sentence.
+   */
+  describeReward(reward) {
+    if (reward.type === 'pearl') {
+      return i18n.t('autoclaim.reward.pearl', { count: reward.quantity });
+    }
+    if (reward.type === 'sparks') {
+      return i18n.t('redeem.reward.sparks', { count: reward.quantity });
+    }
+    return i18n.t('autoclaim.reward.booster', { count: reward.quantity });
   }
 
   /**

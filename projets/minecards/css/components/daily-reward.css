@@ -12,11 +12,35 @@
    ============================================================================= */
 
 .daily-reward__dialog {
-  gap: var(--space-2);
+  /* Every block of the dialog is a section of its own: the badge and the title, the chapter line
+     with its progress, the preview of the day, the board and the buttons are separated by the same
+     beat. The column is explicit: without it a `gap` on a block dialog does nothing at all. The
+     order of the markup puts the preview before the board (`DailyRewardPopup.ensureMarkup`), so it
+     is on screen as soon as the dialog opens, whatever the number of days. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Landscape on a phone: a dialog of 390 px of height has to hold a header, the preview of the day,
+   a calendar of thirty days and two buttons. The badge ("CONNEXION DU JOUR") only repeats what the
+   header button and the title already say, so it is the part that goes, and the beat tightens: the
+   preview of the day stays on screen at opening instead of sliding under the actions band. */
+@media (max-height: 480px) {
+  .daily-reward__badge {
+    display: none;
+  }
+
+  .daily-reward__dialog {
+    gap: var(--space-2);
+  }
 }
 
 .daily-reward__badge {
-  align-self: flex-start;
+  /* The badge is the first line of the dialog since the picture became the backdrop of the grid: it
+     has to hug its label and stop before the close button, which floats over that corner. */
+  width: fit-content;
+  max-width: calc(100% - 3rem);
   padding: 0.15rem var(--space-2);
   border: 1px solid var(--color-accent);
   border-radius: var(--radius-pill);
@@ -27,13 +51,18 @@
   text-transform: uppercase;
 }
 
+/* The line of the chapter: the sentence says where the player is, the bar shows it. It reads as ONE
+   block, a little apart from the badge and the board. */
 .daily-reward__subtitle {
+  margin: 0;
   font-size: var(--font-size-sm);
+  line-height: 1.45;
   color: var(--color-text-muted);
 }
 
 .daily-reward__progress {
   height: 0.5rem;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface-alt);
   overflow: hidden;
@@ -56,12 +85,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(3.1rem, 1fr));
   gap: var(--space-2);
-  max-height: 34vh;
   margin: 0;
   padding: var(--space-1);
   list-style: none;
-  overflow-y: auto;
-  overscroll-behavior: contain;
 }
 
 .daily-reward__day {
@@ -85,6 +111,11 @@
   font: inherit;
   cursor: pointer;
   touch-action: manipulation;
+  /* A tile is a control, never a document: a long press claims the day instead of selecting its text
+     or opening the browser sheet. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
   transition: transform var(--duration-fast) var(--easing-standard),
     border-color var(--duration-fast) var(--easing-standard),
     box-shadow var(--duration-fast) var(--easing-standard);
@@ -208,12 +239,16 @@
 
 /* --- The preview under the board ------------------------------------------ */
 
+/* The preview of the selected day: a panel of its own, framed like a card of the board, so the
+   sentence "what this day gives" never reads as a caption of the grid. */
 .daily-reward__detail {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  flex: 0 0 auto;
   min-height: 3.5rem;
-  padding: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-surface-alt);
 }
@@ -221,6 +256,7 @@
 .daily-reward__detail-title {
   font-size: var(--font-size-sm);
   font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .daily-reward__detail-reward {
@@ -320,6 +356,10 @@
 .daily-reward__dialog {
   position: relative;
 }
+
+/* The dialog is the only scrolling box of this popup (see `.daily-reward__board`). The title band
+   and the actions band stay pinned by `css/components/modal.css`, so the header and the buttons
+   keep their place while the days go by. */
 
 .daily-reward__gain[hidden] {
   display: none;
@@ -505,4 +545,180 @@
   .daily-reward__day-button[data-state="current"] {
     animation: none;
   }
+}
+
+/* --- The picture of the chapter ------------------------------------------- */
+
+/* The picture of the chapter is the backdrop of the grid, and only that: a board belongs to its
+   series. The file may name no picture at all, and the icon of the application is then used
+   (`DailyRewardManager.DEFAULT_CHAPTER_IMAGE`). */
+.daily-reward__board {
+  position: relative;
+  /* The board holds every day of the chapter and scrolls with the dialog: ONE scroll zone per popup.
+     A board with its own scrollbar inside a scrolling dialog means two places to drag, and the one
+     the thumb happens to land on is never the one the player meant. */
+  flex: 0 0 auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* The pictures of the dialog are decorations, never documents: a long press must reach the control
+   under them instead of opening the mobile browser sheet ("save image", "copy", "search").
+   `pointer-events: none` keeps the touch on the tile button, which is what runs the claim. */
+.daily-reward__dialog img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* Blurred and slightly enlarged so no sharp edge shows, and never readable as a reward itself. It
+   is a backdrop the player should RECOGNISE, though: the picture is kept at a legible strength (a
+   light blur, a little over half opaque), and the tiles sit on their own surfaces on top of it. */
+.daily-reward__board::before {
+  content: '';
+  position: absolute;
+  inset: -8%;
+  background-image: var(--daily-reward-image, none);
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px) saturate(1.15);
+  opacity: 0.62;
+  pointer-events: none;
+}
+
+.daily-reward__days {
+  position: relative;
+}
+
+/* A reward the chapter keeps hidden until its day: a lock picture on a tile that says nothing. */
+.daily-reward__day-button[data-hidden='true'] {
+  background-color: var(--color-surface);
+}
+
+.daily-reward__day-icon--hidden {
+  width: 55%;
+  max-height: 1.7rem;
+  opacity: 0.55;
+}
+
+/* A day of a "defined" chapter that went by without a claim: it is lost, and the board says so. */
+.daily-reward__day-button[data-state='missed'] {
+  opacity: 0.35;
+}
+
+.daily-reward__detail-state[data-state='hidden'] {
+  font-style: italic;
+}
+
+/* --- The chooser of the series -------------------------------------------- */
+
+/* Opened when several chapters run at once, drawn like the list of the binders of the collection:
+   one row per series, its picture blurred behind its name. */
+.daily-reward-choice__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.daily-reward-choice__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 60vh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.daily-reward-choice__item {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+/* The picture of the series, blurred: it is a backdrop, never the reward of the day. */
+.daily-reward-choice__item::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  background-image: var(--daily-reward-choice-backdrop, none);
+  background-size: cover;
+  background-position: center;
+  filter: blur(9px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* A veil keeps the name readable over any picture, like the rows of the binders. */
+.daily-reward-choice__item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--overlay);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.daily-reward-choice__open {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'name state'
+    'day state';
+  align-items: center;
+  gap: 0 var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.daily-reward-choice__open:hover,
+.daily-reward-choice__open:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.daily-reward-choice__name {
+  grid-area: name;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.daily-reward-choice__day {
+  grid-area: day;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.daily-reward-choice__state {
+  grid-area: state;
+  padding: 0.15rem var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.daily-reward-choice__state[data-state='claimable'] {
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+.daily-reward-choice__state[data-state='claimed'] {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
 }

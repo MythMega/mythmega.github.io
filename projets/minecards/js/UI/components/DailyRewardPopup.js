@@ -25,6 +25,9 @@ import dailyRewardManager, {
   DAILY_REWARD_AURAS,
   DAILY_REWARD_ERRORS,
   DAILY_REWARD_KINDS,
+  DAILY_REWARD_MODES,
+  DEFAULT_CHAPTER_IMAGE,
+  HIDDEN_REWARD_ICON,
   DailyRewardManager,
 } from '../../business/DailyRewardManager.js';
 import illagerShopManager from '../../business/IllagerShopManager.js';
@@ -50,8 +53,14 @@ export class DailyRewardPopup {
   constructor() {
     /** @type {HTMLElement|null} Overlay. */
     this.root = null;
+    /** @type {HTMLElement|null} Dialog that chooses the series when several are open. */
+    this.chooser = null;
     /** @type {object|null} Last rendered snapshot. */
     this.snapshot = null;
+    /** @type {string|null} Chapter the open board describes. */
+    this.chapterId = null;
+    /** @type {Element|null} Element focused before the chooser of the series opened. */
+    this.chooserPreviousFocus = null;
     /** @type {number|null} Day previewed under the board (1-based). */
     this.selectedDay = null;
     /** @type {boolean} True while a claim is being written. */
@@ -68,7 +77,7 @@ export class DailyRewardPopup {
     this.mounted = false;
     /** @type {Function[]} */
     this.unsubscribers = [
-      eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, (payload) => this.handleUpdated(payload?.snapshot)),
+      eventBus.on(EVENTS.DAILY_REWARDS_UPDATED, (payload) => this.handleUpdated(payload)),
       eventBus.on(EVENTS.LANG_CHANGED, () => this.handleLanguageChanged()),
       eventBus.on(EVENTS.CARD_LANG_CHANGED, () => this.handleLanguageChanged()),
       // The pack of the board is a single-ink PNG that ships in two inks (`ThemeIcons`): the board is
@@ -80,7 +89,14 @@ export class DailyRewardPopup {
     ];
     /** @type {(event: KeyboardEvent) => void} Escape handler, bound once. */
     this.handleKeyDown = (event) => {
-      if (event.key === 'Escape' && this.isOpen()) {
+      if (event.key !== 'Escape') return;
+      // The chooser stands on top of the board: Escape closes the topmost dialog first.
+      if (this.isChooserOpen()) {
+        event.preventDefault();
+        this.closeChooser();
+        return;
+      }
+      if (this.isOpen()) {
         event.preventDefault();
         this.close();
       }
@@ -107,6 +123,15 @@ export class DailyRewardPopup {
   }
 
   /**
+   * Tells whether the chooser of the series is on screen.
+   *
+   * @returns {boolean} True when it is open.
+   */
+  isChooserOpen() {
+    return Boolean(this.chooser) && this.chooser.hidden === false;
+  }
+
+  /**
    * Opens the dialog and remembers that today's offer was seen.
    *
    * @param {object} [options] - Open options.
@@ -115,15 +140,53 @@ export class DailyRewardPopup {
    * @returns {Promise<void>} Resolves once the board is displayed.
    */
   async open({ announce = true } = {}) {
+    // One open series is not a question: its board opens straight away. Several are, and the
+    // chooser of the series stands between the button and the board - the very gesture of the
+    // binder list of the collection.
+    let listing;
+    try {
+      listing = await dailyRewardManager.listChapters();
+    } catch (error) {
+      console.error('[DailyRewardPopup] The daily rewards could not be read.', error);
+      Toast.error('daily.error.load');
+      return;
+    }
+
+    const running = listing.chapters.filter((chapter) => chapter.status === 'active');
+    if (listing.trusted && running.length > 1) {
+      this.openChooser(listing, { announce });
+      return;
+    }
+
+    // Nothing is open: the board announces the NEXT series, and never reopens one that is over.
+    const next = listing.chapters
+      .filter((chapter) => chapter.status === 'upcoming')
+      .sort((left, right) => left.start.localeCompare(right.start))[0];
+
+    await this.openChapter(running[0]?.id ?? next?.id ?? null, { announce });
+  }
+
+  /**
+   * Opens the board of one chapter.
+   *
+   * @param {string|null} chapterId - Chapter to show (null: the one the game picks by itself).
+   * @param {object} [options] - Open options.
+   * @param {boolean} [options.announce=true] - Marks the day as seen (the automatic offer then stays
+   *   quiet until tomorrow). False for a refresh of an already open dialog.
+   * @returns {Promise<void>} Resolves once the board is displayed.
+   */
+  async openChapter(chapterId = null, { announce = true } = {}) {
     this.ensureMarkup();
+    this.closeChooser({ restoreFocus: false });
     if (!this.isOpen()) {
-      this.previousFocus = document.activeElement;
+      if (!this.previousFocus) this.previousFocus = document.activeElement;
       this.root.hidden = false;
       document.addEventListener('keydown', this.handleKeyDown);
     }
 
+    this.chapterId = chapterId;
     try {
-      this.snapshot = await dailyRewardManager.getSnapshot();
+      this.snapshot = await dailyRewardManager.getSnapshot(chapterId);
     } catch (error) {
       console.error('[DailyRewardPopup] The daily rewards could not be read.', error);
       Toast.error('daily.error.load');
@@ -138,7 +201,78 @@ export class DailyRewardPopup {
 
     if (announce) void dailyRewardManager.markSeen();
     this.root.querySelector('[data-daily-reward-close]')?.focus();
-    this.log(`Board displayed (status: ${this.snapshot.status}, day ${this.snapshot.dayNumber}).`);
+    this.log(
+      `Board displayed (${this.snapshot.chapterId ?? 'no chapter'}, day ${this.snapshot.dayNumber}).`
+    );
+  }
+
+  /**
+   * Absolute URL of the picture of a chapter.
+   *
+   * A `url()` substituted into a custom property is resolved against the STYLESHEET that draws it,
+   * never against the document: the relative path of the default icon would then point inside
+   * `css/components/`. The path is made absolute here, once, for the backdrop of the grid and the
+   * rows of the chooser.
+   *
+   * @param {string|null} path - `Image` of the chapter, or null.
+   * @returns {string} The absolute URL of the picture.
+   */
+  static absoluteImage(path) {
+    const image = i18n.resolveImagePath(path || DEFAULT_CHAPTER_IMAGE);
+    try {
+      return new URL(image, document.baseURI).href;
+    } catch (error) {
+      console.warn('[DailyRewardPopup] The picture of the chapter could not be resolved.', error);
+      return image;
+    }
+  }
+
+  /**
+   * Opens the chooser of the series.
+   *
+   * @param {object} listing - Return value of `DailyRewardManager.listChapters()`.
+   * @param {object} [options] - Open options.
+   * @param {boolean} [options.announce=true] - Marks the day as seen.
+   * @returns {void}
+   */
+  openChooser(listing, { announce = true } = {}) {
+    this.ensureChooser();
+    if (!this.chooser) return;
+    this.renderChooser(listing);
+    if (!this.isChooserOpen()) {
+      this.chooserPreviousFocus = document.activeElement;
+      // The board opened from the chooser inherits the focus of the button that started it all, so
+      // closing the board never drops the focus on a hidden element.
+      if (!this.previousFocus) this.previousFocus = document.activeElement;
+    }
+    this.chooser.hidden = false;
+    document.addEventListener('keydown', this.handleKeyDown);
+    if (announce) void dailyRewardManager.markSeen();
+    this.chooser.querySelector('[data-daily-reward-choice-close]')?.focus();
+  }
+
+  /**
+   * Hides the chooser of the series.
+   *
+   * @param {object} [options] - Close options.
+   * @param {boolean} [options.restoreFocus=true] - Gives the focus back to the opening button.
+   * @returns {void}
+   */
+  closeChooser({ restoreFocus = true } = {}) {
+    if (!this.chooser) return;
+    const wasOpen = this.chooser.hidden === false;
+    this.chooser.hidden = true;
+    if (!this.isOpen()) document.removeEventListener('keydown', this.handleKeyDown);
+    const target = this.chooserPreviousFocus;
+    if (
+      wasOpen &&
+      restoreFocus &&
+      target instanceof HTMLElement &&
+      target.isConnected
+    ) {
+      target.focus();
+    }
+    if (restoreFocus) this.chooserPreviousFocus = null;
   }
 
   /**
@@ -148,6 +282,7 @@ export class DailyRewardPopup {
    */
   close() {
     if (!this.root) return;
+    this.closeChooser({ restoreFocus: false });
     this.root.hidden = true;
     document.removeEventListener('keydown', this.handleKeyDown);
     if (this.timer !== null) {
@@ -168,10 +303,12 @@ export class DailyRewardPopup {
    */
   clear() {
     this.snapshot = null;
+    this.chapterId = null;
     this.selectedDay = null;
     this.boosterChoices = null;
     this.pendingSetId = null;
     dailyRewardManager.reset();
+    this.closeChooser({ restoreFocus: false });
     this.close();
   }
 
@@ -242,6 +379,15 @@ export class DailyRewardPopup {
     days.className = `${DAILY_REWARD_CLASS}__days`;
     days.dataset.dailyRewardDays = '';
     days.addEventListener('click', (event) => this.handleBoardClick(event));
+    // A long press on a tile is a claim, never a browser menu: the pictures of the board are already
+    // out of the hit test, and this keeps the menu away on the surfaces that still offer one.
+    days.addEventListener('contextmenu', (event) => event.preventDefault());
+
+    // The board is the window over the picture of the chapter: the grid sits on a blurred copy of
+    // it, and this wrapper is what keeps that copy behind the scrolling tiles.
+    const board = document.createElement('div');
+    board.className = `${DAILY_REWARD_CLASS}__board`;
+    board.append(days);
 
     const detail = document.createElement('div');
     detail.className = `${DAILY_REWARD_CLASS}__detail`;
@@ -276,12 +422,150 @@ export class DailyRewardPopup {
     closeAction.addEventListener('click', () => this.close());
     actions.append(closeAction, claimButton);
 
-    dialog.append(closeButton, badge, title, subtitle, progress, days, detail, gain, actions);
+    // The preview of the day comes BEFORE the board. It answers "what do I get today", and after the
+    // grid of thirty days it opened below the fold, hidden behind the sticky actions band: the player
+    // had to scroll to read the reward of the day. The dialog is the only scrolling box of this
+    // popup (see `css/components/daily-reward.css`), so the preview comes first and stays on screen.
+    dialog.append(closeButton, badge, title, subtitle, progress, detail, board, gain, actions);
     root.append(dialog);
     document.body.append(root);
 
     this.root = root;
     this.mounted = true;
+  }
+
+  /**
+   * Creates the shell of the chooser of the series once.
+   *
+   * The chooser is what the daily button opens when several chapters run at the same time: one row
+   * per series, drawn like the list of the binders of the collection (the blurred picture of the
+   * chapter behind its name), and the board of the chosen one then opens on top of it.
+   *
+   * @returns {void}
+   */
+  ensureChooser() {
+    if (this.chooser) return;
+
+    const root = document.createElement('div');
+    root.className = `modal ${DAILY_REWARD_CLASS}-choice`;
+    root.hidden = true;
+    root.dataset.dailyRewardChoice = '';
+    root.addEventListener('click', (event) => {
+      if (event.target === root) this.closeChooser();
+    });
+
+    const dialog = document.createElement('div');
+    dialog.className = `modal__dialog ${DAILY_REWARD_CLASS}-choice__dialog`;
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-labelledby', 'daily-reward-choice-title');
+
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'modal__close';
+    closeButton.dataset.dailyRewardChoiceClose = '';
+    closeButton.textContent = '×';
+    closeButton.addEventListener('click', () => this.closeChooser());
+
+    const title = document.createElement('h2');
+    title.className = 'modal__title';
+    title.id = 'daily-reward-choice-title';
+    title.textContent = i18n.t('daily.choose.title');
+
+    const subtitle = document.createElement('p');
+    subtitle.className = `${DAILY_REWARD_CLASS}-choice__subtitle`;
+    subtitle.dataset.dailyRewardChoiceSubtitle = '';
+
+    const list = document.createElement('ul');
+    list.className = `${DAILY_REWARD_CLASS}-choice__list`;
+    list.dataset.dailyRewardChoiceList = '';
+    list.addEventListener('click', (event) => this.handleChooserClick(event));
+
+    dialog.append(closeButton, title, subtitle, list);
+    root.append(dialog);
+    document.body.append(root);
+    this.chooser = root;
+  }
+
+  /**
+   * Draws the rows of the chooser.
+   *
+   * @param {object} listing - Return value of `DailyRewardManager.listChapters()`.
+   * @returns {void}
+   */
+  renderChooser(listing) {
+    if (!this.chooser) return;
+    const subtitle = this.chooser.querySelector('[data-daily-reward-choice-subtitle]');
+    if (subtitle) {
+      subtitle.textContent = listing.trusted
+        ? i18n.t('daily.choose.subtitle')
+        : i18n.t('daily.untrusted');
+    }
+
+    const list = this.chooser.querySelector('[data-daily-reward-choice-list]');
+    if (!list) return;
+    list.textContent = '';
+    // Only the chapters that are OPEN can be chosen: a series that is over or not started yet has
+    // nothing to claim today, and the board would say so for no reason.
+    listing.chapters
+      .filter((chapter) => chapter.status === 'active')
+      .forEach((chapter) => list.append(this.buildChapterRow(chapter)));
+  }
+
+  /**
+   * Builds one row of the chooser: the picture of the series, its name and today's position.
+   *
+   * @param {object} chapter - Entry of `DailyRewardManager.listChapters()`.
+   * @returns {HTMLLIElement} The row.
+   */
+  buildChapterRow(chapter) {
+    const item = document.createElement('li');
+    item.className = `${DAILY_REWARD_CLASS}-choice__item`;
+    item.style.setProperty(
+      '--daily-reward-choice-backdrop',
+      `url("${DailyRewardPopup.absoluteImage(chapter.image)}")`
+    );
+
+    const open = document.createElement('button');
+    open.type = 'button';
+    open.className = `${DAILY_REWARD_CLASS}-choice__open`;
+    open.dataset.dailyRewardChapter = chapter.id;
+
+    const name = document.createElement('span');
+    name.className = `${DAILY_REWARD_CLASS}-choice__name`;
+    name.textContent = chapter.name;
+
+    const day = document.createElement('span');
+    day.className = `${DAILY_REWARD_CLASS}-choice__day`;
+    day.textContent = i18n.t('daily.day', { day: chapter.dayNumber, total: chapter.totalDays });
+
+    const state = document.createElement('span');
+    state.className = `${DAILY_REWARD_CLASS}-choice__state`;
+    state.dataset.state = chapter.claimedToday ? 'claimed' : 'claimable';
+    state.textContent = i18n.t(chapter.claimedToday ? 'daily.choose.claimed' : 'daily.choose.claimable');
+
+    open.append(name, day, state);
+    open.setAttribute('aria-label', i18n.t('daily.choose.open', { name: chapter.name }));
+    open.title = chapter.name;
+    item.append(open);
+    return item;
+  }
+
+  /**
+   * Opens the series whose row was clicked.
+   *
+   * @param {Event} event - Click event of the chooser list.
+   * @returns {void}
+   */
+  handleChooserClick(event) {
+    const button = event.target instanceof Element
+      ? event.target.closest('[data-daily-reward-chapter]')
+      : null;
+    if (!button) return;
+    const chapterId = button.dataset.dailyRewardChapter;
+    if (!chapterId) return;
+    soundManager.playUi(UI_SOUNDS.SECTION_SWITCH);
+    void this.openChapter(chapterId);
   }
 
   /**
@@ -299,6 +583,11 @@ export class DailyRewardPopup {
     const fill = this.root.querySelector('[data-daily-reward-progress]');
     const claimButton = this.root.querySelector('[data-daily-reward-claim]');
 
+    // The picture of the chapter is the backdrop of the grid only, blurred: a board belongs to its
+    // series instead of looking like every other one.
+    const image = DailyRewardPopup.absoluteImage(snapshot.image);
+    this.root.style.setProperty('--daily-reward-image', `url("${image}")`);
+
     if (badge) badge.textContent = i18n.t('daily.badge');
     if (title) title.textContent = snapshot.chapter?.name ?? i18n.t('daily.titleFallback');
 
@@ -311,6 +600,13 @@ export class DailyRewardPopup {
         subtitle.textContent = i18n.t('daily.empty');
       } else if (snapshot.claimedToday) {
         subtitle.textContent = i18n.t('daily.claimedToday');
+      } else if (snapshot.mode === DAILY_REWARD_MODES.DEFINED) {
+        subtitle.textContent = i18n.t('daily.subtitleDefined', {
+          day: snapshot.dayNumber,
+          total: snapshot.totalDays,
+          count: snapshot.claimableDays,
+          date: this.formatDay(snapshot.chapter.end),
+        });
       } else {
         subtitle.textContent = i18n.t('daily.subtitle', {
           day: snapshot.dayNumber,
@@ -371,7 +667,18 @@ export class DailyRewardPopup {
 
       button.append(number);
 
-      if (day.svg === 'random-card') {
+      if (day.hidden) {
+        // "Hidden before unlock": the tile promises a mystery, not the prize behind it.
+        const lock = document.createElement('img');
+        lock.className = `${DAILY_REWARD_CLASS}__day-icon ${DAILY_REWARD_CLASS}__day-icon--hidden`;
+        lock.src = HIDDEN_REWARD_ICON;
+        lock.alt = '';
+        lock.loading = 'lazy';
+        lock.decoding = 'async';
+        lock.setAttribute('aria-hidden', 'true');
+        button.dataset.hidden = 'true';
+        button.append(lock);
+      } else if (day.svg === 'random-card') {
         button.append(this.buildRandomCardIcon(day));
       } else if (day.icon) {
         const icon = document.createElement('img');
@@ -475,6 +782,21 @@ export class DailyRewardPopup {
     head.className = `${DAILY_REWARD_CLASS}__detail-title`;
     head.textContent = day.label;
     detail.append(head);
+
+    // A hidden day says nothing about its prize: the only way to learn it is to claim it on the day.
+    if (day.hidden) {
+      const mystery = document.createElement('p');
+      mystery.className = `${DAILY_REWARD_CLASS}__detail-reward`;
+      mystery.textContent = i18n.t('daily.hidden.label');
+      detail.append(mystery);
+
+      const hint = document.createElement('p');
+      hint.className = `${DAILY_REWARD_CLASS}__detail-state`;
+      hint.dataset.state = 'hidden';
+      hint.textContent = i18n.t('daily.hidden.description');
+      detail.append(hint);
+      return;
+    }
 
     const reward = document.createElement('p');
     reward.className = `${DAILY_REWARD_CLASS}__detail-reward`;
@@ -632,6 +954,8 @@ export class DailyRewardPopup {
    * @returns {boolean} True when the booster of today could go to several sets.
    */
   needsSetChoice() {
+    // A reward that names its extension (`Data` of the chapter file) asks nothing.
+    if (this.snapshot?.current?.reward?.setId) return false;
     return Boolean(this.boosterChoices) && this.boosterChoices.length > 1 && !this.pendingSetId;
   }
 
@@ -684,7 +1008,11 @@ export class DailyRewardPopup {
 
     // A booster reward first asks which extension receives the pack, and asking is the whole
     // point: the claim waits for `handleSetChoice()` once the question is on screen.
-    if (snapshot.current?.reward?.kind === DAILY_REWARD_KINDS.BOOSTER && !this.boosterChoices) {
+    if (
+      snapshot.current?.reward?.kind === DAILY_REWARD_KINDS.BOOSTER &&
+      !snapshot.current?.reward?.setId &&
+      !this.boosterChoices
+    ) {
       await this.prepareBoosterChoice(snapshot.dayNumber);
       return;
     }
@@ -696,7 +1024,7 @@ export class DailyRewardPopup {
     if (claimButton) claimButton.disabled = true;
 
     try {
-      const result = await dailyRewardManager.claim({ setId });
+      const result = await dailyRewardManager.claim({ chapterId: this.chapterId, setId });
       this.snapshot = result.snapshot;
       this.selectedDay = result.snapshot.claimable ? result.snapshot.dayNumber : result.snapshot.progress;
       this.boosterChoices = null;
@@ -870,7 +1198,10 @@ export class DailyRewardPopup {
    * @returns {string} The sentence.
    */
   describeEntryLabel(day) {
-    return `${i18n.t('daily.day', { day: day.day, total: this.snapshot?.totalDays ?? 0 })} · ${this.describeReward(day)}`;
+    const label = i18n.t('daily.day', { day: day.day, total: this.snapshot?.totalDays ?? 0 });
+    return day.hidden
+      ? `${label} · ${i18n.t('daily.hidden.label')}`
+      : `${label} · ${this.describeReward(day)}`;
   }
 
   /**
@@ -891,7 +1222,9 @@ export class DailyRewardPopup {
           name: i18n.t(`mineblock.resource.${reward.slug}`),
         });
       case DAILY_REWARD_KINDS.BOOSTER:
-        return i18n.t('daily.reward.booster', { count: reward.quantity });
+        return reward.setId
+          ? i18n.t('daily.reward.boosterFixed', { count: reward.quantity, set: reward.setId })
+          : i18n.t('daily.reward.booster', { count: reward.quantity });
       case DAILY_REWARD_KINDS.BUNDLE:
         return i18n.t('daily.reward.bundle', { count: reward.quantity });
       case DAILY_REWARD_KINDS.PEARL:
@@ -945,10 +1278,34 @@ export class DailyRewardPopup {
    * @param {object|null} snapshot - Snapshot carried by the event.
    * @returns {void}
    */
-  handleUpdated(snapshot) {
+  handleUpdated(payload) {
     if (!this.isOpen()) return;
+    const snapshot = payload?.snapshot ?? null;
+    // A code moves EVERY progressive run and its event names no chapter: the open board re-reads
+    // its own instead of showing a position that is already stale.
+    if (snapshot && !payload?.chapterId) {
+      void this.refresh();
+      return;
+    }
+    // A claim on ANOTHER chapter must not repaint this board with someone else's run.
+    if (snapshot && snapshot.chapterId && snapshot.chapterId !== this.chapterId) return;
     if (snapshot) this.snapshot = snapshot;
     this.render();
+  }
+
+  /**
+   * Re-reads the chapter the open board shows and repaints it.
+   *
+   * @returns {Promise<void>} Resolves once the board is up to date (or left as it was on failure).
+   */
+  async refresh() {
+    if (!this.isOpen()) return;
+    try {
+      this.snapshot = await dailyRewardManager.getSnapshot(this.chapterId);
+      this.render();
+    } catch (error) {
+      console.warn('[DailyRewardPopup] The board could not be refreshed.', error);
+    }
   }
 
   /**
@@ -983,8 +1340,11 @@ export class DailyRewardPopup {
     document.removeEventListener('keydown', this.handleKeyDown);
     this.root?.remove();
     this.root = null;
+    this.chooser?.remove();
+    this.chooser = null;
     this.mounted = false;
     this.snapshot = null;
+    this.chapterId = null;
   }
 }
 

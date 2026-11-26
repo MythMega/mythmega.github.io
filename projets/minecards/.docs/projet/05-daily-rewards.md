@@ -4,6 +4,11 @@ Une récompense offerte **une fois par jour UTC** au joueur qui se connecte, pr�
 tableau de bord : un chapitre = une série de jours, chaque jour porte sa récompense. Le joueur clique
 sur la récompense du jour pour la récupérer, avec une animation qui dépend de la nature du cadeau.
 
+**Plusieurs chapitres peuvent être ouverts en même temps** (une longue série saisonnière et un
+« road to » d'une semaine, par exemple). Chacun garde sa propre progression, et **un même jour de
+connexion compte pour tous** : la récompense du jour peut être récupérée dans chaque série ouverte,
+et le compteur de jours de connexion (`stats.daysConnected`) n'avance qu'une fois.
+
 | Élément | Fichier |
 |---|---|
 | Données des chapitres | `settings/daily_connect_rewards.json` |
@@ -25,6 +30,9 @@ ignorés à la lecture (comme partout dans le projet) : ils documentent l'intent
   {
     "ID": "dailyconnectreward_1",        // identifiant stable du chapitre (obligatoire, unique)
     "RewardListName": "Genesis Departure", // titre affiché dans la popup
+    "Image": "assets/icons/icon-192.png", // fond du plateau des jours (flouté), une seule fois ; défaut : icon-192.png
+    "Mode": "progressive",              // "progressive" (défaut) ou "defined"
+    "HiddenBeforeUnlock": false,         // true = masque les récompenses encore à venir
     "Dates": {
       "Start": "30-10-2026",             // premier jour où le chapitre est ouvert (inclus)
       "End": "05-12-2026"                // dernier jour (inclus)
@@ -58,7 +66,7 @@ de `DateSyncManager`, jamais l'horloge de l'appareil : sans ancrage, rien n'est 
 | `Type` | `Sparks`, `Booster`, `Card`, `Currency` (une monnaie de l'Illager Shop), ou le nom d'une ressource de la mine (`Stone Dust`, `Sculk Dust`, `Glowstone Dust`, `Void Dust`, `Ultima`) |
 | `Qte` | quantité, entier strictement positif |
 | `CardID` | **`Card` uniquement** : l'`Index` de la carte (`PROMO-A1 / E01`). Si l'index est imprimé en classique **et** en Full Art, la Full Art est préférée |
-| `Data` | **`RandomCard-List` et `RandomCard-Filter` uniquement** : la liste ou les critères de la carte tirée (voir 5.1.5). **`Currency` uniquement** : l'`ID` de la monnaie (`AllaysCurrency`), seul nom accepté — son nom et sa texture viennent de `data/illager_shop/illager_currencies.json` |
+| `Data` | **`RandomCard-List` et `RandomCard-Filter` uniquement** : la liste ou les critères de la carte tirée (voir 5.1.5). **`Currency` uniquement** : l'`ID` de la monnaie (`AllaysCurrency`), seul nom accepté — son nom et sa texture viennent de `data/illager_shop/illager_currencies.json`. **`Booster` uniquement, facultatif** : l'extension qui reçoit le pack (`"A1"`), le sélecteur disparaît alors |
 
 Une ressource est stockée sous forme de *slug* (`Stone Dust` → `stone_dust`), qui est à la fois la
 clé de la sauvegarde, le nom de la texture (`assets/img/dusts/stone_dust.png`) et la clé i18n
@@ -117,25 +125,49 @@ avant de s'arrêter sous le repère. Le tirage et l'écriture ont lieu **avant**
 montrée est celle qui est déjà dans la sauvegarde, l'animation ne peut donc jamais être rejouée pour
 obtenir une autre carte, et la fermer ne coûte rien.
 
+### 5.1.6 `Image`, `Mode` et `HiddenBeforeUnlock`
+
+| Champ | Rôle |
+|---|---|
+| `Image` | image de **fond du plateau** des jours, **floutée** et affichée une seule fois derrière la grille : URL absolue (`https://…`, comme les illustrations distantes) ou chemin du projet. Absent ou vide : `assets/icons/icon-192.png` |
+| `Mode` | `"progressive"` (défaut, voir 5.2.1) ou `"defined"` : la récompense appartient au **jour du calendrier**, un jour manqué est perdu |
+| `HiddenBeforeUnlock` | `true` : les récompenses **encore devant** le joueur sont masquées (icône `assets/icons/favicon-48.png`, « Récompense cachée », description « Récompense cachée, réclamer cette récompense pour savoir et obtenir »). La récompense du jour, elle, reste visible. `false` (défaut) : tout est visible |
+
 ---
 
 ## 5.2 La série : avancer sans repartir de zéro
 
-La série est portée par `progress` (nombre de récompenses déjà récupérées), pas par le calendrier.
+La progression est **par chapitre** : chaque chapitre a sa run dans
+`user_state["dailyRewards"].chapters[<ID>]`, donc deux séries ouvertes avancent indépendamment (la
+forme exacte de l'état est décrite dans `database.md` § 3.17).
 
-| Situation | Résultat |
+### 5.2.1 Les deux modes
+
+| Mode | Position du jour | Jour manqué |
+|---|---|---|
+| `progressive` (défaut) | `progress`, le nombre de récompenses déjà prises : la série avance **au claim** | rien n'est perdu : la connexion suivante prend la récompense suivante |
+| `defined` | le **jour du calendrier** dans la fenêtre (jour 1 = `Start`) | la récompense de ce jour est **perdue** : se connecter les jours 3, 5 et 7 donne 3, 5 et 7 |
+
+Un chapitre `defined` mémorise les jours récupérés (`claimedDays`) : la case d'un jour passé non
+réclamé est marquée `missed` (très atténuée), et réclamer un jour déjà pris est refusé
+(`ALREADY_CLAIMED`). En mode `progressive`, la série est portée par `progress`, pas par le calendrier.
+
+| Situation (`progressive`) | Résultat |
 |---|---|
 | Lundi, premier jour | `progress = 0` → récompense du jour 1 ; `progress` passe à 1 |
 | Mardi, journée manquée | rien ne change : la récompense du jour 2 reste à prendre |
 | Mercredi, connexion | récompense du **jour 2** ; `progress` passe à 2 |
 | Deux semaines d'absence | la série reprend où elle s'était arrêtée, pas à zéro |
-| Nouveau chapitre | `chapterId` change → `progress` repart à 0 |
-| Deuxième claim le même jour UTC | refusé (`ALREADY_CLAIMED`) : `lastClaimDay` |
+| Nouveau chapitre | aucune run dans `chapters` → `progress` repart à 0 |
+| Deuxième claim le même jour UTC | refusé (`ALREADY_CLAIMED`) : `lastClaimDay` du chapitre |
+| Claim dans une autre série ouverte le même jour | accepté : chaque chapitre a son `lastClaimDay` |
 
 Un code personnel (`useritem`, voir `.docs/gamemaster/useritemcode.md`) peut avancer la série sans
 rien créditer : le type `dailyreward` déplace `progress` du nombre de jours porté par la quantité du
-code. Les récompenses des jours sautés sont perdues, `lastClaimDay` n'est pas touché (la récompense
-de la nouvelle position est donc réclamable tout de suite) et le code reste à usage unique.
+code, **sur chaque chapitre `progressive` ouvert** (un chapitre `defined` est lié au calendrier,
+donner des jours n'y aurait aucun sens). Les récompenses des jours sautés sont perdues,
+`lastClaimDay` n'est pas touché (la récompense de la nouvelle position est donc réclamable tout de
+suite) et le code reste à usage unique.
 
 Ce que la popup annonce « encore X récompenses » correspond aux jours restants du chapitre **à
 partir d'aujourd'hui** : tant que le chapitre est ouvert et que le joueur revient chaque jour, c'est
@@ -152,6 +184,13 @@ Ouverte de deux façons :
 2. **automatiquement**, une fois par jour, après la fin d'une révélation d'ouverture de booster,
    si la popup n'a pas encore été vue ce jour-là (`seenDay`).
 
+**Choix des séries** : une seule série ouverte, le bouton ouvre directement son plateau. Plusieurs,
+une popup de **choix des séries** s'interpose (même geste que la liste des binders de la
+collection) : une ligne par chapitre, son image **floutée** en fond, son nom, « Jour X sur Y » et un
+badge « À récupérer » / « Récupérée aujourd'hui ». Aucune série ouverte : le plateau annonce la
+**prochaine** (`daily.upcoming`), jamais une série terminée ; s'il n'y en a aucune, il l'indique
+(`daily.empty`).
+
 Le tableau affiche une case par jour, avec le numéro du jour et l'icône de la récompense :
 
 | État | Rendu |
@@ -159,6 +198,28 @@ Le tableau affiche une case par jour, avec le numéro du jour et l'icône de la 
 | Récupérée | case atténuée, coche verte |
 | Aujourd'hui | case en surbrillance, halo pulsé, seule réclamable |
 | À venir | case neutre ; cliquer dessus l'affiche en aperçu sous le tableau |
+| Manquée (`defined`) | case très atténuée : le jour est passé |
+| Cachée (`HiddenBeforeUnlock`) | icône `assets/icons/favicon-48.png` ; l'aperçu dit « Récompense cachée » |
+
+**Fond du plateau** : l'image `Image` du chapitre est affichée **une seule fois**, **floutée**,
+comme fond de la grille des jours — un plateau appartient à sa série. Le flou est léger et l'image
+reste bien visible (0,62) : c'est un décor que le joueur doit reconnaître, et les cases ont leur
+propre surface par-dessus. Sans `Image`, l'icône de l'application (`assets/icons/icon-192.png`) sert
+de fond.
+
+**Sections du dialogue** : badge, titre, ligne du chapitre et barre de progression, **aperçu du
+jour, plateau**, boutons. La colonne est un `flex` avec un `gap` régulier (`--space-3`), le plateau
+et l'aperçu portent une bordure, et le pied d'actions garde sa bande collante : chaque partie se lit
+séparément. L'aperçu passe **avant** le plateau (`ensureMarkup` de `DailyRewardPopup`) justement
+pour qu'il soit visible dès l'ouverture : trente jours de plateau repoussent tout ce qui les suit
+sous la bande d'actions, et le joueur devait faire défiler pour lire sa récompense du jour.
+
+**Une seule zone de défilement** : le dialogue. Le plateau affiche ses trente jours en entier et
+ne défile pas de son côté (`max-height` et `overflow-y` retirés de `.daily-reward__days`) : deux
+barres dans la même popup, c'est deux endroits où glisser, et le pouce tombe rarement sur celui
+qu'on visait. En portrait comme en paysage, c'est donc le dialogue qui défile, sous sa bande de
+titre et au-dessus de sa bande d'actions, toutes deux `sticky` (`css/components/modal.css`) : le
+titre, la croix et les boutons restent à leur place pendant que les jours passent.
 
 **Auras** : or pour un `Booster` et pour `Void Dust`, rose pour `Ultima` et pour une carte. Ce sont
 les deux seules couleurs qui ne viennent pas du thème : elles *sont* l'information.
@@ -205,8 +266,11 @@ extension annoncée.
 
 ## 5.4 Règles et garde-fous
 
-- **Un claim par jour UTC**, décidé par `lastClaimDay` et re-vérifié **à l'intérieur** de la
-  transaction : deux onglets ouverts ne peuvent pas réclamer deux fois.
+- **Un claim par jour UTC et par chapitre**, décidé par le `lastClaimDay` du chapitre et re-vérifié
+  **à l'intérieur** de la transaction : deux onglets ouverts ne peuvent pas réclamer deux fois, mais
+  deux séries ouvertes peuvent l'être le même jour.
+- **Un jour de connexion, un seul compteur** : réclamer dans deux séries le même jour incrémente
+  `stats.daysConnected` une seule fois, alors que les deux récompenses sont bien créditées.
 - **Tout est écrit dans une seule transaction** (`user_state` + `collection`) : la récompense, le
   compteur, le jour du claim et l'identifiant unique. Un échec laisse la sauvegarde intacte et le
   joueur peut réessayer.
@@ -218,8 +282,8 @@ extension annoncée.
 - **Annonces** : les Sparks passent par `SPARKS_UPDATED`, les ressources par `MINING_UPDATED`, un
   booster par `QUOTA_UPDATED`, une carte par `CARDS_OBTAINED` (`source: "dailyreward"`) — donc
   trophées, expérience et notifications suivent exactement comme pour un cadeau ou un achat.
-- **Nouvelle série** : le premier jour d'un nouveau chapitre remet `progress` à 0 (l'écriture a lieu
-  au premier claim ou à la première ouverture de la popup du chapitre).
+- **Nouvelle série** : un chapitre sans run dans `chapters` en démarre une à 0, sans toucher aux
+  autres séries (l'écriture a lieu au premier claim ou à la première ouverture de sa popup).
 
 ---
 
@@ -230,7 +294,9 @@ deux fois, une fenêtre absente, vide ou dans le mauvais ordre, une date qui n'e
 entrées pour le même `Day`, plusieurs entrées par défaut, un `Qte` non positif, un `Type` inconnu,
 un `CardID` qu'aucun catalogue ne déclare, un `UniqueID` réutilisé, un `Unique` sans identifiant ou
 sans remplacement, une clé de `ListCard` qui ne correspond à aucune impression, une `Rarities` hors de
-1 à 5, un `layouts` inconnu. Elle avertit sur un jour manquant dans la numérotation.
+1 à 5, un `layouts` inconnu, un `Mode` qui n'est ni `progressive` ni `defined`, un
+`HiddenBeforeUnlock` non booléen, une `Image` vide ou pointant un fichier absent du projet. Elle
+avertit sur un jour manquant dans la numérotation.
 
 ```bash
 node tools/lint.mjs --only data/daily-rewards

@@ -147,8 +147,13 @@ Cinq modes, déclarés dans `animations.list` de `config.json` et portés par `d
 ## 3.6 Composants transverses
 
 - **Modales** (`css/components/modal.css`) : dialogue centré, voile `--overlay`, fermeture par la
-  croix, le voile ou `Échap`. Certaines modales s'empilent (détail d'une offre au-dessus de la
-  boutique, détail d'un trophée au-dessus de la liste).
+  croix, le voile ou `Échap`. L'en-tête (titre + croix) et le pied (`modal__actions`) forment un
+  **cadre fixe** : les deux bandes sont en `position: sticky` et peignent la couleur de surface
+  par-dessus le rembourrage du dialogue, donc un dialogue plus haut que l'écran ne fait jamais
+  disparaître la croix ni les boutons — seul le contenu entre les deux défile. Toute modale a une
+  croix, y compris les popups construites en JS, et ses actions se rangent **annulation puis
+  validation**. Certaines modales s'empilent (détail d'une offre au-dessus de la boutique, détail
+  d'un trophée au-dessus de la liste).
 - **Toasts** (`css/components/toast.css`) : empilés **en bas**, accusés de réception d'action.
 - **Notifications** (`css/components/notifications.css`) : **en haut à droite** (en haut au centre
   en orientation portrait), une seule à la fois, sous l'en-tête mesuré ; durée réglable 1–8 s.

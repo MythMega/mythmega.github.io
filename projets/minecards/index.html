@@ -119,6 +119,8 @@
           "description": "Ouvrez des boosters gratuits et collectionnez les cartes de l'univers Minecraft : 222 cartes, 5 raretés, impressions classiques et Full Art.",
           "isPartOf": { "@id": "https://web.jmdev.fr/projets/minecards/#website" },
           "about": { "@id": "https://web.jmdev.fr/projets/minecards/#game" },
+          "dateModified": "2026-11-25",
+          "breadcrumb": { "@id": "https://web.jmdev.fr/projets/minecards/#breadcrumb" },
           "inLanguage": "fr",
           "primaryImageOfPage": {
             "@type": "ImageObject",
@@ -163,6 +165,23 @@
           ],
           "keywords": "TCG Minecraft, jeu de cartes Minecraft, booster Minecraft, collection de cartes, jeu de cartes à collectionner",
           "publisher": { "@id": "https://web.jmdev.fr/projets/minecards/#publisher" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://web.jmdev.fr/projets/minecards/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "MythMega",
+              "item": "https://web.jmdev.fr/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "MineCards : jeu de cartes TCG Minecraft"
+            }
+          ]
         },
         {
           "@type": "FAQPage",
@@ -233,7 +252,7 @@
        declared before anything that uses them (see `css/fonts.css`). -->
   <link rel="stylesheet" href="css/fonts.css?v=e3f7422bcb">
   <link rel="stylesheet" href="css/themes.css?v=38b9ac149a">
-  <link rel="stylesheet" href="css/base.css?v=d450b2834a">
+  <link rel="stylesheet" href="css/base.css?v=2a4fa90973">
   <link rel="stylesheet" href="css/views/onboarding.css?v=57b5efa900">
   <link rel="stylesheet" href="css/views/opening.css?v=60233821fe">
   <link rel="stylesheet" href="css/views/shop.css?v=e8f742295b">
@@ -250,19 +269,19 @@
   <link rel="stylesheet" href="css/views/gifts.css?v=c99027bf38">
   <link rel="stylesheet" href="css/views/info.css?v=2c738a9ac8">
   <link rel="stylesheet" href="css/views/legal.css?v=9a3a75e8b6">
-  <link rel="stylesheet" href="css/views/social.css?v=3231597193">
-  <link rel="stylesheet" href="css/views/wishlist.css?v=a89db7daf1">
+  <link rel="stylesheet" href="css/views/social.css?v=711d4ea912">
+  <link rel="stylesheet" href="css/views/wishlist.css?v=293e40f07a">
   <link rel="stylesheet" href="css/components/app-menu.css?v=db6cbdefac">
   <link rel="stylesheet" href="css/components/booster-3d.css?v=07939f43ff">
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
   <link rel="stylesheet" href="css/components/card-shine.css?v=8a3ac2a48e">
   <link rel="stylesheet" href="css/components/generated-card.css?v=a58e907671">
-  <link rel="stylesheet" href="css/components/modal.css?v=f88f7859b9">
-  <link rel="stylesheet" href="css/components/price.css?v=9449cbd5d1">
-  <link rel="stylesheet" href="css/components/changelog-popup.css?v=6756fde085">
+  <link rel="stylesheet" href="css/components/modal.css?v=89e08fa353">
+  <link rel="stylesheet" href="css/components/price.css?v=fc40f47afd">
+  <link rel="stylesheet" href="css/components/changelog-popup.css?v=06e68710c7">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
-  <link rel="stylesheet" href="css/components/auto-claim.css?v=25534f6ae5">
-  <link rel="stylesheet" href="css/components/daily-reward.css?v=b7ed4f3f3f">
+  <link rel="stylesheet" href="css/components/auto-claim.css?v=ff72a8cf9b">
+  <link rel="stylesheet" href="css/components/daily-reward.css?v=d2e77327b4">
   <link rel="stylesheet" href="css/components/card-roulette.css?v=a22e30bd46">
   <link rel="stylesheet" href="css/components/error-popup.css?v=6639af2fdc">
   <link rel="stylesheet" href="css/components/image-loader.css?v=40c1405fc5">
@@ -1251,8 +1270,8 @@
             </div>
           </div>
           <div class="modal__actions">
-            <button type="submit" class="btn btn--primary" data-profile-name-save data-i18n="profile.save">Enregistrer</button>
             <button type="button" class="btn btn--ghost" data-profile-name-close data-i18n="profile.cancel">Annuler</button>
+            <button type="submit" class="btn btn--primary" data-profile-name-save data-i18n="profile.save">Enregistrer</button>
           </div>
         </form>
       </div>
@@ -1311,8 +1330,8 @@
             </div>
           </div>
           <div class="modal__actions">
-            <button type="button" class="btn btn--primary" data-profile-card-buy-confirm data-i18n="profile.card.buy.confirm">Acheter</button>
             <button type="button" class="btn btn--ghost" data-profile-card-buy-close data-i18n="profile.card.buy.cancel">Annuler</button>
+            <button type="button" class="btn btn--primary" data-profile-card-buy-confirm data-i18n="profile.card.buy.confirm">Acheter</button>
           </div>
         </div>
       </div>
@@ -3037,6 +3056,7 @@
       <!-- Claim: the card given leaves upwards, then the card received drops in. -->
       <div class="modal" data-trade-claim-modal hidden>
         <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="trade-claim-title">
+          <button type="button" class="modal__close" data-trade-claim-dismiss aria-label="×">×</button>
           <h2 class="modal__title" id="trade-claim-title" data-trade-claim-title></h2>
           <div class="trade__claim-stage" data-trade-claim-stage>
             <div class="trade__claim-slot trade__claim-slot--out" data-trade-claim-out></div>
@@ -3628,7 +3648,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=feb544965e"></script>
+  <script type="module" src="js/app.js?v=fa8e1eec97"></script>
 
 </body>
 </html>

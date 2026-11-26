@@ -184,8 +184,9 @@ export const EVENTS = Object.freeze({
    * after a card sold from the collection was taken out of the binders that showed it: the binder
    * list and the open binder repaint from it. */
   BINDERS_UPDATED: 'BINDERS_UPDATED',
-  /** Payload: `{ snapshot }`. Emitted by `DailyRewardManager` after a claim (the state is already
-   * persisted): the daily reward popup and the header badge repaint from it. */
+  /** Payload: `{ snapshot, chapterId }` (and `source: 'code'` when a code moved a run). Emitted by
+   * `DailyRewardManager` after a claim (the state is already persisted): the daily reward popup and
+   * the header badge repaint from it, and the popup ignores a chapter it is not showing. */
   DAILY_REWARDS_UPDATED: 'DAILY_REWARDS_UPDATED',
   /** Payload: `{ id, priceSparks, balance }`. Emitted by FeatureManager once a feature is bought
    * and persisted: the screens that lock something behind it unlock it (the profile card switch

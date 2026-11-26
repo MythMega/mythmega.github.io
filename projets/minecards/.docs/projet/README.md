@@ -10,11 +10,11 @@ feuilles de style, les fichiers de données et `settings/config.json`.
 
 | Fichier | Contenu |
 |---|---|
-| [01-architecture.md](01-architecture.md) | Arborescence, démarrage de l'application, routeur SPA, bus d'événements, managers, chargement de la configuration, performance, linter. |
+| [01-architecture.md](01-architecture.md) | Arborescence, démarrage de l'application, routeur SPA, bus d'événements, managers, chargement de la configuration, performance, linter, fichiers de référencement à garder synchronisés. |
 | [02-fonctionnalites.md](02-fonctionnalites.md) | Toutes les fonctionnalités, vue par vue et manager par manager, avec leurs règles, leurs cas limites et les données qu'elles touchent. |
 | [03-interface-visuelle.md](03-interface-visuelle.md) | Système visuel, thèmes, typographie, cartes, foil et halos, animations, responsive, accessibilité, raccourcis clavier, description écran par écran. |
 | [04-donnees-et-configuration.md](04-donnees-et-configuration.md) | Fichiers de configuration et de données, format des cartes, catalogues, i18n, service worker, export/import. |
-| [05-daily-rewards.md](05-daily-rewards.md) | Récompenses de connexion : schéma du fichier de chapitres, avancement de la série, popup, auras, claim et garde-fous. |
+| [05-daily-rewards.md](05-daily-rewards.md) | Récompenses de connexion : schéma du fichier de chapitres (plusieurs séries en parallèle, modes `progressive`/`defined`, récompenses cachées), avancement, popup et choix des séries, auras, claim et garde-fous. |
 | [database.md](database.md) | Schéma complet d'IndexedDB (`CardBoosterDB`), clés de `user_state`, format `.save`, miroir `localStorage`, transactions, migrations. |
 
 ## Fiche technique

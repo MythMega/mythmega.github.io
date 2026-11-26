@@ -222,3 +222,25 @@ illustrations (374 Mo) restent en cache à l'usage, et les vues ne sont construi
   imports non résolus ou dupliqués, cohérence du markup et des clés i18n, existence des fichiers
   référencés. Deux niveaux seulement : erreur (bloquant) et avertissement (ressource attendue mais
   absente, comme un son non livré).
+
+## 1.10 Référencement : les fichiers à garder synchronisés
+
+Le jeu est publié à `https://web.jmdev.fr/projets/minecards/` (dépôt `mythmega.github.io`, GitHub
+Pages sous `web.jmdev.fr`). Ces fichiers portent son adresse ou son identité publiques ; changer
+l'un d'eux oblige à vérifier les autres :
+
+| Fichier | Ce qui doit rester synchrone |
+|---|---|
+| `index.html` (jeu) | `<title>`, `<meta name="description">`, `canonical`, `hreflang` (`fr`, `en`, `x-default`), Open Graph et Twitter Card, lien `manifest.json`, graphe JSON-LD (`WebSite`, `Organization`, `WebPage`, `VideoGame`/`WebApplication`, `BreadcrumbList`, `FAQPage`) |
+| `manifest.json` | `name`, `short_name`, `description`, `lang`, `id`/`start_url`/`scope` et icônes : les mêmes noms que la page |
+| `sitemap.xml` (jeu) | les deux `loc` (`/` et `/?lang=en`), leurs `xhtml:link` hreflang et leur `lastmod` |
+| `robots.txt` (jeu) | les `Disallow` (`admin/`, `.docs/`, `.freebuff/`, `.clinerules/`, `external/`, `/*.cmd$`) et le `Sitemap:` absolu |
+| `sitemap.xml` (racine du dépôt) | l'entrée `https://web.jmdev.fr/projets/minecards/` (priorité 0,9) et son `lastmod` |
+| `robots.txt` (racine du dépôt) | la ligne `Sitemap:` qui annonce le sitemap du jeu |
+| `index.html` et `porfolio.html` (racine du dépôt) | la carte du jeu : ancre vers l'URL canonique, `alt`, et la liste `ItemList` du JSON-LD de l'accueil |
+
+**Règle de date** : `lastmod` ne bouge que le jour où la page change pour un visiteur (contenu,
+textes, illustration, nouvelle version du jeu), jamais pour un nettoyage interne. La même date
+(`AAAA-MM-JJ`, jamais dans le futur) est écrite dans le `sitemap.xml` du jeu, dans l'entrée du
+sitemap racine et dans le `dateModified` du `WebPage` du JSON-LD : les trois se modifient ensemble,
+en une seule passe.

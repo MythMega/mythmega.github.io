@@ -7,10 +7,26 @@
  * WHAT IT IS
  * A chapter is a list of rewards, one per day, that a player collects by showing up. The chapter
  * carries an availability window: outside of it, nothing is claimable. Inside it, a player claims at
- * most ONE reward per UTC day, and every claim advances the run by one day - the run is the
- * `progress` of the state, never a calendar index. Missing a day therefore costs the reward of that
- * day and nothing else: coming back the day after claims the NEXT reward of the list, whether two
- * days or two weeks went by.
+ * most ONE reward per UTC day and per chapter.
+ *
+ * TWO MODES (`Mode` of the file)
+ *   - "progressive" (the default): every claim advances the run by one day - the run is the
+ *     `progress` of the state, never a calendar index. Missing a day therefore costs nothing:
+ *     coming back the day after claims the NEXT reward of the list, whether two days or two weeks
+ *     went by;
+ *   - "defined": the reward of a day belongs to that CALENDAR day of the window. A player who
+ *     connects on days 3, 5 and 7 of a ten-day chapter receives the rewards 3, 5 and 7; the others
+ *     are missed for good. The run remembers which days were claimed (`claimedDays`).
+ *
+ * SEVERAL CHAPTERS AT ONCE
+ * Two chapters may be open on the same day (a long seasonal one and a short "road to" one). Each
+ * one keeps ITS OWN run, so their progress never touches, and ONE connection day counts for all of
+ * them: a claim on one chapter does not consume the day of the other, but the connection counter of
+ * the save (`stats.daysConnected`) moves once per day, never once per chapter.
+ *
+ * HIDDEN REWARDS (`HiddenBeforeUnlock`)
+ * A chapter may hide the rewards that are still ahead of the player: the board then shows a lock
+ * icon instead of the prize, and the day only reveals itself once it becomes the claimable one.
  *
  * WHAT IT IS NOT
  * It is not a giveaway of a free booster per day: the quota of `DateSyncManager` stays the only
@@ -21,13 +37,20 @@
  * strip the roulette spins. Nothing about it is written before the claim.
  *
  * STATE (`user_state["dailyRewards"]`)
- *   `{ chapterId, progress, lastClaimDay, claimedUniques, seenDay }`
- *   - `chapterId`    : the chapter the run belongs to. A different chapter resets the run, which is
- *                      what "when a new series starts, we go back to zero" means;
- *   - `progress`     : how many rewards of that chapter were claimed (0 = none, 1 = day one done);
+ *   `{ chapters: { [chapterId]: { progress, claimedDays, lastClaimDay } }, claimedUniques, seenDay }`
+ *   - `chapters`     : one run per chapter the player has touched. A chapter that is not there is a
+ *                      fresh run, which is what "when a new series starts, we go back to zero" means;
+ *   - `progress`     : how many rewards of that chapter were claimed (0 = none, 1 = day one done),
+ *                      the position of a "progressive" chapter;
+ *   - `claimedDays`  : the calendar days claimed by a "defined" chapter (1-based positions);
  *   - `lastClaimDay` : the UTC day of the last claim, the whole anti-double-claim rule;
- *   - `claimedUniques`: the `UniqueID`s already handed out, one reward per account and per id;
+ *   - `claimedUniques`: the `UniqueID`s already handed out, one reward per ACCOUNT and per id: the
+ *                      list is global on purpose, so the same unique reward declared by a later
+ *                      chapter is still replaced instead of granted twice;
  *   - `seenDay`      : the last day the popup was shown, so the automatic opening happens once a day.
+ *
+ * A save written before several chapters could be open holds `{ chapterId, progress, ... }` at the
+ * top: `normalizeState()` moves it into `chapters[chapterId]`, so nobody loses a claimed day.
  *
  * DATES
  * The window is written either `DD-MM-YYYY` (the shape of the shipped file) or `YYYY-MM-DD`; both
@@ -97,6 +120,20 @@ export const DAILY_REWARD_KINDS = Object.freeze({
   // player decides when to spend them (see `EnderPearlManager`).
   PEARL: 'pearl',
 });
+
+/** Modes a chapter can run in (`Mode` of the file). */
+export const DAILY_REWARD_MODES = Object.freeze({
+  // The next reward of the run, whatever day of the window the player connects.
+  PROGRESSIVE: 'progressive',
+  // The reward of the calendar day: a day the player misses is lost.
+  DEFINED: 'defined',
+});
+
+/** Banner of a chapter that names no `Image`, and the background of its board. */
+export const DEFAULT_CHAPTER_IMAGE = 'assets/icons/icon-192.png';
+
+/** Picture that stands for a reward a chapter keeps hidden until its day comes. */
+export const HIDDEN_REWARD_ICON = 'assets/icons/favicon-48.png';
 
 /**
  * Auras a tile of the popup can wear.
@@ -184,6 +221,27 @@ function daysBetween(from, to) {
 
 /** True for an object literal. */
 const isRecord = (value) => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+
+/**
+ * Normalizes the run of ONE chapter.
+ *
+ * A run is what a chapter remembers about a player: how far a "progressive" chapter went, which
+ * calendar days a "defined" one claimed, the day of the last claim and the `UniqueID`s already used.
+ * A field the save does not hold is simply empty: a chapter nobody touched is a fresh run.
+ *
+ * @param {unknown} raw - Value read from the store, or null.
+ * @returns {{progress: number, claimedDays: number[], lastClaimDay: string|null}} A run safe to use.
+ */
+function normalizeChapterState(raw) {
+  const source = isRecord(raw) ? raw : {};
+  return {
+    progress: Number.isInteger(source.progress) && source.progress >= 0 ? source.progress : 0,
+    claimedDays: Array.isArray(source.claimedDays)
+      ? source.claimedDays.filter((value) => Number.isInteger(value) && value > 0)
+      : [],
+    lastClaimDay: typeof source.lastClaimDay === 'string' ? source.lastClaimDay : null,
+  };
+}
 
 export class DailyRewardManager {
   constructor() {
@@ -344,13 +402,31 @@ export class DailyRewardManager {
 
     if (days.size === 0 && !fallback) return null;
 
+    // The mode decides how a claim moves the run: the next reward of the list, or the reward of the
+    // calendar day. An unknown value falls back to progressive, the forgiving one.
+    const mode =
+      typeof entry.Mode === 'string' && entry.Mode.trim().toLowerCase() === DAILY_REWARD_MODES.DEFINED
+        ? DAILY_REWARD_MODES.DEFINED
+        : DAILY_REWARD_MODES.PROGRESSIVE;
+
     return {
       id,
       name: typeof entry.RewardListName === 'string' && entry.RewardListName.trim() !== ''
         ? entry.RewardListName.trim()
         : id,
+      // The banner of the board and the backdrop of its grid are this picture, blurred: a chapter
+      // that names none falls back to the icon of the application.
+      image:
+        typeof entry.Image === 'string' && entry.Image.trim() !== ''
+          ? entry.Image.trim()
+          : DEFAULT_CHAPTER_IMAGE,
+      mode,
+      hiddenBeforeUnlock: entry.HiddenBeforeUnlock === true,
       start,
       end,
+      // Length of the window, both ends included: the number of calendar days a "defined" chapter
+      // hands out, and the number of tiles its board draws.
+      windowDays: daysBetween(start, end) + 1,
       days,
       fallback,
       maxDay,
@@ -376,7 +452,10 @@ export class DailyRewardManager {
       return { kind: DAILY_REWARD_KINDS.SPARKS, type, quantity, slug: null, cardId: null };
     }
     if (type.toLowerCase() === 'booster') {
-      return { kind: DAILY_REWARD_KINDS.BOOSTER, type, quantity, slug: null, cardId: null };
+      // `Data` optionally names the extension the pack goes to (`"Data": "A1"`). Without it the
+      // player picks one, as the picker of the board already offers.
+      const setId = typeof raw.Data === 'string' && raw.Data.trim() !== '' ? raw.Data.trim() : null;
+      return { kind: DAILY_REWARD_KINDS.BOOSTER, type, quantity, slug: null, cardId: null, setId };
     }
     if (type.toLowerCase() === 'bundle') {
       return { kind: DAILY_REWARD_KINDS.BUNDLE, type, quantity, slug: null, cardId: null };
@@ -436,8 +515,7 @@ export class DailyRewardManager {
   /**
    * Reads and normalizes `user_state["dailyRewards"]`.
    *
-   * @returns {Promise<{chapterId: string|null, progress: number, lastClaimDay: string|null,
-   *   claimedUniques: string[], seenDay: string|null}>} A state safe to use.
+   * @returns {Promise<{chapters: Record<string, object>, seenDay: string|null}>} A state safe to use.
    */
   async readState() {
     return DailyRewardManager.normalizeState(
@@ -448,41 +526,63 @@ export class DailyRewardManager {
   /**
    * Normalizes a stored state.
    *
+   * A save written when only one chapter could run holds its run at the TOP level (`chapterId`,
+   * `progress`, `lastClaimDay`, `claimedUniques`): that run becomes the one of the chapter it names,
+   * so a player who already claimed days keeps them when the second chapter opens.
+   *
+   * `claimedUniques` stays GLOBAL: a unique reward is unique for the account, whatever chapter
+   * declares it. A list found inside a run (the first shape of the multi-chapter save) is merged
+   * into it.
+   *
    * @param {unknown} raw - Value read from the store.
-   * @returns {{chapterId: string|null, progress: number, lastClaimDay: string|null,
-   *   claimedUniques: string[], seenDay: string|null}} A state safe to use.
+   * @returns {{chapters: Record<string, object>, claimedUniques: string[],
+   *   seenDay: string|null}} A state safe to use.
    */
   static normalizeState(raw) {
     const source = isRecord(raw) ? raw : {};
+    const chapters = {};
+    const claimedUniques = Array.isArray(source.claimedUniques)
+      ? source.claimedUniques.filter((value) => typeof value === 'string' && value !== '')
+      : [];
+    const addUniques = (value) => {
+      if (!Array.isArray(value)) return;
+      value.forEach((entry) => {
+        if (typeof entry === 'string' && entry !== '' && !claimedUniques.includes(entry)) {
+          claimedUniques.push(entry);
+        }
+      });
+    };
+
+    if (isRecord(source.chapters)) {
+      Object.entries(source.chapters).forEach(([id, value]) => {
+        const chapterId = typeof id === 'string' ? id.trim() : '';
+        if (chapterId === '' || !isRecord(value)) return;
+        chapters[chapterId] = normalizeChapterState(value);
+        addUniques(value.claimedUniques);
+      });
+    } else if (typeof source.chapterId === 'string' && source.chapterId.trim() !== '') {
+      chapters[source.chapterId.trim()] = normalizeChapterState(source);
+      addUniques(source.claimedUniques);
+    }
+
     return {
-      chapterId: typeof source.chapterId === 'string' && source.chapterId.trim() !== ''
-        ? source.chapterId.trim()
-        : null,
-      progress: Number.isInteger(source.progress) && source.progress >= 0 ? source.progress : 0,
-      lastClaimDay: typeof source.lastClaimDay === 'string' ? source.lastClaimDay : null,
-      claimedUniques: Array.isArray(source.claimedUniques)
-        ? source.claimedUniques.filter((value) => typeof value === 'string' && value !== '')
-        : [],
+      chapters,
+      claimedUniques,
       seenDay: typeof source.seenDay === 'string' ? source.seenDay : null,
     };
   }
 
   /**
-   * Applies the reset a new chapter asks for, without writing anything.
+   * Run of one chapter inside a stored state.
    *
-   * @param {object} state - Stored state.
-   * @param {object} chapter - Active chapter.
-   * @returns {object} The state the chapter starts from (`seenDay` is kept: it is not a reward).
+   * @param {object} state - Normalized state.
+   * @param {string} chapterId - Id of the chapter.
+   * @returns {{progress: number, claimedDays: number[], lastClaimDay: string|null}} The run (a
+   *   fresh one when the chapter was never touched).
    */
-  static alignToChapter(state, chapter) {
-    if (state.chapterId === chapter.id) return state;
-    return {
-      chapterId: chapter.id,
-      progress: 0,
-      lastClaimDay: null,
-      claimedUniques: state.claimedUniques,
-      seenDay: state.seenDay,
-    };
+  static chapterState(state, chapterId) {
+    const run = isRecord(state?.chapters) ? state.chapters[chapterId] : null;
+    return normalizeChapterState(run);
   }
 
   /**
@@ -510,6 +610,32 @@ export class DailyRewardManager {
     if (upcoming) return { chapter: upcoming, status: 'upcoming' };
 
     return { chapter: null, status: 'ended' };
+  }
+
+  /**
+   * Chapter a board was asked to open.
+   *
+   * @param {Array<object>} chapters - Normalized chapters.
+   * @param {string} chapterId - Id asked by the caller.
+   * @returns {object|null} The chapter, or null when the file no longer declares it.
+   */
+  static findChapter(chapters, chapterId) {
+    const id = typeof chapterId === 'string' ? chapterId.trim() : '';
+    if (id === '') return null;
+    return chapters.find((chapter) => chapter.id === id) ?? null;
+  }
+
+  /**
+   * Talks about a chapter against a day: open, not open yet, or over.
+   *
+   * @param {object} chapter - Normalized chapter.
+   * @param {string} today - The trusted day.
+   * @returns {'active'|'upcoming'|'ended'} The status.
+   */
+  static statusOf(chapter, today) {
+    if (chapter.start > today) return 'upcoming';
+    if (today > chapter.end) return 'ended';
+    return 'active';
   }
 
   /**
@@ -715,7 +841,15 @@ export class DailyRewardManager {
    * @returns {Promise<object>} The snapshot: status, chapter, today, progress, the days with their
    *   state, the reward of today, and the counters of the header.
    */
-  async getSnapshot() {
+  /**
+   * Builds everything the popup and the header badge need for ONE chapter.
+   *
+   * @param {string|null} [chapterId=null] - Chapter to describe. Null picks the chapter the game
+   *   would open by itself (the last window to have opened).
+   * @returns {Promise<object>} The snapshot: status, chapter, today, progress, the days with their
+   *   state, the reward of today, and the counters of the header.
+   */
+  async getSnapshot(chapterId = null) {
     const chapters = await this.load();
     const state = await this.readState();
     const today = this.getToday();
@@ -727,11 +861,16 @@ export class DailyRewardManager {
         trusted: false,
         today: null,
         status: 'unknown',
+        chapterId: null,
         chapter: null,
+        mode: DAILY_REWARD_MODES.PROGRESSIVE,
+        image: DEFAULT_CHAPTER_IMAGE,
+        hiddenBeforeUnlock: false,
         progress: 0,
         claimedToday: false,
         claimable: false,
         dayNumber: 0,
+        windowDay: null,
         totalDays: 0,
         claimableDays: 0,
         daysUntilEnd: 0,
@@ -741,69 +880,159 @@ export class DailyRewardManager {
       };
     }
 
-    const { chapter, status } = DailyRewardManager.pickChapter(chapters, today);
+    const requested = chapterId ? DailyRewardManager.findChapter(chapters, chapterId) : null;
+    const chapter = requested ?? DailyRewardManager.pickChapter(chapters, today).chapter;
+    const status = chapter ? DailyRewardManager.statusOf(chapter, today) : 'empty';
 
-    const empty = {
-      trusted: true,
-      today,
-      status,
-      chapter,
-      progress: 0,
-      claimedToday: false,
-      claimable: false,
-      dayNumber: 0,
-      totalDays: chapter?.totalDays ?? 0,
-      claimableDays: 0,
-      daysUntilEnd: 0,
-      days: [],
-      current: null,
-      seen: false,
-    };
-    if (!chapter) return empty;
-
-    const aligned = DailyRewardManager.alignToChapter(state, chapter);
-    const claimedToday = aligned.lastClaimDay === today;
-    const days = [];
-    const totalTiles = Math.max(chapter.maxDay, 1);
-    for (let day = 1; day <= totalTiles; day += 1) {
-      const position = day - 1;
-      const entry = DailyRewardManager.entryAt(chapter, position);
-      const info = await this.describeEntry(entry, aligned);
-      // "current" is the day that can be claimed RIGHT NOW: once today's reward is taken, the next
-      // one is simply locked again, so the highlight never points at a button that cannot work.
-      const state = position < aligned.progress
-        ? 'claimed'
-        : position === aligned.progress && !claimedToday
-          ? 'current'
-          : 'locked';
-      days.push({ day, state, ...info });
+    if (!chapter) {
+      return {
+        trusted: true,
+        today,
+        status,
+        chapterId: null,
+        chapter: null,
+        mode: DAILY_REWARD_MODES.PROGRESSIVE,
+        image: DEFAULT_CHAPTER_IMAGE,
+        hiddenBeforeUnlock: false,
+        progress: 0,
+        claimedToday: false,
+        claimable: false,
+        dayNumber: 0,
+        windowDay: null,
+        totalDays: 0,
+        claimableDays: 0,
+        daysUntilEnd: 0,
+        days: [],
+        current: null,
+        seen: false,
+      };
     }
 
-    const currentEntry = DailyRewardManager.entryAt(chapter, aligned.progress);
-    const current = await this.describeEntry(currentEntry, aligned);
+    const run = DailyRewardManager.chapterState(state, chapter.id);
+    const defined = chapter.mode === DAILY_REWARD_MODES.DEFINED;
+    // A "defined" chapter asks which day of the WINDOW today is; a progressive one simply continues
+    // its run, so its position is the number of rewards already claimed.
+    const windowDay = daysBetween(chapter.start, today) + 1;
+    // A defined chapter draws exactly its window: its calendar days ARE its board. A progressive
+    // one draws the days it declares.
+    const totalTiles = defined ? Math.max(chapter.windowDays, 1) : Math.max(chapter.maxDay, 1);
+    const claimedCount = defined ? run.claimedDays.length : run.progress;
+    const dayNumber = defined ? windowDay : run.progress + 1;
+    const claimedToday = run.lastClaimDay === today;
+    const hiddenBeforeUnlock = chapter.hiddenBeforeUnlock === true;
+
+    const days = [];
+    for (let day = 1; day <= totalTiles; day += 1) {
+      const info = await this.describeEntry(DailyRewardManager.entryAt(chapter, day - 1), state);
+      const claimed = defined ? run.claimedDays.includes(day) : day <= run.progress;
+      // A day of a defined chapter is missed as soon as its date is behind us, whether the chapter
+      // is still open or already over.
+      const missed = defined && !claimed && day < windowDay;
+      const dayState = claimed
+        ? 'claimed'
+        : day === dayNumber && !claimedToday && status === 'active'
+          ? 'current'
+          : missed
+            ? 'missed'
+            : 'locked';
+      // "Hidden before unlock": every reward still AHEAD of the player is a mystery. The reward of
+      // the day is always readable - it is the one the button claims.
+      const hidden = hiddenBeforeUnlock && !claimed && day > dayNumber;
+      days.push({ day, state: dayState, hidden, ...info });
+    }
+
+    const currentEntry = DailyRewardManager.entryAt(chapter, dayNumber - 1);
+    const current = await this.describeEntry(currentEntry, state);
     const daysUntilEnd = Math.max(0, daysBetween(today, chapter.end));
+    // A "defined" chapter can have handed out today's reward already, even though no claim happened
+    // today: the day belongs to the window, not to the run.
+    const claimedWindowDay = defined && run.claimedDays.includes(windowDay);
+    const claimable =
+      status === 'active' &&
+      !claimedToday &&
+      !claimedWindowDay &&
+      Boolean(current) &&
+      current.unavailable !== true;
+
+    // How many rewards are still claimable if the player comes back every day: one per remaining day
+    // of the window for a progressive chapter, and the days of a defined one that are not claimed.
+    let claimableDays = 0;
+    if (status === 'active') {
+      if (defined) {
+        for (let day = Math.max(1, windowDay); day <= totalTiles; day += 1) {
+          if (!run.claimedDays.includes(day)) claimableDays += 1;
+        }
+      } else {
+        claimableDays = daysUntilEnd + 1;
+      }
+    }
 
     return {
       trusted: true,
       today,
       status,
+      chapterId: chapter.id,
       chapter,
-      progress: aligned.progress,
+      mode: chapter.mode,
+      image: chapter.image,
+      hiddenBeforeUnlock,
+      progress: claimedCount,
       claimedToday,
-      // A claim needs a trusted day, an active window, a reward not taken today and a reward the
-      // game can actually hand out (a card of a set that is not out yet cannot be claimed).
-      claimable:
-        status === 'active' && !claimedToday && Boolean(current) && current.unavailable !== true,
-      dayNumber: aligned.progress + 1,
-      totalDays: chapter.totalDays,
-      // How many rewards are still claimable if the player comes back every day: one per remaining
-      // day of the window, since the fallback entry always has something to give.
-      claimableDays: status === 'active' ? daysUntilEnd + 1 : 0,
+      claimable,
+      dayNumber,
+      windowDay: defined ? windowDay : null,
+      totalDays: defined ? totalTiles : chapter.totalDays,
+      claimableDays,
       daysUntilEnd,
       days,
-      current,
-      seen: aligned.seenDay === today,
+      current: current ? { ...current, day: dayNumber, state: 'current', hidden: false } : null,
+      seen: state.seenDay === today,
     };
+  }
+
+  /**
+   * Lists the chapters with what a chooser needs to draw them.
+   *
+   * The button of the header has to know whether there is a choice at all: one open chapter opens
+   * straight away, several open the chooser of the series.
+   *
+   * @returns {Promise<{trusted: boolean, today: string|null, seenDay: string|null,
+   *   chapters: Array<object>}>} One entry per declared chapter, in the order of the file.
+   */
+  async listChapters() {
+    const chapters = await this.load();
+    const state = await this.readState();
+    const today = this.getToday();
+    if (!today) return { trusted: false, today: null, seenDay: null, chapters: [] };
+
+    const entries = chapters.map((chapter) => {
+      const run = DailyRewardManager.chapterState(state, chapter.id);
+      const status = DailyRewardManager.statusOf(chapter, today);
+      const defined = chapter.mode === DAILY_REWARD_MODES.DEFINED;
+      const windowDay = daysBetween(chapter.start, today) + 1;
+      const totalTiles = defined
+        ? Math.max(chapter.windowDays, 1)
+        : Math.max(chapter.maxDay, 1);
+      const claimedToday = run.lastClaimDay === today;
+      const claimedWindowDay = defined && run.claimedDays.includes(windowDay);
+
+      return {
+        id: chapter.id,
+        name: chapter.name,
+        image: chapter.image,
+        mode: chapter.mode,
+        hiddenBeforeUnlock: chapter.hiddenBeforeUnlock,
+        start: chapter.start,
+        end: chapter.end,
+        status,
+        dayNumber: defined ? windowDay : run.progress + 1,
+        totalDays: defined ? totalTiles : chapter.totalDays,
+        claimedToday,
+        claimable: status === 'active' && !claimedToday && !claimedWindowDay,
+      };
+    });
+
+    return { trusted: true, today, seenDay: state.seenDay, chapters: entries };
   }
 
   /**
@@ -824,6 +1053,27 @@ export class DailyRewardManager {
    *   (`NO_CHAPTER`).
    * @throws {Error} When the write fails.
    */
+  /**
+   * Advances the run without granting the rewards it skips.
+   *
+   * This is what a personal code ("advance the daily reward") applies: the position moves forward
+   * by `steps`, so the next reward the player may claim is the one after the skipped days.
+   * `lastClaimDay` is deliberately left untouched - the code moves the run, it does not consume the
+   * day - which lets the reward of the new position be claimed right away.
+   *
+   * Only the OPEN progressive chapters move: a "defined" chapter is nailed to the calendar, so
+   * skipping days into it would skip days that can never come back.
+   *
+   * The chapter file must ALREADY be loaded (`load()`): a fetch inside the caller's IndexedDB
+   * transaction would commit it (see `RedeemManager.grantResolved`).
+   *
+   * @param {number} steps - Number of days to skip (positive integer).
+   * @param {object} context - Open write context of `storageRepository.transaction`.
+   * @returns {Promise<{advanced: Array<{chapterId: string, progress: number}>}>} The new positions.
+   * @throws {DailyRewardError} Without a trusted day (`NOT_TRUSTED`) or without an open progressive
+   *   chapter (`NO_CHAPTER`).
+   * @throws {Error} When the write fails.
+   */
   async advanceRun(steps, context) {
     const quantity = Math.trunc(Number(steps));
     if (!Number.isInteger(quantity) || quantity <= 0) {
@@ -842,26 +1092,35 @@ export class DailyRewardManager {
       );
     }
 
-    const { chapter, status } = DailyRewardManager.pickChapter(chapters, today);
-    if (!chapter || status !== 'active') {
+    const open = chapters.filter(
+      (chapter) =>
+        chapter.mode === DAILY_REWARD_MODES.PROGRESSIVE &&
+        chapter.start <= today &&
+        today <= chapter.end
+    );
+    if (open.length === 0) {
       throw new DailyRewardError(
         DAILY_REWARD_ERRORS.NO_CHAPTER,
-        `No chapter is open on ${today} (status: ${status}).`
+        `No progressive chapter is open on ${today}.`
       );
     }
 
     const stored = DailyRewardManager.normalizeState(
       await context.get(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS)
     );
-    const base = DailyRewardManager.alignToChapter(stored, chapter);
-    const progress = base.progress + quantity;
-    await context.put(
-      STORES.USER_STATE,
-      { ...base, chapterId: chapter.id, progress },
-      USER_STATE_KEYS.DAILY_REWARDS
+    const next = { ...stored, chapters: { ...stored.chapters } };
+    const advanced = open.map((chapter) => {
+      const run = DailyRewardManager.chapterState(stored, chapter.id);
+      const progress = run.progress + quantity;
+      next.chapters[chapter.id] = { ...run, progress };
+      return { chapterId: chapter.id, progress };
+    });
+
+    await context.put(STORES.USER_STATE, next, USER_STATE_KEYS.DAILY_REWARDS);
+    this.log(
+      `Run advanced by ${quantity}: ${advanced.map((entry) => `${entry.chapterId} -> ${entry.progress}`).join(', ')}.`
     );
-    this.log(`Run advanced by ${quantity}: position ${base.progress} -> ${progress}.`);
-    return { chapterId: chapter.id, progress };
+    return { advanced };
   }
 
   /**
@@ -877,7 +1136,22 @@ export class DailyRewardManager {
    * @throws {DailyRewardError} When the claim is refused (see `DAILY_REWARD_ERRORS`).
    * @throws {Error} When the write fails.
    */
-  async claim({ setId = null } = {}) {
+  /**
+   * Claims the reward of today on ONE chapter.
+   *
+   * Everything is written in ONE transaction: the reward, the run position, the day of the claim and
+   * the `UniqueID`. A failure therefore leaves the save exactly as it was - the player can retry,
+   * and a network-free save can never lose a reward to a half-written claim.
+   *
+   * @param {object} [options] - Claim options.
+   * @param {string|null} [options.chapterId=null] - Chapter to claim from. Null picks the chapter the
+   *   game would open by itself.
+   * @param {string|null} [options.setId=null] - Extension chosen for a `Booster` reward.
+   * @returns {Promise<object>} What was granted (`reward`, `card`, `setId`, `quantity`, `snapshot`).
+   * @throws {DailyRewardError} When the claim is refused (see `DAILY_REWARD_ERRORS`).
+   * @throws {Error} When the write fails.
+   */
+  async claim({ chapterId = null, setId = null } = {}) {
     const chapters = await this.load();
     const today = this.getToday();
     if (!today) {
@@ -887,7 +1161,9 @@ export class DailyRewardManager {
       );
     }
 
-    const { chapter, status } = DailyRewardManager.pickChapter(chapters, today);
+    const requested = chapterId ? DailyRewardManager.findChapter(chapters, chapterId) : null;
+    const chapter = requested ?? DailyRewardManager.pickChapter(chapters, today).chapter;
+    const status = chapter ? DailyRewardManager.statusOf(chapter, today) : 'empty';
     if (!chapter || status !== 'active') {
       throw new DailyRewardError(
         DAILY_REWARD_ERRORS.NO_CHAPTER,
@@ -895,20 +1171,34 @@ export class DailyRewardManager {
       );
     }
 
-    const stored = DailyRewardManager.alignToChapter(await this.readState(), chapter);
-    if (stored.lastClaimDay === today) {
+    const stored = await this.readState();
+    const base = DailyRewardManager.chapterState(stored, chapter.id);
+    if (base.lastClaimDay === today) {
       throw new DailyRewardError(
         DAILY_REWARD_ERRORS.ALREADY_CLAIMED,
-        `The reward of ${today} was already claimed.`
+        `The reward of ${today} was already claimed on "${chapter.id}".`
       );
     }
 
-    const entry = DailyRewardManager.entryAt(chapter, stored.progress);
+    const defined = chapter.mode === DAILY_REWARD_MODES.DEFINED;
+    // The position is the day of the WINDOW for a defined chapter, the next reward of the run for a
+    // progressive one. Both are 1-based, exactly like the `Day` of the file.
+    const position = defined ? daysBetween(chapter.start, today) + 1 : base.progress + 1;
+    if (defined && base.claimedDays.includes(position)) {
+      throw new DailyRewardError(
+        DAILY_REWARD_ERRORS.ALREADY_CLAIMED,
+        `Day ${position} of "${chapter.id}" was already claimed.`
+      );
+    }
+
+    const entry = DailyRewardManager.entryAt(chapter, position - 1);
     if (!entry) {
       throw new DailyRewardError(DAILY_REWARD_ERRORS.NO_REWARD, 'The chapter has no reward for that position.');
     }
 
-    const uniqueConsumed = Boolean(entry.unique && entry.uniqueId && stored.claimedUniques.includes(entry.uniqueId));
+    const uniqueConsumed = Boolean(
+      entry.unique && entry.uniqueId && stored.claimedUniques.includes(entry.uniqueId)
+    );
     const reward = uniqueConsumed ? entry.replacement : entry.reward;
     if (!reward) {
       throw new DailyRewardError(DAILY_REWARD_ERRORS.NO_REWARD, 'The replacement reward of that day is missing.');
@@ -934,14 +1224,14 @@ export class DailyRewardManager {
         const current = DailyRewardManager.normalizeState(
           await context.get(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS)
         );
-        if (current.lastClaimDay === today && current.chapterId === chapter.id) {
+        const run = DailyRewardManager.chapterState(current, chapter.id);
+        if (run.lastClaimDay === today || (defined && run.claimedDays.includes(position))) {
           throw new DailyRewardError(
             DAILY_REWARD_ERRORS.ALREADY_CLAIMED,
             `The reward of ${today} was already claimed.`
           );
         }
 
-        const base = DailyRewardManager.alignToChapter(current, chapter);
         let balance = null;
 
         if (plan.kind === DAILY_REWARD_KINDS.SPARKS) {
@@ -976,27 +1266,38 @@ export class DailyRewardManager {
           );
         }
 
-        // One claim is one day of connection: the counter of the global trophy lives with the
-        // claim, so it can never be incremented twice for the same day.
-        const storedStats = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
-        const stats = storedStats && typeof storedStats === 'object' ? { ...storedStats } : {};
-        stats.daysConnected =
-          (Number.isInteger(stats.daysConnected) && stats.daysConnected >= 0
-            ? stats.daysConnected
-            : 0) + 1;
-        await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
+        // One connection day counts for EVERY open chapter, so the counter of the global trophy
+        // moves once a day: claiming the second chapter of the same day must not count twice.
+        const countedToday = Object.entries(current.chapters).some(
+          ([id, value]) => id !== chapter.id && value.lastClaimDay === today
+        );
+        if (!countedToday) {
+          const storedStats = await context.get(STORES.USER_STATE, USER_STATE_KEYS.STATS);
+          const stats = storedStats && typeof storedStats === 'object' ? { ...storedStats } : {};
+          stats.daysConnected =
+            (Number.isInteger(stats.daysConnected) && stats.daysConnected >= 0
+              ? stats.daysConnected
+              : 0) + 1;
+          await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
+        }
 
-        const claimedUniques = entry.unique && entry.uniqueId && !uniqueConsumed
-          ? [...base.claimedUniques, entry.uniqueId]
-          : base.claimedUniques;
+        // A `UniqueID` is unique for the ACCOUNT: the list lives at the root of the state, so the
+        // same reward declared by a later chapter is still replaced instead of granted twice.
+        const grantedUniques = entry.unique && entry.uniqueId && !uniqueConsumed
+          ? [...current.claimedUniques, entry.uniqueId]
+          : current.claimedUniques;
+        const updated = {
+          ...run,
+          progress: defined ? run.progress : run.progress + 1,
+          claimedDays: defined ? [...run.claimedDays, position] : run.claimedDays,
+          lastClaimDay: today,
+        };
 
         await context.put(
           STORES.USER_STATE,
           {
-            chapterId: chapter.id,
-            progress: base.progress + 1,
-            lastClaimDay: today,
-            claimedUniques,
+            chapters: { ...current.chapters, [chapter.id]: updated },
+            claimedUniques: grantedUniques,
             seenDay: today,
           },
           USER_STATE_KEYS.DAILY_REWARDS
@@ -1038,9 +1339,11 @@ export class DailyRewardManager {
       });
     }
 
-    const snapshot = await this.getSnapshot();
-    eventBus.emit(EVENTS.DAILY_REWARDS_UPDATED, { snapshot });
-    this.log(`Day ${snapshot.progress} claimed: ${plan.kind} ×${plan.quantity}${plan.setId ? ` (${plan.setId})` : ''}.`);
+    const snapshot = await this.getSnapshot(chapter.id);
+    eventBus.emit(EVENTS.DAILY_REWARDS_UPDATED, { snapshot, chapterId: chapter.id });
+    this.log(
+      `Day ${position} of "${chapter.id}" claimed: ${plan.kind} ×${plan.quantity}${plan.setId ? ` (${plan.setId})` : ''}.`
+    );
 
     return {
       kind: plan.kind,
@@ -1103,6 +1406,20 @@ export class DailyRewardManager {
       if (choices.length === 0) {
         throw new DailyRewardError(DAILY_REWARD_ERRORS.NO_SET, 'No extension is released: the booster cannot be given.');
       }
+      // A chapter may name the extension itself (`"Data": "A1"`): there is then nothing to ask,
+      // and a set that is not released yet refuses the claim instead of silently giving another one.
+      const fixed = typeof reward.setId === 'string' ? reward.setId.trim() : '';
+      if (fixed !== '') {
+        const match = choices.find((choice) => choice.setId.toUpperCase() === fixed.toUpperCase());
+        if (!match) {
+          throw new DailyRewardError(
+            DAILY_REWARD_ERRORS.CONTENT_NOT_RELEASED,
+            `"${fixed}" is not a released extension.`,
+            { choices }
+          );
+        }
+        return { kind: reward.kind, reward, quantity: reward.quantity, setId: match.setId };
+      }
       const requested = typeof setId === 'string' ? setId.trim() : '';
       if (requested === '') {
         if (choices.length > 1) {
@@ -1135,18 +1452,22 @@ export class DailyRewardManager {
    *
    * @returns {Promise<void>} Resolves once the day was written (or the write failed, with a warning).
    */
+  /**
+   * Remembers that the popup was displayed today.
+   *
+   * The automatic opening is a once-a-day offer, and "once" has to survive a reload; the claim
+   * itself does not depend on it. The day is shared by every chapter: the player is offered the
+   * board once, then chooses which series to open.
+   *
+   * @returns {Promise<void>} Resolves once the day was written (or the write failed, with a warning).
+   */
   async markSeen() {
     const today = this.getToday();
     if (!today) return;
     try {
-      const chapters = await this.load();
-      const { chapter, status } = DailyRewardManager.pickChapter(chapters, today);
-      const stored = await this.readState();
-      const base = chapter && status === 'active'
-        ? DailyRewardManager.alignToChapter(stored, chapter)
-        : stored;
-      if (base.seenDay === today) return;
-      await storageRepository.setUserState(USER_STATE_KEYS.DAILY_REWARDS, { ...base, seenDay: today });
+      const state = await this.readState();
+      if (state.seenDay === today) return;
+      await storageRepository.setUserState(USER_STATE_KEYS.DAILY_REWARDS, { ...state, seenDay: today });
     } catch (error) {
       // Losing the memory of the popup only costs a second offer: it must never break a screen.
       console.warn('[DailyRewardManager] The day of the popup could not be saved.', error);
@@ -1163,8 +1484,10 @@ export class DailyRewardManager {
    */
   async isPopupDue() {
     try {
-      const snapshot = await this.getSnapshot();
-      return snapshot.claimable === true && snapshot.seen !== true;
+      const listing = await this.listChapters();
+      const today = this.getToday();
+      if (!listing.trusted || listing.seenDay === today) return false;
+      return listing.chapters.some((chapter) => chapter.claimable === true);
     } catch (error) {
       console.warn('[DailyRewardManager] The daily reward offer could not be read.', error);
       return false;
@@ -1172,14 +1495,14 @@ export class DailyRewardManager {
   }
 
   /**
-   * Number of rewards still claimable today, for the header badge.
+   * Tells whether any open chapter has a reward the player can claim right now, for the badge.
    *
-   * @returns {Promise<boolean>} True when the popup has something to give.
+   * @returns {Promise<boolean>} True when a chapter has something to give.
    */
   async hasClaimable() {
     try {
-      const snapshot = await this.getSnapshot();
-      return snapshot.claimable === true;
+      const listing = await this.listChapters();
+      return listing.chapters.some((chapter) => chapter.claimable === true);
     } catch (error) {
       console.warn('[DailyRewardManager] The claimable state could not be read.', error);
       return false;

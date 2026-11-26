@@ -64,13 +64,25 @@
 }
 
 .modal__close {
-  position: absolute;
-  top: var(--space-2);
-  right: var(--space-2);
+  /* The close cross belongs to the header, so it goes WITH it: it scrolls with the dialog until it
+     reaches the top, then it stays there. A long list must never take the only way out away, and
+     the negative margins are what keep it out of the flow (the title below does not move). */
+  position: sticky;
+  /* Sticky offsets are measured from the content box, so the padding of the dialog is taken back
+     here: the cross stays where it always was, eight pixels under the border of the dialog. */
+  top: calc(var(--space-2) - var(--space-5));
+  z-index: 3;
   display: grid;
   place-items: center;
   width: var(--touch-target);
   height: var(--touch-target);
+  /* Lifted to the height it always had (eight pixels under the border of the dialog) and taken
+     back out of the flow: the title below keeps its position to the pixel. */
+  margin:
+    calc(var(--space-2) - var(--space-5))
+    calc(var(--space-2) - var(--space-5))
+    calc(var(--space-5) - var(--space-2) - var(--touch-target))
+    auto;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   background-color: transparent;
@@ -105,6 +117,45 @@
   justify-content: flex-end;
   gap: var(--space-3);
   margin-top: var(--space-5);
+}
+
+/* --- The fixed frame of a dialog ------------------------------------------- */
+
+/* A dialog is often taller than the screen (a whole binder, a list of every card), and it scrolls as
+   one block. The title and the actions are therefore pinned to the two edges: only the content
+   between them scrolls. Both bands stretch over the padding of the dialog and paint the surface
+   colour, so nothing ever shows through, and the extra padding is what keeps their text exactly
+   where it was before they became sticky. */
+.modal__dialog > .modal__title {
+  position: sticky;
+  top: calc(-1 * var(--space-5));
+  z-index: 2;
+  /* `stretch` is what makes the band span the dialog even in the dialogs that centre their
+     content: a flex item would otherwise shrink to its text and let the content show on both
+     sides of it. */
+  align-self: stretch;
+  margin-inline: calc(-1 * var(--space-5));
+  padding: var(--space-2) calc(var(--touch-target) + var(--space-4)) var(--space-2) var(--space-5);
+  background-color: var(--color-surface);
+}
+
+/* A dialog that centres its content (an announcement, the roulette) keeps its title in the MIDDLE:
+   the space kept for the cross is now on both sides, so the text is no longer pushed to the left. */
+.set-announcement__dialog > .modal__title,
+.card-roulette__dialog > .modal__title {
+  padding-inline: calc(var(--touch-target) + var(--space-4));
+}
+
+.modal__dialog > .modal__actions {
+  position: sticky;
+  bottom: calc(-1 * var(--space-5));
+  z-index: 2;
+  align-self: stretch;
+  margin-inline: calc(-1 * var(--space-5));
+  margin-bottom: calc(-1 * var(--space-5));
+  padding: var(--space-3) var(--space-5) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
 }
 
 /* --- Upcoming-extensions announcement (`SetAnnouncementPopup.js`) --------- */

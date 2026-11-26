@@ -168,8 +168,9 @@ test('a daily reward claim credits its Sparks and advances the run together', as
   await manager.claim();
 
   assert.equal(readState(USER_STATE_KEYS.SPARKS), 5);
-  assert.equal(readState(USER_STATE_KEYS.DAILY_REWARDS).lastClaimDay, DAY);
-  assert.equal(readState(USER_STATE_KEYS.DAILY_REWARDS).progress, 1);
+  const run = readState(USER_STATE_KEYS.DAILY_REWARDS).chapters['TEST-CHAPTER'];
+  assert.equal(run.lastClaimDay, DAY);
+  assert.equal(run.progress, 1);
   assert.equal(readState(USER_STATE_KEYS.STATS).daysConnected, 1);
 });
 
@@ -204,6 +205,40 @@ test('a failed daily claim write rolls its Sparks and counters back', async () =
   assert.equal(readState(USER_STATE_KEYS.SPARKS), 0);
   assert.equal(readState(USER_STATE_KEYS.DAILY_REWARDS), undefined);
   assert.equal(readState(USER_STATE_KEYS.STATS).daysConnected, undefined);
+});
+
+test('claiming two chapters on the same day counts a single connection day', async () => {
+  seedRewardState();
+  const manager = new DailyRewardManager();
+  const chapters = ['TEST-CHAPTER-A', 'TEST-CHAPTER-B'].map((id) => ({
+    id,
+    mode: 'progressive',
+    start: '2026-11-01',
+    end: '2026-11-30',
+    days: new Map([[1, { reward: { kind: DAILY_REWARD_KINDS.SPARKS, quantity: 5 } }]]),
+    fallback: null,
+  }));
+  manager.load = async () => chapters;
+  manager.getToday = () => DAY;
+  manager.getSnapshot = async () => ({ progress: 1 });
+  manager.buildPlan = async (reward) => ({ kind: DAILY_REWARD_KINDS.SPARKS, quantity: 5, reward });
+  manager.log = () => {};
+
+  await manager.claim({ chapterId: 'TEST-CHAPTER-A' });
+  await manager.claim({ chapterId: 'TEST-CHAPTER-B' });
+
+  // Each chapter keeps its own run...
+  const state = readState(USER_STATE_KEYS.DAILY_REWARDS);
+  assert.equal(state.chapters['TEST-CHAPTER-A'].progress, 1);
+  assert.equal(state.chapters['TEST-CHAPTER-B'].progress, 1);
+  assert.equal(state.chapters['TEST-CHAPTER-A'].lastClaimDay, DAY);
+  assert.equal(state.chapters['TEST-CHAPTER-B'].lastClaimDay, DAY);
+
+  // ...both rewards are granted...
+  assert.equal(readState(USER_STATE_KEYS.SPARKS), 10);
+
+  // ...and the CONNECTION day is counted once, not once per chapter.
+  assert.equal(readState(USER_STATE_KEYS.STATS).daysConnected, 1);
 });
 
 test('a gift distribution credits Sparks and a card together', async () => {

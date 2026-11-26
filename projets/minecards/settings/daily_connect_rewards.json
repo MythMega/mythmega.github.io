@@ -308,5 +308,79 @@
                 }
             }
         ]
+    },
+    {
+        "_comment": "Mode defined -> chaque jour du calendrier a SA récompense : se connecter le jour 3, 5 et 7 donne les récompenses 3, 5 et 7, les autres sont manquées. Pas d'Image : le plateau et le choix de série utilisent assets/icons/icon-192.png.",
+        "ID": "dailyconnectreward_2",
+        "RewardListName": "Road to A2",
+        "Mode": "defined",
+        "Dates": {
+            "Start": "28-11-2026",
+            "End": "04-12-2026"
+        },
+        "Days": [
+            {
+                "Day": 1,
+                "Reward": {
+                    "Type": "Ender Pearl",
+                    "Qte": 2
+                }
+            },
+            {
+                "Day": 2,
+                "Reward": {
+                    "Type": "Sparks",
+                    "Qte": 25
+                }
+            },
+            {
+                "Day": 3,
+                "_comment": "Une carte légendaire (rareté 4) au hasard, tirée à la roulette au moment de la récupération.",
+                "Reward": {
+                    "Type": "RandomCard-Filter",
+                    "Qte": 1,
+                    "Data": {
+                        "Rarities": [ 4 ],
+                        "Sets": [ "A1" ],
+                        "BePromo": false
+                    }
+                }
+            },
+            {
+                "Day": 4,
+                "Reward": {
+                    "Type": "Booster",
+                    "Qte": 1,
+                    "Data": "A1"
+                }
+            },
+            {
+                "Day": 5,
+                "Reward": {
+                    "Type": "Bundle",
+                    "Qte": 3
+                }
+            },
+            {
+                "Day": 6,
+                "Reward": {
+                    "Type": "Ender Pearl",
+                    "Qte": 3
+                }
+            },
+            {
+                "Day": 7,
+                "_comment": "Une carte mythique (rareté 5) au hasard.",
+                "Reward": {
+                    "Type": "RandomCard-Filter",
+                    "Qte": 1,
+                    "Data": {
+                        "Rarities": [ 5 ],
+                        "Sets": [ "A1" ],
+                        "BePromo": false
+                    }
+                }
+            }
+        ]
     }
 ]

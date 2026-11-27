@@ -1,0 +1,293 @@
+{
+  "bossName": "N\u00E9gapi",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Minun_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Minun_shiny.gif",
+  "bossRarity": "COMMON",
+  "shiny": true,
+  "pvMax": 55000,
+  "date": "2026-11-27 22:21:45",
+  "durationSec": 3397,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 41250,
+      "countAtk": 3,
+      "baseDmg": 46024,
+      "level": 20,
+      "raidCount": 1186,
+      "luck": 0.29875717
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 10735,
+      "countAtk": 3,
+      "baseDmg": 2119,
+      "level": 13,
+      "raidCount": 110,
+      "luck": 1.6886896
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 6428,
+      "countAtk": 3,
+      "baseDmg": 1254,
+      "level": 10,
+      "raidCount": 76,
+      "luck": 1.7086656
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "nolhangonnehaut2301",
+      "damage": 4908,
+      "countAtk": 2,
+      "baseDmg": 2435,
+      "level": 14,
+      "raidCount": 103,
+      "luck": 1.0078028
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 389,
+      "countAtk": 1,
+      "baseDmg": 389,
+      "level": 5,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 47678
+    },
+    {
+      "platform": "youtube",
+      "damage": 16032
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 1,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 1,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-27 22:24:03",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 41250,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:24:26",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1254,
+      "pvAfter": 39996,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:24:39",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 2119,
+      "pvAfter": 37877,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:32:58",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 389,
+      "pvAfter": 37488,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:50:02",
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "damages": 2435,
+      "pvAfter": 35053,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:51:37",
+      "pseudo": "nolhangonnehaut2301",
+      "platform": "youtube",
+      "damages": 2473,
+      "pvAfter": 32580,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 23:02:39",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 2560,
+      "pvAfter": 30020,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 23:06:13",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 4290,
+      "pvAfter": 25730,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 23:07:46",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 11980,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 23:16:44",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 2614,
+      "pvAfter": 9366,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 23:17:14",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 4326,
+      "pvAfter": 5040,
+      "heal": false,
+      "critical": false,
+      "statut": "PARALYZED",
+      "statusEffect": "Tu as \u00E9t\u00E9 paralys\u00E9. Tes attaques ne feront pas de d\u00E9gats pendant 3 tours !"
+    },
+    {
+      "at": "2026-11-27 23:18:22",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 13750,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "POISONED",
+      "statusEffect": "Tu es empoisonn\u00E9 ! Tes attaques sont divis\u00E9es par 4 pendant 3 tours. 10% de chances de refiler le poison a quelqu\u0027un a chaque attaque."
+    }
+  ]
+}

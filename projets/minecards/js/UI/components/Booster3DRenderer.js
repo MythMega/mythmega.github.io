@@ -342,12 +342,20 @@ export class Booster3DRenderer {
    * @returns {boolean} True when WebGL is available.
    */
   static isWebGLAvailable() {
+    if (Booster3DRenderer.webglAvailable !== undefined) {
+      return Booster3DRenderer.webglAvailable;
+    }
     try {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
-      return Boolean(context);
+      Booster3DRenderer.webglAvailable = Boolean(context);
+      // The probe context must not stay alive: this demo builds several renderers at once, and an
+      // unreleased probe canvas per booster is enough to hit the browser's context limit.
+      context?.getExtension('WEBGL_lose_context')?.loseContext();
+      return Booster3DRenderer.webglAvailable;
     } catch (error) {
       console.warn('[Booster3DRenderer] WebGL probe failed.', error);
+      Booster3DRenderer.webglAvailable = false;
       return false;
     }
   }

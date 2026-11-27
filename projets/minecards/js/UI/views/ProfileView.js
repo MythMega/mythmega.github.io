@@ -2299,6 +2299,9 @@ export class ProfileView {
       const query = search.value.trim().toLowerCase();
       const entries = Array.from(this.entriesByKey.values())
         .filter((entry) => entry?.card && !excluded.has(entry.key))
+        // A promo card is never tradable, so it can never be a meaningful wish either: the picker
+        // does not offer it at all (the favourites keep them, they are displayable).
+        .filter((entry) => !(isWishlist && entry.promo === true))
         .filter((entry) => {
           if (!isWishlist) return entry.owned === true;
           if (filters.value === 'owned') return entry.owned === true;

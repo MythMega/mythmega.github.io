@@ -9,6 +9,11 @@
 .changelog-popup__dialog {
   width: 100%;
   max-width: 34rem;
+  /* The notes are the only part that gives way: on a short screen (a phone in landscape) the list
+     shrinks under its own scroll while the header and the two buttons keep their place, instead of
+     the whole dialog scrolling. */
+  display: flex;
+  flex-direction: column;
 }
 
 .changelog-popup__badge {
@@ -28,6 +33,8 @@
 /* The notes are the reason the dialog exists: on a phone the list scrolls instead of pushing the
    two buttons out of the screen. */
 .changelog-popup__notes {
+  flex: 1 1 auto;
+  min-height: 4rem;
   max-height: min(46vh, 22rem);
   margin: 0;
   padding-right: var(--space-1);

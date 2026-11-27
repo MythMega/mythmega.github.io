@@ -42,6 +42,14 @@ export async function askWishlistRemoval({ cardName = '' } = {}) {
     dialog.setAttribute('aria-modal', 'true');
     dialog.setAttribute('aria-labelledby', 'wishlist-popup-title');
 
+    // The cross is the "keep it" answer: every dialog of the game carries one in its header.
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'modal__close';
+    closeButton.dataset.wishlistAnswer = WISHLIST_POPUP_ANSWERS.NO;
+    closeButton.setAttribute('aria-label', i18n.t('social.detail.close'));
+    closeButton.textContent = '×';
+
     const title = document.createElement('h2');
     title.className = 'modal__title';
     title.id = 'wishlist-popup-title';
@@ -87,12 +95,13 @@ export async function askWishlistRemoval({ cardName = '' } = {}) {
       actions.appendChild(button);
     });
 
+    closeButton.addEventListener('click', () => close(WISHLIST_POPUP_ANSWERS.NO));
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) close(WISHLIST_POPUP_ANSWERS.NO);
     });
     document.addEventListener('keydown', onKeyDown);
 
-    dialog.append(title, body, actions);
+    dialog.append(closeButton, title, body, actions);
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
 

@@ -28,6 +28,7 @@ import redeemManager, {
   REDEEM_STATUSES,
 } from '../../business/RedeemManager.js';
 import boosterManager from '../../business/BoosterManager.js';
+import illagerShopManager from '../../business/IllagerShopManager.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { applyCardGlow } from '../../utils/Shine.js';
 import { createCardVisual } from '../../utils/CardSourceManager.js';
@@ -467,78 +468,79 @@ export class RedeemView {
       return item;
     }
 
-    if (reward.type === 'sparks') {
-      const line = document.createElement('p');
-      line.className = 'redeem__reward-line';
-      line.textContent = i18n.t('redeem.reward.sparks', { count: reward.quantity });
-      item.appendChild(line);
-      return item;
-    }
-
-    if (reward.type === 'dailyreward') {
-      const line = document.createElement('p');
-      line.className = 'redeem__reward-line';
-      line.textContent = i18n.t('redeem.reward.dailyReward', { count: reward.quantity });
-      item.appendChild(line);
-      return item;
-    }
-
-    if (reward.type === 'bundle') {
-      const image = document.createElement('img');
-      image.className = 'redeem__reward-image';
-      image.loading = 'lazy';
-      image.alt = '';
-      image.src = 'assets/img/bundle.png';
-      image.addEventListener('error', () => image.remove());
-      item.appendChild(image);
-      const line = document.createElement('p');
-      line.className = 'redeem__reward-line';
-      line.textContent = i18n.t('redeem.reward.bundle', { count: reward.quantity });
-      item.appendChild(line);
-      return item;
-    }
-
-    if (reward.type === 'pearl') {
-      const image = document.createElement('img');
-      image.className = 'redeem__reward-image';
-      image.loading = 'lazy';
-      image.alt = '';
-      image.src = 'assets/img/items/Ender_Pearl.webp';
-      image.addEventListener('error', () => image.remove());
-      item.appendChild(image);
-      const line = document.createElement('p');
-      line.className = 'redeem__reward-line';
-      line.textContent = i18n.t('redeem.reward.pearl', { count: reward.quantity });
-      item.appendChild(line);
-      return item;
-    }
-
-    if (reward.type === 'resource') {
-      const image = document.createElement('img');
-      image.className = 'redeem__reward-image';
-      image.loading = 'lazy';
-      image.alt = '';
-      image.src = `assets/img/dusts/${reward.key}.png`;
-      image.addEventListener('error', () => image.remove());
-      item.appendChild(image);
-      const line = document.createElement('p');
-      line.className = 'redeem__reward-line';
-      line.textContent = i18n.t('redeem.reward.resource', {
-        count: reward.quantity,
-        resource: i18n.t(`mineblock.resource.${reward.key}`),
-      });
-      item.appendChild(line);
-      return item;
-    }
+    const image = this.buildRewardImage(reward);
+    if (image) item.appendChild(image);
 
     const line = document.createElement('p');
     line.className = 'redeem__reward-line';
-    line.textContent = i18n.t('redeem.reward.booster', {
-      count: reward.quantity,
-      set: this.setNames.get(reward.key) ?? reward.key,
-    });
+    line.textContent = this.describeReward(reward);
     item.appendChild(line);
     return item;
+  }
+
+  /**
+   * Builds the illustration of a reward that has one.
+   *
+   * @param {{type: string, key: string}} reward - Reward.
+   * @returns {HTMLImageElement|null} The illustration, or null for a text-only reward.
+   */
+  buildRewardImage(reward) {
+    let src = null;
+    if (reward.type === 'bundle') src = 'assets/img/bundle.png';
+    else if (reward.type === 'pearl') src = 'assets/img/items/Ender_Pearl.webp';
+    else if (reward.type === 'resource') src = `assets/img/dusts/${reward.key}.png`;
+    if (!src) return null;
+
+    const image = document.createElement('img');
+    image.className = 'redeem__reward-image';
+    image.loading = 'lazy';
+    image.alt = '';
+    image.src = src;
+    image.addEventListener('error', () => image.remove());
+    return image;
+  }
+
+  /**
+   * Describes the reward of a code in one line.
+   *
+   * The type decides the sentence, and every type a code can credit has its own branch: a type
+   * added without a label here reads as unknown, never as a bonus booster.
+   *
+   * @param {{type: string, key: string, quantity: number}} reward - Reward.
+   * @returns {string} The translated sentence.
+   */
+  describeReward(reward) {
+    switch (reward.type) {
+      case 'sparks':
+        return i18n.t('redeem.reward.sparks', { count: reward.quantity });
+      case 'pearl':
+        return i18n.t('redeem.reward.pearl', { count: reward.quantity });
+      case 'bundle':
+        return i18n.t('redeem.reward.bundle', { count: reward.quantity });
+      case 'resource':
+        return i18n.t('redeem.reward.resource', {
+          count: reward.quantity,
+          resource: i18n.t(`mineblock.resource.${reward.key}`),
+        });
+      case 'currency': {
+        // The name of a currency lives in the Illager Shop data files: the code only names the ID,
+        // and the raw ID is the fallback when those files were never read.
+        const currency = illagerShopManager.getCurrency(reward.key);
+        return i18n.t('daily.reward.currency', {
+          count: reward.quantity,
+          name: currency?.name ?? reward.key,
+        });
+      }
+      case 'dailyreward':
+        return i18n.t('redeem.reward.dailyReward', { count: reward.quantity });
+      case 'booster':
+        return i18n.t('redeem.reward.booster', {
+          count: reward.quantity,
+          set: this.setNames.get(reward.key) ?? reward.key,
+        });
+      default:
+        return i18n.t('gifts.item.unknown', { key: reward.key ?? reward.type });
+    }
   }
 
   /**

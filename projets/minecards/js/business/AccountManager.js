@@ -782,9 +782,12 @@ export class AccountManager {
         changed = true;
       }
       if (!Number.isInteger(stats.daysConnected) || stats.daysConnected < 0) {
+        // The daily state holds one run per chapter (`chapters[<ID>]`), so the number of rewards
+        // already claimed is the sum of those runs. The counting helper lives here rather than in
+        // `DailyRewardManager` because that module already imports this one: a real import would
+        // close a cycle.
         const daily = await context.get(STORES.USER_STATE, USER_STATE_KEYS.DAILY_REWARDS);
-        stats.daysConnected =
-          Number.isInteger(daily?.progress) && daily.progress >= 0 ? daily.progress : 0;
+        stats.daysConnected = AccountManager.countDailyClaims(daily);
         changed = true;
       }
       if (!Number.isInteger(stats.cardsSold) || stats.cardsSold < 0) {
@@ -806,6 +809,30 @@ export class AccountManager {
       await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
       return true;
     });
+  }
+
+  /**
+   * Number of daily connection rewards already claimed in a stored state.
+   *
+   * One `progress` per progressive chapter and one `claimedDays` entry per defined day; a state
+   * written before several chapters could be open holds its single run at the root, which the
+   * fallback below covers.
+   *
+   * @param {unknown} daily - Stored `user_state["dailyRewards"]` value.
+   * @returns {number} The number of rewards claimed (0 when the state cannot be read).
+   */
+  static countDailyClaims(daily) {
+    if (!daily || typeof daily !== 'object' || Array.isArray(daily)) return 0;
+    const chapters =
+      daily.chapters && typeof daily.chapters === 'object' && !Array.isArray(daily.chapters)
+        ? Object.values(daily.chapters)
+        : [daily];
+    return chapters.reduce((total, run) => {
+      if (!run || typeof run !== 'object') return total;
+      const progress = Number.isInteger(run.progress) && run.progress > 0 ? run.progress : 0;
+      const claimedDays = Array.isArray(run.claimedDays) ? run.claimedDays.length : 0;
+      return total + progress + claimedDays;
+    }, 0);
   }
 
   /**

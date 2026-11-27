@@ -1,0 +1,415 @@
+{
+  "_comment": "Every asset and every card the show displays. A card reference is written `<set>:<Index of the catalogue>`, for example `A1:SERIE-A1 / W001`; the demo resolves it against `data/boosters/<set>.json`, so the cards are always the real, generated printings of the game. All the paths are project-relative (resolved against `paths.appRoot` of `config.json`). Change a line here to change the show, no code needed.",
+  "sets": {
+    "A1": {
+      "data": "data/boosters/A1.json",
+      "art": "assets/boosters/A1_icon.webp",
+      "icon": "assets/boosters/A1_icon_mini.webp",
+      "name": "Genesis Blocks",
+      "texture": "assets/boosters/A1.png"
+    },
+    "A2": {
+      "data": "data/boosters/A2.json",
+      "art": "assets/boosters/A2_icon.webp",
+      "icon": "assets/boosters/A2_icon_mini.webp",
+      "name": "Melting Ground",
+      "texture": "assets/boosters/A2.png"
+    }
+  },
+  "media": {
+    "pick": "assets/img/minepick.png",
+    "sparks": "assets/img/sparks.png",
+    "cardBack": "assets/img/card_back.png",
+    "blocks": {
+      "stone": "assets/img/blocks/stone.webp",
+      "deepslate": "assets/img/blocks/deepslate.webp",
+      "endstone": "assets/img/blocks/endstone.webp",
+      "blackstone": "assets/img/blocks/blackstone.webp",
+      "obsidian": "assets/img/blocks/obsidian.webp"
+    },
+    "cracks": [
+      "assets/img/blocks/break/1.png",
+      "assets/img/blocks/break/2.png",
+      "assets/img/blocks/break/3.png",
+      "assets/img/blocks/break/4.png",
+      "assets/img/blocks/break/5.png",
+      "assets/img/blocks/break/6.png",
+      "assets/img/blocks/break/7.png",
+      "assets/img/blocks/break/8.png",
+      "assets/img/blocks/break/9.png",
+      "assets/img/blocks/break/10.png"
+    ],
+    "dust": {
+      "stone": "assets/img/dusts/stone_dust.png",
+      "sculk": "assets/img/dusts/sculk_dust.png",
+      "glowstone": "assets/img/dusts/glowstone_dust.png",
+      "void": "assets/img/dusts/void_dust.png",
+      "ultima": "assets/img/dusts/ultima.png"
+    },
+    "hearts": "assets/img/Heart.webp",
+    "boosterModel": "assets/boostermodel.glb",
+    "questMap": "assets/img/illager_quest.webp",
+    "merchant": "assets/img/patrol.png",
+    "merchantFace": "assets/img/illager_shop.webp"
+  },
+  "phaseCards": [
+    "A1:SERIE-A1 / W001",
+    "A1:SERIE-A1 / W002",
+    "A1:SERIE-A1 / F004",
+    "A1:SERIE-A1 / V003",
+    "A1:SERIE-A1 / F011",
+    "A1:SERIE-A1 / V005",
+    "A1:SERIE-A1 / V011",
+    "A1:SERIE-A1 / V004",
+    "A1:SERIE-A1 / Z001",
+    "A1:SERIE-A1 / P005",
+    "A1:SERIE-A1 / F018",
+    "A1:SERIE-A1 / V006",
+    "A1:SERIE-A1 / L009",
+    "A1:SERIE-A1 / T016"
+  ],
+  "scenes": {
+    "booster": {
+      "set": "A1",
+      "cards": [
+        "A1:SERIE-A1 / V004",
+        "A1:SERIE-A1 / P005",
+        "A1:SERIE-A1 / M020",
+        "A1:SERIE-A1 / Z001",
+        "A1:SERIE-A1 / V011",
+        "A1:SERIE-A1 / P004",
+        "A1:SERIE-A1 / T021",
+        "A1:SERIE-A1 / T022",
+        "A1:SERIE-A1 / V005",
+        "A1:SERIE-A1 / V007"
+      ]
+    },
+    "multi": {
+      "set": "A1",
+      "cards": [
+        "A1:SERIE-A1 / V011",
+        "A1:SERIE-A1 / P004",
+        "A1:SERIE-A1 / T021",
+        "A1:SERIE-A1 / T022",
+        "A1:SERIE-A1 / T023",
+        "A1:SERIE-A1 / D017",
+        "A1:SERIE-A1 / V005",
+        "A1:SERIE-A1 / V007"
+      ],
+      "center": [
+        "A1:SERIE-A1 / Z002"
+      ]
+    },
+    "mosaic": {
+      "cards": [
+        "A1:SERIE-A1 / W001",
+        "A1:SERIE-A1 / W002",
+        "A1:SERIE-A1 / W003",
+        "A1:SERIE-A1 / W004",
+        "A1:SERIE-A1 / W005",
+        "A1:SERIE-A1 / W006",
+        "A1:SERIE-A1 / W007",
+        "A1:SERIE-A1 / W008",
+        "A1:SERIE-A1 / W009",
+        "A1:SERIE-A1 / W010",
+        "A1:SERIE-A1 / F004",
+        "A1:SERIE-A1 / F011",
+        "A1:SERIE-A1 / F018",
+        "A1:SERIE-A1 / F024",
+        "A1:SERIE-A1 / F025",
+        "A1:SERIE-A1 / V003",
+        "A1:SERIE-A1 / V006",
+        "A1:SERIE-A1 / V012",
+        "A1:SERIE-A1 / V005",
+        "A1:SERIE-A1 / V007",
+        "A1:SERIE-A1 / P003",
+        "A1:SERIE-A1 / P007",
+        "A1:SERIE-A1 / L009",
+        "A1:SERIE-A1 / T016",
+        "A1:SERIE-A1 / V011",
+        "A1:SERIE-A1 / P004",
+        "A1:SERIE-A1 / T021",
+        "A1:SERIE-A1 / T022",
+        "A1:SERIE-A1 / V004",
+        "A1:SERIE-A1 / P005",
+        "A1:SERIE-A1 / M020",
+        "A1:SERIE-A1 / Z001"
+      ],
+      "obtained": [
+        "A1:SERIE-A1 / W001",
+        "A1:SERIE-A1 / W005",
+        "A1:SERIE-A1 / W010",
+        "A1:SERIE-A1 / F004",
+        "A1:SERIE-A1 / F018",
+        "A1:SERIE-A1 / V003",
+        "A1:SERIE-A1 / V006",
+        "A1:SERIE-A1 / V005",
+        "A1:SERIE-A1 / P003",
+        "A1:SERIE-A1 / L009",
+        "A1:SERIE-A1 / V011",
+        "A1:SERIE-A1 / P004",
+        "A1:SERIE-A1 / V004",
+        "A1:SERIE-A1 / Z001"
+      ]
+    },
+    "fullarts": {
+      "legendary": [
+        "A1:SERIE-A1 / V011",
+        "A1:SERIE-A1 / P004",
+        "A1:SERIE-A1 / T021",
+        "A1:SERIE-A1 / T022",
+        "A1:SERIE-A1 / T023"
+      ],
+      "mythic": [
+        "A1:SERIE-A1 / V004",
+        "A1:SERIE-A1 / P005",
+        "A1:SERIE-A1 / M020"
+      ]
+    },
+    "roulette": {
+      "cards": [
+        "A1:SERIE-A1 / V005",
+        "A1:SERIE-A1 / V007",
+        "A2:SERIE-A2 / U002",
+        "A1:SERIE-A1 / P003",
+        "A2:SERIE-A2 / U006",
+        "A1:SERIE-A1 / P007",
+        "A2:SERIE-A2 / U007",
+        "A1:SERIE-A1 / L009",
+        "A2:SERIE-A2 / U008",
+        "A1:SERIE-A1 / T016",
+        "A2:SERIE-A2 / F010",
+        "A1:SERIE-A1 / T017"
+      ],
+      "winner": "A1:SERIE-A1 / T017"
+    },
+    "trade": {
+      "classic": {
+        "mine": "A1:SERIE-A1 / V005",
+        "theirs": "A2:SERIE-A2 / U002"
+      },
+      "fullart": {
+        "mine": "A1:SERIE-A1 / V004",
+        "theirs": "A2:SERIE-A2 / E011"
+      }
+    },
+    "shop": {
+      "set": "A2",
+      "price": 125,
+      "balance": 2480
+    },
+    "quests": {
+      "quests": [
+        {
+          "titleKey": "quests.mine.title",
+          "descKey": "quests.mine.desc",
+          "goal": 10,
+          "reward": {
+            "dust": "stone",
+            "count": 12
+          }
+        },
+        {
+          "titleKey": "quests.open.title",
+          "descKey": "quests.open.desc",
+          "goal": 2,
+          "reward": {
+            "dust": "glowstone",
+            "count": 4
+          }
+        },
+        {
+          "titleKey": "quests.trade.title",
+          "descKey": "quests.trade.desc",
+          "goal": 1,
+          "reward": {
+            "dust": "ultima",
+            "count": 1
+          }
+        }
+      ],
+      "merchant": {
+        "balance": 2480,
+        "offers": [
+          {
+            "card": "A2:SERIE-A2 / U002",
+            "price": 50
+          },
+          {
+            "dust": "ultima",
+            "count": 1,
+            "price": 100
+          },
+          {
+            "dust": "void",
+            "count": 2,
+            "price": 50
+          }
+        ]
+      }
+    },
+    "a2": {
+      "packs": [
+        {
+          "commons": [
+            "A2:SERIE-A2 / B001",
+            "A2:SERIE-A2 / B004",
+            "A2:SERIE-A2 / B007",
+            "A2:SERIE-A2 / B012"
+          ],
+          "fullart": "A2:SERIE-A2 / G004"
+        },
+        {
+          "commons": [
+            "A2:SERIE-A2 / B016",
+            "A2:SERIE-A2 / B019",
+            "A2:SERIE-A2 / B022",
+            "A2:SERIE-A2 / Q001"
+          ],
+          "fullart": "A2:SERIE-A2 / K002"
+        },
+        {
+          "commons": [
+            "A2:SERIE-A2 / Q002",
+            "A2:SERIE-A2 / Q003",
+            "A2:SERIE-A2 / B010",
+            "A2:SERIE-A2 / B023"
+          ],
+          "fullart": "A2:SERIE-A2 / E005"
+        }
+      ]
+    }
+  },
+  "friends": [
+    {
+      "name": "lineaucent",
+      "level": 67,
+      "avatar": "assets/img/profile/default/steve.png",
+      "friendship": 7
+    },
+    {
+      "name": "HaryuDL",
+      "level": 42,
+      "avatar": "assets/img/profile/default/enderman.png",
+      "friendship": 6
+    },
+    {
+      "name": "Myth'",
+      "level": 27,
+      "avatar": "assets/img/profile/unlockable/A1/gold_enderman.png",
+      "friendship": 4
+    },
+    {
+      "name": "Sansanhijab",
+      "level": 59,
+      "avatar": "assets/img/profile/buyable/chicken_gold.png",
+      "friendship": 8
+    },
+    {
+      "name": "SheepLord",
+      "level": 19,
+      "avatar": "assets/img/profile/default/sheep.png",
+      "friendship": 3
+    },
+    {
+      "name": "Sawan",
+      "level": 33,
+      "avatar": "assets/img/profile/default/chicken.png",
+      "friendship": 5
+    },
+    {
+      "name": "SkeletonArcher",
+      "level": 24,
+      "avatar": "assets/img/profile/default/skeleton.png",
+      "friendship": 4
+    },
+    {
+      "name": "ZombieProMaxPxMod",
+      "level": 12,
+      "avatar": "assets/img/profile/default/zombie.png",
+      "friendship": 2
+    }
+  ],
+  "nicknames": [
+    "MythMega",
+    "BlockWarden",
+    "PixelQueen",
+    "EnderVoid",
+    "DiamondHands",
+    "NoobMaster"
+  ],
+  "profiles": [
+    {
+      "nicknameIndex": 0,
+      "level": 87,
+      "rarity": 5,
+      "avatar": "assets/img/profile/unlockable/A1/rainbow_sheep.png",
+      "cards": 1240,
+      "likes": 862,
+      "trades": 96,
+      "titleId": "level-30",
+      "card": "A1:SERIE-A1 / V004",
+      "layout": "fullart"
+    },
+    {
+      "nicknameIndex": 1,
+      "level": 64,
+      "rarity": 4,
+      "avatar": "assets/img/profile/default/pig.png",
+      "cards": 708,
+      "likes": 431,
+      "trades": 52,
+      "titleId": "level-28",
+      "card": "A1:SERIE-A1 / T021",
+      "layout": "classic"
+    },
+    {
+      "nicknameIndex": 2,
+      "level": 45,
+      "rarity": 3,
+      "avatar": "assets/img/profile/default/sheep.png",
+      "cards": 512,
+      "likes": 318,
+      "trades": 27,
+      "titleId": "level-25",
+      "card": "A1:SERIE-A1 / F004",
+      "layout": "classic"
+    },
+    {
+      "nicknameIndex": 3,
+      "level": 72,
+      "rarity": 5,
+      "avatar": "assets/img/profile/default/enderman.png",
+      "cards": 889,
+      "likes": 604,
+      "trades": 71,
+      "titleId": "level-29",
+      "card": "A1:SERIE-A1 / Z001",
+      "layout": "fullart"
+    },
+    {
+      "nicknameIndex": 4,
+      "level": 99,
+      "rarity": 6,
+      "avatar": "assets/img/profile/unlockable/A1/gold_enderman.png",
+      "cards": 1687,
+      "likes": 1204,
+      "trades": 143,
+      "titleId": "level-30",
+      "card": "A1:SERIE-A1 / V011",
+      "layout": "fullart"
+    },
+    {
+      "nicknameIndex": 5,
+      "level": 12,
+      "rarity": 1,
+      "avatar": "assets/img/profile/default/steve.png",
+      "cards": 87,
+      "likes": 43,
+      "trades": 4,
+      "titleId": "level-10",
+      "card": "A1:SERIE-A1 / W001",
+      "layout": "classic"
+    }
+  ]
+}

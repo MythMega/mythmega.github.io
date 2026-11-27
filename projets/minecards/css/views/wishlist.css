@@ -79,9 +79,19 @@
   text-transform: uppercase;
 }
 
-/* A refused card keeps its explanation in the plain text colour: the accent is the wish itself. */
+/* A refused card keeps its explanation in the plain text colour: the accent is the wish itself.
+   The reason is a whole sentence ("Rareté non échangeable", "Amitié 4 ★ requise") inside a small
+   tile, so it is set smaller than the wish badge and wraps on two lines instead of being cut. */
 .trade__card-button.is-unavailable .trade__card-wish {
+  --trade-reason-size: 0.58rem;
+  max-width: calc(100% - 0.6rem);
+  padding: 0.1rem 0.3rem;
   color: var(--color-text);
+  font-size: var(--trade-reason-size);
+  line-height: 1.15;
+  letter-spacing: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 /* A card the partner wished for but this player cannot offer: visible, not selectable.

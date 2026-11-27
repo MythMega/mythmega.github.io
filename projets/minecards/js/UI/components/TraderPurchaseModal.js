@@ -92,7 +92,8 @@ export class TraderPurchaseModal {
 
     const actions = document.createElement('div');
     actions.className = 'modal__actions';
-    actions.append(this.confirmButton, cancel);
+    // Cancel first, confirm last: the reading order of every dialog (the safe choice on the left).
+    actions.append(cancel, this.confirmButton);
 
     dialog.append(close, this.titleElement, body, actions);
     overlay.appendChild(dialog);

@@ -52,9 +52,29 @@
   text-transform: uppercase;
 }
 
+/* The gift dialog keeps the fixed frame of the shared modal (`css/components/modal.css`): its title
+   and its action band are pinned to the two edges, stretch over the padding, and the title gets the
+   same inset on both sides so the cross does not push the centred text off the middle. */
 .auto-claim__title {
-  margin: 0;
+  position: sticky;
+  top: calc(-1 * var(--space-5));
+  z-index: 2;
+  align-self: stretch;
+  margin: 0 calc(-1 * var(--space-5));
+  padding: var(--space-2) calc(var(--touch-target) + var(--space-4));
+  background-color: var(--color-surface);
   font-size: var(--font-size-lg);
+}
+
+.auto-claim__dialog > .modal__actions {
+  position: sticky;
+  bottom: calc(-1 * var(--space-5));
+  z-index: 2;
+  align-self: stretch;
+  margin: 0 calc(-1 * var(--space-5)) calc(-1 * var(--space-5));
+  padding: var(--space-3) var(--space-5) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
 }
 
 .auto-claim__card {
@@ -121,7 +141,6 @@
 
 .auto-claim__close {
   width: 100%;
-  margin-top: var(--space-2);
 }
 
 @keyframes auto-claim-fade {

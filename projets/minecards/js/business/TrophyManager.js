@@ -44,7 +44,7 @@ import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import miningManager from './MiningManager.js';
 import minePickManager from './MinePickManager.js';
 import profileManager from './ProfileManager.js';
-import { USER_STATE_KEYS } from './AccountManager.js';
+import { AccountManager, USER_STATE_KEYS } from './AccountManager.js';
 import {
   ILLAGER_QUESTS_STATE_KEY,
   countClaimedQuests,
@@ -519,12 +519,12 @@ export class TrophyManager {
       Number.isInteger(stats?.questsCompleted) && stats.questsCompleted >= 0
         ? stats.questsCompleted
         : countClaimedQuests(questState);
+    // A save whose `stats` were never written falls back on the daily chapters: the counter is the
+    // number of rewards they already claimed, every run counted (`AccountManager.countDailyClaims`).
     const daysConnected =
       Number.isInteger(stats?.daysConnected) && stats.daysConnected >= 0
         ? stats.daysConnected
-        : Number.isInteger(dailyState?.progress) && dailyState.progress >= 0
-          ? dailyState.progress
-          : 0;
+        : AccountManager.countDailyClaims(dailyState);
     const cardsSold =
       Number.isInteger(stats?.cardsSold) && stats.cardsSold >= 0
         ? stats.cardsSold

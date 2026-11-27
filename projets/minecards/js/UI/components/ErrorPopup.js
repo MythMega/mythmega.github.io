@@ -138,6 +138,14 @@ export class ErrorPopup {
     dialog.setAttribute('aria-describedby', 'error-popup-body');
 
     const badge = document.createElement('p');
+    // A cross in the header, like every dialog: the "Fermer" button of the actions is at the far
+    // end of a long error text, and a player must be able to leave without reaching it.
+    const dismissButton = document.createElement('button');
+    dismissButton.type = 'button';
+    dismissButton.className = 'modal__close';
+    dismissButton.dataset.errorPopupDismiss = '';
+    dismissButton.addEventListener('click', () => this.close());
+
     badge.className = `${ERROR_POPUP_CLASS}__badge`;
     badge.dataset.errorPopupBadge = '';
 
@@ -188,7 +196,7 @@ export class ErrorPopup {
     hint.className = `${ERROR_POPUP_CLASS}__hint`;
     hint.dataset.errorPopupHint = '';
 
-    dialog.append(badge, title, body, codeRow, details, actions, hint);
+    dialog.append(dismissButton, badge, title, body, codeRow, details, actions, hint);
     root.append(dialog);
     document.body.append(root);
 

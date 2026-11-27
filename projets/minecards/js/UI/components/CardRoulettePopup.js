@@ -203,6 +203,14 @@ export class CardRoulettePopup {
     dialog.setAttribute('aria-modal', 'true');
     dialog.setAttribute('aria-labelledby', 'card-roulette-title');
 
+    // The wheel is already drawn and paid for: the cross only leaves the dialog, like the
+    // confirmation button, and every popup of the game has one in its header.
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'modal__close';
+    closeButton.dataset.cardRouletteClose = '';
+    closeButton.addEventListener('click', () => this.close());
+
     const badge = document.createElement('p');
     badge.className = `${CARD_ROULETTE_CLASS}__badge`;
     badge.dataset.cardRouletteBadge = '';
@@ -275,7 +283,7 @@ export class CardRoulettePopup {
     confirm.addEventListener('click', () => this.close());
     actions.append(confirm);
 
-    dialog.append(badge, title, subtitle, loading, windowElement, reveal, actions);
+    dialog.append(closeButton, badge, title, subtitle, loading, windowElement, reveal, actions);
     root.append(dialog);
     document.body.append(root);
 

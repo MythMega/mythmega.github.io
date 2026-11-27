@@ -50,6 +50,7 @@ import tradeManager, {
   TRADE_STATUSES,
   getTradeCost,
   getTradeErrorMessageKey,
+  isPromoCard,
 } from '../../business/TradeManager.js';
 
 /** How long a loaded trade list is considered fresh when the tab is shown again. */
@@ -180,6 +181,7 @@ export class TradeView {
     this.claimOut = modalQuery('[data-trade-claim-out]');
     this.claimIn = modalQuery('[data-trade-claim-in]');
     this.claimClose = modalQuery('[data-trade-claim-close]');
+    this.claimDismiss = modalQuery('[data-trade-claim-dismiss]');
 
     this.friendModal = modalQuery('[data-trade-friend-modal]');
     this.friendTitle = modalQuery('[data-trade-friend-title]');
@@ -361,6 +363,7 @@ export class TradeView {
     });
 
     this.listen(this.claimClose, 'click', () => this.closeClaim());
+    this.listen(this.claimDismiss, 'click', () => this.closeClaim());
     this.listen(this.claimModal, 'click', (event) => {
       if (event.target === this.claimModal) this.closeClaim();
     });
@@ -985,6 +988,10 @@ export class TradeView {
    * rules or the balance refuse, greyed and disabled under their own heading. The search hides
    * tiles in place and the sort only re-orders each group, so a keystroke never rebuilds the grid.
    *
+   * PROMO CARDS ARE NOT LISTED AT ALL. A promo can never be exchanged, whatever the friendship,
+   * the extension or the copy count, so a greyed tile of one would only invite the player to try an
+   * offer the game would always refuse.
+   *
    * @returns {Promise<void>} Resolves once the list is filled.
    */
   async renderNewTradeCards() {
@@ -997,7 +1004,7 @@ export class TradeView {
     const wished = this.partnerWishlist;
     // Every refusal is read once: the cards that fail a rule or the price leave the selectable
     // list, so an unaffordable card is greyed at the bottom instead of appearing twice.
-    const refused = this.buildUntradableEntries(this.collectionView);
+    const refused = this.listRefusedEntries(this.collectionView);
     const refusedReasons = new Map(refused.map(({ entry, reasonKey }) => [entry.key, reasonKey]));
     const refusedKeys = new Set(refusedReasons.keys());
     const offerable = this.collectionEntries.filter((entry) => !refusedKeys.has(entry.key));
@@ -1013,11 +1020,10 @@ export class TradeView {
       });
     }
     for (const key of wished) {
-      if (!tradableKeys.has(key)) {
-        this.cardGroups.blocked.push(
-          await this.buildBlockedWishCard(key, refusedReasons.get(key) ?? null)
-        );
-      }
+      if (tradableKeys.has(key)) continue;
+      // `null` is a promo the partner wished for: it is hidden like every other promo.
+      const blocked = await this.buildBlockedWishCard(key, refusedReasons.get(key) ?? null);
+      if (blocked) this.cardGroups.blocked.push(blocked);
     }
     for (const entry of otherEntries) {
       this.cardGroups.rest.push({
@@ -1085,12 +1091,14 @@ export class TradeView {
    *
    * @param {string} key - Collection key wished by the partner.
    * @param {string|null} [reasonKey=null] - Exact refusal, when the collection explains it.
-   * @returns {Promise<{button: HTMLElement, entry: null, haystack: string}>} The disabled tile.
+   * @returns {Promise<{button: HTMLElement, entry: null, haystack: string}|null>} The disabled
+   *   tile, or `null` when the wished card is a promo (never listed at all).
    */
   async buildBlockedWishCard(key, reasonKey = null) {
     let name = key;
     try {
       const card = await boosterManager.getCardByKey(key);
+      if (isPromoCard(card)) return null;
       if (card) name = card.getName(i18n.getLang());
     } catch (error) {
       console.warn(`[TradeView] The wished card "${key}" could not be read.`, error);
@@ -1127,6 +1135,23 @@ export class TradeView {
       .filter((entry) => entry?.owned === true && Number(entry.quantity) > 0)
       .map((entry) => ({ entry, reasonKey: this.getUntradableReason(entry) }))
       .filter(({ reasonKey }) => reasonKey !== '');
+  }
+
+  /**
+   * Lists the owned cards that cannot be offered, PROMOS EXCLUDED.
+   *
+   * A promo can never leave a collection (it only enters one through a code or a gift), so the
+   * chooser does not show it at all: a greyed tile would only invite the player to try an offer the
+   * game refuses whatever the friendship, the extension or the copy count. This is the single door
+   * of the greyed block, and `tools/tests/trade_list_rules.test.mjs` guards it.
+   *
+   * @param {object} collectionView - Result of `CollectionManager.getCollectionView()`.
+   * @returns {Array<{entry: object, reasonKey: string}>} The refused entries, promos left out.
+   */
+  listRefusedEntries(collectionView) {
+    return this.buildUntradableEntries(collectionView).filter(
+      ({ entry }) => entry.promo !== true && !isPromoCard(entry)
+    );
   }
 
   /**
@@ -1628,6 +1653,10 @@ export class TradeView {
       this.friendshipXp = new Map(Object.entries(friendship.xp));
       this.proposalStars = this.friendProgress(trade.initiator?.uuid ?? '').stars;
       const excluded = trade.initiator?.card?.key ?? '';
+      /** @type {HTMLElement[]} Selectable tiles, drawn before the greyed ones. */
+      const tradableTiles = [];
+      /** @type {HTMLElement[]} Refused tiles, always at the bottom of the list. */
+      const refusedTiles = [];
       // Same rarity is mandatory; the same extension is only required when the configuration says
       // so (`trades.sameExtension`), in which case the offered card must match the other one's set.
       this.tradeRules = await tradeManager.getRules();
@@ -1663,15 +1692,18 @@ export class TradeView {
           // 6 below four stars, missing Eyes or Sparks) is greyed with its reason instead of being
           // offered at a price the dialog would then refuse.
           const reasonKey = this.getUntradableReason(entry, this.proposalStars);
-          this.proposalCards.appendChild(
-            reasonKey
-              ? await this.buildUntradableCard(entry, reasonKey, this.proposalStars)
-              : await this.buildSelectableCard(entry, {
-                  wished: wishedByInitiator.has(entry.key),
-                  stars: this.proposalStars,
-                })
-          );
+          if (reasonKey) {
+            refusedTiles.push(await this.buildUntradableCard(entry, reasonKey, this.proposalStars));
+          } else {
+            tradableTiles.push(
+              await this.buildSelectableCard(entry, {
+                wished: wishedByInitiator.has(entry.key),
+                stars: this.proposalStars,
+              })
+            );
+          }
         }
+        [...tradableTiles, ...refusedTiles].forEach((tile) => this.proposalCards.appendChild(tile));
       }
       this.updateProposalCost();
     } catch (error) {
@@ -1948,6 +1980,7 @@ export class TradeView {
     this.claimOut.appendChild(await this.buildCardTile(given, { artOnly: true }));
     this.claimIn.appendChild(await this.buildCardTile(received, { artOnly: true }));
     this.claimClose.disabled = true;
+    if (this.claimDismiss) this.claimDismiss.disabled = true;
     this.claimModal.hidden = false;
 
     // Two frames so the browser paints the initial state before the timeline starts.
@@ -1958,6 +1991,7 @@ export class TradeView {
     if (this.animationTimer !== null) clearTimeout(this.animationTimer);
     this.animationTimer = setTimeout(() => {
       this.claimClose.disabled = false;
+      if (this.claimDismiss) this.claimDismiss.disabled = false;
       this.animationTimer = null;
     }, CLAIM_ANIMATION_MS);
   }
@@ -2106,6 +2140,7 @@ export class TradeView {
     this.claimModal.hidden = true;
     this.claimStage.classList.remove('is-animating');
     this.claimClose.disabled = false;
+    if (this.claimDismiss) this.claimDismiss.disabled = false;
     if (this.isActive) this.openFriendPrompt();
   }
 

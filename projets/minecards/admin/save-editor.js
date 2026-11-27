@@ -951,7 +951,6 @@ function renderOverview() {
   const profile = ensureState('profile');
   const minePick = ensureState('minePick');
   const mining = ensureState('mining');
-  const daily = ensureState('dailyRewards');
   const rows = collectionRows();
   const sparks = Number.isFinite(Number(state.sparks)) ? Number(state.sparks) : 0;
 
@@ -994,10 +993,7 @@ function renderOverview() {
     }),
     numberField('Cartes vendues', Number(stats.cardsSold) || 0, (value) => {
       ensureState('stats').cardsSold = value;
-    }),
-    numberField('Récompenses de connexion réclamées', Number(daily.progress) || 0, (value) => {
-      ensureState('dailyRewards').progress = value;
-    }, { help: 'Position dans le chapitre courant.' })
+    })
   )));
 }
 
@@ -1828,6 +1824,82 @@ function rarityCounters(label, key) {
 }
 
 /**
+ * Returns (and creates when needed) the daily run of one chapter in the loaded save.
+ *
+ * @param {string} chapterId - Id of the chapter.
+ * @returns {object} The mutable run of that chapter.
+ */
+function dailyRun(chapterId) {
+  const daily = ensureState('dailyRewards');
+  if (!daily.chapters || typeof daily.chapters !== 'object' || Array.isArray(daily.chapters)) {
+    daily.chapters = {};
+  }
+  const existing = daily.chapters[chapterId];
+  if (existing && typeof existing === 'object') return existing;
+  const created = { progress: 0, claimedDays: [], lastClaimDay: null };
+  daily.chapters[chapterId] = created;
+  return created;
+}
+
+/**
+ * Builds the editor of the daily connection runs.
+ *
+ * The save holds ONE run per chapter (`chapters[<ID>]`) and each chapter advances on its own, so
+ * the panel shows a block per declared chapter (plus the ones the save already holds) instead of a
+ * single position: editing the first series must never overwrite the second.
+ *
+ * @param {object} daily - `user_state["dailyRewards"]` of the loaded save.
+ * @returns {HTMLElement} The content of the section.
+ */
+function dailyRewardsEditor(daily) {
+  const runs =
+    daily.chapters && typeof daily.chapters === 'object' && !Array.isArray(daily.chapters)
+      ? daily.chapters
+      : {};
+  const chapters = new Map((catalogs?.chapters ?? []).map((entry) => [entry.id, entry.name]));
+  Object.keys(runs).forEach((id) => {
+    if (!chapters.has(id)) chapters.set(id, id);
+  });
+
+  const block = h('div', { class: 'field-grid' },
+    textField('Dernier jour où la popup a été vue', daily.seenDay ?? '', (value) => {
+      ensureState('dailyRewards').seenDay = value.trim() === '' ? null : value.trim();
+    }, { type: 'date', help: 'Offre automatique : une fois par jour, tous chapitres confondus.' })
+  );
+
+  if (chapters.size === 0) {
+    block.append(h('p', { class: 'muted' }, 'Aucun chapitre de connexion déclaré.'));
+    return block;
+  }
+
+  chapters.forEach((name, id) => {
+    const run = runs[id] ?? { progress: 0, claimedDays: [], lastClaimDay: null };
+    block.append(h('p', { class: 'muted' }, `${name} (${id})`));
+    block.append(h('div', { class: 'field-grid' },
+      numberField('Récompenses réclamées', Number(run.progress) || 0, (value) => {
+        dailyRun(id).progress = value;
+      }, { help: 'Position de la série en mode progressif.' }),
+      textField(
+        'Jours du calendrier réclamés',
+        Array.isArray(run.claimedDays) ? run.claimedDays.join(', ') : '',
+        (value) => {
+          dailyRun(id).claimedDays = value
+            .split(',')
+            .map((entry) => Number(entry.trim()))
+            .filter((entry) => Number.isInteger(entry) && entry > 0);
+        },
+        { help: 'Mode défini uniquement, séparés par des virgules : « 1, 3, 7 ».' }
+      ),
+      textField('Dernier jour réclamé', run.lastClaimDay ?? '', (value) => {
+        dailyRun(id).lastClaimDay = value.trim() === '' ? null : value.trim();
+      }, { type: 'date' })
+    ));
+  });
+
+  return block;
+}
+
+/**
  * Renders the progression panel.
  *
  * @returns {void}
@@ -1864,26 +1936,7 @@ function renderProgress() {
   root.append(rarityCounters('Tirages par rareté', 'drawsByRarity'));
   root.append(rarityCounters('Ventes par rareté', 'soldByRarity'));
 
-  const chapterOptions = [
-    ...(catalogs?.chapters ?? []).map((entry) => ({
-      value: entry.id,
-      label: `${entry.name} (${entry.id})`,
-    })),
-  ];
-  if (typeof daily.chapterId === 'string' && daily.chapterId !== '' && !chapterOptions.some((entry) => entry.value === daily.chapterId)) {
-    chapterOptions.push({ value: daily.chapterId, label: daily.chapterId });
-  }
-  root.append(section('Récompenses de connexion', h('div', { class: 'field-grid' },
-    selectField('Chapitre', chapterOptions, daily.chapterId ?? '', (value) => {
-      ensureState('dailyRewards').chapterId = value === '' ? null : value;
-    }),
-    numberField('Récompenses réclamées', Number(daily.progress) || 0, (value) => {
-      ensureState('dailyRewards').progress = value;
-    }),
-    textField('Dernier jour réclamé', daily.lastClaimDay ?? '', (value) => {
-      ensureState('dailyRewards').lastClaimDay = value.trim() === '' ? null : value.trim();
-    }, { type: 'date' })
-  )));
+  root.append(section('Récompenses de connexion', dailyRewardsEditor(daily)));
 
   const questGrid = h('div', { class: 'field-grid' },
     numberField('Expérience des quêtes', Number(quests.experience) || 0, (value) => {

@@ -1135,5 +1135,79 @@
                 }
             }
         ]
+    },
+    {
+        "Id": 14,
+        "Version": "1.0.13",
+        "Titles": {
+            "Fr": "Calendar Update",
+            "En": "Calendar Update"
+        },
+        "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Récompenses de connexion : plusieurs séries en même temps, avec un sélecteur pour choisir celle que vous suivez.",
+                    "En": "Daily rewards: several series can run at once, with a chooser for the one you are following."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouveaux modes de récompense dans une série : ressources, monnaie, boosters et cartes.",
+                    "En": "New reward kinds in a series: resources, currency, boosters and cards."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Toutes les popups gardent leur en-tête et leur bouton de fermeture visibles, et leurs boutons d'annulation / validation en bas.",
+                    "En": "Every popup keeps its header and close button visible, with its cancel / confirm buttons at the bottom."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Échanges : les cartes promo ne sont plus affichées du tout, toutes les cartes non échangeables sont grisées en bas de la liste et leur raison reste lisible.",
+                    "En": "Trades: promo cards are no longer shown at all, every untradable card is greyed at the bottom of the list and its reason stays readable."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Le sélecteur de wishlist du profil ne propose plus les cartes promo.",
+                    "En": "The wishlist picker of the profile no longer offers promo cards."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Image de fond du plateau de récompenses de connexion : une seule fois, en fond de la grille.",
+                    "En": "Daily rewards board background: shown once, behind the grid only."
+                }
+            },
+            {
+                "Type": "Info",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Code cadeau : « END3RM4N » vous offre une perle de l'End gratuite.",
+                    "En": "Gift code: END3RM4N gives you a free Ender Pearl."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": false,
+                "Text": {
+                    "Fr": "Herobrine supprimé.",
+                    "En": "Removed Herobrine."
+                }
+            }
+        ]
     }
 ]

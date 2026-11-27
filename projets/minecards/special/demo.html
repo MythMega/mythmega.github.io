@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="night">
+<head>
+  <meta charset="utf-8">
+  <!-- Every shared module of the game (i18n, titles, profile cards) reads its settings from the
+       application root. The base tag makes those relative fetches resolve there, not under
+       `special/`; the demo's own links below stay explicit. -->
+  <base href="../">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Le spectacle rythmé de MineCards : boosters 3D, full art, échanges, quêtes, minage et boutique.">
+  <title>MineCards - Demo</title>
+  <link rel="icon" href="assets/icons/favicon-32.png">
+
+  <!-- The demo borrows the game itself: the pixel face, the palettes and the base components. Its own
+       two stylesheets come last and only describe the stage, the scenes and their motion. -->
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components/card-shine.css">
+  <link rel="stylesheet" href="special/demo/styles/demo.css">
+  <link rel="stylesheet" href="special/demo/styles/scenes.css">
+
+  <!-- The real booster is the `.glb` of the game, loaded by Booster3DRenderer. Three.js is pinned
+       exactly like the game does it, so the model, its materials and the light stay identical. -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <!-- The map must be parsed before ANY module fetch (including a modulepreload), so it comes
+       before the hints: otherwise the browser warns and the bare `three` specifier may miss. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/build/three.module.js" crossorigin>
+  <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js" crossorigin>
+</head>
+
+<body class="demo" data-format="horizontal">
+  <main class="demo__main" data-demo>
+    <h1 class="visually-hidden">MineCards demo</h1>
+
+    <!-- The stage is authored at 1920x1080 (or 1080x1920) and scaled as ONE block to the window: the
+         composition never reflows, so a camera move lands exactly where it was drawn. -->
+    <div class="demo__viewport">
+      <div class="demo__stage" data-demo-stage>
+        <div class="demo__camera" data-demo-camera>
+          <div class="demo__world" data-demo-world></div>
+        </div>
+        <div class="demo__flash" data-demo-flash aria-hidden="true"></div>
+        <div class="demo__vignette" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <footer class="demo-hud" data-demo-hud hidden>
+      <span class="demo-hud__brand">MINECARDS</span>
+      <span class="demo-hud__meta" data-demo-hud-stage></span>
+      <span class="demo-hud__meta" data-demo-hud-bpm></span>
+      <button type="button" class="demo-hud__replay" data-demo-replay hidden>REJOUER</button>
+    </footer>
+  </main>
+
+  <!-- The loader is the only thing a visitor sees first. LOAD runs the whole preload (catalogues, cards,
+       every picture), then LAUNCH becomes available: the show itself never waits for a file. -->
+  <div class="demo-loader" data-demo-loader>
+    <div class="demo-loader__glow" aria-hidden="true"></div>
+    <div class="demo-loader__scan" aria-hidden="true"></div>
+
+    <p class="demo-loader__brand" data-demo-loader-title>MINECARDS</p>
+    <p class="demo-loader__subtitle" data-demo-loader-subtitle>LE SPECTACLE DES CARTES</p>
+
+    <div class="demo-loader__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="demo-loader__bar-fill" data-demo-progress></span>
+    </div>
+
+    <div class="demo-loader__status">
+      <span class="demo-loader__label" data-demo-loader-label>LE CHARGEMENT COMMENCE ICI</span>
+      <span class="demo-loader__count" data-demo-loader-count></span>
+    </div>
+
+    <div class="demo-loader__actions">
+      <button type="button" class="demo-loader__button demo-loader__button--load" data-demo-load>CHARGER</button>
+      <button type="button" class="demo-loader__button demo-loader__button--start" data-demo-start hidden>LANCER</button>
+    </div>
+
+    <!-- Tempo and info decide how the film plays, never what it contains: the range changes the
+         beat of the whole timeline, the switch hides the corner HUD (the resolution and the BPM).
+         The format follows the shape of the window by default; the select forces one or the other. -->
+    <div class="demo-loader__controls">
+      <label class="demo-loader__control">
+        <span class="demo-loader__control-label" data-demo-bpm-label>RYTHME</span>
+        <input class="demo-loader__range" type="range" min="80" max="280" step="1" value="96" data-demo-bpm>
+        <output class="demo-loader__value" data-demo-bpm-value>96 BPM</output>
+      </label>
+      <label class="demo-loader__control demo-loader__control--check">
+        <input class="demo-loader__checkbox" type="checkbox" data-demo-hud-toggle checked>
+        <span class="demo-loader__control-label" data-demo-hud-label>AFFICHER LES INFOS</span>
+      </label>
+      <label class="demo-loader__control">
+        <span class="demo-loader__control-label" data-demo-lang-label>LANGUE</span>
+        <select class="demo-loader__select" data-demo-lang>
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <label class="demo-loader__control">
+        <span class="demo-loader__control-label" data-demo-format-label>FORMAT</span>
+        <select class="demo-loader__select" data-demo-format>
+          <option value="auto">AUTO</option>
+          <option value="horizontal">PAYSAGE</option>
+          <option value="vertical">PORTRAIT</option>
+        </select>
+      </label>
+    </div>
+
+    <p class="demo-loader__hint" data-demo-loader-hint>1920 x 1080 - 96 BPM</p>
+  </div>
+
+  <script type="module" src="special/demo/scripts/main.js"></script>
+</body>
+</html>

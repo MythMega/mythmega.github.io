@@ -114,7 +114,7 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 | `purchases` | objet | fonctionnalités payées |
 | `profileCard` | objet | préférences de la carte de profil |
 | `setAnnouncements` | tableau | extensions à venir déjà annoncées |
-| `dailyRewards` | objet | série de récompenses de connexion en cours |
+| `dailyRewards` | objet | runs des chapitres de récompenses de connexion, une par chapitre |
 | `changelogSeen` | nombre | plus grand `Id` de `settings/changelog.json` déjà lu (pastille « nouvelle version ») |
 
 ### 3.1 `account`
@@ -444,20 +444,40 @@ Dix-neuf clés, toutes définies par `USER_STATE_KEYS` (`js/business/AccountMana
 ### 3.17 `dailyRewards`
 
 ```json
-{ "chapterId": "dailyconnectreward_1", "progress": 4, "lastClaimDay": "2026-11-02", "claimedUniques": ["CardRewardConnectionA1GenesisBlock"], "seenDay": "2026-11-02" }
+{
+  "chapters": {
+    "dailyconnectreward_1": {
+      "progress": 4,
+      "claimedDays": [],
+      "lastClaimDay": "2026-11-02"
+    }
+  },
+  "claimedUniques": ["CardRewardConnectionA1GenesisBlock"],
+  "seenDay": "2026-11-02"
+}
 ```
 
-- `chapterId` : chapitre auquel appartient la série en cours. Un autre chapitre **remet la série à
-  zéro** (`progress: 0`) : c'est la règle « quand une nouvelle série commence, on repart de 0 ».
-- `progress` : nombre de récompenses **déjà récupérées** dans ce chapitre. Il avance **uniquement
-  au claim**, jamais à la connexion : manquer un jour ne consomme pas la récompense, il la remplace
-  par la suivante. `progress` est aussi la position (0-based) de la récompense du jour.
-- `lastClaimDay` : jour UTC du dernier claim, comparé au jour fiable de `DateSyncManager`. Il est
-  la seule protection contre un double claim (deux onglets, un double clic, un rechargement).
-- `claimedUniques` : les `UniqueID` déjà distribués à ce compte, tous chapitres confondus. Un jour
-  `Unique` déjà consommé donne son `ReplacementRewardIfClaimed`.
+- `chapters` : **une run par chapitre touché**. Plusieurs chapitres peuvent être ouverts en même
+  temps (voir `.docs/projet/05-daily-rewards.md`) et avancent **indépendamment**. Un chapitre absent
+  de la table est une run neuve : c'est la règle « quand une nouvelle série commence, on repart de
+  0 ». Une sauvegarde antérieure à ce format, qui portait la run à la racine (`chapterId`,
+  `progress`, `lastClaimDay`, `claimedUniques`), est **migrée** à la lecture dans
+  `chapters[chapterId]` : aucun jour déjà réclamé n'est perdu.
+- `progress` : nombre de récompenses **déjà récupérées** dans ce chapitre `progressive`. Il avance
+  **uniquement au claim**, jamais à la connexion : manquer un jour ne consomme pas la récompense, il
+  la remplace par la suivante. `progress` est aussi la position (0-based) de la récompense du jour.
+- `claimedDays` : jours du **calendrier** déjà récupérés d'un chapitre `defined` (positions 1-based
+  dans la fenêtre). Un jour passé sans claim est perdu et n'y entre jamais.
+- `lastClaimDay` : jour UTC du dernier claim **de ce chapitre**, comparé au jour fiable de
+  `DateSyncManager`. Il est la seule protection contre un double claim sur une série (deux onglets,
+  un double clic, un rechargement), et il est propre à chaque chapitre : un même jour peut être
+  réclamé dans toutes les séries ouvertes.
+- `claimedUniques` : les `UniqueID` déjà distribués à ce compte, **tous chapitres confondus** (la
+  liste est globale : une récompense `Unique` déclarée par un chapitre ultérieur reste remplacée).
+  Un jour `Unique` déjà consommé donne son `ReplacementRewardIfClaimed`.
 - `seenDay` : dernier jour où la popup a été affichée, pour que l'offre automatique n'ait lieu
-  qu'une fois par jour. Il ne conditionne jamais le claim.
+  qu'une fois par jour, **quel que soit le nombre de chapitres ouverts**. Il ne conditionne jamais le
+  claim.
 
 La récompense, le compteur et l'identifiant unique sont écrits dans **une seule transaction** avec
 la collection et le quota : un claim partiel est impossible.

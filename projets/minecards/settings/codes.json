@@ -191,7 +191,10 @@
                 "EN": null
             }
         },
-        "Availabilities" : null,
+        "Availabilities" : {
+            "StartDate": null,
+            "EndDate": "2026-11-27"
+        },
         "Repeatable": false
     },
     {

@@ -1,0 +1,826 @@
+/* =============================================================================
+   demo.css - The shell of the MineCards show.
+
+   Reference: `special/demo.html`, `special/demo/config.json` (the palette) and
+   `special/demo/animations.json` (the tempo).
+
+   Two ideas drive this file:
+     - the stage is a FIXED composition (1920x1080 or 1080x1920) scaled as one block,
+       so `format=horizontal|vertical` changes the layout and never the motion;
+     - every duration is a multiple of `--beat-time`, published from `bpm`, so the
+       whole show speeds up or slows down with one JSON value.
+   ============================================================================= */
+
+:root {
+  --beat-time: 625ms;
+  --demo-title: 'Press Start 2P', monospace;
+  --demo-ink: #050b1c;
+  --demo-deep: #000000;
+  --demo-surface: #0d1730;
+  --demo-surface-alt: #152139;
+  --demo-border: #24324f;
+  --demo-text: #e8efff;
+  --demo-muted: #93a2c4;
+  --demo-accent: #7fa5ff;
+  --demo-accent-soft: #b9ccff;
+  --demo-gold: #ffd54a;
+  --demo-rose: #f472b6;
+  --demo-cyan: #4dd0e1;
+  --demo-violet: #a855f7;
+  --demo-success: #4ade80;
+  --demo-black: #000000;
+  --demo-title-ink: #d9dde8;
+}
+
+html,
+body.demo {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: var(--demo-deep);
+  color: var(--demo-text);
+}
+
+body.demo {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  font-family: var(--font-family-base, system-ui, sans-serif);
+}
+
+.demo__main {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* --- The fixed stage ------------------------------------------------------- */
+
+.demo__viewport {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(127, 165, 255, 0.14), transparent 62%),
+    linear-gradient(180deg, var(--demo-deep), var(--demo-ink) 55%, var(--demo-black));
+}
+
+.demo__stage {
+  --stage-scale: 1;
+  /* Absolute centring, not a grid item: a 1080px stage inside a phone-width container grows its
+     track to 1080px and would then be scaled from the track's origin, off the screen. */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--stage-w, 1920px);
+  height: var(--stage-h, 1080px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(127, 165, 255, 0.1), transparent 60%),
+    linear-gradient(180deg, rgba(13, 23, 48, 0.35), transparent 40%);
+  transform: translate(-50%, -50%) scale(var(--stage-scale));
+  transform-origin: center;
+  perspective: 1800px;
+}
+
+.demo__camera {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.demo__world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.demo__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.demo__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.45));
+}
+
+/* --- Scenes ---------------------------------------------------------------- */
+
+.demo__scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.03);
+  transition:
+    opacity calc(var(--beat-time) * 0.6) ease,
+    transform calc(var(--beat-time) * 0.6) ease,
+    visibility 0s linear calc(var(--beat-time) * 0.6);
+}
+
+.demo__scene.is-live {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.demo__layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* --- A generated card in its box ------------------------------------------- */
+
+.demo__card {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--card-w, 220px);
+  aspect-ratio: 360 / 500;
+  border-radius: 10px;
+  filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.55));
+}
+
+.demo__card > card-print {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.demo__card--flat {
+  filter: none;
+}
+
+.demo__card--mini {
+  --card-w: 170px;
+  border-radius: 8px;
+}
+
+.demo__card.is-dimmed {
+  filter: grayscale(1) brightness(0.52) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.5));
+}
+
+.demo__card.is-obtained {
+  filter: drop-shadow(0 0 18px var(--demo-gold)) drop-shadow(0 16px 26px rgba(0, 0, 0, 0.55));
+}
+
+/* A card leaving or arriving: the class carries no look, only the compositing hint. */
+.demo__card.is-flying {
+  will-change: transform, opacity;
+}
+
+/* --- Particles ------------------------------------------------------------- */
+
+.demo__particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--particle-size, 8px);
+  height: var(--particle-size, 8px);
+  margin: calc(var(--particle-size, 8px) / -2);
+  border-radius: 2px;
+  background: var(--particle-color, var(--demo-gold));
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.demo__particle--spark {
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--particle-color, var(--demo-gold));
+}
+
+.demo__particle--heart {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--particle-color, var(--demo-rose));
+  font-family: var(--demo-title);
+  font-size: var(--particle-size, 14px);
+  line-height: 1;
+  text-shadow: 0 0 8px var(--demo-rose);
+}
+
+.demo__shockwave {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin: -20px;
+  border: 3px solid var(--demo-gold);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Text phases ----------------------------------------------------------- */
+
+.phase {
+  flex-direction: column;
+  gap: 3.2rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(5, 11, 28, 0.45), rgba(2, 4, 12, 0.94) 72%),
+    linear-gradient(180deg, var(--demo-ink), var(--demo-black));
+}
+
+.phase__backdrop {
+  position: absolute;
+  inset: -14% -6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3.4rem;
+  opacity: 0.34;
+  filter: blur(1.5px) saturate(0.35);
+  transform: rotate(-6deg) scale(1.12);
+}
+
+.phase__row {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: demo-phase-drift calc(var(--beat-time) * 22) linear infinite;
+}
+
+.phase__row .demo__card {
+  --card-w: 210px;
+}
+
+.phase__row:nth-child(2) {
+  margin-left: -12%;
+  animation-direction: reverse;
+  animation-duration: calc(var(--beat-time) * 28);
+}
+
+.phase__row:nth-child(3) {
+  margin-left: 5%;
+  animation-direction: reverse;
+  animation-duration: calc(var(--beat-time) * 31);
+  opacity: 0.72;
+}
+
+/* The generic backdrop is desaturated so text stays readable; the collection is the exception:
+   it shows real obtained cards in colour beside the greyed ones. */
+.phase--collect .phase__backdrop {
+  filter: blur(1.5px);
+  opacity: 0.42;
+}
+
+.phase--collect .demo__card.is-obtained {
+  filter: drop-shadow(0 0 16px rgba(255, 213, 74, 0.75)) drop-shadow(0 16px 26px rgba(0, 0, 0, 0.55));
+}
+
+.phase--collect .demo__card.is-dimmed {
+  opacity: 0.55;
+}
+
+.phase__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 86%;
+  text-align: center;
+}
+
+.phase__kicker {
+  margin: 0;
+  color: var(--demo-gold);
+  font-family: var(--demo-title);
+  font-size: 18px;
+  letter-spacing: 0.35em;
+  text-shadow: 0 0 18px rgba(255, 213, 74, 0.6);
+}
+
+.phase__title {
+  margin: 0;
+  max-width: 100%;
+  color: var(--demo-text);
+  font-family: var(--demo-title);
+  font-size: 54px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  text-shadow:
+    4px 4px 0 var(--demo-black),
+    0 0 40px rgba(127, 165, 255, 0.35);
+}
+
+.phase__title .demo-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em) rotate(6deg);
+}
+
+.demo-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.phase__subtitle {
+  margin: 0;
+  color: var(--demo-muted);
+  font-family: var(--demo-title);
+  font-size: 15px;
+  line-height: 2;
+  letter-spacing: 0.08em;
+}
+
+.phase__rule {
+  width: 260px;
+  height: 3px;
+  margin-top: 0.6rem;
+  background: linear-gradient(90deg, transparent, var(--demo-accent), transparent);
+  box-shadow: 0 0 18px var(--demo-accent);
+}
+
+/* The intro is the one text phase with a real title hierarchy: the studio line, the name of the
+   game, then its genre. The shorter lines keep their own rhythm instead of the generic 54px. */
+.phase--intro .phase__kicker {
+  font-size: 22px;
+  letter-spacing: 0.22em;
+}
+
+.phase--intro .phase__title {
+  font-size: 112px;
+  letter-spacing: 0.04em;
+}
+
+.phase--intro .phase__subtitle {
+  color: var(--demo-gold);
+  font-size: 24px;
+  letter-spacing: 0.34em;
+}
+
+.phase--luck .phase__title {
+  font-size: 42px;
+  letter-spacing: 0.02em;
+}
+
+/* --- Loader ---------------------------------------------------------------- */
+
+.demo-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 2rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(127, 165, 255, 0.16), transparent 55%),
+    linear-gradient(180deg, #02040c, #050b1c 55%, #000000);
+  transition: opacity calc(var(--beat-time) * 1.2) ease, visibility 0s linear calc(var(--beat-time) * 1.2);
+}
+
+.demo-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.demo-loader__glow {
+  position: absolute;
+  width: 720px;
+  height: 720px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(127, 165, 255, 0.2), transparent 65%);
+  animation: demo-loader-pulse calc(var(--beat-time) * 4) ease-in-out infinite;
+  pointer-events: none;
+}
+
+.demo-loader__scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 3px,
+    rgba(255, 255, 255, 0.025) 3px,
+    rgba(255, 255, 255, 0.025) 4px
+  );
+  pointer-events: none;
+}
+
+.demo-loader__brand {
+  position: relative;
+  margin: 0;
+  font-family: var(--demo-title);
+  font-size: clamp(28px, 6vw, 62px);
+  letter-spacing: 0.14em;
+  color: var(--demo-text);
+  text-shadow:
+    5px 5px 0 var(--demo-black),
+    0 0 42px rgba(127, 165, 255, 0.5);
+}
+
+.demo-loader__subtitle {
+  position: relative;
+  margin: 0;
+  color: var(--demo-gold);
+  font-family: var(--demo-title);
+  font-size: clamp(9px, 1.6vw, 15px);
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
+.demo-loader__bar {
+  position: relative;
+  width: min(560px, 82vw);
+  height: 10px;
+  margin-top: 1.4rem;
+  border: 2px solid var(--demo-border);
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.8);
+}
+
+.demo-loader__bar-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--demo-accent), var(--demo-accent-soft));
+  box-shadow: 0 0 16px var(--demo-accent);
+  transition: width 0.25s ease;
+}
+
+.demo-loader__status {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  width: min(560px, 82vw);
+  font-family: var(--demo-title);
+  font-size: clamp(8px, 1.2vw, 11px);
+  color: var(--demo-muted);
+}
+
+.demo-loader__label {
+  letter-spacing: 0.12em;
+}
+
+.demo-loader__count {
+  color: var(--demo-accent-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.demo-loader__actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+/* Two decisions before LAUNCH: the tempo of the whole film, and whether the corner HUD stays
+   visible. They live under the buttons so the primary gesture is still the first thing seen. */
+.demo-loader__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 1.8rem;
+  align-items: center;
+  justify-content: center;
+  width: min(620px, 88vw);
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--demo-border);
+}
+
+.demo-loader__control {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  color: var(--demo-muted);
+  font-family: var(--demo-title);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.demo-loader__control-label {
+  white-space: nowrap;
+}
+
+.demo-loader__range {
+  width: 170px;
+  height: 22px;
+  accent-color: var(--demo-gold);
+  cursor: pointer;
+}
+
+.demo-loader__value {
+  min-width: 66px;
+  color: var(--demo-gold);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.demo-loader__checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--demo-gold);
+  cursor: pointer;
+}
+
+.demo-loader__select {
+  min-width: 112px;
+  padding: 0.35rem 0.5rem;
+  border: 2px solid var(--demo-border);
+  border-radius: 0;
+  background: rgba(5, 11, 28, 0.9);
+  color: var(--demo-text);
+  font-family: var(--demo-title);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.demo-loader__button {
+  min-width: 220px;
+  padding: 1rem 1.6rem;
+  border: 3px solid var(--demo-accent);
+  border-radius: 0;
+  background: rgba(5, 11, 28, 0.9);
+  color: var(--demo-text);
+  font-family: var(--demo-title);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.7);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.demo-loader__button:hover:not(:disabled),
+.demo-loader__button:focus-visible:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.8);
+  background: rgba(127, 165, 255, 0.14);
+}
+
+.demo-loader__button:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.demo-loader__button:disabled {
+  border-color: var(--demo-border);
+  color: var(--demo-muted);
+  cursor: progress;
+}
+
+.demo-loader__button--start {
+  border-color: var(--demo-gold);
+  color: var(--demo-gold);
+  background: rgba(255, 213, 74, 0.08);
+  box-shadow:
+    6px 6px 0 rgba(0, 0, 0, 0.7),
+    0 0 26px rgba(255, 213, 74, 0.3);
+}
+
+.demo-loader__button--start:hover:not(:disabled),
+.demo-loader__button--start:focus-visible:not(:disabled) {
+  background: rgba(255, 213, 74, 0.16);
+}
+
+.demo-loader__hint {
+  margin: 0.6rem 0 0;
+  color: var(--demo-muted);
+  font-family: var(--demo-title);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-align: center;
+}
+
+/* A phone held sideways, or any short window, has less height than the loader needs: the blocks
+   tighten, the decorative title shrinks and the hint goes away, so LOAD/LAUNCH and the controls
+   stay reachable without scrolling. */
+@media (max-height: 700px) {
+  .demo-loader {
+    gap: 0.4rem;
+    padding: 0.8rem 1.2rem;
+    overflow-y: auto;
+  }
+
+  /* The 720px glow and the scan line are decoration: on a short screen they only add scroll. */
+  .demo-loader__glow,
+  .demo-loader__scan {
+    display: none;
+  }
+
+  .demo-loader__brand {
+    font-size: 26px;
+  }
+
+  .demo-loader__subtitle {
+    font-size: 9px;
+  }
+
+  .demo-loader__bar {
+    margin-top: 0.4rem;
+  }
+
+  .demo-loader__actions {
+    margin-top: 0.4rem;
+  }
+
+  .demo-loader__controls {
+    gap: 0.5rem 1.2rem;
+    margin-top: 0.4rem;
+    padding-top: 0.5rem;
+  }
+
+  .demo-loader__hint {
+    display: none;
+  }
+}
+
+/* --- HUD ------------------------------------------------------------------- */
+
+.demo-hud {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1rem;
+  left: 1.2rem;
+  z-index: 12;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: var(--demo-title);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: rgba(147, 162, 196, 0.7);
+  pointer-events: none;
+}
+
+.demo-hud__brand {
+  margin-right: auto;
+  color: rgba(232, 239, 255, 0.55);
+}
+
+.demo-hud__replay {
+  padding: 0.55rem 0.8rem;
+  border: 2px solid var(--demo-border);
+  border-radius: 0;
+  background: rgba(5, 11, 28, 0.75);
+  color: var(--demo-text);
+  font-family: var(--demo-title);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.demo-hud__replay:hover,
+.demo-hud__replay:focus-visible {
+  border-color: var(--demo-gold);
+  color: var(--demo-gold);
+}
+
+/* The switch hides the resolution / tempo / brand, never the REPLAY button: the show must always
+   be restartable with the mouse alone. */
+.demo--no-hud .demo-hud__brand,
+.demo--no-hud .demo-hud__meta {
+  display: none;
+}
+
+/* --- Utility motion -------------------------------------------------------- */
+
+@keyframes demo-row-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-22%, 0, 0);
+  }
+}
+
+/* A phase row only travels 12% of its width: the row is already wider than the stage, and a
+   longer run would pull its right edge inside the frame before the scene ends. */
+@keyframes demo-phase-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-12%, 0, 0);
+  }
+}
+
+@keyframes demo-loader-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes demo-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes demo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+/* --- Vertical format ------------------------------------------------------- */
+
+body[data-format='vertical'] .demo__stage {
+  --stage-w: 1080px;
+  --stage-h: 1920px;
+}
+
+body[data-format='vertical'] .phase {
+  gap: 4rem;
+}
+
+body[data-format='vertical'] .phase__content {
+  width: 88%;
+  gap: 2.6rem;
+}
+
+body[data-format='vertical'] .phase__title {
+  font-size: 46px;
+  overflow-wrap: normal;
+}
+
+body[data-format='vertical'] .phase__subtitle {
+  font-size: 13px;
+}
+
+body[data-format='vertical'] .phase--intro .phase__kicker {
+  font-size: 15px;
+}
+
+body[data-format='vertical'] .phase--intro .phase__title {
+  font-size: 82px;
+}
+
+body[data-format='vertical'] .phase--intro .phase__subtitle {
+  font-size: 17px;
+}
+
+body[data-format='vertical'] .phase--luck .phase__title {
+  font-size: 36px;
+}
+
+body[data-format='vertical'] .phase__backdrop {
+  gap: 3rem;
+}
+
+body[data-format='vertical'] .phase__row .demo__card {
+  --card-w: 148px;
+}
+
+body[data-format='vertical'] .demo__card--mini {
+  --card-w: 132px;
+}
+
+body[data-format='vertical'] .demo-hud {
+  font-size: 8px;
+}
+
+body[data-format='vertical'] .demo-loader__controls {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* A visitor who asked for less motion keeps the whole show, only shorter: every scene still
+   cross-fades, but the ambient loops are stopped instead of being removed. */
+@media (prefers-reduced-motion: reduce) {
+  .phase__row,
+  .demo-loader__glow {
+    animation-play-state: paused;
+  }
+}

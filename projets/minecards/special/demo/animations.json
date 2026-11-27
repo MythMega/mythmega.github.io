@@ -1,0 +1,182 @@
+{
+  "_comment": "Timeline of the show. `bpm` is the single tempo knob: the runner converts one beat to milliseconds once (60000 / bpm) and every duration, stagger and CSS loop of the demo is expressed in beats, so changing this number changes the pace of the whole animation. Each scene is played in order; `beats` is its length, `camera` one of the moves of `special/demo/scripts/core.js`, and the extra fields are the internal timings the scene builder reads (also in beats). `camera` below the scenes lists the ambient moves composed on top of that base move: `handheld`, `breath`, `zoom`, `drift`, `roll`, `tilt`, `sway`, `bob`, `pulse`, `kick` and the `parallax` of the background layers. Every switch is on by default, so a move only appears here to be turned off. The five moves that loop for the whole scene (`handheld`, `breath`, `sway`, `bob`, `pulse`) are off in the film: they shake the frame from the first to the last beat, which is right for the pickaxe and wrong for everything else. A scene turns them back on with its own `cameraLayers` block, which wins over this one.",
+  "bpm": 96,
+  "minPreloadMs": 2600,
+  "crossfadeBeats": 1,
+  "camera": {
+    "handheld": false,
+    "breath": false,
+    "zoom": true,
+    "drift": true,
+    "roll": true,
+    "tilt": true,
+    "sway": false,
+    "bob": false,
+    "pulse": false,
+    "kick": true,
+    "parallax": true
+  },
+  "scenes": [
+    {
+      "id": "intro",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "push"
+    },
+    {
+      "id": "booster",
+      "kind": "scene",
+      "beats": 15,
+      "camera": "orbit",
+      "spinBeats": 6,
+      "flyBeats": 2,
+      "openBeats": 4
+    },
+    {
+      "id": "multi",
+      "kind": "scene",
+      "beats": 18,
+      "camera": "pull",
+      "shuffleBeats": 6,
+      "openBeats": 8
+    },
+    {
+      "id": "collect",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "pan-left"
+    },
+    {
+      "id": "mosaic",
+      "kind": "scene",
+      "beats": 16,
+      "camera": "dolly"
+    },
+    {
+      "id": "fullarts",
+      "kind": "scene",
+      "beats": 28,
+      "camera": "crane",
+      "legendaryBeats": 16,
+      "mythicBeats": 12
+    },
+    {
+      "id": "social",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "pull"
+    },
+    {
+      "id": "friends",
+      "kind": "scene",
+      "beats": 10,
+      "camera": "crane",
+      "stagger": 0.5
+    },
+    {
+      "id": "likes",
+      "kind": "scene",
+      "beats": 8,
+      "camera": "swing"
+    },
+    {
+      "id": "trade",
+      "kind": "scene",
+      "beats": 18,
+      "camera": "push",
+      "classicBeats": 9,
+      "fullartBeats": 9
+    },
+    {
+      "id": "mineIntro",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "push"
+    },
+    {
+      "id": "mine",
+      "kind": "scene",
+      "beats": 12,
+      "camera": "shake",
+      "hits": 4,
+      "cameraLayers": {
+        "handheld": true,
+        "breath": true,
+        "sway": true,
+        "bob": true,
+        "pulse": true
+      }
+    },
+    {
+      "id": "mineGrid",
+      "kind": "scene",
+      "beats": 12,
+      "camera": "orbit",
+      "hits": 3,
+      "cameraLayers": {
+        "handheld": true,
+        "breath": true,
+        "sway": true,
+        "bob": true,
+        "pulse": true
+      }
+    },
+    {
+      "id": "luck",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "push"
+    },
+    {
+      "id": "roulette",
+      "kind": "scene",
+      "beats": 16,
+      "camera": "push",
+      "spinBeats": 10
+    },
+    {
+      "id": "quests",
+      "kind": "scene",
+      "beats": 20,
+      "camera": "swing"
+    },
+    {
+      "id": "profileIntro",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "pull"
+    },
+    {
+      "id": "profiles",
+      "kind": "scene",
+      "beats": 23,
+      "camera": "crane",
+      "perProfileBeats": 3
+    },
+    {
+      "id": "shopIntro",
+      "kind": "phase",
+      "beats": 8,
+      "camera": "pull"
+    },
+    {
+      "id": "shop",
+      "kind": "scene",
+      "beats": 12,
+      "camera": "dolly"
+    },
+    {
+      "id": "a2pack",
+      "kind": "scene",
+      "beats": 35,
+      "camera": "orbit",
+      "revealBeats": 2.4
+    },
+    {
+      "id": "outro",
+      "kind": "scene",
+      "beats": 32,
+      "camera": "pull"
+    }
+  ]
+}

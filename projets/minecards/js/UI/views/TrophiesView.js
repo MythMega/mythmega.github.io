@@ -22,6 +22,9 @@
  * top-right corner, exactly like the favourite heart of a collection card: the picks shown on the
  * profile page can be made without opening each trophy. The detail modal keeps its pin toggle.
  *
+ * The LIKES are the one family whose counter the save does not own: `LikesManager` copies it from
+ * the worker. The page reads it again when it is opened and follows `LIKES_UPDATED`.
+ *
  * Inside one category the tiles are cut into GROUPS of the same type (`trophy.group.*`): the
  * completion tiers of an extension read nothing like its "boosters opened" tiers, and the global
  * counters have nothing to do with the collection trophies, so each type gets its own heading.
@@ -39,6 +42,7 @@ import slotPurchaseModal from '../components/SlotPurchaseModal.js';
 import profileIconManager from '../../business/ProfileIconManager.js';
 import titleManager from '../../business/TitleManager.js';
 import TrophyDetail, { TROPHY_PIN_ICON, TROPHY_UNPIN_ICON } from '../components/TrophyDetail.js';
+import likesManager from '../../business/LikesManager.js';
 import Toast from '../components/Toast.js';
 import soundManager, { UI_SOUNDS } from '../../utils/SoundManager.js';
 
@@ -131,6 +135,8 @@ export class TrophiesView {
     this.isActive = false;
     /** @type {boolean} True while the view is loading its data. */
     this.isLoading = false;
+    /** @type {boolean} True when a reload was asked for while one was already running. */
+    this.reloadPending = false;
     /** @type {string|null} Id of the trophy the detail modal shows. */
     this.detailId = null;
 
@@ -302,6 +308,11 @@ export class TrophiesView {
       // An opening moves the progress of every family: refresh the list while it is on screen.
       if (this.isInitialized && !this.isLoading && this.isActive) void this.reload();
     }));
+    // The likes are the only counters of the catalogue the worker owns: the refresh writes them in
+    // the save and publishes this event, so the progress follows a count read after the page load.
+    this.unsubscribers.push(eventBus.on(EVENTS.LIKES_UPDATED, () => {
+      if (this.isInitialized && this.isActive) void this.reload();
+    }));
     this.log('Event subscriptions registered.');
   }
 
@@ -311,7 +322,12 @@ export class TrophiesView {
    * @returns {Promise<void>} Resolves once the page is rendered (or the error shown).
    */
   async reload() {
-    if (this.isLoading) return;
+    if (this.isLoading) {
+      // A counter can be written while this load is reading: run again once it finishes instead of
+      // dropping the request.
+      this.reloadPending = true;
+      return;
+    }
     this.isLoading = true;
     this.setFeedback(null);
     this.log('Loading the trophies…');
@@ -331,6 +347,10 @@ export class TrophiesView {
       this.setFeedback('trophies.error.load', 'error');
     } finally {
       this.isLoading = false;
+      if (this.reloadPending) {
+        this.reloadPending = false;
+        void this.reload();
+      }
     }
   }
 
@@ -873,9 +893,14 @@ export class TrophiesView {
   handleViewActivated() {
     this.isActive = true;
     this.log('View activated.');
-    if (this.isInitialized && !this.isLoading) {
-      void this.reload();
-    }
+    if (!this.isInitialized) return;
+    // The likes are copied from the worker, not stored by the game: re-read them here, or the like
+    // trophies keep the count of the page load. Best effort - a failed read (no online account,
+    // worker unreachable) leaves the counters already saved in place.
+    void likesManager
+      .sync()
+      .catch((error) => this.log(`The likes could not be refreshed (${error?.message ?? error}).`));
+    void this.reload();
   }
 
   /**
@@ -901,6 +926,8 @@ export class TrophiesView {
     this.unsubscribers = [];
     this.trophyState = null;
     this.profile = null;
+    this.isLoading = false;
+    this.reloadPending = false;
     this.isInitialized = false;
   }
 }

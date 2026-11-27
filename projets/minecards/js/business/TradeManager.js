@@ -672,7 +672,9 @@ export class TradeManager {
         (entry) =>
           entry &&
           entry.owned === true &&
-          entry.promo !== true &&
+          // `isPromoCard` also recognises a promo by its extension (`A1-Promo`), so a row that
+          // lost its flag can never slip through the trade dialog.
+          !isPromoCard(entry) &&
           Number.isInteger(entry.quantity) &&
           entry.quantity >= 2 &&
           Number.isInteger(entry.rarity) &&

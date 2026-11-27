@@ -814,11 +814,10 @@
   position: relative;
 }
 
+/* The reason of a greyed card is NOT cut: a truncated "Rareté non échangeable" explains nothing.
+   The badge wraps instead (`.trade__card-button.is-unavailable .trade__card-wish` sets the size). */
 .trade__card-button.is-untradable .trade__card-wish {
-  max-width: calc(100% - 0.9rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  max-width: calc(100% - 0.6rem);
 }
 
 .trade__card-button {

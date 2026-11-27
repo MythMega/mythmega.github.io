@@ -12,6 +12,7 @@ import cardLanguage from '../../utils/CardLanguage.js';
 import { applyCardGlow, clearCardGlow } from '../../utils/Shine.js';
 import { getRarityLabel } from '../../classes/Card.js';
 import { replaceCardVisual } from '../../utils/CardSourceManager.js';
+import illagerShopManager from '../../business/IllagerShopManager.js';
 
 /** Class of the overlay. */
 export const AUTO_CLAIM_CLASS = 'auto-claim';
@@ -153,6 +154,14 @@ export class AutoClaimPopup {
     dialog.setAttribute('aria-modal', 'true');
     dialog.setAttribute('aria-labelledby', 'auto-claim-title');
 
+    // A cross in the header: the primary button below stays the way forward, this one is the way
+    // out that every dialog of the game offers at the same place.
+    const dismissButton = document.createElement('button');
+    dismissButton.type = 'button';
+    dismissButton.className = 'modal__close';
+    dismissButton.dataset.autoClaimDismiss = '';
+    dismissButton.addEventListener('click', () => this.close());
+
     const badge = document.createElement('p');
     badge.className = 'auto-claim__badge';
     badge.dataset.autoClaimBadge = '';
@@ -193,7 +202,13 @@ export class AutoClaimPopup {
     closeButton.dataset.autoClaimClose = '';
     closeButton.addEventListener('click', () => this.close());
 
-    dialog.append(badge, title, card, message, rewards, closeButton);
+    // The way out is an action band like every other dialog: it stays at the bottom of the frame
+    // when the rewards make the dialog taller than the screen.
+    const actions = document.createElement('div');
+    actions.className = 'modal__actions auto-claim__actions';
+    actions.appendChild(closeButton);
+
+    dialog.append(dismissButton, badge, title, card, message, rewards, actions);
     root.appendChild(dialog);
     document.body.appendChild(root);
 
@@ -264,20 +279,43 @@ export class AutoClaimPopup {
   /**
    * Describes one line of the reward list.
    *
-   * The type of the reward is what decides its sentence: a code can credit Sparks, an Ender Pearl
-   * or a bonus booster, and reading one of them as another would announce the wrong gift.
+   * The type of the reward is what decides its sentence, and only a real booster is announced as
+   * one: a code can credit Sparks, an Ender Pearl, a bundle, a mining resource, an Illager currency
+   * or days of connection rewards, and reading any of them as a booster would name the wrong gift.
    *
-   * @param {{type: string, quantity: number}} reward - Totalled reward of the claim.
+   * @param {{type: string, key?: string, quantity: number}} reward - Totalled reward of the claim.
    * @returns {string} The translated sentence.
    */
   describeReward(reward) {
-    if (reward.type === 'pearl') {
-      return i18n.t('autoclaim.reward.pearl', { count: reward.quantity });
+    switch (reward.type) {
+      case 'sparks':
+        return i18n.t('redeem.reward.sparks', { count: reward.quantity });
+      case 'pearl':
+        return i18n.t('autoclaim.reward.pearl', { count: reward.quantity });
+      case 'bundle':
+        return i18n.t('redeem.reward.bundle', { count: reward.quantity });
+      case 'resource':
+        return i18n.t('redeem.reward.resource', {
+          count: reward.quantity,
+          resource: i18n.t(`mineblock.resource.${reward.key}`),
+        });
+      case 'currency': {
+        // The name of a currency lives in the Illager Shop data files: the code only names the ID,
+        // and the raw ID is the fallback when those files were never read.
+        const currency = illagerShopManager.getCurrency(reward.key);
+        return i18n.t('daily.reward.currency', {
+          count: reward.quantity,
+          name: currency?.name ?? reward.key,
+        });
+      }
+      case 'dailyreward':
+        return i18n.t('redeem.reward.dailyReward', { count: reward.quantity });
+      case 'booster':
+        return i18n.t('autoclaim.reward.booster', { count: reward.quantity });
+      default:
+        // A type added without its own branch reads as unknown, never as a bonus booster.
+        return i18n.t('gifts.item.unknown', { key: reward.key ?? reward.type });
     }
-    if (reward.type === 'sparks') {
-      return i18n.t('redeem.reward.sparks', { count: reward.quantity });
-    }
-    return i18n.t('autoclaim.reward.booster', { count: reward.quantity });
   }
 
   /**
@@ -293,18 +331,23 @@ export class AutoClaimPopup {
   }
 
   /**
-   * Totals the non-card rewards per type.
+   * Totals the non-card rewards per type and key.
+   *
+   * A resource and a currency are named by their key, so two different ones must not be merged into
+   * one line: the totals are keyed by the pair.
    *
    * @param {object[]} rewards - Resolved rewards of the claim.
-   * @returns {Array<{type: string, quantity: number}>} One entry per type.
+   * @returns {Array<{type: string, key: string|null, quantity: number}>} One entry per type and key.
    */
   summarizeRewards(rewards) {
     const totals = new Map();
     rewards.forEach((reward) => {
       if (!Number.isFinite(reward.quantity) || reward.quantity <= 0) return;
-      const entry = totals.get(reward.type) ?? { type: reward.type, quantity: 0 };
+      const key = typeof reward.key === 'string' ? reward.key : null;
+      const identity = `${reward.type}:${key ?? ''}`;
+      const entry = totals.get(identity) ?? { type: reward.type, key, quantity: 0 };
       entry.quantity += reward.quantity;
-      totals.set(reward.type, entry);
+      totals.set(identity, entry);
     });
     return [...totals.values()];
   }

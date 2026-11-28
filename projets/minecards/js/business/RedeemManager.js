@@ -85,6 +85,7 @@ import {
   canonicalDailyReward,
   canonicalMiningResource,
   canonicalPearl,
+  canonicalGoldenPickaxe,
   canonicalSparks,
   userItemCode,
   UserItemCode,
@@ -100,6 +101,7 @@ import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager from './IllagerShopManager.js';
 import dailyRewardManager from './DailyRewardManager.js';
 import enderPearlManager from './EnderPearlManager.js';
+import goldenPickaxeManager from './GoldenPickaxeManager.js';
 import miningManager from './MiningManager.js';
 import { GIFT_CATEGORIES } from './GiftManager.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
@@ -758,13 +760,15 @@ export class RedeemManager {
         continue;
       }
 
-      // An inventory item (the Ender Pearl today). `ItemId` names it; a pearl is the only item the
-      // game declares, and an unknown id would grant nothing the inventory can show.
-      if (
-        String(rewardType).trim().toLowerCase() === 'pearl' ||
-        String(rewardType).trim().toLowerCase() === 'enderpearl'
-      ) {
+      // An inventory item (the Ender Pearl, the Golden Pickaxe). The type names it; an unknown id
+      // would grant nothing the inventory can show, so only the declared ones are accepted.
+      const itemType = String(rewardType).trim().toLowerCase();
+      if (itemType === 'pearl' || itemType === 'enderpearl') {
         rewards.push({ type: 'pearl', key: 'pearl', quantity, card: null });
+        continue;
+      }
+      if (itemType === 'goldenpickaxe' || itemType === 'golden_pickaxe') {
+        rewards.push({ type: 'goldenpickaxe', key: 'golden_pickaxe', quantity, card: null });
         continue;
       }
 
@@ -886,8 +890,10 @@ export class RedeemManager {
       descriptors.push({ canonical: canonicalDailyReward(), target: { type: 'dailyreward' } });
       // A block bundle is fixed too: the code quantity is the number of bundles granted.
       descriptors.push({ canonical: canonicalBundle(), target: { type: 'bundle' } });
-      // An inventory item (Ender Pearl) works the same way: fixed item, quantity carried by the code.
+      // An inventory item (Ender Pearl, Golden Pickaxe) works the same way: fixed item, quantity
+      // carried by the code.
       descriptors.push({ canonical: canonicalPearl(), target: { type: 'pearl' } });
+      descriptors.push({ canonical: canonicalGoldenPickaxe(), target: { type: 'goldenpickaxe' } });
       // Every harvestable resource shares one canonical prefix: the code quantity is the amount and
       // the slug is the line of `mining.resources` it credits. Sparks are excluded (they already have
       // their own canonical item) and so is any duplicate declared by several blocks.
@@ -1211,6 +1217,8 @@ export class RedeemManager {
             await miningManager.grantBundles(reward.quantity, context);
           } else if (reward.type === 'pearl') {
             await enderPearlManager.grantPearls(reward.quantity, context);
+          } else if (reward.type === 'goldenpickaxe') {
+            await goldenPickaxeManager.grant(reward.quantity, context);
           } else {
             const granted = await boosterManager.addCardToCollection(
               reward.card,

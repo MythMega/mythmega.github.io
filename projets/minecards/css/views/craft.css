@@ -1,0 +1,382 @@
+/* =============================================================================
+   craft.css - The crafting table (Craft page).
+
+   Reference: `js/UI/views/CraftView.js` (the screen) and
+   `js/business/CraftManager.js` (the recipes and the transaction).
+
+   What is here, top to bottom:
+     `.craft__book-panel`  the Knowledge Book button, above the table;
+     `.craft__gui`         the Minecraft window itself: a 3 x 3 grid, the arrow, the result slot,
+                           then the inventory hotbar under both;
+     `.craft__slot`        one slot of the table or of the hotbar: the grey square with its two
+                           bevels, its pixelated icon and the count of its bottom-right corner;
+     `.craft-book`         the modal the book opens: every recipe with its grid and its result.
+
+   The table is a Minecraft screen, so it keeps the palette of the game (grey window, darker
+   slots, dark text) in BOTH themes: a grey crafting table that turns black in the dark mode would
+   not look like Minecraft anymore. Everything OUTSIDE the Minecraft window (the page title, the
+   book button, the modal list) uses the tokens of `css/themes.css` like every other page.
+
+   The count of a slot is CLAMPED by the view (64): a stock of 120 reads as 64, exactly like a full
+   stack in Minecraft, without changing what the player can spend.
+   ============================================================================= */
+
+.craft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* --- The crafting book, above the table --------------------------------- */
+
+/* The card hugs its button instead of spanning the page: a full-width empty panel around a small
+   book would read as a broken block. */
+.craft__book-panel {
+  display: flex;
+  align-self: center;
+}
+
+.craft__book {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-2);
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.craft__book:hover,
+.craft__book:focus-visible {
+  background-color: rgba(127, 127, 127, 0.14);
+  border-color: var(--color-accent, rgba(127, 127, 127, 0.4));
+}
+
+/* Pixel art: `pixelated` keeps the book crisp at any size. */
+.craft__book-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.craft__book-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2px;
+}
+
+.craft__book-title {
+  font-family: var(--font-family-title);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.craft__book-hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* --- The Minecraft table ------------------------------------------------ */
+
+.craft__gui {
+  align-self: center;
+  width: 100%;
+  /* The width of the hotbar: the window stays as tight around its two rows as the Minecraft GUI,
+     instead of floating in the middle of a wide card. */
+  max-width: 560px;
+  padding: 14px clamp(10px, 3vw, 22px) 18px;
+  background-color: #c6c6c6;
+  border: 4px solid #555555;
+  box-shadow: inset 4px 4px 0 #ffffff, inset -4px -4px 0 #8b8b8b;
+  color: #404040;
+}
+
+.craft__gui-title {
+  margin: 0 0 8px;
+  font-family: var(--font-family-title);
+  font-size: 0.68rem;
+  line-height: 1.6;
+  color: #404040;
+}
+
+.craft__table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 16px);
+  margin-bottom: 14px;
+}
+
+.craft__grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 2px;
+}
+
+.craft__arrow {
+  display: grid;
+  place-items: center;
+  color: #404040;
+}
+
+.craft__arrow svg {
+  width: clamp(28px, 6vw, 36px);
+  height: auto;
+  fill: currentColor;
+}
+
+.craft__slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(38px, 11vw, 54px);
+  aspect-ratio: 1;
+  padding: 4px;
+  background-color: #8b8b8b;
+  border: 2px solid #373737;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  border-radius: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.craft__slot:hover:not(:disabled) {
+  background-color: #9d9d9d;
+}
+
+.craft__slot:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* A slot the selected resource can go to: the outline the hovered slot of Minecraft carries. */
+.craft__slot.is-target {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.65);
+}
+
+/* The resource picked in the hotbar. */
+.craft__slot.is-selected {
+  background-color: #b4b4b4;
+  box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+/* An item the player owns none of stays visible, greyed: the stock is information too. */
+.craft__slot:disabled {
+  cursor: default;
+}
+
+.craft__slot:disabled .craft__icon {
+  opacity: 0.35;
+}
+
+/* The free slots of the hotbar are not buttons. */
+span.craft__slot {
+  cursor: default;
+}
+
+.craft__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* The count of the bottom-right corner, with the shadow of the Minecraft stack numbers. */
+.craft__count {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-family: var(--font-family-base);
+  font-size: clamp(10px, 2.7vw, 14px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #3f3f3f;
+  pointer-events: none;
+}
+
+/* The result slot is wider, like the one of the crafting table, and lights up when a recipe
+   matches: it is the only slot that acts as a button of its own. */
+.craft__slot--result {
+  width: clamp(48px, 13vw, 62px);
+  aspect-ratio: 1;
+}
+
+.craft__slot--result.is-ready {
+  background-color: #d8d8d8;
+  box-shadow: inset 0 0 0 3px #f4c542;
+}
+
+.craft__slot--result.is-ready:hover {
+  background-color: #e8e8e8;
+}
+
+.craft__hotbar {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 2px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.craft__hotbar .craft__slot {
+  width: 100%;
+  padding: 3px;
+}
+
+/* A craft just landed: the same line, in the colour of a success. */
+[data-craft-feedback][data-tone="success"] {
+  color: var(--color-success);
+}
+
+.craft__hint {
+  margin: var(--space-3) 0 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #404040;
+  text-align: center;
+}
+
+/* --- The crafting book -------------------------------------------------- */
+
+/* Two classes on purpose: `.modal__dialog` sets its own width, and this file is loaded before it. */
+.modal__dialog.craft-book {
+  width: min(760px, 100%);
+}
+
+.craft-book__intro {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.craft-book__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.craft-book__recipe {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: rgba(127, 127, 127, 0.12);
+  border: 1px solid rgba(127, 127, 127, 0.28);
+  border-radius: 10px;
+}
+
+.craft-book__grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 2px;
+}
+
+.craft-book__cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 2px;
+  background-color: #8b8b8b;
+  border: 2px solid #373737;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.craft-book__cell .craft__icon {
+  width: 100%;
+  height: 100%;
+}
+
+.craft-book__arrow {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+}
+
+.craft-book__result {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 5px;
+  background-color: #8b8b8b;
+  border: 2px solid #373737;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+.craft-book__result .craft__count {
+  right: 2px;
+  bottom: 0;
+}
+
+.craft-book__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.craft-book__name {
+  margin: 0;
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+}
+
+.craft-book__desc {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.craft-book__ingredients {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.craft-book__place {
+  white-space: nowrap;
+}
+
+/* --- Narrow screens and reduced motion ---------------------------------- */
+
+@media (max-width: 520px) {
+  .craft-book__recipe {
+    grid-template-columns: auto auto auto 1fr;
+  }
+
+  .craft-book__text {
+    grid-column: 1 / -1;
+  }
+
+  .craft-book__place {
+    justify-self: start;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .craft__book,
+  .craft__slot {
+    transition: none;
+  }
+}

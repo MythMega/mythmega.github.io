@@ -488,6 +488,7 @@ export class RedeemView {
     let src = null;
     if (reward.type === 'bundle') src = 'assets/img/bundle.png';
     else if (reward.type === 'pearl') src = 'assets/img/items/Ender_Pearl.webp';
+    else if (reward.type === 'goldenpickaxe') src = 'assets/img/items/Golden_Pickaxe.png';
     else if (reward.type === 'resource') src = `assets/img/dusts/${reward.key}.png`;
     if (!src) return null;
 
@@ -515,6 +516,8 @@ export class RedeemView {
         return i18n.t('redeem.reward.sparks', { count: reward.quantity });
       case 'pearl':
         return i18n.t('redeem.reward.pearl', { count: reward.quantity });
+      case 'goldenpickaxe':
+        return i18n.t('redeem.reward.goldenPickaxe', { count: reward.quantity });
       case 'bundle':
         return i18n.t('redeem.reward.bundle', { count: reward.quantity });
       case 'resource':

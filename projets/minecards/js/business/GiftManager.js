@@ -70,6 +70,7 @@ import boosterManager, { buildCollectionTimestamp } from './BoosterManager.js';
 import promoManager from './PromoManager.js';
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import enderPearlManager, { PEARL_ITEM_ID } from './EnderPearlManager.js';
+import goldenPickaxeManager, { GOLDEN_PICKAXE_ITEM_ID } from './GoldenPickaxeManager.js';
 import { configLoader } from '../utils/ConfigLoader.js';
 import eventBus, { EVENTS } from '../utils/EventBus.js';
 
@@ -84,8 +85,10 @@ export const GIFT_TYPES = Object.freeze({
   BOOSTER: 'booster',
   CARD: 'card',
   SPARKS: 'sparks',
-  // An inventory item: the key column names it (`pearl`) and the quantity is the number of items.
+  // An inventory item: the key column names it (`pearl`, `golden_pickaxe`) and the quantity is the
+  // number of items.
   PEARL: 'pearl',
+  GOLDEN_PICKAXE: 'golden_pickaxe',
 });
 
 /**
@@ -457,6 +460,9 @@ export class GiftManager {
     if (type === GIFT_TYPES.PEARL) {
       return { type, key, setName: null, card: null, unknown: key !== PEARL_ITEM_ID };
     }
+    if (type === GIFT_TYPES.GOLDEN_PICKAXE) {
+      return { type, key, setName: null, card: null, unknown: key !== GOLDEN_PICKAXE_ITEM_ID };
+    }
     return { type, key, setName: null, card: null, unknown: true };
   }
 
@@ -504,6 +510,10 @@ export class GiftManager {
     // An inventory item is named by its id, which is also its canonical key.
     if (type === GIFT_TYPES.PEARL) {
       if (key !== PEARL_ITEM_ID) return { ok: false, reason: GIFT_IGNORE_REASONS.UNKNOWN_ITEM };
+      return { ok: true, target: { type, key } };
+    }
+    if (type === GIFT_TYPES.GOLDEN_PICKAXE) {
+      if (key !== GOLDEN_PICKAXE_ITEM_ID) return { ok: false, reason: GIFT_IGNORE_REASONS.UNKNOWN_ITEM };
       return { ok: true, target: { type, key } };
     }
 
@@ -633,6 +643,8 @@ export class GiftManager {
             };
           } else if (item.type === GIFT_TYPES.PEARL) {
             await enderPearlManager.grantPearls(item.quantity, context);
+          } else if (item.type === GIFT_TYPES.GOLDEN_PICKAXE) {
+            await goldenPickaxeManager.grant(item.quantity, context);
           } else if (item.type === GIFT_TYPES.SPARKS) {
             if (sparks === 0) {
               // Read once, lazily: a run without a Sparks gift never touches the balance.

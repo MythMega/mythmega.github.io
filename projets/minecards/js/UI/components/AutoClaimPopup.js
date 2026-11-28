@@ -292,6 +292,8 @@ export class AutoClaimPopup {
         return i18n.t('redeem.reward.sparks', { count: reward.quantity });
       case 'pearl':
         return i18n.t('autoclaim.reward.pearl', { count: reward.quantity });
+      case 'goldenpickaxe':
+        return i18n.t('autoclaim.reward.goldenPickaxe', { count: reward.quantity });
       case 'bundle':
         return i18n.t('redeem.reward.bundle', { count: reward.quantity });
       case 'resource':

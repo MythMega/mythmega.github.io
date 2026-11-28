@@ -261,6 +261,7 @@
   <link rel="stylesheet" href="css/views/stats.css?v=8c9b1e5211">
   <link rel="stylesheet" href="css/views/minepick.css?v=ed9120335b">
   <link rel="stylesheet" href="css/views/mineblock.css?v=a6a86514ec">
+  <link rel="stylesheet" href="css/views/craft.css?v=905c49301b">
   <link rel="stylesheet" href="css/views/profile.css?v=f7443d44bd">
   <link rel="stylesheet" href="css/views/titles.css?v=567598de02">
   <link rel="stylesheet" href="css/components/trophy.css?v=d96b6ad453">
@@ -276,7 +277,7 @@
   <link rel="stylesheet" href="css/components/card-reveal.css?v=f897fa4934">
   <link rel="stylesheet" href="css/components/card-shine.css?v=8a3ac2a48e">
   <link rel="stylesheet" href="css/components/generated-card.css?v=a58e907671">
-  <link rel="stylesheet" href="css/components/modal.css?v=89e08fa353">
+  <link rel="stylesheet" href="css/components/modal.css?v=8f03b7ba72">
   <link rel="stylesheet" href="css/components/price.css?v=fc40f47afd">
   <link rel="stylesheet" href="css/components/changelog-popup.css?v=06e68710c7">
   <link rel="stylesheet" href="css/components/toast.css?v=f8cc5e024f">
@@ -1459,6 +1460,8 @@
           <p class="stats__big" data-stats-likes-sent>0</p>
           <p class="stats__line" data-i18n="stats.progress.likesReceived">Likes reçus</p>
           <p class="stats__big" data-stats-likes-received>0</p>
+          <p class="stats__line" data-i18n="stats.progress.crafted">Objets fabriqués</p>
+          <p class="stats__big" data-stats-crafted>0</p>
         </div>
 
         <div class="panel stats__panel">
@@ -1926,6 +1929,60 @@
     </section>
 
     <!-- 5. Settings (step 6) -->
+    <!-- Craft: the Minecraft crafting table. A destination of the MENU, not of the bottom bar: a 3
+         x 3 grid, its result slot on the right, the inventory hotbar under both and the Knowledge
+         Book that lists every recipe above the whole table. `CraftView` owns the slots, the
+         matching and the craft itself. -->
+    <section class="view" id="view-craft" data-view="craft" aria-hidden="true">
+      <div class="view__header">
+        <h2 class="view__title" data-i18n="view.craft.title">Table de craft</h2>
+      </div>
+
+      <p class="feedback" data-craft-feedback role="status" hidden></p>
+
+      <div class="craft">
+        <!-- The crafting book: a button above the table, which opens the list of the recipes. -->
+        <section class="panel craft__book-panel">
+          <button type="button" class="craft__book" data-craft-book-open aria-haspopup="dialog" aria-expanded="false" aria-controls="craft-book-modal">
+            <img class="craft__book-icon" src="assets/img/Knowledge_Book.webp" alt="" aria-hidden="true" decoding="async">
+            <span class="craft__book-text">
+              <span class="craft__book-title" data-i18n="craft.book.title">Livre de crafts</span>
+              <span class="craft__book-hint" data-i18n="craft.book.hint">Toutes les recettes et comment les fabriquer</span>
+            </span>
+          </button>
+        </section>
+
+        <!-- The table itself: the Minecraft window, whose slots are built by `CraftView`. -->
+        <section class="craft__gui">
+          <p class="craft__gui-title" data-i18n="craft.gui.title">Table de craft</p>
+          <div class="craft__table">
+            <div class="craft__grid" data-craft-grid role="group" data-i18n-aria-label="craft.grid.label" aria-label="Grille de craft"></div>
+            <span class="craft__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M4 10.5h10.5V5.5L21 12l-6.5 6.5v-5H4z"/></svg>
+            </span>
+            <button type="button" class="craft__slot craft__slot--result" data-craft-result aria-label="Résultat" disabled></button>
+          </div>
+
+          <p class="craft__gui-title" data-i18n="craft.gui.inventory">Inventaire</p>
+          <div class="craft__hotbar" data-craft-hotbar role="group" data-i18n-aria-label="craft.hotbar.label" aria-label="Inventaire"></div>
+
+          <p class="craft__hint" data-craft-hint></p>
+        </section>
+      </div>
+
+      <!-- The crafting book itself: `CraftView` writes one entry per recipe of `settings/crafts.json`. -->
+      <div class="modal" id="craft-book-modal" data-craft-book hidden>
+        <div class="modal__dialog craft-book" role="dialog" aria-modal="true" aria-labelledby="craft-book-title">
+          <button type="button" class="modal__close" data-craft-book-close aria-label="×">×</button>
+          <h2 class="modal__title" id="craft-book-title" data-i18n="craft.book.title">Livre de crafts</h2>
+          <div class="modal__body">
+            <p class="craft-book__intro" data-i18n="craft.book.intro">Chaque recette se construit dans la grille 3 × 3 : la forme fonctionne où qu'elle soit placée, les lignes et les colonnes vides autour d'elle sont ignorées.</p>
+            <div class="craft-book__list" data-craft-book-list></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="view" id="view-settings" data-view="settings" aria-hidden="true">
       <div class="view__header">
         <h2 class="view__title" data-i18n="view.settings.title">Paramètres</h2>
@@ -3091,6 +3148,7 @@
             <li><a class="info__toc-link" href="#info-minepick" data-info-toc-link="info-minepick" data-i18n="info.minepick.title">Mine Pick</a></li>
             <li><a class="info__toc-link" href="#info-keyboard" data-info-toc-link="info-keyboard" data-i18n="info.keyboard.title">Contrôles clavier</a></li>
             <li><a class="info__toc-link" href="#info-mining" data-info-toc-link="info-mining" data-i18n="info.mining.title">Mine</a></li>
+            <li><a class="info__toc-link" href="#info-craft" data-info-toc-link="info-craft" data-i18n="info.craft.title">Table de craft</a></li>
             <li><a class="info__toc-link" href="#info-trader" data-info-toc-link="info-trader" data-i18n="info.trader.title">Marchand itinérant</a></li>
             <li><a class="info__toc-link" href="#info-trades" data-info-toc-link="info-trades" data-i18n="info.trades.title">Échanges</a></li>
             <li><a class="info__toc-link" href="#info-experience" data-info-toc-link="info-experience" data-i18n="info.experience.title">Expérience et niveaux</a></li>
@@ -3262,6 +3320,20 @@
             <li data-i18n="info.mining.step4">Les ressources servent au Marchand itinérant : elles paient ses cartes ou s'échangent entre elles.</li>
           </ol>
           <p class="info__note" data-i18n="info.mining.help">Les blocs, leur dureté et leur butin sont décrits dans les fichiers de configuration du jeu : leur ordre du jour est propre à chaque compte.</p>
+        </section>
+
+        <!-- Crafting table: the grid, the book and the two items it can produce. The explanations
+             left the page itself (a Minecraft window needs no paragraph above it) and live here. -->
+        <section class="panel info__panel" id="info-craft">
+          <h3 class="stats__title" data-i18n="info.craft.title">Table de craft</h3>
+          <p class="info__text" data-i18n="info.craft.intro">La table assemble les ressources de la Mine en objets, dans une grille de 3 × 3. Elle s'ouvre depuis le menu, et son livre liste toutes les recettes.</p>
+          <ol class="info__steps">
+            <li data-i18n="info.craft.step1">Cliquez un item de l'inventaire, puis un emplacement de la grille : chaque clic pose une unité, un clic sur un emplacement rempli la reprend. Rien n'est dépensé tant que vous ne fabriquez pas.</li>
+            <li data-i18n="info.craft.step2">La forme compte, pas la position : les lignes et les colonnes vides autour de la recette sont ignorées, elle peut donc être placée n'importe où dans la grille.</li>
+            <li data-i18n="info.craft.step3">Dès que la grille correspond à une recette, son résultat apparaît à droite : cliquez-le pour fabriquer, les ingrédients sont alors consommés.</li>
+            <li data-i18n="info.craft.step4">Le bouton « Placer » du livre remplit la grille avec les ingrédients d'une recette, si votre stock les contient tous.</li>
+          </ol>
+          <p class="info__note" data-i18n="info.craft.help">Seules les ressources qui entrent dans au moins une recette apparaissent dans l'inventaire de la table ; le stock complet reste visible dans la Mine.</p>
         </section>
 
         <!-- Wandering Trader: three ways to spend what the mine harvests, and one to spend Sparks. -->
@@ -3613,6 +3685,14 @@
           <span data-i18n="nav.aiPolicy">Politique d'IA</span>
         </button>
       </li>
+      <!-- The crafting table: a game page of its own, reached from here (the bottom bar keeps its
+           four destinations). It sits between the inventory it draws from and the AI policy. -->
+      <li>
+        <button type="button" class="app-menu__item" data-nav-target="craft">
+          <svg class="app-menu__icon app-menu__icon--drawn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.3h16M4 14.7h16M9.3 4v16M14.7 4v16"/></svg>
+          <span data-i18n="nav.craft">Craft</span>
+        </button>
+      </li>
       <!-- The two actions the bar drops when it is too narrow for them: they keep their own row
            under the AI policy, so the inventory and the daily reward are never unreachable on a
            small screen. -->
@@ -3648,7 +3728,7 @@
 
   <div class="app-fatal" id="app-fatal" role="alert" hidden></div>
 
-  <script type="module" src="js/app.js?v=fa8e1eec97"></script>
+  <script type="module" src="js/app.js?v=97e6694fab"></script>
 
 </body>
 </html>

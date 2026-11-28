@@ -82,6 +82,9 @@ export const EVENTS = Object.freeze({
   /** Payload: `{ count }`. Emitted by `EnderPearlManager` when the stock of Ender Pearls changed
    * (a code, a gift, a daily reward, or a pearl used): the inventory dialog repaints its row. */
   PEARLS_UPDATED: 'PEARLS_UPDATED',
+  /** Payload: `{ count }`. Emitted by `GoldenPickaxeManager` when the stock of Golden Pickaxes
+   * changed (a code, a gift, a daily reward, or one used): the inventory repaints its row. */
+  GOLDEN_PICKAXES_UPDATED: 'GOLDEN_PICKAXES_UPDATED',
   /** Payload: `{ active, ready }`. Emitted by `TradeManager` after every refresh: `active` is true
    * when at least one trade is still running, `ready` when one of them waits for THIS player to
    * claim the card it received. The dots of the shell (`TradeIndicators`) are painted from it:
@@ -131,6 +134,11 @@ export const EVENTS = Object.freeze({
    * pick and whenever the daily allowance rolls over: the Mine Pick screen and the dedicated
    * statistics repaint. The card itself is announced through `CARDS_OBTAINED` (`source: 'minepick'`). */
   MINE_PICK_UPDATED: 'MINE_PICK_UPDATED',
+  /** Payload: `{ recipeId, result, crafted, total }`. Emitted by `CraftManager` once a craft is
+   * committed: the crafting table clears its grid and repaints its inventory from it. The Sparks
+   * it may grant go through `SPARKS_UPDATED`, the resources and the pearls through
+   * `MINING_UPDATED` / `PEARLS_UPDATED`, like every other credit. */
+  CRAFT_UPDATED: 'CRAFT_UPDATED',
   /** Payload: `{ day, minedToday, remaining, blocksPerDay, totalMined }`. Emitted by MiningManager
    * after a tap on a block and whenever the daily allowance rolls over: the mine screen and its
    * dedicated statistics repaint. The rewards themselves are carried by the result of `mine()`,

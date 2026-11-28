@@ -52,7 +52,7 @@
  */
 
 /* Bump on every change of the precache list or of a strategy. */
-const VERSION = 'v217';
+const VERSION = 'v220';
 
 /* Prefix of the caches this worker owns. `activate` only ever deletes the caches that carry it, so
    the other projects of the same host (the sibling tools under `external/`) keep theirs. */
@@ -121,6 +121,7 @@ const PRECACHE_URLS = [
   './css/views/stats.css',
   './css/views/minepick.css',
   './css/views/mineblock.css',
+  './css/views/craft.css',
   './css/views/profile.css',
   './css/views/titles.css',
   './css/components/trophy.css',
@@ -192,6 +193,7 @@ const PRECACHE_URLS = [
   './js/UI/components/FriendshipLevel.js',
   './js/UI/components/SetAnnouncementPopup.js',
   './js/UI/components/SlotPurchaseModal.js',
+  './js/UI/components/ConfirmPopup.js',
   './js/UI/components/Toast.js',
   './js/UI/components/TrophyDetail.js',
   './js/UI/components/ViewHelp.js',
@@ -199,6 +201,7 @@ const PRECACHE_URLS = [
   './js/UI/components/TradeIndicators.js',
   './js/UI/views/TradeView.js',
   './js/UI/views/CollectionView.js',
+  './js/UI/views/CraftView.js',
   './js/UI/views/GiftsView.js',
   './js/UI/views/InfoView.js',
   './js/UI/views/MineBlockView.js',
@@ -229,6 +232,8 @@ const PRECACHE_URLS = [
   './js/business/MinePickManager.js',
   './js/business/SetAnnouncementManager.js',
   './js/business/MiningManager.js',
+  './js/business/CraftManager.js',
+  './js/business/GoldenPickaxeManager.js',
   './js/business/TraderManager.js',
   './js/business/IllagerShopManager.js',
   './js/business/ProfileIconManager.js',
@@ -289,6 +294,7 @@ const PRECACHE_URLS = [
   './settings/daily_connect_rewards.json',
   './settings/defaultRarity.json',
   './settings/mining.json',
+  './settings/crafts.json',
   './settings/default_profile_icons.json',
   './settings/default_titles.json',
   './settings/boosters_trophy.json',

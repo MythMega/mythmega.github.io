@@ -73,6 +73,10 @@ import miningManager, {
 import sparksManager, { SPARKS_SOURCES } from './SparksManager.js';
 import illagerShopManager, { ILLAGER_SHOP_EVENT } from './IllagerShopManager.js';
 import enderPearlManager, { PEARL_TEXTURE } from './EnderPearlManager.js';
+import goldenPickaxeManager, {
+  GOLDEN_PICKAXE_ITEM_ID,
+  GOLDEN_PICKAXE_TEXTURE,
+} from './GoldenPickaxeManager.js';
 import {
   isRandomCardRewardType,
   parseRandomCardSpec,
@@ -116,9 +120,11 @@ export const DAILY_REWARD_KINDS = Object.freeze({
   // A currency of the Illager Shop, named by its id alone (`AllaysCurrency`): the shop owns its
   // name, its texture and the day it expires, so a chapter only has to hand out an amount.
   CUSTOM_CURRENCY: 'currency',
-  // An item of the inventory (`Type: "Ender Pearl"`): the quantity is the number of items, and the
-  // player decides when to spend them (see `EnderPearlManager`).
+  // An item of the inventory (`Type: "Ender Pearl"`, `"Golden Pickaxe"`): the quantity is the number
+  // of items, and the player decides when to spend them (see `EnderPearlManager` and
+  // `GoldenPickaxeManager`).
   PEARL: 'pearl',
+  GOLDEN_PICKAXE: 'goldenpickaxe',
 });
 
 /** Modes a chapter can run in (`Mode` of the file). */
@@ -476,6 +482,17 @@ export class DailyRewardManager {
         cardId: null,
       };
     }
+    // Same idea for the Golden Pickaxe, declared by its name like a resource but granted to the
+    // inventory. `slug` carries the item id, which is what the tile and the grant read.
+    if (type.toLowerCase() === 'golden pickaxe' || type.toLowerCase() === 'golden_pickaxe' || type.toLowerCase() === 'goldenpickaxe') {
+      return {
+        kind: DAILY_REWARD_KINDS.GOLDEN_PICKAXE,
+        type,
+        quantity,
+        slug: GOLDEN_PICKAXE_ITEM_ID,
+        cardId: null,
+      };
+    }
     if (type.toLowerCase() === 'card') {
       const cardId = typeof raw.CardID === 'string' ? raw.CardID.trim() : '';
       if (cardId === '') return null;
@@ -811,6 +828,8 @@ export class DailyRewardManager {
         return illagerShopManager.getCurrency(reward.currencyId)?.texture ?? '';
       case DAILY_REWARD_KINDS.PEARL:
         return PEARL_TEXTURE;
+      case DAILY_REWARD_KINDS.GOLDEN_PICKAXE:
+        return GOLDEN_PICKAXE_TEXTURE;
       default:
         return '';
     }
@@ -1242,6 +1261,8 @@ export class DailyRewardManager {
           await illagerShopManager.grantCurrency(plan.reward.currencyId, plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.PEARL) {
           await enderPearlManager.grantPearls(plan.quantity, context);
+        } else if (plan.kind === DAILY_REWARD_KINDS.GOLDEN_PICKAXE) {
+          await goldenPickaxeManager.grant(plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BOOSTER) {
           await dateSyncManager.addBonusBoosters(plan.setId, plan.quantity, context);
         } else if (plan.kind === DAILY_REWARD_KINDS.BUNDLE) {
@@ -1315,6 +1336,8 @@ export class DailyRewardManager {
       eventBus.emit(ILLAGER_SHOP_EVENT, { currencyId: plan.reward.currencyId });
     } else if (plan.kind === DAILY_REWARD_KINDS.PEARL) {
       eventBus.emit(EVENTS.PEARLS_UPDATED, { count: await enderPearlManager.getCount() });
+    } else if (plan.kind === DAILY_REWARD_KINDS.GOLDEN_PICKAXE) {
+      eventBus.emit(EVENTS.GOLDEN_PICKAXES_UPDATED, { count: await goldenPickaxeManager.getCount() });
     } else if (
       plan.kind === DAILY_REWARD_KINDS.RESOURCE ||
       plan.kind === DAILY_REWARD_KINDS.BUNDLE

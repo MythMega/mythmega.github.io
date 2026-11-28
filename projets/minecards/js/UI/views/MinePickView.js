@@ -382,9 +382,11 @@ export class MinePickView {
     const state = await minePickManager.getState();
     this.remaining = state.remaining;
     this.picksByBooster = state.picksByBooster ?? {};
+    // The denominator counts the extra picks a Golden Pickaxe granted: without them a fourth pick
+    // would read as "4 / 3".
     this.quotaElement.textContent = i18n.t('minepick.quota', {
       remaining: state.remaining,
-      total: state.picksPerDay,
+      total: state.picksPerDay + state.bonusPicks,
     });
 
     if (this.countdownElement) {

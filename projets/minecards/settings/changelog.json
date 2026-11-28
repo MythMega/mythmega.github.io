@@ -1140,10 +1140,43 @@
         "Id": 14,
         "Version": "1.0.13",
         "Titles": {
-            "Fr": "Calendar Update",
-            "En": "Calendar Update"
+            "Fr": "Crafting Update",
+            "En": "Crafting Update"
         },
         "Notes": [
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouveau daily rewards.",
+                    "En": "New daily rewards."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouveau système de craft : une table 3 × 3, son livre de recettes et un bouton pour placer les ingrédients tout seul.",
+                    "En": "New crafting system: a 3 × 3 table, its recipe book and a button that places the ingredients for you."
+                }
+            },
+            {
+                "Type": "Feature",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Nouvel item : la pioche en or, pour ajouter des picks au Mine Pick. Elle s'utilise depuis l'inventaire, une fois vos pioches du jour entamées.",
+                    "En": "New item: the Golden Pickaxe, for extra picks in Mine Pick. Use it from your inventory once your daily picks are started."
+                }
+            },
+            {
+                "Type": "Fix",
+                "IsImportant": true,
+                "Text": {
+                    "Fr": "Correction d'un bug lié aux trophées de likes.",
+                    "En": "Fixed a bug with the likes trophies."
+                }
+            },
+
             {
                 "Type": "Feature",
                 "IsImportant": true,

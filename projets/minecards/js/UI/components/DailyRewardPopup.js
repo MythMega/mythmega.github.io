@@ -177,6 +177,10 @@ export class DailyRewardPopup {
    */
   async openChapter(chapterId = null, { announce = true } = {}) {
     this.ensureMarkup();
+    // A series opened while the animation of another claim is still on screen (two chapters run at
+    // once, the board was closed on the animation) must never replay it: the overlay of the previous
+    // reward is dropped before the new board is drawn.
+    this.resetGain();
     this.closeChooser({ restoreFocus: false });
     if (!this.isOpen()) {
       if (!this.previousFocus) this.previousFocus = document.activeElement;
@@ -285,10 +289,9 @@ export class DailyRewardPopup {
     this.closeChooser({ restoreFocus: false });
     this.root.hidden = true;
     document.removeEventListener('keydown', this.handleKeyDown);
-    if (this.timer !== null) {
-      window.clearTimeout(this.timer);
-      this.timer = null;
-    }
+    // Closing on the animation leaves the overlay in its "active" state: it has to be dropped here,
+    // otherwise the next opening shows the reward of the previous claim all over again.
+    this.resetGain();
     if (this.previousFocus instanceof HTMLElement && this.previousFocus.isConnected) {
       this.previousFocus.focus();
     }
@@ -1151,13 +1154,30 @@ export class DailyRewardPopup {
     if (this.timer !== null) window.clearTimeout(this.timer);
     this.timer = window.setTimeout(() => {
       this.timer = null;
-      if (gain) {
-        gain.classList.remove('is-active');
-        gain.hidden = true;
-      }
+      this.resetGain();
       this.isBusy = false;
       this.render();
     }, CLAIM_ANIMATION_MS);
+  }
+
+  /**
+   * Hides the animation of the last reward and drops its pending timer.
+   *
+   * The overlay is a single element of the dialog, reused by every claim: left visible (its class
+   * still "active") it would show the icon and the sentence of a PREVIOUS reward, and the browser
+   * would replay the animation the next time the dialog is displayed.
+   *
+   * @returns {void}
+   */
+  resetGain() {
+    if (this.timer !== null) {
+      window.clearTimeout(this.timer);
+      this.timer = null;
+    }
+    const gain = this.root?.querySelector('[data-daily-reward-gain]');
+    if (!gain) return;
+    gain.classList.remove('is-active');
+    gain.hidden = true;
   }
 
   /**
@@ -1181,6 +1201,9 @@ export class DailyRewardPopup {
     }
     if (result.kind === DAILY_REWARD_KINDS.PEARL) {
       return i18n.t('daily.gain.pearl', { count: result.quantity });
+    }
+    if (result.kind === DAILY_REWARD_KINDS.GOLDEN_PICKAXE) {
+      return i18n.t('daily.gain.goldenPickaxe', { count: result.quantity });
     }
     if (result.kind === DAILY_REWARD_KINDS.RESOURCE) {
       return i18n.t('daily.reward.resource', {
@@ -1229,6 +1252,8 @@ export class DailyRewardPopup {
         return i18n.t('daily.reward.bundle', { count: reward.quantity });
       case DAILY_REWARD_KINDS.PEARL:
         return i18n.t('daily.reward.pearl', { count: reward.quantity });
+      case DAILY_REWARD_KINDS.GOLDEN_PICKAXE:
+        return i18n.t('daily.reward.goldenPickaxe', { count: reward.quantity });
       case DAILY_REWARD_KINDS.CARD:
         if (!day.card) return i18n.t('daily.reward.cardUnknown', { index: reward.cardId });
         return i18n.t('daily.reward.card', {

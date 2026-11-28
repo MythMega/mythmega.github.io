@@ -162,6 +162,18 @@ export function canonicalPearl() {
 }
 
 /**
+ * Canonical item string of a Golden Pickaxe.
+ *
+ * The item is fixed and the quantity is the number of pickaxes, exactly like the Ender Pearl: the
+ * game resolves it through the catalogue entry added by `RedeemManager.buildUserItemCatalog()`.
+ *
+ * @returns {string} The canonical item (`golden_pickaxe`).
+ */
+export function canonicalGoldenPickaxe() {
+  return 'golden_pickaxe';
+}
+
+/**
  * Canonical item string of one harvested mining resource.
  *
  * The quantity is carried by the code itself, exactly like Sparks; the slug identifies the line of
@@ -565,7 +577,9 @@ export class UserItemCode {
                 ? { type: 'resource', key: target.slug, quantity, card: null }
                 : target.type === 'pearl'
                   ? { type: 'pearl', key: 'pearl', quantity, card: null }
-                  : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
+                  : target.type === 'goldenpickaxe'
+                    ? { type: 'goldenpickaxe', key: 'golden_pickaxe', quantity, card: null }
+                    : { type: 'card', key: target.card.uniqueKey, quantity, card: target.card };
 
     return { status: USER_ITEM_STATUSES.OK, rewards: [reward], storeKey: normalized };
   }

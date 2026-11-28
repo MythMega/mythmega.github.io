@@ -64,14 +64,21 @@ export class PearlError extends Error {
  * Normalizes the stored inventory.
  *
  * A missing record is an empty inventory; an unreadable quantity is zero, never a negative stock.
+ * The record is SHARED by every inventory item (`pearl`, `golden_pickaxe`): an item this module does
+ * not know is kept as it is, otherwise writing the pearls would silently erase the other stocks.
  *
  * @param {unknown} raw - Value of `user_state["items"]`.
- * @returns {{pearl: number}} A writable inventory.
+ * @returns {Record<string, number>} A writable inventory, always holding `pearl`.
  */
 export function normalizeInventory(raw) {
   const source = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
-  const pearl = Number(source[PEARL_ITEM_ID]);
-  return { [PEARL_ITEM_ID]: Number.isInteger(pearl) && pearl > 0 ? pearl : 0 };
+  const inventory = {};
+  Object.entries(source).forEach(([id, value]) => {
+    const count = Number(value);
+    if (Number.isInteger(count) && count > 0) inventory[id] = count;
+  });
+  inventory[PEARL_ITEM_ID] = inventory[PEARL_ITEM_ID] ?? 0;
+  return inventory;
 }
 
 /**

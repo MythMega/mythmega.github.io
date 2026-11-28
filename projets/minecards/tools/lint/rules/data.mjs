@@ -1663,7 +1663,10 @@ export default [
           type === 'ender pearl' ||
           type === 'ender_pearl' ||
           type === 'enderpearl' ||
-          type === 'pearl'
+          type === 'pearl' ||
+          type === 'golden pickaxe' ||
+          type === 'golden_pickaxe' ||
+          type === 'goldenpickaxe'
         ) {
           return;
         }
@@ -1705,7 +1708,7 @@ export default [
         // otherwise the day would grant a quantity nobody can see in the inventory.
         if (resources.size > 0 && !resources.has(type)) {
           fail(
-            `${label}: Type ${JSON.stringify(reward.Type)} is neither Sparks, Booster, Card, Currency nor a resource of ${MINING_FILE}`
+            `${label}: Type ${JSON.stringify(reward.Type)} is neither Sparks, Booster, Card, Currency, an inventory item nor a resource of ${MINING_FILE}`
           );
         }
       }

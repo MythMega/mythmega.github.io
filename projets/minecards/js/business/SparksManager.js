@@ -74,6 +74,8 @@ export const SPARKS_SOURCES = Object.freeze({
   QUEST: 'quest',
   TRADE: 'trade',
   LIKES: 'likes',
+  // Sparks produced by the crafting table (see `CraftManager`).
+  CRAFT: 'craft',
   OTHER: 'other',
 });
 
@@ -89,6 +91,7 @@ export const SPARKS_EARNED_SOURCES = Object.freeze([
   SPARKS_SOURCES.QUEST,
   SPARKS_SOURCES.TRADE,
   SPARKS_SOURCES.LIKES,
+  SPARKS_SOURCES.CRAFT,
   SPARKS_SOURCES.OTHER,
 ]);
 

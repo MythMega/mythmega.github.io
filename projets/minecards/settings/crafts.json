@@ -1,17 +1,49 @@
-[
-    {
-        "id": "craft-enderpearl",
-        "recipe": {
-            "A1": "Void Dust",
-            "A2": "Void Dust",
-            "A3": "Void Dust",
-            "B1": "Void Dust",
-            "B2": "Glowstone Dust",
-            "B3": "Void Dust",
-            "C1": "Void Dust",
-            "C2": "Void Dust",
-            "C3": "Void Dust"
+{
+    "_comment": "Recipes of the crafting table (see js/business/CraftManager.js). A recipe is an Id, a Grid and a Result. The Grid holds 3 rows of 3 cells, read top to bottom and left to right: a cell is the id of a MINING RESOURCE ('void_dust', 'ultima', ... see settings/mining.json) or null for an empty slot. The shape is matched on its bounding box, so the same recipe works anywhere in the 3x3 table, exactly like a Minecraft recipe: the empty rows and columns around it are ignored.",
+    "_results": "Result.Type names what the player receives: 'item' adds Result.Quantity of the inventory item Result.Id ('pearl', see EnderPearlManager; 'golden_pickaxe', see GoldenPickaxeManager), 'sparks' credits Result.Quantity Sparks to the balance, and 'resource' adds Result.Quantity of the mining resource Result.Id to the mine. Result.Quantity is a positive integer and defaults to 1.",
+    "_statistics": "Every committed craft raises stats.itemsCrafted (the trophies of the `crafted` counter). A result of type 'item' or 'resource' counts its Quantity, a batch of 'sparks' counts ONE: Sparks are the currency, not an item. stats.craftedByResult keeps the same count per result id.",
+    "_book": "The crafting book (the Knowledge Book above the table) lists every recipe with its grid, its name (craft.recipe.<Id>.name) and its description (craft.recipe.<Id>.desc): adding a recipe here is enough for it to be craftable AND listed.",
+    "Crafts": [
+        {
+            "_comment": "The classic Minecraft recipe: eight Void Dust around one Glowstone Dust give one Ender Pearl.",
+            "Id": "ender_pearl",
+            "Grid": [
+                ["void_dust", "sculk_dust", "void_dust"],
+                ["sculk_dust", "glowstone_dust", "sculk_dust"],
+                ["void_dust", "sculk_dust", "void_dust"]
+            ],
+            "Result": {
+                "Type": "item",
+                "Id": "pearl",
+                "Quantity": 1
+            }
         },
-        "result": "ender_pearl"
-    }
-]
+        {
+            "_comment": "A Golden Pickaxe: two Ultima above two Sculk Dust, joined by a bar of Void Dust. One use buys an extra Mine Pick, see GoldenPickaxeManager.",
+            "Id": "golden_pickaxe",
+            "Grid": [
+                ["void_dust", "ultima", "void_dust"],
+                [null, "sculk_dust", null],
+                [null, "sculk_dust", null]
+            ],
+            "Result": {
+                "Type": "item",
+                "Id": "golden_pickaxe",
+                "Quantity": 1
+            }
+        },
+        {
+            "_comment": "One Ultima in the center of the table turns into 50 Sparks.",
+            "Id": "sparks",
+            "Grid": [
+                [null, null, null],
+                [null, "ultima", null],
+                [null, null, null]
+            ],
+            "Result": {
+                "Type": "sparks",
+                "Quantity": 25
+            }
+        }
+    ]
+}

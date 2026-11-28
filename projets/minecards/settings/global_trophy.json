@@ -16,6 +16,14 @@
         "diamond": 250,
         "emerald": 1000
     },
+    "crafted": {
+        "_comment": "number of items crafted in the crafting table (every result type counts); medals in 'assets/img/trophy/Global/crafted/'",
+        "bronze": 5,
+        "silver": 25,
+        "gold": 100,
+        "diamond": 250,
+        "emerald": 500
+    },
     "differentCards": {
         "_comment": "number of total different card owned in collection",
         "bronze": 50,

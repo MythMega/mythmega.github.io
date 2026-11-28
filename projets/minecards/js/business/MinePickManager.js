@@ -207,11 +207,13 @@ export class MinePickManager {
       stored.lastResetDay !== day &&
       !(stored.lastResetDay && stored.lastResetDay > day);
 
+    const bonusPicks = rolledOver ? 0 : stored.bonusPicks;
     return {
       ...stored,
       day,
       picksPerDay,
-      remaining: rolledOver ? picksPerDay : stored.remaining,
+      bonusPicks,
+      remaining: (rolledOver ? picksPerDay : stored.remaining) + bonusPicks,
       picksByBooster: rolledOver ? {} : stored.picksByBooster,
     };
   }
@@ -264,6 +266,9 @@ export class MinePickManager {
         Number.isInteger(source.remaining) && source.remaining >= 0
           ? Math.min(source.remaining, picksPerDay)
           : picksPerDay,
+      // Extra picks granted by a Golden Pickaxe: they sit BESIDE the daily allowance, which is why
+      // they are stored apart instead of raising `remaining` (that field is capped daily).
+      bonusPicks: Number.isInteger(source.bonusPicks) && source.bonusPicks > 0 ? source.bonusPicks : 0,
       totalPicks: Number.isInteger(source.totalPicks) && source.totalPicks > 0 ? source.totalPicks : 0,
       picksByRarity,
       picksByCard,
@@ -301,7 +306,13 @@ export class MinePickManager {
       );
       return state;
     }
-    return { ...state, lastResetDay: trustedDay, remaining: picksPerDay, picksByBooster: {} };
+    return {
+      ...state,
+      lastResetDay: trustedDay,
+      remaining: picksPerDay,
+      bonusPicks: 0,
+      picksByBooster: {},
+    };
   }
 
   /**
@@ -504,7 +515,7 @@ export class MinePickManager {
         // clock is (a frozen or tampered day never refills the picks).
         const state = this.resolveDailyRollover(stored, trustedDay, picksPerDay);
 
-        if (state.remaining <= 0) {
+        if (state.remaining + state.bonusPicks <= 0) {
           throw new MinePickError(
             MINE_PICK_ERRORS.NO_PICK_LEFT,
             'No Mine Pick is left for the current UTC day.'
@@ -539,10 +550,13 @@ export class MinePickManager {
         );
 
         const rarityKey = String(card.rarity);
+        // The free picks are spent first, then the extra ones a Golden Pickaxe granted.
         const nextState = {
           ...state,
           lastResetDay: trustedDay ?? state.lastResetDay,
-          remaining: state.remaining - 1,
+          remaining: Math.max(0, state.remaining - 1),
+          bonusPicks:
+            state.remaining > 0 ? state.bonusPicks : Math.max(0, state.bonusPicks - 1),
           totalPicks: state.totalPicks + 1,
           picksByRarity: {
             ...state.picksByRarity,
@@ -625,8 +639,9 @@ export class MinePickManager {
   buildUpdatePayload(state, picksPerDay) {
     return {
       day: state.lastResetDay ?? this.getDay(),
-      remaining: state.remaining,
+      remaining: state.remaining + state.bonusPicks,
       picksPerDay,
+      bonusPicks: state.bonusPicks,
       totalPicks: state.totalPicks,
     };
   }
@@ -645,6 +660,7 @@ export class MinePickManager {
       day: state.day,
       remaining: state.remaining,
       picksPerDay: state.picksPerDay,
+      bonusPicks: state.bonusPicks,
       totalPicks: state.totalPicks,
     });
   }

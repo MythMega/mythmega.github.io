@@ -184,6 +184,8 @@ export const GLOBAL_TROPHY_STATS = Object.freeze({
   CARDS_SOLD: 'cardsold',
   /** Trades the player COMPLETED (the `stats.completed` counter of the trades state). */
   TRADES: 'trades',
+  /** Items crafted in the crafting table, every result type together (`stats.itemsCrafted`). */
+  CRAFTED: 'crafted',
   /**
    * Highest number of distinct friends the account ever followed, not the current list: removing
    * a friend never takes a medal back (see `SocialManager.recordFriendsPeak`).
@@ -559,6 +561,12 @@ export class TrophyManager {
     // Best friendship: the highest XP of the account, mirrored by `FriendshipManager`.
     const bestfriend =
       Number.isInteger(stats?.bestfriend) && stats.bestfriend >= 0 ? stats.bestfriend : 0;
+    // Crafting: the total is written by `CraftManager` with the per-result detail, which is the
+    // fallback when an imported save only carries the detail.
+    const crafted =
+      Number.isInteger(stats?.itemsCrafted) && stats.itemsCrafted >= 0
+        ? stats.itemsCrafted
+        : AccountManager.sumCraftedByResult(stats?.craftedByResult);
 
     return {
       sets,
@@ -575,6 +583,7 @@ export class TrophyManager {
       likesReceived,
       likesSent,
       bestfriend,
+      crafted,
       // Mining counters, shared by the two mining families.
       totalMined: mining.totalMined,
       blocksMined: mining.blocksMined,
@@ -1176,6 +1185,8 @@ export class TrophyManager {
         return context.likesSent ?? 0;
       case GLOBAL_TROPHY_STATS.BESTFRIEND:
         return context.bestfriend ?? 0;
+      case GLOBAL_TROPHY_STATS.CRAFTED:
+        return context.crafted ?? 0;
       default:
         return null;
     }

@@ -27,6 +27,10 @@ import dateSyncManager from './business/DateSyncManager.js';
 import boosterManager from './business/BoosterManager.js';
 import sparksManager from './business/SparksManager.js';
 import enderPearlManager, { PEARL_TEXTURE } from './business/EnderPearlManager.js';
+import goldenPickaxeManager, {
+  GOLDEN_PICKAXE_ERROR_CODES,
+  GOLDEN_PICKAXE_TEXTURE,
+} from './business/GoldenPickaxeManager.js';
 import likesManager from './business/LikesManager.js';
 import profileManager from './business/ProfileManager.js';
 import trophyManager from './business/TrophyManager.js';
@@ -61,6 +65,7 @@ import { ProgressionView, PROGRESSION_VIEW_NAME } from './UI/views/ProgressionVi
 import { ProfileView, PROFILE_VIEW_NAME } from './UI/views/ProfileView.js';
 import { StatsView, STATS_VIEW_NAME } from './UI/views/StatsView.js';
 import { TrophiesView, TROPHIES_VIEW_NAME } from './UI/views/TrophiesView.js';
+import { CraftView, CRAFT_VIEW_NAME } from './UI/views/CraftView.js';
 import { TitlesView, TITLES_VIEW_NAME } from './UI/views/TitlesView.js';
 import { SettingsView, SETTINGS_VIEW_NAME } from './UI/views/SettingsView.js';
 import { RedeemView } from './UI/views/RedeemView.js';
@@ -87,6 +92,8 @@ import tradeManager, { TRADE_MAX_ENDER_EYES } from './business/TradeManager.js';
 import ViewHelp from './UI/components/ViewHelp.js';
 import infoHint from './UI/components/InfoHint.js';
 import installPrompt from './UI/components/InstallPrompt.js';
+import confirmPopup from './UI/components/ConfirmPopup.js';
+import Toast from './UI/components/Toast.js';
 import errorPopup from './UI/components/ErrorPopup.js';
 import { installErrorReporter, setErrorPresenter, reportError } from './utils/ErrorReporter.js';
 import { installLocalResourceWatch } from './utils/LocalResourceWatch.js';
@@ -210,6 +217,19 @@ export const SETTINGS_BADGE_SELECTOR = '[data-settings-badge]';
 const DAILY_REWARD_OFFER_DELAY_MS = 900;
 
 /** Views managed by `index.html`, used by the router and by the reset flow. */
+/**
+ * Sentence of each refusal a Golden Pickaxe can meet, by error code.
+ *
+ * Shared by the tooltip of its disabled button and by the toast of a refused use, so both always
+ * name the same rule.
+ */
+const GOLDEN_PICKAXE_REFUSAL_KEYS = Object.freeze({
+  [GOLDEN_PICKAXE_ERROR_CODES.NONE]: 'inventory.goldenPickaxe.empty',
+  [GOLDEN_PICKAXE_ERROR_CODES.PICKS_UNTOUCHED]: 'inventory.goldenPickaxe.tooEarly',
+  [GOLDEN_PICKAXE_ERROR_CODES.NO_BOOSTER_LEFT]: 'inventory.goldenPickaxe.noBooster',
+  [GOLDEN_PICKAXE_ERROR_CODES.NO_BOARD]: 'inventory.goldenPickaxe.noBoard',
+});
+
 export const VIEW_NAMES = Object.freeze({
   ONBOARDING: 'onboarding',
   OPENING: 'opening',
@@ -224,6 +244,8 @@ export const VIEW_NAMES = Object.freeze({
   MINE_PICK: 'minepick',
   // The Mine: the bottom-bar destination that replaced the trophies (now opened from the profile).
   MINE_BLOCK: 'mineblock',
+  // The crafting table: a game page of its own, opened from the menu (not a bottom-bar destination).
+  CRAFT: 'craft',
   SETTINGS: 'settings',
   INFO: 'info',
   SOCIAL: 'social',
@@ -269,6 +291,8 @@ export class App {
     this.minePickView = null;
     /** @type {MineBlockView|null} Mine screen (ten blocks a day, mined one by one). */
     this.mineBlockView = null;
+    /** @type {CraftView|null} Crafting table (3 x 3 grid, result slot, hotbar and crafting book). */
+    this.craftView = null;
     /** @type {SettingsView|null} Preferences, account and save management (step 6). */
     this.settingsView = null;
     /** @type {RedeemView|null} Promo code entry (step 7). */
@@ -663,6 +687,7 @@ export class App {
     // captures what the player lost while away, so the popup of the boot can name it.
     await this.collectExpiredCurrencies();
     await this.startMineBlockView();
+    await this.startCraftView();
     await this.startSettingsView();
     await this.startRedeemView();
     await this.startGiftsView();
@@ -1406,6 +1431,37 @@ export class App {
     console.info('[App] Mine view ready.');
     if (this.router?.getCurrentView() === MINE_BLOCK_VIEW_NAME) {
       this.mineBlockView.handleViewActivated();
+    }
+  }
+
+  /**
+   * Starts the crafting table: the 3 x 3 grid, its result slot, the inventory hotbar and the
+   * crafting book. The page is reached from the menu, so the router needs nothing more than the
+   * `data-view="craft"` section.
+   *
+   * A load failure must not break the whole boot: the view then shows its own error message and the
+   * other views keep working.
+   *
+   * @returns {Promise<void>} Resolves once the view is ready or has failed gracefully.
+   */
+  async startCraftView() {
+    const root = document.querySelector(`[data-view="${CRAFT_VIEW_NAME}"]`);
+    if (!root) {
+      console.warn('[App] The craft view is missing from index.html, skipping its wiring.');
+      return;
+    }
+    console.info('[App] Starting the craft view…');
+    this.craftView = new CraftView(root);
+    try {
+      await this.craftView.init();
+    } catch (error) {
+      console.error('[App] The craft view could not be loaded.', error);
+      this.craftView.showFeedback(i18n.t('craft.error.load'), 'error');
+      return;
+    }
+    console.info('[App] Craft view ready.');
+    if (this.router?.getCurrentView() === CRAFT_VIEW_NAME) {
+      this.craftView.handleViewActivated();
     }
   }
 
@@ -2194,6 +2250,10 @@ export class App {
       this.mineBlockView.destroy();
       this.mineBlockView = null;
     }
+    if (this.craftView) {
+      this.craftView.destroy();
+      this.craftView = null;
+    }
     if (this.settingsView) {
       this.settingsView.destroy();
       this.settingsView = null;
@@ -2520,13 +2580,14 @@ export class App {
     const quota = dateSyncManager.getQuotaSnapshot();
     const daily = Number.isFinite(quota?.daily) ? quota.daily : 0;
     const bonusTotal = Number.isFinite(quota?.bonusTotal) ? quota.bonusTotal : 0;
-    const [blocks, picks, bundles, sparks, tradeState, pearls] = await Promise.all([
+    const [blocks, picks, bundles, sparks, tradeState, pearls, pickaxes] = await Promise.all([
       this.readBlocksLeft(),
       this.readPicksLeft(),
       this.readOwnedBundles(),
       this.readSparksBalance(),
       tradeManager.getState(),
       enderPearlManager.getCount(),
+      goldenPickaxeManager.getAvailability(),
     ]);
     const enderEyes = Number.isInteger(tradeState?.enderEyes)
       ? tradeState.enderEyes
@@ -2583,9 +2644,29 @@ export class App {
     } else if (pearls < 1) {
       pearlButton.title = i18n.t('inventory.pearlEmpty');
     }
-    pearlButton.addEventListener('click', () => void this.useEnderPearl());
+    pearlButton.addEventListener('click', () => this.confirmEnderPearl());
     pearlRow.appendChild(pearlButton);
     items.appendChild(pearlRow);
+
+    // The Golden Pickaxe: a second item, spent the same way (a confirmation, then one use), for one
+    // extra Mine Pick. Its button says which rule blocks it, so the player never has to click to
+    // learn why nothing happens.
+    const pickaxeRow = App.buildInventoryRow({
+      icon: 'goldenpickaxe',
+      labelKey: 'inventory.goldenPickaxes',
+      value: pickaxes.count,
+    });
+    const pickaxeButton = document.createElement('button');
+    pickaxeButton.type = 'button';
+    pickaxeButton.className = 'btn btn--ghost btn--small inventory__use';
+    pickaxeButton.textContent = i18n.t('inventory.use');
+    pickaxeButton.disabled = !pickaxes.canUse;
+    if (!pickaxes.canUse) {
+      pickaxeButton.title = i18n.t(GOLDEN_PICKAXE_REFUSAL_KEYS[pickaxes.reason] ?? 'inventory.goldenPickaxe.noBoard');
+    }
+    pickaxeButton.addEventListener('click', () => this.confirmGoldenPickaxe());
+    pickaxeRow.appendChild(pickaxeButton);
+    items.appendChild(pickaxeRow);
     body.appendChild(items);
 
     body.appendChild(App.buildInventoryHeading('inventory.wallet'));
@@ -2618,20 +2699,70 @@ export class App {
   }
 
   /**
+   * Asks before spending one Ender Pearl.
+   *
+   * A pearl is gone for good once used, so the inventory explains what the click does - one Eye of
+   * the End added to the trade stock - and waits for a second one.
+   *
+   * @returns {void}
+   */
+  confirmEnderPearl() {
+    confirmPopup.open({
+      titleKey: 'inventory.confirm.pearl.title',
+      messageKey: 'inventory.confirm.pearl.message',
+      params: { max: TRADE_MAX_ENDER_EYES },
+      onConfirm: () => this.useEnderPearl(),
+    });
+  }
+
+  /**
    * Spends one Ender Pearl and repaints the inventory.
    *
    * The dialog is rebuilt rather than patched: the pearl count, the Eye stock and the enabled state
    * of the button all change at once, and one read of the save is cheaper than three updates.
    *
-   * @returns {Promise<void>} Resolves once the dialog was repainted (or the refusal was logged).
+   * @returns {Promise<void>} Resolves once the dialog was repainted (or the refusal was reported).
    */
   async useEnderPearl() {
     try {
       await enderPearlManager.usePearl();
-      await this.openInventory();
     } catch (error) {
       console.warn('[App] The Ender Pearl could not be used.', error);
+      Toast.error('inventory.confirm.pearl.failed');
     }
+    await this.openInventory();
+  }
+
+  /**
+   * Asks before spending one Golden Pickaxe.
+   *
+   * @returns {void}
+   */
+  confirmGoldenPickaxe() {
+    confirmPopup.open({
+      titleKey: 'inventory.confirm.goldenPickaxe.title',
+      messageKey: 'inventory.confirm.goldenPickaxe.message',
+      onConfirm: () => this.useGoldenPickaxe(),
+    });
+  }
+
+  /**
+   * Spends one Golden Pickaxe: one extra Mine Pick for the current UTC day.
+   *
+   * A refusal (a pickaxe used up in another tab, every booster of the day already picked from) is
+   * reported from the error code, then the dialog is repainted from the save.
+   *
+   * @returns {Promise<void>} Resolves once the dialog was repainted.
+   */
+  async useGoldenPickaxe() {
+    try {
+      await goldenPickaxeManager.use();
+      Toast.success('inventory.goldenPickaxe.gained');
+    } catch (error) {
+      console.warn('[App] The Golden Pickaxe could not be used.', error);
+      Toast.error(GOLDEN_PICKAXE_REFUSAL_KEYS[error?.code] ?? 'inventory.confirm.goldenPickaxe.failed');
+    }
+    await this.openInventory();
   }
 
   /**
@@ -2780,7 +2911,7 @@ export class App {
   /**
    * Builds one row of the inventory dialog.
    *
-   * @param {{icon: 'daily'|'blocks'|'picks'|'bundle'|'sparks'|'endereye'|'pearl',
+   * @param {{icon: 'daily'|'blocks'|'picks'|'bundle'|'sparks'|'endereye'|'pearl'|'goldenpickaxe',
    *   labelKey: string, value: number|string}} row - Icon kind, translation key of the label and
    *   number to print.
    * @returns {HTMLLIElement} The row.
@@ -2807,6 +2938,8 @@ export class App {
         image.src = 'assets/img/bundle.png';
       } else if (icon === 'pearl') {
         image.src = PEARL_TEXTURE;
+      } else if (icon === 'goldenpickaxe') {
+        image.src = GOLDEN_PICKAXE_TEXTURE;
       } else {
         // The daily boosters ship in two inks; `applyThemeIcons` paints the one of the palette.
         image.dataset.icon = 'daily_boosters';

@@ -233,6 +233,11 @@ export function buildDefaultStats() {
     sparksSpent: 0,
     sparksEarnedBySource: {},
     sparksSpentBySource: {},
+    // Crafting table (see `CraftManager`): every crafted result, all types together, and the same
+    // count per result (`{ pearl: 2, sparks: 50 }`). `itemsCrafted` is what the `crafted` trophies
+    // count; the record keeps the detail for the statistics.
+    itemsCrafted: 0,
+    craftedByResult: {},
   };
 }
 
@@ -794,6 +799,20 @@ export class AccountManager {
         stats.cardsSold = AccountManager.sumSoldByRarity(stats.soldByRarity);
         changed = true;
       }
+      // Crafting: the per-result record is the source of the total, so a save written before the
+      // crafting table adopts the detail it already has instead of restarting the medals at zero.
+      if (
+        !stats.craftedByResult ||
+        typeof stats.craftedByResult !== 'object' ||
+        Array.isArray(stats.craftedByResult)
+      ) {
+        stats.craftedByResult = {};
+        changed = true;
+      }
+      if (!Number.isInteger(stats.itemsCrafted) || stats.itemsCrafted < 0) {
+        stats.itemsCrafted = AccountManager.sumCraftedByResult(stats.craftedByResult);
+        changed = true;
+      }
       // The record of friends starts at the list the save already has: an old account adopts its
       // history instead of starting the medals at zero.
       if (!Number.isInteger(stats.friendsPeak) || stats.friendsPeak < 0) {
@@ -809,6 +828,20 @@ export class AccountManager {
       await context.put(STORES.USER_STATE, stats, USER_STATE_KEYS.STATS);
       return true;
     });
+  }
+
+  /**
+   * Adds up a `{ resultId: quantity }` crafting record.
+   *
+   * @param {unknown} raw - Stored `stats.craftedByResult` value.
+   * @returns {number} The total number of crafted results (0 when the record cannot be read).
+   */
+  static sumCraftedByResult(raw) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return 0;
+    return Object.values(raw).reduce(
+      (total, count) => total + (Number.isInteger(count) && count > 0 ? count : 0),
+      0
+    );
   }
 
   /**

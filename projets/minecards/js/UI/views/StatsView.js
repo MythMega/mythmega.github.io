@@ -78,6 +78,7 @@ export class StatsView {
     this.connectionsElement = this.root.querySelector('[data-stats-connections]');
     this.likesSentElement = this.root.querySelector('[data-stats-likes-sent]');
     this.likesReceivedElement = this.root.querySelector('[data-stats-likes-received]');
+    this.craftedElement = this.root.querySelector('[data-stats-crafted]');
     this.completionGlobalElement = this.root.querySelector('[data-stats-completion-global]');
     this.completionSetsElement = this.root.querySelector('[data-stats-completion-sets]');
     this.rarityElement = this.root.querySelector('[data-stats-rarity]');
@@ -149,6 +150,7 @@ export class StatsView {
       ['[data-stats-connections]', this.connectionsElement],
       ['[data-stats-likes-sent]', this.likesSentElement],
       ['[data-stats-likes-received]', this.likesReceivedElement],
+      ['[data-stats-crafted]', this.craftedElement],
       ['[data-stats-completion-global]', this.completionGlobalElement],
       ['[data-stats-completion-sets]', this.completionSetsElement],
       ['[data-stats-rarity]', this.rarityElement],
@@ -358,6 +360,10 @@ export class StatsView {
       Number.isInteger(stats?.likesReceived) && stats.likesReceived >= 0 ? stats.likesReceived : 0;
     this.likesSentElement.textContent = String(likesSent);
     this.likesReceivedElement.textContent = String(likesReceived);
+    // Items crafted in the crafting table, every result type together (`CraftManager`).
+    const crafted =
+      Number.isInteger(stats?.itemsCrafted) && stats.itemsCrafted >= 0 ? stats.itemsCrafted : 0;
+    this.craftedElement.textContent = String(crafted);
   }
 
   /**

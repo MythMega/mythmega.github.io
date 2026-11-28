@@ -1,0 +1,282 @@
+{
+  "bossName": "Fulguris",
+  "bossSprite": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Thundurus_shiny.gif",
+  "bossSpriteShiny": "https://raw.githubusercontent.com/MythMega/PkServData/refs/heads/master/img/sprite/poke/vanilla/Thundurus_shiny.gif",
+  "bossRarity": "LEGENDARY",
+  "shiny": true,
+  "pvMax": 300000,
+  "date": "2026-11-27 21:29:13",
+  "durationSec": 2953,
+  "players": [
+    {
+      "platform": "twitch",
+      "pseudo": "sansanhijab",
+      "damage": 335845,
+      "countAtk": 5,
+      "baseDmg": 46268,
+      "level": 20,
+      "raidCount": 1185,
+      "luck": 1.4517378
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "MythMega",
+      "damage": 9358,
+      "countAtk": 1,
+      "baseDmg": 9358,
+      "level": 16,
+      "raidCount": 382,
+      "luck": 1
+    },
+    {
+      "platform": "twitch",
+      "pseudo": "Etokalii",
+      "damage": 5227,
+      "countAtk": 3,
+      "baseDmg": 1191,
+      "level": 10,
+      "raidCount": 75,
+      "luck": 1.4629164
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "Les_Ombres_Florales",
+      "damage": 1979,
+      "countAtk": 1,
+      "baseDmg": 1979,
+      "level": 13,
+      "raidCount": 109,
+      "luck": 1
+    },
+    {
+      "platform": "youtube",
+      "pseudo": "eliott_176",
+      "damage": 428,
+      "countAtk": 1,
+      "baseDmg": 428,
+      "level": 5,
+      "raidCount": 0,
+      "luck": 1
+    }
+  ],
+  "platformDmg": [
+    {
+      "platform": "twitch",
+      "damage": 350430
+    },
+    {
+      "platform": "youtube",
+      "damage": 2407
+    }
+  ],
+  "funFacts": [
+    {
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 1,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 1,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    },
+    {
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "healPeople": 0,
+      "healSelf": 0,
+      "poisonOther": 0,
+      "ko": 0,
+      "para": 0,
+      "frozen": 0,
+      "burnt": 0,
+      "confused": 0,
+      "backWind": 0,
+      "asleep": 0,
+      "healing": 0,
+      "poisoned": 0,
+      "roundsUnderFx": 0
+    }
+  ],
+  "attackLog": [
+    {
+      "at": "2026-11-27 21:29:52",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1191,
+      "pvAfter": 298809,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 21:47:08",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 46268,
+      "pvAfter": 252541,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 21:57:38",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 75000,
+      "pvAfter": 177541,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:07:39",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 75000,
+      "pvAfter": 102541,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:14:29",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 75000,
+      "pvAfter": 27541,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:14:50",
+      "pseudo": "MythMega",
+      "platform": "twitch",
+      "damages": 9358,
+      "pvAfter": 18183,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:14:57",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 2488,
+      "pvAfter": 15695,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:15:15",
+      "pseudo": "eliott_176",
+      "platform": "youtube",
+      "damages": 428,
+      "pvAfter": 15267,
+      "heal": false,
+      "critical": false,
+      "statut": "HEALING",
+      "statusEffect": "Tu ne fais plus de d\u00E9gats pendant 3 tours, par contre tu heal un alli\u00E9 au hasard."
+    },
+    {
+      "at": "2026-11-27 22:15:19",
+      "pseudo": "Les_Ombres_Florales",
+      "platform": "youtube",
+      "damages": 1979,
+      "pvAfter": 13288,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:18:22",
+      "pseudo": "Etokalii",
+      "platform": "twitch",
+      "damages": 1548,
+      "pvAfter": 11740,
+      "heal": false,
+      "critical": false,
+      "statut": null,
+      "statusEffect": null
+    },
+    {
+      "at": "2026-11-27 22:18:27",
+      "pseudo": "sansanhijab",
+      "platform": "twitch",
+      "damages": 64577,
+      "pvAfter": 0,
+      "heal": false,
+      "critical": false,
+      "statut": "CONFUSED",
+      "statusEffect": "Tu es confus. Ta prochaine attaque peut doubler ou soigner le boss !"
+    }
+  ]
+}
